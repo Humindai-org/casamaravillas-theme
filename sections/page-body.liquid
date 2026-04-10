@@ -1,0 +1,81 @@
+<style>
+  .page-body-section {
+    padding: 72px 72px 96px;
+    max-width: 760px;
+    margin: 0 auto;
+    background: var(--cm-white);
+  }
+
+  .page-body-section__title {
+    font-family: var(--cm-font-serif);
+    font-size: clamp(28px, 3vw, 40px);
+    font-weight: 400;
+    color: var(--cm-navy);
+    margin-bottom: 28px;
+    line-height: 1.2;
+  }
+
+  .page-body-section__content {
+    font-family: var(--cm-font-sans);
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--cm-text-mid);
+  }
+
+  .page-body-section__content h2,
+  .page-body-section__content h3 {
+    font-family: var(--cm-font-serif);
+    color: var(--cm-navy);
+    margin: 1.5em 0 0.6em;
+    font-size: 1.35em;
+  }
+
+  .page-body-section__content p { margin-bottom: 1em; }
+
+  .page-body-section__content a {
+    color: var(--cm-gold);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .page-body-section__content a:hover { color: var(--cm-gold-h); }
+
+  .page-body-section__content ul,
+  .page-body-section__content ol {
+    margin: 0 0 1em 1.25em;
+    list-style: disc;
+  }
+
+  @media (max-width: 767px) {
+    .page-body-section { padding: 48px 24px 72px; }
+  }
+</style>
+
+<section class="page-body-section">
+  {%- if section.settings.show_title -%}
+    <h1 class="page-body-section__title">{{ page.title }}</h1>
+  {%- endif -%}
+  <div class="page-body-section__content rte">
+    {{ page.content }}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Contenido de página",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_title",
+      "label": "Mostrar título de la página",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Contenido de página"
+    }
+  ]
+}
+{% endschema %}

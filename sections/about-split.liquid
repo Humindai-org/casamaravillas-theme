@@ -1,0 +1,251 @@
+<style>
+  .about-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 560px;
+    background: var(--cm-white);
+  }
+
+  .about-split__img-col {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .about-split__img-col img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: saturate(0.75) brightness(0.8);
+    transition: transform 0.8s ease;
+    display: block;
+  }
+
+  .about-split__img-col:hover img { transform: scale(1.03); }
+
+  .about-split__img-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, transparent 60%, rgba(255,255,255,0.12) 100%);
+    pointer-events: none;
+  }
+
+  .about-split__content-col {
+    padding: 80px 88px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-left: 1px solid var(--cm-border);
+  }
+
+  .about-split__eyebrow {
+    font-size: 9px;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--cm-gold);
+    font-weight: 500;
+    margin-bottom: 20px;
+    font-family: var(--cm-font-sans);
+  }
+
+  .about-split__title {
+    font-family: var(--cm-font-serif);
+    font-size: clamp(28px, 3vw, 44px);
+    font-weight: 400;
+    color: var(--cm-navy);
+    line-height: 1.2;
+    margin-bottom: 28px;
+  }
+
+  .about-split__title em { font-style: italic; }
+
+  .about-split__body {
+    font-size: 14.5px;
+    line-height: 1.85;
+    color: var(--cm-text-mid);
+    margin-bottom: 44px;
+    max-width: 440px;
+    font-family: var(--cm-font-sans);
+  }
+
+  /* Stats row */
+  .about-split__stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border: 1px solid var(--cm-border);
+    margin-bottom: 40px;
+  }
+
+  .about-split__stat {
+    padding: 24px 20px;
+    border-right: 1px solid var(--cm-border);
+    text-align: center;
+  }
+
+  .about-split__stat:last-child { border-right: none; }
+
+  .about-split__stat-num {
+    font-family: var(--cm-font-serif);
+    font-size: 40px;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--cm-gold);
+    line-height: 1;
+    display: block;
+  }
+
+  .about-split__stat-label {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cm-text-light);
+    margin-top: 8px;
+    line-height: 1.4;
+    font-family: var(--cm-font-sans);
+    display: block;
+  }
+
+  @media (max-width: 1023px) {
+    .about-split__content-col { padding: 64px 48px; }
+  }
+
+  @media (max-width: 767px) {
+    .about-split {
+      grid-template-columns: 1fr;
+    }
+    .about-split__img-col {
+      min-height: 280px;
+    }
+    .about-split__content-col {
+      padding: 48px 24px;
+      border-left: none;
+      border-top: 1px solid var(--cm-border);
+    }
+    .about-split__stats { grid-template-columns: repeat(3, 1fr); }
+  }
+</style>
+
+<section class="about-split">
+
+  <!-- Imagen -->
+  <div class="about-split__img-col">
+    {%- if section.settings.image != blank -%}
+      {{ section.settings.image | image_url: width: 900 | image_tag:
+          loading: 'lazy',
+          alt: section.settings.image.alt | escape
+      }}
+    {%- else -%}
+      {% # theme-check-disable-next-line RemoteAsset %}
+      <img src="https://placehold.co/700x600/E8E5DF/6A6560?text=Casa+Maravillas" alt="Casa Maravillas" width="700" height="600" loading="lazy">
+    {%- endif -%}
+    <div class="about-split__img-overlay"></div>
+  </div>
+
+  <!-- Contenido -->
+  <div class="about-split__content-col">
+
+    {%- if section.settings.eyebrow != blank -%}
+      <p class="about-split__eyebrow">{{ section.settings.eyebrow }}</p>
+    {%- endif -%}
+
+    <h2 class="about-split__title">{{ section.settings.title | default: 'Una historia de <em>tradición</em>' }}</h2>
+
+    {%- if section.settings.body != blank -%}
+      <p class="about-split__body">{{ section.settings.body }}</p>
+    {%- endif -%}
+
+    <!-- Stats -->
+    {%- if section.blocks.size > 0 -%}
+      <div class="about-split__stats">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'stat' -%}
+            <div class="about-split__stat" {{ block.shopify_attributes }}>
+              <span class="about-split__stat-num">{{ block.settings.number }}</span>
+              <span class="about-split__stat-label">{{ block.settings.label }}</span>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.cta_label != blank -%}
+      <a href="{{ section.settings.cta_url | default: '/pages/sobre-nosotros' }}" class="cm-link-arrow">
+        {{ section.settings.cta_label }}
+      </a>
+    {%- endif -%}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Historia dividida",
+  "tag": "section",
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "Estadística",
+      "settings": [
+        {
+          "type": "text",
+          "id": "number",
+          "label": "Número",
+          "default": "100+"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Etiqueta",
+          "default": "Productos"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Imagen"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Etiqueta superior",
+      "default": "Nuestra historia"
+    },
+    {
+      "type": "richtext",
+      "id": "title",
+      "label": "Título",
+      "default": "<p>Una historia de <em>tradición</em></p>"
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Descripción",
+      "default": "Desde 1919, Casa Maravillas selecciona los mejores productos ibéricos de la dehesa española. Una tradición familiar que hoy llega a tu mesa con la misma pasión artesanal de siempre."
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Texto del enlace",
+      "default": "Conoce nuestra historia"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "Enlace"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Historia dividida",
+      "blocks": [
+        { "type": "stat", "settings": { "number": "1919", "label": "Año fundación" } },
+        { "type": "stat", "settings": { "number": "+500", "label": "Clientes felices" } },
+        { "type": "stat", "settings": { "number": "100%", "label": "Ibérico puro" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

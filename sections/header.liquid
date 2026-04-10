@@ -1,0 +1,344 @@
+<style>
+  .site-header {
+    background: var(--cm-white);
+    border-bottom: 1px solid var(--cm-border);
+    display: flex;
+    align-items: center;
+    padding: 0 72px;
+    height: 80px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    transition: box-shadow 0.3s ease;
+  }
+
+  .site-header.is-scrolled {
+    box-shadow: 0 2px 16px rgba(13,27,42,0.06);
+  }
+
+  /* Logo centrado */
+  .site-header__logo {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+  }
+
+  .site-header__logo img {
+    height: 52px;
+    width: auto;
+    display: block;
+  }
+
+  /* Wordmark en una sola línea: "CASA  MARAVILLAS" */
+  .site-header__logo-wordmark {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    line-height: 1;
+  }
+
+  .site-header__logo-casa {
+    font-family: var(--cm-font-sans);
+    font-size: 11px;
+    font-weight: 300;
+    letter-spacing: 0.52em;
+    text-transform: uppercase;
+    color: var(--cm-navy);
+  }
+
+  .site-header__logo-name {
+    font-family: var(--cm-font-serif);
+    font-size: 28px;
+    font-weight: 400;
+    letter-spacing: 0.03em;
+    color: var(--cm-navy);
+  }
+
+  /* Nav izquierda */
+  .site-header__nav-left {
+    display: flex;
+    gap: 36px;
+    list-style: none;
+  }
+
+  .site-header__nav-left a {
+    text-decoration: none;
+    color: var(--cm-text-mid);
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    font-weight: 400;
+    transition: color 0.3s;
+    font-family: var(--cm-font-sans);
+  }
+
+  .site-header__nav-left a:hover { color: var(--cm-text); }
+
+  /* Nav derecha */
+  .site-header__nav-right {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-left: auto;
+  }
+
+  .site-header__nav-right a {
+    text-decoration: none;
+    color: var(--cm-text-mid);
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    transition: color 0.3s;
+    font-weight: 400;
+    font-family: var(--cm-font-sans);
+  }
+
+  .site-header__nav-right a:hover { color: var(--cm-text); }
+
+  /* Cart button */
+  .site-header__cart {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 22px;
+    border: 1.5px solid var(--cm-navy);
+    color: var(--cm-navy);
+    text-decoration: none;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    font-weight: 500;
+    font-family: var(--cm-font-sans);
+    transition: background 0.3s, color 0.3s;
+  }
+
+  .site-header__cart:hover {
+    background: var(--cm-navy);
+    color: var(--cm-white);
+  }
+
+  .site-header__cart:focus-visible {
+    outline: 2px solid var(--cm-gold);
+    outline-offset: 2px;
+  }
+
+  .site-header__cart-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    background: var(--cm-gold);
+    color: var(--cm-white);
+    font-size: 9px;
+    font-weight: 600;
+    border-radius: 50%;
+    line-height: 1;
+  }
+
+  /* Hamburger (mobile) */
+  .site-header__hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    padding: 8px;
+    cursor: pointer;
+    background: none;
+    border: none;
+  }
+
+  .site-header__hamburger span {
+    display: block;
+    width: 24px;
+    height: 1.5px;
+    background: var(--cm-navy);
+    transition: transform 0.3s, opacity 0.3s;
+  }
+
+  /* Mobile nav drawer */
+  .site-header__drawer {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+  }
+
+  .site-header__drawer-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(13,27,42,0.5);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .site-header__drawer-panel {
+    position: absolute;
+    top: 0; left: 0; bottom: 0;
+    width: 280px;
+    background: var(--cm-white);
+    padding: 32px 28px;
+    transform: translateX(-100%);
+    transition: transform 0.35s ease;
+    overflow-y: auto;
+  }
+
+  .site-header__drawer.is-open { display: block; }
+  .site-header__drawer.is-open .site-header__drawer-overlay { opacity: 1; }
+  .site-header__drawer.is-open .site-header__drawer-panel { transform: translateX(0); }
+
+  .site-header__drawer-close {
+    display: block;
+    margin-left: auto;
+    margin-bottom: 32px;
+    font-size: 22px;
+    color: var(--cm-navy);
+    background: none;
+    border: none;
+    cursor: pointer;
+    line-height: 1;
+  }
+
+  .site-header__drawer-nav {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .site-header__drawer-nav li a {
+    display: block;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--cm-border);
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    color: var(--cm-text);
+    font-family: var(--cm-font-sans);
+    transition: color 0.3s;
+  }
+
+  .site-header__drawer-nav li a:hover { color: var(--cm-gold); }
+
+  /* Responsive */
+  @media (max-width: 1023px) {
+    .site-header { padding: 0 32px; }
+    .site-header__nav-left { gap: 24px; }
+    .site-header__nav-right { gap: 16px; }
+  }
+
+  @media (max-width: 767px) {
+    .site-header {
+      padding: 0 20px;
+      height: 64px;
+    }
+    .site-header__nav-left,
+    .site-header__nav-right { display: none; }
+    .site-header__hamburger { display: flex; }
+    .site-header__logo {
+      position: static;
+      transform: none;
+      margin: 0 auto;
+    }
+  }
+</style>
+
+<header class="site-header" id="site-header">
+
+  <!-- Nav izquierda -->
+  <nav class="site-header__nav-left hide-mobile" aria-label="Navegación principal">
+    {%- if section.settings.menu != blank -%}
+      {%- assign main_menu = section.settings.menu -%}
+      <ul class="site-header__nav-left">
+        {%- for link in linklists[main_menu].links -%}
+          <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+        {%- endfor -%}
+      </ul>
+    {%- else -%}
+      <ul class="site-header__nav-left">
+        <li><a href="{{ routes.collections_url }}/jamones">Jamones</a></li>
+        <li><a href="{{ routes.collections_url }}/embutidos">Embutidos</a></li>
+        <li><a href="{{ routes.collections_url }}/paletas">Paletas</a></li>
+      </ul>
+    {%- endif -%}
+  </nav>
+
+  <!-- Logo centrado -->
+  <a href="{{ routes.root_url }}" class="site-header__logo" aria-label="{{ shop.name }}">
+    {%- if section.settings.logo != blank -%}
+      {{- section.settings.logo | image_url: width: 260 | image_tag:
+          loading: 'eager',
+          alt: shop.name,
+          style: 'height: 52px; width: auto;'
+      -}}
+    {%- else -%}
+      <span class="site-header__logo-wordmark" aria-label="{{ shop.name }}">
+        <span class="site-header__logo-casa">Casa</span>
+        <span class="site-header__logo-name">Maravillas</span>
+      </span>
+    {%- endif -%}
+  </a>
+
+  <!-- Nav derecha -->
+  <nav class="site-header__nav-right hide-mobile" aria-label="Navegación secundaria">
+    <a href="/pages/sobre-nosotros">Nosotros</a>
+    <a href="/blogs/noticias">Blog</a>
+    <a href="{{ routes.cart_url }}" class="site-header__cart" aria-label="Carrito de compra">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+        <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <path d="M16 10a4 4 0 01-8 0"/>
+      </svg>
+      <span>Carrito</span>
+      {%- if cart.item_count > 0 -%}
+        <span class="site-header__cart-count" aria-label="{{ cart.item_count }} artículos">{{ cart.item_count }}</span>
+      {%- endif -%}
+    </a>
+  </nav>
+
+  <!-- Hamburger (mobile) -->
+  <button class="site-header__hamburger hide-desktop" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobile-drawer" id="hamburger-btn">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+</header>
+
+<!-- Mobile drawer -->
+<div class="site-header__drawer" id="mobile-drawer" aria-hidden="true" role="dialog" aria-label="Menú de navegación">
+  <div class="site-header__drawer-overlay" id="drawer-overlay"></div>
+  <div class="site-header__drawer-panel">
+    <button class="site-header__drawer-close" aria-label="Cerrar menú" id="drawer-close">✕</button>
+    <nav>
+      <ul class="site-header__drawer-nav">
+        <li><a href="{{ routes.collections_url }}/jamones">Jamones</a></li>
+        <li><a href="{{ routes.collections_url }}/embutidos">Embutidos</a></li>
+        <li><a href="{{ routes.collections_url }}/paletas">Paletas</a></li>
+        <li><a href="{{ routes.collections_url }}/packs-y-regalos">Packs & Regalos</a></li>
+        <li><a href="/pages/sobre-nosotros">Nosotros</a></li>
+        <li><a href="/blogs/noticias">Blog</a></li>
+        <li><a href="{{ routes.cart_url }}">Carrito ({{ cart.item_count }})</a></li>
+      </ul>
+    </nav>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Cabecera",
+  "class": "site-header-section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo (versión oscura, para fondo blanco)"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menú principal",
+      "default": "main-menu"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,81 @@
+<style>
+  .marquee-strip {
+    background: var(--cm-gold-pale);
+    border-top: 1px solid rgba(184,144,58,0.2);
+    border-bottom: 1px solid rgba(184,144,58,0.2);
+    overflow: hidden;
+    padding: 16px 0;
+  }
+
+  .marquee-strip__track {
+    display: inline-flex;
+    white-space: nowrap;
+    animation: marquee-scroll 30s linear infinite;
+  }
+
+  .marquee-strip:hover .marquee-strip__track {
+    animation-play-state: paused;
+  }
+
+  .marquee-strip__item {
+    display: inline-flex;
+    align-items: center;
+    gap: 20px;
+    padding: 0 32px;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--cm-gold);
+    font-weight: 500;
+    font-family: var(--cm-font-sans);
+  }
+
+  .marquee-strip__sep {
+    color: rgba(184,144,58,0.4);
+    font-size: 14px;
+  }
+
+  @keyframes marquee-scroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-strip__track { animation: none; }
+  }
+</style>
+
+<div class="marquee-strip" aria-hidden="true">
+  <div class="marquee-strip__track">
+    {%- assign items = section.settings.text | split: '|' -%}
+    {%- comment %} Duplicar para loop infinito {%- endcomment -%}
+    {%- for i in (1..2) -%}
+      {%- for item in items -%}
+        <span class="marquee-strip__item">
+          {{ item | strip }}
+          <span class="marquee-strip__sep">✦</span>
+        </span>
+      {%- endfor -%}
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Banda marquee",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Elementos (separados por |)",
+      "default": "Jamón Ibérico de Bellota | Embutidos Artesanales | Packs Regalo | Envío en 24h | Desde 1919 | Calidad Garantizada | Productos de Alicante | Dehesa Española"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Banda marquee"
+    }
+  ]
+}
+{% endschema %}

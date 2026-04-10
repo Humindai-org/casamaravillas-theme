@@ -1,0 +1,167 @@
+<style>
+  .story-teaser {
+    padding: 72px;
+    background: var(--cm-white);
+    border-top: 1px solid var(--cm-border);
+    border-bottom: 1px solid var(--cm-border);
+  }
+
+  .story-teaser__inner {
+    max-width: 1160px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 56px;
+    align-items: center;
+  }
+
+  .story-teaser__eyebrow {
+    font-size: 9px;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--cm-gold);
+    font-weight: 500;
+    margin-bottom: 16px;
+    font-family: var(--cm-font-sans);
+  }
+
+  .story-teaser__title {
+    font-family: var(--cm-font-serif);
+    font-size: clamp(26px, 2.9vw, 42px);
+    font-weight: 400;
+    color: var(--cm-navy);
+    line-height: 1.2;
+    margin-bottom: 20px;
+  }
+
+  .story-teaser__title em { font-style: italic; }
+
+  .story-teaser__body {
+    max-width: 620px;
+    font-family: var(--cm-font-sans);
+    font-size: 14.5px;
+    line-height: 1.8;
+    color: var(--cm-text-mid);
+    margin-bottom: 28px;
+  }
+
+  .story-teaser__media {
+    position: relative;
+    min-height: 320px;
+    border: 1px solid var(--cm-border);
+    overflow: hidden;
+  }
+
+  .story-teaser__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: saturate(0.8) brightness(0.82);
+  }
+
+  .story-teaser__media::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(to top, rgba(13,27,42,0.28), rgba(13,27,42,0.05) 55%, transparent);
+  }
+
+  @media (max-width: 900px) {
+    .story-teaser__inner {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+    .story-teaser__media {
+      order: -1;
+      min-height: 260px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .story-teaser { padding: 48px 24px; }
+  }
+</style>
+
+<section class="story-teaser">
+  <div class="story-teaser__inner">
+    <div class="story-teaser__content">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="story-teaser__eyebrow">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+
+      <h2 class="story-teaser__title">{{ section.settings.title }}</h2>
+
+      {%- if section.settings.body != blank -%}
+        <p class="story-teaser__body">{{ section.settings.body }}</p>
+      {%- endif -%}
+
+      {%- if section.settings.cta_label != blank -%}
+        <a href="{{ section.settings.cta_url | default: '/pages/sobre-nosotros' }}" class="cm-link-arrow">
+          {{ section.settings.cta_label }}
+        </a>
+      {%- endif -%}
+    </div>
+
+    <div class="story-teaser__media">
+      {%- if section.settings.image != blank -%}
+        {{ section.settings.image | image_url: width: 900 | image_tag:
+          loading: 'lazy',
+          alt: section.settings.image.alt | escape
+        }}
+      {%- else -%}
+        {% # theme-check-disable-next-line RemoteAsset %}
+        <img src="https://placehold.co/900x700/E8E5DF/6A6560?text=Casa+Maravillas" alt="Casa Maravillas" width="900" height="700" loading="lazy">
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Mini bloque historia",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Imagen"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Etiqueta superior",
+      "default": "Nuestra historia"
+    },
+    {
+      "type": "richtext",
+      "id": "title",
+      "label": "Título",
+      "default": "<p>Una historia de <em>tradición</em></p>"
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Descripción",
+      "default": "Desde 1919 seleccionamos las mejores piezas ibéricas para ofrecer una experiencia gastronómica auténtica desde Alicante."
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Texto del enlace",
+      "default": "Conoce nuestra historia"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "Enlace"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Mini bloque historia"
+    }
+  ]
+}
+{% endschema %}

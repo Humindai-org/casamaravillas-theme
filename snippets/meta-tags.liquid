@@ -1,0 +1,39 @@
+{% comment %}
+  meta-tags.liquid
+  OG / Twitter card meta tags para SEO social
+{% endcomment %}
+
+{%- assign og_title = page_title -%}
+{%- assign og_description = page_description | default: shop.description -%}
+{%- assign og_url = canonical_url -%}
+
+{%- if template.name == 'product' -%}
+  {%- assign og_image = product.featured_image | image_url: width: 1200 -%}
+{%- elsif template.name == 'collection' and collection.image -%}
+  {%- assign og_image = collection.image | image_url: width: 1200 -%}
+{%- elsif template.name == 'article' and article.image -%}
+  {%- assign og_image = article.image | image_url: width: 1200 -%}
+{%- else -%}
+  {%- assign og_image = settings.og_image | image_url: width: 1200 -%}
+{%- endif -%}
+
+<meta property="og:site_name" content="{{ shop.name }}">
+<meta property="og:url" content="{{ og_url }}">
+<meta property="og:title" content="{{ og_title | escape }}">
+<meta property="og:type" content="{%- if template.name == 'product' -%}product{%- elsif template.name == 'article' -%}article{%- else -%}website{%- endif -%}">
+{%- if og_description -%}
+  <meta property="og:description" content="{{ og_description | escape }}">
+{%- endif -%}
+{%- if og_image -%}
+  <meta property="og:image" content="https:{{ og_image }}">
+  <meta property="og:image:width" content="1200">
+{%- endif -%}
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ og_title | escape }}">
+{%- if og_description -%}
+  <meta name="twitter:description" content="{{ og_description | escape }}">
+{%- endif -%}
+{%- if og_image -%}
+  <meta name="twitter:image" content="https:{{ og_image }}">
+{%- endif -%}

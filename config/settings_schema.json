@@ -1,0 +1,114 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Casa Maravillas",
+    "theme_version": "1.0.0",
+    "theme_author": "HumindAI",
+    "theme_documentation_url": "https://casamaravillas.com",
+    "theme_support_url": "https://casamaravillas.com"
+  },
+  {
+    "name": "Colores",
+    "settings": [
+      {
+        "type": "color",
+        "id": "color_background",
+        "label": "Fondo principal",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "id": "color_background_secondary",
+        "label": "Fondo secundario",
+        "default": "#FAFAF7"
+      },
+      {
+        "type": "color",
+        "id": "color_navy",
+        "label": "Navy (color de acento oscuro)",
+        "default": "#0D1B2A"
+      },
+      {
+        "type": "color",
+        "id": "color_gold",
+        "label": "Gold (color de acento dorado)",
+        "default": "#B8903A"
+      },
+      {
+        "type": "color",
+        "id": "color_text",
+        "label": "Texto principal",
+        "default": "#1A1814"
+      },
+      {
+        "type": "color",
+        "id": "color_text_muted",
+        "label": "Texto secundario",
+        "default": "#6A6560"
+      },
+      {
+        "type": "color",
+        "id": "color_border",
+        "label": "Bordes",
+        "default": "#E8E5DF"
+      }
+    ]
+  },
+  {
+    "name": "Tipografía",
+    "settings": [
+      {
+        "type": "font_picker",
+        "id": "font_heading",
+        "label": "Tipografía de títulos",
+        "default": "libre_baskerville_n4"
+      },
+      {
+        "type": "font_picker",
+        "id": "font_body",
+        "label": "Tipografía de cuerpo",
+        "default": "outfit_n3"
+      },
+      {
+        "type": "range",
+        "id": "font_size_base",
+        "label": "Tamaño de fuente base (px)",
+        "min": 12,
+        "max": 18,
+        "step": 1,
+        "default": 14
+      }
+    ]
+  },
+  {
+    "name": "Favicon",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon",
+        "info": "Será redimensionado a 32x32px"
+      }
+    ]
+  },
+  {
+    "name": "Redes sociales",
+    "settings": [
+      {
+        "type": "url",
+        "id": "social_instagram",
+        "label": "Instagram"
+      },
+      {
+        "type": "url",
+        "id": "social_facebook",
+        "label": "Facebook"
+      },
+      {
+        "type": "url",
+        "id": "social_tiktok",
+        "label": "TikTok"
+      }
+    ]
+  }
+]

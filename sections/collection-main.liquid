@@ -1,0 +1,168 @@
+<style>
+  .collection-main {
+    padding: 56px 72px 96px;
+    background: var(--cm-off);
+    min-height: 50vh;
+  }
+
+  .collection-main__inner {
+    max-width: 1320px;
+    margin: 0 auto;
+  }
+
+  .collection-main__head {
+    margin-bottom: 48px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--cm-border);
+  }
+
+  .collection-main__eyebrow {
+    font-size: 9px;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--cm-gold);
+    font-weight: 500;
+    margin-bottom: 12px;
+    font-family: var(--cm-font-sans);
+  }
+
+  .collection-main__title {
+    font-family: var(--cm-font-serif);
+    font-size: clamp(28px, 3vw, 44px);
+    font-weight: 400;
+    color: var(--cm-navy);
+    line-height: 1.15;
+    margin-bottom: 16px;
+  }
+
+  .collection-main__desc {
+    max-width: 640px;
+    font-size: 14.5px;
+    line-height: 1.75;
+    color: var(--cm-text-mid);
+    font-family: var(--cm-font-sans);
+  }
+
+  .collection-main__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--cm-border);
+    border: 1px solid var(--cm-border);
+  }
+
+  .collection-main__empty {
+    padding: 48px 24px;
+    text-align: center;
+    font-family: var(--cm-font-sans);
+    color: var(--cm-text-mid);
+    background: var(--cm-white);
+    border: 1px solid var(--cm-border);
+  }
+
+  .collection-main__pagination {
+    margin-top: 48px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-family: var(--cm-font-sans);
+    font-size: 13px;
+  }
+
+  .collection-main__pagination a,
+  .collection-main__pagination span {
+    padding: 10px 14px;
+    border: 1px solid var(--cm-border);
+    background: var(--cm-white);
+    color: var(--cm-navy);
+    transition: border-color 0.25s, background 0.25s;
+  }
+
+  .collection-main__pagination a:hover {
+    border-color: var(--cm-gold);
+    background: var(--cm-gold-pale);
+  }
+
+  .collection-main__pagination .current {
+    background: var(--cm-navy);
+    color: var(--cm-white);
+    border-color: var(--cm-navy);
+  }
+
+  @media (max-width: 1023px) {
+    .collection-main__grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 767px) {
+    .collection-main { padding: 40px 24px 72px; }
+    .collection-main__grid { grid-template-columns: 1fr; }
+  }
+</style>
+
+<section class="collection-main">
+  <div class="collection-main__inner">
+    <header class="collection-main__head">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="collection-main__eyebrow">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+      <h1 class="collection-main__title">{{ collection.title }}</h1>
+      {%- if collection.description != blank -%}
+        <div class="collection-main__desc rte">{{ collection.description }}</div>
+      {%- endif -%}
+    </header>
+
+    {% paginate collection.products by section.settings.products_per_page %}
+      {%- if collection.products_count > 0 -%}
+        <div class="collection-main__grid">
+          {%- for product in collection.products -%}
+            {% render 'product-card', card_product: product, card_collection: collection.title %}
+          {%- endfor -%}
+        </div>
+
+        {%- if paginate.pages > 1 -%}
+          <nav class="collection-main__pagination" aria-label="Paginación">
+            {{ paginate | default_pagination }}
+          </nav>
+        {%- endif -%}
+      {%- else -%}
+        <p class="collection-main__empty">{{ section.settings.empty_label | default: 'No hay productos en esta colección todavía.' }}</p>
+      {%- endif -%}
+    {% endpaginate %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Colección — grid",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Etiqueta superior",
+      "default": "Tienda"
+    },
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "label": "Productos por página",
+      "min": 4,
+      "max": 24,
+      "step": 4,
+      "default": 12
+    },
+    {
+      "type": "text",
+      "id": "empty_label",
+      "label": "Texto si la colección está vacía",
+      "default": "No hay productos en esta colección todavía."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Colección — grid"
+    }
+  ]
+}
+{% endschema %}

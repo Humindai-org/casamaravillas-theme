@@ -1,0 +1,142 @@
+<style>
+  .trust-band {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border-top: 1px solid var(--cm-border);
+    border-bottom: 1px solid var(--cm-border);
+    background: var(--cm-white);
+  }
+
+  .trust-band__cell {
+    padding: 28px 36px;
+    border-right: 1px solid var(--cm-border);
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .trust-band__cell:last-child { border-right: none; }
+
+  .trust-band__icon {
+    font-size: 20px;
+    line-height: 1;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .trust-band__title {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--cm-text);
+    letter-spacing: 0.04em;
+    margin-bottom: 4px;
+    font-family: var(--cm-font-sans);
+  }
+
+  .trust-band__desc {
+    font-size: 11px;
+    color: var(--cm-text-light);
+    line-height: 1.5;
+    font-family: var(--cm-font-sans);
+  }
+
+  @media (max-width: 767px) {
+    .trust-band {
+      grid-template-columns: 1fr 1fr;
+    }
+    .trust-band__cell:nth-child(2) { border-right: none; }
+    .trust-band__cell:nth-child(3) {
+      border-right: 1px solid var(--cm-border);
+      border-top: 1px solid var(--cm-border);
+    }
+    .trust-band__cell:nth-child(4) {
+      border-top: 1px solid var(--cm-border);
+    }
+    .trust-band__cell { padding: 20px 20px; }
+  }
+</style>
+
+<div class="trust-band">
+  {%- for block in section.blocks -%}
+    <div class="trust-band__cell" {{ block.shopify_attributes }}>
+      <div class="trust-band__icon" aria-hidden="true">{{ block.settings.icon }}</div>
+      <div>
+        <p class="trust-band__title">{{ block.settings.title }}</p>
+        <p class="trust-band__desc">{{ block.settings.description }}</p>
+      </div>
+    </div>
+  {%- endfor -%}
+</div>
+
+{% schema %}
+{
+  "name": "Banda de confianza",
+  "tag": "section",
+  "max_blocks": 4,
+  "blocks": [
+    {
+      "type": "trust_item",
+      "name": "Elemento",
+      "settings": [
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "Emoji / Icono",
+          "default": "🚚"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Título",
+          "default": "Envío gratis"
+        },
+        {
+          "type": "text",
+          "id": "description",
+          "label": "Descripción",
+          "default": "A partir de €80 en Peninsula"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Banda de confianza",
+      "blocks": [
+        {
+          "type": "trust_item",
+          "settings": {
+            "icon": "🚚",
+            "title": "Envío gratis",
+            "description": "A partir de €80 en Península"
+          }
+        },
+        {
+          "type": "trust_item",
+          "settings": {
+            "icon": "🏆",
+            "title": "Calidad garantizada",
+            "description": "Selección artesanal desde 1919"
+          }
+        },
+        {
+          "type": "trust_item",
+          "settings": {
+            "icon": "❄️",
+            "title": "Embalaje especial",
+            "description": "Conservación en frío garantizada"
+          }
+        },
+        {
+          "type": "trust_item",
+          "settings": {
+            "icon": "🎁",
+            "title": "Packaging regalo",
+            "description": "Presentación premium para regalar"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

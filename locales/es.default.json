@@ -1,0 +1,110 @@
+{
+  "general": {
+    "announcement_bar": {
+      "label": "Barra de anuncio"
+    },
+    "search": {
+      "search": "Buscar",
+      "placeholder": "Buscar productos..."
+    },
+    "pagination": {
+      "previous": "Anterior",
+      "next": "Siguiente",
+      "current_page": "Página {{ page }} de {{ total }}"
+    },
+    "password_page": {
+      "opening_soon": "Próximamente"
+    }
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "Añadir al carrito",
+      "sold_out": "Agotado",
+      "unavailable": "No disponible",
+      "on_sale": "Oferta",
+      "quantity": "Cantidad",
+      "description": "Descripción",
+      "sku": "Referencia",
+      "vendor": "Productor",
+      "from_price_html": "Desde {{ price }}"
+    },
+    "general": {
+      "title": "Todos los productos"
+    }
+  },
+  "collections": {
+    "general": {
+      "title": "Colecciones"
+    }
+  },
+  "cart": {
+    "general": {
+      "title": "Tu carrito",
+      "empty": "Tu carrito está vacío",
+      "checkout": "Finalizar compra",
+      "continue_shopping": "Seguir comprando",
+      "item_count": {
+        "one": "{{ count }} artículo",
+        "other": "{{ count }} artículos"
+      },
+      "total": "Total",
+      "subtotal": "Subtotal",
+      "shipping_at_checkout": "Gastos de envío calculados al finalizar la compra",
+      "update": "Actualizar",
+      "remove": "Eliminar"
+    }
+  },
+  "blogs": {
+    "general": {
+      "title": "Blog",
+      "read_more": "Leer más"
+    },
+    "article": {
+      "by_author": "Por {{ author }}",
+      "posted_in": "En",
+      "related_articles": "Artículos relacionados"
+    }
+  },
+  "customer": {
+    "login": {
+      "title": "Iniciar sesión",
+      "email": "Email",
+      "password": "Contraseña",
+      "submit": "Iniciar sesión",
+      "create_account": "Crear cuenta",
+      "forgot_password": "¿Olvidaste tu contraseña?"
+    },
+    "register": {
+      "title": "Crear cuenta",
+      "first_name": "Nombre",
+      "last_name": "Apellidos",
+      "email": "Email",
+      "password": "Contraseña",
+      "submit": "Crear cuenta",
+      "login": "¿Ya tienes cuenta? Inicia sesión"
+    },
+    "account": {
+      "title": "Mi cuenta",
+      "orders": "Pedidos",
+      "details": "Datos personales",
+      "logout": "Cerrar sesión"
+    }
+  },
+  "newsletter": {
+    "label": "Suscribirse al newsletter",
+    "success": "¡Gracias! Te has suscrito correctamente."
+  },
+  "404": {
+    "title": "Página no encontrada",
+    "subtext": "La página que buscas no existe o ha sido movida.",
+    "link": "Volver al inicio"
+  },
+  "accessibility": {
+    "skip_to_content": "Ir al contenido principal",
+    "close": "Cerrar",
+    "open_nav": "Abrir navegación",
+    "close_nav": "Cerrar navegación",
+    "cart": "Ver carrito",
+    "cart_count": "{{ count }} artículos en el carrito"
+  }
+}

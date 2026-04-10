@@ -1,0 +1,12 @@
+{
+  "name": "Footer",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "settings": {
+        "tagline": "Productos ibéricos artesanales desde Alicante. Sabor auténtico, tradición de 1919."
+      }
+    }
+  },
+  "order": ["footer"]
+}

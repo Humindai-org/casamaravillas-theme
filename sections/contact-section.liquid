@@ -1,0 +1,364 @@
+<style>
+  .contact-section {
+    padding: 72px 72px 96px;
+    background: var(--cm-off);
+  }
+
+  .contact-section__inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: start;
+  }
+
+  .contact-section__eyebrow {
+    font-size: 9px;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--cm-gold);
+    font-weight: 500;
+    margin-bottom: 14px;
+    font-family: var(--cm-font-sans);
+  }
+
+  .contact-section__title.rte {
+    font-family: var(--cm-font-serif);
+    font-size: clamp(26px, 2.8vw, 38px);
+    font-weight: 400;
+    color: var(--cm-navy);
+    line-height: 1.2;
+    margin-bottom: 20px;
+  }
+
+  .contact-section__title.rte p { margin: 0; }
+
+  .contact-section__title.rte em { font-style: italic; }
+
+  .contact-section__intro {
+    font-size: 14.5px;
+    line-height: 1.75;
+    color: var(--cm-text-mid);
+    margin-bottom: 32px;
+    font-family: var(--cm-font-sans);
+  }
+
+  .contact-section__detail {
+    margin-bottom: 18px;
+    font-family: var(--cm-font-sans);
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: var(--cm-text);
+  }
+
+  .contact-section__detail strong {
+    display: block;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--cm-gold);
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+
+  .contact-section__detail a {
+    color: var(--cm-navy);
+    border-bottom: 1px solid var(--cm-border2);
+    transition: border-color 0.25s;
+  }
+
+  .contact-section__detail a:hover { border-color: var(--cm-navy); }
+
+  .contact-section__form-wrap {
+    background: var(--cm-white);
+    border: 1px solid var(--cm-border);
+    padding: 40px 36px;
+  }
+
+  .contact-section__form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .contact-section__label {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--cm-text-mid);
+    font-family: var(--cm-font-sans);
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .contact-section__input,
+  .contact-section__textarea {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1px solid var(--cm-border);
+    font-family: var(--cm-font-sans);
+    font-size: 14px;
+    color: var(--cm-text);
+    background: var(--cm-white);
+    transition: border-color 0.25s;
+  }
+
+  .contact-section__input:focus,
+  .contact-section__textarea:focus {
+    outline: none;
+    border-color: var(--cm-gold);
+  }
+
+  .contact-section__textarea {
+    min-height: 140px;
+    resize: vertical;
+  }
+
+  .contact-section__submit {
+    margin-top: 8px;
+    padding: 16px 40px;
+    background: var(--cm-navy);
+    color: var(--cm-white);
+    font-family: var(--cm-font-sans);
+    font-size: 10.5px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+    align-self: flex-start;
+    border: none;
+  }
+
+  .contact-section__submit:hover {
+    background: var(--cm-navy2);
+    transform: translateY(-2px);
+  }
+
+  .contact-section__submit:focus-visible {
+    outline: 2px solid var(--cm-gold);
+    outline-offset: 3px;
+  }
+
+  .contact-section__success {
+    padding: 16px;
+    background: var(--cm-gold-pale);
+    border: 1px solid var(--cm-gold);
+    color: var(--cm-navy);
+    font-family: var(--cm-font-sans);
+    font-size: 14px;
+    margin-bottom: 16px;
+  }
+
+  .contact-section__errors {
+    padding: 16px;
+    background: #fdf2f2;
+    border: 1px solid #e8c4c4;
+    color: #6b2a2a;
+    font-family: var(--cm-font-sans);
+    font-size: 13px;
+    margin-bottom: 16px;
+  }
+
+  @media (max-width: 900px) {
+    .contact-section__inner {
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .contact-section { padding: 48px 24px 72px; }
+    .contact-section__form-wrap { padding: 28px 22px; }
+  }
+</style>
+
+<section class="contact-section">
+  <div class="contact-section__inner">
+    <div class="contact-section__aside">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="contact-section__eyebrow">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+      <div class="contact-section__title rte" role="heading" aria-level="1">
+        {%- if section.settings.heading != blank -%}
+          {{ section.settings.heading }}
+        {%- else -%}
+          <p>Escríbenos</p>
+        {%- endif -%}
+      </div>
+      {%- if section.settings.intro != blank -%}
+        <p class="contact-section__intro">{{ section.settings.intro }}</p>
+      {%- endif -%}
+
+      {%- if section.settings.email != blank -%}
+        <div class="contact-section__detail">
+          <strong>Email</strong>
+          <a href="mailto:{{ section.settings.email }}">{{ section.settings.email }}</a>
+        </div>
+      {%- endif -%}
+      {%- if section.settings.phone != blank -%}
+        <div class="contact-section__detail">
+          <strong>Teléfono</strong>
+          <span>{{ section.settings.phone }}</span>
+        </div>
+      {%- endif -%}
+      {%- if section.settings.address != blank -%}
+        <div class="contact-section__detail">
+          <strong>Tienda</strong>
+          <span>{{ section.settings.address | newline_to_br }}</span>
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="contact-section__form-wrap">
+      {%- form 'contact', id: 'ContactForm', class: 'contact-section__form' -%}
+        {%- if form.posted_successfully? -%}
+          <p class="contact-section__success" role="status">{{ section.settings.success_message | default: 'Gracias. Hemos recibido tu mensaje.' }}</p>
+        {%- endif -%}
+
+        {%- if form.errors -%}
+          <div class="contact-section__errors">
+            {{ form.errors | default_errors }}
+          </div>
+        {%- endif -%}
+
+        <div>
+          <label class="contact-section__label" for="ContactForm-name">{{ section.settings.label_name | default: 'Nombre' }}</label>
+          <input
+            class="contact-section__input"
+            type="text"
+            id="ContactForm-name"
+            name="contact[name]"
+            value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
+            autocomplete="name"
+            required
+          >
+        </div>
+
+        <div>
+          <label class="contact-section__label" for="ContactForm-email">{{ section.settings.label_email | default: 'Email' }}</label>
+          <input
+            class="contact-section__input"
+            type="email"
+            id="ContactForm-email"
+            name="contact[email]"
+            value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+            autocomplete="email"
+            required
+          >
+        </div>
+
+        <div>
+          <label class="contact-section__label" for="ContactForm-phone">{{ section.settings.label_phone | default: 'Teléfono (opcional)' }}</label>
+          <input
+            class="contact-section__input"
+            type="tel"
+            id="ContactForm-phone"
+            name="contact[phone]"
+            value="{{ form.phone }}"
+            autocomplete="tel"
+          >
+        </div>
+
+        <div>
+          <label class="contact-section__label" for="ContactForm-body">{{ section.settings.label_message | default: 'Mensaje' }}</label>
+          <textarea
+            class="contact-section__textarea"
+            id="ContactForm-body"
+            name="contact[body]"
+            required
+          >{{ form.body }}</textarea>
+        </div>
+
+        <button type="submit" class="contact-section__submit">{{ section.settings.submit_label | default: 'Enviar' }}</button>
+      {%- endform -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Contacto",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Etiqueta superior",
+      "default": "Casa Maravillas"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Título",
+      "default": "<p>Escríbenos</p>"
+    },
+    {
+      "type": "textarea",
+      "id": "intro",
+      "label": "Texto introductorio",
+      "default": "¿Dudas sobre envíos, regalos corporativos o nuestras piezas? Te respondemos lo antes posible."
+    },
+    {
+      "type": "text",
+      "id": "email",
+      "label": "Email de contacto (visible)",
+      "default": "hola@casamaravillas.com"
+    },
+    {
+      "type": "text",
+      "id": "phone",
+      "label": "Teléfono",
+      "default": "+34 000 000 000"
+    },
+    {
+      "type": "textarea",
+      "id": "address",
+      "label": "Dirección / tienda",
+      "default": "Alicante, España"
+    },
+    {
+      "type": "text",
+      "id": "label_name",
+      "label": "Etiqueta campo nombre",
+      "default": "Nombre"
+    },
+    {
+      "type": "text",
+      "id": "label_email",
+      "label": "Etiqueta campo email",
+      "default": "Email"
+    },
+    {
+      "type": "text",
+      "id": "label_phone",
+      "label": "Etiqueta campo teléfono",
+      "default": "Teléfono (opcional)"
+    },
+    {
+      "type": "text",
+      "id": "label_message",
+      "label": "Etiqueta campo mensaje",
+      "default": "Mensaje"
+    },
+    {
+      "type": "text",
+      "id": "submit_label",
+      "label": "Texto del botón enviar",
+      "default": "Enviar"
+    },
+    {
+      "type": "text",
+      "id": "success_message",
+      "label": "Mensaje tras envío correcto",
+      "default": "Gracias. Hemos recibido tu mensaje."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Contacto"
+    }
+  ]
+}
+{% endschema %}

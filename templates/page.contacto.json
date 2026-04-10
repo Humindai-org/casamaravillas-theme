@@ -1,0 +1,55 @@
+{
+  "sections": {
+    "contact": {
+      "type": "contact-section",
+      "settings": {
+        "eyebrow": "Casa Maravillas",
+        "heading": "<p>Contacto</p>",
+        "intro": "¿Dudas sobre envíos, regalos corporativos o nuestras piezas? Te respondemos lo antes posible.",
+        "email": "hola@casamaravillas.com",
+        "phone": "+34 000 000 000",
+        "address": "Alicante, España"
+      }
+    },
+    "trust": {
+      "type": "trust-band",
+      "blocks": {
+        "trust-1": {
+          "type": "trust_item",
+          "settings": {
+            "icon": "🚚",
+            "title": "Envío gratis",
+            "description": "A partir de €80 en Península"
+          }
+        },
+        "trust-2": {
+          "type": "trust_item",
+          "settings": {
+            "icon": "🏆",
+            "title": "Calidad garantizada",
+            "description": "Selección artesanal desde 1919"
+          }
+        },
+        "trust-3": {
+          "type": "trust_item",
+          "settings": {
+            "icon": "❄️",
+            "title": "Embalaje especial",
+            "description": "Conservación en frío garantizada"
+          }
+        },
+        "trust-4": {
+          "type": "trust_item",
+          "settings": {
+            "icon": "🎁",
+            "title": "Packaging regalo",
+            "description": "Presentación premium para regalar"
+          }
+        }
+      },
+      "block_order": ["trust-1", "trust-2", "trust-3", "trust-4"],
+      "settings": {}
+    }
+  },
+  "order": ["contact", "trust"]
+}

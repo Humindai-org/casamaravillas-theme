@@ -1,0 +1,17 @@
+{
+  "name": "Cabecera",
+  "sections": {
+    "announcement-bar": {
+      "type": "announcement-bar",
+      "settings": {
+        "show_announcement": true,
+        "announcement_text": "Envío gratis a partir de <em>€80</em> &nbsp;·&nbsp; Entrega en 24–48h &nbsp;·&nbsp; Productos ibéricos de Alicante"
+      }
+    },
+    "header": {
+      "type": "header",
+      "settings": {}
+    }
+  },
+  "order": ["announcement-bar", "header"]
+}

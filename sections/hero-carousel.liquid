@@ -1,0 +1,544 @@
+<style>
+  /* ──────────────────────────────────────────────
+     HERO CAROUSEL — Casa Maravillas
+     Fullscreen carousel con 3 slides, Ken Burns,
+     progress bar, dots y swipe táctil.
+  ────────────────────────────────────────────── */
+
+  .cm-hero {
+    position: relative;
+    height: calc(100svh - 80px);
+    min-height: 560px;
+    overflow: hidden;
+  }
+
+  /* ── Track ── */
+  .cm-hero__track {
+    display: flex;
+    height: 100%;
+    transition: transform 0.9s cubic-bezier(0.77, 0, 0.18, 1);
+    will-change: transform;
+  }
+
+  /* ── Slide base ── */
+  .cm-hero__slide {
+    flex: 0 0 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Default slide backgrounds (overridden when image set) */
+  .cm-hero__slide:nth-child(1) {
+    background:
+      radial-gradient(ellipse 80% 60% at 30% 50%, rgba(196,151,58,0.09) 0%, transparent 70%),
+      linear-gradient(160deg, #001829 0%, #00294B 45%, #001020 100%);
+  }
+  .cm-hero__slide:nth-child(2) {
+    background:
+      radial-gradient(ellipse 60% 80% at 70% 40%, rgba(196,151,58,0.07) 0%, transparent 65%),
+      linear-gradient(135deg, #0a1a0a 0%, #1a2a10 40%, #000d05 100%);
+  }
+  .cm-hero__slide:nth-child(3) {
+    background:
+      radial-gradient(ellipse 70% 70% at 50% 60%, rgba(196,151,58,0.11) 0%, transparent 65%),
+      linear-gradient(200deg, #1a0a00 0%, #2d1500 40%, #0d0500 100%);
+  }
+
+  /* ── Background image ── */
+  .cm-hero__img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.28;
+    filter: saturate(0.55) brightness(0.65);
+    transform: scale(1.08);
+    animation: cmKenBurns 8s ease-out forwards;
+  }
+
+  @keyframes cmKenBurns {
+    from { transform: scale(1.08); }
+    to   { transform: scale(1.0);  }
+  }
+
+  /* ── Grain overlay ── */
+  .cm-hero__grain {
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.07'/%3E%3C/svg%3E");
+    background-size: 180px;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  /* ── Bottom fade ── */
+  .cm-hero__fade {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 42%;
+    background: linear-gradient(to top, rgba(0,0,0,0.58), transparent);
+    z-index: 3;
+  }
+
+  /* ── Slide content ── */
+  .cm-hero__content {
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 24px;
+  }
+
+  .cm-hero__eyebrow {
+    font-family: var(--cm-font-sans);
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--cm-gold);
+    margin-bottom: 28px;
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.7s 0.1s ease, transform 0.7s 0.1s ease;
+  }
+
+  /* Wordmark "CASA / MARAVILLAS" */
+  .cm-hero__wordmark {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 24px;
+  }
+
+  .cm-hero__casa {
+    font-family: var(--cm-font-sans);
+    font-size: clamp(11px, 2vw, 16px);
+    font-weight: 300;
+    letter-spacing: 0.55em;
+    text-transform: uppercase;
+    color: rgba(250,246,239,0.7);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.7s 0.25s ease, transform 0.7s 0.25s ease;
+  }
+
+  .cm-hero__name {
+    font-family: var(--cm-font-serif);
+    font-size: clamp(52px, 9vw, 120px);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    color: #fff;
+    line-height: 1;
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.8s 0.4s ease, transform 0.8s 0.4s ease;
+  }
+
+  .cm-hero__rule {
+    width: 60px;
+    height: 1px;
+    background: var(--cm-gold);
+    opacity: 0;
+    margin-bottom: 24px;
+    transition: opacity 0.7s 0.65s ease, width 0.7s 0.65s ease;
+  }
+
+  .cm-hero__tagline {
+    font-family: var(--cm-font-serif);
+    font-style: italic;
+    font-size: clamp(14px, 2.5vw, 22px);
+    color: rgba(250,246,239,0.78);
+    letter-spacing: 0.02em;
+    max-width: 520px;
+    line-height: 1.6;
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.7s 0.75s ease, transform 0.7s 0.75s ease;
+    margin-bottom: 40px;
+  }
+
+  .cm-hero__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 36px;
+    border: 1.5px solid rgba(196,151,58,0.7);
+    color: rgba(250,246,239,0.95);
+    font-family: var(--cm-font-sans);
+    font-size: 10.5px;
+    letter-spacing: 0.16em;
+    font-weight: 400;
+    text-transform: uppercase;
+    text-decoration: none;
+    background: transparent;
+    opacity: 0;
+    transform: translateY(12px);
+    transition:
+      opacity 0.6s 0.95s ease,
+      transform 0.6s 0.95s ease,
+      background 0.25s ease,
+      border-color 0.25s ease;
+  }
+  .cm-hero__cta:hover {
+    background: rgba(196,151,58,0.15);
+    border-color: var(--cm-gold);
+  }
+  .cm-hero__cta:focus-visible {
+    outline: 2px solid var(--cm-gold);
+    outline-offset: 3px;
+  }
+
+  /* ── Active slide — reveal animations ── */
+  .cm-hero__slide.is-active .cm-hero__eyebrow,
+  .cm-hero__slide.is-active .cm-hero__casa,
+  .cm-hero__slide.is-active .cm-hero__name,
+  .cm-hero__slide.is-active .cm-hero__rule,
+  .cm-hero__slide.is-active .cm-hero__tagline,
+  .cm-hero__slide.is-active .cm-hero__cta {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .cm-hero__slide.is-active .cm-hero__rule { width: 60px; }
+
+  /* ── Progress bar ── */
+  .cm-hero__progress {
+    position: absolute;
+    top: 0; left: 0;
+    height: 2px;
+    background: var(--cm-gold);
+    z-index: 6;
+    width: 0%;
+    transition: width 5s linear;
+  }
+  .cm-hero__progress.running { width: 100%; }
+  .cm-hero__progress.reset   { transition: none; width: 0%; }
+
+  /* ── Navigation dots ── */
+  .cm-hero__dots {
+    position: absolute;
+    bottom: 36px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 5;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .cm-hero__dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.3);
+    cursor: pointer;
+    border: none;
+    padding: 0;
+    transition: background 0.3s ease, width 0.4s cubic-bezier(0.16,1,0.3,1);
+  }
+  .cm-hero__dot.is-active {
+    background: var(--cm-gold);
+    width: 24px;
+    border-radius: 3px;
+  }
+
+  /* ── Prev / Next buttons ── */
+  .cm-hero__prev,
+  .cm-hero__next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 5;
+    background: rgba(0,0,0,0.2);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: white;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition: background 0.25s ease, transform 0.2s ease;
+  }
+  .cm-hero__prev { left: 28px; }
+  .cm-hero__next { right: 28px; }
+  .cm-hero__prev:hover,
+  .cm-hero__next:hover { background: rgba(196,151,58,0.25); }
+  .cm-hero__prev:focus-visible,
+  .cm-hero__next:focus-visible { outline: 2px solid var(--cm-gold); }
+
+  @media (max-width: 767px) {
+    .cm-hero { height: calc(100svh - 64px); }
+    .cm-hero__prev,
+    .cm-hero__next { display: none; }
+  }
+</style>
+
+{%- assign slide_count = section.blocks.size -%}
+
+<section
+  class="cm-hero"
+  id="cm-hero-{{ section.id }}"
+  aria-label="Hero — {{ shop.name }}"
+  aria-roledescription="carousel"
+>
+
+  <!-- Progress bar -->
+  <div class="cm-hero__progress" id="cm-hero-progress-{{ section.id }}"></div>
+
+  <!-- Slides -->
+  <div class="cm-hero__track" id="cm-hero-track-{{ section.id }}">
+    {%- for block in section.blocks -%}
+      <div
+        class="cm-hero__slide{% if forloop.first %} is-active{% endif %}"
+        role="group"
+        aria-label="Slide {{ forloop.index }} de {{ slide_count }}"
+        aria-roledescription="slide"
+        {{ block.shopify_attributes }}
+      >
+        {%- if block.settings.image != blank -%}
+          {{ block.settings.image
+            | image_url: width: 1800
+            | image_tag:
+                class: 'cm-hero__img',
+                loading: 'eager',
+                fetchpriority: 'high',
+                alt: block.settings.image.alt | escape
+          }}
+        {%- else -%}
+          {%- comment -%}No image — gradient background shows through{%- endcomment -%}
+        {%- endif -%}
+
+        <div class="cm-hero__grain" aria-hidden="true"></div>
+        <div class="cm-hero__fade"  aria-hidden="true"></div>
+
+        <div class="cm-hero__content">
+          {%- if block.settings.eyebrow != blank -%}
+            <p class="cm-hero__eyebrow">{{ block.settings.eyebrow }}</p>
+          {%- endif -%}
+
+          <div class="cm-hero__wordmark" aria-hidden="true">
+            <span class="cm-hero__casa">Casa</span>
+            <span class="cm-hero__name">Maravillas</span>
+          </div>
+
+          <div class="cm-hero__rule" aria-hidden="true"></div>
+
+          {%- if block.settings.tagline != blank -%}
+            <p class="cm-hero__tagline">{{ block.settings.tagline }}</p>
+          {%- endif -%}
+
+          {%- if block.settings.cta_label != blank -%}
+            <a
+              href="{{ block.settings.cta_url | default: routes.collections_url }}"
+              class="cm-hero__cta"
+            >
+              {{ block.settings.cta_label }}
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </a>
+          {%- endif -%}
+        </div>
+
+      </div>
+    {%- endfor -%}
+  </div>
+
+  <!-- Prev / Next -->
+  <button class="cm-hero__prev" id="cm-hero-prev-{{ section.id }}" aria-label="Slide anterior">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+      <path d="M19 12H5M12 19l-7-7 7-7"/>
+    </svg>
+  </button>
+  <button class="cm-hero__next" id="cm-hero-next-{{ section.id }}" aria-label="Siguiente slide">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+      <path d="M5 12h14M12 5l7 7-7 7"/>
+    </svg>
+  </button>
+
+  <!-- Dots -->
+  <div class="cm-hero__dots" role="tablist" aria-label="Slides del carousel">
+    {%- for block in section.blocks -%}
+      <button
+        class="cm-hero__dot{% if forloop.first %} is-active{% endif %}"
+        role="tab"
+        aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+        aria-label="Ir al slide {{ forloop.index }}"
+        data-index="{{ forloop.index0 }}"
+      ></button>
+    {%- endfor -%}
+  </div>
+
+</section>
+
+<script>
+(function() {
+  var sectionId  = '{{ section.id }}';
+  var hero       = document.getElementById('cm-hero-' + sectionId);
+  if (!hero) return;
+
+  var track    = document.getElementById('cm-hero-track-' + sectionId);
+  var slides   = hero.querySelectorAll('.cm-hero__slide');
+  var dots     = hero.querySelectorAll('.cm-hero__dot');
+  var progress = document.getElementById('cm-hero-progress-' + sectionId);
+  var prevBtn  = document.getElementById('cm-hero-prev-' + sectionId);
+  var nextBtn  = document.getElementById('cm-hero-next-' + sectionId);
+  var current  = 0;
+  var autoTimer;
+  var DURATION = 5000;
+
+  function goTo(index) {
+    slides[current].classList.remove('is-active');
+    dots[current].classList.remove('is-active');
+    dots[current].setAttribute('aria-selected', 'false');
+
+    current = (index + slides.length) % slides.length;
+
+    slides[current].classList.add('is-active');
+    dots[current].classList.add('is-active');
+    dots[current].setAttribute('aria-selected', 'true');
+
+    track.style.transform = 'translateX(-' + (current * 100) + '%)';
+
+    // Re-trigger Ken Burns on background image
+    var img = slides[current].querySelector('.cm-hero__img');
+    if (img) {
+      img.style.animation = 'none';
+      requestAnimationFrame(function() { img.style.animation = ''; });
+    }
+
+    // Restart progress bar
+    progress.classList.remove('running');
+    progress.classList.add('reset');
+    requestAnimationFrame(function() {
+      requestAnimationFrame(function() {
+        progress.classList.remove('reset');
+        progress.classList.add('running');
+      });
+    });
+  }
+
+  function startAuto() {
+    clearInterval(autoTimer);
+    autoTimer = setInterval(function() { goTo(current + 1); }, DURATION);
+  }
+
+  prevBtn.addEventListener('click', function() { goTo(current - 1); startAuto(); });
+  nextBtn.addEventListener('click', function() { goTo(current + 1); startAuto(); });
+
+  dots.forEach(function(dot) {
+    dot.addEventListener('click', function() {
+      goTo(parseInt(dot.dataset.index, 10));
+      startAuto();
+    });
+  });
+
+  // Touch swipe
+  var touchStartX = 0;
+  hero.addEventListener('touchstart', function(e) {
+    touchStartX = e.touches[0].clientX;
+  }, { passive: true });
+  hero.addEventListener('touchend', function(e) {
+    var diff = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) { goTo(diff > 0 ? current + 1 : current - 1); startAuto(); }
+  }, { passive: true });
+
+  // Keyboard
+  hero.setAttribute('tabindex', '0');
+  hero.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowRight') { goTo(current + 1); startAuto(); }
+    if (e.key === 'ArrowLeft')  { goTo(current - 1); startAuto(); }
+  });
+
+  // Init
+  goTo(0);
+  startAuto();
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Hero Carousel",
+  "tag": "section",
+  "max_blocks": 3,
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Imagen de fondo"
+        },
+        {
+          "type": "text",
+          "id": "eyebrow",
+          "label": "Etiqueta superior",
+          "default": "Alicante, España"
+        },
+        {
+          "type": "textarea",
+          "id": "tagline",
+          "label": "Tagline (cursiva)",
+          "default": "Tres generaciones dedicadas al sector ibérico"
+        },
+        {
+          "type": "text",
+          "id": "cta_label",
+          "label": "Texto del botón",
+          "default": "Descubrir colección"
+        },
+        {
+          "type": "url",
+          "id": "cta_url",
+          "label": "Enlace del botón"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero Carousel",
+      "blocks": [
+        {
+          "type": "slide",
+          "settings": {
+            "eyebrow": "Alicante, España",
+            "tagline": "Tres generaciones dedicadas al sector ibérico",
+            "cta_label": "Descubrir colección",
+            "cta_url": "/collections/jamones"
+          }
+        },
+        {
+          "type": "slide",
+          "settings": {
+            "eyebrow": "Tradición artesanal",
+            "tagline": "Selección de las mejores piezas ibéricas de la dehesa española",
+            "cta_label": "Nuestra historia",
+            "cta_url": "/pages/sobre-nosotros"
+          }
+        },
+        {
+          "type": "slide",
+          "settings": {
+            "eyebrow": "Packs & Regalos Gourmet",
+            "tagline": "El regalo perfecto para quien aprecia lo auténtico",
+            "cta_label": "Ver packs regalo",
+            "cta_url": "/collections/packs-y-regalos"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

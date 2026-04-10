@@ -1,0 +1,148 @@
+<style>
+  .product-grid-section {
+    padding: 96px 72px;
+    background: var(--cm-off);
+  }
+
+  .product-grid-section__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 56px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--cm-border);
+  }
+
+  .product-grid-section__header-left {}
+
+  .product-grid-section__eyebrow {
+    font-size: 9px;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--cm-gold);
+    font-weight: 500;
+    margin-bottom: 14px;
+    font-family: var(--cm-font-sans);
+  }
+
+  .product-grid-section__title {
+    font-family: var(--cm-font-serif);
+    font-size: clamp(26px, 2.8vw, 42px);
+    font-weight: 400;
+    color: var(--cm-navy);
+    line-height: 1.2;
+  }
+
+  .product-grid-section__title em { font-style: italic; }
+
+  .product-grid-section__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--cm-border);
+    border: 1px solid var(--cm-border);
+  }
+
+  @media (max-width: 1023px) {
+    .product-grid-section { padding: 64px 32px; }
+    .product-grid-section__grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 767px) {
+    .product-grid-section { padding: 48px 20px; }
+    .product-grid-section__header { flex-direction: column; align-items: flex-start; gap: 20px; }
+    .product-grid-section__grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 480px) {
+    .product-grid-section__grid { grid-template-columns: 1fr; }
+  }
+</style>
+
+<section class="product-grid-section">
+
+  <div class="product-grid-section__header">
+    <div class="product-grid-section__header-left">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="product-grid-section__eyebrow">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+      <h2 class="product-grid-section__title">{{ section.settings.title | default: 'Nuestra <em>selección</em>' }}</h2>
+    </div>
+    {%- if section.settings.view_all_label != blank -%}
+      <a href="{{ section.settings.view_all_url | default: '/collections/all' }}" class="cm-link-arrow hide-mobile">
+        {{ section.settings.view_all_label }}
+      </a>
+    {%- endif -%}
+  </div>
+
+  <div class="product-grid-section__grid">
+    {%- assign collection_handle = section.settings.collection -%}
+    {%- if collection_handle != blank -%}
+      {%- assign col = collections[collection_handle] -%}
+      {%- assign limit = section.settings.products_to_show | default: 4 -%}
+      {%- for product in col.products limit: limit -%}
+        {% render 'product-card', card_product: product, card_collection: col.title %}
+      {%- else -%}
+        {%- for i in (1..4) -%}
+          {% render 'product-card' %}
+        {%- endfor -%}
+      {%- endfor -%}
+    {%- else -%}
+      {%- for i in (1..4) -%}
+        {% render 'product-card' %}
+      {%- endfor -%}
+    {%- endif -%}
+  </div>
+
+</section>
+
+{% schema %}
+{
+  "name": "Grid de productos",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Etiqueta superior",
+      "default": "Tienda"
+    },
+    {
+      "type": "richtext",
+      "id": "title",
+      "label": "Título",
+      "default": "<p>Nuestra <em>selección</em></p>"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Colección"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "label": "Número de productos",
+      "min": 2,
+      "max": 12,
+      "step": 2,
+      "default": 4
+    },
+    {
+      "type": "text",
+      "id": "view_all_label",
+      "label": "Texto del enlace 'Ver todo'",
+      "default": "Ver toda la colección"
+    },
+    {
+      "type": "url",
+      "id": "view_all_url",
+      "label": "Enlace 'Ver todo'"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Grid de productos"
+    }
+  ]
+}
+{% endschema %}

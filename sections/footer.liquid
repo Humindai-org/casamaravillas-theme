@@ -1,0 +1,295 @@
+<style>
+  .site-footer {
+    background: var(--cm-navy);
+    color: rgba(255,255,255,0.6);
+    font-family: var(--cm-font-sans);
+  }
+
+  .site-footer__main {
+    padding: 72px 72px 48px;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 64px;
+  }
+
+  /* Brand col */
+  .site-footer__brand-col {}
+
+  .site-footer__logo {
+    display: inline-block;
+    margin-bottom: 24px;
+  }
+
+  .site-footer__logo img {
+    height: 40px;
+    width: auto;
+    opacity: 0.9;
+  }
+
+  .site-footer__logo-text {
+    font-family: var(--cm-font-serif);
+    font-size: 20px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.9);
+    letter-spacing: 0.07em;
+    display: block;
+    line-height: 1;
+  }
+
+  .site-footer__logo-sub {
+    font-size: 8px;
+    letter-spacing: 0.45em;
+    text-transform: uppercase;
+    color: var(--cm-gold);
+    display: block;
+    margin-top: 5px;
+  }
+
+  .site-footer__tagline {
+    font-size: 13px;
+    line-height: 1.75;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 28px;
+    max-width: 260px;
+  }
+
+  /* Redes sociales */
+  .site-footer__social {
+    display: flex;
+    gap: 16px;
+  }
+
+  .site-footer__social-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: 1px solid rgba(255,255,255,0.15);
+    color: rgba(255,255,255,0.5);
+    text-decoration: none;
+    font-size: 14px;
+    transition: border-color 0.3s, color 0.3s;
+  }
+
+  .site-footer__social-link:hover {
+    border-color: var(--cm-gold);
+    color: var(--cm-gold);
+  }
+
+  .site-footer__social-link:focus-visible {
+    outline: 2px solid var(--cm-gold);
+    outline-offset: 2px;
+  }
+
+  /* Nav cols */
+  .site-footer__nav-col h4 {
+    font-size: 10px;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+    margin-bottom: 20px;
+    font-family: var(--cm-font-sans);
+    font-weight: 500;
+  }
+
+  .site-footer__nav-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .site-footer__nav-list a {
+    font-size: 13px;
+    color: rgba(255,255,255,0.55);
+    text-decoration: none;
+    transition: color 0.3s;
+    font-family: var(--cm-font-sans);
+  }
+
+  .site-footer__nav-list a:hover { color: rgba(255,255,255,0.9); }
+
+  /* Métodos de pago */
+  .site-footer__bottom {
+    padding: 20px 72px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .site-footer__copyright {
+    font-size: 11px;
+    color: rgba(255,255,255,0.25);
+    letter-spacing: 0.04em;
+  }
+
+  .site-footer__payments {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .site-footer__payment-badge {
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 4px 10px;
+    font-size: 9.5px;
+    letter-spacing: 0.08em;
+    color: rgba(255,255,255,0.35);
+    font-family: var(--cm-font-sans);
+    font-weight: 500;
+  }
+
+  @media (max-width: 1023px) {
+    .site-footer__main {
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      padding: 56px 40px 40px;
+    }
+    .site-footer__bottom { padding: 20px 40px; }
+  }
+
+  @media (max-width: 767px) {
+    .site-footer__main {
+      grid-template-columns: 1fr;
+      gap: 32px;
+      padding: 48px 24px 32px;
+    }
+    .site-footer__bottom {
+      padding: 20px 24px;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+    }
+  }
+</style>
+
+<footer class="site-footer">
+  <div class="site-footer__main">
+
+    <!-- Columna marca -->
+    <div class="site-footer__brand-col">
+      <a href="{{ routes.root_url }}" class="site-footer__logo">
+        {%- if section.settings.logo_light != blank -%}
+          {{ section.settings.logo_light | image_url: width: 200 | image_tag:
+              loading: 'lazy',
+              alt: shop.name,
+              style: 'height: 40px; width: auto;'
+          }}
+        {%- else -%}
+          <span class="site-footer__logo-text">{{ shop.name }}</span>
+          <span class="site-footer__logo-sub">Gourmet Co. 1919</span>
+        {%- endif -%}
+      </a>
+
+      {%- if section.settings.tagline != blank -%}
+        <p class="site-footer__tagline">{{ section.settings.tagline }}</p>
+      {%- endif -%}
+
+      <div class="site-footer__social">
+        {%- if section.settings.instagram != blank -%}
+          <a href="{{ section.settings.instagram }}" class="site-footer__social-link" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          </a>
+        {%- endif -%}
+        {%- if section.settings.facebook != blank -%}
+          <a href="{{ section.settings.facebook }}" class="site-footer__social-link" target="_blank" rel="noopener" aria-label="Facebook">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+        {%- endif -%}
+        {%- if section.settings.tiktok != blank -%}
+          <a href="{{ section.settings.tiktok }}" class="site-footer__social-link" target="_blank" rel="noopener" aria-label="TikTok">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>
+          </a>
+        {%- endif -%}
+      </div>
+    </div>
+
+    <!-- Columna tienda -->
+    <div class="site-footer__nav-col">
+      <h4>Tienda</h4>
+      <ul class="site-footer__nav-list">
+        <li><a href="{{ routes.collections_url }}/jamones">Jamones</a></li>
+        <li><a href="{{ routes.collections_url }}/embutidos">Embutidos</a></li>
+        <li><a href="{{ routes.collections_url }}/paletas">Paletas</a></li>
+        <li><a href="{{ routes.collections_url }}/packs-y-regalos">Packs & Regalos</a></li>
+      </ul>
+    </div>
+
+    <!-- Columna info -->
+    <div class="site-footer__nav-col">
+      <h4>Información</h4>
+      <ul class="site-footer__nav-list">
+        <li><a href="/pages/sobre-nosotros">Sobre nosotros</a></li>
+        <li><a href="/blogs/noticias">Blog</a></li>
+        <li><a href="/pages/envios-y-devoluciones">Envíos y devoluciones</a></li>
+        <li><a href="/pages/contacto">Contacto</a></li>
+      </ul>
+    </div>
+
+    <!-- Columna legal -->
+    <div class="site-footer__nav-col">
+      <h4>Legal</h4>
+      <ul class="site-footer__nav-list">
+        <li><a href="/policies/privacy-policy">Privacidad</a></li>
+        <li><a href="/policies/terms-of-service">Términos</a></li>
+        <li><a href="/policies/refund-policy">Devoluciones</a></li>
+        <li><a href="/policies/shipping-policy">Envíos</a></li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- Barra inferior -->
+  <div class="site-footer__bottom">
+    <p class="site-footer__copyright">
+      © {{ 'now' | date: '%Y' }} {{ shop.name }}. Todos los derechos reservados.
+    </p>
+    <div class="site-footer__payments" aria-label="Métodos de pago aceptados">
+      <span class="site-footer__payment-badge">Visa</span>
+      <span class="site-footer__payment-badge">Mastercard</span>
+      <span class="site-footer__payment-badge">PayPal</span>
+      <span class="site-footer__payment-badge">Bizum</span>
+      <span class="site-footer__payment-badge">Apple Pay</span>
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo_light",
+      "label": "Logo versión clara (para fondo oscuro)"
+    },
+    {
+      "type": "textarea",
+      "id": "tagline",
+      "label": "Tagline / descripción breve",
+      "default": "Productos ibéricos artesanales desde Alicante. Sabor auténtico, tradición de 1919."
+    },
+    {
+      "type": "url",
+      "id": "instagram",
+      "label": "Instagram URL"
+    },
+    {
+      "type": "url",
+      "id": "facebook",
+      "label": "Facebook URL"
+    },
+    {
+      "type": "url",
+      "id": "tiktok",
+      "label": "TikTok URL"
+    }
+  ]
+}
+{% endschema %}

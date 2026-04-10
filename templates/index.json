@@ -1,0 +1,133 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero-carousel",
+      "blocks": {
+        "slide-1": {
+          "type": "slide",
+          "settings": {
+            "eyebrow": "Alicante, España",
+            "tagline": "Tres generaciones dedicadas al sector ibérico",
+            "cta_label": "Descubrir colección",
+            "cta_url": "/collections/jamones"
+          }
+        },
+        "slide-2": {
+          "type": "slide",
+          "settings": {
+            "eyebrow": "Tradición artesanal",
+            "tagline": "Selección de las mejores piezas ibéricas de la dehesa española",
+            "cta_label": "Nuestra historia",
+            "cta_url": "/pages/sobre-nosotros"
+          }
+        },
+        "slide-3": {
+          "type": "slide",
+          "settings": {
+            "eyebrow": "Packs & Regalos Gourmet",
+            "tagline": "El regalo perfecto para quien aprecia lo auténtico",
+            "cta_label": "Ver packs regalo",
+            "cta_url": "/collections/packs-y-regalos"
+          }
+        }
+      },
+      "block_order": ["slide-1", "slide-2", "slide-3"]
+    },
+    "trust": {
+      "type": "trust-band",
+      "blocks": {
+        "trust-1": {
+          "type": "trust_item",
+          "settings": {
+            "icon": "🚚",
+            "title": "Envío gratis",
+            "description": "A partir de €80 en Península"
+          }
+        },
+        "trust-2": {
+          "type": "trust_item",
+          "settings": {
+            "icon": "🏆",
+            "title": "Calidad garantizada",
+            "description": "Selección artesanal desde 1919"
+          }
+        },
+        "trust-3": {
+          "type": "trust_item",
+          "settings": {
+            "icon": "❄️",
+            "title": "Embalaje especial",
+            "description": "Conservación en frío garantizada"
+          }
+        },
+        "trust-4": {
+          "type": "trust_item",
+          "settings": {
+            "icon": "🎁",
+            "title": "Packaging regalo",
+            "description": "Presentación premium para regalar"
+          }
+        }
+      },
+      "block_order": ["trust-1", "trust-2", "trust-3", "trust-4"],
+      "settings": {}
+    },
+    "featured": {
+      "type": "featured-product",
+      "blocks": {
+        "attr-1": { "type": "attribute", "settings": { "key": "Raza", "value": "100% Ibérico" } },
+        "attr-2": { "type": "attribute", "settings": { "key": "Alimentación", "value": "Bellota (Montanera)" } },
+        "attr-3": { "type": "attribute", "settings": { "key": "Curación", "value": "36–48 meses" } },
+        "attr-4": { "type": "attribute", "settings": { "key": "Peso", "value": "7–8 kg aprox." } }
+      },
+      "block_order": ["attr-1", "attr-2", "attr-3", "attr-4"],
+      "settings": {
+        "eyebrow": "Selección especial",
+        "product_name": "Jamón Ibérico de Bellota",
+        "product_name_en": "Iberian Acorn-Fed Ham",
+        "description": "Criado en libertad en la dehesa, alimentado con bellotas durante la montanera. Una pieza excepcional con el característico veteado de la grasa infiltrada.",
+        "price": "89",
+        "cta_label": "Comprar ahora",
+        "img_label": "Producto destacado",
+        "img_title": "Jamón Ibérico de Bellota"
+      }
+    },
+    "products": {
+      "type": "product-grid",
+      "settings": {
+        "eyebrow": "Tienda",
+        "title": "<p>Nuestra <em>selección</em></p>",
+        "products_to_show": 4,
+        "view_all_label": "Ver jamones",
+        "view_all_url": "/collections/jamones"
+      }
+    },
+    "story_teaser": {
+      "type": "story-teaser",
+      "settings": {
+        "eyebrow": "Nuestra historia",
+        "title": "<p>Una historia de <em>tradición</em></p>",
+        "body": "Tres generaciones dedicadas al ibérico. Descubre quiénes somos y cómo seleccionamos cada pieza para mantener la calidad de siempre.",
+        "cta_label": "Conoce nuestra historia",
+        "cta_url": "/pages/sobre-nosotros"
+      }
+    },
+    "marquee": {
+      "type": "marquee-strip",
+      "settings": {
+        "text": "Jamón Ibérico de Bellota | Embutidos Artesanales | Packs Regalo | Envío en 24h | Desde 1919 | Calidad Garantizada | Productos de Alicante | Dehesa Española"
+      }
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {
+        "title": "<p>Recibe nuestras <em>novedades</em></p>",
+        "body": "Ofertas exclusivas, nuevos productos y recetas ibéricas directo a tu bandeja de entrada.",
+        "btn_label": "Suscribirme",
+        "placeholder": "Tu correo electrónico",
+        "disclaimer": "Sin spam. Puedes darte de baja en cualquier momento."
+      }
+    }
+  },
+  "order": ["hero", "trust", "featured", "products", "story_teaser", "marquee", "newsletter"]
+}

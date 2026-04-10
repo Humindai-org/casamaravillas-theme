@@ -1,0 +1,164 @@
+<style>
+  .newsletter-section {
+    background: var(--cm-navy);
+    padding: 80px 72px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .newsletter-section__copy h2 {
+    font-family: var(--cm-font-serif);
+    font-size: clamp(26px, 2.5vw, 38px);
+    font-weight: 400;
+    color: white;
+    line-height: 1.25;
+    margin-bottom: 14px;
+  }
+
+  .newsletter-section__copy h2 em { font-style: italic; }
+
+  .newsletter-section__copy p {
+    font-size: 13.5px;
+    line-height: 1.75;
+    color: rgba(255,255,255,0.5);
+    font-family: var(--cm-font-sans);
+  }
+
+  .newsletter-section__form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .newsletter-section__input {
+    padding: 16px 20px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    font-family: var(--cm-font-sans);
+    font-size: 13px;
+    color: white;
+    outline: none;
+    transition: border-color 0.3s;
+    width: 100%;
+  }
+
+  .newsletter-section__input::placeholder { color: rgba(255,255,255,0.3); }
+
+  .newsletter-section__input:focus {
+    border-color: rgba(184,144,58,0.5);
+  }
+
+  .newsletter-section__btn {
+    padding: 16px 32px;
+    background: var(--cm-gold);
+    color: white;
+    border: none;
+    font-family: var(--cm-font-sans);
+    font-size: 10.5px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.3s;
+    width: 100%;
+  }
+
+  .newsletter-section__btn:hover { background: var(--cm-gold-h); }
+
+  .newsletter-section__btn:focus-visible {
+    outline: 2px solid white;
+    outline-offset: 2px;
+  }
+
+  .newsletter-section__disclaimer {
+    font-size: 10.5px;
+    color: rgba(255,255,255,0.3);
+    font-family: var(--cm-font-sans);
+    line-height: 1.5;
+  }
+
+  @media (max-width: 767px) {
+    .newsletter-section {
+      grid-template-columns: 1fr;
+      gap: 40px;
+      padding: 64px 24px;
+    }
+  }
+</style>
+
+<section class="newsletter-section">
+  <div class="newsletter-section__copy">
+    <h2>{{ section.settings.title | default: 'Recibe nuestras <em>novedades</em>' }}</h2>
+    {%- if section.settings.body != blank -%}
+      <p>{{ section.settings.body }}</p>
+    {%- endif -%}
+  </div>
+
+  <div class="newsletter-section__form">
+    {%- form 'customer', id: 'newsletter-form' -%}
+      <input type="hidden" name="contact[tags]" value="newsletter">
+      <input
+        class="newsletter-section__input"
+        type="email"
+        name="contact[email]"
+        id="newsletter-email"
+        placeholder="{{ section.settings.placeholder | default: 'Tu correo electrónico' }}"
+        required
+        autocomplete="email"
+        aria-label="Correo electrónico"
+      >
+      <button type="submit" class="newsletter-section__btn">
+        {{ section.settings.btn_label | default: 'Suscribirme' }}
+      </button>
+      <p class="newsletter-section__disclaimer">
+        {{ section.settings.disclaimer | default: 'Sin spam. Puedes darte de baja en cualquier momento.' }}
+      </p>
+    {%- endform -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Newsletter",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "title",
+      "label": "Título",
+      "default": "<p>Recibe nuestras <em>novedades</em></p>"
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Descripción",
+      "default": "Ofertas exclusivas, nuevos productos y recetas ibéricas directo a tu bandeja de entrada."
+    },
+    {
+      "type": "text",
+      "id": "placeholder",
+      "label": "Placeholder del campo email",
+      "default": "Tu correo electrónico"
+    },
+    {
+      "type": "text",
+      "id": "btn_label",
+      "label": "Texto del botón",
+      "default": "Suscribirme"
+    },
+    {
+      "type": "text",
+      "id": "disclaimer",
+      "label": "Texto legal",
+      "default": "Sin spam. Puedes darte de baja en cualquier momento."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Newsletter"
+    }
+  ]
+}
+{% endschema %}

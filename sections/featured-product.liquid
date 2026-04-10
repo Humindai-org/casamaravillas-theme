@@ -1,0 +1,336 @@
+<style>
+  .featured-product {
+    display: grid;
+    grid-template-columns: 5fr 4fr;
+    background: var(--cm-navy);
+    overflow: hidden;
+    min-height: 600px;
+  }
+
+  /* Columna imagen */
+  .featured-product__img-col {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .featured-product__img-col img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.5) saturate(0.7);
+    mix-blend-mode: luminosity;
+    display: block;
+  }
+
+  .featured-product__img-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(13,27,42,0.25);
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .featured-product__img-text {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    padding: 72px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  .featured-product__img-label {
+    font-size: 9px;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    font-family: var(--cm-font-sans);
+    margin-bottom: 12px;
+  }
+
+  .featured-product__img-title {
+    font-family: var(--cm-font-serif);
+    font-size: clamp(28px, 3vw, 44px);
+    font-weight: 400;
+    color: white;
+    line-height: 1.2;
+  }
+
+  /* Columna ficha */
+  .featured-product__info-col {
+    padding: 72px 64px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-left: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .featured-product__eyebrow {
+    font-size: 9px;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    font-family: var(--cm-font-sans);
+    margin-bottom: 20px;
+  }
+
+  .featured-product__name {
+    font-family: var(--cm-font-serif);
+    font-size: clamp(30px, 3vw, 46px);
+    font-weight: 400;
+    color: white;
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+
+  .featured-product__name-sub {
+    font-family: var(--cm-font-serif);
+    font-size: 14px;
+    font-style: italic;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 28px;
+  }
+
+  .featured-product__desc {
+    font-size: 13.5px;
+    line-height: 1.8;
+    color: rgba(255,255,255,0.6);
+    margin-bottom: 36px;
+    font-family: var(--cm-font-sans);
+  }
+
+  /* Tabla atributos */
+  .featured-product__attrs {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 40px;
+  }
+
+  .featured-product__attrs tr {
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .featured-product__attr-key {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+    padding: 10px 0;
+    width: 40%;
+    vertical-align: top;
+    font-family: var(--cm-font-sans);
+  }
+
+  .featured-product__attr-val {
+    font-size: 13px;
+    color: rgba(255,255,255,0.7);
+    padding: 10px 0 10px 16px;
+    vertical-align: top;
+    font-family: var(--cm-font-sans);
+  }
+
+  /* Precio */
+  .featured-product__price {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+
+  .featured-product__price-num {
+    font-family: var(--cm-font-serif);
+    font-size: 48px;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--cm-gold-h);
+    line-height: 1;
+  }
+
+  .featured-product__price-from {
+    font-size: 12px;
+    color: rgba(255,255,255,0.35);
+    letter-spacing: 0.08em;
+    font-family: var(--cm-font-sans);
+  }
+
+  /* Responsive */
+  @media (max-width: 1023px) {
+    .featured-product__img-text { padding: 40px; }
+    .featured-product__info-col { padding: 48px 40px; }
+  }
+
+  @media (max-width: 767px) {
+    .featured-product {
+      grid-template-columns: 1fr;
+    }
+    .featured-product__img-col {
+      min-height: 300px;
+    }
+    .featured-product__info-col {
+      padding: 40px 24px;
+    }
+  }
+</style>
+
+<section class="featured-product">
+
+  <!-- Columna imagen -->
+  <div class="featured-product__img-col">
+    {%- if section.settings.image != blank -%}
+      {{ section.settings.image | image_url: width: 1200 | image_tag:
+          loading: 'lazy',
+          alt: section.settings.image.alt | escape
+      }}
+    {%- else -%}
+      {% # theme-check-disable-next-line RemoteAsset %}
+      <img src="https://placehold.co/900x700/0B1420/1A1814?text=Jamón+Bellota" alt="Jamón ibérico de bellota" width="900" height="700" loading="lazy">
+    {%- endif -%}
+    <div class="featured-product__img-overlay"></div>
+    <div class="featured-product__img-text">
+      <p class="featured-product__img-label">{{ section.settings.img_label | default: 'Producto destacado' }}</p>
+      <h3 class="featured-product__img-title">{{ section.settings.img_title | default: 'Jamón Ibérico de Bellota' }}</h3>
+    </div>
+  </div>
+
+  <!-- Columna ficha -->
+  <div class="featured-product__info-col">
+
+    <p class="featured-product__eyebrow">{{ section.settings.eyebrow | default: 'Selección especial' }}</p>
+
+    <h2 class="featured-product__name">{{ section.settings.product_name | default: 'Jamón Ibérico de Bellota' }}</h2>
+    {%- if section.settings.product_name_en != blank -%}
+      <p class="featured-product__name-sub">{{ section.settings.product_name_en }}</p>
+    {%- endif -%}
+
+    {%- if section.settings.description != blank -%}
+      <p class="featured-product__desc">{{ section.settings.description }}</p>
+    {%- endif -%}
+
+    <!-- Tabla de atributos -->
+    {%- if section.blocks.size > 0 -%}
+      <table class="featured-product__attrs">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'attribute' -%}
+            <tr {{ block.shopify_attributes }}>
+              <td class="featured-product__attr-key">{{ block.settings.key }}</td>
+              <td class="featured-product__attr-val">{{ block.settings.value }}</td>
+            </tr>
+          {%- endif -%}
+        {%- endfor -%}
+      </table>
+    {%- endif -%}
+
+    <!-- Precio -->
+    <div class="featured-product__price">
+      <span class="featured-product__price-from">Desde</span>
+      <span class="featured-product__price-num">{{ section.settings.price | default: '89' }}€</span>
+    </div>
+
+    <!-- CTA -->
+    {%- if section.settings.cta_label != blank -%}
+      <a href="{{ section.settings.cta_url | default: '/collections/jamones' }}" class="cm-btn-gold-solid">
+        {{ section.settings.cta_label }}
+      </a>
+    {%- endif -%}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Producto destacado",
+  "tag": "section",
+  "blocks": [
+    {
+      "type": "attribute",
+      "name": "Atributo del producto",
+      "settings": [
+        {
+          "type": "text",
+          "id": "key",
+          "label": "Nombre del atributo",
+          "default": "Raza"
+        },
+        {
+          "type": "text",
+          "id": "value",
+          "label": "Valor",
+          "default": "100% Ibérico"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Imagen"
+    },
+    {
+      "type": "text",
+      "id": "img_label",
+      "label": "Etiqueta sobre la imagen",
+      "default": "Producto destacado"
+    },
+    {
+      "type": "text",
+      "id": "img_title",
+      "label": "Título sobre la imagen",
+      "default": "Jamón Ibérico de Bellota"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Etiqueta superior",
+      "default": "Selección especial"
+    },
+    {
+      "type": "text",
+      "id": "product_name",
+      "label": "Nombre del producto",
+      "default": "Jamón Ibérico de Bellota"
+    },
+    {
+      "type": "text",
+      "id": "product_name_en",
+      "label": "Nombre en inglés (cursiva)",
+      "default": "Iberian Acorn-Fed Ham"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Descripción",
+      "default": "Criado en libertad en la dehesa, alimentado con bellotas durante la montanera. El resultado es una pieza excepcional con el característico veteado de la grasa infiltrada."
+    },
+    {
+      "type": "text",
+      "id": "price",
+      "label": "Precio desde (€)",
+      "default": "89"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Texto del botón",
+      "default": "Comprar ahora"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "Enlace del botón"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Producto destacado",
+      "blocks": [
+        { "type": "attribute", "settings": { "key": "Raza", "value": "100% Ibérico" } },
+        { "type": "attribute", "settings": { "key": "Alimentación", "value": "Bellota (Montanera)" } },
+        { "type": "attribute", "settings": { "key": "Curación", "value": "36–48 meses" } },
+        { "type": "attribute", "settings": { "key": "Peso", "value": "7–8 kg aprox." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

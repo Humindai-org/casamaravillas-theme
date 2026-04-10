@@ -1,0 +1,203 @@
+/* ============================================================
+   CASA MARAVILLAS — base.css
+   Variables, reset, tipografía global
+   Tema: T2 White & Gold Modern
+   ============================================================ */
+
+/* ── VARIABLES ── */
+:root {
+  /* Paleta */
+  --cm-white:       #FFFFFF;
+  --cm-off:         #FAF6EF;
+  --cm-light:       #F0EAE0;
+  --cm-border:      #E8E2D8;
+  --cm-border2:     #D4CCBF;
+  --cm-navy:        #00294B;
+  --cm-navy2:       #003a68;
+  --cm-gold:        #C4973A;
+  --cm-gold-h:      #d4a647;
+  --cm-gold-pale:   #F5EDDA;
+  --cm-text:        #1A1208;
+  --cm-text-mid:    #4A3F32;
+  --cm-text-light:  #9A8E82;
+
+  /* Tipografía */
+  --cm-font-serif:  'Libre Baskerville', Georgia, serif;
+  --cm-font-sans:   'Outfit', system-ui, sans-serif;
+
+  /* Radios / espaciado */
+  --cm-radius:      0px;
+}
+
+/* ── RESET ── */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--cm-font-sans);
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--cm-text);
+  background: var(--cm-white);
+  overflow-x: hidden;
+}
+
+img, video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: var(--cm-font-sans);
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+ul, ol { list-style: none; }
+
+/* ── TIPOGRAFÍA ── */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--cm-font-serif);
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--cm-navy);
+}
+
+/* ── UTILIDADES GLOBALES ── */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  border: 0;
+}
+
+/* Eyebrow label */
+.cm-eyebrow {
+  font-size: 9px;
+  letter-spacing: 0.45em;
+  text-transform: uppercase;
+  color: var(--cm-gold);
+  font-weight: 500;
+  font-family: var(--cm-font-sans);
+}
+
+/* Botón primario — navy sólido */
+.cm-btn-primary {
+  display: inline-block;
+  padding: 16px 42px;
+  background: var(--cm-navy);
+  color: var(--cm-white);
+  font-family: var(--cm-font-sans);
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 500;
+  transition: background 0.3s ease, transform 0.2s ease;
+  cursor: pointer;
+  border: none;
+}
+.cm-btn-primary:hover {
+  background: var(--cm-navy2);
+  transform: translateY(-2px);
+}
+.cm-btn-primary:active { transform: translateY(0); }
+.cm-btn-primary:focus-visible {
+  outline: 2px solid var(--cm-gold);
+  outline-offset: 3px;
+}
+
+/* Botón gold border */
+.cm-btn-gold-border {
+  display: inline-block;
+  padding: 15px 36px;
+  border: 1.5px solid var(--cm-gold);
+  color: var(--cm-gold);
+  font-family: var(--cm-font-sans);
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 400;
+  transition: background 0.3s ease, color 0.3s ease;
+  cursor: pointer;
+  background: transparent;
+}
+.cm-btn-gold-border:hover {
+  background: var(--cm-gold);
+  color: var(--cm-white);
+}
+.cm-btn-gold-border:focus-visible {
+  outline: 2px solid var(--cm-gold);
+  outline-offset: 3px;
+}
+
+/* Botón gold sólido */
+.cm-btn-gold-solid {
+  display: inline-block;
+  padding: 16px 44px;
+  background: var(--cm-gold);
+  color: var(--cm-white);
+  font-family: var(--cm-font-sans);
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 500;
+  transition: background 0.3s ease, transform 0.2s ease;
+  cursor: pointer;
+  border: none;
+}
+.cm-btn-gold-solid:hover {
+  background: var(--cm-gold-h);
+  transform: translateY(-2px);
+}
+.cm-btn-gold-solid:focus-visible {
+  outline: 2px solid var(--cm-white);
+  outline-offset: 3px;
+}
+
+/* Link con flecha */
+.cm-link-arrow {
+  font-size: 10.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--cm-navy);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 500;
+  border-bottom: 1px solid var(--cm-border2);
+  padding-bottom: 4px;
+  transition: border-color 0.3s, gap 0.3s;
+}
+.cm-link-arrow::after { content: '→'; font-size: 14px; }
+.cm-link-arrow:hover { gap: 16px; border-color: var(--cm-navy); }
+
+/* ── MAIN CONTENT ── */
+main { min-height: 50vh; }
+
+/* ── RESPONSIVE HELPERS ── */
+@media (max-width: 767px) {
+  .hide-mobile { display: none !important; }
+}
+@media (min-width: 768px) {
+  .hide-desktop { display: none !important; }
+}

@@ -1,0 +1,199 @@
+{% comment %}
+  product-card.liquid
+  Variables esperadas:
+  - card_product: objeto product de Shopify
+  - card_collection: slug de la colección para la etiqueta (optional)
+{% endcomment %}
+
+<style>
+  .product-card {
+    background: var(--cm-white);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    cursor: pointer;
+    transition: box-shadow 0.4s ease;
+  }
+
+  .product-card:hover {
+    box-shadow: 0 16px 48px rgba(26,24,20,0.1), 0 2px 8px rgba(26,24,20,0.05);
+    position: relative;
+    z-index: 2;
+  }
+
+  .product-card__img-box {
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    background: var(--cm-light);
+    position: relative;
+  }
+
+  .product-card__img-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: saturate(0.8) brightness(0.85);
+    transition: transform 0.5s ease;
+    display: block;
+  }
+
+  .product-card:hover .product-card__img-box img { transform: scale(1.05); }
+
+  .product-card__badge {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    background: var(--cm-navy);
+    color: var(--cm-white);
+    font-size: 8.5px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 5px 10px;
+    font-family: var(--cm-font-sans);
+    font-weight: 500;
+  }
+
+  .product-card__body {
+    padding: 22px 24px 28px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .product-card__cat {
+    font-size: 9px;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--cm-gold);
+    font-weight: 500;
+    margin-bottom: 8px;
+    font-family: var(--cm-font-sans);
+  }
+
+  .product-card__name {
+    font-family: var(--cm-font-serif);
+    font-size: 17px;
+    font-weight: 400;
+    color: var(--cm-navy);
+    line-height: 1.35;
+    margin-bottom: 4px;
+    text-decoration: none;
+  }
+
+  .product-card__name:hover { color: var(--cm-gold); }
+
+  .product-card__name-sub {
+    font-size: 12px;
+    font-style: italic;
+    color: var(--cm-text-light);
+    margin-bottom: 16px;
+    line-height: 1.4;
+    font-family: var(--cm-font-sans);
+  }
+
+  .product-card__foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+    padding-top: 16px;
+    border-top: 1px solid var(--cm-border);
+  }
+
+  .product-card__price {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--cm-text);
+    font-family: var(--cm-font-sans);
+  }
+
+  .product-card__price-compare {
+    font-size: 13px;
+    color: var(--cm-text-light);
+    text-decoration: line-through;
+    margin-left: 6px;
+  }
+
+  .product-card__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--cm-navy);
+    font-weight: 500;
+    font-family: var(--cm-font-sans);
+    transition: color 0.3s;
+    text-decoration: none;
+  }
+
+  .product-card__cta:hover { color: var(--cm-gold); }
+  .product-card__cta::after { content: '→'; font-size: 13px; }
+  .product-card__cta:focus-visible {
+    outline: 2px solid var(--cm-gold);
+    outline-offset: 2px;
+  }
+</style>
+
+{%- assign product = card_product -%}
+{%- if product != blank -%}
+  <article class="product-card">
+    <a href="{{ product.url }}" aria-label="{{ product.title | escape }}">
+      <div class="product-card__img-box">
+        {%- if product.featured_image != blank -%}
+          {{ product.featured_image | image_url: width: 600 | image_tag:
+              loading: 'lazy',
+              alt: product.featured_image.alt | default: product.title | escape
+          }}
+        {%- else -%}
+          {% # theme-check-disable-next-line RemoteAsset %}
+          <img src="https://placehold.co/450x600/F4F2EE/A09890?text={{ product.title | url_encode }}" alt="{{ product.title | escape }}" width="450" height="600" loading="lazy">
+        {%- endif -%}
+        {%- if product.compare_at_price > product.price -%}
+          <span class="product-card__badge">Oferta</span>
+        {%- endif -%}
+      </div>
+    </a>
+
+    <div class="product-card__body">
+      {%- assign cat = product.type | default: card_collection -%}
+      {%- if cat != blank -%}
+        <p class="product-card__cat">{{ cat }}</p>
+      {%- endif -%}
+
+      <a class="product-card__name" href="{{ product.url }}">{{ product.title }}</a>
+
+      {%- if product.metafields.custom.subtitle != blank -%}
+        <p class="product-card__name-sub">{{ product.metafields.custom.subtitle }}</p>
+      {%- endif -%}
+
+      <div class="product-card__foot">
+        <div>
+          <span class="product-card__price">{{ product.price | money }}</span>
+          {%- if product.compare_at_price > product.price -%}
+            <span class="product-card__price-compare">{{ product.compare_at_price | money }}</span>
+          {%- endif -%}
+        </div>
+        <a class="product-card__cta" href="{{ product.url }}">Ver</a>
+      </div>
+    </div>
+  </article>
+{%- else -%}
+  <!-- Placeholder card -->
+  <article class="product-card">
+    <div class="product-card__img-box">
+      {% # theme-check-disable-next-line RemoteAsset %}
+      <img src="https://placehold.co/450x600/F4F2EE/A09890?text=Producto" alt="Producto" width="450" height="600" loading="lazy">
+    </div>
+    <div class="product-card__body">
+      <p class="product-card__cat">Jamones</p>
+      <span class="product-card__name">Jamón Ibérico de Bellota</span>
+      <p class="product-card__name-sub">Iberian Acorn-Fed Ham</p>
+      <div class="product-card__foot">
+        <span class="product-card__price">€89,00</span>
+        <a class="product-card__cta" href="#">Ver</a>
+      </div>
+    </div>
+  </article>
+{%- endif -%}

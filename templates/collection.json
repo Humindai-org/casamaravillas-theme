@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "main": {
+      "type": "collection-main",
+      "settings": {
+        "eyebrow": "Tienda",
+        "products_per_page": 12,
+        "empty_label": "No hay productos en esta colección todavía."
+      }
+    }
+  },
+  "order": ["main"]
+}

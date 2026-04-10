@@ -1,0 +1,113 @@
+<style>
+  .announcement-bar {
+    background: var(--cm-navy);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 72px;
+    height: 38px;
+    position: relative;
+  }
+
+  .announcement-bar__message {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    color: rgba(255,255,255,0.65);
+    white-space: nowrap;
+    font-family: var(--cm-font-sans);
+    font-weight: 300;
+  }
+
+  .announcement-bar__message em {
+    color: var(--cm-gold-h);
+    font-style: normal;
+    font-weight: 400;
+  }
+
+  .announcement-bar__lang {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin-left: auto;
+  }
+
+  .announcement-bar__lang-btn {
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    background: none;
+    border: none;
+    padding: 0 12px;
+    cursor: pointer;
+    font-family: var(--cm-font-sans);
+    font-weight: 400;
+    transition: color 0.3s;
+    height: 38px;
+  }
+
+  .announcement-bar__lang-btn.is-active { color: var(--cm-gold-h); }
+  .announcement-bar__lang-sep {
+    width: 1px;
+    height: 12px;
+    background: rgba(255,255,255,0.15);
+  }
+
+  @media (max-width: 767px) {
+    .announcement-bar {
+      padding: 0 20px;
+      justify-content: center;
+    }
+    .announcement-bar__message {
+      position: static;
+      transform: none;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-align: center;
+    }
+    .announcement-bar__lang { display: none; }
+  }
+</style>
+
+{%- if section.settings.show_announcement -%}
+<div class="announcement-bar" role="complementary" aria-label="{{ 'general.announcement_bar.label' | t }}">
+  <p class="announcement-bar__message">
+    {{ section.settings.announcement_text }}
+  </p>
+
+  <div class="announcement-bar__lang hide-mobile" aria-label="Seleccionar idioma">
+    <button class="announcement-bar__lang-btn is-active" aria-label="Español" data-lang="es">ES</button>
+    <span class="announcement-bar__lang-sep"></span>
+    <button class="announcement-bar__lang-btn" aria-label="English" data-lang="en">EN</button>
+  </div>
+</div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Barra de anuncio",
+  "class": "announcement-bar-section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_announcement",
+      "label": "Mostrar barra de anuncio",
+      "default": true
+    },
+    {
+      "type": "html",
+      "id": "announcement_text",
+      "label": "Texto del anuncio",
+      "default": "Envío gratis a partir de <em>€80</em> &nbsp;·&nbsp; Entrega en 24–48h &nbsp;·&nbsp; Productos ibéricos de Alicante"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Barra de anuncio"
+    }
+  ]
+}
+{% endschema %}

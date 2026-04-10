@@ -1,0 +1,19 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "settings": {}
+    },
+    "related": {
+      "type": "product-grid",
+      "settings": {
+        "eyebrow": "También te puede gustar",
+        "title": "<p>Productos <em>relacionados</em></p>",
+        "products_to_show": 4,
+        "view_all_label": "Ver toda la colección",
+        "view_all_url": "/collections/all"
+      }
+    }
+  },
+  "order": ["main", "related"]
+}
