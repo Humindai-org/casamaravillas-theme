@@ -1,5 +1,6 @@
 {
   "name": "Cabecera",
+  "type": "header",
   "sections": {
     "announcement-bar": {
       "type": "announcement-bar",

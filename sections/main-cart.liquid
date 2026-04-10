@@ -1,0 +1,263 @@
+<style>
+  .cm-cart {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 64px 24px;
+  }
+
+  .cm-cart__title {
+    font-family: var(--cm-font-serif);
+    font-size: clamp(28px, 4vw, 42px);
+    color: var(--cm-navy);
+    margin-bottom: 48px;
+  }
+
+  .cm-cart__empty {
+    text-align: center;
+    padding: 80px 24px;
+  }
+
+  .cm-cart__empty p {
+    font-size: 15px;
+    color: var(--cm-text-mid);
+    margin-bottom: 32px;
+  }
+
+  .cm-cart__table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 48px;
+  }
+
+  .cm-cart__table th {
+    font-family: var(--cm-font-sans);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--cm-text-light);
+    padding: 0 0 16px;
+    border-bottom: 1px solid var(--cm-border);
+    text-align: left;
+    font-weight: 400;
+  }
+
+  .cm-cart__table th:last-child { text-align: right; }
+
+  .cm-cart__row td {
+    padding: 24px 0;
+    border-bottom: 1px solid var(--cm-border);
+    vertical-align: middle;
+  }
+
+  .cm-cart__product {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .cm-cart__img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    flex-shrink: 0;
+    background: var(--cm-light);
+  }
+
+  .cm-cart__name {
+    font-family: var(--cm-font-serif);
+    font-size: 16px;
+    color: var(--cm-text);
+    text-decoration: none;
+  }
+
+  .cm-cart__variant {
+    font-size: 12px;
+    color: var(--cm-text-light);
+    margin-top: 4px;
+  }
+
+  .cm-cart__qty {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+  }
+
+  .cm-cart__qty-btn {
+    width: 28px;
+    height: 28px;
+    border: 1px solid var(--cm-border);
+    background: none;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.2s;
+  }
+
+  .cm-cart__qty-btn:hover { border-color: var(--cm-navy); }
+
+  .cm-cart__remove {
+    font-size: 11px;
+    color: var(--cm-text-light);
+    text-decoration: underline;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 4px 0;
+    display: block;
+    margin-top: 6px;
+    font-family: var(--cm-font-sans);
+    transition: color 0.2s;
+  }
+
+  .cm-cart__remove:hover { color: var(--cm-text); }
+
+  .cm-cart__price {
+    text-align: right;
+    font-size: 15px;
+    color: var(--cm-text);
+    font-weight: 400;
+  }
+
+  .cm-cart__footer {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .cm-cart__summary {
+    width: 100%;
+    max-width: 360px;
+  }
+
+  .cm-cart__summary-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--cm-border);
+    font-size: 14px;
+    color: var(--cm-text-mid);
+  }
+
+  .cm-cart__summary-row--total {
+    border-bottom: none;
+    font-size: 18px;
+    color: var(--cm-navy);
+    font-weight: 500;
+    padding-top: 20px;
+  }
+
+  .cm-cart__checkout {
+    display: block;
+    width: 100%;
+    margin-top: 24px;
+    padding: 16px;
+    background: var(--cm-navy);
+    color: var(--cm-white);
+    border: none;
+    font-family: var(--cm-font-sans);
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.3s;
+    text-align: center;
+  }
+
+  .cm-cart__checkout:hover { background: var(--cm-navy2); }
+
+  .cm-cart__continue {
+    display: block;
+    text-align: center;
+    margin-top: 16px;
+    font-size: 12px;
+    color: var(--cm-text-light);
+    text-decoration: underline;
+    font-family: var(--cm-font-sans);
+  }
+
+  .cm-btn { display: inline-block; padding: 14px 36px; background: var(--cm-navy); color: var(--cm-white); font-family: var(--cm-font-sans); font-size: 12px; letter-spacing: 0.12em; font-weight: 500; text-decoration: none; transition: background 0.3s; }
+  .cm-btn:hover { background: var(--cm-navy2); }
+</style>
+
+<section class="cm-cart">
+  <h1 class="cm-cart__title">Tu carrito</h1>
+
+  {%- if cart.item_count == 0 -%}
+    <div class="cm-cart__empty">
+      <p>Tu carrito está vacío.</p>
+      <a href="{{ routes.collections_url }}/all" class="cm-btn">Seguir comprando</a>
+    </div>
+  {%- else -%}
+    <form action="{{ routes.cart_url }}" method="post">
+      <table class="cm-cart__table">
+        <thead>
+          <tr>
+            <th>Producto</th>
+            <th>Precio</th>
+            <th>Cantidad</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          {%- for item in cart.items -%}
+            <tr class="cm-cart__row">
+              <td>
+                <div class="cm-cart__product">
+                  {%- if item.image -%}
+                    <img class="cm-cart__img" src="{{ item.image | image_url: width: 160 }}" alt="{{ item.title | escape }}" width="80" height="80">
+                  {%- else -%}
+                    <div class="cm-cart__img"></div>
+                  {%- endif -%}
+                  <div>
+                    <a class="cm-cart__name" href="{{ item.url }}">{{ item.product.title }}</a>
+                    {%- unless item.variant.title == 'Default Title' -%}
+                      <p class="cm-cart__variant">{{ item.variant.title }}</p>
+                    {%- endunless -%}
+                    <button class="cm-cart__remove" type="submit" name="updates[{{ item.key }}]" value="0">Eliminar</button>
+                  </div>
+                </div>
+              </td>
+              <td>{{ item.original_price | money }}</td>
+              <td>
+                <div class="cm-cart__qty">
+                  <button class="cm-cart__qty-btn" type="button" aria-label="Reducir cantidad" onclick="this.closest('tr').querySelector('input').stepDown(); this.form.submit();">−</button>
+                  <input type="number" name="updates[{{ item.key }}]" value="{{ item.quantity }}" min="0" style="width:36px;text-align:center;border:1px solid var(--cm-border);padding:4px;font-size:14px;">
+                  <button class="cm-cart__qty-btn" type="button" aria-label="Aumentar cantidad" onclick="this.closest('tr').querySelector('input').stepUp(); this.form.submit();">+</button>
+                </div>
+              </td>
+              <td class="cm-cart__price">{{ item.final_line_price | money }}</td>
+            </tr>
+          {%- endfor -%}
+        </tbody>
+      </table>
+
+      <div class="cm-cart__footer">
+        <div class="cm-cart__summary">
+          <div class="cm-cart__summary-row">
+            <span>Subtotal</span>
+            <span>{{ cart.total_price | money }}</span>
+          </div>
+          <div class="cm-cart__summary-row">
+            <span>Envío</span>
+            <span>Calculado en el checkout</span>
+          </div>
+          <div class="cm-cart__summary-row cm-cart__summary-row--total">
+            <span>Total</span>
+            <span>{{ cart.total_price | money }}</span>
+          </div>
+          <button type="submit" name="checkout" class="cm-cart__checkout">Finalizar compra</button>
+          <a href="{{ routes.collections_url }}/all" class="cm-cart__continue">Seguir comprando</a>
+        </div>
+      </div>
+    </form>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Carrito",
+  "settings": []
+}
+{% endschema %}

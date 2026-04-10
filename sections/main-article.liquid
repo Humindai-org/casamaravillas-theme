@@ -1,0 +1,89 @@
+<style>
+  .cm-article {
+    max-width: 740px;
+    margin: 0 auto;
+    padding: 64px 24px;
+  }
+
+  .cm-article__eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    color: var(--cm-gold);
+    font-family: var(--cm-font-sans);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .cm-article__title {
+    font-family: var(--cm-font-serif);
+    font-size: clamp(28px, 4vw, 46px);
+    color: var(--cm-navy);
+    line-height: 1.2;
+    margin-bottom: 20px;
+  }
+
+  .cm-article__meta {
+    font-size: 12px;
+    color: var(--cm-text-light);
+    font-family: var(--cm-font-sans);
+    margin-bottom: 40px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--cm-border);
+  }
+
+  .cm-article__img {
+    width: 100%;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+    margin-bottom: 40px;
+  }
+
+  .cm-article__body {
+    font-size: 16px;
+    line-height: 1.85;
+    color: var(--cm-text);
+  }
+
+  .cm-article__body h2,
+  .cm-article__body h3 {
+    font-family: var(--cm-font-serif);
+    color: var(--cm-navy);
+    margin: 40px 0 16px;
+  }
+
+  .cm-article__body p { margin-bottom: 24px; }
+
+  .cm-article__back {
+    display: inline-block;
+    margin-top: 56px;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    color: var(--cm-text-mid);
+    font-family: var(--cm-font-sans);
+    text-decoration: underline;
+  }
+</style>
+
+<article class="cm-article">
+  <p class="cm-article__eyebrow">{{ blog.title }}</p>
+  <h1 class="cm-article__title">{{ article.title }}</h1>
+  <p class="cm-article__meta">{{ article.published_at | date: '%d de %B de %Y' }} · {{ article.author }}</p>
+
+  {%- if article.image -%}
+    <img class="cm-article__img"
+      src="{{ article.image | image_url: width: 1200 }}"
+      alt="{{ article.image.alt | escape }}"
+      width="1200" height="675">
+  {%- endif -%}
+
+  <div class="cm-article__body">{{ article.content }}</div>
+
+  <a class="cm-article__back" href="{{ blog.url }}">← Volver al blog</a>
+</article>
+
+{% schema %}
+{
+  "name": "Artículo",
+  "settings": []
+}
+{% endschema %}

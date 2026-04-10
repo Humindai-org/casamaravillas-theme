@@ -1,0 +1,64 @@
+<style>
+  .cm-404 {
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 80px 24px;
+  }
+
+  .cm-404__code {
+    font-family: var(--cm-font-serif);
+    font-size: clamp(80px, 15vw, 160px);
+    color: var(--cm-gold);
+    line-height: 1;
+    opacity: 0.3;
+    margin-bottom: 24px;
+  }
+
+  .cm-404__title {
+    font-family: var(--cm-font-serif);
+    font-size: clamp(24px, 4vw, 40px);
+    color: var(--cm-navy);
+    margin-bottom: 16px;
+  }
+
+  .cm-404__body {
+    font-size: 15px;
+    color: var(--cm-text-mid);
+    max-width: 420px;
+    margin-bottom: 40px;
+    line-height: 1.7;
+  }
+
+  .cm-404__btn {
+    display: inline-block;
+    padding: 14px 36px;
+    background: var(--cm-navy);
+    color: var(--cm-white);
+    font-family: var(--cm-font-sans);
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background 0.3s;
+  }
+
+  .cm-404__btn:hover { background: var(--cm-navy2); }
+</style>
+
+<section class="cm-404">
+  <p class="cm-404__code">404</p>
+  <h1 class="cm-404__title">Página no encontrada</h1>
+  <p class="cm-404__body">La página que buscas no existe o ha sido movida. Vuelve a la tienda y encuentra nuestros productos ibéricos.</p>
+  <a href="{{ routes.root_url }}" class="cm-404__btn">Volver al inicio</a>
+</section>
+
+{% schema %}
+{
+  "name": "Página 404",
+  "settings": []
+}
+{% endschema %}

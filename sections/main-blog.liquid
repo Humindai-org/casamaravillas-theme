@@ -1,0 +1,168 @@
+<style>
+  .cm-blog {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 64px 24px;
+  }
+
+  .cm-blog__header {
+    text-align: center;
+    margin-bottom: 56px;
+  }
+
+  .cm-blog__eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    color: var(--cm-gold);
+    font-family: var(--cm-font-sans);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+
+  .cm-blog__title {
+    font-family: var(--cm-font-serif);
+    font-size: clamp(28px, 4vw, 46px);
+    color: var(--cm-navy);
+  }
+
+  .cm-blog__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+  }
+
+  .cm-blog__card { text-decoration: none; }
+
+  .cm-blog__card-img {
+    width: 100%;
+    aspect-ratio: 3/2;
+    object-fit: cover;
+    display: block;
+    background: var(--cm-light);
+    margin-bottom: 20px;
+    transition: opacity 0.3s;
+  }
+
+  .cm-blog__card:hover .cm-blog__card-img { opacity: 0.85; }
+
+  .cm-blog__card-meta {
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--cm-text-light);
+    font-family: var(--cm-font-sans);
+    margin-bottom: 10px;
+  }
+
+  .cm-blog__card-title {
+    font-family: var(--cm-font-serif);
+    font-size: 20px;
+    color: var(--cm-navy);
+    line-height: 1.3;
+    margin-bottom: 10px;
+    transition: color 0.2s;
+  }
+
+  .cm-blog__card:hover .cm-blog__card-title { color: var(--cm-gold); }
+
+  .cm-blog__card-excerpt {
+    font-size: 13px;
+    color: var(--cm-text-mid);
+    line-height: 1.7;
+  }
+
+  .cm-blog__pagination {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 64px;
+  }
+
+  .cm-blog__pagination a,
+  .cm-blog__pagination span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--cm-border);
+    font-size: 13px;
+    font-family: var(--cm-font-sans);
+    color: var(--cm-text-mid);
+    text-decoration: none;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .cm-blog__pagination a:hover { border-color: var(--cm-navy); color: var(--cm-navy); }
+  .cm-blog__pagination span { background: var(--cm-navy); color: var(--cm-white); border-color: var(--cm-navy); }
+
+  .cm-blog__empty {
+    text-align: center;
+    padding: 60px;
+    color: var(--cm-text-light);
+    font-size: 15px;
+  }
+
+  @media (max-width: 767px) {
+    .cm-blog__grid { grid-template-columns: 1fr; gap: 40px; }
+  }
+
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .cm-blog__grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+
+<section class="cm-blog">
+  <div class="cm-blog__header">
+    <p class="cm-blog__eyebrow">Ibéricos & Tradición</p>
+    <h1 class="cm-blog__title">{{ blog.title }}</h1>
+  </div>
+
+  {%- if blog.articles_count > 0 -%}
+    <div class="cm-blog__grid">
+      {%- for article in blog.articles -%}
+        <a class="cm-blog__card" href="{{ article.url }}">
+          {%- if article.image -%}
+            <img class="cm-blog__card-img"
+              src="{{ article.image | image_url: width: 600 }}"
+              alt="{{ article.image.alt | escape }}"
+              width="600" height="400">
+          {%- else -%}
+            <div class="cm-blog__card-img"></div>
+          {%- endif -%}
+          <p class="cm-blog__card-meta">{{ article.published_at | date: '%d %b %Y' }}</p>
+          <h2 class="cm-blog__card-title">{{ article.title }}</h2>
+          {%- if article.excerpt != blank -%}
+            <p class="cm-blog__card-excerpt">{{ article.excerpt | strip_html | truncate: 120 }}</p>
+          {%- endif -%}
+        </a>
+      {%- endfor -%}
+    </div>
+
+    {%- if paginate.pages > 1 -%}
+      <div class="cm-blog__pagination">
+        {%- if paginate.previous -%}
+          <a href="{{ paginate.previous.url }}">&laquo;</a>
+        {%- endif -%}
+        {%- for part in paginate.parts -%}
+          {%- if part.is_link -%}
+            <a href="{{ part.url }}">{{ part.title }}</a>
+          {%- else -%}
+            <span>{{ part.title }}</span>
+          {%- endif -%}
+        {%- endfor -%}
+        {%- if paginate.next -%}
+          <a href="{{ paginate.next.url }}">&raquo;</a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  {%- else -%}
+    <p class="cm-blog__empty">Próximamente publicaremos artículos sobre el mundo del ibérico.</p>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Blog",
+  "settings": []
+}
+{% endschema %}

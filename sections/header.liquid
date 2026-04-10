@@ -1,11 +1,13 @@
+{%- assign current_month = 'now' | date: '%-m' | plus: 0 -%}
+{%- assign show_navidad = false -%}
+{%- if current_month >= 10 or current_month == 1 -%}
+  {%- assign show_navidad = true -%}
+{%- endif -%}
+
 <style>
+  /* ── Wrapper sticky ── */
   .site-header {
     background: var(--cm-white);
-    border-bottom: 1px solid var(--cm-border);
-    display: flex;
-    align-items: center;
-    padding: 0 72px;
-    height: 80px;
     position: sticky;
     top: 0;
     z-index: 100;
@@ -13,96 +15,66 @@
   }
 
   .site-header.is-scrolled {
-    box-shadow: 0 2px 16px rgba(13,27,42,0.06);
+    box-shadow: 0 2px 16px rgba(13,27,42,0.08);
   }
 
-  /* Logo centrado */
-  .site-header__logo {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    text-align: center;
-    text-decoration: none;
+  /* ── Fila 1: Logo + utilidades ── */
+  .site-header__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 64px;
+    height: 88px;
+    border-bottom: 1px solid var(--cm-border);
+  }
+
+  /* Placeholder izquierdo para centrar el logo */
+  .site-header__top-left {
+    flex: 1;
     display: flex;
     align-items: center;
   }
 
+  .site-header__logo {
+    flex: 0 0 auto;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   .site-header__logo img {
-    height: 52px;
+    height: 72px;
     width: auto;
     display: block;
   }
 
-  /* Wordmark en una sola línea: "CASA  MARAVILLAS" */
-  .site-header__logo-wordmark {
-    display: flex;
-    align-items: baseline;
-    gap: 12px;
-    line-height: 1;
-  }
-
-  .site-header__logo-casa {
-    font-family: var(--cm-font-sans);
-    font-size: 11px;
-    font-weight: 300;
-    letter-spacing: 0.52em;
-    text-transform: uppercase;
-    color: var(--cm-navy);
-  }
-
-  .site-header__logo-name {
-    font-family: var(--cm-font-serif);
-    font-size: 28px;
-    font-weight: 400;
-    letter-spacing: 0.03em;
-    color: var(--cm-navy);
-  }
-
-  /* Nav izquierda */
-  .site-header__nav-left {
-    display: flex;
-    gap: 36px;
-    list-style: none;
-  }
-
-  .site-header__nav-left a {
-    text-decoration: none;
-    color: var(--cm-text-mid);
-    font-size: 12px;
-    letter-spacing: 0.04em;
-    font-weight: 400;
-    transition: color 0.3s;
-    font-family: var(--cm-font-sans);
-  }
-
-  .site-header__nav-left a:hover { color: var(--cm-text); }
-
-  /* Nav derecha */
-  .site-header__nav-right {
+  .site-header__top-right {
+    flex: 1;
     display: flex;
     align-items: center;
+    justify-content: flex-end;
     gap: 24px;
-    margin-left: auto;
   }
 
-  .site-header__nav-right a {
+  .site-header__top-right a {
     text-decoration: none;
     color: var(--cm-text-mid);
     font-size: 12px;
     letter-spacing: 0.04em;
-    transition: color 0.3s;
-    font-weight: 400;
     font-family: var(--cm-font-sans);
+    transition: color 0.3s;
+    white-space: nowrap;
   }
 
-  .site-header__nav-right a:hover { color: var(--cm-text); }
+  .site-header__top-right a:hover { color: var(--cm-navy); }
 
-  /* Cart button */
+  /* Cart */
   .site-header__cart {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 10px 22px;
+    padding: 9px 20px;
     border: 1.5px solid var(--cm-navy);
     color: var(--cm-navy);
     text-decoration: none;
@@ -118,11 +90,6 @@
     color: var(--cm-white);
   }
 
-  .site-header__cart:focus-visible {
-    outline: 2px solid var(--cm-gold);
-    outline-offset: 2px;
-  }
-
   .site-header__cart-count {
     display: inline-flex;
     align-items: center;
@@ -134,10 +101,127 @@
     font-size: 9px;
     font-weight: 600;
     border-radius: 50%;
-    line-height: 1;
   }
 
-  /* Hamburger (mobile) */
+  /* ── Fila 2: Navegación de producto ── */
+  .site-header__nav {
+    border-bottom: 1px solid var(--cm-border);
+    display: flex;
+    justify-content: center;
+  }
+
+  .site-header__nav-list {
+    display: flex;
+    list-style: none;
+    height: 48px;
+  }
+
+  .site-header__nav-list > li {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .site-header__nav-list > li > a {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 0 28px;
+    height: 100%;
+    text-decoration: none;
+    color: var(--cm-text-mid);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    font-weight: 400;
+    font-family: var(--cm-font-sans);
+    text-transform: uppercase;
+    transition: color 0.3s;
+    white-space: nowrap;
+  }
+
+  .site-header__nav-list > li > a:hover,
+  .site-header__nav-list > li:hover > a {
+    color: var(--cm-navy);
+  }
+
+  /* Línea dorada bajo el item activo */
+  .site-header__nav-list > li > a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 28px;
+    right: 28px;
+    height: 2px;
+    background: var(--cm-gold);
+    transform: scaleX(0);
+    transition: transform 0.25s ease;
+  }
+
+  .site-header__nav-list > li:hover > a::after {
+    transform: scaleX(1);
+  }
+
+  /* Chevron */
+  .nav-chevron {
+    width: 10px;
+    height: 10px;
+    transition: transform 0.25s ease;
+    flex-shrink: 0;
+  }
+
+  .site-header__nav-list > li:hover .nav-chevron {
+    transform: rotate(180deg);
+  }
+
+  /* Dropdown */
+  .site-header__dropdown {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(6px);
+    background: var(--cm-white);
+    border: 1px solid var(--cm-border);
+    border-top: 2px solid var(--cm-gold);
+    min-width: 210px;
+    padding: 8px 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+    box-shadow: 0 8px 24px rgba(13,27,42,0.08);
+    z-index: 200;
+    list-style: none;
+  }
+
+  .site-header__nav-list > li:hover .site-header__dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  .site-header__dropdown a {
+    display: block;
+    padding: 10px 22px;
+    font-size: 12px;
+    letter-spacing: 0.03em;
+    color: var(--cm-text-mid);
+    font-family: var(--cm-font-sans);
+    text-decoration: none;
+    transition: color 0.2s, background 0.2s;
+    white-space: nowrap;
+  }
+
+  .site-header__dropdown a:hover {
+    color: var(--cm-navy);
+    background: var(--cm-off);
+  }
+
+  .site-header__dropdown-divider {
+    height: 1px;
+    background: var(--cm-border);
+    margin: 6px 0;
+  }
+
+  /* ── Hamburger (mobile) ── */
   .site-header__hamburger {
     display: none;
     flex-direction: column;
@@ -156,12 +240,12 @@
     transition: transform 0.3s, opacity 0.3s;
   }
 
-  /* Mobile nav drawer */
+  /* ── Mobile drawer ── */
   .site-header__drawer {
     display: none;
     position: fixed;
     inset: 0;
-    z-index: 200;
+    z-index: 300;
   }
 
   .site-header__drawer-overlay {
@@ -175,7 +259,7 @@
   .site-header__drawer-panel {
     position: absolute;
     top: 0; left: 0; bottom: 0;
-    width: 280px;
+    width: 300px;
     background: var(--cm-white);
     padding: 32px 28px;
     transform: translateX(-100%);
@@ -203,104 +287,199 @@
     list-style: none;
     display: flex;
     flex-direction: column;
-    gap: 0;
   }
 
-  .site-header__drawer-nav li a {
-    display: block;
-    padding: 14px 0;
+  .site-header__drawer-nav > li {
     border-bottom: 1px solid var(--cm-border);
+  }
+
+  .site-header__drawer-nav > li > a,
+  .site-header__drawer-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 14px 0;
     font-size: 13px;
     letter-spacing: 0.08em;
     color: var(--cm-text);
     font-family: var(--cm-font-sans);
+    text-decoration: none;
+    background: none;
+    border: none;
+    cursor: pointer;
     transition: color 0.3s;
+    text-align: left;
   }
 
-  .site-header__drawer-nav li a:hover { color: var(--cm-gold); }
+  .site-header__drawer-nav > li > a:hover,
+  .site-header__drawer-toggle:hover { color: var(--cm-gold); }
 
-  /* Responsive */
+  .site-header__drawer-toggle.is-open .nav-chevron { transform: rotate(180deg); }
+
+  .site-header__drawer-sub {
+    display: none;
+    padding-bottom: 8px;
+  }
+
+  .site-header__drawer-sub.is-open { display: block; }
+
+  .site-header__drawer-sub a {
+    display: block;
+    padding: 9px 0 9px 12px;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    color: var(--cm-text-mid);
+    font-family: var(--cm-font-sans);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .site-header__drawer-sub a:hover { color: var(--cm-gold); }
+
+  .drawer-divider {
+    height: 1px;
+    background: var(--cm-border);
+    margin: 4px 0;
+  }
+
+  /* ── Responsive ── */
   @media (max-width: 1023px) {
-    .site-header { padding: 0 32px; }
-    .site-header__nav-left { gap: 24px; }
-    .site-header__nav-right { gap: 16px; }
+    .site-header__top { padding: 0 32px; }
+    .site-header__nav-list > li > a { padding: 0 18px; }
+    .site-header__nav-list > li > a::after { left: 18px; right: 18px; }
   }
 
   @media (max-width: 767px) {
-    .site-header {
+    .site-header__top {
       padding: 0 20px;
       height: 64px;
     }
-    .site-header__nav-left,
-    .site-header__nav-right { display: none; }
+    .site-header__top-left { display: none; }
+    .site-header__top-right { display: none; }
+    .site-header__logo img { height: 48px; }
+    .site-header__nav { display: none; }
     .site-header__hamburger { display: flex; }
-    .site-header__logo {
-      position: static;
-      transform: none;
-      margin: 0 auto;
+
+    .site-header__top {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
     }
+
+    .site-header__hamburger-wrap { display: flex; }
   }
 </style>
 
 <header class="site-header" id="site-header">
 
-  <!-- Nav izquierda -->
-  <nav class="site-header__nav-left hide-mobile" aria-label="Navegación principal">
-    {%- if section.settings.menu != blank -%}
-      {%- assign main_menu = section.settings.menu -%}
-      <ul class="site-header__nav-left">
-        {%- for link in linklists[main_menu].links -%}
-          <li><a href="{{ link.url }}">{{ link.title }}</a></li>
-        {%- endfor -%}
-      </ul>
-    {%- else -%}
-      <ul class="site-header__nav-left">
-        <li><a href="{{ routes.collections_url }}/jamones">Jamones</a></li>
-        <li><a href="{{ routes.collections_url }}/embutidos">Embutidos</a></li>
-        <li><a href="{{ routes.collections_url }}/paletas">Paletas</a></li>
-      </ul>
-    {%- endif -%}
-  </nav>
+  <!-- Fila 1: Logo + utilidades -->
+  <div class="site-header__top">
 
-  <!-- Logo centrado -->
-  <a href="{{ routes.root_url }}" class="site-header__logo" aria-label="{{ shop.name }}">
-    {%- if section.settings.logo != blank -%}
-      {{- section.settings.logo | image_url: width: 260 | image_tag:
-          loading: 'eager',
-          alt: shop.name,
-          style: 'height: 52px; width: auto;'
-      -}}
-    {%- else -%}
-      <span class="site-header__logo-wordmark" aria-label="{{ shop.name }}">
-        <span class="site-header__logo-casa">Casa</span>
-        <span class="site-header__logo-name">Maravillas</span>
-      </span>
-    {%- endif -%}
-  </a>
+    <!-- Izquierda — placeholder + hamburger mobile -->
+    <div class="site-header__top-left">
+      <button class="site-header__hamburger" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobile-drawer" id="hamburger-btn">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
 
-  <!-- Nav derecha -->
-  <nav class="site-header__nav-right hide-mobile" aria-label="Navegación secundaria">
-    <a href="/pages/sobre-nosotros">Nosotros</a>
-    <a href="/blogs/noticias">Blog</a>
-    <a href="{{ routes.cart_url }}" class="site-header__cart" aria-label="Carrito de compra">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-        <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
-        <line x1="3" y1="6" x2="21" y2="6"/>
-        <path d="M16 10a4 4 0 01-8 0"/>
-      </svg>
-      <span>Carrito</span>
-      {%- if cart.item_count > 0 -%}
-        <span class="site-header__cart-count" aria-label="{{ cart.item_count }} artículos">{{ cart.item_count }}</span>
-      {%- endif -%}
+    <!-- Centro — Logo -->
+    <a href="{{ routes.root_url }}" class="site-header__logo" aria-label="{{ shop.name }}">
+      <img src="{{ 'logo2-sin-bg.png' | asset_url }}"
+           alt="{{ shop.name }}"
+           loading="eager">
     </a>
-  </nav>
 
-  <!-- Hamburger (mobile) -->
-  <button class="site-header__hamburger hide-desktop" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobile-drawer" id="hamburger-btn">
-    <span></span>
-    <span></span>
-    <span></span>
-  </button>
+    <!-- Derecha — Nosotros, Blog, Carrito -->
+    <div class="site-header__top-right">
+      <a href="/pages/nosotros">Nosotros</a>
+      <a href="/blogs/news">Blog</a>
+      <a href="{{ routes.cart_url }}" class="site-header__cart" aria-label="Carrito de compra">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <path d="M16 10a4 4 0 01-8 0"/>
+        </svg>
+        <span>Carrito</span>
+        {%- if cart.item_count > 0 -%}
+          <span class="site-header__cart-count" aria-label="{{ cart.item_count }} artículos">{{ cart.item_count }}</span>
+        {%- endif -%}
+      </a>
+    </div>
+
+  </div>
+
+  <!-- Fila 2: Navegación de producto -->
+  <nav class="site-header__nav" aria-label="Navegación principal">
+    <ul class="site-header__nav-list">
+
+      <!-- Jamones -->
+      <li>
+        <a href="{{ routes.collections_url }}/jamones">
+          Jamones
+          <svg class="nav-chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2 3.5l3 3 3-3"/></svg>
+        </a>
+        <ul class="site-header__dropdown">
+          <li><a href="{{ routes.collections_url }}/jamon-iberico-de-bellota">Bellota 100% Ibérico</a></li>
+          <li><a href="{{ routes.collections_url }}/jamon-iberico-bellota">Bellota Ibérico</a></li>
+          <li><a href="{{ routes.collections_url }}/jamon-iberico-cebo">Ibérico de Cebo</a></li>
+          <li class="site-header__dropdown-divider"></li>
+          <li><a href="{{ routes.collections_url }}/jamones">Ver todos</a></li>
+        </ul>
+      </li>
+
+      <!-- Embutidos -->
+      <li>
+        <a href="{{ routes.collections_url }}/embutidos">
+          Embutidos
+          <svg class="nav-chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2 3.5l3 3 3-3"/></svg>
+        </a>
+        <ul class="site-header__dropdown">
+          <li><a href="{{ routes.collections_url }}/lomo-iberico">Lomo Ibérico</a></li>
+          <li><a href="{{ routes.collections_url }}/chorizo-iberico">Chorizo Ibérico</a></li>
+          <li><a href="{{ routes.collections_url }}/salchichon-iberico">Salchichón Ibérico</a></li>
+          <li><a href="{{ routes.collections_url }}/loncheados">Loncheados</a></li>
+          <li class="site-header__dropdown-divider"></li>
+          <li><a href="{{ routes.collections_url }}/embutidos">Ver todos</a></li>
+        </ul>
+      </li>
+
+      <!-- Carnes Ibéricas -->
+      <li>
+        <a href="{{ routes.collections_url }}/carnes-ibericas">
+          Carnes Ibéricas
+          <svg class="nav-chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2 3.5l3 3 3-3"/></svg>
+        </a>
+        <ul class="site-header__dropdown">
+          <li><a href="{{ routes.collections_url }}/secreto-iberico">Secreto Ibérico</a></li>
+          <li><a href="{{ routes.collections_url }}/presa-iberica">Presa Ibérica</a></li>
+          <li><a href="{{ routes.collections_url }}/pluma-iberica">Pluma Ibérica</a></li>
+          <li><a href="{{ routes.collections_url }}/carrilleras-ibericas">Carrilleras Ibéricas</a></li>
+          <li class="site-header__dropdown-divider"></li>
+          <li><a href="{{ routes.collections_url }}/carnes-ibericas">Ver todas</a></li>
+        </ul>
+      </li>
+
+      <!-- Packs & Regalos -->
+      <li>
+        <a href="{{ routes.collections_url }}/packs-y-regalos">
+          Packs & Regalos
+          <svg class="nav-chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2 3.5l3 3 3-3"/></svg>
+        </a>
+        <ul class="site-header__dropdown">
+          <li><a href="{{ routes.collections_url }}/pack-degustacion">Pack Degustación</a></li>
+          <li><a href="{{ routes.collections_url }}/regalo-empresa">Regalo Empresa</a></li>
+          {%- if show_navidad -%}
+            <li><a href="{{ routes.collections_url }}/cestas-navidad">Cesta Navidad</a></li>
+          {%- endif -%}
+          <li class="site-header__dropdown-divider"></li>
+          <li><a href="{{ routes.collections_url }}/packs-y-regalos">Ver todos</a></li>
+        </ul>
+      </li>
+
+    </ul>
+  </nav>
 
 </header>
 
@@ -311,34 +490,129 @@
     <button class="site-header__drawer-close" aria-label="Cerrar menú" id="drawer-close">✕</button>
     <nav>
       <ul class="site-header__drawer-nav">
-        <li><a href="{{ routes.collections_url }}/jamones">Jamones</a></li>
-        <li><a href="{{ routes.collections_url }}/embutidos">Embutidos</a></li>
-        <li><a href="{{ routes.collections_url }}/paletas">Paletas</a></li>
-        <li><a href="{{ routes.collections_url }}/packs-y-regalos">Packs & Regalos</a></li>
-        <li><a href="/pages/sobre-nosotros">Nosotros</a></li>
-        <li><a href="/blogs/noticias">Blog</a></li>
+
+        <li>
+          <button class="site-header__drawer-toggle" aria-expanded="false" data-target="drawer-jamones">
+            Jamones
+            <svg class="nav-chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2 3.5l3 3 3-3"/></svg>
+          </button>
+          <div class="site-header__drawer-sub" id="drawer-jamones">
+            <a href="{{ routes.collections_url }}/jamon-iberico-de-bellota">Bellota 100% Ibérico</a>
+            <a href="{{ routes.collections_url }}/jamon-iberico-bellota">Bellota Ibérico</a>
+            <a href="{{ routes.collections_url }}/jamon-iberico-cebo">Ibérico de Cebo</a>
+            <div class="drawer-divider"></div>
+            <a href="{{ routes.collections_url }}/jamones">Ver todos</a>
+          </div>
+        </li>
+
+        <li>
+          <button class="site-header__drawer-toggle" aria-expanded="false" data-target="drawer-embutidos">
+            Embutidos
+            <svg class="nav-chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2 3.5l3 3 3-3"/></svg>
+          </button>
+          <div class="site-header__drawer-sub" id="drawer-embutidos">
+            <a href="{{ routes.collections_url }}/lomo-iberico">Lomo Ibérico</a>
+            <a href="{{ routes.collections_url }}/chorizo-iberico">Chorizo Ibérico</a>
+            <a href="{{ routes.collections_url }}/salchichon-iberico">Salchichón Ibérico</a>
+            <a href="{{ routes.collections_url }}/loncheados">Loncheados</a>
+            <div class="drawer-divider"></div>
+            <a href="{{ routes.collections_url }}/embutidos">Ver todos</a>
+          </div>
+        </li>
+
+        <li>
+          <button class="site-header__drawer-toggle" aria-expanded="false" data-target="drawer-carnes">
+            Carnes Ibéricas
+            <svg class="nav-chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2 3.5l3 3 3-3"/></svg>
+          </button>
+          <div class="site-header__drawer-sub" id="drawer-carnes">
+            <a href="{{ routes.collections_url }}/secreto-iberico">Secreto Ibérico</a>
+            <a href="{{ routes.collections_url }}/presa-iberica">Presa Ibérica</a>
+            <a href="{{ routes.collections_url }}/pluma-iberica">Pluma Ibérica</a>
+            <a href="{{ routes.collections_url }}/carrilleras-ibericas">Carrilleras Ibéricas</a>
+            <div class="drawer-divider"></div>
+            <a href="{{ routes.collections_url }}/carnes-ibericas">Ver todas</a>
+          </div>
+        </li>
+
+        <li>
+          <button class="site-header__drawer-toggle" aria-expanded="false" data-target="drawer-packs">
+            Packs & Regalos
+            <svg class="nav-chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2 3.5l3 3 3-3"/></svg>
+          </button>
+          <div class="site-header__drawer-sub" id="drawer-packs">
+            <a href="{{ routes.collections_url }}/pack-degustacion">Pack Degustación</a>
+            <a href="{{ routes.collections_url }}/regalo-empresa">Regalo Empresa</a>
+            {%- if show_navidad -%}
+              <a href="{{ routes.collections_url }}/cestas-navidad">Cesta Navidad</a>
+            {%- endif -%}
+            <div class="drawer-divider"></div>
+            <a href="{{ routes.collections_url }}/packs-y-regalos">Ver todos</a>
+          </div>
+        </li>
+
+        <li><a href="/pages/nosotros">Nosotros</a></li>
+        <li><a href="/blogs/news">Blog</a></li>
         <li><a href="{{ routes.cart_url }}">Carrito ({{ cart.item_count }})</a></li>
+
       </ul>
     </nav>
   </div>
 </div>
 
+<script>
+  const header = document.getElementById('site-header');
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('is-scrolled', window.scrollY > 10);
+  }, { passive: true });
+
+  const hamburger = document.getElementById('hamburger-btn');
+  const drawer = document.getElementById('mobile-drawer');
+  const drawerClose = document.getElementById('drawer-close');
+  const drawerOverlay = document.getElementById('drawer-overlay');
+
+  function openDrawer() {
+    drawer.classList.add('is-open');
+    drawer.setAttribute('aria-hidden', 'false');
+    hamburger.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeDrawer() {
+    drawer.classList.remove('is-open');
+    drawer.setAttribute('aria-hidden', 'true');
+    hamburger.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
+
+  hamburger.addEventListener('click', openDrawer);
+  drawerClose.addEventListener('click', closeDrawer);
+  drawerOverlay.addEventListener('click', closeDrawer);
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeDrawer(); });
+
+  document.querySelectorAll('.site-header__drawer-toggle').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const targetId = btn.dataset.target;
+      const sub = document.getElementById(targetId);
+      const isOpen = sub.classList.contains('is-open');
+      document.querySelectorAll('.site-header__drawer-sub').forEach(s => s.classList.remove('is-open'));
+      document.querySelectorAll('.site-header__drawer-toggle').forEach(b => {
+        b.classList.remove('is-open');
+        b.setAttribute('aria-expanded', 'false');
+      });
+      if (!isOpen) {
+        sub.classList.add('is-open');
+        btn.classList.add('is-open');
+        btn.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+</script>
+
 {% schema %}
 {
   "name": "Cabecera",
   "class": "site-header-section",
-  "settings": [
-    {
-      "type": "image_picker",
-      "id": "logo",
-      "label": "Logo (versión oscura, para fondo blanco)"
-    },
-    {
-      "type": "link_list",
-      "id": "menu",
-      "label": "Menú principal",
-      "default": "main-menu"
-    }
-  ]
+  "settings": []
 }
 {% endschema %}

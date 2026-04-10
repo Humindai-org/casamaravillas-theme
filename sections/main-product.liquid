@@ -1,0 +1,281 @@
+<style>
+  .cm-product {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 64px 24px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 72px;
+    align-items: start;
+  }
+
+  .cm-product__gallery { position: sticky; top: 100px; }
+
+  .cm-product__main-img {
+    width: 100%;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    background: var(--cm-light);
+    display: block;
+    margin-bottom: 12px;
+  }
+
+  .cm-product__thumbs {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .cm-product__thumb {
+    width: 72px;
+    height: 72px;
+    object-fit: cover;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border-color 0.2s;
+  }
+
+  .cm-product__thumb.is-active,
+  .cm-product__thumb:hover { border-color: var(--cm-gold); }
+
+  .cm-product__eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    color: var(--cm-gold);
+    font-family: var(--cm-font-sans);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .cm-product__title {
+    font-family: var(--cm-font-serif);
+    font-size: clamp(26px, 3.5vw, 40px);
+    color: var(--cm-navy);
+    line-height: 1.2;
+    margin-bottom: 20px;
+  }
+
+  .cm-product__price {
+    font-size: 26px;
+    color: var(--cm-text);
+    font-weight: 400;
+    margin-bottom: 8px;
+  }
+
+  .cm-product__price--compare {
+    font-size: 16px;
+    color: var(--cm-text-light);
+    text-decoration: line-through;
+    margin-left: 8px;
+  }
+
+  .cm-product__desc {
+    font-size: 14px;
+    color: var(--cm-text-mid);
+    line-height: 1.8;
+    margin: 24px 0;
+  }
+
+  .cm-product__variants {
+    margin-bottom: 24px;
+  }
+
+  .cm-product__label {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--cm-text-light);
+    font-family: var(--cm-font-sans);
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  .cm-product__variant-btns {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .cm-product__variant-btn {
+    padding: 8px 18px;
+    border: 1px solid var(--cm-border);
+    background: none;
+    font-family: var(--cm-font-sans);
+    font-size: 13px;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .cm-product__variant-btn.is-active,
+  .cm-product__variant-btn:hover {
+    border-color: var(--cm-navy);
+    background: var(--cm-navy);
+    color: var(--cm-white);
+  }
+
+  .cm-product__qty-row {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .cm-product__qty {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--cm-border);
+  }
+
+  .cm-product__qty button {
+    width: 40px;
+    height: 48px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    color: var(--cm-text);
+    transition: background 0.2s;
+  }
+
+  .cm-product__qty button:hover { background: var(--cm-light); }
+
+  .cm-product__qty input {
+    width: 48px;
+    height: 48px;
+    border: none;
+    border-left: 1px solid var(--cm-border);
+    border-right: 1px solid var(--cm-border);
+    text-align: center;
+    font-size: 14px;
+    font-family: var(--cm-font-sans);
+  }
+
+  .cm-product__add {
+    flex: 1;
+    height: 48px;
+    background: var(--cm-navy);
+    color: var(--cm-white);
+    border: none;
+    font-family: var(--cm-font-sans);
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+
+  .cm-product__add:hover { background: var(--cm-navy2); }
+
+  .cm-product__trust {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 28px;
+    padding-top: 28px;
+    border-top: 1px solid var(--cm-border);
+  }
+
+  .cm-product__trust-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--cm-text-mid);
+  }
+
+  @media (max-width: 767px) {
+    .cm-product {
+      grid-template-columns: 1fr;
+      gap: 40px;
+      padding: 40px 20px;
+    }
+    .cm-product__gallery { position: static; }
+  }
+</style>
+
+<section class="cm-product">
+  <!-- Galería -->
+  <div class="cm-product__gallery">
+    {%- if product.featured_image -%}
+      <img class="cm-product__main-img" id="cm-main-img"
+        src="{{ product.featured_image | image_url: width: 800 }}"
+        alt="{{ product.featured_image.alt | escape }}"
+        width="800" height="600">
+      {%- if product.images.size > 1 -%}
+        <div class="cm-product__thumbs">
+          {%- for img in product.images -%}
+            <img class="cm-product__thumb {% if forloop.first %}is-active{% endif %}"
+              src="{{ img | image_url: width: 150 }}"
+              alt="{{ img.alt | escape }}"
+              width="72" height="72"
+              data-src="{{ img | image_url: width: 800 }}"
+              onclick="document.getElementById('cm-main-img').src=this.dataset.src;document.querySelectorAll('.cm-product__thumb').forEach(t=>t.classList.remove('is-active'));this.classList.add('is-active')">
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    {%- else -%}
+      <div class="cm-product__main-img" style="background:var(--cm-light);"></div>
+    {%- endif -%}
+  </div>
+
+  <!-- Info -->
+  <div class="cm-product__info">
+    <p class="cm-product__eyebrow">{{ product.type }}</p>
+    <h1 class="cm-product__title">{{ product.title }}</h1>
+
+    <div class="cm-product__price">
+      {{ product.selected_or_first_available_variant.price | money }}
+      {%- if product.selected_or_first_available_variant.compare_at_price > product.selected_or_first_available_variant.price -%}
+        <span class="cm-product__price--compare">{{ product.selected_or_first_available_variant.compare_at_price | money }}</span>
+      {%- endif -%}
+    </div>
+
+    {%- if product.description != blank -%}
+      <div class="cm-product__desc">{{ product.description }}</div>
+    {%- endif -%}
+
+    {%- unless product.has_only_default_variant -%}
+      <div class="cm-product__variants">
+        {%- for option in product.options_with_values -%}
+          <span class="cm-product__label">{{ option.name }}</span>
+          <div class="cm-product__variant-btns">
+            {%- for value in option.values -%}
+              <button class="cm-product__variant-btn {% if option.selected_value == value %}is-active{% endif %}" type="button">{{ value }}</button>
+            {%- endfor -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endunless -%}
+
+    {%- form 'product', product -%}
+      <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+      <div class="cm-product__qty-row">
+        <div class="cm-product__qty">
+          <button type="button" onclick="const i=this.nextElementSibling;i.value=Math.max(1,+i.value-1)">−</button>
+          <input type="number" name="quantity" value="1" min="1">
+          <button type="button" onclick="const i=this.previousElementSibling;i.value=+i.value+1">+</button>
+        </div>
+        <button type="submit" name="add" class="cm-product__add">
+          {%- if product.selected_or_first_available_variant.available -%}
+            Añadir al carrito
+          {%- else -%}
+            Agotado
+          {%- endif -%}
+        </button>
+      </div>
+    {%- endform -%}
+
+    <div class="cm-product__trust">
+      <div class="cm-product__trust-item">🚚 Envío gratis a partir de 80€</div>
+      <div class="cm-product__trust-item">❄️ Embalaje especial con conservación en frío</div>
+      <div class="cm-product__trust-item">🏆 Selección artesanal desde 1919</div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Producto",
+  "settings": []
+}
+{% endschema %}
