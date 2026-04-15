@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero": {
@@ -36,12 +45,16 @@
       "type": "jamones-collection",
       "settings": {
         "eyebrow": "Nuestra selección",
-        "products_per_page": 9,
+        "products_per_page": 15,
         "show_sort": true,
         "show_count": true,
         "empty_label": "No hay jamones disponibles en este momento."
       }
     }
   },
-  "order": ["hero", "quality_tiers", "collection"]
+  "order": [
+    "hero",
+    "quality_tiers",
+    "collection"
+  ]
 }
