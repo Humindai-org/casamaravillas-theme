@@ -1,0 +1,173 @@
+{% comment %}
+  jamones-filters.liquid
+  Contenido de los filtros del sidebar y del drawer móvil.
+  Variables:
+  - section_id: ID de la sección padre
+  - collection: objeto collection de Shopify
+  - current_tags: array de tags activos
+  - drawer: boolean (opcional) — true si se renderiza dentro del drawer
+{% endcomment %}
+
+{%- liquid
+  assign price_min = request.parameters['filter.v.price.gte'] | default: ''
+  assign price_max = request.parameters['filter.v.price.lte'] | default: ''
+
+  assign calidad_tags   = 'calidad_bellota,calidad_cebo-de-campo,calidad_cebo' | split: ','
+  assign calidad_labels = 'Bellota 100% Ibérico,Cebo de Campo Ibérico,Cebo Ibérico' | split: ','
+  assign calidad_dots   = '5,4,3' | split: ','
+
+  assign formato_tags   = 'formato_entero,formato_paleta,formato_deshuesado,formato_loncheado' | split: ','
+  assign formato_labels = 'Jamón Entero,Paleta,Deshuesado,Loncheado' | split: ','
+
+  assign cat_tags   = 'categoria_100-iberico,categoria_iberico,categoria_serrano' | split: ','
+  assign cat_labels = '100% Ibérico,Ibérico,Serrano' | split: ','
+-%}
+
+<!-- ── PRECIO ── -->
+<div class="jc__fg-{{ section_id }} is-open" id="jcfg-precio-{{ section_id }}{% if drawer %}-drawer{% endif %}">
+  <button
+    class="jc__fg-toggle-{{ section_id }}"
+    aria-expanded="true"
+    aria-controls="jcfg-precio-body-{{ section_id }}{% if drawer %}-drawer{% endif %}"
+  >
+    Precio
+    <svg class="jc__fg-icon-{{ section_id }}" viewBox="0 0 24 24" fill="none"
+         stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/>
+    </svg>
+  </button>
+  <div class="jc__fg-body-{{ section_id }}" id="jcfg-precio-body-{{ section_id }}{% if drawer %}-drawer{% endif %}">
+    <form class="jc-price-form-{{ section_id }}" novalidate>
+      <div class="jc__price-row-{{ section_id }}">
+        <input
+          class="jc__price-input-{{ section_id }}"
+          type="number"
+          name="price-min"
+          placeholder="Mín €"
+          min="0"
+          value="{{ price_min }}"
+          aria-label="Precio mínimo"
+        >
+        <span class="jc__price-sep-{{ section_id }}">—</span>
+        <input
+          class="jc__price-input-{{ section_id }}"
+          type="number"
+          name="price-max"
+          placeholder="Máx €"
+          min="0"
+          value="{{ price_max }}"
+          aria-label="Precio máximo"
+        >
+      </div>
+      <button type="submit" class="jc__price-apply-{{ section_id }}">Aplicar</button>
+    </form>
+  </div>
+</div>
+
+<!-- ── CALIDAD ── -->
+<div class="jc__fg-{{ section_id }} is-open" id="jcfg-calidad-{{ section_id }}{% if drawer %}-drawer{% endif %}">
+  <button
+    class="jc__fg-toggle-{{ section_id }}"
+    aria-expanded="true"
+    aria-controls="jcfg-calidad-body-{{ section_id }}{% if drawer %}-drawer{% endif %}"
+  >
+    Calidad
+    <svg class="jc__fg-icon-{{ section_id }}" viewBox="0 0 24 24" fill="none"
+         stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/>
+    </svg>
+  </button>
+  <div class="jc__fg-body-{{ section_id }}" id="jcfg-calidad-body-{{ section_id }}{% if drawer %}-drawer{% endif %}">
+    {%- for i in (0..2) -%}
+      {%- assign tag   = calidad_tags[i] -%}
+      {%- assign label = calidad_labels[i] -%}
+      {%- assign dots  = calidad_dots[i] | plus: 0 -%}
+      {%- assign is_checked = false -%}
+      {%- for t in current_tags -%}
+        {%- if t == tag -%}{%- assign is_checked = true -%}{%- endif -%}
+      {%- endfor -%}
+      <label class="jc__quality-item-{{ section_id }}">
+        <input
+          type="checkbox"
+          data-filter-tag="{{ tag }}"
+          {% if is_checked %}checked{% endif %}
+          aria-label="{{ label }}"
+        >
+        <span class="jc__qdots-{{ section_id }}" aria-hidden="true">
+          {%- for d in (1..5) -%}
+            <span class="jc__qdot-{{ section_id }}{% if d <= dots %} is-filled{% endif %}"></span>
+          {%- endfor -%}
+        </span>
+        <span class="jc__qlabel-{{ section_id }}">{{ label }}</span>
+      </label>
+    {%- endfor -%}
+  </div>
+</div>
+
+<!-- ── FORMATO ── -->
+<div class="jc__fg-{{ section_id }}" id="jcfg-formato-{{ section_id }}{% if drawer %}-drawer{% endif %}">
+  <button
+    class="jc__fg-toggle-{{ section_id }}"
+    aria-expanded="false"
+    aria-controls="jcfg-formato-body-{{ section_id }}{% if drawer %}-drawer{% endif %}"
+  >
+    Formato
+    <svg class="jc__fg-icon-{{ section_id }}" viewBox="0 0 24 24" fill="none"
+         stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/>
+    </svg>
+  </button>
+  <div class="jc__fg-body-{{ section_id }}" id="jcfg-formato-body-{{ section_id }}{% if drawer %}-drawer{% endif %}">
+    {%- for i in (0..3) -%}
+      {%- assign tag   = formato_tags[i] -%}
+      {%- assign label = formato_labels[i] -%}
+      {%- assign is_checked = false -%}
+      {%- for t in current_tags -%}
+        {%- if t == tag -%}{%- assign is_checked = true -%}{%- endif -%}
+      {%- endfor -%}
+      <label class="jc__check-item-{{ section_id }}">
+        <input
+          type="checkbox"
+          data-filter-tag="{{ tag }}"
+          {% if is_checked %}checked{% endif %}
+          aria-label="{{ label }}"
+        >
+        <span class="jc__check-label-{{ section_id }}">{{ label }}</span>
+      </label>
+    {%- endfor -%}
+  </div>
+</div>
+
+<!-- ── CATEGORÍA ── -->
+<div class="jc__fg-{{ section_id }}" id="jcfg-cat-{{ section_id }}{% if drawer %}-drawer{% endif %}">
+  <button
+    class="jc__fg-toggle-{{ section_id }}"
+    aria-expanded="false"
+    aria-controls="jcfg-cat-body-{{ section_id }}{% if drawer %}-drawer{% endif %}"
+  >
+    Categoría
+    <svg class="jc__fg-icon-{{ section_id }}" viewBox="0 0 24 24" fill="none"
+         stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/>
+    </svg>
+  </button>
+  <div class="jc__fg-body-{{ section_id }}" id="jcfg-cat-body-{{ section_id }}{% if drawer %}-drawer{% endif %}">
+    {%- for i in (0..2) -%}
+      {%- assign tag   = cat_tags[i] -%}
+      {%- assign label = cat_labels[i] -%}
+      {%- assign is_checked = false -%}
+      {%- for t in current_tags -%}
+        {%- if t == tag -%}{%- assign is_checked = true -%}{%- endif -%}
+      {%- endfor -%}
+      <label class="jc__check-item-{{ section_id }}">
+        <input
+          type="checkbox"
+          data-filter-tag="{{ tag }}"
+          {% if is_checked %}checked{% endif %}
+          aria-label="{{ label }}"
+        >
+        <span class="jc__check-label-{{ section_id }}">{{ label }}</span>
+      </label>
+    {%- endfor -%}
+  </div>
+</div>

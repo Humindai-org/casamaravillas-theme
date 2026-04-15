@@ -53,6 +53,42 @@
     font-weight: 500;
   }
 
+  /* Quality tier badge — bottom-right of image */
+  .product-card__quality {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+  }
+
+  .product-card__quality-label {
+    font-size: 7.5px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.65);
+    font-family: var(--cm-font-sans);
+    font-weight: 400;
+  }
+
+  .product-card__quality-dots {
+    display: flex;
+    gap: 3px;
+  }
+
+  .product-card__quality-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.25);
+  }
+
+  .product-card__quality-dot.is-filled {
+    background: var(--cm-gold);
+  }
+
   .product-card__body {
     padding: 22px 24px 28px;
     display: flex;
@@ -152,6 +188,32 @@
         {%- endif -%}
         {%- if product.compare_at_price > product.price -%}
           <span class="product-card__badge">Oferta</span>
+        {%- endif -%}
+
+        {%- comment -%}Quality tier badge — visible only on products with calidad_* tags{%- endcomment -%}
+        {%- assign quality_dots = 0 -%}
+        {%- assign quality_label = '' -%}
+        {%- for tag in product.tags -%}
+          {%- if tag == 'calidad_bellota' -%}
+            {%- assign quality_dots = 5 -%}
+            {%- assign quality_label = 'Bellota' -%}
+          {%- elsif tag == 'calidad_cebo-de-campo' -%}
+            {%- assign quality_dots = 4 -%}
+            {%- assign quality_label = 'Cebo de Campo' -%}
+          {%- elsif tag == 'calidad_cebo' -%}
+            {%- assign quality_dots = 3 -%}
+            {%- assign quality_label = 'Cebo' -%}
+          {%- endif -%}
+        {%- endfor -%}
+        {%- if quality_dots > 0 -%}
+          <div class="product-card__quality" aria-label="Calidad: {{ quality_label }}">
+            <span class="product-card__quality-label">{{ quality_label }}</span>
+            <span class="product-card__quality-dots" aria-hidden="true">
+              {%- for d in (1..5) -%}
+                <span class="product-card__quality-dot{% if d <= quality_dots %} is-filled{% endif %}"></span>
+              {%- endfor -%}
+            </span>
+          </div>
         {%- endif -%}
       </div>
     </a>

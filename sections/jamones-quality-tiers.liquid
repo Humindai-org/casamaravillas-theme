@@ -1,0 +1,479 @@
+{% comment %}
+  jamones-quality-tiers.liquid
+  Franja educativa con las 3 medallas (Oro / Plata / Bronce) que representan
+  los niveles de calidad ibérica: Bellota, Cebo de Campo, Cebo.
+  Educa al comprador antes de que llegue al grid de productos.
+{% endcomment %}
+
+<style>
+  .qt-{{ section.id }} {
+    background: var(--cm-off);
+    padding: 80px 72px 96px;
+  }
+
+  /* ── Header central ── */
+  .qt__header-{{ section.id }} {
+    text-align: center;
+    margin-bottom: 64px;
+  }
+
+  .qt__eyebrow-{{ section.id }} {
+    display: block;
+    margin-bottom: 20px;
+  }
+
+  .qt__heading-{{ section.id }} {
+    font-family: var(--cm-font-serif);
+    font-size: clamp(28px, 3.5vw, 42px);
+    font-weight: 400;
+    color: var(--cm-navy);
+    line-height: 1.2;
+  }
+
+  .qt__heading-{{ section.id }} em {
+    font-style: italic;
+    color: var(--cm-gold);
+  }
+
+  /* ── Grid de 3 columnas ── */
+  .qt__grid-{{ section.id }} {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    background: var(--cm-border);
+    border: 1px solid var(--cm-border);
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  /* ── Columna de tier ── */
+  .qt__tier-{{ section.id }} {
+    background: var(--cm-white);
+    padding: 48px 40px 52px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+    position: relative;
+  }
+
+  .qt__tier-{{ section.id }}:hover {
+    transform: translateY(-6px);
+    box-shadow:
+      0 24px 64px rgba(196, 151, 58, 0.12),
+      0 4px 16px rgba(0, 20, 40, 0.06);
+    z-index: 2;
+  }
+
+  /* ── Medalla CSS (sin imágenes externas) ── */
+  .qt__medal-{{ section.id }} {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 28px;
+    gap: 0;
+  }
+
+  .qt__medal-circle-{{ section.id }} {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Highlight interno del círculo */
+  .qt__medal-circle-{{ section.id }}::before {
+    content: '';
+    position: absolute;
+    top: 6px;
+    left: 10px;
+    width: 40%;
+    height: 35%;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    filter: blur(6px);
+  }
+
+  /* Estrella dentro del círculo */
+  .qt__medal-star-{{ section.id }} {
+    font-size: 32px;
+    position: relative;
+    z-index: 1;
+    line-height: 1;
+  }
+
+  /* Ribbon (barra bajo el círculo) */
+  .qt__medal-ribbon-{{ section.id }} {
+    width: 24px;
+    height: 20px;
+    clip-path: polygon(0 0, 100% 0, 100% 75%, 50% 100%, 0 75%);
+  }
+
+  /* ── Variantes de color por tier ── */
+  /* Oro */
+  .qt__tier-gold-{{ section.id }} .qt__medal-circle-{{ section.id }} {
+    background: radial-gradient(circle at 35% 35%, #e8b84b, #C4973A 55%, #a07520);
+    box-shadow: 0 8px 24px rgba(196, 151, 58, 0.4);
+  }
+  .qt__tier-gold-{{ section.id }} .qt__medal-ribbon-{{ section.id }} {
+    background: linear-gradient(to bottom, #C4973A, #a07520);
+  }
+  .qt__tier-gold-{{ section.id }} .qt__medal-label-{{ section.id }} {
+    color: #a07520;
+  }
+
+  /* Plata */
+  .qt__tier-silver-{{ section.id }} .qt__medal-circle-{{ section.id }} {
+    background: radial-gradient(circle at 35% 35%, #e0e0e0, #A8A8A8 55%, #707070);
+    box-shadow: 0 8px 24px rgba(120, 120, 120, 0.3);
+  }
+  .qt__tier-silver-{{ section.id }} .qt__medal-ribbon-{{ section.id }} {
+    background: linear-gradient(to bottom, #A8A8A8, #707070);
+  }
+  .qt__tier-silver-{{ section.id }} .qt__medal-label-{{ section.id }} {
+    color: #707070;
+  }
+
+  /* Bronce */
+  .qt__tier-bronze-{{ section.id }} .qt__medal-circle-{{ section.id }} {
+    background: radial-gradient(circle at 35% 35%, #c8905a, #A07040 55%, #6e4820);
+    box-shadow: 0 8px 24px rgba(140, 90, 40, 0.3);
+  }
+  .qt__tier-bronze-{{ section.id }} .qt__medal-ribbon-{{ section.id }} {
+    background: linear-gradient(to bottom, #A07040, #6e4820);
+  }
+  .qt__tier-bronze-{{ section.id }} .qt__medal-label-{{ section.id }} {
+    color: #6e4820;
+  }
+
+  /* ── Etiqueta medalla ── */
+  .qt__medal-label-{{ section.id }} {
+    font-family: var(--cm-font-sans);
+    font-size: 8px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-top: 10px;
+  }
+
+  /* ── Puntos de calidad ── */
+  .qt__dots-{{ section.id }} {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 20px;
+  }
+
+  .qt__dot-{{ section.id }} {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--cm-border2);
+  }
+
+  .qt__dot-{{ section.id }}.is-filled {
+    background: var(--cm-gold);
+  }
+
+  /* ── Textos ── */
+  .qt__name-{{ section.id }} {
+    font-family: var(--cm-font-serif);
+    font-size: 20px;
+    font-weight: 400;
+    color: var(--cm-navy);
+    line-height: 1.25;
+    margin-bottom: 6px;
+  }
+
+  .qt__subtitle-{{ section.id }} {
+    font-family: var(--cm-font-serif);
+    font-style: italic;
+    font-size: 13px;
+    color: var(--cm-text-light);
+    margin-bottom: 20px;
+  }
+
+  .qt__desc-{{ section.id }} {
+    font-family: var(--cm-font-sans);
+    font-size: 13.5px;
+    font-weight: 300;
+    color: var(--cm-text-mid);
+    line-height: 1.7;
+    margin-bottom: 24px;
+    flex: 1;
+  }
+
+  .qt__price-{{ section.id }} {
+    font-family: var(--cm-font-sans);
+    font-size: 12px;
+    color: var(--cm-text-light);
+    letter-spacing: 0.05em;
+    margin-bottom: 24px;
+  }
+
+  .qt__price-{{ section.id }} strong {
+    font-family: var(--cm-font-serif);
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--cm-navy);
+    font-style: italic;
+  }
+
+  /* ── Divisor decorativo ── */
+  .qt__divider-{{ section.id }} {
+    width: 32px;
+    height: 1px;
+    background: var(--cm-border2);
+    margin-bottom: 24px;
+  }
+
+  /* ── Tablet ── */
+  @media (max-width: 1023px) {
+    .qt-{{ section.id }} {
+      padding: 64px 40px 80px;
+    }
+    .qt__tier-{{ section.id }} {
+      padding: 40px 28px 44px;
+    }
+    .qt__name-{{ section.id }} {
+      font-size: 18px;
+    }
+  }
+
+  /* ── Mobile: horizontal scroll ── */
+  @media (max-width: 767px) {
+    .qt-{{ section.id }} {
+      padding: 56px 0 64px;
+    }
+    .qt__header-{{ section.id }} {
+      padding: 0 24px;
+    }
+    .qt__grid-{{ section.id }} {
+      grid-template-columns: none;
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      gap: 0;
+      background: transparent;
+      border: none;
+      padding: 0 24px 24px;
+      scrollbar-width: none;
+    }
+    .qt__grid-{{ section.id }}::-webkit-scrollbar {
+      display: none;
+    }
+    .qt__tier-{{ section.id }} {
+      min-width: 280px;
+      flex-shrink: 0;
+      scroll-snap-align: start;
+      border: 1px solid var(--cm-border);
+      margin-right: 12px;
+    }
+    .qt__tier-{{ section.id }}:last-child {
+      margin-right: 0;
+    }
+  }
+</style>
+
+<section class="qt-{{ section.id }}" id="qt-section-{{ section.id }}">
+  <div class="qt__header-{{ section.id }}">
+    {%- if section.settings.eyebrow != blank -%}
+      <span class="cm-eyebrow qt__eyebrow-{{ section.id }}">{{ section.settings.eyebrow }}</span>
+    {%- endif -%}
+    {%- if section.settings.heading != blank -%}
+      <h2 class="qt__heading-{{ section.id }}">
+        {%- assign words = section.settings.heading | split: ' ' -%}
+        {%- for word in words -%}
+          {%- if forloop.last -%}
+            <em>{{ word }}</em>
+          {%- else -%}
+            {{ word }}{% unless forloop.last %} {% endunless %}
+          {%- endif -%}
+        {%- endfor -%}
+      </h2>
+    {%- endif -%}
+  </div>
+
+  {%- assign tiers = 'gold,silver,bronze' | split: ',' -%}
+  {%- assign tier_labels = 'Oro,Plata,Bronce' | split: ',' -%}
+  {%- assign tier_dots = '5,4,3' | split: ',' -%}
+  {%- assign tier_keys = '1,2,3' | split: ',' -%}
+
+  <div class="qt__grid-{{ section.id }}">
+    {%- for i in (1..3) -%}
+      {%- assign tier_class  = tiers[forloop.index0] -%}
+      {%- assign tier_label  = tier_labels[forloop.index0] -%}
+      {%- assign dot_count   = tier_dots[forloop.index0] | plus: 0 -%}
+
+      {%- assign name_key     = 'tier' | append: i | append: '_name' -%}
+      {%- assign subtitle_key = 'tier' | append: i | append: '_subtitle' -%}
+      {%- assign desc_key     = 'tier' | append: i | append: '_desc' -%}
+      {%- assign price_key    = 'tier' | append: i | append: '_price' -%}
+      {%- assign url_key      = 'tier' | append: i | append: '_url' -%}
+
+      <div class="qt__tier-{{ section.id }} qt__tier-{{ tier_class }}-{{ section.id }}">
+
+        <!-- Medalla CSS -->
+        <div class="qt__medal-{{ section.id }}">
+          <div class="qt__medal-circle-{{ section.id }}">
+            <span class="qt__medal-star-{{ section.id }}" aria-hidden="true">★</span>
+          </div>
+          <div class="qt__medal-ribbon-{{ section.id }}"></div>
+          <span class="qt__medal-label-{{ section.id }}">{{ tier_label }}</span>
+        </div>
+
+        <!-- Puntos de calidad -->
+        <div class="qt__dots-{{ section.id }}" aria-label="{{ dot_count }} de 5 estrellas de calidad">
+          {%- for d in (1..5) -%}
+            <span class="qt__dot-{{ section.id }}{% if d <= dot_count %} is-filled{% endif %}"></span>
+          {%- endfor -%}
+        </div>
+
+        <!-- Textos -->
+        <h3 class="qt__name-{{ section.id }}">{{ section.settings[name_key] }}</h3>
+        <p class="qt__subtitle-{{ section.id }}">{{ section.settings[subtitle_key] }}</p>
+
+        <div class="qt__divider-{{ section.id }}"></div>
+
+        <p class="qt__desc-{{ section.id }}">{{ section.settings[desc_key] }}</p>
+
+        <p class="qt__price-{{ section.id }}">
+          Desde <strong>€{{ section.settings[price_key] }}</strong>
+        </p>
+
+        <a class="cm-link-arrow" href="{{ section.settings[url_key] }}">Ver selección</a>
+
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Jamones — Calidad",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Etiqueta superior",
+      "default": "Nuestra calidad"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Titular",
+      "default": "Tres niveles de excelencia"
+    },
+    {
+      "type": "header",
+      "content": "🥇 Tier 1 — Oro"
+    },
+    {
+      "type": "text",
+      "id": "tier1_name",
+      "label": "Nombre",
+      "default": "Bellota 100% Ibérico"
+    },
+    {
+      "type": "text",
+      "id": "tier1_subtitle",
+      "label": "Subtítulo (inglés, cursiva)",
+      "default": "Iberian Acorn-Fed Ham"
+    },
+    {
+      "type": "textarea",
+      "id": "tier1_desc",
+      "label": "Descripción",
+      "default": "Criado en dehesa y alimentado exclusivamente con bellotas durante la montanera. La máxima expresión de la raza ibérica pura."
+    },
+    {
+      "type": "text",
+      "id": "tier1_price",
+      "label": "Precio desde (€)",
+      "default": "189"
+    },
+    {
+      "type": "url",
+      "id": "tier1_url",
+      "label": "Enlace"
+    },
+    {
+      "type": "header",
+      "content": "🥈 Tier 2 — Plata"
+    },
+    {
+      "type": "text",
+      "id": "tier2_name",
+      "label": "Nombre",
+      "default": "Cebo de Campo Ibérico"
+    },
+    {
+      "type": "text",
+      "id": "tier2_subtitle",
+      "label": "Subtítulo (inglés, cursiva)",
+      "default": "Free-Range Iberian Ham"
+    },
+    {
+      "type": "textarea",
+      "id": "tier2_desc",
+      "label": "Descripción",
+      "default": "Criado en libertad en pastos naturales, complementado con cereales. Sabor intenso y equilibrado."
+    },
+    {
+      "type": "text",
+      "id": "tier2_price",
+      "label": "Precio desde (€)",
+      "default": "129"
+    },
+    {
+      "type": "url",
+      "id": "tier2_url",
+      "label": "Enlace"
+    },
+    {
+      "type": "header",
+      "content": "🥉 Tier 3 — Bronce"
+    },
+    {
+      "type": "text",
+      "id": "tier3_name",
+      "label": "Nombre",
+      "default": "Cebo Ibérico"
+    },
+    {
+      "type": "text",
+      "id": "tier3_subtitle",
+      "label": "Subtítulo (inglés, cursiva)",
+      "default": "Grain-Fed Iberian Ham"
+    },
+    {
+      "type": "textarea",
+      "id": "tier3_desc",
+      "label": "Descripción",
+      "default": "Cerdo ibérico criado en granja con pienso de calidad. Ideal para descubrir el mundo del ibérico."
+    },
+    {
+      "type": "text",
+      "id": "tier3_price",
+      "label": "Precio desde (€)",
+      "default": "89"
+    },
+    {
+      "type": "url",
+      "id": "tier3_url",
+      "label": "Enlace"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Jamones — Calidad"
+    }
+  ]
+}
+{% endschema %}
