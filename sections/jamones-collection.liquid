@@ -643,39 +643,40 @@
         {%- endif -%}
       </div>
 
-     {%- paginate collection.products by section.settings.products_per_page -%}
+      <!-- Product grid + Pagination -->
+      {%- paginate collection.products by section.settings.products_per_page -%}
+        <div class="jc__grid-{{ section.id }}">
+          {%- if collection.products.size > 0 -%}
+            {%- for product in collection.products -%}
+              {% render 'product-card', card_product: product, card_collection: collection.handle %}
+            {%- endfor -%}
+          {%- else -%}
+            <p class="jc__empty-{{ section.id }}">{{ section.settings.empty_label }}</p>
+          {%- endif -%}
+        </div>
 
-  <!-- Product grid -->
-  <div class="jc__grid-{{ section.id }}">
-    {%- if collection.products.size > 0 -%}
-      {%- for product in collection.products -%}
-        {% render 'product-card', card_product: product, card_collection: collection.handle %}
-      {%- endfor -%}
-    {%- else -%}
-      <p class="jc__empty-{{ section.id }}">{{ section.settings.empty_label }}</p>
-    {%- endif -%}
-  </div>
-
-  <!-- Pagination -->
-  {%- if paginate.pages > 1 -%}
-    <nav class="jc__pagination-{{ section.id }}" aria-label="Paginación">
-      {%- if paginate.previous -%}
-        <a class="jc__page-link-{{ section.id }}" href="{{ paginate.previous.url }}">‹</a>
-      {%- endif -%}
-      {%- for part in paginate.parts -%}
-        {%- if part.is_link -%}
-          <a class="jc__page-link-{{ section.id }}" href="{{ part.url }}">{{ part.title }}</a>
-        {%- else -%}
-          <span class="jc__page-link-{{ section.id }}{% if part.title == paginate.current_page %} is-current{% endif %}">{{ part.title }}</span>
+        {%- if paginate.pages > 1 -%}
+          <nav class="jc__pagination-{{ section.id }}" aria-label="Paginación">
+            {%- if paginate.previous -%}
+              <a class="jc__page-link-{{ section.id }}" href="{{ paginate.previous.url }}" aria-label="Página anterior">‹</a>
+            {%- endif -%}
+            {%- for part in paginate.parts -%}
+              {%- if part.is_link -%}
+                <a class="jc__page-link-{{ section.id }}" href="{{ part.url }}">{{ part.title }}</a>
+              {%- else -%}
+                {%- if part.title == paginate.current_page -%}
+                  <span class="jc__page-link-{{ section.id }} is-current" aria-current="page">{{ part.title }}</span>
+                {%- else -%}
+                  <span class="jc__page-link-{{ section.id }}">{{ part.title }}</span>
+                {%- endif -%}
+              {%- endif -%}
+            {%- endfor -%}
+            {%- if paginate.next -%}
+              <a class="jc__page-link-{{ section.id }}" href="{{ paginate.next.url }}" aria-label="Página siguiente">›</a>
+            {%- endif -%}
+          </nav>
         {%- endif -%}
-      {%- endfor -%}
-      {%- if paginate.next -%}
-        <a class="jc__page-link-{{ section.id }}" href="{{ paginate.next.url }}">›</a>
-      {%- endif -%}
-    </nav>
-  {%- endif -%}
-
-{%- endpaginate -%}
+      {%- endpaginate -%}
 
     </div><!-- /main -->
   </div><!-- /inner -->
