@@ -39,7 +39,6 @@
         "trust-1": {
           "type": "trust_item",
           "settings": {
-            "icon": "🚚",
             "title": "Envío gratis",
             "description": "A partir de €80 en Península"
           }
@@ -47,15 +46,13 @@
         "trust-2": {
           "type": "trust_item",
           "settings": {
-            "icon": "🏆",
             "title": "Calidad garantizada",
-            "description": "Selección artesanal desde 1919"
+            "description": "Tres generaciones de artesanía ibérica"
           }
         },
         "trust-3": {
           "type": "trust_item",
           "settings": {
-            "icon": "❄️",
             "title": "Embalaje especial",
             "description": "Conservación en frío garantizada"
           }
@@ -63,7 +60,6 @@
         "trust-4": {
           "type": "trust_item",
           "settings": {
-            "icon": "🎁",
             "title": "Packaging regalo",
             "description": "Presentación premium para regalar"
           }
@@ -115,19 +111,99 @@
     "marquee": {
       "type": "marquee-strip",
       "settings": {
-        "text": "Jamón Ibérico de Bellota | Embutidos Artesanales | Packs Regalo | Envío en 24h | Desde 1919 | Calidad Garantizada | Productos de Alicante | Dehesa Española"
+        "text": "Jamón Ibérico de Bellota | Embutidos Artesanales | Packs Regalo | Envío en 24h | Tres Generaciones | Calidad Garantizada | Productos de Alicante | Dehesa Española"
+      }
+    },
+    "faq": {
+      "type": "faq",
+      "blocks": {
+        "faq-1": {
+          "type": "faq_item",
+          "settings": {
+            "question": "¿Cómo se envían los productos?",
+            "answer": "<p>Todos nuestros ibéricos viajan con embalaje isotérmico especializado y elementos refrigerantes para garantizar su conservación durante todo el trayecto. Cada pedido sale de nuestras instalaciones con el mismo cuidado con el que seleccionamos cada pieza.</p>"
+          }
+        },
+        "faq-2": {
+          "type": "faq_item",
+          "settings": {
+            "question": "¿Cómo se conserva correctamente un jamón ibérico?",
+            "answer": "<p>En un lugar fresco y seco, alejado de la luz directa. Una vez empezado, cubre siempre la superficie del corte con la propia grasa o un paño limpio. Una buena conservación marca la diferencia hasta el último corte.</p>"
+          }
+        },
+        "faq-3": {
+          "type": "faq_item",
+          "settings": {
+            "question": "¿Cuál es el mejor pack de ibéricos para regalar?",
+            "answer": "<p>Para un regalo especial o de empresa, los packs con jamón ibérico de bellota son la opción más memorable. Para acertar sin complicarse, un pack degustación con selección variada es siempre un éxito. En Casa Maravillas seleccionamos cada pack con el mismo criterio que aplicamos a todo: solo lo mejor.</p>"
+          }
+        },
+        "faq-4": {
+          "type": "faq_item",
+          "settings": {
+            "question": "¿Qué diferencia hay entre el jamón ibérico y el jamón serrano?",
+            "answer": "<p>Son dos productos distintos desde la raíz. El jamón ibérico proviene del cerdo ibérico, una raza autóctona con una capacidad única para infiltrar grasa entre el músculo, lo que le da ese veteado y sabor incomparable. El jamón serrano proviene de cerdo blanco y tiene un perfil más suave y menos complejo. Si buscas comprar jamón ibérico online, ya sabes que no hay comparación posible.</p>"
+          }
+        },
+        "faq-5": {
+          "type": "faq_item",
+          "settings": {
+            "question": "¿Qué significan Cebo, Cebo de Campo y Bellota?",
+            "answer": "<p>Indican cómo se ha alimentado el cerdo, y eso lo cambia todo en el sabor final:</p><ul><li><strong>Cebo:</strong> perfil suave y equilibrado, ideal para el día a día.</li><li><strong>Cebo de Campo:</strong> más carácter y matices, con libertad de movimiento.</li><li><strong>Bellota:</strong> sabor intenso, aroma profundo y máxima jugosidad. La cima del ibérico.</li></ul>"
+          }
+        },
+        "faq-6": {
+          "type": "faq_item",
+          "settings": {
+            "question": "¿Qué diferencia hay entre un jamón 100% ibérico y uno 50% ibérico? ¿Y qué indican las bridas de color?",
+            "answer": "<p>La raza lo define todo. El 100% ibérico es la máxima expresión del cerdo ibérico; el 50% combina calidad y un precio más accesible. Las bridas certifican raza y alimentación: negra (100% ibérico de bellota), roja (ibérico de bellota) y verde (ibérico de cebo de campo).</p>"
+          }
+        },
+        "faq-7": {
+          "type": "faq_item",
+          "settings": {
+            "question": "¿Cuánto influye el tiempo de curación en el sabor del jamón ibérico?",
+            "answer": "<p>La curación lenta es parte del carácter del ibérico. Con el tiempo, el jamón desarrolla aromas más complejos, una textura más fina y un sabor con capas que no se consigue de otra manera. A más curación, más profundidad en cada corte.</p>"
+          }
+        },
+        "faq-8": {
+          "type": "faq_item",
+          "settings": {
+            "question": "¿Es mejor comprar el jamón entero o loncheado?",
+            "answer": "<p>La pieza entera es para quienes disfrutan del ritual del corte y quieren el máximo rendimiento. El jamón loncheado a mano es la opción más cómoda, lista para disfrutar en el momento. La calidad es la misma; la experiencia, diferente.</p>"
+          }
+        },
+        "faq-9": {
+          "type": "faq_item",
+          "settings": {
+            "question": "¿Puedo cancelar mi pedido?",
+            "answer": "<p>Puedes cancelar tu pedido siempre que no haya salido todavía de nuestras instalaciones. Contáctanos lo antes posible en hola@casamaravillas.com y gestionaremos la cancelación y el reembolso completo.</p>"
+          }
+        },
+        "faq-10": {
+          "type": "faq_item",
+          "settings": {
+            "question": "¿Qué es la Denominación de Origen y por qué importa al comprar jamón ibérico?",
+            "answer": "<p>Las DOP —Jabugo, Guijuelo, Dehesa de Extremadura y Los Pedroches— garantizan origen, raza, alimentación y curación controlados. En Casa Maravillas trabajamos con piezas que respetan estas certificaciones para que sepas exactamente lo que tienes en tu mesa.</p>"
+          }
+        }
+      },
+      "block_order": ["faq-1", "faq-2", "faq-3", "faq-4", "faq-5", "faq-6", "faq-7", "faq-8", "faq-9", "faq-10"],
+      "settings": {
+        "eyebrow": "Preguntas frecuentes",
+        "title": "<p>Todo lo que <em>necesitas</em> saber</p>"
       }
     },
     "newsletter": {
       "type": "newsletter",
       "settings": {
-        "title": "<p>Recibe nuestras <em>novedades</em></p>",
-        "body": "Ofertas exclusivas, nuevos productos y recetas ibéricas directo a tu bandeja de entrada.",
-        "btn_label": "Suscribirme",
-        "placeholder": "Tu correo electrónico",
-        "disclaimer": "Sin spam. Puedes darte de baja en cualquier momento."
+        "eyebrow": "Club Casa Maravillas",
+        "title": "<p>Suscríbete al placer de lo <em>auténtico.</em></p>",
+        "body": "En Casa Maravillas seleccionamos por ti solo lo mejor. Recíbelo en casa, en el momento justo, con la calidad que nos define.",
+        "cta_label": "Quiero suscribirme",
+        "cta_url": "/pages/suscripcion"
       }
     }
   },
-  "order": ["hero", "trust", "featured", "products", "story_teaser", "marquee", "newsletter"]
+  "order": ["hero", "trust", "featured", "products", "story_teaser", "marquee", "faq", "newsletter"]
 }

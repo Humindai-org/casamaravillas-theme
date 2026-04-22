@@ -1,43 +1,40 @@
 <style>
-  .about-split {
+  .about-editorial {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    min-height: 560px;
+    grid-template-columns: 0.32fr 1fr;
+    min-height: 480px;
     background: var(--cm-white);
+    border-top: 1px solid var(--cm-border);
+    border-bottom: 1px solid var(--cm-border);
   }
 
-  .about-split__img-col {
-    position: relative;
-    overflow: hidden;
+  .about-editorial__numeral-col {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 64px 48px 64px 40px;
+    border-right: 1px solid var(--cm-border);
   }
 
-  .about-split__img-col img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    filter: saturate(0.75) brightness(0.8);
-    transition: transform 0.8s ease;
-    display: block;
+  .about-editorial__numeral {
+    font-family: var(--cm-font-serif);
+    font-size: clamp(100px, 14vw, 160px);
+    font-weight: 400;
+    font-style: italic;
+    color: var(--cm-gold);
+    line-height: 0.85;
+    user-select: none;
+    opacity: 0.9;
   }
 
-  .about-split__img-col:hover img { transform: scale(1.03); }
-
-  .about-split__img-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to right, transparent 60%, rgba(255,255,255,0.12) 100%);
-    pointer-events: none;
-  }
-
-  .about-split__content-col {
-    padding: 80px 88px;
+  .about-editorial__content-col {
+    padding: 72px 80px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    border-left: 1px solid var(--cm-border);
   }
 
-  .about-split__eyebrow {
+  .about-editorial__eyebrow {
     font-size: 9px;
     letter-spacing: 0.5em;
     text-transform: uppercase;
@@ -47,7 +44,7 @@
     font-family: var(--cm-font-sans);
   }
 
-  .about-split__title {
+  .about-editorial__title {
     font-family: var(--cm-font-serif);
     font-size: clamp(28px, 3vw, 44px);
     font-weight: 400;
@@ -56,37 +53,38 @@
     margin-bottom: 28px;
   }
 
-  .about-split__title em { font-style: italic; }
+  .about-editorial__title em { font-style: italic; }
 
-  .about-split__body {
+  .about-editorial__body {
     font-size: 14.5px;
     line-height: 1.85;
     color: var(--cm-text-mid);
     margin-bottom: 44px;
-    max-width: 440px;
+    max-width: 520px;
     font-family: var(--cm-font-sans);
   }
 
-  /* Stats row */
-  .about-split__stats {
+  /* Stats row — 2 celdas navy */
+  .about-editorial__stats {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, auto);
     gap: 0;
-    border: 1px solid var(--cm-border);
     margin-bottom: 40px;
+    width: fit-content;
   }
 
-  .about-split__stat {
-    padding: 24px 20px;
-    border-right: 1px solid var(--cm-border);
+  .about-editorial__stat {
+    background: var(--cm-navy);
+    padding: 24px 36px;
     text-align: center;
+    border-right: 1px solid rgba(255,255,255,0.08);
   }
 
-  .about-split__stat:last-child { border-right: none; }
+  .about-editorial__stat:last-child { border-right: none; }
 
-  .about-split__stat-num {
+  .about-editorial__stat-num {
     font-family: var(--cm-font-serif);
-    font-size: 40px;
+    font-size: 38px;
     font-weight: 400;
     font-style: italic;
     color: var(--cm-gold);
@@ -94,11 +92,11 @@
     display: block;
   }
 
-  .about-split__stat-label {
-    font-size: 10px;
-    letter-spacing: 0.2em;
+  .about-editorial__stat-label {
+    font-size: 9px;
+    letter-spacing: 0.25em;
     text-transform: uppercase;
-    color: var(--cm-text-light);
+    color: rgba(255, 255, 255, 0.5);
     margin-top: 8px;
     line-height: 1.4;
     font-family: var(--cm-font-sans);
@@ -106,62 +104,56 @@
   }
 
   @media (max-width: 1023px) {
-    .about-split__content-col { padding: 64px 48px; }
+    .about-editorial__content-col { padding: 56px 48px; }
+    .about-editorial__numeral-col { padding: 48px 32px 48px 32px; }
   }
 
   @media (max-width: 767px) {
-    .about-split {
+    .about-editorial {
       grid-template-columns: 1fr;
     }
-    .about-split__img-col {
-      min-height: 280px;
+    .about-editorial__numeral-col {
+      justify-content: flex-start;
+      padding: 48px 24px 0;
+      border-right: none;
     }
-    .about-split__content-col {
-      padding: 48px 24px;
-      border-left: none;
-      border-top: 1px solid var(--cm-border);
+    .about-editorial__numeral { font-size: clamp(80px, 22vw, 120px); }
+    .about-editorial__content-col {
+      padding: 32px 24px 48px;
     }
-    .about-split__stats { grid-template-columns: repeat(3, 1fr); }
+    .about-editorial__stats { grid-template-columns: 1fr 1fr; width: 100%; }
+    .about-editorial__stat { padding: 20px 24px; }
   }
 </style>
 
-<section class="about-split">
+<section class="about-editorial">
 
-  <!-- Imagen -->
-  <div class="about-split__img-col">
-    {%- if section.settings.image != blank -%}
-      {{ section.settings.image | image_url: width: 900 | image_tag:
-          loading: 'lazy',
-          alt: section.settings.image.alt | escape
-      }}
-    {%- else -%}
-      {% # theme-check-disable-next-line RemoteAsset %}
-      <img src="https://placehold.co/700x600/E8E5DF/6A6560?text=Casa+Maravillas" alt="Casa Maravillas" width="700" height="600" loading="lazy">
-    {%- endif -%}
-    <div class="about-split__img-overlay"></div>
+  <!-- Numeral decorativo -->
+  <div class="about-editorial__numeral-col">
+    <span class="about-editorial__numeral" aria-hidden="true">III</span>
   </div>
 
   <!-- Contenido -->
-  <div class="about-split__content-col">
+  <div class="about-editorial__content-col">
 
     {%- if section.settings.eyebrow != blank -%}
-      <p class="about-split__eyebrow">{{ section.settings.eyebrow }}</p>
+      <p class="about-editorial__eyebrow">{{ section.settings.eyebrow }}</p>
     {%- endif -%}
 
-    <h2 class="about-split__title">{{ section.settings.title | default: 'Una historia de <em>tradición</em>' }}</h2>
+    <h2 class="about-editorial__title">{{ section.settings.title | default: 'Una historia de <em>tradición</em>' }}</h2>
 
     {%- if section.settings.body != blank -%}
-      <p class="about-split__body">{{ section.settings.body }}</p>
+      <p class="about-editorial__body">{{ section.settings.body }}</p>
     {%- endif -%}
 
-    <!-- Stats -->
+    <!-- Stats navy -->
     {%- if section.blocks.size > 0 -%}
-      <div class="about-split__stats">
+      <div class="about-editorial__stats">
         {%- for block in section.blocks -%}
           {%- if block.type == 'stat' -%}
-            <div class="about-split__stat" {{ block.shopify_attributes }}>
-              <span class="about-split__stat-num">{{ block.settings.number }}</span>
-              <span class="about-split__stat-label">{{ block.settings.label }}</span>
+            <div class="about-editorial__stat" {{ block.shopify_attributes }}>
+              <span class="about-editorial__stat-num">{{ block.settings.number }}</span>
+              <span class="about-editorial__stat-label">{{ block.settings.label }}</span>
             </div>
           {%- endif -%}
         {%- endfor -%}
@@ -179,7 +171,7 @@
 
 {% schema %}
 {
-  "name": "Historia dividida",
+  "name": "Historia editorial",
   "tag": "section",
   "blocks": [
     {
@@ -190,23 +182,18 @@
           "type": "text",
           "id": "number",
           "label": "Número",
-          "default": "100+"
+          "default": "3"
         },
         {
           "type": "text",
           "id": "label",
           "label": "Etiqueta",
-          "default": "Productos"
+          "default": "Generaciones"
         }
       ]
     }
   ],
   "settings": [
-    {
-      "type": "image_picker",
-      "id": "image",
-      "label": "Imagen"
-    },
     {
       "type": "text",
       "id": "eyebrow",
@@ -223,7 +210,7 @@
       "type": "textarea",
       "id": "body",
       "label": "Descripción",
-      "default": "Desde 1919, Casa Maravillas selecciona los mejores productos ibéricos de la dehesa española. Una tradición familiar que hoy llega a tu mesa con la misma pasión artesanal de siempre."
+      "default": "Tres generaciones dedicadas a seleccionar los mejores productos ibéricos de la dehesa española. Una tradición familiar que hoy llega a tu mesa con la misma pasión artesanal de siempre."
     },
     {
       "type": "text",
@@ -239,10 +226,9 @@
   ],
   "presets": [
     {
-      "name": "Historia dividida",
+      "name": "Historia editorial",
       "blocks": [
-        { "type": "stat", "settings": { "number": "1919", "label": "Año fundación" } },
-        { "type": "stat", "settings": { "number": "+500", "label": "Clientes felices" } },
+        { "type": "stat", "settings": { "number": "3", "label": "Generaciones" } },
         { "type": "stat", "settings": { "number": "100%", "label": "Ibérico puro" } }
       ]
     }

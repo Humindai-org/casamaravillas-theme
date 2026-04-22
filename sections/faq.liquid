@@ -1,0 +1,216 @@
+<style>
+  .faq-section {
+    background: var(--cm-off);
+    padding: 96px 24px;
+    border-top: 1px solid var(--cm-border);
+    border-bottom: 1px solid var(--cm-border);
+  }
+
+  .faq-section__inner {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .faq-section__eyebrow {
+    font-size: 9px;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--cm-gold);
+    font-weight: 500;
+    margin-bottom: 20px;
+    font-family: var(--cm-font-sans);
+  }
+
+  .faq-section__title {
+    font-family: var(--cm-font-serif);
+    font-size: clamp(26px, 3vw, 40px);
+    font-weight: 400;
+    color: var(--cm-navy);
+    line-height: 1.2;
+    margin-bottom: 56px;
+  }
+
+  .faq-section__title em { font-style: italic; }
+
+  .faq-section__list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .faq-section__item {
+    border-top: 1px solid var(--cm-border);
+  }
+
+  .faq-section__item:last-child {
+    border-bottom: 1px solid var(--cm-border);
+  }
+
+  .faq-section__item summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 22px 0;
+    font-family: var(--cm-font-sans);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--cm-text);
+    cursor: pointer;
+    list-style: none;
+    transition: color 0.2s;
+  }
+
+  .faq-section__item summary::-webkit-details-marker { display: none; }
+
+  .faq-section__item summary:hover { color: var(--cm-navy); }
+
+  .faq-section__item[open] summary { color: var(--cm-navy); }
+
+  .faq-section__chevron {
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+    color: var(--cm-gold);
+    transition: transform 0.3s ease;
+  }
+
+  .faq-section__item[open] .faq-section__chevron {
+    transform: rotate(180deg);
+  }
+
+  .faq-section__answer {
+    padding: 0 0 24px;
+    font-family: var(--cm-font-sans);
+    font-size: 13.5px;
+    line-height: 1.8;
+    color: var(--cm-text-mid);
+    max-width: 640px;
+  }
+
+  .faq-section__answer a {
+    color: var(--cm-gold);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  @media (max-width: 767px) {
+    .faq-section { padding: 64px 24px; }
+    .faq-section__title { margin-bottom: 40px; }
+    .faq-section__item summary { font-size: 13.5px; padding: 18px 0; }
+  }
+</style>
+
+<section class="faq-section">
+  <div class="faq-section__inner">
+    {%- if section.settings.eyebrow != blank -%}
+      <p class="faq-section__eyebrow">{{ section.settings.eyebrow }}</p>
+    {%- endif -%}
+
+    <h2 class="faq-section__title">{{ section.settings.title | default: 'Todo lo que <em>necesitas</em> saber' }}</h2>
+
+    <div class="faq-section__list">
+      {%- for block in section.blocks -%}
+        <details class="faq-section__item" {{ block.shopify_attributes }}>
+          <summary>
+            {{ block.settings.question }}
+            <svg class="faq-section__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </summary>
+          <div class="faq-section__answer">{{ block.settings.answer }}</div>
+        </details>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "FAQ",
+  "tag": "section",
+  "max_blocks": 10,
+  "blocks": [
+    {
+      "type": "faq_item",
+      "name": "Pregunta",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Pregunta",
+          "default": "¿Cómo se envían los productos?"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Respuesta",
+          "default": "<p>Todos nuestros productos ibéricos se envían con embalaje especializado en frío para garantizar su perfecta conservación durante el transporte. Utilizamos cajas isotérmicas con elementos refrigerantes que mantienen la temperatura adecuada hasta la entrega.</p>"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Etiqueta superior",
+      "default": "Preguntas frecuentes"
+    },
+    {
+      "type": "richtext",
+      "id": "title",
+      "label": "Título",
+      "default": "<p>Todo lo que <em>necesitas</em> saber</p>"
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQ",
+      "blocks": [
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "¿Cómo se envían los productos?",
+            "answer": "<p>Todos nuestros productos ibéricos se envían con embalaje especializado en frío para garantizar su perfecta conservación durante el transporte. Utilizamos cajas isotérmicas con elementos refrigerantes que mantienen la temperatura adecuada hasta la entrega en tu domicilio.</p>"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "¿Cuánto tarda en llegar mi pedido?",
+            "answer": "<p>Los pedidos realizados antes de las 12:00 h se preparan y envían el mismo día, con entrega en 24-48 horas en Península. Las islas y zonas remotas pueden requerir 2-3 días hábiles adicionales. En periodos de alta demanda (Navidades, Semana Santa) el plazo puede extenderse ligeramente.</p>"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "¿Cómo se garantiza la frescura durante el envío?",
+            "answer": "<p>Utilizamos embalaje isotérmico de alta densidad combinado con placas de gel refrigerante que mantienen una temperatura controlada durante todo el trayecto. Cada pieza va precintada al vacío cuando es necesario. Nuestro sistema de conservación en frío está diseñado específicamente para ibéricos y embutidos, garantizando que llegue en perfectas condiciones a tu mesa.</p>"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "¿Puedo devolver un producto?",
+            "answer": "<p>Aceptamos devoluciones de productos no perecederos en su embalaje original dentro de los 14 días siguientes a la recepción. Para productos refrigerados o al vacío, solo gestionamos devoluciones en caso de que el producto llegue en mal estado o no corresponda al pedido. Si tienes cualquier problema con tu compra, escríbenos a hola@casamaravillas.com y lo resolvemos de inmediato.</p>"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "¿Puedo cancelar mi pedido?",
+            "answer": "<p>Puedes cancelar tu pedido siempre que no haya salido todavía de nuestras instalaciones. Contacta con nosotros lo antes posible en hola@casamaravillas.com o por teléfono y gestionaremos la cancelación y el reembolso completo. Una vez enviado, no es posible cancelar el pedido pero puedes tramitar una devolución según nuestra política.</p>"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "¿Qué diferencia hay entre el jamón ibérico y el jamón ibérico de bellota?",
+            "answer": "<p>La diferencia está en la alimentación del cerdo durante la montanera, la fase final de su cría. El jamón ibérico puede proceder de cerdos alimentados con piensos y pastos. El jamón ibérico de bellota, en cambio, proviene de cerdos 100% ibéricos criados en libertad en la dehesa y alimentados exclusivamente con bellotas y hierbas naturales durante los meses de otoño e invierno. Esto le otorga un veteado de grasa infiltrada característico, un aroma más intenso y un sabor incomparable que lo sitúa en la cima de la gastronomía española.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

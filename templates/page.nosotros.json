@@ -3,15 +3,14 @@
     "story": {
       "type": "about-split",
       "blocks": {
-        "stat-1": { "type": "stat", "settings": { "number": "1919", "label": "Año fundación" } },
-        "stat-2": { "type": "stat", "settings": { "number": "+500", "label": "Clientes felices" } },
-        "stat-3": { "type": "stat", "settings": { "number": "100%", "label": "Ibérico puro" } }
+        "stat-1": { "type": "stat", "settings": { "number": "3", "label": "Generaciones" } },
+        "stat-2": { "type": "stat", "settings": { "number": "100%", "label": "Ibérico puro" } }
       },
-      "block_order": ["stat-1", "stat-2", "stat-3"],
+      "block_order": ["stat-1", "stat-2"],
       "settings": {
         "eyebrow": "Nuestra historia",
         "title": "<p>Una historia de <em>tradición</em></p>",
-        "body": "Desde 1919, Casa Maravillas selecciona los mejores productos ibéricos de la dehesa española. Una tradición familiar que hoy llega a tu mesa con la misma pasión artesanal de siempre.",
+        "body": "Tres generaciones dedicadas a seleccionar los mejores productos ibéricos de la dehesa española. Una tradición familiar que hoy llega a tu mesa con la misma pasión artesanal de siempre.",
         "cta_label": "",
         "cta_url": ""
       }
@@ -19,7 +18,7 @@
     "strip": {
       "type": "marquee-strip",
       "settings": {
-        "text": "Jamón Ibérico de Bellota | Embutidos Artesanales | Packs Regalo | Envío en 24h | Desde 1919 | Calidad Garantizada | Productos de Alicante | Dehesa Española"
+        "text": "Jamón Ibérico de Bellota | Embutidos Artesanales | Packs Regalo | Envío en 24h | Tres Generaciones | Calidad Garantizada | Productos de Alicante | Dehesa Española"
       }
     }
   },

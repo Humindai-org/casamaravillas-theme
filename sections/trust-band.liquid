@@ -2,41 +2,44 @@
   .trust-band {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    border-top: 1px solid var(--cm-border);
+    border-top: 2px solid var(--cm-gold);
     border-bottom: 1px solid var(--cm-border);
-    background: var(--cm-white);
+    background: var(--cm-off);
   }
 
   .trust-band__cell {
-    padding: 28px 36px;
+    padding: 40px 28px;
     border-right: 1px solid var(--cm-border);
     display: flex;
-    align-items: flex-start;
-    gap: 16px;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 14px;
   }
 
   .trust-band__cell:last-child { border-right: none; }
 
   .trust-band__icon {
-    font-size: 20px;
-    line-height: 1;
+    width: 32px;
+    height: 32px;
+    color: var(--cm-gold);
     flex-shrink: 0;
-    margin-top: 2px;
   }
 
   .trust-band__title {
     font-size: 12px;
     font-weight: 500;
     color: var(--cm-text);
-    letter-spacing: 0.04em;
-    margin-bottom: 4px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
     font-family: var(--cm-font-sans);
+    line-height: 1.3;
   }
 
   .trust-band__desc {
-    font-size: 11px;
-    color: var(--cm-text-light);
-    line-height: 1.5;
+    font-size: 12px;
+    color: var(--cm-text-mid);
+    line-height: 1.55;
     font-family: var(--cm-font-sans);
   }
 
@@ -52,14 +55,28 @@
     .trust-band__cell:nth-child(4) {
       border-top: 1px solid var(--cm-border);
     }
-    .trust-band__cell { padding: 20px 20px; }
+    .trust-band__cell { padding: 32px 20px; }
   }
 </style>
 
+{%- assign icons = 'truck|shield|snowflake|gift' | split: '|' -%}
+
 <div class="trust-band">
   {%- for block in section.blocks -%}
+    {%- assign icon_name = icons[forloop.index0] -%}
     <div class="trust-band__cell" {{ block.shopify_attributes }}>
-      <div class="trust-band__icon" aria-hidden="true">{{ block.settings.icon }}</div>
+      <svg class="trust-band__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        {%- case icon_name -%}
+          {%- when 'truck' -%}
+            <rect x="1" y="3" width="15" height="13" rx="1"/><path d="m16 8 4 1 3 4v4h-7"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>
+          {%- when 'shield' -%}
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          {%- when 'snowflake' -%}
+            <line x1="12" y1="2" x2="12" y2="22"/><path d="m17 7-5 5-5-5"/><path d="m17 17-5-5-5 5"/><line x1="2" y1="12" x2="22" y2="12"/><path d="m7 7 5 5 5-5"/><path d="m7 17 5-5 5 5"/>
+          {%- when 'gift' -%}
+            <polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>
+        {%- endcase -%}
+      </svg>
       <div>
         <p class="trust-band__title">{{ block.settings.title }}</p>
         <p class="trust-band__desc">{{ block.settings.description }}</p>
@@ -78,12 +95,6 @@
       "type": "trust_item",
       "name": "Elemento",
       "settings": [
-        {
-          "type": "text",
-          "id": "icon",
-          "label": "Emoji / Icono",
-          "default": "🚚"
-        },
         {
           "type": "text",
           "id": "title",
@@ -106,7 +117,6 @@
         {
           "type": "trust_item",
           "settings": {
-            "icon": "🚚",
             "title": "Envío gratis",
             "description": "A partir de €80 en Península"
           }
@@ -114,15 +124,13 @@
         {
           "type": "trust_item",
           "settings": {
-            "icon": "🏆",
             "title": "Calidad garantizada",
-            "description": "Selección artesanal desde 1919"
+            "description": "Tres generaciones de artesanía ibérica"
           }
         },
         {
           "type": "trust_item",
           "settings": {
-            "icon": "❄️",
             "title": "Embalaje especial",
             "description": "Conservación en frío garantizada"
           }
@@ -130,7 +138,6 @@
         {
           "type": "trust_item",
           "settings": {
-            "icon": "🎁",
             "title": "Packaging regalo",
             "description": "Presentación premium para regalar"
           }
