@@ -1,7 +1,7 @@
 {% comment %}
-  jamones-collection.liquid
-  Grid de productos con sidebar de filtros sticky.
-  Filtros: Precio, Calidad (con dots), Formato, Categoría.
+  iberico-collection.liquid
+  Grid de productos compartido para todas las colecciones ibéricas.
+  Los filtros se renderizan dinámicamente según collection.handle.
   Mobile: sidebar colapsa a drawer desde abajo.
 
   Estrategia de filtrado:
@@ -12,12 +12,12 @@
 
 <style>
   /* ── Wrapper ── */
-  .jc-{{ section.id }} {
+  .ic-{{ section.id }} {
     background: var(--cm-off);
     padding: 0 72px 96px;
   }
 
-  .jc__inner-{{ section.id }} {
+  .ic__inner-{{ section.id }} {
     max-width: 1320px;
     margin: 0 auto;
     display: grid;
@@ -29,7 +29,7 @@
   /* ════════════════════════════════
      SIDEBAR
   ════════════════════════════════ */
-  .jc__sidebar-{{ section.id }} {
+  .ic__sidebar-{{ section.id }} {
     position: sticky;
     top: 108px;
     max-height: calc(100svh - 128px);
@@ -39,17 +39,17 @@
     scrollbar-color: var(--cm-border2) transparent;
   }
 
-  .jc__sidebar-{{ section.id }}::-webkit-scrollbar {
+  .ic__sidebar-{{ section.id }}::-webkit-scrollbar {
     width: 3px;
   }
-  .jc__sidebar-{{ section.id }}::-webkit-scrollbar-track {
+  .ic__sidebar-{{ section.id }}::-webkit-scrollbar-track {
     background: transparent;
   }
-  .jc__sidebar-{{ section.id }}::-webkit-scrollbar-thumb {
+  .ic__sidebar-{{ section.id }}::-webkit-scrollbar-thumb {
     background: var(--cm-border2);
   }
 
-  .jc__sidebar-head-{{ section.id }} {
+  .ic__sidebar-head-{{ section.id }} {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
@@ -58,14 +58,14 @@
     margin-bottom: 8px;
   }
 
-  .jc__sidebar-title-{{ section.id }} {
+  .ic__sidebar-title-{{ section.id }} {
     font-family: var(--cm-font-serif);
     font-size: 19px;
     font-weight: 400;
     color: var(--cm-navy);
   }
 
-  .jc__clear-all-{{ section.id }} {
+  .ic__clear-all-{{ section.id }} {
     font-size: 9.5px;
     color: var(--cm-text-light);
     letter-spacing: 0.12em;
@@ -74,17 +74,17 @@
     transition: color 0.2s;
     text-decoration: none;
   }
-  .jc__clear-all-{{ section.id }}:hover { color: var(--cm-gold); }
+  .ic__clear-all-{{ section.id }}:hover { color: var(--cm-gold); }
 
   /* ── Chips de filtros activos ── */
-  .jc__chips-{{ section.id }} {
+  .ic__chips-{{ section.id }} {
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
     padding: 14px 0 6px;
   }
 
-  .jc__chip-{{ section.id }} {
+  .ic__chip-{{ section.id }} {
     display: inline-flex;
     align-items: center;
     gap: 6px;
@@ -99,18 +99,18 @@
     text-decoration: none;
     transition: background 0.2s, color 0.2s;
   }
-  .jc__chip-{{ section.id }}:hover {
+  .ic__chip-{{ section.id }}:hover {
     background: var(--cm-gold);
     color: var(--cm-white);
   }
 
   /* ── Accordion filter group ── */
-  .jc__fg-{{ section.id }} {
+  .ic__fg-{{ section.id }} {
     border-bottom: 1px solid var(--cm-border);
     padding-bottom: 0;
   }
 
-  .jc__fg-toggle-{{ section.id }} {
+  .ic__fg-toggle-{{ section.id }} {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -128,35 +128,35 @@
     text-align: left;
   }
 
-  .jc__fg-toggle-{{ section.id }}:focus-visible {
+  .ic__fg-toggle-{{ section.id }}:focus-visible {
     outline: 2px solid var(--cm-gold);
     outline-offset: 2px;
   }
 
-  .jc__fg-icon-{{ section.id }} {
+  .ic__fg-icon-{{ section.id }} {
     width: 14px;
     height: 14px;
     flex-shrink: 0;
     transition: transform 0.25s ease;
   }
 
-  .jc__fg-{{ section.id }}.is-open .jc__fg-icon-{{ section.id }} {
+  .ic__fg-{{ section.id }}.is-open .ic__fg-icon-{{ section.id }} {
     transform: rotate(180deg);
   }
 
-  .jc__fg-body-{{ section.id }} {
+  .ic__fg-body-{{ section.id }} {
     overflow: hidden;
     max-height: 0;
     transition: max-height 0.32s cubic-bezier(0.16, 1, 0.3, 1), padding 0.32s ease;
   }
 
-  .jc__fg-{{ section.id }}.is-open .jc__fg-body-{{ section.id }} {
+  .ic__fg-{{ section.id }}.is-open .ic__fg-body-{{ section.id }} {
     max-height: 500px;
     padding-bottom: 18px;
   }
 
   /* ── Price slider ── */
-  .jc__price-slider-vals-{{ section.id }} {
+  .ic__price-slider-vals-{{ section.id }} {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -166,18 +166,18 @@
     color: var(--cm-text-mid);
   }
 
-  .jc__price-slider-sep-{{ section.id }} {
+  .ic__price-slider-sep-{{ section.id }} {
     font-size: 11px;
     color: var(--cm-text-light);
   }
 
-  .jc__price-slider-wrap-{{ section.id }} {
+  .ic__price-slider-wrap-{{ section.id }} {
     position: relative;
     height: 24px;
     margin: 0 8px;
   }
 
-  .jc__price-slider-track-{{ section.id }} {
+  .ic__price-slider-track-{{ section.id }} {
     position: absolute;
     top: 50%;
     left: 0;
@@ -188,14 +188,14 @@
     border-radius: 2px;
   }
 
-  .jc__price-slider-fill-{{ section.id }} {
+  .ic__price-slider-fill-{{ section.id }} {
     position: absolute;
     height: 100%;
     background: var(--cm-gold);
     border-radius: 2px;
   }
 
-  .jc__price-range-{{ section.id }} {
+  .ic__price-range-{{ section.id }} {
     -webkit-appearance: none;
     appearance: none;
     position: absolute;
@@ -208,7 +208,7 @@
     pointer-events: none;
   }
 
-  .jc__price-range-{{ section.id }}::-webkit-slider-thumb {
+  .ic__price-range-{{ section.id }}::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
     pointer-events: all;
@@ -222,16 +222,16 @@
     transition: transform 0.15s;
   }
 
-  .jc__price-range-{{ section.id }}::-webkit-slider-thumb:hover {
+  .ic__price-range-{{ section.id }}::-webkit-slider-thumb:hover {
     transform: scale(1.15);
   }
 
-  .jc__price-range-{{ section.id }}:focus-visible::-webkit-slider-thumb {
+  .ic__price-range-{{ section.id }}:focus-visible::-webkit-slider-thumb {
     outline: 2px solid var(--cm-gold);
     outline-offset: 2px;
   }
 
-  .jc__price-range-{{ section.id }}::-moz-range-thumb {
+  .ic__price-range-{{ section.id }}::-moz-range-thumb {
     pointer-events: all;
     width: 14px;
     height: 14px;
@@ -243,7 +243,7 @@
   }
 
   /* ── Checkboxes (Formato / Categoría) ── */
-  .jc__check-item-{{ section.id }} {
+  .ic__check-item-{{ section.id }} {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -251,7 +251,7 @@
     cursor: pointer;
   }
 
-  .jc__check-item-{{ section.id }} input[type="checkbox"] {
+  .ic__check-item-{{ section.id }} input[type="checkbox"] {
     appearance: none;
     -webkit-appearance: none;
     width: 16px;
@@ -263,11 +263,11 @@
     flex-shrink: 0;
     transition: border-color 0.2s, background 0.2s;
   }
-  .jc__check-item-{{ section.id }} input[type="checkbox"]:checked {
+  .ic__check-item-{{ section.id }} input[type="checkbox"]:checked {
     background: var(--cm-navy);
     border-color: var(--cm-navy);
   }
-  .jc__check-item-{{ section.id }} input[type="checkbox"]:checked::after {
+  .ic__check-item-{{ section.id }} input[type="checkbox"]:checked::after {
     content: '';
     position: absolute;
     left: 4px;
@@ -279,12 +279,12 @@
     border-left: none;
     transform: rotate(45deg);
   }
-  .jc__check-item-{{ section.id }} input[type="checkbox"]:focus-visible {
+  .ic__check-item-{{ section.id }} input[type="checkbox"]:focus-visible {
     outline: 2px solid var(--cm-gold);
     outline-offset: 2px;
   }
 
-  .jc__check-label-{{ section.id }} {
+  .ic__check-label-{{ section.id }} {
     font-family: var(--cm-font-sans);
     font-size: 13px;
     color: var(--cm-text-mid);
@@ -293,7 +293,7 @@
   }
 
   /* ── Checkboxes de Calidad (con dots) ── */
-  .jc__quality-item-{{ section.id }} {
+  .ic__quality-item-{{ section.id }} {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -301,7 +301,7 @@
     cursor: pointer;
   }
 
-  .jc__quality-item-{{ section.id }} input[type="checkbox"] {
+  .ic__quality-item-{{ section.id }} input[type="checkbox"] {
     appearance: none;
     -webkit-appearance: none;
     width: 16px;
@@ -313,11 +313,11 @@
     flex-shrink: 0;
     transition: border-color 0.2s, background 0.2s;
   }
-  .jc__quality-item-{{ section.id }} input[type="checkbox"]:checked {
+  .ic__quality-item-{{ section.id }} input[type="checkbox"]:checked {
     background: var(--cm-navy);
     border-color: var(--cm-navy);
   }
-  .jc__quality-item-{{ section.id }} input[type="checkbox"]:checked::after {
+  .ic__quality-item-{{ section.id }} input[type="checkbox"]:checked::after {
     content: '';
     position: absolute;
     left: 4px;
@@ -330,21 +330,21 @@
     transform: rotate(45deg);
   }
 
-  .jc__qdots-{{ section.id }} {
+  .ic__qdots-{{ section.id }} {
     display: flex;
     gap: 2px;
     flex-shrink: 0;
   }
 
-  .jc__qdot-{{ section.id }} {
+  .ic__qdot-{{ section.id }} {
     width: 7px;
     height: 7px;
     border-radius: 50%;
     background: var(--cm-border2);
   }
-  .jc__qdot-{{ section.id }}.is-filled { background: var(--cm-gold); }
+  .ic__qdot-{{ section.id }}.is-filled { background: var(--cm-gold); }
 
-  .jc__qlabel-{{ section.id }} {
+  .ic__qlabel-{{ section.id }} {
     font-family: var(--cm-font-sans);
     font-size: 12.5px;
     color: var(--cm-text-mid);
@@ -355,11 +355,11 @@
   /* ════════════════════════════════
      MAIN CONTENT
   ════════════════════════════════ */
-  .jc__main-{{ section.id }} {
+  .ic__main-{{ section.id }} {
     min-width: 0;
   }
 
-  .jc__toolbar-{{ section.id }} {
+  .ic__toolbar-{{ section.id }} {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -368,7 +368,7 @@
     border-bottom: 1px solid var(--cm-border);
   }
 
-  .jc__count-{{ section.id }} {
+  .ic__count-{{ section.id }} {
     font-family: var(--cm-font-sans);
     font-size: 12px;
     color: var(--cm-text-light);
@@ -377,12 +377,12 @@
   }
 
   /* ── Search bar ── */
-  .jc__search-wrap-{{ section.id }} {
+  .ic__search-wrap-{{ section.id }} {
     position: relative;
     flex: 0 1 220px;
   }
 
-  .jc__search-{{ section.id }} {
+  .ic__search-{{ section.id }} {
     width: 100%;
     padding: 8px 12px 8px 34px;
     border: 1px solid var(--cm-border2);
@@ -396,22 +396,22 @@
     -webkit-appearance: none;
   }
 
-  .jc__search-{{ section.id }}::-webkit-search-cancel-button {
+  .ic__search-{{ section.id }}::-webkit-search-cancel-button {
     -webkit-appearance: none;
     appearance: none;
   }
 
-  .jc__search-{{ section.id }}:focus {
+  .ic__search-{{ section.id }}:focus {
     outline: none;
     border-color: var(--cm-gold);
   }
 
-  .jc__search-{{ section.id }}::placeholder {
+  .ic__search-{{ section.id }}::placeholder {
     color: var(--cm-text-light);
     font-size: 11.5px;
   }
 
-  .jc__search-icon-{{ section.id }} {
+  .ic__search-icon-{{ section.id }} {
     position: absolute;
     left: 10px;
     top: 50%;
@@ -422,7 +422,7 @@
     pointer-events: none;
   }
 
-  .jc__search-empty-{{ section.id }} {
+  .ic__search-empty-{{ section.id }} {
     grid-column: 1 / -1;
     text-align: center;
     padding: 60px 24px;
@@ -434,18 +434,18 @@
   }
 
   @media (max-width: 767px) {
-    .jc__search-wrap-{{ section.id }} {
+    .ic__search-wrap-{{ section.id }} {
       flex: 1;
       max-width: 180px;
     }
   }
 
   /* Sort select */
-  .jc__sort-wrap-{{ section.id }} {
+  .ic__sort-wrap-{{ section.id }} {
     position: relative;
   }
 
-  .jc__sort-{{ section.id }} {
+  .ic__sort-{{ section.id }} {
     appearance: none;
     -webkit-appearance: none;
     padding: 9px 36px 9px 14px;
@@ -458,12 +458,12 @@
     transition: border-color 0.2s;
     letter-spacing: 0.05em;
   }
-  .jc__sort-{{ section.id }}:focus {
+  .ic__sort-{{ section.id }}:focus {
     outline: none;
     border-color: var(--cm-gold);
   }
 
-  .jc__sort-wrap-{{ section.id }}::after {
+  .ic__sort-wrap-{{ section.id }}::after {
     content: '';
     position: absolute;
     right: 12px;
@@ -478,7 +478,7 @@
   }
 
   /* Product grid */
-  .jc__grid-{{ section.id }} {
+  .ic__grid-{{ section.id }} {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 1px;
@@ -487,7 +487,7 @@
   }
 
   /* Empty state */
-  .jc__empty-{{ section.id }} {
+  .ic__empty-{{ section.id }} {
     grid-column: 1 / -1;
     text-align: center;
     padding: 80px 24px;
@@ -499,7 +499,7 @@
   }
 
   /* Pagination */
-  .jc__pagination-{{ section.id }} {
+  .ic__pagination-{{ section.id }} {
     display: flex;
     justify-content: center;
     gap: 4px;
@@ -507,7 +507,7 @@
     flex-wrap: wrap;
   }
 
-  .jc__page-link-{{ section.id }} {
+  .ic__page-link-{{ section.id }} {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -520,8 +520,8 @@
     text-decoration: none;
     transition: background 0.2s, color 0.2s, border-color 0.2s;
   }
-  .jc__page-link-{{ section.id }}:hover,
-  .jc__page-link-{{ section.id }}.is-current {
+  .ic__page-link-{{ section.id }}:hover,
+  .ic__page-link-{{ section.id }}.is-current {
     background: var(--cm-navy);
     color: var(--cm-white);
     border-color: var(--cm-navy);
@@ -530,7 +530,7 @@
   /* ════════════════════════════════
      MOBILE DRAWER
   ════════════════════════════════ */
-  .jc__drawer-{{ section.id }} {
+  .ic__drawer-{{ section.id }} {
     position: fixed;
     bottom: 0;
     left: 0;
@@ -545,11 +545,11 @@
     border-top: 1px solid var(--cm-border);
     overscroll-behavior: contain;
   }
-  .jc__drawer-{{ section.id }}.is-open {
+  .ic__drawer-{{ section.id }}.is-open {
     transform: translateY(0);
   }
 
-  .jc__drawer-header-{{ section.id }} {
+  .ic__drawer-header-{{ section.id }} {
     position: sticky;
     top: 0;
     background: var(--cm-white);
@@ -562,13 +562,13 @@
     z-index: 1;
   }
 
-  .jc__drawer-title-{{ section.id }} {
+  .ic__drawer-title-{{ section.id }} {
     font-family: var(--cm-font-serif);
     font-size: 19px;
     color: var(--cm-navy);
   }
 
-  .jc__drawer-close-{{ section.id }} {
+  .ic__drawer-close-{{ section.id }} {
     background: none;
     border: none;
     cursor: pointer;
@@ -578,9 +578,9 @@
     line-height: 1;
     transition: color 0.2s;
   }
-  .jc__drawer-close-{{ section.id }}:hover { color: var(--cm-navy); }
+  .ic__drawer-close-{{ section.id }}:hover { color: var(--cm-navy); }
 
-  .jc__overlay-{{ section.id }} {
+  .ic__overlay-{{ section.id }} {
     position: fixed;
     inset: 0;
     background: rgba(0, 15, 30, 0.45);
@@ -589,13 +589,13 @@
     pointer-events: none;
     transition: opacity 0.3s;
   }
-  .jc__overlay-{{ section.id }}.is-visible {
+  .ic__overlay-{{ section.id }}.is-visible {
     opacity: 1;
     pointer-events: auto;
   }
 
   /* Mobile filter trigger (sticky bottom) */
-  .jc__trigger-{{ section.id }} {
+  .ic__trigger-{{ section.id }} {
     position: fixed;
     bottom: 20px;
     left: 50%;
@@ -618,9 +618,9 @@
     white-space: nowrap;
     transition: background 0.2s;
   }
-  .jc__trigger-{{ section.id }}:hover { background: var(--cm-navy2); }
+  .ic__trigger-{{ section.id }}:hover { background: var(--cm-navy2); }
 
-  .jc__trigger-badge-{{ section.id }} {
+  .ic__trigger-badge-{{ section.id }} {
     background: var(--cm-gold);
     color: var(--cm-white);
     font-size: 9px;
@@ -636,10 +636,10 @@
 
   /* ── Tablet ── */
   @media (max-width: 1199px) {
-    .jc-{{ section.id }} {
+    .ic-{{ section.id }} {
       padding: 0 40px 80px;
     }
-    .jc__inner-{{ section.id }} {
+    .ic__inner-{{ section.id }} {
       grid-template-columns: 240px 1fr;
       gap: 36px;
     }
@@ -647,22 +647,22 @@
 
   /* ── Tablet / Mobile: ocultar sidebar, mostrar drawer ── */
   @media (max-width: 1023px) {
-    .jc-{{ section.id }} {
+    .ic-{{ section.id }} {
       padding: 0 32px 80px;
     }
-    .jc__inner-{{ section.id }} {
+    .ic__inner-{{ section.id }} {
       grid-template-columns: 1fr;
     }
-    .jc__sidebar-{{ section.id }} {
+    .ic__sidebar-{{ section.id }} {
       display: none;
     }
   }
 
   @media (max-width: 767px) {
-    .jc-{{ section.id }} {
+    .ic-{{ section.id }} {
       padding: 0 20px 80px;
     }
-    .jc__grid-{{ section.id }} {
+    .ic__grid-{{ section.id }} {
       grid-template-columns: repeat(2, 1fr);
     }
   }
@@ -676,19 +676,19 @@
   {%- assign active_count = active_count | plus: 1 -%}
 {%- endif -%}
 
-<section class="jc-{{ section.id }}" id="jc-section-{{ section.id }}">
-  <div class="jc__inner-{{ section.id }}">
+<section class="ic-{{ section.id }}" id="ic-section-{{ section.id }}">
+  <div class="ic__inner-{{ section.id }}">
 
     <!-- ════ SIDEBAR ════ -->
-    <aside class="jc__sidebar-{{ section.id }}" aria-label="Filtros">
-      <div class="jc__sidebar-head-{{ section.id }}">
-        <span class="jc__sidebar-title-{{ section.id }}">Filtrar</span>
-        <a class="jc__clear-all-{{ section.id }}" href="{{ collection.url }}">Limpiar todo</a>
+    <aside class="ic__sidebar-{{ section.id }}" aria-label="Filtros">
+      <div class="ic__sidebar-head-{{ section.id }}">
+        <span class="ic__sidebar-title-{{ section.id }}">Filtrar</span>
+        <a class="ic__clear-all-{{ section.id }}" href="{{ collection.url }}">Limpiar todo</a>
       </div>
 
       <!-- Chips de filtros activos -->
       {%- if current_tags.size > 0 -%}
-        <div class="jc__chips-{{ section.id }}">
+        <div class="ic__chips-{{ section.id }}">
           {%- for tag in current_tags -%}
             {%- assign other_tags = current_tags | where_exp: "t", "t != tag" -%}
             {%- if other_tags.size > 0 -%}
@@ -696,38 +696,47 @@
             {%- else -%}
               {%- assign chip_url = collection.url -%}
             {%- endif -%}
-            <a class="jc__chip-{{ section.id }}" href="{{ chip_url }}">
+            <a class="ic__chip-{{ section.id }}" href="{{ chip_url }}">
               {{ tag | replace: '_', ' ' | replace: '-', ' ' }} &times;
             </a>
           {%- endfor -%}
         </div>
       {%- endif -%}
 
-      {% render 'jamones-filters', section_id: section.id, collection: collection, current_tags: current_tags %}
+      {%- case collection.handle -%}
+        {%- when 'jamones' -%}
+          {%- render 'jamones-filters', section_id: section.id, collection: collection, current_tags: current_tags -%}
+        {%- when 'embutidos' -%}
+          {%- render 'embutidos-filters', section_id: section.id, collection: collection, current_tags: current_tags -%}
+        {%- when 'carnes-ibericas' -%}
+          {%- render 'carnes-ibericas-filters', section_id: section.id, collection: collection, current_tags: current_tags -%}
+        {%- when 'packs-regalo' -%}
+          {%- render 'packs-regalo-filters', section_id: section.id, collection: collection, current_tags: current_tags -%}
+      {%- endcase -%}
     </aside>
 
     <!-- ════ MAIN ════ -->
-    <div class="jc__main-{{ section.id }}">
+    <div class="ic__main-{{ section.id }}">
 
       <!-- Toolbar -->
-      <div class="jc__toolbar-{{ section.id }}">
+      <div class="ic__toolbar-{{ section.id }}">
         {%- if section.settings.show_count -%}
-          <p class="jc__count-{{ section.id }}">
+          <p class="ic__count-{{ section.id }}">
             {{ collection.products_count }}
             {%- if collection.products_count == 1 -%} producto{%- else -%} productos{%- endif -%}
           </p>
         {%- endif -%}
 
-        <div class="jc__search-wrap-{{ section.id }}">
-          <svg class="jc__search-icon-{{ section.id }}" viewBox="0 0 24 24" fill="none"
+        <div class="ic__search-wrap-{{ section.id }}">
+          <svg class="ic__search-icon-{{ section.id }}" viewBox="0 0 24 24" fill="none"
                stroke="currentColor" stroke-width="1.5" aria-hidden="true">
             <circle cx="11" cy="11" r="7"/>
             <path stroke-linecap="round" d="M16.5 16.5l4 4"/>
           </svg>
           <input
             type="search"
-            class="jc__search-{{ section.id }}"
-            id="jc-search-{{ section.id }}"
+            class="ic__search-{{ section.id }}"
+            id="ic-search-{{ section.id }}"
             placeholder="Buscar jamón..."
             aria-label="Buscar producto"
             autocomplete="off"
@@ -735,10 +744,10 @@
         </div>
 
         {%- if section.settings.show_sort -%}
-          <div class="jc__sort-wrap-{{ section.id }}">
+          <div class="ic__sort-wrap-{{ section.id }}">
             <select
-              class="jc__sort-{{ section.id }}"
-              id="jc-sort-{{ section.id }}"
+              class="ic__sort-{{ section.id }}"
+              id="ic-sort-{{ section.id }}"
               aria-label="Ordenar productos"
             >
               <option value="manual" {% if collection.sort_by == 'manual' %}selected{% endif %}>
@@ -772,38 +781,38 @@
 
       <!-- Product grid + Pagination -->
       {%- paginate collection.products by section.settings.products_per_page -%}
-        <div class="jc__grid-{{ section.id }}">
+        <div class="ic__grid-{{ section.id }}">
           {%- if collection.products.size > 0 -%}
             {%- for product in collection.products -%}
               {% render 'product-card', card_product: product, card_collection: collection.handle %}
             {%- endfor -%}
           {%- else -%}
-            <p class="jc__empty-{{ section.id }}">{{ section.settings.empty_label }}</p>
+            <p class="ic__empty-{{ section.id }}">{{ section.settings.empty_label }}</p>
           {%- endif -%}
         </div>
 
-        <p class="jc__search-empty-{{ section.id }}" hidden>
-          Sin resultados para &ldquo;<span class="jc__search-term-{{ section.id }}"></span>&rdquo;
+        <p class="ic__search-empty-{{ section.id }}" hidden>
+          Sin resultados para &ldquo;<span class="ic__search-term-{{ section.id }}"></span>&rdquo;
         </p>
 
         {%- if paginate.pages > 1 -%}
-          <nav class="jc__pagination-{{ section.id }}" aria-label="Paginación">
+          <nav class="ic__pagination-{{ section.id }}" aria-label="Paginación">
             {%- if paginate.previous -%}
-              <a class="jc__page-link-{{ section.id }}" href="{{ paginate.previous.url }}" aria-label="Página anterior">‹</a>
+              <a class="ic__page-link-{{ section.id }}" href="{{ paginate.previous.url }}" aria-label="Página anterior">‹</a>
             {%- endif -%}
             {%- for part in paginate.parts -%}
               {%- if part.is_link -%}
-                <a class="jc__page-link-{{ section.id }}" href="{{ part.url }}">{{ part.title }}</a>
+                <a class="ic__page-link-{{ section.id }}" href="{{ part.url }}">{{ part.title }}</a>
               {%- else -%}
                 {%- if part.title == paginate.current_page -%}
-                  <span class="jc__page-link-{{ section.id }} is-current" aria-current="page">{{ part.title }}</span>
+                  <span class="ic__page-link-{{ section.id }} is-current" aria-current="page">{{ part.title }}</span>
                 {%- else -%}
-                  <span class="jc__page-link-{{ section.id }}">{{ part.title }}</span>
+                  <span class="ic__page-link-{{ section.id }}">{{ part.title }}</span>
                 {%- endif -%}
               {%- endif -%}
             {%- endfor -%}
             {%- if paginate.next -%}
-              <a class="jc__page-link-{{ section.id }}" href="{{ paginate.next.url }}" aria-label="Página siguiente">›</a>
+              <a class="ic__page-link-{{ section.id }}" href="{{ paginate.next.url }}" aria-label="Página siguiente">›</a>
             {%- endif -%}
           </nav>
         {%- endif -%}
@@ -814,35 +823,44 @@
 
   <!-- ════ MOBILE DRAWER ════ -->
   <div
-    class="jc__drawer-{{ section.id }}"
-    id="jc-drawer-{{ section.id }}"
+    class="ic__drawer-{{ section.id }}"
+    id="ic-drawer-{{ section.id }}"
     aria-hidden="true"
     role="dialog"
     aria-label="Filtros"
   >
-    <div class="jc__drawer-header-{{ section.id }}">
-      <span class="jc__drawer-title-{{ section.id }}">Filtrar</span>
+    <div class="ic__drawer-header-{{ section.id }}">
+      <span class="ic__drawer-title-{{ section.id }}">Filtrar</span>
       <button
-        class="jc__drawer-close-{{ section.id }}"
-        id="jc-drawer-close-{{ section.id }}"
+        class="ic__drawer-close-{{ section.id }}"
+        id="ic-drawer-close-{{ section.id }}"
         aria-label="Cerrar filtros"
       >&times;</button>
     </div>
-    {% render 'jamones-filters', section_id: section.id, collection: collection, current_tags: current_tags, drawer: true %}
+    {%- case collection.handle -%}
+      {%- when 'jamones' -%}
+        {%- render 'jamones-filters', section_id: section.id, collection: collection, current_tags: current_tags, drawer: true -%}
+      {%- when 'embutidos' -%}
+        {%- render 'embutidos-filters', section_id: section.id, collection: collection, current_tags: current_tags, drawer: true -%}
+      {%- when 'carnes-ibericas' -%}
+        {%- render 'carnes-ibericas-filters', section_id: section.id, collection: collection, current_tags: current_tags, drawer: true -%}
+      {%- when 'packs-regalo' -%}
+        {%- render 'packs-regalo-filters', section_id: section.id, collection: collection, current_tags: current_tags, drawer: true -%}
+    {%- endcase -%}
   </div>
 
-  <div class="jc__overlay-{{ section.id }}" id="jc-overlay-{{ section.id }}"></div>
+  <div class="ic__overlay-{{ section.id }}" id="ic-overlay-{{ section.id }}"></div>
 
   <!-- Botón mobile filtrar (solo en <1024px) -->
   <button
-    class="jc__trigger-{{ section.id }} hide-desktop"
-    id="jc-trigger-{{ section.id }}"
-    aria-controls="jc-drawer-{{ section.id }}"
+    class="ic__trigger-{{ section.id }} hide-desktop"
+    id="ic-trigger-{{ section.id }}"
+    aria-controls="ic-drawer-{{ section.id }}"
     aria-expanded="false"
   >
     Filtrar
     {%- if active_count > 0 -%}
-      <span class="jc__trigger-badge-{{ section.id }}" aria-label="{{ active_count }} filtros activos">
+      <span class="ic__trigger-badge-{{ section.id }}" aria-label="{{ active_count }} filtros activos">
         {{ active_count }}
       </span>
     {%- endif -%}
@@ -855,15 +873,15 @@
   'use strict';
 
   var sid     = '{{ section.id }}';
-  var section = document.getElementById('jc-section-' + sid);
+  var section = document.getElementById('ic-section-' + sid);
   if (!section) return;
 
   /* ── Search bar ── */
-  var searchInput = document.getElementById('jc-search-' + sid);
+  var searchInput = document.getElementById('ic-search-' + sid);
   if (searchInput) {
     searchInput.addEventListener('input', function () {
       var q = this.value.trim().toLowerCase();
-      var grid = section.querySelector('.jc__grid-' + sid);
+      var grid = section.querySelector('.ic__grid-' + sid);
       var cards = grid ? grid.children : [];
       var visible = 0;
       Array.prototype.forEach.call(cards, function (card) {
@@ -873,15 +891,15 @@
         card.style.display = show ? '' : 'none';
         if (show) visible++;
       });
-      var emptyMsg = section.querySelector('.jc__search-empty-' + sid);
-      var termSpan = section.querySelector('.jc__search-term-' + sid);
+      var emptyMsg = section.querySelector('.ic__search-empty-' + sid);
+      var termSpan = section.querySelector('.ic__search-term-' + sid);
       if (emptyMsg) emptyMsg.hidden = (visible > 0 || !q);
       if (termSpan) termSpan.textContent = q;
     });
   }
 
   /* ── Sort select ── */
-  var sortSelect = document.getElementById('jc-sort-' + sid);
+  var sortSelect = document.getElementById('ic-sort-' + sid);
   if (sortSelect) {
     sortSelect.addEventListener('change', function () {
       var url = new URL(window.location.href);
@@ -891,10 +909,10 @@
   }
 
   /* ── Accordion filter groups (sidebar + drawer) ── */
-  var toggles = section.querySelectorAll('.jc__fg-toggle-' + sid);
+  var toggles = section.querySelectorAll('.ic__fg-toggle-' + sid);
   toggles.forEach(function (btn) {
     btn.addEventListener('click', function () {
-      var group  = btn.closest('.jc__fg-' + sid);
+      var group  = btn.closest('.ic__fg-' + sid);
       var isOpen = group.classList.toggle('is-open');
       btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
     });
@@ -944,13 +962,13 @@
   });
 
   /* ── Price slider ── */
-  var sliderGroups = section.querySelectorAll('.jc-price-slider-group-' + sid);
+  var sliderGroups = section.querySelectorAll('.ic-price-slider-group-' + sid);
   sliderGroups.forEach(function (group) {
     var minRange   = group.querySelector('[data-price-role="min"]');
     var maxRange   = group.querySelector('[data-price-role="max"]');
-    var minDisplay = group.querySelector('.jc__price-val-min-' + sid);
-    var maxDisplay = group.querySelector('.jc__price-val-max-' + sid);
-    var fill       = group.querySelector('.jc__price-slider-fill-' + sid);
+    var minDisplay = group.querySelector('.ic__price-val-min-' + sid);
+    var maxDisplay = group.querySelector('.ic__price-val-max-' + sid);
+    var fill       = group.querySelector('.ic__price-slider-fill-' + sid);
     var PRICE_MAX  = parseInt(maxRange.getAttribute('max'), 10);
 
     function updateSlider() {
@@ -999,10 +1017,10 @@
   });
 
   /* ── Mobile drawer ── */
-  var trigger      = document.getElementById('jc-trigger-' + sid);
-  var drawer       = document.getElementById('jc-drawer-' + sid);
-  var overlay      = document.getElementById('jc-overlay-' + sid);
-  var drawerClose  = document.getElementById('jc-drawer-close-' + sid);
+  var trigger      = document.getElementById('ic-trigger-' + sid);
+  var drawer       = document.getElementById('ic-drawer-' + sid);
+  var overlay      = document.getElementById('ic-overlay-' + sid);
+  var drawerClose  = document.getElementById('ic-drawer-close-' + sid);
 
   function openDrawer() {
     if (!drawer) return;
@@ -1037,7 +1055,7 @@
 
 {% schema %}
 {
-  "name": "Jamones — Sidebar",
+  "name": "Ibérico — Colección",
   "tag": "section",
   "settings": [
     {
@@ -1076,7 +1094,7 @@
   ],
   "presets": [
     {
-      "name": "Jamones — Sidebar"
+      "name": "Ibérico — Colección"
     }
   ]
 }

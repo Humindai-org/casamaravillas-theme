@@ -36,7 +36,7 @@
       "type": "jamones-collection",
       "settings": {
         "eyebrow": "Nuestra selección",
-        "products_per_page": 15,
+        "products_per_page": 50,
         "show_sort": true,
         "show_count": true,
         "empty_label": "No hay jamones disponibles en este momento."

@@ -1,0 +1,363 @@
+{% comment %}
+  iberico-tiers.liquid
+  Franja compacta de 3 categorías clickables que filtran el grid.
+  Cada card es configurable: nombre, tag de Shopify y color de acento.
+  Paleta de acentos: gold, terracotta, burgundy, olive, slate.
+{% endcomment %}
+
+<style>
+  .it-{{ section.id }} {
+    background: var(--cm-off);
+    padding: 40px 72px 48px;
+  }
+
+  .it__header-{{ section.id }} {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  .it__eyebrow-{{ section.id }} {
+    display: block;
+    margin-bottom: 14px;
+  }
+
+  .it__heading-{{ section.id }} {
+    font-family: var(--cm-font-serif);
+    font-size: clamp(22px, 2.5vw, 32px);
+    font-weight: 400;
+    color: var(--cm-navy);
+    line-height: 1.2;
+  }
+
+  .it__heading-{{ section.id }} em {
+    font-style: italic;
+    color: var(--cm-gold);
+  }
+
+  /* ── Grid ── */
+  .it__grid-{{ section.id }} {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    background: var(--cm-border);
+    border: 1px solid var(--cm-border);
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  /* ── Card clickable ── */
+  .it__card-{{ section.id }} {
+    background: var(--cm-white);
+    padding: 28px 32px 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    border-top: 3px solid transparent;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.28s ease, box-shadow 0.28s ease, background 0.2s;
+    position: relative;
+  }
+
+  .it__card-{{ section.id }}:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px rgba(0, 20, 40, 0.08), 0 4px 12px rgba(0, 20, 40, 0.05);
+    z-index: 2;
+  }
+
+  .it__card-{{ section.id }}:focus-visible {
+    outline: 2px solid var(--cm-gold);
+    outline-offset: -2px;
+  }
+
+  /* ── Colores de acento (border-top + active + hover hint) ── */
+  .it__card--gold-{{ section.id }}       { border-top-color: #C4973A; }
+  .it__card--terracotta-{{ section.id }} { border-top-color: #C05A38; }
+  .it__card--burgundy-{{ section.id }}   { border-top-color: #7A1F3C; }
+  .it__card--olive-{{ section.id }}      { border-top-color: #5A6B40; }
+  .it__card--slate-{{ section.id }}      { border-top-color: #4A5B6B; }
+
+  /* Sombra interior sutil en activo */
+  .it__card--gold-{{ section.id }}.is-active       { background: rgba(196,151,58,0.04);  box-shadow: inset 0 0 0 1px rgba(196,151,58,0.18); }
+  .it__card--terracotta-{{ section.id }}.is-active  { background: rgba(192,90,56,0.04);   box-shadow: inset 0 0 0 1px rgba(192,90,56,0.18); }
+  .it__card--burgundy-{{ section.id }}.is-active    { background: rgba(122,31,60,0.04);   box-shadow: inset 0 0 0 1px rgba(122,31,60,0.18); }
+  .it__card--olive-{{ section.id }}.is-active       { background: rgba(90,107,64,0.04);   box-shadow: inset 0 0 0 1px rgba(90,107,64,0.18); }
+  .it__card--slate-{{ section.id }}.is-active       { background: rgba(74,91,107,0.04);   box-shadow: inset 0 0 0 1px rgba(74,91,107,0.18); }
+
+  /* Pill de estado activo — color match al acento */
+  .it__active-pill-{{ section.id }} {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-family: var(--cm-font-sans);
+    font-size: 8.5px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-top: 10px;
+  }
+
+  .it__active-pill-{{ section.id }}::before { content: '✕'; font-size: 8px; opacity: 0.7; }
+
+  .it__card--gold-{{ section.id }}       .it__active-pill-{{ section.id }} { color: #C4973A; }
+  .it__card--terracotta-{{ section.id }} .it__active-pill-{{ section.id }} { color: #C05A38; }
+  .it__card--burgundy-{{ section.id }}   .it__active-pill-{{ section.id }} { color: #7A1F3C; }
+  .it__card--olive-{{ section.id }}      .it__active-pill-{{ section.id }} { color: #5A6B40; }
+  .it__card--slate-{{ section.id }}      .it__active-pill-{{ section.id }} { color: #4A5B6B; }
+
+  /* Hint "Ver" al hover en inactivo */
+  .it__hint-{{ section.id }} {
+    font-family: var(--cm-font-sans);
+    font-size: 8.5px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--cm-text-light);
+    margin-top: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .it__card-{{ section.id }}:hover .it__hint-{{ section.id }} { opacity: 1; }
+
+  /* ── Label (nombre corto / categoría) ── */
+  .it__label-{{ section.id }} {
+    font-family: var(--cm-font-sans);
+    font-size: 8px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--cm-text-light);
+    margin-bottom: 14px;
+  }
+
+  /* ── Nombre principal ── */
+  .it__name-{{ section.id }} {
+    font-family: var(--cm-font-serif);
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--cm-navy);
+    line-height: 1.3;
+    flex: 1;
+  }
+
+  /* ── Tablet ── */
+  @media (max-width: 1023px) {
+    .it-{{ section.id }}      { padding: 32px 40px 40px; }
+    .it__card-{{ section.id }} { padding: 24px 24px 28px; }
+    .it__name-{{ section.id }} { font-size: 16px; }
+  }
+
+  /* ── Mobile: horizontal scroll ── */
+  @media (max-width: 767px) {
+    .it-{{ section.id }} { padding: 32px 0 36px; }
+    .it__header-{{ section.id }} { padding: 0 24px; }
+    .it__grid-{{ section.id }} {
+      grid-template-columns: none;
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      background: transparent;
+      border: none;
+      padding: 0 24px 16px;
+      gap: 10px;
+      scrollbar-width: none;
+    }
+    .it__grid-{{ section.id }}::-webkit-scrollbar { display: none; }
+    .it__card-{{ section.id }} {
+      min-width: 220px;
+      flex-shrink: 0;
+      scroll-snap-align: start;
+      border: 1px solid var(--cm-border);
+      border-top: 3px solid transparent;
+    }
+    .it__card--gold-{{ section.id }}       { border-top-color: #C4973A; }
+    .it__card--terracotta-{{ section.id }} { border-top-color: #C05A38; }
+    .it__card--burgundy-{{ section.id }}   { border-top-color: #7A1F3C; }
+    .it__card--olive-{{ section.id }}      { border-top-color: #5A6B40; }
+    .it__card--slate-{{ section.id }}      { border-top-color: #4A5B6B; }
+  }
+</style>
+
+{%- liquid
+  assign cat_names  = section.settings.cat1_name  | append: '||' | append: section.settings.cat2_name  | append: '||' | append: section.settings.cat3_name  | split: '||'
+  assign cat_labels = section.settings.cat1_label | append: '||' | append: section.settings.cat2_label | append: '||' | append: section.settings.cat3_label | split: '||'
+  assign cat_tags   = section.settings.cat1_tag   | append: '||' | append: section.settings.cat2_tag   | append: '||' | append: section.settings.cat3_tag   | split: '||'
+  assign cat_colors = section.settings.cat1_color | append: '||' | append: section.settings.cat2_color | append: '||' | append: section.settings.cat3_color | split: '||'
+-%}
+
+<section class="it-{{ section.id }}" id="it-section-{{ section.id }}">
+  <div class="it__header-{{ section.id }}">
+    {%- if section.settings.eyebrow != blank -%}
+      <span class="cm-eyebrow it__eyebrow-{{ section.id }}">{{ section.settings.eyebrow }}</span>
+    {%- endif -%}
+    {%- if section.settings.heading != blank -%}
+      <h2 class="it__heading-{{ section.id }}">
+        {%- assign words = section.settings.heading | split: ' ' -%}
+        {%- for word in words -%}
+          {%- if forloop.last -%}<em>{{ word }}</em>{%- else -%}{{ word }} {%- endif -%}
+        {%- endfor -%}
+      </h2>
+    {%- endif -%}
+  </div>
+
+  <div class="it__grid-{{ section.id }}">
+    {%- for i in (0..2) -%}
+      {%- assign cat_name  = cat_names[i] -%}
+      {%- assign cat_label = cat_labels[i] -%}
+      {%- assign cat_tag   = cat_tags[i] -%}
+      {%- assign cat_color = cat_colors[i] -%}
+
+      {%- assign is_active = false -%}
+      {%- for t in current_tags -%}
+        {%- if t == cat_tag -%}{%- assign is_active = true -%}{%- endif -%}
+      {%- endfor -%}
+
+      {%- if is_active -%}
+        {%- assign card_href = collection.url -%}
+      {%- else -%}
+        {%- assign card_href = collection.url | append: '/' | append: cat_tag -%}
+      {%- endif -%}
+
+      <a
+        class="it__card-{{ section.id }} it__card--{{ cat_color }}-{{ section.id }}{% if is_active %} is-active{% endif %}"
+        href="{{ card_href }}"
+        aria-pressed="{{ is_active }}"
+        aria-label="{{ cat_name }}{% if is_active %} — clic para quitar filtro{% endif %}"
+      >
+        {%- if cat_label != blank -%}
+          <span class="it__label-{{ section.id }}">{{ cat_label }}</span>
+        {%- endif -%}
+
+        <span class="it__name-{{ section.id }}">{{ cat_name }}</span>
+
+        {%- if is_active -%}
+          <span class="it__active-pill-{{ section.id }}">Filtro activo</span>
+        {%- else -%}
+          <span class="it__hint-{{ section.id }}">Ver selección</span>
+        {%- endif -%}
+      </a>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Ibérico — Categorías",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Etiqueta superior",
+      "default": "Nuestra selección"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Titular",
+      "default": "Explora nuestra gama"
+    },
+    { "type": "header", "content": "Categoría 1" },
+    {
+      "type": "text",
+      "id": "cat1_name",
+      "label": "Nombre",
+      "default": "Categoría 1"
+    },
+    {
+      "type": "text",
+      "id": "cat1_label",
+      "label": "Etiqueta pequeña (opcional)",
+      "info": "Texto en caps sobre el nombre (ej: 'Premium', 'Más vendido')"
+    },
+    {
+      "type": "text",
+      "id": "cat1_tag",
+      "label": "Tag de Shopify (para filtrar)",
+      "info": "Debe coincidir exactamente con el tag asignado a los productos",
+      "default": "tag_1"
+    },
+    {
+      "type": "select",
+      "id": "cat1_color",
+      "label": "Color de acento",
+      "options": [
+        { "value": "gold",       "label": "Dorado" },
+        { "value": "terracotta", "label": "Terracota" },
+        { "value": "burgundy",   "label": "Burdeos" },
+        { "value": "olive",      "label": "Oliva" },
+        { "value": "slate",      "label": "Pizarra" }
+      ],
+      "default": "gold"
+    },
+    { "type": "header", "content": "Categoría 2" },
+    {
+      "type": "text",
+      "id": "cat2_name",
+      "label": "Nombre",
+      "default": "Categoría 2"
+    },
+    {
+      "type": "text",
+      "id": "cat2_label",
+      "label": "Etiqueta pequeña (opcional)"
+    },
+    {
+      "type": "text",
+      "id": "cat2_tag",
+      "label": "Tag de Shopify (para filtrar)",
+      "default": "tag_2"
+    },
+    {
+      "type": "select",
+      "id": "cat2_color",
+      "label": "Color de acento",
+      "options": [
+        { "value": "gold",       "label": "Dorado" },
+        { "value": "terracotta", "label": "Terracota" },
+        { "value": "burgundy",   "label": "Burdeos" },
+        { "value": "olive",      "label": "Oliva" },
+        { "value": "slate",      "label": "Pizarra" }
+      ],
+      "default": "terracotta"
+    },
+    { "type": "header", "content": "Categoría 3" },
+    {
+      "type": "text",
+      "id": "cat3_name",
+      "label": "Nombre",
+      "default": "Categoría 3"
+    },
+    {
+      "type": "text",
+      "id": "cat3_label",
+      "label": "Etiqueta pequeña (opcional)"
+    },
+    {
+      "type": "text",
+      "id": "cat3_tag",
+      "label": "Tag de Shopify (para filtrar)",
+      "default": "tag_3"
+    },
+    {
+      "type": "select",
+      "id": "cat3_color",
+      "label": "Color de acento",
+      "options": [
+        { "value": "gold",       "label": "Dorado" },
+        { "value": "terracotta", "label": "Terracota" },
+        { "value": "burgundy",   "label": "Burdeos" },
+        { "value": "olive",      "label": "Oliva" },
+        { "value": "slate",      "label": "Pizarra" }
+      ],
+      "default": "burgundy"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Ibérico — Categorías"
+    }
+  ]
+}
+{% endschema %}

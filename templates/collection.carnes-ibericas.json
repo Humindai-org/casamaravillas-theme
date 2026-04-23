@@ -1,0 +1,48 @@
+{
+  "sections": {
+    "hero": {
+      "type": "iberico-hero",
+      "settings": {
+        "eyebrow": "Alicante, España",
+        "heading": "Carnes Ibéricas",
+        "subheading": "Iberian Fresh Cuts",
+        "body": "Secreto, presa y pluma de cerdo ibérico de bellota. La nobleza del ibérico en cada corte.",
+        "overlay_opacity": 45
+      }
+    },
+    "tiers": {
+      "type": "iberico-tiers",
+      "settings": {
+        "eyebrow": "Nuestros cortes",
+        "heading": "Los mejores cortes ibéricos",
+        "cat1_name": "Secreto Ibérico",
+        "cat1_label": "El más preciado",
+        "cat1_tag": "corte_secreto",
+        "cat1_color": "burgundy",
+        "cat2_name": "Presa y Pluma",
+        "cat2_label": "Gran sabor",
+        "cat2_tag": "corte_presa-pluma",
+        "cat2_color": "terracotta",
+        "cat3_name": "Carrillada y Otros",
+        "cat3_label": "Selección",
+        "cat3_tag": "corte_otros",
+        "cat3_color": "slate"
+      }
+    },
+    "collection": {
+      "type": "iberico-collection",
+      "settings": {
+        "eyebrow": "Nuestra selección",
+        "products_per_page": 50,
+        "show_sort": true,
+        "show_count": true,
+        "empty_label": "No hay carnes ibéricas disponibles en este momento."
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "tiers",
+    "collection"
+  ]
+}

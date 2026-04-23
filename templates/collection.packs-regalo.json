@@ -1,0 +1,48 @@
+{
+  "sections": {
+    "hero": {
+      "type": "iberico-hero",
+      "settings": {
+        "eyebrow": "Alicante, España",
+        "heading": "Packs de Regalo",
+        "subheading": "Iberian Gift Sets",
+        "body": "Selecciones cuidadas para regalar. Desde el pack más íntimo hasta la cesta gourmet más completa.",
+        "overlay_opacity": 45
+      }
+    },
+    "tiers": {
+      "type": "iberico-tiers",
+      "settings": {
+        "eyebrow": "Nuestra gama",
+        "heading": "Un pack para cada ocasión",
+        "cat1_name": "Pack Gourmet",
+        "cat1_label": "Desde €30",
+        "cat1_tag": "pack_gourmet",
+        "cat1_color": "gold",
+        "cat2_name": "Pack Selección",
+        "cat2_label": "Desde €80",
+        "cat2_tag": "pack_seleccion",
+        "cat2_color": "terracotta",
+        "cat3_name": "Pack Premium",
+        "cat3_label": "Desde €150",
+        "cat3_tag": "pack_premium",
+        "cat3_color": "burgundy"
+      }
+    },
+    "collection": {
+      "type": "iberico-collection",
+      "settings": {
+        "eyebrow": "Nuestra selección",
+        "products_per_page": 50,
+        "show_sort": true,
+        "show_count": true,
+        "empty_label": "No hay packs disponibles en este momento."
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "tiers",
+    "collection"
+  ]
+}

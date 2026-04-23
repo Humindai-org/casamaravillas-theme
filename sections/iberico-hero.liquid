@@ -1,0 +1,329 @@
+{% comment %}
+  iberico-hero.liquid
+  Hero con scroll expansion reutilizable para todas las colecciones ibéricas.
+  Idéntico efecto que jamones-hero: frame escala de 0.85 a 1 mientras el sticky viaja.
+{% endcomment %}
+
+<style>
+  .ih-{{ section.id }} {
+    position: relative;
+    height: 160svh;
+    background: var(--cm-navy);
+  }
+
+  .ih__sticky-{{ section.id }} {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    overflow: hidden;
+  }
+
+  .ih__frame-{{ section.id }} {
+    position: absolute;
+    inset: 0;
+    transform: scale(0.85);
+    border-radius: 16px;
+    box-shadow: 0 40px 120px rgba(0, 15, 30, 0.55);
+    overflow: hidden;
+    will-change: transform;
+  }
+
+  .ih__img-{{ section.id }} {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: saturate(0.75) brightness(0.72);
+    display: block;
+  }
+
+  .ih__overlay-{{ section.id }} {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(0, 20, 40, 0.78) 0%,
+      rgba(0, 20, 40, 0.30) 45%,
+      transparent 100%
+    );
+    pointer-events: none;
+  }
+
+  .ih__content-{{ section.id }} {
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 24px;
+    pointer-events: none;
+  }
+
+  .ih__eyebrow-{{ section.id }} {
+    margin-bottom: 28px;
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 0.7s 0.1s ease, transform 0.7s 0.1s ease;
+  }
+
+  .ih__heading-{{ section.id }} {
+    font-family: var(--cm-font-serif);
+    font-size: clamp(52px, 8vw, 108px);
+    font-weight: 400;
+    color: #fff;
+    line-height: 1.05;
+    letter-spacing: -0.015em;
+    margin-bottom: 16px;
+    opacity: 0;
+    transform: translateY(22px);
+    transition: opacity 0.85s 0.3s ease, transform 0.85s 0.3s ease;
+  }
+
+  .ih__heading-{{ section.id }} em {
+    font-style: italic;
+    color: var(--cm-gold);
+  }
+
+  .ih__subheading-{{ section.id }} {
+    font-family: var(--cm-font-serif);
+    font-style: italic;
+    font-size: clamp(13px, 1.8vw, 19px);
+    color: rgba(250, 246, 239, 0.6);
+    margin-bottom: 12px;
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 0.7s 0.45s ease, transform 0.7s 0.45s ease;
+  }
+
+  .ih__body-{{ section.id }} {
+    font-family: var(--cm-font-sans);
+    font-size: clamp(13px, 1.5vw, 16px);
+    font-weight: 300;
+    color: rgba(250, 246, 239, 0.65);
+    max-width: 440px;
+    line-height: 1.7;
+    margin-bottom: 56px;
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 0.7s 0.55s ease, transform 0.7s 0.55s ease;
+  }
+
+  .ih__scroll-hint-{{ section.id }} {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.6s 0.9s ease, transform 0.6s 0.9s ease;
+    pointer-events: none;
+  }
+
+  .ih__scroll-label-{{ section.id }} {
+    font-size: 8.5px;
+    letter-spacing: 0.45em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.4);
+    font-family: var(--cm-font-sans);
+    font-weight: 400;
+  }
+
+  .ih__scroll-line-{{ section.id }} {
+    width: 1px;
+    height: 48px;
+    background: linear-gradient(to bottom, var(--cm-gold), transparent);
+  }
+
+  .ih__content-{{ section.id }}.ih-visible .ih__eyebrow-{{ section.id }},
+  .ih__content-{{ section.id }}.ih-visible .ih__heading-{{ section.id }},
+  .ih__content-{{ section.id }}.ih-visible .ih__subheading-{{ section.id }},
+  .ih__content-{{ section.id }}.ih-visible .ih__body-{{ section.id }},
+  .ih__content-{{ section.id }}.ih-visible .ih__scroll-hint-{{ section.id }} {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (max-width: 767px) {
+    .ih-{{ section.id }} { height: 100svh; }
+    .ih__sticky-{{ section.id }} { position: relative; }
+    .ih__frame-{{ section.id }} {
+      transform: scale(1) !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+    }
+    .ih__heading-{{ section.id }} { font-size: clamp(44px, 12vw, 72px); }
+  }
+</style>
+
+{%- liquid
+  assign ih_heading = section.settings.heading | default: 'Nuestra Selección'
+  assign ih_words   = ih_heading | split: ' '
+  assign ih_first   = ih_words | first
+  assign ih_rest    = ih_heading | remove_first: ih_first | strip
+-%}
+
+<section class="ih-{{ section.id }}" id="ih-section-{{ section.id }}">
+  <div class="ih__sticky-{{ section.id }}">
+
+    <div class="ih__frame-{{ section.id }}" id="ih-frame-{{ section.id }}">
+      {%- if section.settings.image != blank -%}
+        <img
+          class="ih__img-{{ section.id }}"
+          src="{{ section.settings.image | image_url: width: 2400 }}"
+          alt="{{ ih_heading | escape }}"
+          width="2400"
+          height="1400"
+          loading="eager"
+        >
+      {%- else -%}
+        <div class="ih__img-{{ section.id }}" style="background: var(--cm-navy); width:100%; height:100%;"></div>
+      {%- endif -%}
+      <div class="ih__overlay-{{ section.id }}" aria-hidden="true"></div>
+    </div>
+
+    <div class="ih__content-{{ section.id }}" id="ih-content-{{ section.id }}">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="cm-eyebrow ih__eyebrow-{{ section.id }}">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+
+      <h1 class="ih__heading-{{ section.id }}">
+        {{ ih_first }} <em>{{ ih_rest }}</em>
+      </h1>
+
+      {%- if section.settings.subheading != blank -%}
+        <p class="ih__subheading-{{ section.id }}">{{ section.settings.subheading }}</p>
+      {%- endif -%}
+
+      {%- if section.settings.body != blank -%}
+        <p class="ih__body-{{ section.id }}">{{ section.settings.body }}</p>
+      {%- endif -%}
+
+      <div class="ih__scroll-hint-{{ section.id }}" id="ih-hint-{{ section.id }}" aria-hidden="true">
+        <span class="ih__scroll-label-{{ section.id }}">Descubrir</span>
+        <span class="ih__scroll-line-{{ section.id }}"></span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+(function () {
+  'use strict';
+
+  var sid     = '{{ section.id }}';
+  var el      = document.getElementById('ih-section-' + sid);
+  var frame   = document.getElementById('ih-frame-' + sid);
+  var content = document.getElementById('ih-content-' + sid);
+  var hint    = document.getElementById('ih-hint-' + sid);
+
+  if (!el || !frame) return;
+
+  setTimeout(function () {
+    if (content) content.classList.add('ih-visible');
+  }, 150);
+
+  var isMobile = window.matchMedia('(max-width: 767px)').matches;
+  var reduced  = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (isMobile || reduced) {
+    frame.style.transform    = 'scale(1)';
+    frame.style.borderRadius = '0px';
+    frame.style.boxShadow    = 'none';
+    return;
+  }
+
+  var ticking = false;
+
+  function lerp(a, b, t) { return a + (b - a) * t; }
+  function easeOut(t) { var c = 1 - t; return 1 - c * c * c; }
+
+  function update() {
+    ticking = false;
+    var rect   = el.getBoundingClientRect();
+    var sTop   = rect.top + window.scrollY;
+    var travel = el.offsetHeight - window.innerHeight;
+
+    if (travel <= 0) {
+      frame.style.transform    = 'scale(1)';
+      frame.style.borderRadius = '0px';
+      frame.style.boxShadow    = 'none';
+      return;
+    }
+
+    var raw      = Math.min(Math.max((window.scrollY - sTop) / travel, 0), 1);
+    var progress = easeOut(raw);
+    var scale    = lerp(0.85, 1, progress);
+    var radius   = lerp(16, 0, progress);
+    var alpha    = lerp(0.55, 0, progress);
+    var blur     = Math.round(lerp(120, 0, progress));
+
+    frame.style.transform    = 'scale(' + scale + ')';
+    frame.style.borderRadius = radius + 'px';
+    frame.style.boxShadow    = alpha > 0.02
+      ? '0 40px ' + blur + 'px rgba(0,15,30,' + alpha.toFixed(2) + ')'
+      : 'none';
+
+    if (hint) hint.style.opacity = String(Math.max(0, 1 - raw * 5));
+  }
+
+  window.addEventListener('scroll', function () {
+    if (!ticking) { requestAnimationFrame(update); ticking = true; }
+  }, { passive: true });
+
+  update();
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Hero Ibérico",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Imagen de fondo"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Etiqueta superior",
+      "default": "Alicante, España"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Titular",
+      "default": "Nuestra Selección"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subtítulo (cursiva, inglés opcional)"
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Descripción"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Opacidad overlay",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "default": 45,
+      "unit": "%"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero Ibérico"
+    }
+  ]
+}
+{% endschema %}

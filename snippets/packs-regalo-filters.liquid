@@ -1,0 +1,135 @@
+{% comment %}
+  packs-regalo-filters.liquid
+  Filtros para la colección Packs de Regalo.
+  Variables: section_id, collection, current_tags, drawer (boolean)
+{% endcomment %}
+
+{%- liquid
+  assign price_min = request.parameters['filter.v.price.gte'] | default: ''
+  assign price_max = request.parameters['filter.v.price.lte'] | default: ''
+  assign slider_min_val = price_min | default: 0
+  assign slider_max_val = price_max | default: 500
+
+  assign contenido_tags   = 'contenido_jamon,contenido_embutidos,contenido_mixto,contenido_carnes' | split: ','
+  assign contenido_labels = 'Solo Jamón,Solo Embutidos,Mixto,Carnes Ibéricas' | split: ','
+
+  assign personas_tags   = 'personas_1-2,personas_3-4,personas_5-mas' | split: ','
+  assign personas_labels = 'Para 1–2,Para 3–4,Para 5 o más' | split: ','
+
+  assign ocasion_tags   = 'ocasion_navidad,ocasion_empresarial,ocasion_personal' | split: ','
+  assign ocasion_labels = 'Navidad,Empresarial,Personal' | split: ','
+-%}
+
+<!-- ── PRECIO ── -->
+<div class="ic__fg-{{ section_id }} is-open" id="icfg-precio-{{ section_id }}{% if drawer %}-drawer{% endif %}">
+  <button
+    class="ic__fg-toggle-{{ section_id }}"
+    aria-expanded="true"
+    aria-controls="icfg-precio-body-{{ section_id }}{% if drawer %}-drawer{% endif %}"
+  >
+    Precio
+    <svg class="ic__fg-icon-{{ section_id }}" viewBox="0 0 24 24" fill="none"
+         stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/>
+    </svg>
+  </button>
+  <div class="ic__fg-body-{{ section_id }}" id="icfg-precio-body-{{ section_id }}{% if drawer %}-drawer{% endif %}">
+    <div class="ic-price-slider-group-{{ section_id }}">
+      <div class="ic__price-slider-vals-{{ section_id }}">
+        <span>€<span class="ic__price-val-min-{{ section_id }}">{{ slider_min_val }}</span></span>
+        <span class="ic__price-slider-sep-{{ section_id }}">—</span>
+        <span>€<span class="ic__price-val-max-{{ section_id }}">{{ slider_max_val }}</span></span>
+      </div>
+      <div class="ic__price-slider-wrap-{{ section_id }}">
+        <div class="ic__price-slider-track-{{ section_id }}">
+          <div class="ic__price-slider-fill-{{ section_id }}"></div>
+        </div>
+        <input type="range" class="ic__price-range-{{ section_id }}" data-price-role="min"
+               min="0" max="500" step="10" value="{{ slider_min_val }}" aria-label="Precio mínimo">
+        <input type="range" class="ic__price-range-{{ section_id }}" data-price-role="max"
+               min="0" max="500" step="10" value="{{ slider_max_val }}" aria-label="Precio máximo">
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── CONTENIDO ── -->
+<div class="ic__fg-{{ section_id }} is-open" id="icfg-contenido-{{ section_id }}{% if drawer %}-drawer{% endif %}">
+  <button
+    class="ic__fg-toggle-{{ section_id }}"
+    aria-expanded="true"
+    aria-controls="icfg-contenido-body-{{ section_id }}{% if drawer %}-drawer{% endif %}"
+  >
+    Contenido
+    <svg class="ic__fg-icon-{{ section_id }}" viewBox="0 0 24 24" fill="none"
+         stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/>
+    </svg>
+  </button>
+  <div class="ic__fg-body-{{ section_id }}" id="icfg-contenido-body-{{ section_id }}{% if drawer %}-drawer{% endif %}">
+    {%- for i in (0..3) -%}
+      {%- assign tag   = contenido_tags[i] -%}
+      {%- assign label = contenido_labels[i] -%}
+      {%- assign is_checked = false -%}
+      {%- for t in current_tags -%}{%- if t == tag -%}{%- assign is_checked = true -%}{%- endif -%}{%- endfor -%}
+      <label class="ic__check-item-{{ section_id }}">
+        <input type="checkbox" data-filter-tag="{{ tag }}" {% if is_checked %}checked{% endif %} aria-label="{{ label }}">
+        <span class="ic__check-label-{{ section_id }}">{{ label }}</span>
+      </label>
+    {%- endfor -%}
+  </div>
+</div>
+
+<!-- ── PERSONAS ── -->
+<div class="ic__fg-{{ section_id }} is-open" id="icfg-personas-{{ section_id }}{% if drawer %}-drawer{% endif %}">
+  <button
+    class="ic__fg-toggle-{{ section_id }}"
+    aria-expanded="true"
+    aria-controls="icfg-personas-body-{{ section_id }}{% if drawer %}-drawer{% endif %}"
+  >
+    Personas
+    <svg class="ic__fg-icon-{{ section_id }}" viewBox="0 0 24 24" fill="none"
+         stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/>
+    </svg>
+  </button>
+  <div class="ic__fg-body-{{ section_id }}" id="icfg-personas-body-{{ section_id }}{% if drawer %}-drawer{% endif %}">
+    {%- for i in (0..2) -%}
+      {%- assign tag   = personas_tags[i] -%}
+      {%- assign label = personas_labels[i] -%}
+      {%- assign is_checked = false -%}
+      {%- for t in current_tags -%}{%- if t == tag -%}{%- assign is_checked = true -%}{%- endif -%}{%- endfor -%}
+      <label class="ic__check-item-{{ section_id }}">
+        <input type="checkbox" data-filter-tag="{{ tag }}" {% if is_checked %}checked{% endif %} aria-label="{{ label }}">
+        <span class="ic__check-label-{{ section_id }}">{{ label }}</span>
+      </label>
+    {%- endfor -%}
+  </div>
+</div>
+
+<!-- ── OCASIÓN ── -->
+<div class="ic__fg-{{ section_id }}" id="icfg-ocasion-{{ section_id }}{% if drawer %}-drawer{% endif %}">
+  <button
+    class="ic__fg-toggle-{{ section_id }}"
+    aria-expanded="false"
+    aria-controls="icfg-ocasion-body-{{ section_id }}{% if drawer %}-drawer{% endif %}"
+  >
+    Ocasión
+    <svg class="ic__fg-icon-{{ section_id }}" viewBox="0 0 24 24" fill="none"
+         stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/>
+    </svg>
+  </button>
+  <div class="ic__fg-body-{{ section_id }}" id="icfg-ocasion-body-{{ section_id }}{% if drawer %}-drawer{% endif %}">
+    {%- for i in (0..2) -%}
+      {%- assign tag   = ocasion_tags[i] -%}
+      {%- assign label = ocasion_labels[i] -%}
+      {%- assign is_checked = false -%}
+      {%- for t in current_tags -%}{%- if t == tag -%}{%- assign is_checked = true -%}{%- endif -%}{%- endfor -%}
+      <label class="ic__check-item-{{ section_id }}">
+        <input type="checkbox" data-filter-tag="{{ tag }}" {% if is_checked %}checked{% endif %} aria-label="{{ label }}">
+        <span class="ic__check-label-{{ section_id }}">{{ label }}</span>
+      </label>
+    {%- endfor -%}
+  </div>
+</div>

@@ -1,30 +1,29 @@
 {% comment %}
   jamones-quality-tiers.liquid
-  Franja educativa con las 3 medallas (Oro / Plata / Bronce) que representan
-  los niveles de calidad ibérica: Bellota, Cebo de Campo, Cebo.
-  Educa al comprador antes de que llegue al grid de productos.
+  Franja compacta con 3 tiers de calidad ibérica.
+  Cada card es un filtro clickable — selecciona/deselecciona la calidad en el grid de productos.
 {% endcomment %}
 
 <style>
   .qt-{{ section.id }} {
     background: var(--cm-off);
-    padding: 80px 72px 96px;
+    padding: 40px 72px 48px;
   }
 
-  /* ── Header central ── */
+  /* ── Header ── */
   .qt__header-{{ section.id }} {
     text-align: center;
-    margin-bottom: 64px;
+    margin-bottom: 32px;
   }
 
   .qt__eyebrow-{{ section.id }} {
     display: block;
-    margin-bottom: 20px;
+    margin-bottom: 14px;
   }
 
   .qt__heading-{{ section.id }} {
     font-family: var(--cm-font-serif);
-    font-size: clamp(28px, 3.5vw, 42px);
+    font-size: clamp(22px, 2.5vw, 32px);
     font-weight: 400;
     color: var(--cm-navy);
     line-height: 1.2;
@@ -46,208 +45,141 @@
     margin: 0 auto;
   }
 
-  /* ── Columna de tier ── */
+  /* ── Card — ahora es un <a> clickable ── */
   .qt__tier-{{ section.id }} {
     background: var(--cm-white);
-    padding: 48px 40px 52px;
+    padding: 28px 32px 32px;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    transition: transform 0.35s ease, box-shadow 0.35s ease;
+    border-top: 3px solid transparent;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.28s ease, box-shadow 0.28s ease, background 0.2s;
     position: relative;
   }
 
   .qt__tier-{{ section.id }}:hover {
-    transform: translateY(-6px);
+    transform: translateY(-4px);
     box-shadow:
-      0 24px 64px rgba(196, 151, 58, 0.12),
-      0 4px 16px rgba(0, 20, 40, 0.06);
+      0 16px 40px rgba(196, 151, 58, 0.1),
+      0 4px 12px rgba(0, 20, 40, 0.06);
     z-index: 2;
+    background: var(--cm-white);
   }
 
-  /* ── Medalla CSS (sin imágenes externas) ── */
-  .qt__medal-{{ section.id }} {
-    display: flex;
-    flex-direction: column;
+  .qt__tier-{{ section.id }}:focus-visible {
+    outline: 2px solid var(--cm-gold);
+    outline-offset: -2px;
+  }
+
+  /* ── Estado activo ── */
+  .qt__tier-{{ section.id }}.is-active {
+    background: rgba(196, 151, 58, 0.04);
+  }
+
+  .qt__active-pill-{{ section.id }} {
+    display: inline-flex;
     align-items: center;
-    margin-bottom: 28px;
-    gap: 0;
+    gap: 4px;
+    font-family: var(--cm-font-sans);
+    font-size: 8.5px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--cm-gold);
+    margin-top: 10px;
   }
 
-  .qt__medal-circle-{{ section.id }} {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    overflow: hidden;
+  .qt__active-pill-{{ section.id }}::before {
+    content: '✕';
+    font-size: 8px;
+    opacity: 0.7;
   }
 
-  /* Highlight interno del círculo */
-  .qt__medal-circle-{{ section.id }}::before {
-    content: '';
-    position: absolute;
-    top: 6px;
-    left: 10px;
-    width: 40%;
-    height: 35%;
-    background: rgba(255, 255, 255, 0.3);
-    border-radius: 50%;
-    filter: blur(6px);
+  /* Indicador de "seleccionable" en estado inactivo */
+  .qt__hint-{{ section.id }} {
+    font-family: var(--cm-font-sans);
+    font-size: 8.5px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--cm-text-light);
+    margin-top: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
   }
 
-  /* Estrella dentro del círculo */
-  .qt__medal-star-{{ section.id }} {
-    font-size: 32px;
-    position: relative;
-    z-index: 1;
-    line-height: 1;
+  .qt__tier-{{ section.id }}:hover .qt__hint-{{ section.id }} {
+    opacity: 1;
   }
 
-  /* Ribbon (barra bajo el círculo) */
-  .qt__medal-ribbon-{{ section.id }} {
-    width: 24px;
-    height: 20px;
-    clip-path: polygon(0 0, 100% 0, 100% 75%, 50% 100%, 0 75%);
-  }
+  /* ── Borde superior por tier ── */
+  .qt__tier-gold-{{ section.id }}   { border-top-color: #C4973A; }
+  .qt__tier-silver-{{ section.id }} { border-top-color: #A8A8A8; }
+  .qt__tier-bronze-{{ section.id }} { border-top-color: #A07040; }
 
-  /* ── Variantes de color por tier ── */
-  /* Oro */
-  .qt__tier-gold-{{ section.id }} .qt__medal-circle-{{ section.id }} {
-    background: radial-gradient(circle at 35% 35%, #e8b84b, #C4973A 55%, #a07520);
-    box-shadow: 0 8px 24px rgba(196, 151, 58, 0.4);
-  }
-  .qt__tier-gold-{{ section.id }} .qt__medal-ribbon-{{ section.id }} {
-    background: linear-gradient(to bottom, #C4973A, #a07520);
-  }
-  .qt__tier-gold-{{ section.id }} .qt__medal-label-{{ section.id }} {
-    color: #a07520;
-  }
+  /* Sombra interior sutil en estado activo */
+  .qt__tier-gold-{{ section.id }}.is-active   { box-shadow: inset 0 0 0 1px rgba(196,151,58,0.18); }
+  .qt__tier-silver-{{ section.id }}.is-active { box-shadow: inset 0 0 0 1px rgba(168,168,168,0.18); }
+  .qt__tier-bronze-{{ section.id }}.is-active { box-shadow: inset 0 0 0 1px rgba(160,112,64,0.18); }
 
-  /* Plata */
-  .qt__tier-silver-{{ section.id }} .qt__medal-circle-{{ section.id }} {
-    background: radial-gradient(circle at 35% 35%, #e0e0e0, #A8A8A8 55%, #707070);
-    box-shadow: 0 8px 24px rgba(120, 120, 120, 0.3);
-  }
-  .qt__tier-silver-{{ section.id }} .qt__medal-ribbon-{{ section.id }} {
-    background: linear-gradient(to bottom, #A8A8A8, #707070);
-  }
-  .qt__tier-silver-{{ section.id }} .qt__medal-label-{{ section.id }} {
-    color: #707070;
-  }
-
-  /* Bronce */
-  .qt__tier-bronze-{{ section.id }} .qt__medal-circle-{{ section.id }} {
-    background: radial-gradient(circle at 35% 35%, #c8905a, #A07040 55%, #6e4820);
-    box-shadow: 0 8px 24px rgba(140, 90, 40, 0.3);
-  }
-  .qt__tier-bronze-{{ section.id }} .qt__medal-ribbon-{{ section.id }} {
-    background: linear-gradient(to bottom, #A07040, #6e4820);
-  }
-  .qt__tier-bronze-{{ section.id }} .qt__medal-label-{{ section.id }} {
-    color: #6e4820;
-  }
-
-  /* ── Etiqueta medalla ── */
-  .qt__medal-label-{{ section.id }} {
+  /* ── Etiqueta Oro / Plata / Bronce ── */
+  .qt__tier-label-{{ section.id }} {
     font-family: var(--cm-font-sans);
     font-size: 8px;
     letter-spacing: 0.4em;
     text-transform: uppercase;
     font-weight: 600;
-    margin-top: 10px;
+    margin-bottom: 12px;
   }
+
+  .qt__tier-gold-{{ section.id }}   .qt__tier-label-{{ section.id }} { color: #a07520; }
+  .qt__tier-silver-{{ section.id }} .qt__tier-label-{{ section.id }} { color: #707070; }
+  .qt__tier-bronze-{{ section.id }} .qt__tier-label-{{ section.id }} { color: #6e4820; }
 
   /* ── Puntos de calidad ── */
   .qt__dots-{{ section.id }} {
     display: flex;
     gap: 4px;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
   }
 
   .qt__dot-{{ section.id }} {
-    width: 8px;
-    height: 8px;
+    width: 7px;
+    height: 7px;
     border-radius: 50%;
     background: var(--cm-border2);
   }
 
-  .qt__dot-{{ section.id }}.is-filled {
-    background: var(--cm-gold);
-  }
+  .qt__dot-{{ section.id }}.is-filled { background: var(--cm-gold); }
 
-  /* ── Textos ── */
+  /* ── Nombre ── */
   .qt__name-{{ section.id }} {
     font-family: var(--cm-font-serif);
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 400;
     color: var(--cm-navy);
-    line-height: 1.25;
-    margin-bottom: 6px;
-  }
-
-  .qt__subtitle-{{ section.id }} {
-    font-family: var(--cm-font-serif);
-    font-style: italic;
-    font-size: 13px;
-    color: var(--cm-text-light);
-    margin-bottom: 20px;
-  }
-
-  .qt__desc-{{ section.id }} {
-    font-family: var(--cm-font-sans);
-    font-size: 13.5px;
-    font-weight: 300;
-    color: var(--cm-text-mid);
-    line-height: 1.7;
-    margin-bottom: 24px;
+    line-height: 1.3;
     flex: 1;
-  }
-
-  .qt__price-{{ section.id }} {
-    font-family: var(--cm-font-sans);
-    font-size: 12px;
-    color: var(--cm-text-light);
-    letter-spacing: 0.05em;
-    margin-bottom: 24px;
-  }
-
-  .qt__price-{{ section.id }} strong {
-    font-family: var(--cm-font-serif);
-    font-size: 22px;
-    font-weight: 400;
-    color: var(--cm-navy);
-    font-style: italic;
-  }
-
-  /* ── Divisor decorativo ── */
-  .qt__divider-{{ section.id }} {
-    width: 32px;
-    height: 1px;
-    background: var(--cm-border2);
-    margin-bottom: 24px;
   }
 
   /* ── Tablet ── */
   @media (max-width: 1023px) {
     .qt-{{ section.id }} {
-      padding: 64px 40px 80px;
+      padding: 32px 40px 40px;
     }
     .qt__tier-{{ section.id }} {
-      padding: 40px 28px 44px;
+      padding: 24px 24px 28px;
     }
     .qt__name-{{ section.id }} {
-      font-size: 18px;
+      font-size: 16px;
     }
   }
 
   /* ── Mobile: horizontal scroll ── */
   @media (max-width: 767px) {
     .qt-{{ section.id }} {
-      padding: 56px 0 64px;
+      padding: 32px 0 36px;
     }
     .qt__header-{{ section.id }} {
       padding: 0 24px;
@@ -261,24 +193,26 @@
       gap: 0;
       background: transparent;
       border: none;
-      padding: 0 24px 24px;
+      padding: 0 24px 16px;
       scrollbar-width: none;
     }
-    .qt__grid-{{ section.id }}::-webkit-scrollbar {
-      display: none;
-    }
+    .qt__grid-{{ section.id }}::-webkit-scrollbar { display: none; }
     .qt__tier-{{ section.id }} {
-      min-width: 280px;
+      min-width: 220px;
       flex-shrink: 0;
       scroll-snap-align: start;
       border: 1px solid var(--cm-border);
-      margin-right: 12px;
+      border-top: 3px solid transparent;
+      margin-right: 10px;
     }
-    .qt__tier-{{ section.id }}:last-child {
-      margin-right: 0;
-    }
+    .qt__tier-gold-{{ section.id }}   { border-top-color: #C4973A; }
+    .qt__tier-silver-{{ section.id }} { border-top-color: #A8A8A8; }
+    .qt__tier-bronze-{{ section.id }} { border-top-color: #A07040; }
+    .qt__tier-{{ section.id }}:last-child { margin-right: 0; }
   }
 </style>
+
+{%- assign tier_filter_tags = 'calidad_bellota,calidad_cebo-de-campo,calidad_cebo' | split: ',' -%}
 
 <section class="qt-{{ section.id }}" id="qt-section-{{ section.id }}">
   <div class="qt__header-{{ section.id }}">
@@ -299,56 +233,51 @@
     {%- endif -%}
   </div>
 
-  {%- assign tiers = 'gold,silver,bronze' | split: ',' -%}
+  {%- assign tiers       = 'gold,silver,bronze' | split: ',' -%}
   {%- assign tier_labels = 'Oro,Plata,Bronce' | split: ',' -%}
-  {%- assign tier_dots = '5,4,3' | split: ',' -%}
-  {%- assign tier_keys = '1,2,3' | split: ',' -%}
+  {%- assign tier_dots   = '5,4,3' | split: ',' -%}
 
   <div class="qt__grid-{{ section.id }}">
     {%- for i in (1..3) -%}
-      {%- assign tier_class  = tiers[forloop.index0] -%}
-      {%- assign tier_label  = tier_labels[forloop.index0] -%}
-      {%- assign dot_count   = tier_dots[forloop.index0] | plus: 0 -%}
+      {%- assign tier_class = tiers[forloop.index0] -%}
+      {%- assign tier_label = tier_labels[forloop.index0] -%}
+      {%- assign dot_count  = tier_dots[forloop.index0] | plus: 0 -%}
+      {%- assign tier_tag   = tier_filter_tags[forloop.index0] -%}
+      {%- assign name_key   = 'tier' | append: i | append: '_name' -%}
 
-      {%- assign name_key     = 'tier' | append: i | append: '_name' -%}
-      {%- assign subtitle_key = 'tier' | append: i | append: '_subtitle' -%}
-      {%- assign desc_key     = 'tier' | append: i | append: '_desc' -%}
-      {%- assign price_key    = 'tier' | append: i | append: '_price' -%}
-      {%- assign url_key      = 'tier' | append: i | append: '_url' -%}
+      {%- assign is_active = false -%}
+      {%- for t in current_tags -%}
+        {%- if t == tier_tag -%}{%- assign is_active = true -%}{%- endif -%}
+      {%- endfor -%}
 
-      <div class="qt__tier-{{ section.id }} qt__tier-{{ tier_class }}-{{ section.id }}">
+      {%- if is_active -%}
+        {%- assign tier_href = collection.url -%}
+      {%- else -%}
+        {%- assign tier_href = collection.url | append: '/' | append: tier_tag -%}
+      {%- endif -%}
 
-        <!-- Medalla CSS -->
-        <div class="qt__medal-{{ section.id }}">
-          <div class="qt__medal-circle-{{ section.id }}">
-            <span class="qt__medal-star-{{ section.id }}" aria-hidden="true">★</span>
-          </div>
-          <div class="qt__medal-ribbon-{{ section.id }}"></div>
-          <span class="qt__medal-label-{{ section.id }}">{{ tier_label }}</span>
-        </div>
+      <a
+        class="qt__tier-{{ section.id }} qt__tier-{{ tier_class }}-{{ section.id }}{% if is_active %} is-active{% endif %}"
+        href="{{ tier_href }}"
+        aria-pressed="{{ is_active }}"
+        aria-label="Filtrar por {{ section.settings[name_key] }}{% if is_active %} — clic para quitar filtro{% endif %}"
+      >
+        <span class="qt__tier-label-{{ section.id }}">{{ tier_label }}</span>
 
-        <!-- Puntos de calidad -->
-        <div class="qt__dots-{{ section.id }}" aria-label="{{ dot_count }} de 5 estrellas de calidad">
+        <div class="qt__dots-{{ section.id }}" aria-hidden="true">
           {%- for d in (1..5) -%}
             <span class="qt__dot-{{ section.id }}{% if d <= dot_count %} is-filled{% endif %}"></span>
           {%- endfor -%}
         </div>
 
-        <!-- Textos -->
-        <h3 class="qt__name-{{ section.id }}">{{ section.settings[name_key] }}</h3>
-        <p class="qt__subtitle-{{ section.id }}">{{ section.settings[subtitle_key] }}</p>
+        <span class="qt__name-{{ section.id }}">{{ section.settings[name_key] }}</span>
 
-        <div class="qt__divider-{{ section.id }}"></div>
-
-        <p class="qt__desc-{{ section.id }}">{{ section.settings[desc_key] }}</p>
-
-        <p class="qt__price-{{ section.id }}">
-          Desde <strong>€{{ section.settings[price_key] }}</strong>
-        </p>
-
-        <a class="cm-link-arrow" href="{{ section.settings[url_key] }}">Ver selección</a>
-
-      </div>
+        {%- if is_active -%}
+          <span class="qt__active-pill-{{ section.id }}">Filtro activo</span>
+        {%- else -%}
+          <span class="qt__hint-{{ section.id }}">Ver selección</span>
+        {%- endif -%}
+      </a>
     {%- endfor -%}
   </div>
 </section>
@@ -381,29 +310,6 @@
       "default": "Bellota 100% Ibérico"
     },
     {
-      "type": "text",
-      "id": "tier1_subtitle",
-      "label": "Subtítulo (inglés, cursiva)",
-      "default": "Iberian Acorn-Fed Ham"
-    },
-    {
-      "type": "textarea",
-      "id": "tier1_desc",
-      "label": "Descripción",
-      "default": "Criado en dehesa y alimentado exclusivamente con bellotas durante la montanera. La máxima expresión de la raza ibérica pura."
-    },
-    {
-      "type": "text",
-      "id": "tier1_price",
-      "label": "Precio desde (€)",
-      "default": "189"
-    },
-    {
-      "type": "url",
-      "id": "tier1_url",
-      "label": "Enlace"
-    },
-    {
       "type": "header",
       "content": "🥈 Tier 2 — Plata"
     },
@@ -414,29 +320,6 @@
       "default": "Cebo de Campo Ibérico"
     },
     {
-      "type": "text",
-      "id": "tier2_subtitle",
-      "label": "Subtítulo (inglés, cursiva)",
-      "default": "Free-Range Iberian Ham"
-    },
-    {
-      "type": "textarea",
-      "id": "tier2_desc",
-      "label": "Descripción",
-      "default": "Criado en libertad en pastos naturales, complementado con cereales. Sabor intenso y equilibrado."
-    },
-    {
-      "type": "text",
-      "id": "tier2_price",
-      "label": "Precio desde (€)",
-      "default": "129"
-    },
-    {
-      "type": "url",
-      "id": "tier2_url",
-      "label": "Enlace"
-    },
-    {
       "type": "header",
       "content": "🥉 Tier 3 — Bronce"
     },
@@ -445,29 +328,6 @@
       "id": "tier3_name",
       "label": "Nombre",
       "default": "Cebo Ibérico"
-    },
-    {
-      "type": "text",
-      "id": "tier3_subtitle",
-      "label": "Subtítulo (inglés, cursiva)",
-      "default": "Grain-Fed Iberian Ham"
-    },
-    {
-      "type": "textarea",
-      "id": "tier3_desc",
-      "label": "Descripción",
-      "default": "Cerdo ibérico criado en granja con pienso de calidad. Ideal para descubrir el mundo del ibérico."
-    },
-    {
-      "type": "text",
-      "id": "tier3_price",
-      "label": "Precio desde (€)",
-      "default": "89"
-    },
-    {
-      "type": "url",
-      "id": "tier3_url",
-      "label": "Enlace"
     }
   ],
   "presets": [

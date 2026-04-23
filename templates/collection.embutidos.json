@@ -1,0 +1,48 @@
+{
+  "sections": {
+    "hero": {
+      "type": "iberico-hero",
+      "settings": {
+        "eyebrow": "Alicante, España",
+        "heading": "Embutidos Ibéricos",
+        "subheading": "Iberian Cured Meats",
+        "body": "Chorizos, lomos y salchichones de cerdo ibérico. Curación artesanal, sabor auténtico.",
+        "overlay_opacity": 45
+      }
+    },
+    "tiers": {
+      "type": "iberico-tiers",
+      "settings": {
+        "eyebrow": "Nuestra gama",
+        "heading": "Tres familias de embutido",
+        "cat1_name": "Chorizos y Salchichón",
+        "cat1_label": "Curado",
+        "cat1_tag": "tipo_chorizo-salchichon",
+        "cat1_color": "terracotta",
+        "cat2_name": "Lomo y Morcón",
+        "cat2_label": "Premium",
+        "cat2_tag": "tipo_lomo-morcon",
+        "cat2_color": "burgundy",
+        "cat3_name": "Morcillas y Especialidades",
+        "cat3_label": "Artesanal",
+        "cat3_tag": "tipo_especialidades",
+        "cat3_color": "olive"
+      }
+    },
+    "collection": {
+      "type": "iberico-collection",
+      "settings": {
+        "eyebrow": "Nuestra selección",
+        "products_per_page": 50,
+        "show_sort": true,
+        "show_count": true,
+        "empty_label": "No hay embutidos disponibles en este momento."
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "tiers",
+    "collection"
+  ]
+}
