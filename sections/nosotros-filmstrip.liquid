@@ -1,0 +1,143 @@
+<style>
+  .filmstrip {
+    background: var(--cm-navy);
+    overflow: hidden;
+    padding: 0;
+    position: relative;
+  }
+
+  .filmstrip__track-wrap {
+    display: flex;
+    width: max-content;
+    animation: filmstrip-scroll {{ section.settings.speed | default: 40 }}s linear infinite;
+  }
+
+  .filmstrip__track-wrap:hover {
+    animation-play-state: paused;
+  }
+
+  @keyframes filmstrip-scroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  .filmstrip__set {
+    display: flex;
+    gap: 10px;
+    padding: 20px 5px;
+    flex-shrink: 0;
+  }
+
+  .filmstrip__item {
+    width: 300px;
+    height: 220px;
+    flex-shrink: 0;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .filmstrip__item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s ease;
+  }
+
+  .filmstrip__track-wrap:hover .filmstrip__item img {
+    transform: scale(1.04);
+  }
+
+  .filmstrip__placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(145deg, var(--cm-navy2) 0%, #001f38 100%);
+    opacity: 0.5;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .filmstrip__track-wrap {
+      animation: none;
+      overflow-x: auto;
+    }
+  }
+</style>
+
+<div class="filmstrip" aria-hidden="true">
+  <div class="filmstrip__track-wrap">
+
+    {%- comment -%} Set A {%- endcomment -%}
+    <div class="filmstrip__set">
+      {%- for block in section.blocks -%}
+        <div class="filmstrip__item" {{ block.shopify_attributes }}>
+          {%- if block.settings.image != blank -%}
+            {{ block.settings.image
+              | image_url: width: 620
+              | image_tag:
+                  loading: 'lazy',
+                  alt: block.settings.image.alt | escape
+            }}
+          {%- else -%}
+            <div class="filmstrip__placeholder"></div>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+
+    {%- comment -%} Set B — duplicado para loop seamless {%- endcomment -%}
+    <div class="filmstrip__set" aria-hidden="true">
+      {%- for block in section.blocks -%}
+        <div class="filmstrip__item">
+          {%- if block.settings.image != blank -%}
+            {{ block.settings.image
+              | image_url: width: 620
+              | image_tag:
+                  loading: 'lazy',
+                  alt: ''
+            }}
+          {%- else -%}
+            <div class="filmstrip__placeholder"></div>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Filmstrip de imágenes",
+  "tag": "section",
+  "max_blocks": 10,
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Foto",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Imagen"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "range",
+      "id": "speed",
+      "label": "Velocidad (segundos por ciclo)",
+      "min": 20,
+      "max": 80,
+      "step": 5,
+      "default": 40
+    }
+  ],
+  "presets": [
+    {
+      "name": "Filmstrip de imágenes"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,433 @@
+<style>
+  /* ── Editorial: paneles cinematográficos de valores ── */
+  .neo {
+    position: relative;
+  }
+
+  .neo__panel {
+    display: grid;
+    grid-template-columns: 55% 45%;
+    min-height: 100vh;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .neo__panel--reverse {
+    grid-template-columns: 45% 55%;
+  }
+
+  /* ── Columna imagen ── */
+  .neo__img {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .neo__panel--reverse .neo__img {
+    order: 2;
+  }
+
+  .neo__img img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Grano sobre imagen */
+  .neo__img::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+    background-size: 180px;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .neo__img-inner {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 1.1s ease;
+  }
+
+  .neo__img-placeholder {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(145deg, #001828 0%, #002a40 60%, #001020 100%);
+  }
+
+  .neo__img-placeholder--cream {
+    background: linear-gradient(145deg, #d0c8b8 0%, #c0b8a8 100%);
+  }
+
+  /* ── Columna texto ── */
+  .neo__text {
+    display: flex;
+    align-items: center;
+    padding: clamp(64px, 8vw, 120px) clamp(40px, 5vw, 88px);
+    position: relative;
+  }
+
+  .neo__panel--navy  .neo__text { background: var(--cm-navy); }
+  .neo__panel--cream .neo__text { background: var(--cm-off); }
+
+  .neo__panel--reverse .neo__text {
+    order: 1;
+  }
+
+  .neo__text-inner {
+    max-width: 440px;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Letra decorativa de fondo */
+  .neo__bg-letter {
+    position: absolute;
+    bottom: -0.08em;
+    right: -0.05em;
+    font-family: var(--cm-font-serif);
+    font-style: italic;
+    font-size: clamp(180px, 28vw, 340px);
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+    z-index: 0;
+  }
+
+  .neo__panel--navy  .neo__bg-letter { color: rgba(250,246,239,0.04); }
+  .neo__panel--cream .neo__bg-letter { color: rgba(196,151,58,0.07); }
+
+  /* Eyebrow */
+  .neo__eyebrow {
+    font-family: var(--cm-font-sans);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.55em;
+    text-transform: uppercase;
+    color: var(--cm-gold);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .neo__eyebrow::before {
+    content: '';
+    width: 28px;
+    height: 1px;
+    background: var(--cm-gold);
+    flex-shrink: 0;
+  }
+
+  /* Headline */
+  .neo__headline {
+    font-family: var(--cm-font-serif);
+    font-size: clamp(32px, 3.5vw, 54px);
+    font-weight: 400;
+    line-height: 1.15;
+    margin-bottom: 32px;
+  }
+
+  .neo__panel--navy  .neo__headline { color: var(--cm-off); }
+  .neo__panel--cream .neo__headline { color: var(--cm-navy); }
+
+  /* Body */
+  .neo__body {
+    font-family: var(--cm-font-sans);
+    font-size: clamp(13.5px, 1.4vw, 16px);
+    line-height: 1.95;
+    font-weight: 300;
+  }
+
+  .neo__body p { margin-bottom: 20px; }
+  .neo__body p:last-child { margin-bottom: 0; }
+
+  .neo__panel--navy  .neo__body { color: rgba(250,246,239,0.72); }
+  .neo__panel--cream .neo__body { color: var(--cm-text-mid); }
+
+  /* Separador entre paneles */
+  .neo__panel + .neo__panel {
+    border-top: 1px solid rgba(0,41,75,0.08);
+  }
+
+  /* ── Animaciones de entrada ── */
+  .neo__eyebrow,
+  .neo__headline,
+  .neo__body {
+    opacity: 0;
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .neo__headline { transition-delay: 0.15s; }
+  .neo__body     { transition-delay: 0.30s; }
+
+  /* Slide desde la izquierda (paneles normales) */
+  .neo__panel:not(.neo__panel--reverse) .neo__eyebrow,
+  .neo__panel:not(.neo__panel--reverse) .neo__headline,
+  .neo__panel:not(.neo__panel--reverse) .neo__body {
+    transform: translateX(-20px);
+  }
+
+  /* Slide desde la derecha (paneles reverse) */
+  .neo__panel--reverse .neo__eyebrow,
+  .neo__panel--reverse .neo__headline,
+  .neo__panel--reverse .neo__body {
+    transform: translateX(20px);
+  }
+
+  /* Estado activo */
+  .neo__panel.is-active .neo__eyebrow,
+  .neo__panel.is-active .neo__headline,
+  .neo__panel.is-active .neo__body {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .neo__panel.is-active .neo__img-inner {
+    opacity: 1;
+  }
+
+  /* ── Mobile ── */
+  @media (max-width: 900px) {
+    .neo__panel,
+    .neo__panel--reverse {
+      grid-template-columns: 1fr;
+      min-height: auto;
+    }
+
+    .neo__img {
+      height: 62vw;
+      min-height: 260px;
+      order: 0 !important;
+      position: relative;
+    }
+
+    .neo__img-inner {
+      position: absolute;
+    }
+
+    .neo__text {
+      order: 1 !important;
+      padding: 56px 24px;
+    }
+
+    .neo__text-inner { max-width: 100%; }
+
+    .neo__bg-letter { display: none; }
+
+    /* En mobile los elementos son visibles desde el start */
+    .neo__eyebrow,
+    .neo__headline,
+    .neo__body {
+      opacity: 1;
+      transform: none;
+    }
+
+    .neo__img-inner {
+      opacity: 1;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .neo__eyebrow,
+    .neo__headline,
+    .neo__body,
+    .neo__img-inner {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+</style>
+
+<section
+  class="neo"
+  id="neo-{{ section.id }}"
+  aria-label="{{ section.settings.aria_label | default: 'Nuestros valores' }}"
+>
+
+  {%- for block in section.blocks -%}
+    {%- if block.type == 'value' -%}
+
+      {%- assign is_reverse = false -%}
+      {%- if forloop.index0 == 1 or forloop.index0 == 3 or forloop.index0 == 5 -%}
+        {%- assign is_reverse = true -%}
+      {%- endif -%}
+
+      {%- assign bg = 'navy' -%}
+      {%- if forloop.index0 == 1 or forloop.index0 == 3 -%}
+        {%- assign bg = 'cream' -%}
+      {%- endif -%}
+      {%- if block.settings.background_override != blank -%}
+        {%- assign bg = block.settings.background_override -%}
+      {%- endif -%}
+
+      {%- assign first_letter = block.settings.headline | slice: 0 -%}
+
+      <div
+        class="neo__panel neo__panel--{{ bg }}{% if is_reverse %} neo__panel--reverse{% endif %}"
+        {{ block.shopify_attributes }}
+      >
+
+        <div class="neo__img">
+          <div class="neo__img-inner">
+            {%- if block.settings.image != blank -%}
+              {{ block.settings.image
+                | image_url: width: 1400
+                | image_tag:
+                    loading: 'lazy',
+                    alt: block.settings.image.alt | escape
+              }}
+            {%- else -%}
+              <div class="neo__img-placeholder{% if bg == 'cream' %} neo__img-placeholder--cream{% endif %}"></div>
+            {%- endif -%}
+          </div>
+        </div>
+
+        <div class="neo__text">
+          <span class="neo__bg-letter" aria-hidden="true">{{ first_letter }}</span>
+
+          <div class="neo__text-inner">
+            {%- if block.settings.value_name != blank -%}
+              <p class="neo__eyebrow">{{ block.settings.value_name }}</p>
+            {%- endif -%}
+
+            {%- if block.settings.headline != blank -%}
+              <h2 class="neo__headline">{{ block.settings.headline }}</h2>
+            {%- endif -%}
+
+            {%- if block.settings.body != blank -%}
+              <div class="neo__body">{{ block.settings.body }}</div>
+            {%- endif -%}
+          </div>
+        </div>
+
+      </div>
+
+    {%- endif -%}
+  {%- endfor -%}
+
+</section>
+
+<script>
+(function() {
+  var sec = document.getElementById('neo-{{ section.id }}');
+  if (!sec) return;
+
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (window.matchMedia('(max-width: 900px)').matches) return;
+
+  var panels = sec.querySelectorAll('.neo__panel');
+  var obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) {
+        e.target.classList.add('is-active');
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+
+  panels.forEach(function(p) { obs.observe(p); });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Valores — Editorial",
+  "tag": "section",
+  "max_blocks": 6,
+  "blocks": [
+    {
+      "type": "value",
+      "name": "Valor",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Imagen"
+        },
+        {
+          "type": "text",
+          "id": "value_name",
+          "label": "Nombre del valor (eyebrow)",
+          "default": "Autenticidad"
+        },
+        {
+          "type": "text",
+          "id": "headline",
+          "label": "Titular",
+          "default": "Solo ponemos lo que creemos"
+        },
+        {
+          "type": "richtext",
+          "id": "body",
+          "label": "Texto",
+          "default": "<p>Trabajamos únicamente con lo que creemos. Si un producto no nos convence en la primera prueba, no llega a nuestra tienda. Así de simple y así de exigente.</p><p>La autenticidad no es un valor que se declara, es una práctica que se ejerce cada vez que decimos no a algo que no da la talla.</p>"
+        },
+        {
+          "type": "select",
+          "id": "background_override",
+          "label": "Fondo (anula el automático)",
+          "options": [
+            { "value": "",      "label": "Automático" },
+            { "value": "navy",  "label": "Navy" },
+            { "value": "cream", "label": "Crema" }
+          ],
+          "default": ""
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "aria_label",
+      "label": "Etiqueta de accesibilidad",
+      "default": "Nuestros valores"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Valores — Editorial",
+      "blocks": [
+        {
+          "type": "value",
+          "settings": {
+            "value_name": "Autenticidad",
+            "headline": "Solo ponemos lo que creemos",
+            "body": "<p>Trabajamos únicamente con lo que creemos. Si un producto no nos convence en la primera prueba, no llega a nuestra tienda. Así de simple y así de exigente.</p><p>La autenticidad no es un valor que se declara, es una práctica que se ejerce cada vez que decimos no a algo que no da la talla. Y decimos no con mucha más frecuencia de lo que decimos sí.</p>"
+          }
+        },
+        {
+          "type": "value",
+          "settings": {
+            "value_name": "Respeto",
+            "headline": "Un equilibrio que no se puede romper",
+            "body": "<p>El ibérico nace de un equilibrio: entre el animal y su entorno, entre el productor y su tierra, entre nosotros y el cliente. Cualquier paso en falso rompe ese equilibrio.</p><p>Por eso el respeto no es solo una palabra en nuestro vocabulario — es la razón de que trabajemos con los productores que trabajamos y de que cuidemos cada envío como si fuera el primero.</p>"
+          }
+        },
+        {
+          "type": "value",
+          "settings": {
+            "value_name": "Exigencia",
+            "headline": "Sin excepciones y sin excusas",
+            "body": "<p>Exigimos lo mismo en la selección del producto, en el envasado, en la logística. El resultado en tu mesa tiene que estar a la altura de la expectativa que crea el primer bocado.</p><p>No es perfeccionismo. Es el respeto mínimo que merece alguien que ha depositado su confianza en nosotros.</p>"
+          }
+        },
+        {
+          "type": "value",
+          "settings": {
+            "value_name": "Imaginación",
+            "headline": "La tradición y la innovación no son opuestos",
+            "body": "<p>Son los dos extremos del mismo hilo. Llevamos generaciones aprendiendo de los productores y su saber hacer; al mismo tiempo, reinventamos cómo ese conocimiento llega a ti.</p><p>La imaginación es lo que transforma un legado en algo vivo. Lo que hace que Casa Maravillas no sea simplemente otra tienda de ibéricos.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

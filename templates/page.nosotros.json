@@ -22,14 +22,23 @@
       "blocks": {
         "stat-gen": {
           "type": "stat",
-          "settings": { "number": "3", "label": "Generaciones" }
+          "settings": {
+            "number": "3",
+            "label": "Generaciones"
+          }
         },
         "stat-iberico": {
           "type": "stat",
-          "settings": { "number": "100%", "label": "Ibérico puro" }
+          "settings": {
+            "number": "100%",
+            "label": "Ibérico puro"
+          }
         }
       },
-      "block_order": ["stat-gen", "stat-iberico"],
+      "block_order": [
+        "stat-gen",
+        "stat-iberico"
+      ],
       "settings": {
         "eyebrow": "Nuestra historia",
         "title": "Todo empezó con una convicción",
@@ -82,60 +91,73 @@
           }
         }
       },
-      "block_order": ["step-1", "step-2", "step-3", "step-4", "step-5", "step-6"],
+      "block_order": [
+        "step-1",
+        "step-2",
+        "step-3",
+        "step-4",
+        "step-5",
+        "step-6"
+      ],
       "settings": {
         "eyebrow": "El proceso de selección",
         "title": "De la dehesa a tu mesa"
       }
     },
-    "strip": {
-      "type": "marquee-strip",
+    "filmstrip": {
+      "type": "nosotros-filmstrip",
       "settings": {
-        "text": "Autenticidad | Respeto | Exigencia | Imaginación | Tres Generaciones | 100% Ibérico | Sin Excepciones | Sin Excusas"
+        "speed": 40
       }
     },
-    "valor-autenticidad": {
-      "type": "nosotros-valor",
+    "valores": {
+      "type": "nosotros-valores-editorial",
+      "blocks": {
+        "valor-autenticidad": {
+          "type": "value",
+          "settings": {
+            "value_name": "Autenticidad",
+            "headline": "Solo ponemos lo que creemos",
+            "body": "<p>Trabajamos únicamente con lo que creemos. Si un producto no nos convence en la primera prueba, no llega a nuestra tienda. Así de simple y así de exigente.</p><p>La autenticidad no es un valor que se declara, es una práctica que se ejerce cada vez que decimos no a algo que no da la talla. Y decimos no con mucha más frecuencia de lo que decimos sí.</p>",
+            "background_override": ""
+          }
+        },
+        "valor-respeto": {
+          "type": "value",
+          "settings": {
+            "value_name": "Respeto",
+            "headline": "Un equilibrio que no se puede romper",
+            "body": "<p>El ibérico nace de un equilibrio: entre el animal y su entorno, entre el productor y su tierra, entre nosotros y el cliente. Cualquier paso en falso rompe ese equilibrio.</p><p>Por eso el respeto no es solo una palabra en nuestro vocabulario — es la razón de que trabajemos con los productores que trabajamos, de que cuidemos el envío como cuidamos la selección, de que tratemos cada pedido como si fuera el primero.</p>",
+            "background_override": ""
+          }
+        },
+        "valor-exigencia": {
+          "type": "value",
+          "settings": {
+            "value_name": "Exigencia",
+            "headline": "Sin excepciones y sin excusas",
+            "body": "<p>Exigimos lo mismo en la selección del producto, en el proceso de envasado, en la logística del envío. El resultado en tu mesa tiene que estar a la altura de la expectativa que crea el primer bocado.</p><p>No es perfeccionismo. Es el respeto mínimo que merece alguien que ha depositado su confianza en nosotros. Cuando algo no llega al nivel, lo decimos. Y lo arreglamos.</p>",
+            "background_override": ""
+          }
+        },
+        "valor-imaginacion": {
+          "type": "value",
+          "settings": {
+            "value_name": "Imaginación",
+            "headline": "La tradición y la innovación no son opuestos",
+            "body": "<p>Son los dos extremos del mismo hilo. Llevamos generaciones aprendiendo de los productores y su saber hacer; al mismo tiempo, reinventamos cómo ese conocimiento llega a ti.</p><p>La imaginación es lo que transforma un legado en algo vivo. Lo que hace que una tienda de ibéricos no sea simplemente otra tienda de ibéricos, sino un lugar donde cada detalle tiene una razón de ser.</p>",
+            "background_override": ""
+          }
+        }
+      },
+      "block_order": [
+        "valor-autenticidad",
+        "valor-respeto",
+        "valor-exigencia",
+        "valor-imaginacion"
+      ],
       "settings": {
-        "eyebrow": "Autenticidad",
-        "numeral": "I",
-        "headline": "Solo ponemos lo que creemos",
-        "body": "<p>Trabajamos únicamente con lo que creemos. Si un producto no nos convence en la primera prueba, no llega a nuestra tienda. Así de simple y así de exigente.</p><p>La autenticidad no es un valor que se declara, es una práctica que se ejerce cada vez que decimos no a algo que no da la talla. Y decimos no con mucha más frecuencia de lo que decimos sí.</p>",
-        "background": "cream",
-        "image_position": "left"
-      }
-    },
-    "valor-respeto": {
-      "type": "nosotros-valor",
-      "settings": {
-        "eyebrow": "Respeto",
-        "numeral": "II",
-        "headline": "Un equilibrio que no se puede romper",
-        "body": "<p>El ibérico nace de un equilibrio: entre el animal y su entorno, entre el productor y su tierra, entre nosotros y el cliente. Cualquier paso en falso rompe ese equilibrio.</p><p>Por eso el respeto no es solo una palabra en nuestro vocabulario — es la razón de que trabajemos con los productores que trabajamos, de que cuidemos el envío como cuidamos la selección, de que tratemos cada pedido como si fuera el primero.</p>",
-        "background": "navy",
-        "image_position": "right"
-      }
-    },
-    "valor-exigencia": {
-      "type": "nosotros-valor",
-      "settings": {
-        "eyebrow": "Exigencia",
-        "numeral": "III",
-        "headline": "Sin excepciones y sin excusas",
-        "body": "<p>Exigimos lo mismo en la selección del producto, en el proceso de envasado, en la logística del envío. El resultado en tu mesa tiene que estar a la altura de la expectativa que crea el primer bocado.</p><p>No es perfeccionismo. Es el respeto mínimo que merece alguien que ha depositado su confianza en nosotros. Cuando algo no llega al nivel, lo decimos. Y lo arreglamos.</p>",
-        "background": "cream",
-        "image_position": "left"
-      }
-    },
-    "valor-imaginacion": {
-      "type": "nosotros-valor",
-      "settings": {
-        "eyebrow": "Imaginación",
-        "numeral": "IV",
-        "headline": "La tradición y la innovación no son opuestos",
-        "body": "<p>Son los dos extremos del mismo hilo. Llevamos generaciones aprendiendo de los productores y su saber hacer; al mismo tiempo, reinventamos cómo ese conocimiento llega a ti.</p><p>La imaginación es lo que transforma un legado en algo vivo. Lo que hace que una tienda de ibéricos no sea simplemente otra tienda de ibéricos, sino un lugar donde cada detalle tiene una razón de ser.</p>",
-        "background": "navy",
-        "image_position": "right"
+        "aria_label": "Nuestros valores"
       }
     },
     "manifesto": {
@@ -153,11 +175,8 @@
     "hero",
     "origen",
     "proceso",
-    "strip",
-    "valor-autenticidad",
-    "valor-respeto",
-    "valor-exigencia",
-    "valor-imaginacion",
+    "filmstrip",
+    "valores",
     "manifesto"
   ]
 }
