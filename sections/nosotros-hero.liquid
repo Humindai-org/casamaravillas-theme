@@ -75,17 +75,25 @@
     transition: opacity 0.6s 0.4s ease, width 0.8s 0.4s ease;
   }
 
+  /* Title — words animate individually via JS */
   .nsh__title {
     font-family: var(--cm-font-serif);
     font-size: clamp(32px, 5.5vw, 72px);
     font-weight: 400;
-    color: #fff;
+    color: var(--cm-off);
     line-height: 1.15;
     max-width: 760px;
     margin-bottom: 28px;
-    opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 0.8s 0.5s ease, transform 0.8s 0.5s ease;
+  }
+
+  @keyframes nshWordIn {
+    from { opacity: 0; filter: blur(8px); }
+    to   { opacity: 1; filter: blur(0); }
+  }
+
+  .nsh__word {
+    display: inline-block;
+    animation: nshWordIn 0.75s cubic-bezier(0.22, 1, 0.36, 1) backwards;
   }
 
   .nsh__subtitle {
@@ -102,45 +110,8 @@
   }
 
   .nsh.is-loaded .nsh__eyebrow,
-  .nsh.is-loaded .nsh__rule,
-  .nsh.is-loaded .nsh__title,
   .nsh.is-loaded .nsh__subtitle { opacity: 1; transform: translateY(0); }
-  .nsh.is-loaded .nsh__rule { width: 48px; }
-
-  .nsh__scroll {
-    position: absolute;
-    bottom: 40px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 5;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    opacity: 0;
-    transition: opacity 0.7s 1.4s ease;
-  }
-  .nsh.is-loaded .nsh__scroll { opacity: 0.55; }
-
-  .nsh__scroll-text {
-    font-family: var(--cm-font-sans);
-    font-size: 8px;
-    letter-spacing: 0.4em;
-    text-transform: uppercase;
-    color: rgba(250,246,239,0.6);
-  }
-
-  .nsh__scroll-line {
-    width: 1px;
-    height: 36px;
-    background: var(--cm-gold);
-    animation: nshScrollPulse 2s ease-in-out infinite;
-  }
-
-  @keyframes nshScrollPulse {
-    0%, 100% { transform: scaleY(1); opacity: 0.7; }
-    50%       { transform: scaleY(0.4); opacity: 0.3; }
-  }
+  .nsh.is-loaded .nsh__rule { opacity: 1; width: 48px; }
 
   @media (max-width: 767px) {
     .nsh { height: calc(100svh - 60px); min-height: 480px; }
@@ -148,11 +119,9 @@
 
   @media (prefers-reduced-motion: reduce) {
     .nsh__bg { animation: none; transform: scale(1.0); }
-    .nsh__scroll-line { animation: none; }
-    .nsh__eyebrow, .nsh__rule, .nsh__title, .nsh__subtitle, .nsh__scroll {
-      opacity: 1; transform: none; transition: none;
-    }
-    .nsh__rule { width: 48px; }
+    .nsh__eyebrow, .nsh__subtitle { opacity: 1; transform: none; transition: none; }
+    .nsh__rule { opacity: 1; width: 48px; transition: none; }
+    .nsh__word { animation: none; opacity: 1; filter: none; }
   }
 </style>
 
@@ -179,16 +148,13 @@
 
     <div class="nsh__rule" aria-hidden="true"></div>
 
-    <h1 class="nsh__title">{{ section.settings.title | default: 'Tres generaciones eligiendo lo mejor del campo ibérico' }}</h1>
+    <h1 class="nsh__title" id="nsh-title-{{ section.id }}">
+      {{ section.settings.title | default: 'Tres generaciones eligiendo lo mejor del campo ibérico' }}
+    </h1>
 
     {%- if section.settings.subtitle != blank -%}
       <p class="nsh__subtitle">{{ section.settings.subtitle }}</p>
     {%- endif -%}
-  </div>
-
-  <div class="nsh__scroll" aria-hidden="true">
-    <span class="nsh__scroll-text">Descubre</span>
-    <span class="nsh__scroll-line"></span>
   </div>
 
 </section>
@@ -197,6 +163,18 @@
 (function() {
   var el = document.getElementById('nsh-{{ section.id }}');
   if (!el) return;
+
+  var titleEl = document.getElementById('nsh-title-{{ section.id }}');
+
+  if (titleEl && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    var words = titleEl.textContent.trim().split(/\s+/);
+    var baseDelay = 0.38;
+    titleEl.innerHTML = words.map(function(w, i) {
+      var delay = (baseDelay + i * 0.07).toFixed(2);
+      return '<span class="nsh__word" style="animation-delay:' + delay + 's">' + w + '</span>';
+    }).join(' ');
+  }
+
   requestAnimationFrame(function() {
     requestAnimationFrame(function() {
       el.classList.add('is-loaded');

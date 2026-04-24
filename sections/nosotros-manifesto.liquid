@@ -65,11 +65,11 @@
     font-family: var(--cm-font-serif);
     font-size: clamp(28px, 5vw, 64px);
     font-weight: 400;
-    font-style: italic;
-    color: #fff;
-    line-height: 1.25;
-    margin-bottom: 40px;
-    letter-spacing: -0.01em;
+    font-style: normal;
+    color: var(--cm-off);
+    line-height: 1.2;
+    margin-bottom: 48px;
+    letter-spacing: -0.02em;
   }
 
   .nsm__attribution {
@@ -146,17 +146,13 @@
     <div class="nsm__rule cm-reveal cm-reveal--d1" aria-hidden="true"></div>
 
     <blockquote class="nsm__quote cm-reveal cm-reveal--d2">
-      "{{ section.settings.quote | default: 'Lo excepcional merece ser accesible' }}"
+      {{ section.settings.quote | default: 'Tres generaciones seleccionando los mejores ibéricos de España.' }}
     </blockquote>
-
-    {%- if section.settings.attribution != blank -%}
-      <p class="nsm__attribution cm-reveal cm-reveal--d3">{{ section.settings.attribution }}</p>
-    {%- endif -%}
 
     {%- if section.settings.cta_label != blank -%}
       <a
         href="{{ section.settings.cta_url | default: '/collections/all' }}"
-        class="nsm__cta cm-reveal cm-reveal--d4"
+        class="nsm__cta cm-reveal cm-reveal--d3"
       >
         {{ section.settings.cta_label }}
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
