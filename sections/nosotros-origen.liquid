@@ -1,0 +1,265 @@
+<style>
+  .nso {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 70vh;
+    background: var(--cm-off);
+    border-bottom: 1px solid var(--cm-border);
+  }
+
+  .nso__image-col {
+    position: relative;
+    overflow: hidden;
+    min-height: 480px;
+  }
+
+  .nso__image-col img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .nso__image-placeholder {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(145deg, var(--cm-navy) 0%, #001a30 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .nso__image-placeholder-text {
+    font-family: var(--cm-font-serif);
+    font-size: clamp(80px, 15vw, 180px);
+    font-style: italic;
+    color: rgba(196,151,58,0.12);
+    user-select: none;
+  }
+
+  .nso__content {
+    padding: clamp(64px, 8vw, 112px) clamp(48px, 7vw, 96px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .nso__bg-numeral {
+    position: absolute;
+    bottom: -0.1em;
+    right: -0.05em;
+    font-family: var(--cm-font-serif);
+    font-size: clamp(180px, 28vw, 320px);
+    font-style: italic;
+    color: var(--cm-gold);
+    opacity: 0.04;
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+    z-index: 0;
+  }
+
+  .nso__inner { position: relative; z-index: 1; }
+
+  .nso__eyebrow {
+    font-family: var(--cm-font-sans);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--cm-gold);
+    margin-bottom: 20px;
+  }
+
+  .nso__title {
+    font-family: var(--cm-font-serif);
+    font-size: clamp(28px, 3.5vw, 48px);
+    font-weight: 400;
+    color: var(--cm-navy);
+    line-height: 1.2;
+    margin-bottom: 28px;
+  }
+
+  .nso__body {
+    font-family: var(--cm-font-sans);
+    font-size: 14.5px;
+    line-height: 1.9;
+    color: var(--cm-text-mid);
+    margin-bottom: 48px;
+    max-width: 480px;
+  }
+
+  .nso__body p { margin-bottom: 16px; }
+  .nso__body p:last-child { margin-bottom: 0; }
+
+  .nso__stats {
+    display: flex;
+    gap: 0;
+    width: fit-content;
+  }
+
+  .nso__stat {
+    background: var(--cm-navy);
+    padding: 24px 36px;
+    text-align: center;
+    border-right: 1px solid rgba(255,255,255,0.08);
+  }
+  .nso__stat:last-child { border-right: none; }
+
+  .nso__stat-num {
+    display: block;
+    font-family: var(--cm-font-serif);
+    font-size: 36px;
+    font-style: italic;
+    color: var(--cm-gold);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .nso__stat-label {
+    display: block;
+    font-family: var(--cm-font-sans);
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.45);
+    line-height: 1.5;
+  }
+
+  .nso .cm-reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .nso .cm-reveal.is-visible { opacity: 1; transform: none; }
+  .nso .cm-reveal--d1 { transition-delay: 0.15s; }
+  .nso .cm-reveal--d2 { transition-delay: 0.3s; }
+  .nso .cm-reveal--d3 { transition-delay: 0.45s; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nso .cm-reveal { opacity: 1; transform: none; transition: none; }
+  }
+
+  @media (max-width: 1023px) {
+    .nso { grid-template-columns: 1fr; }
+    .nso__image-col { min-height: 0; height: 400px; }
+    .nso__content { padding: 56px 40px; }
+  }
+
+  @media (max-width: 767px) {
+    .nso__image-col { height: 300px; }
+    .nso__content { padding: 48px 24px; }
+    .nso__stats { flex-direction: column; width: 100%; }
+    .nso__stat { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); padding: 20px 24px; text-align: left; }
+    .nso__stat:last-child { border-bottom: none; }
+  }
+</style>
+
+<section class="nso" id="nso-{{ section.id }}">
+
+  <div class="nso__image-col">
+    {%- if section.settings.image != blank -%}
+      {{ section.settings.image
+        | image_url: width: 1200
+        | image_tag:
+            loading: 'lazy',
+            alt: section.settings.image.alt | escape
+      }}
+    {%- else -%}
+      <div class="nso__image-placeholder" aria-hidden="true">
+        <span class="nso__image-placeholder-text">III</span>
+      </div>
+    {%- endif -%}
+  </div>
+
+  <div class="nso__content">
+    <span class="nso__bg-numeral" aria-hidden="true">III</span>
+
+    <div class="nso__inner">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="nso__eyebrow cm-reveal">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+
+      <h2 class="nso__title cm-reveal cm-reveal--d1">{{ section.settings.title | default: 'Todo empezó con una convicción' }}</h2>
+
+      {%- if section.settings.body != blank -%}
+        <div class="nso__body cm-reveal cm-reveal--d2">{{ section.settings.body }}</div>
+      {%- endif -%}
+
+      {%- if section.blocks.size > 0 -%}
+        <div class="nso__stats cm-reveal cm-reveal--d3">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'stat' -%}
+              <div class="nso__stat" {{ block.shopify_attributes }}>
+                <span class="nso__stat-num">{{ block.settings.number }}</span>
+                <span class="nso__stat-label">{{ block.settings.label }}</span>
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+
+</section>
+
+<script>
+(function() {
+  var sec = document.getElementById('nso-{{ section.id }}');
+  if (!sec) return;
+  var obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('is-visible'); });
+  }, { threshold: 0.15 });
+  sec.querySelectorAll('.cm-reveal').forEach(function(el) { obs.observe(el); });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Nosotros — Origen",
+  "tag": "section",
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "Estadística",
+      "settings": [
+        { "type": "text", "id": "number", "label": "Número", "default": "3" },
+        { "type": "text", "id": "label", "label": "Etiqueta", "default": "Generaciones" }
+      ]
+    }
+  ],
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Imagen" },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Etiqueta superior",
+      "default": "Nuestra historia"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Título",
+      "default": "Todo empezó con una convicción"
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Texto",
+      "default": "<p>Somos una familia que lleva tres generaciones viviendo los ibéricos desde dentro. No desde la teoría, sino desde el campo, desde las bodegas, desde el conocimiento acumulado de quien ha pasado décadas aprendiendo a distinguir lo bueno de lo excepcional.</p><p>Cuando decidimos llevar ese conocimiento a una tienda online, nos hicimos una sola pregunta: ¿venderíamos esto a un amigo? Si la respuesta es sí, entra al catálogo. Si hay alguna duda, no entra. Así de simple. Así de exigente.</p>"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Nosotros — Origen",
+      "blocks": [
+        { "type": "stat", "settings": { "number": "3", "label": "Generaciones" } },
+        { "type": "stat", "settings": { "number": "100%", "label": "Ibérico puro" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

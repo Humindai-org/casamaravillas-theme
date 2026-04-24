@@ -1,0 +1,242 @@
+<style>
+  .nsv {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 80vh;
+  }
+
+  .nsv--navy { background: var(--cm-navy); }
+  .nsv--cream { background: var(--cm-off); }
+
+  /* Image column */
+  .nsv__img-col {
+    position: relative;
+    overflow: hidden;
+    min-height: 480px;
+    order: 0;
+  }
+
+  .nsv--img-right .nsv__img-col { order: 2; }
+
+  .nsv__img-col img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.7s ease;
+  }
+
+  .nsv:hover .nsv__img-col img { transform: scale(1.03); }
+
+  .nsv__img-placeholder {
+    position: absolute;
+    inset: 0;
+  }
+
+  .nsv--navy .nsv__img-placeholder { background: linear-gradient(145deg, #001020 0%, #002040 100%); }
+  .nsv--cream .nsv__img-placeholder { background: linear-gradient(145deg, #d8d0c0 0%, #c8bca8 100%); }
+
+  /* Content column */
+  .nsv__content {
+    padding: clamp(80px, 10vw, 140px) clamp(48px, 7vw, 96px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    order: 1;
+  }
+
+  .nsv--img-right .nsv__content { order: 1; }
+
+  .nsv__bg-numeral {
+    position: absolute;
+    bottom: -0.1em;
+    right: -0.05em;
+    font-family: var(--cm-font-serif);
+    font-size: clamp(160px, 26vw, 300px);
+    font-style: italic;
+    opacity: 0.04;
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+    z-index: 0;
+  }
+
+  .nsv--navy .nsv__bg-numeral { color: rgba(250,246,239,0.9); }
+  .nsv--cream .nsv__bg-numeral { color: var(--cm-gold); }
+
+  .nsv__inner { position: relative; z-index: 1; }
+
+  .nsv__eyebrow {
+    font-family: var(--cm-font-sans);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--cm-gold);
+    margin-bottom: 20px;
+  }
+
+  .nsv__line {
+    width: 40px;
+    height: 2px;
+    background: var(--cm-gold);
+    margin-bottom: 28px;
+  }
+
+  .nsv__title {
+    font-family: var(--cm-font-serif);
+    font-size: clamp(26px, 3vw, 44px);
+    font-weight: 400;
+    line-height: 1.2;
+    margin-bottom: 32px;
+  }
+
+  .nsv--navy .nsv__title { color: #fff; }
+  .nsv--cream .nsv__title { color: var(--cm-navy); }
+
+  .nsv__body {
+    font-family: var(--cm-font-sans);
+    font-size: 15px;
+    line-height: 1.95;
+    max-width: 480px;
+  }
+
+  .nsv--navy .nsv__body { color: rgba(250,246,239,0.7); }
+  .nsv--cream .nsv__body { color: var(--cm-text-mid); }
+
+  .nsv__body p { margin-bottom: 20px; }
+  .nsv__body p:last-child { margin-bottom: 0; }
+
+  /* Scroll reveal */
+  .nsv .cm-reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .nsv .cm-reveal.is-visible { opacity: 1; transform: none; }
+  .nsv .cm-reveal--d1 { transition-delay: 0.15s; }
+  .nsv .cm-reveal--d2 { transition-delay: 0.3s; }
+  .nsv .cm-reveal--d3 { transition-delay: 0.45s; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nsv .cm-reveal { opacity: 1; transform: none; transition: none; }
+    .nsv:hover .nsv__img-col img { transform: none; }
+  }
+
+  @media (max-width: 1023px) {
+    .nsv { grid-template-columns: 1fr; }
+    .nsv__img-col { order: 0 !important; min-height: 0; height: 400px; }
+    .nsv__img-col img { position: absolute; }
+    .nsv__content { order: 1 !important; padding: 64px 40px; }
+  }
+
+  @media (max-width: 767px) {
+    .nsv__img-col { height: 300px; }
+    .nsv__content { padding: 48px 24px; }
+  }
+</style>
+
+{%- assign bg_val = section.settings.background | default: 'cream' -%}
+{%- assign bg_class = 'nsv--' | append: bg_val -%}
+{%- assign img_class = '' -%}
+{%- if section.settings.image_position == 'right' -%}{%- assign img_class = 'nsv--img-right' -%}{%- endif -%}
+
+<section class="nsv {{ bg_class }} {{ img_class }}" id="nsv-{{ section.id }}">
+
+  <div class="nsv__img-col">
+    {%- if section.settings.image != blank -%}
+      {{ section.settings.image
+        | image_url: width: 1400
+        | image_tag:
+            loading: 'lazy',
+            alt: section.settings.image.alt | escape
+      }}
+    {%- else -%}
+      <div class="nsv__img-placeholder" aria-hidden="true"></div>
+    {%- endif -%}
+  </div>
+
+  <div class="nsv__content">
+    <span class="nsv__bg-numeral" aria-hidden="true">{{ section.settings.numeral | default: 'I' }}</span>
+
+    <div class="nsv__inner">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="nsv__eyebrow cm-reveal">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+
+      <div class="nsv__line cm-reveal cm-reveal--d1" aria-hidden="true"></div>
+
+      <h2 class="nsv__title cm-reveal cm-reveal--d1">{{ section.settings.headline | default: 'Un valor que define cada decisión' }}</h2>
+
+      {%- if section.settings.body != blank -%}
+        <div class="nsv__body cm-reveal cm-reveal--d2">{{ section.settings.body }}</div>
+      {%- endif -%}
+    </div>
+  </div>
+
+</section>
+
+<script>
+(function() {
+  var sec = document.getElementById('nsv-{{ section.id }}');
+  if (!sec) return;
+  var obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('is-visible'); });
+  }, { threshold: 0.1 });
+  sec.querySelectorAll('.cm-reveal').forEach(function(el) { obs.observe(el); });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Nosotros — Valor",
+  "tag": "section",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Imagen" },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Posición de la imagen",
+      "options": [
+        { "value": "left",  "label": "Izquierda" },
+        { "value": "right", "label": "Derecha" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "background",
+      "label": "Fondo",
+      "options": [
+        { "value": "cream", "label": "Crema" },
+        { "value": "navy",  "label": "Navy" }
+      ],
+      "default": "cream"
+    },
+    { "type": "text", "id": "eyebrow", "label": "Etiqueta (nombre del valor)", "default": "Autenticidad" },
+    { "type": "text", "id": "numeral", "label": "Número romano decorativo",    "default": "I" },
+    { "type": "text", "id": "headline", "label": "Titular", "default": "Solo ponemos lo que creemos" },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Texto narrativo",
+      "default": "<p>Trabajamos únicamente con lo que creemos. Si un producto no nos convence en la primera prueba, no llega a nuestra tienda. Así de simple y así de exigente.</p><p>La autenticidad no es un valor que se declara, es una práctica que se ejerce cada vez que decimos no a algo que no da la talla. Y decimos no con mucha más frecuencia de lo que decimos sí.</p>"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Nosotros — Valor",
+      "settings": {
+        "eyebrow": "Autenticidad",
+        "numeral": "I",
+        "headline": "Solo ponemos lo que creemos",
+        "background": "cream",
+        "image_position": "left"
+      }
+    }
+  ]
+}
+{% endschema %}

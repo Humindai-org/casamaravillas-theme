@@ -1,0 +1,200 @@
+<style>
+  .nsm {
+    position: relative;
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: var(--cm-navy);
+  }
+
+  .nsm__bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.25;
+    filter: saturate(0.4) brightness(0.6);
+  }
+
+  .nsm__overlay {
+    position: absolute;
+    inset: 0;
+    background: var(--cm-navy);
+    opacity: 0.75;
+  }
+
+  .nsm__grain {
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+    background-size: 180px;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .nsm__content {
+    position: relative;
+    z-index: 3;
+    text-align: center;
+    padding: clamp(96px, 12vw, 140px) 24px;
+    max-width: 880px;
+    margin: 0 auto;
+  }
+
+  .nsm__eyebrow {
+    font-family: var(--cm-font-sans);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--cm-gold);
+    margin-bottom: 40px;
+  }
+
+  .nsm__rule {
+    width: 40px;
+    height: 1px;
+    background: var(--cm-gold);
+    margin: 0 auto 48px;
+  }
+
+  .nsm__quote {
+    font-family: var(--cm-font-serif);
+    font-size: clamp(28px, 5vw, 64px);
+    font-weight: 400;
+    font-style: italic;
+    color: #fff;
+    line-height: 1.25;
+    margin-bottom: 40px;
+    letter-spacing: -0.01em;
+  }
+
+  .nsm__attribution {
+    font-family: var(--cm-font-sans);
+    font-size: 10px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--cm-gold);
+    margin-bottom: 56px;
+  }
+
+  .nsm__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 15px 40px;
+    border: 1.5px solid rgba(196,151,58,0.6);
+    color: rgba(250,246,239,0.9);
+    font-family: var(--cm-font-sans);
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    text-decoration: none;
+    background: transparent;
+    transition: background 0.25s ease, border-color 0.25s ease;
+  }
+
+  .nsm__cta:hover {
+    background: rgba(196,151,58,0.15);
+    border-color: var(--cm-gold);
+  }
+
+  .nsm__cta:focus-visible {
+    outline: 2px solid var(--cm-gold);
+    outline-offset: 3px;
+  }
+
+  .nsm .cm-reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .nsm .cm-reveal.is-visible { opacity: 1; transform: none; }
+  .nsm .cm-reveal--d1 { transition-delay: 0.15s; }
+  .nsm .cm-reveal--d2 { transition-delay: 0.3s; }
+  .nsm .cm-reveal--d3 { transition-delay: 0.45s; }
+  .nsm .cm-reveal--d4 { transition-delay: 0.6s; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nsm .cm-reveal { opacity: 1; transform: none; transition: none; }
+  }
+</style>
+
+<section class="nsm" id="nsm-{{ section.id }}">
+
+  {%- if section.settings.image != blank -%}
+    {{ section.settings.image
+      | image_url: width: 1800
+      | image_tag:
+          class: 'nsm__bg',
+          loading: 'lazy',
+          alt: section.settings.image.alt | escape
+    }}
+  {%- endif -%}
+
+  <div class="nsm__overlay" aria-hidden="true"></div>
+  <div class="nsm__grain"   aria-hidden="true"></div>
+
+  <div class="nsm__content">
+    {%- if section.settings.eyebrow != blank -%}
+      <p class="nsm__eyebrow cm-reveal">{{ section.settings.eyebrow }}</p>
+    {%- endif -%}
+
+    <div class="nsm__rule cm-reveal cm-reveal--d1" aria-hidden="true"></div>
+
+    <blockquote class="nsm__quote cm-reveal cm-reveal--d2">
+      "{{ section.settings.quote | default: 'Lo excepcional merece ser accesible' }}"
+    </blockquote>
+
+    {%- if section.settings.attribution != blank -%}
+      <p class="nsm__attribution cm-reveal cm-reveal--d3">{{ section.settings.attribution }}</p>
+    {%- endif -%}
+
+    {%- if section.settings.cta_label != blank -%}
+      <a
+        href="{{ section.settings.cta_url | default: '/collections/all' }}"
+        class="nsm__cta cm-reveal cm-reveal--d4"
+      >
+        {{ section.settings.cta_label }}
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
+    {%- endif -%}
+  </div>
+
+</section>
+
+<script>
+(function() {
+  var sec = document.getElementById('nsm-{{ section.id }}');
+  if (!sec) return;
+  var obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('is-visible'); });
+  }, { threshold: 0.1 });
+  sec.querySelectorAll('.cm-reveal').forEach(function(el) { obs.observe(el); });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Nosotros — Manifiesto",
+  "tag": "section",
+  "settings": [
+    { "type": "image_picker", "id": "image",       "label": "Imagen de fondo" },
+    { "type": "text",         "id": "eyebrow",     "label": "Etiqueta superior",  "default": "Nuestra convicción" },
+    { "type": "text",         "id": "quote",       "label": "Frase principal",    "default": "Lo excepcional merece ser accesible" },
+    { "type": "text",         "id": "attribution", "label": "Atribución",         "default": "Casa Maravillas — Tres generaciones de selección" },
+    { "type": "text",         "id": "cta_label",   "label": "Texto del botón",    "default": "Descubre nuestra selección" },
+    { "type": "url",          "id": "cta_url",     "label": "Enlace del botón" }
+  ],
+  "presets": [
+    {
+      "name": "Nosotros — Manifiesto"
+    }
+  ]
+}
+{% endschema %}

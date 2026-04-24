@@ -1,26 +1,163 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
-    "story": {
-      "type": "about-split",
-      "blocks": {
-        "stat-1": { "type": "stat", "settings": { "number": "3", "label": "Generaciones" } },
-        "stat-2": { "type": "stat", "settings": { "number": "100%", "label": "Ibérico puro" } }
-      },
-      "block_order": ["stat-1", "stat-2"],
+    "hero": {
+      "type": "nosotros-hero",
       "settings": {
         "eyebrow": "Nuestra historia",
-        "title": "<p>Una historia de <em>tradición</em></p>",
-        "body": "Tres generaciones dedicadas a seleccionar los mejores productos ibéricos de la dehesa española. Una tradición familiar que hoy llega a tu mesa con la misma pasión artesanal de siempre.",
-        "cta_label": "",
-        "cta_url": ""
+        "title": "Tres generaciones eligiendo lo mejor del campo ibérico",
+        "subtitle": "Una convicción que se hereda, un estándar que no se negocia"
+      }
+    },
+    "origen": {
+      "type": "nosotros-origen",
+      "blocks": {
+        "stat-gen": {
+          "type": "stat",
+          "settings": { "number": "3", "label": "Generaciones" }
+        },
+        "stat-iberico": {
+          "type": "stat",
+          "settings": { "number": "100%", "label": "Ibérico puro" }
+        }
+      },
+      "block_order": ["stat-gen", "stat-iberico"],
+      "settings": {
+        "eyebrow": "Nuestra historia",
+        "title": "Todo empezó con una convicción",
+        "body": "<p>Somos una familia que lleva tres generaciones viviendo los ibéricos desde dentro. No desde la teoría, sino desde el campo, desde las bodegas, desde el conocimiento acumulado de quien ha pasado décadas aprendiendo a distinguir lo bueno de lo excepcional.</p><p>Cuando decidimos llevar ese conocimiento a una tienda online, nos hicimos una sola pregunta: ¿venderíamos esto a un amigo? Si la respuesta es sí, entra al catálogo. Si hay alguna duda, no entra. Así de simple. Así de exigente.</p>"
+      }
+    },
+    "proceso": {
+      "type": "nosotros-proceso",
+      "blocks": {
+        "step-1": {
+          "type": "step",
+          "settings": {
+            "title": "La Dehesa",
+            "description": "El ecosistema donde nace todo. Encinas centenarias, suelo fértil, espacio sin límites para el animal que lo llena todo."
+          }
+        },
+        "step-2": {
+          "type": "step",
+          "settings": {
+            "title": "La Raza",
+            "description": "Ibérico puro. Sin cruzamientos que comprometan el sabor o la calidad. La raza define el potencial; todo lo demás es la forma de alcanzarlo."
+          }
+        },
+        "step-3": {
+          "type": "step",
+          "settings": {
+            "title": "La Montanera",
+            "description": "Cada otoño, los cerdos pastan libremente bajo las encinas. Las bellotas hacen el resto: esa grasa infiltrada característica que no se puede imitar."
+          }
+        },
+        "step-4": {
+          "type": "step",
+          "settings": {
+            "title": "La Maduración",
+            "description": "Más de 36 meses en bodega. La paciencia es el ingrediente que no se puede comprar. El tiempo transforma la materia prima en algo irremplazable."
+          }
+        },
+        "step-5": {
+          "type": "step",
+          "settings": {
+            "title": "Nuestra Selección",
+            "description": "Visitamos, probamos, comparamos. Solo elegimos lo que nosotros mismos compraríamos. Si hay dudas, la respuesta es no."
+          }
+        },
+        "step-6": {
+          "type": "step",
+          "settings": {
+            "title": "Tu Mesa",
+            "description": "El momento para el que todo existe. El disfrute que justifica cada paso anterior, cada decisión tomada con exigencia a lo largo del camino."
+          }
+        }
+      },
+      "block_order": ["step-1", "step-2", "step-3", "step-4", "step-5", "step-6"],
+      "settings": {
+        "eyebrow": "El proceso de selección",
+        "title": "De la dehesa a tu mesa"
       }
     },
     "strip": {
       "type": "marquee-strip",
       "settings": {
-        "text": "Jamón Ibérico de Bellota | Embutidos Artesanales | Packs Regalo | Envío en 24h | Tres Generaciones | Calidad Garantizada | Productos de Alicante | Dehesa Española"
+        "text": "Autenticidad | Respeto | Exigencia | Imaginación | Tres Generaciones | 100% Ibérico | Sin Excepciones | Sin Excusas"
+      }
+    },
+    "valor-autenticidad": {
+      "type": "nosotros-valor",
+      "settings": {
+        "eyebrow": "Autenticidad",
+        "numeral": "I",
+        "headline": "Solo ponemos lo que creemos",
+        "body": "<p>Trabajamos únicamente con lo que creemos. Si un producto no nos convence en la primera prueba, no llega a nuestra tienda. Así de simple y así de exigente.</p><p>La autenticidad no es un valor que se declara, es una práctica que se ejerce cada vez que decimos no a algo que no da la talla. Y decimos no con mucha más frecuencia de lo que decimos sí.</p>",
+        "background": "cream",
+        "image_position": "left"
+      }
+    },
+    "valor-respeto": {
+      "type": "nosotros-valor",
+      "settings": {
+        "eyebrow": "Respeto",
+        "numeral": "II",
+        "headline": "Un equilibrio que no se puede romper",
+        "body": "<p>El ibérico nace de un equilibrio: entre el animal y su entorno, entre el productor y su tierra, entre nosotros y el cliente. Cualquier paso en falso rompe ese equilibrio.</p><p>Por eso el respeto no es solo una palabra en nuestro vocabulario — es la razón de que trabajemos con los productores que trabajamos, de que cuidemos el envío como cuidamos la selección, de que tratemos cada pedido como si fuera el primero.</p>",
+        "background": "navy",
+        "image_position": "right"
+      }
+    },
+    "valor-exigencia": {
+      "type": "nosotros-valor",
+      "settings": {
+        "eyebrow": "Exigencia",
+        "numeral": "III",
+        "headline": "Sin excepciones y sin excusas",
+        "body": "<p>Exigimos lo mismo en la selección del producto, en el proceso de envasado, en la logística del envío. El resultado en tu mesa tiene que estar a la altura de la expectativa que crea el primer bocado.</p><p>No es perfeccionismo. Es el respeto mínimo que merece alguien que ha depositado su confianza en nosotros. Cuando algo no llega al nivel, lo decimos. Y lo arreglamos.</p>",
+        "background": "cream",
+        "image_position": "left"
+      }
+    },
+    "valor-imaginacion": {
+      "type": "nosotros-valor",
+      "settings": {
+        "eyebrow": "Imaginación",
+        "numeral": "IV",
+        "headline": "La tradición y la innovación no son opuestos",
+        "body": "<p>Son los dos extremos del mismo hilo. Llevamos generaciones aprendiendo de los productores y su saber hacer; al mismo tiempo, reinventamos cómo ese conocimiento llega a ti.</p><p>La imaginación es lo que transforma un legado en algo vivo. Lo que hace que una tienda de ibéricos no sea simplemente otra tienda de ibéricos, sino un lugar donde cada detalle tiene una razón de ser.</p>",
+        "background": "navy",
+        "image_position": "right"
+      }
+    },
+    "manifesto": {
+      "type": "nosotros-manifesto",
+      "settings": {
+        "eyebrow": "Nuestra convicción",
+        "quote": "Lo excepcional merece ser accesible",
+        "attribution": "Casa Maravillas — Tres generaciones de selección",
+        "cta_label": "Descubre nuestra selección",
+        "cta_url": "/collections/all"
       }
     }
   },
-  "order": ["story", "strip"]
+  "order": [
+    "hero",
+    "origen",
+    "proceso",
+    "strip",
+    "valor-autenticidad",
+    "valor-respeto",
+    "valor-exigencia",
+    "valor-imaginacion",
+    "manifesto"
+  ]
 }

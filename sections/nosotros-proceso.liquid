@@ -1,0 +1,488 @@
+<style>
+  .nsp {
+    background: var(--cm-off);
+    border-top: 1px solid var(--cm-border);
+    border-bottom: 1px solid var(--cm-border);
+    overflow: hidden;
+  }
+
+  /* ── Desktop: sidebar + horizontal scroll track ── */
+  .nsp__desktop {
+    display: flex;
+    min-height: 78vh;
+  }
+
+  .nsp__sidebar {
+    width: 300px;
+    flex-shrink: 0;
+    background: var(--cm-navy);
+    padding: 72px 48px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    z-index: 2;
+  }
+
+  .nsp__sidebar-eyebrow {
+    font-family: var(--cm-font-sans);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--cm-gold);
+    margin-bottom: 20px;
+  }
+
+  .nsp__sidebar-title {
+    font-family: var(--cm-font-serif);
+    font-size: clamp(20px, 2vw, 30px);
+    font-weight: 400;
+    color: #fff;
+    line-height: 1.3;
+  }
+
+  .nsp__sidebar-title em { font-style: italic; color: rgba(250,246,239,0.7); }
+
+  .nsp__counter {
+    font-family: var(--cm-font-sans);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: rgba(255,255,255,0.3);
+    margin-bottom: 16px;
+  }
+
+  .nsp__dots {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+
+  .nsp__dot {
+    width: 20px;
+    height: 3px;
+    background: rgba(255,255,255,0.2);
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: background 0.3s ease, width 0.35s cubic-bezier(0.16,1,0.3,1);
+  }
+
+  .nsp__dot.is-active {
+    background: var(--cm-gold);
+    width: 36px;
+  }
+
+  .nsp__dot:focus-visible { outline: 2px solid var(--cm-gold); outline-offset: 2px; }
+
+  .nsp__nav {
+    display: flex;
+    gap: 10px;
+  }
+
+  .nsp__btn {
+    width: 44px;
+    height: 44px;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: transparent;
+    color: rgba(255,255,255,0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+  }
+
+  .nsp__btn:hover {
+    background: rgba(196,151,58,0.15);
+    border-color: var(--cm-gold);
+    color: #fff;
+  }
+
+  .nsp__btn:focus-visible { outline: 2px solid var(--cm-gold); outline-offset: 2px; }
+
+  /* Scrollable track */
+  .nsp__track {
+    flex: 1;
+    display: flex;
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .nsp__track::-webkit-scrollbar { display: none; }
+
+  /* Cards */
+  .nsp__card {
+    flex-shrink: 0;
+    width: min(520px, 62vw);
+    scroll-snap-align: start;
+    padding: 72px 56px;
+    border-right: 1px solid var(--cm-border);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    background: var(--cm-white);
+    overflow: hidden;
+  }
+
+  .nsp__card-numeral {
+    position: absolute;
+    bottom: -0.1em;
+    right: -0.05em;
+    font-family: var(--cm-font-serif);
+    font-size: clamp(120px, 18vw, 220px);
+    font-style: italic;
+    color: var(--cm-gold);
+    opacity: 0.05;
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .nsp__card-step {
+    font-family: var(--cm-font-sans);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.45em;
+    text-transform: uppercase;
+    color: var(--cm-gold);
+    margin-bottom: 16px;
+  }
+
+  .nsp__card-title {
+    font-family: var(--cm-font-serif);
+    font-size: clamp(22px, 2.8vw, 36px);
+    font-weight: 400;
+    color: var(--cm-navy);
+    line-height: 1.2;
+    margin-bottom: 20px;
+  }
+
+  .nsp__card-text {
+    font-family: var(--cm-font-sans);
+    font-size: 14px;
+    line-height: 1.9;
+    color: var(--cm-text-mid);
+    max-width: 380px;
+  }
+
+  .nsp__card-image {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    margin-bottom: 32px;
+    flex-shrink: 0;
+  }
+
+  .nsp__card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  .nsp__card:hover .nsp__card-image img { transform: scale(1.03); }
+
+  /* ── Mobile: accordion ── */
+  .nsp__mobile { display: none; }
+
+  .nsp__mobile-header { margin-bottom: 40px; }
+
+  .nsp__mobile-eyebrow {
+    font-family: var(--cm-font-sans);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--cm-gold);
+    margin-bottom: 16px;
+  }
+
+  .nsp__mobile-title {
+    font-family: var(--cm-font-serif);
+    font-size: clamp(26px, 6vw, 40px);
+    font-weight: 400;
+    color: var(--cm-navy);
+    line-height: 1.2;
+  }
+
+  .nsp__mobile-title em { font-style: italic; }
+
+  .nsp__step { border-top: 1px solid var(--cm-border); }
+  .nsp__step:last-child { border-bottom: 1px solid var(--cm-border); }
+
+  .nsp__step summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 20px 0;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .nsp__step summary::-webkit-details-marker { display: none; }
+
+  .nsp__step-label {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .nsp__step-num {
+    font-family: var(--cm-font-serif);
+    font-size: 18px;
+    font-style: italic;
+    color: var(--cm-gold);
+    min-width: 24px;
+  }
+
+  .nsp__step-heading {
+    font-family: var(--cm-font-sans);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--cm-text);
+  }
+
+  .nsp__step-chevron {
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+    color: var(--cm-gold);
+    transition: transform 0.3s ease;
+  }
+
+  .nsp__step[open] .nsp__step-chevron { transform: rotate(180deg); }
+
+  .nsp__step-body {
+    padding: 0 0 24px 40px;
+    font-family: var(--cm-font-sans);
+    font-size: 13.5px;
+    line-height: 1.9;
+    color: var(--cm-text-mid);
+  }
+
+  @media (max-width: 1023px) {
+    .nsp__sidebar { width: 240px; padding: 56px 32px; }
+    .nsp__card { width: min(440px, 70vw); padding: 56px 40px; }
+  }
+
+  @media (max-width: 767px) {
+    .nsp__desktop { display: none; }
+    .nsp__mobile { display: block; padding: 64px 24px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nsp__card:hover .nsp__card-image img { transform: none; }
+  }
+</style>
+
+{%- assign roman_numerals = 'I,II,III,IV,V,VI,VII,VIII,IX,X' | split: ',' -%}
+
+<section class="nsp" id="nsp-{{ section.id }}">
+
+  <!-- Desktop -->
+  <div class="nsp__desktop">
+
+    <div class="nsp__sidebar">
+      <div>
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="nsp__sidebar-eyebrow">{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+        <h2 class="nsp__sidebar-title">
+          {{- section.settings.title | default: 'De la dehesa <em>a tu mesa</em>' -}}
+        </h2>
+      </div>
+
+      <div>
+        <p class="nsp__counter" id="nsp-counter-{{ section.id }}">01 / {{ section.blocks.size | prepend: '0' | slice: -2, 2 }}</p>
+
+        <div class="nsp__dots" role="tablist" aria-label="Pasos del proceso" id="nsp-dots-{{ section.id }}">
+          {%- for block in section.blocks -%}
+            <button
+              class="nsp__dot{% if forloop.first %} is-active{% endif %}"
+              role="tab"
+              aria-label="{{ roman_numerals[forloop.index0] }}. {{ block.settings.title }}"
+              aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+              data-index="{{ forloop.index0 }}"
+            ></button>
+          {%- endfor -%}
+        </div>
+
+        <div class="nsp__nav">
+          <button class="nsp__btn" id="nsp-prev-{{ section.id }}" aria-label="Paso anterior">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+          </button>
+          <button class="nsp__btn" id="nsp-next-{{ section.id }}" aria-label="Siguiente paso">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="nsp__track" id="nsp-track-{{ section.id }}">
+      {%- for block in section.blocks -%}
+        {%- assign roman = roman_numerals[forloop.index0] -%}
+        <div class="nsp__card" {{ block.shopify_attributes }}>
+          <span class="nsp__card-numeral" aria-hidden="true">{{ roman }}</span>
+
+          {%- if block.settings.image != blank -%}
+            <div class="nsp__card-image">
+              {{ block.settings.image
+                | image_url: width: 800
+                | image_tag: loading: 'lazy', alt: block.settings.image.alt | escape
+              }}
+            </div>
+          {%- endif -%}
+
+          <p class="nsp__card-step">{{ roman }}</p>
+          <h3 class="nsp__card-title">{{ block.settings.title }}</h3>
+          {%- if block.settings.description != blank -%}
+            <p class="nsp__card-text">{{ block.settings.description }}</p>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+
+  </div>
+
+  <!-- Mobile accordion -->
+  <div class="nsp__mobile">
+    <div class="nsp__mobile-header">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="nsp__mobile-eyebrow">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+      <h2 class="nsp__mobile-title">{{ section.settings.title | default: 'De la dehesa a tu mesa' }}</h2>
+    </div>
+
+    {%- for block in section.blocks -%}
+      {%- assign roman = roman_numerals[forloop.index0] -%}
+      <details class="nsp__step" {{ block.shopify_attributes }}>
+        <summary>
+          <span class="nsp__step-label">
+            <span class="nsp__step-num">{{ roman }}</span>
+            <span class="nsp__step-heading">{{ block.settings.title }}</span>
+          </span>
+          <svg class="nsp__step-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </summary>
+        <div class="nsp__step-body">{{ block.settings.description }}</div>
+      </details>
+    {%- endfor -%}
+  </div>
+
+</section>
+
+<script>
+(function() {
+  var sid     = '{{ section.id }}';
+  var track   = document.getElementById('nsp-track-' + sid);
+  var prevBtn = document.getElementById('nsp-prev-' + sid);
+  var nextBtn = document.getElementById('nsp-next-' + sid);
+  var counter = document.getElementById('nsp-counter-' + sid);
+  var dotsWrap = document.getElementById('nsp-dots-' + sid);
+  if (!track || !prevBtn) return;
+
+  var dots  = dotsWrap ? Array.from(dotsWrap.querySelectorAll('.nsp__dot')) : [];
+  var total = dots.length;
+
+  function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+  function getCardWidth() {
+    var card = track.querySelector('.nsp__card');
+    return card ? card.offsetWidth : 0;
+  }
+
+  function getCurrentIndex() {
+    var cw = getCardWidth();
+    return cw > 0 ? Math.round(track.scrollLeft / cw) : 0;
+  }
+
+  function updateUI(index) {
+    if (counter) counter.textContent = pad(index + 1) + ' / ' + pad(total);
+    dots.forEach(function(d, i) {
+      d.classList.toggle('is-active', i === index);
+      d.setAttribute('aria-selected', i === index ? 'true' : 'false');
+    });
+  }
+
+  prevBtn.addEventListener('click', function() {
+    track.scrollBy({ left: -getCardWidth(), behavior: 'smooth' });
+  });
+
+  nextBtn.addEventListener('click', function() {
+    track.scrollBy({ left: getCardWidth(), behavior: 'smooth' });
+  });
+
+  dots.forEach(function(dot) {
+    dot.addEventListener('click', function() {
+      track.scrollTo({ left: parseInt(dot.dataset.index, 10) * getCardWidth(), behavior: 'smooth' });
+    });
+  });
+
+  track.addEventListener('scroll', function() {
+    updateUI(getCurrentIndex());
+  }, { passive: true });
+
+  updateUI(0);
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Nosotros — Proceso",
+  "tag": "section",
+  "max_blocks": 10,
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Paso",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Imagen (opcional)" },
+        { "type": "text", "id": "title", "label": "Título del paso", "default": "La Dehesa" },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Descripción",
+          "default": "El ecosistema donde nace todo. Encinas centenarias, suelo fértil, espacio sin límites."
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Etiqueta superior",
+      "default": "El proceso de selección"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Título de sección",
+      "default": "De la dehesa a tu mesa"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Nosotros — Proceso",
+      "blocks": [
+        { "type": "step", "settings": { "title": "La Dehesa", "description": "El ecosistema donde nace todo. Encinas centenarias, suelo fértil, espacio sin límites para el animal que lo llena todo." } },
+        { "type": "step", "settings": { "title": "La Raza", "description": "Ibérico puro. Sin cruzamientos que comprometan el sabor o la calidad. La raza define el potencial; todo lo demás es la forma de alcanzarlo." } },
+        { "type": "step", "settings": { "title": "La Montanera", "description": "Cada otoño, los cerdos pastan libremente bajo las encinas. Las bellotas hacen el resto: esa grasa infiltrada característica que no se puede imitar." } },
+        { "type": "step", "settings": { "title": "La Maduración", "description": "Más de 36 meses en bodega. La paciencia es el ingrediente que no se puede comprar. El tiempo transforma la materia prima en algo irremplazable." } },
+        { "type": "step", "settings": { "title": "Nuestra Selección", "description": "Visitamos, probamos, comparamos. Solo elegimos lo que nosotros mismos compraríamos. Si hay dudas, la respuesta es no." } },
+        { "type": "step", "settings": { "title": "Tu Mesa", "description": "El momento para el que todo existe. El disfrute que justifica cada paso anterior, cada decisión tomada con exigencia a lo largo del camino." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

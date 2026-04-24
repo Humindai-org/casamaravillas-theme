@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero": {
@@ -16,20 +25,8 @@
         "eyebrow": "Nuestra calidad",
         "heading": "Tres niveles de excelencia",
         "tier1_name": "Bellota 100% Ibérico",
-        "tier1_subtitle": "Iberian Acorn-Fed Ham",
-        "tier1_desc": "Criado en dehesa y alimentado exclusivamente con bellotas durante la montanera. La máxima expresión de la raza ibérica pura.",
-        "tier1_price": "189",
-        "tier1_url": "/collections/jamones/calidad_bellota",
         "tier2_name": "Cebo de Campo Ibérico",
-        "tier2_subtitle": "Free-Range Iberian Ham",
-        "tier2_desc": "Criado en libertad en pastos naturales, complementado con cereales. Sabor intenso y equilibrado.",
-        "tier2_price": "129",
-        "tier2_url": "/collections/jamones/calidad_cebo-de-campo",
-        "tier3_name": "Cebo Ibérico",
-        "tier3_subtitle": "Grain-Fed Iberian Ham",
-        "tier3_desc": "Cerdo ibérico criado en granja con pienso de calidad. Ideal para descubrir el mundo del ibérico.",
-        "tier3_price": "89",
-        "tier3_url": "/collections/jamones/calidad_cebo"
+        "tier3_name": "Cebo Ibérico"
       }
     },
     "collection": {

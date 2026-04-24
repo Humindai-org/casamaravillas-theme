@@ -1,0 +1,243 @@
+<style>
+  .nsh {
+    position: relative;
+    height: calc(100svh - 70px);
+    min-height: 560px;
+    overflow: hidden;
+    background: var(--cm-navy);
+  }
+
+  .nsh__bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.32;
+    filter: saturate(0.5) brightness(0.7);
+    transform: scale(1.08);
+    animation: nshKenBurns 10s ease-out forwards;
+  }
+
+  @keyframes nshKenBurns {
+    from { transform: scale(1.08); }
+    to   { transform: scale(1.0);  }
+  }
+
+  .nsh__grain {
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.07'/%3E%3C/svg%3E");
+    background-size: 180px;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .nsh__fade {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 45%;
+    background: linear-gradient(to top, rgba(0,0,0,0.55), transparent);
+    z-index: 3;
+  }
+
+  .nsh__content {
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 24px;
+  }
+
+  .nsh__eyebrow {
+    font-family: var(--cm-font-sans);
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--cm-gold);
+    margin-bottom: 32px;
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.7s 0.2s ease, transform 0.7s 0.2s ease;
+  }
+
+  .nsh__rule {
+    width: 0px;
+    height: 1px;
+    background: rgba(196,151,58,0.5);
+    margin-bottom: 32px;
+    opacity: 0;
+    transition: opacity 0.6s 0.4s ease, width 0.8s 0.4s ease;
+  }
+
+  .nsh__title {
+    font-family: var(--cm-font-serif);
+    font-size: clamp(32px, 5.5vw, 72px);
+    font-weight: 400;
+    color: #fff;
+    line-height: 1.15;
+    max-width: 760px;
+    margin-bottom: 28px;
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.8s 0.5s ease, transform 0.8s 0.5s ease;
+  }
+
+  .nsh__subtitle {
+    font-family: var(--cm-font-sans);
+    font-size: clamp(12px, 1.8vw, 16px);
+    font-weight: 300;
+    color: rgba(250,246,239,0.65);
+    letter-spacing: 0.08em;
+    max-width: 480px;
+    line-height: 1.8;
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.7s 0.75s ease, transform 0.7s 0.75s ease;
+  }
+
+  .nsh.is-loaded .nsh__eyebrow,
+  .nsh.is-loaded .nsh__rule,
+  .nsh.is-loaded .nsh__title,
+  .nsh.is-loaded .nsh__subtitle { opacity: 1; transform: translateY(0); }
+  .nsh.is-loaded .nsh__rule { width: 48px; }
+
+  .nsh__scroll {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+    transition: opacity 0.7s 1.4s ease;
+  }
+  .nsh.is-loaded .nsh__scroll { opacity: 0.55; }
+
+  .nsh__scroll-text {
+    font-family: var(--cm-font-sans);
+    font-size: 8px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: rgba(250,246,239,0.6);
+  }
+
+  .nsh__scroll-line {
+    width: 1px;
+    height: 36px;
+    background: var(--cm-gold);
+    animation: nshScrollPulse 2s ease-in-out infinite;
+  }
+
+  @keyframes nshScrollPulse {
+    0%, 100% { transform: scaleY(1); opacity: 0.7; }
+    50%       { transform: scaleY(0.4); opacity: 0.3; }
+  }
+
+  @media (max-width: 767px) {
+    .nsh { height: calc(100svh - 60px); min-height: 480px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nsh__bg { animation: none; transform: scale(1.0); }
+    .nsh__scroll-line { animation: none; }
+    .nsh__eyebrow, .nsh__rule, .nsh__title, .nsh__subtitle, .nsh__scroll {
+      opacity: 1; transform: none; transition: none;
+    }
+    .nsh__rule { width: 48px; }
+  }
+</style>
+
+<section class="nsh" id="nsh-{{ section.id }}" aria-label="{{ section.settings.eyebrow | default: 'Nuestra historia' }}">
+
+  {%- if section.settings.image != blank -%}
+    {{ section.settings.image
+      | image_url: width: 1800
+      | image_tag:
+          class: 'nsh__bg',
+          loading: 'eager',
+          fetchpriority: 'high',
+          alt: section.settings.image.alt | escape
+    }}
+  {%- endif -%}
+
+  <div class="nsh__grain" aria-hidden="true"></div>
+  <div class="nsh__fade"  aria-hidden="true"></div>
+
+  <div class="nsh__content">
+    {%- if section.settings.eyebrow != blank -%}
+      <p class="nsh__eyebrow">{{ section.settings.eyebrow }}</p>
+    {%- endif -%}
+
+    <div class="nsh__rule" aria-hidden="true"></div>
+
+    <h1 class="nsh__title">{{ section.settings.title | default: 'Tres generaciones eligiendo lo mejor del campo ibérico' }}</h1>
+
+    {%- if section.settings.subtitle != blank -%}
+      <p class="nsh__subtitle">{{ section.settings.subtitle }}</p>
+    {%- endif -%}
+  </div>
+
+  <div class="nsh__scroll" aria-hidden="true">
+    <span class="nsh__scroll-text">Descubre</span>
+    <span class="nsh__scroll-line"></span>
+  </div>
+
+</section>
+
+<script>
+(function() {
+  var el = document.getElementById('nsh-{{ section.id }}');
+  if (!el) return;
+  requestAnimationFrame(function() {
+    requestAnimationFrame(function() {
+      el.classList.add('is-loaded');
+    });
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Nosotros — Hero",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Imagen de fondo"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Etiqueta superior",
+      "default": "Nuestra historia"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Título principal",
+      "default": "Tres generaciones eligiendo lo mejor del campo ibérico"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtítulo",
+      "default": "Una convicción que se hereda, un estándar que no se negocia"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Nosotros — Hero"
+    }
+  ]
+}
+{% endschema %}
