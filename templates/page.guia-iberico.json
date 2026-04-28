@@ -11,6 +11,46 @@
   "sections": {
     "hero": {
       "type": "iberico-guide-hero",
+      "blocks": {
+        "feat_1": {
+          "type": "feature",
+          "settings": {
+            "icon": "raza",
+            "label": "Raza",
+            "description": "Cerdos ibéricos puro de bellota."
+          }
+        },
+        "feat_2": {
+          "type": "feature",
+          "settings": {
+            "icon": "alimentacion",
+            "label": "Alimentación",
+            "description": "Bellota, pastos naturales y recursos del campo."
+          }
+        },
+        "feat_3": {
+          "type": "feature",
+          "settings": {
+            "icon": "tiempo",
+            "label": "Tiempo",
+            "description": "Curación lenta y natural para un sabor inigualable."
+          }
+        },
+        "feat_4": {
+          "type": "feature",
+          "settings": {
+            "icon": "experiencia",
+            "label": "Experiencia",
+            "description": "Sabor, aroma y textura que cuentan historias."
+          }
+        }
+      },
+      "block_order": [
+        "feat_1",
+        "feat_2",
+        "feat_3",
+        "feat_4"
+      ],
       "settings": {
         "breadcrumb_label": "Guía del Ibérico",
         "heading_line1": "La Guía",
@@ -26,20 +66,10 @@
         "bar_title_a": "El Arte de lo",
         "bar_title_b": "Excepcional",
         "bar_subtitle": "Tradición, naturaleza y tiempo se unen para crear un producto único en el mundo."
-      },
-      "blocks": {
-        "feat_1": { "type": "feature", "settings": { "icon": "raza",         "label": "Raza",         "description": "Cerdos ibéricos puro de bellota." } },
-        "feat_2": { "type": "feature", "settings": { "icon": "alimentacion", "label": "Alimentación", "description": "Bellota, pastos naturales y recursos del campo." } },
-        "feat_3": { "type": "feature", "settings": { "icon": "tiempo",       "label": "Tiempo",       "description": "Curación lenta y natural para un sabor inigualable." } },
-        "feat_4": { "type": "feature", "settings": { "icon": "experiencia",  "label": "Experiencia",  "description": "Sabor, aroma y textura que cuentan historias." } }
-      },
-      "block_order": ["feat_1", "feat_2", "feat_3", "feat_4"]
+      }
     },
     "toc": {
       "type": "iberico-toc",
-      "settings": {
-        "label": "Contenidos"
-      },
       "blocks": {
         "toc_1": {
           "type": "toc_link",
@@ -77,13 +107,21 @@
           }
         }
       },
-      "block_order": ["toc_1", "toc_2", "toc_3", "toc_4", "toc_5"]
+      "block_order": [
+        "toc_1",
+        "toc_2",
+        "toc_3",
+        "toc_4",
+        "toc_5"
+      ],
+      "settings": {
+        "label": "Contenidos"
+      }
     },
     "serrano_diff": {
       "type": "iberico-serrano-diff",
       "settings": {
         "eyebrow": "La diferencia fundamental",
-        "heading": "Jamón Ibérico vs. Jamón Serrano",
         "intro": "No todo el jamón es igual. Entender la diferencia entre ambos es el primer paso para elegir con criterio.",
         "col_iberico": "Jamón Ibérico",
         "col_serrano": "Jamón Serrano",
@@ -102,11 +140,6 @@
     },
     "quality_guide": {
       "type": "iberico-quality-guide",
-      "settings": {
-        "eyebrow": "La clasificación oficial",
-        "heading": "Los 4 Tipos de Jamón Ibérico",
-        "subhead": "El Real Decreto 4/2014 establece cuatro categorías según la raza del animal y su alimentación durante la montanera."
-      },
       "blocks": {
         "tier_1": {
           "type": "tier",
@@ -153,15 +186,20 @@
           }
         }
       },
-      "block_order": ["tier_1", "tier_2", "tier_3", "tier_4"]
+      "block_order": [
+        "tier_1",
+        "tier_2",
+        "tier_3",
+        "tier_4"
+      ],
+      "settings": {
+        "eyebrow": "La clasificación oficial",
+        "heading": "Los 4 Tipos de Jamón Ibérico",
+        "subhead": "El Real Decreto 4/2014 establece cuatro categorías según la raza del animal y su alimentación durante la montanera."
+      }
     },
     "denominaciones": {
       "type": "iberico-denominaciones",
-      "settings": {
-        "eyebrow": "El origen importa",
-        "heading": "Denominaciones de Origen Protegidas",
-        "subhead": "Cuatro territorios, cuatro personalidades distintas. Cada Denominación de Origen garantiza el origen, la raza y el proceso de elaboración del jamón ibérico."
-      },
       "blocks": {
         "do_1": {
           "type": "do",
@@ -216,17 +254,20 @@
           }
         }
       },
-      "block_order": ["do_1", "do_2", "do_3", "do_4"]
+      "block_order": [
+        "do_1",
+        "do_2",
+        "do_3",
+        "do_4"
+      ],
+      "settings": {
+        "eyebrow": "El origen importa",
+        "heading": "Denominaciones de Origen Protegidas",
+        "subhead": "Cuatro territorios, cuatro personalidades distintas. Cada Denominación de Origen garantiza el origen, la raza y el proceso de elaboración del jamón ibérico."
+      }
     },
     "guide_process": {
       "type": "iberico-guide-process",
-      "settings": {
-        "eyebrow": "Guía práctica",
-        "heading": "Cómo Cortar y Conservar tu Jamón",
-        "subhead": "Tres pasos esenciales para sacar el máximo partido a tu pieza.",
-        "cta_note": "¿Quieres profundizar? Nuestra guía completa te explica el proceso de corte paso a paso, con los ángulos correctos y los errores más comunes que evitar.",
-        "cta_label": "Leer la guía completa"
-      },
       "blocks": {
         "step_1": {
           "type": "step",
@@ -250,14 +291,21 @@
           }
         }
       },
-      "block_order": ["step_1", "step_2", "step_3"]
+      "block_order": [
+        "step_1",
+        "step_2",
+        "step_3"
+      ],
+      "settings": {
+        "eyebrow": "Guía práctica",
+        "heading": "Cómo Cortar y Conservar tu Jamón",
+        "subhead": "Tres pasos esenciales para sacar el máximo partido a tu pieza.",
+        "cta_note": "¿Quieres profundizar? Nuestra guía completa te explica el proceso de corte paso a paso, con los ángulos correctos y los errores más comunes que evitar.",
+        "cta_label": "Leer la guía completa"
+      }
     },
     "faq": {
       "type": "faq",
-      "settings": {
-        "eyebrow": "Preguntas frecuentes",
-        "title": "<p>Todo lo que <em>necesitas</em> saber</p>"
-      },
       "blocks": {
         "faq_1": {
           "type": "faq_item",
@@ -302,7 +350,18 @@
           }
         }
       },
-      "block_order": ["faq_1", "faq_2", "faq_3", "faq_4", "faq_5", "faq_6"]
+      "block_order": [
+        "faq_1",
+        "faq_2",
+        "faq_3",
+        "faq_4",
+        "faq_5",
+        "faq_6"
+      ],
+      "settings": {
+        "eyebrow": "Preguntas frecuentes",
+        "title": "<p>Todo lo que <em>necesitas</em> saber</p>"
+      }
     },
     "guide_cta": {
       "type": "iberico-guide-cta",
