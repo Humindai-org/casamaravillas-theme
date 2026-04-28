@@ -6,19 +6,10 @@
   min-height: 90vh;
   display: flex;
   align-items: center;
-  background: #001A30;
+  background-color: #001A30;
   overflow: hidden;
 }
 
-/* imagen */
-.igh__bg-{{ section.id }} {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: 70% center;
-}
 
 /* overlay fino */
 .igh__overlay-{{ section.id }} {
@@ -168,7 +159,14 @@
 <section class="igh-{{ section.id }}">
 
 {% if section.settings.image %}
-{{ section.settings.image | image_url: width:2000 | image_tag: class: 'igh__bg-' | append: section.id }}
+<style>
+  .igh-{{ section.id }} {
+    background-image: url({{ section.settings.image | image_url: width: 2000 }});
+    background-size: cover;
+    background-position: 70% center;
+    background-repeat: no-repeat;
+  }
+</style>
 {% endif %}
 
 <div class="igh__overlay-{{ section.id }}"></div>
