@@ -13,12 +13,27 @@
       "type": "iberico-guide-hero",
       "settings": {
         "breadcrumb_label": "Guía del Ibérico",
-        "eyebrow": "Mundo ibérico",
-        "heading": "Guía del Jamón Ibérico",
-        "subtitle": "Todo lo que necesitas saber para elegir, cortar y disfrutar el mejor ibérico — tipos, denominaciones de origen y consejos de conservación.",
-        "cta_label": "Explorar la guía",
-        "cta_anchor": "iberico-vs-serrano"
-      }
+        "heading_line1": "La Guía",
+        "heading_line2": "del",
+        "heading_line3": "Ibérico",
+        "subtitle_main": "Todo lo que necesitas saber sobre",
+        "subtitle_italic": "el auténtico lujo español.",
+        "cta_label": "Descubrir más",
+        "cta_anchor": "iberico-vs-serrano",
+        "badge_top": "· AUTÉNTICO IBÉRICO ·",
+        "badge_center": "100%",
+        "badge_bottom": "· CALIDAD PREMIUM ·",
+        "bar_title_a": "El Arte de lo",
+        "bar_title_b": "Excepcional",
+        "bar_subtitle": "Tradición, naturaleza y tiempo se unen para crear un producto único en el mundo."
+      },
+      "blocks": {
+        "feat_1": { "type": "feature", "settings": { "icon": "raza",         "label": "Raza",         "description": "Cerdos ibéricos puro de bellota." } },
+        "feat_2": { "type": "feature", "settings": { "icon": "alimentacion", "label": "Alimentación", "description": "Bellota, pastos naturales y recursos del campo." } },
+        "feat_3": { "type": "feature", "settings": { "icon": "tiempo",       "label": "Tiempo",       "description": "Curación lenta y natural para un sabor inigualable." } },
+        "feat_4": { "type": "feature", "settings": { "icon": "experiencia",  "label": "Experiencia",  "description": "Sabor, aroma y textura que cuentan historias." } }
+      },
+      "block_order": ["feat_1", "feat_2", "feat_3", "feat_4"]
     },
     "toc": {
       "type": "iberico-toc",
