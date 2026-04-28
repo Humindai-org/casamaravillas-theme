@@ -291,21 +291,9 @@
   }
 </style>
 
-{%- liquid
-  assign rows_iberico = section.settings.iberico_raza
-    | append: '||' | append: section.settings.iberico_alimentacion
-    | append: '||' | append: section.settings.iberico_grasa
-    | append: '||' | append: section.settings.iberico_sabor
-    | append: '||' | append: section.settings.iberico_denominacion
-    | split: '||'
-  assign rows_serrano = section.settings.serrano_raza
-    | append: '||' | append: section.settings.serrano_alimentacion
-    | append: '||' | append: section.settings.serrano_grasa
-    | append: '||' | append: section.settings.serrano_sabor
-    | append: '||' | append: section.settings.serrano_denominacion
-    | split: '||'
-  assign attrs = 'Raza del cerdo||Alimentación||Grasa infiltrada||Sabor||Denominación' | split: '||'
--%}
+{%- assign rows_iberico = section.settings.iberico_raza | append: '||' | append: section.settings.iberico_alimentacion | append: '||' | append: section.settings.iberico_grasa | append: '||' | append: section.settings.iberico_sabor | append: '||' | append: section.settings.iberico_denominacion | split: '||' -%}
+{%- assign rows_serrano = section.settings.serrano_raza | append: '||' | append: section.settings.serrano_alimentacion | append: '||' | append: section.settings.serrano_grasa | append: '||' | append: section.settings.serrano_sabor | append: '||' | append: section.settings.serrano_denominacion | split: '||' -%}
+{%- assign attrs = 'Raza del cerdo||Alimentación||Grasa infiltrada||Sabor||Denominación' | split: '||' -%}
 
 <section class="isd-{{ section.id }}" id="iberico-vs-serrano">
   <div class="isd__inner-{{ section.id }}">
