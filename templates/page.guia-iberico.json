@@ -52,6 +52,7 @@
         "feat_4"
       ],
       "settings": {
+        "image": "shopify://shop_images/f356acc68645c032869cac2825f23b97.png",
         "breadcrumb_label": "Guía del Ibérico",
         "heading_line1": "La Guía",
         "heading_line2": "del",
@@ -135,7 +136,9 @@
         "serrano_grasa": "Baja — exterior, sin infiltración muscular",
         "serrano_sabor": "Suave, salado, con escasa complejidad",
         "serrano_denominacion": "Serrano (ETG europea) o sin denominación específica",
-        "note": "* La calidad dentro del jamón ibérico varía según la raza del animal y su alimentación. Consulta los 4 tipos en la siguiente sección."
+        "note": "* La calidad dentro del jamón ibérico varía según la raza del animal y su alimentación. Consulta los 4 tipos en la siguiente sección.",
+        "cta_label": "",
+        "cta_url": ""
       }
     },
     "quality_guide": {
@@ -211,6 +214,7 @@
             "flavor": "Aroma intenso y complejo, notas de frutos secos y hierbas de sierra. Grasa muy infiltrada con alto contenido en ácido oleico. Referente mundial del jamón ibérico de bellota.",
             "detail": "Curación mínima de 24 meses en la sierra de Aracena, con altitud superior a 400 m.",
             "color": "navy",
+            "link": "",
             "link_label": "Ver Jabugo"
           }
         },
@@ -224,6 +228,7 @@
             "flavor": "Sabor suave y delicado, curación lenta favorecida por el microclima de la sierra de Béjar. Menos salado que otras denominaciones, con textura de grasa más firme.",
             "detail": "A 1.000 m de altitud, el frío y la baja humedad condicionan una curación única.",
             "color": "cognac",
+            "link": "",
             "link_label": "Ver Guijuelo"
           }
         },
@@ -237,6 +242,7 @@
             "flavor": "Carácter robusto y pronunciado, aromas terrosos de la dehesa extremeña. Alto contenido en grasa infiltrada. Curación en secaderos de montaña con variaciones térmicas marcadas.",
             "detail": "La dehesa extremeña, con encinas centenarias, produce una bellota de gran valor energético.",
             "color": "umber",
+            "link": "",
             "link_label": "Ver Extremadura"
           }
         },
@@ -250,6 +256,7 @@
             "flavor": "Sabor elegante y equilibrado, con notas de bellota muy definidas. La dehesa cordobesa aporta una grasa de color rosado-amarillento con alta proporción de ácido oleico.",
             "detail": "El Valle de Los Pedroches alberga una de las manchas de dehesa más extensas de Europa.",
             "color": "forest",
+            "link": "",
             "link_label": "Ver Los Pedroches"
           }
         }
@@ -301,6 +308,7 @@
         "heading": "Cómo Cortar y Conservar tu Jamón",
         "subhead": "Tres pasos esenciales para sacar el máximo partido a tu pieza.",
         "cta_note": "¿Quieres profundizar? Nuestra guía completa te explica el proceso de corte paso a paso, con los ángulos correctos y los errores más comunes que evitar.",
+        "cta_url": "",
         "cta_label": "Leer la guía completa"
       }
     },
@@ -370,7 +378,9 @@
         "heading": "Descubre nuestra selección de ibéricos",
         "subtext": "Jamones, embutidos y packs de regalo seleccionados con los mismos criterios que acabas de leer. Con envío a toda España.",
         "btn1_label": "Ver jamones",
-        "btn2_label": "Ver packs regalo"
+        "btn1_url": "",
+        "btn2_label": "Ver packs regalo",
+        "btn2_url": ""
       }
     }
   },
