@@ -1,208 +1,384 @@
 <style>
+  @keyframes ido-fade-up-{{ section.id }} {
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── Section ── */
   .ido-{{ section.id }} {
-    background: var(--cm-white);
+    background: var(--cm-off);
     padding: 96px 24px;
     border-bottom: 1px solid var(--cm-border);
     scroll-margin-top: 56px;
   }
 
   .ido__inner-{{ section.id }} {
-    max-width: 1200px;
+    max-width: 1440px;
     margin: 0 auto;
   }
 
   /* ── Header ── */
   .ido__header-{{ section.id }} {
     text-align: center;
-    margin-bottom: 16px;
+    margin-bottom: 56px;
+    animation: ido-fade-up-{{ section.id }} 0.6s ease both;
   }
 
   .ido__eyebrow-{{ section.id }} {
     display: block;
     font-family: var(--cm-font-sans);
-    font-size: 9px;
+    font-size: 10px;
     font-weight: 500;
-    letter-spacing: 0.45em;
+    letter-spacing: 0.28em;
     text-transform: uppercase;
     color: var(--cm-gold);
-    margin-bottom: 18px;
+    margin-bottom: 14px;
   }
 
   .ido__heading-{{ section.id }} {
     font-family: var(--cm-font-serif);
-    font-size: clamp(24px, 3vw, 40px);
+    font-size: clamp(30px, 4vw, 46px);
     font-weight: 400;
     color: var(--cm-navy);
-    line-height: 1.2;
-    margin-bottom: 14px;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
   }
 
   .ido__heading-{{ section.id }} em {
-    font-style: italic;
     color: var(--cm-gold);
+    font-style: italic;
+    font-weight: 400;
   }
 
   .ido__subhead-{{ section.id }} {
     font-family: var(--cm-font-sans);
-    font-size: 14px;
+    font-size: 15px;
+    color: #6A6560;
     font-weight: 300;
-    color: var(--cm-text-mid);
     line-height: 1.75;
-    max-width: 600px;
-    margin: 0 auto 56px;
+    max-width: 580px;
+    margin: 0 auto;
   }
 
-  /* ── Grid 4 col ── */
+  /* ── Grid ── */
   .ido__grid-{{ section.id }} {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 2px;
-    background: var(--cm-border);
-    border: 1px solid var(--cm-border);
+    display: flex;
+    gap: 12px;
+    align-items: stretch;
   }
 
   /* ── Card ── */
   .ido__card-{{ section.id }} {
-    background: var(--cm-off);
-    padding: 32px 28px 36px;
+    position: relative;
+    border-radius: 5px;
+    overflow: hidden;
+    height: 500px;
+    flex: 1;
+    min-width: 220px;
+    cursor: default;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.10);
+    transition: transform 0.45s cubic-bezier(0.16,1,0.3,1),
+                box-shadow 0.45s ease,
+                flex 0.45s cubic-bezier(0.16,1,0.3,1);
+  }
+
+  .ido__card-{{ section.id }}:nth-child(1) { animation: ido-fade-up-{{ section.id }} 0.6s ease 0.10s both; }
+  .ido__card-{{ section.id }}:nth-child(2) { animation: ido-fade-up-{{ section.id }} 0.6s ease 0.21s both; }
+  .ido__card-{{ section.id }}:nth-child(3) { animation: ido-fade-up-{{ section.id }} 0.6s ease 0.32s both; }
+  .ido__card-{{ section.id }}:nth-child(4) { animation: ido-fade-up-{{ section.id }} 0.6s ease 0.44s both; }
+
+  .ido__card-{{ section.id }}:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 28px 56px rgba(0,0,0,0.26);
+    flex: 1.35;
+  }
+
+  /* ── Card color schemes ── */
+  .ido__card--navy-{{ section.id }} {
+    background: linear-gradient(160deg, #111E35 0%, #1C2B4A 100%);
+  }
+  .ido__card--cognac-{{ section.id }} {
+    background: linear-gradient(160deg, #1C1408 0%, #2A1F10 100%);
+  }
+  .ido__card--umber-{{ section.id }} {
+    background: linear-gradient(160deg, #200E08 0%, #2E1A10 100%);
+  }
+  .ido__card--forest-{{ section.id }} {
+    background: linear-gradient(160deg, #101A14 0%, #1A2820 100%);
+  }
+
+  /* ── Front ── */
+  .ido__front-{{ section.id }} {
+    position: absolute;
+    inset: 0;
     display: flex;
     flex-direction: column;
-    gap: 0;
-    border-top: 3px solid var(--cm-gold);
-    transition: transform 0.28s ease, box-shadow 0.28s ease, background 0.2s;
-    text-decoration: none;
+    justify-content: space-between;
+    padding: 28px 24px 24px;
+    transition: opacity 0.25s ease;
   }
 
-  .ido__card-{{ section.id }}[href]:hover,
-  .ido__card-{{ section.id }}[href]:focus {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 36px rgba(0,41,75,0.07);
-    background: var(--cm-white);
-    z-index: 2;
+  .ido__card-{{ section.id }}:hover .ido__front-{{ section.id }} {
+    opacity: 0;
+    pointer-events: none;
   }
 
-  .ido__card-{{ section.id }}[href]:focus-visible {
-    outline: 2px solid var(--cm-gold);
-    outline-offset: -2px;
-  }
-
-  /* ── Type badge (DOP / IGP) ── */
-  .ido__type-{{ section.id }} {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
+  .ido__front-region-{{ section.id }} {
     font-family: var(--cm-font-sans);
-    font-size: 7.5px;
-    font-weight: 700;
-    letter-spacing: 0.3em;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.38);
+    font-weight: 400;
+    margin-bottom: 12px;
+  }
+
+  .ido__front-name-{{ section.id }} {
+    font-family: var(--cm-font-serif);
+    font-size: 24px;
+    font-weight: 500;
+    color: #fff;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+
+  .ido__front-town-{{ section.id }} {
+    font-family: var(--cm-font-sans);
+    font-size: 12px;
+    color: rgba(255,255,255,0.35);
+    margin-top: 8px;
+    font-weight: 300;
+  }
+
+  .ido__front-sep-{{ section.id }} {
+    height: 1px;
+    background: rgba(196,151,58,0.3);
+    margin-bottom: 14px;
+  }
+
+  .ido__front-region-it-{{ section.id }} {
+    font-family: var(--cm-font-serif);
+    font-size: 13px;
+    font-style: italic;
+    color: var(--cm-gold);
+    opacity: 0.8;
+  }
+
+  .ido__front-hint-{{ section.id }} {
+    font-family: var(--cm-font-sans);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.25);
+    margin-top: 4px;
+  }
+
+  /* ── Reveal ── */
+  .ido__reveal-{{ section.id }} {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 28px;
+    transform: translateY(100%);
+    transition: transform 0.48s cubic-bezier(0.16,1,0.3,1);
+  }
+
+  .ido__card--navy-{{ section.id }} .ido__reveal-{{ section.id }}   { background: linear-gradient(175deg, rgba(17,30,53,0.95) 0%, #1C2B4A 100%); }
+  .ido__card--cognac-{{ section.id }} .ido__reveal-{{ section.id }} { background: linear-gradient(175deg, rgba(28,20,8,0.95) 0%, #2A1F10 100%); }
+  .ido__card--umber-{{ section.id }} .ido__reveal-{{ section.id }}  { background: linear-gradient(175deg, rgba(32,14,8,0.95) 0%, #2E1A10 100%); }
+  .ido__card--forest-{{ section.id }} .ido__reveal-{{ section.id }} { background: linear-gradient(175deg, rgba(16,26,20,0.95) 0%, #1A2820 100%); }
+
+  .ido__card-{{ section.id }}:hover .ido__reveal-{{ section.id }} {
+    transform: translateY(0);
+  }
+
+  /* Top accent line on reveal */
+  .ido__reveal-{{ section.id }}::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--cm-gold);
+  }
+
+  /* Reveal items — base state */
+  .ido__ri-{{ section.id }} {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+  }
+
+  .ido__card-{{ section.id }}:hover .ido__ri-{{ section.id }} {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Staggered delays */
+  .ido__ri1-{{ section.id }} { transition-delay: 0.12s; }
+  .ido__ri2-{{ section.id }} { transition-delay: 0.20s; }
+  .ido__ri3-{{ section.id }} { transition-delay: 0.28s; }
+  .ido__ri4-{{ section.id }} { transition-delay: 0.36s; }
+
+  /* Reveal divider */
+  .ido__reveal-div-{{ section.id }} {
+    height: 1px;
+    background: rgba(196,151,58,0.4);
+    margin: 14px 0;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.5s ease 0.2s;
+  }
+
+  .ido__card-{{ section.id }}:hover .ido__reveal-div-{{ section.id }} {
+    transform: scaleX(1);
+  }
+
+  .ido__reveal-name-{{ section.id }} {
+    font-family: var(--cm-font-serif);
+    font-size: 24px;
+    font-weight: 500;
+    color: #fff;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 2px;
+  }
+
+  .ido__reveal-flavor-label-{{ section.id }} {
+    font-family: var(--cm-font-sans);
+    font-size: 9px;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
     color: var(--cm-gold);
-    border: 1px solid rgba(196,151,58,0.35);
-    padding: 3px 8px;
-    margin-bottom: 18px;
-    align-self: flex-start;
+    margin-bottom: 6px;
+    font-weight: 500;
   }
 
-  /* ── Region ── */
-  .ido__region-{{ section.id }} {
+  .ido__reveal-flavor-{{ section.id }} {
     font-family: var(--cm-font-sans);
-    font-size: 8.5px;
-    font-weight: 400;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--cm-text-light);
+    font-size: 13px;
+    color: rgba(232,237,245,0.9);
+    line-height: 1.65;
+    font-weight: 300;
+  }
+
+  .ido__reveal-detail-{{ section.id }} {
+    font-family: var(--cm-font-serif);
+    font-size: 11.5px;
+    color: rgba(255,255,255,0.38);
+    line-height: 1.55;
+    font-style: italic;
+    margin-top: 10px;
+  }
+
+  .ido__reveal-sep-{{ section.id }} {
+    height: 1px;
+    background: rgba(196,151,58,0.25);
     margin-bottom: 10px;
   }
 
-  /* ── DO Name ── */
-  .ido__name-{{ section.id }} {
+  .ido__reveal-region-{{ section.id }} {
     font-family: var(--cm-font-serif);
-    font-size: clamp(17px, 1.8vw, 22px);
-    font-weight: 400;
-    color: var(--cm-navy);
-    line-height: 1.25;
-    margin-bottom: 8px;
-  }
-
-  /* ── Municipality ── */
-  .ido__municipality-{{ section.id }} {
-    font-family: var(--cm-font-sans);
     font-size: 12px;
-    font-weight: 400;
-    color: var(--cm-text-light);
-    margin-bottom: 20px;
+    font-style: italic;
+    color: var(--cm-gold);
   }
 
-  /* ── Divider ── */
-  .ido__divider-{{ section.id }} {
-    width: 28px;
-    height: 1px;
-    background: rgba(196,151,58,0.3);
-    margin-bottom: 16px;
-  }
-
-  /* ── Flavor profile label ── */
-  .ido__flavor-label-{{ section.id }} {
-    font-family: var(--cm-font-sans);
-    font-size: 7.5px;
-    font-weight: 600;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--cm-text-light);
-    margin-bottom: 6px;
-  }
-
-  /* ── Flavor text ── */
-  .ido__flavor-{{ section.id }} {
-    font-family: var(--cm-font-sans);
-    font-size: 13px;
-    font-weight: 300;
-    color: var(--cm-text-mid);
-    line-height: 1.7;
-    flex: 1;
-    margin-bottom: 24px;
-  }
-
-  /* ── CTA link ── */
-  .ido__link-{{ section.id }} {
+  .ido__reveal-link-{{ section.id }} {
     display: inline-flex;
     align-items: center;
     gap: 6px;
     font-family: var(--cm-font-sans);
-    font-size: 9.5px;
+    font-size: 10px;
     font-weight: 500;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--cm-gold);
-    margin-top: auto;
-    transition: gap 0.2s;
+    margin-top: 10px;
+    text-decoration: none;
+    transition: gap 0.2s ease;
   }
 
-  .ido__card-{{ section.id }}[href]:hover .ido__link-{{ section.id }} {
-    gap: 10px;
-  }
+  .ido__reveal-link-{{ section.id }}:hover { gap: 10px; }
+  .ido__reveal-link-{{ section.id }}:focus-visible { outline: 1px solid var(--cm-gold); outline-offset: 2px; }
 
-  .ido__link-{{ section.id }} svg {
-    width: 12px;
-    height: 12px;
-    flex-shrink: 0;
-  }
-
-  /* ── Tablet: 2×2 ── */
+  /* ── Mobile ── */
   @media (max-width: 1023px) {
-    .ido__grid-{{ section.id }} { grid-template-columns: repeat(2, 1fr); }
-    .ido__card-{{ section.id }} { padding: 28px 24px 32px; }
+    .ido__grid-{{ section.id }} { gap: 8px; }
+    .ido__card-{{ section.id }} { min-width: 200px; }
   }
 
-  /* ── Mobile: 1 col ── */
-  @media (max-width: 600px) {
-    .ido-{{ section.id }} { padding: 64px 24px; }
-    .ido__grid-{{ section.id }} { grid-template-columns: 1fr; }
+  @media (max-width: 767px) {
+    .ido-{{ section.id }} { padding: 64px 16px; }
+
+    .ido__grid-{{ section.id }} {
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .ido__card-{{ section.id }} {
+      height: auto;
+      min-width: unset;
+      flex: none;
+    }
+
+    .ido__card-{{ section.id }}:hover {
+      transform: none;
+      flex: none;
+    }
+
+    /* On mobile: stack front + reveal, hide hover-only elements */
+    .ido__front-{{ section.id }} {
+      position: relative;
+      inset: auto;
+      padding: 28px 24px 20px;
+    }
+
+    .ido__front-hint-{{ section.id }} { display: none; }
+
+    .ido__reveal-{{ section.id }} {
+      position: relative;
+      inset: auto;
+      transform: none;
+      padding: 0 24px 28px;
+    }
+
+    .ido__reveal-{{ section.id }}::before { display: none; }
+
+    .ido__ri-{{ section.id }} {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+
+    .ido__reveal-div-{{ section.id }} {
+      transform: scaleX(1);
+      transition: none;
+    }
+
+    .ido__reveal-name-{{ section.id }} { display: none; }
   }
 
   @media (prefers-reduced-motion: reduce) {
     .ido__card-{{ section.id }},
-    .ido__link-{{ section.id }} { transition: none; }
+    .ido__front-{{ section.id }},
+    .ido__reveal-{{ section.id }},
+    .ido__ri-{{ section.id }},
+    .ido__reveal-div-{{ section.id }},
+    .ido__reveal-link-{{ section.id }} { transition: none; animation: none; }
+
+    .ido__card-{{ section.id }}:nth-child(1),
+    .ido__card-{{ section.id }}:nth-child(2),
+    .ido__card-{{ section.id }}:nth-child(3),
+    .ido__card-{{ section.id }}:nth-child(4) { animation: none; opacity: 1; }
+
+    .ido__card-{{ section.id }}:hover { transform: none; }
+
+    .ido__reveal-{{ section.id }} { transform: none; }
+    .ido__reveal-div-{{ section.id }} { transform: scaleX(1); }
+    .ido__ri-{{ section.id }} { opacity: 1; transform: none; }
   }
 </style>
 
@@ -213,12 +389,14 @@
       {%- if section.settings.eyebrow != blank -%}
         <span class="ido__eyebrow-{{ section.id }}">{{ section.settings.eyebrow }}</span>
       {%- endif -%}
-      <h2 class="ido__heading-{{ section.id }}">
-        {%- assign h_words = section.settings.heading | default: 'Denominaciones de Origen Protegidas' | split: ' ' -%}
-        {%- for word in h_words -%}
-          {%- if forloop.last -%}<em>{{ word }}</em>{%- else -%}{{ word }} {%- endif -%}
-        {%- endfor -%}
-      </h2>
+      {%- if section.settings.heading != blank -%}
+        {%- assign h_parts = section.settings.heading | split: ' ' -%}
+        {%- assign h_last = h_parts | last -%}
+        {%- assign h_rest = section.settings.heading | remove_last: h_last | strip -%}
+        <h2 class="ido__heading-{{ section.id }}">
+          {{ h_rest }} <em>{{ h_last }}</em>
+        </h2>
+      {%- endif -%}
       {%- if section.settings.subhead != blank -%}
         <p class="ido__subhead-{{ section.id }}">{{ section.settings.subhead }}</p>
       {%- endif -%}
@@ -226,48 +404,67 @@
 
     <div class="ido__grid-{{ section.id }}">
       {%- for block in section.blocks -%}
-        {%- assign card_tag = 'div' -%}
-        {%- if block.settings.link != blank -%}
-          {%- assign card_tag = 'a' -%}
-        {%- endif -%}
+        {%- assign card_color = block.settings.color | default: 'navy' -%}
+        {%- assign region_parts = block.settings.region | split: '—' -%}
+        {%- assign community = region_parts | last | strip -%}
 
-        <{{ card_tag }}
-          class="ido__card-{{ section.id }}"
-          {% if block.settings.link != blank %}href="{{ block.settings.link }}"{% endif %}
+        <div
+          class="ido__card-{{ section.id }} ido__card--{{ card_color }}-{{ section.id }}"
           {{ block.shopify_attributes }}
         >
-          {%- if block.settings.do_type != blank -%}
-            <span class="ido__type-{{ section.id }}">{{ block.settings.do_type }}</span>
-          {%- endif -%}
 
-          {%- if block.settings.region != blank -%}
-            <span class="ido__region-{{ section.id }}">{{ block.settings.region }}</span>
-          {%- endif -%}
+          {%- comment %} FRONT {%- endcomment %}
+          <div class="ido__front-{{ section.id }}">
+            <div>
+              <p class="ido__front-region-{{ section.id }}">{{ block.settings.region }}</p>
+              <h3 class="ido__front-name-{{ section.id }}">{{ block.settings.name }}</h3>
+              {%- if block.settings.municipality != blank -%}
+                <p class="ido__front-town-{{ section.id }}">{{ block.settings.municipality }}</p>
+              {%- endif -%}
+            </div>
+            <div>
+              <div class="ido__front-sep-{{ section.id }}"></div>
+              <p class="ido__front-region-it-{{ section.id }}">{{ community }}</p>
+              <p class="ido__front-hint-{{ section.id }}">Pasar el ratón para saber más</p>
+            </div>
+          </div>
 
-          <h3 class="ido__name-{{ section.id }}">{{ block.settings.name | default: 'Denominación' }}</h3>
+          {%- comment %} REVEAL {%- endcomment %}
+          <div class="ido__reveal-{{ section.id }}">
 
-          {%- if block.settings.municipality != blank -%}
-            <p class="ido__municipality-{{ section.id }}">{{ block.settings.municipality }}</p>
-          {%- endif -%}
+            <div class="ido__ri-{{ section.id }} ido__ri1-{{ section.id }}">
+              <h3 class="ido__reveal-name-{{ section.id }}">{{ block.settings.name }}</h3>
+            </div>
 
-          <div class="ido__divider-{{ section.id }}" aria-hidden="true"></div>
+            <div class="ido__reveal-div-{{ section.id }}"></div>
 
-          {%- if block.settings.flavor != blank -%}
-            <p class="ido__flavor-label-{{ section.id }}">Perfil de sabor</p>
-            <p class="ido__flavor-{{ section.id }}">{{ block.settings.flavor }}</p>
-          {%- endif -%}
+            {%- if block.settings.flavor != blank -%}
+              <div class="ido__ri-{{ section.id }} ido__ri2-{{ section.id }}">
+                <p class="ido__reveal-flavor-label-{{ section.id }}">Perfil de sabor</p>
+                <p class="ido__reveal-flavor-{{ section.id }}">{{ block.settings.flavor }}</p>
+              </div>
+            {%- endif -%}
 
-          {%- if block.settings.link != blank and block.settings.link_label != blank -%}
-            <span class="ido__link-{{ section.id }}" aria-hidden="true">
-              {{ block.settings.link_label }}
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <line x1="5" y1="12" x2="19" y2="12"/>
-                <polyline points="12 5 19 12 12 19"/>
-              </svg>
-            </span>
-          {%- endif -%}
+            {%- if block.settings.detail != blank -%}
+              <div class="ido__ri-{{ section.id }} ido__ri3-{{ section.id }}">
+                <p class="ido__reveal-detail-{{ section.id }}">{{ block.settings.detail }}</p>
+              </div>
+            {%- endif -%}
 
-        </{{ card_tag }}>
+            <div class="ido__ri-{{ section.id }} ido__ri4-{{ section.id }}" style="margin-top: 14px;">
+              <div class="ido__reveal-sep-{{ section.id }}"></div>
+              <p class="ido__reveal-region-{{ section.id }}">{{ community }}</p>
+              {%- if block.settings.link != blank and block.settings.link_label != blank -%}
+                <a class="ido__reveal-link-{{ section.id }}" href="{{ block.settings.link }}">
+                  {{ block.settings.link_label }}
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                </a>
+              {%- endif -%}
+            </div>
+
+          </div>
+
+        </div>
       {%- endfor -%}
     </div>
 
@@ -294,13 +491,13 @@
         {
           "type": "text",
           "id": "name",
-          "label": "Nombre de la Denominación",
-          "default": "DOP Jabugo"
+          "label": "Nombre (sin D.O.P./I.G.P.)",
+          "default": "Jabugo"
         },
         {
           "type": "text",
           "id": "region",
-          "label": "Región / Comunidad",
+          "label": "Región — Comunidad (separados por —)",
           "default": "Huelva — Andalucía"
         },
         {
@@ -313,7 +510,25 @@
           "type": "textarea",
           "id": "flavor",
           "label": "Perfil de sabor",
-          "default": "Aroma intenso y complejo, sabor dulce con matices de frutos secos y hierbas de la sierra onubense. Considerado el jamón ibérico de referencia mundial."
+          "default": "Aroma intenso y complejo, notas de frutos secos y hierbas de sierra. Grasa muy infiltrada con alto contenido en ácido oleico. Referente mundial del jamón ibérico de bellota."
+        },
+        {
+          "type": "text",
+          "id": "detail",
+          "label": "Detalle de curación (itálico, opcional)",
+          "default": "Curación mínima de 24 meses en la sierra de Aracena, con altitud superior a 400 m."
+        },
+        {
+          "type": "select",
+          "id": "color",
+          "label": "Color de la tarjeta",
+          "options": [
+            { "value": "navy",    "label": "Azul marino" },
+            { "value": "cognac",  "label": "Cognac oscuro" },
+            { "value": "umber",   "label": "Tierra oscura" },
+            { "value": "forest",  "label": "Verde oscuro" }
+          ],
+          "default": "navy"
         },
         {
           "type": "url",
@@ -339,7 +554,7 @@
     {
       "type": "text",
       "id": "heading",
-      "label": "Título H2",
+      "label": "Título H2 (última palabra en cursiva dorada)",
       "default": "Denominaciones de Origen Protegidas"
     },
     {
@@ -357,44 +572,52 @@
           "type": "do",
           "settings": {
             "do_type": "D.O.P.",
-            "name": "DOP Jabugo",
+            "name": "Jabugo",
             "region": "Huelva — Andalucía",
             "municipality": "Jabugo, Huelva",
             "flavor": "Aroma intenso y complejo, notas de frutos secos y hierbas de sierra. Grasa muy infiltrada con alto contenido en ácido oleico. Referente mundial del jamón ibérico de bellota.",
-            "link_label": "Jamón de Jabugo"
+            "detail": "Curación mínima de 24 meses en la sierra de Aracena, con altitud superior a 400 m.",
+            "color": "navy",
+            "link_label": "Ver Jabugo"
           }
         },
         {
           "type": "do",
           "settings": {
             "do_type": "I.G.P.",
-            "name": "IGP Guijuelo",
+            "name": "Guijuelo",
             "region": "Salamanca — Castilla y León",
             "municipality": "Guijuelo, Salamanca",
             "flavor": "Sabor suave y delicado, curación lenta favorecida por el microclima de la sierra de Béjar. Menos salado que otras denominaciones, con textura de grasa más firme.",
-            "link_label": "Jamón de Guijuelo"
+            "detail": "A 1.000 m de altitud, el frío y la baja humedad condicionan una curación única.",
+            "color": "cognac",
+            "link_label": "Ver Guijuelo"
           }
         },
         {
           "type": "do",
           "settings": {
             "do_type": "D.O.P.",
-            "name": "DOP Dehesa de Extremadura",
+            "name": "Dehesa de Extremadura",
             "region": "Cáceres y Badajoz — Extremadura",
             "municipality": "Extremadura",
             "flavor": "Carácter robusto y pronunciado, aromas terrosos de la dehesa extremeña. Alto contenido en grasa infiltrada. Curación en secaderos de montaña con variaciones térmicas marcadas.",
-            "link_label": "Jamón de Extremadura"
+            "detail": "La dehesa extremeña, con encinas centenarias, produce una bellota de gran valor energético.",
+            "color": "umber",
+            "link_label": "Ver Extremadura"
           }
         },
         {
           "type": "do",
           "settings": {
             "do_type": "D.O.P.",
-            "name": "DOP Los Pedroches",
+            "name": "Los Pedroches",
             "region": "Córdoba — Andalucía",
             "municipality": "Valle de Los Pedroches, Córdoba",
             "flavor": "Sabor elegante y equilibrado, con notas de bellota muy definidas. La dehesa cordobesa aporta una grasa de color rosado-amarillento con alta proporción de ácido oleico.",
-            "link_label": "Jamón Los Pedroches"
+            "detail": "El Valle de Los Pedroches alberga una de las manchas de dehesa más extensas de Europa.",
+            "color": "forest",
+            "link_label": "Ver Los Pedroches"
           }
         }
       ]

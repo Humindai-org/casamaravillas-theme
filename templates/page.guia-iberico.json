@@ -152,44 +152,52 @@
           "type": "do",
           "settings": {
             "do_type": "D.O.P.",
-            "name": "DOP Jabugo",
+            "name": "Jabugo",
             "region": "Huelva — Andalucía",
             "municipality": "Jabugo, Huelva",
             "flavor": "Aroma intenso y complejo, notas de frutos secos y hierbas de sierra. Grasa muy infiltrada con alto contenido en ácido oleico. Referente mundial del jamón ibérico de bellota.",
-            "link_label": "Jamón de Jabugo"
+            "detail": "Curación mínima de 24 meses en la sierra de Aracena, con altitud superior a 400 m.",
+            "color": "navy",
+            "link_label": "Ver Jabugo"
           }
         },
         "do_2": {
           "type": "do",
           "settings": {
             "do_type": "I.G.P.",
-            "name": "IGP Guijuelo",
+            "name": "Guijuelo",
             "region": "Salamanca — Castilla y León",
             "municipality": "Guijuelo, Salamanca",
             "flavor": "Sabor suave y delicado, curación lenta favorecida por el microclima de la sierra de Béjar. Menos salado que otras denominaciones, con textura de grasa más firme.",
-            "link_label": "Jamón de Guijuelo"
+            "detail": "A 1.000 m de altitud, el frío y la baja humedad condicionan una curación única.",
+            "color": "cognac",
+            "link_label": "Ver Guijuelo"
           }
         },
         "do_3": {
           "type": "do",
           "settings": {
             "do_type": "D.O.P.",
-            "name": "DOP Dehesa de Extremadura",
+            "name": "Dehesa de Extremadura",
             "region": "Cáceres y Badajoz — Extremadura",
             "municipality": "Extremadura",
             "flavor": "Carácter robusto y pronunciado, aromas terrosos de la dehesa extremeña. Alto contenido en grasa infiltrada. Curación en secaderos de montaña con variaciones térmicas marcadas.",
-            "link_label": "Jamón de Extremadura"
+            "detail": "La dehesa extremeña, con encinas centenarias, produce una bellota de gran valor energético.",
+            "color": "umber",
+            "link_label": "Ver Extremadura"
           }
         },
         "do_4": {
           "type": "do",
           "settings": {
             "do_type": "D.O.P.",
-            "name": "DOP Los Pedroches",
+            "name": "Los Pedroches",
             "region": "Córdoba — Andalucía",
             "municipality": "Valle de Los Pedroches, Córdoba",
             "flavor": "Sabor elegante y equilibrado, con notas de bellota muy definidas. La dehesa cordobesa aporta una grasa de color rosado-amarillento con alta proporción de ácido oleico.",
-            "link_label": "Jamón Los Pedroches"
+            "detail": "El Valle de Los Pedroches alberga una de las manchas de dehesa más extensas de Europa.",
+            "color": "forest",
+            "link_label": "Ver Los Pedroches"
           }
         }
       },
