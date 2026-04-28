@@ -1,629 +1,254 @@
 <style>
-  /* ─── HERO CINEMATIC ─────────────────────────────────── */
-  .igh-{{ section.id }} {
-    position: relative;
-    min-height: 82vh;
-    display: flex;
-    align-items: center;
-    overflow: hidden;
-    background: #0A0806;
-  }
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&display=swap');
 
-  .igh__bg-{{ section.id }} {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: 65% center;
-  }
+.igh-{{ section.id }} {
+  position: relative;
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+  background: #001A30;
+  overflow: hidden;
+}
 
-  .igh__overlay-{{ section.id }} {
-    position: absolute;
-    inset: 0;
-    background:
-      linear-gradient(to right, rgba(8,6,4,0.55) 0%, rgba(8,6,4,0.40) 36%, rgba(8,6,4,0.15) 62%, transparent 80%),
-      linear-gradient(to bottom, rgba(8,6,4,0.15) 0%, transparent 30%, transparent 70%, rgba(8,6,4,0.25) 100%);
-    z-index: 1;
-  }
+/* imagen */
+.igh__bg-{{ section.id }} {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 70% center;
+}
 
-  .igh__grain-{{ section.id }} {
-    position: absolute;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
-    background-size: 180px;
-    pointer-events: none;
-    z-index: 2;
-  }
+/* overlay fino */
+.igh__overlay-{{ section.id }} {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to right, rgba(0,26,48,0.55) 0%, rgba(0,26,48,0.25) 45%, transparent 75%),
+    linear-gradient(to bottom, rgba(0,26,48,0.2) 0%, transparent 40%, rgba(0,26,48,0.35) 100%);
+}
 
-  .igh__inner-{{ section.id }} {
-    position: relative;
-    z-index: 3;
-    width: 100%;
-    max-width: 1380px;
-    margin: 0 auto;
-    padding: 88px 72px 88px;
-  }
+/* contenido */
+.igh__inner-{{ section.id }} {
+  position: relative;
+  z-index: 2;
+  max-width: 1200px;
+  padding: 80px;
+}
 
-  /* breadcrumb */
-  .igh__breadcrumb-{{ section.id }} {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 40px;
-    font-family: var(--cm-font-sans);
-    font-size: 11px;
-    letter-spacing: 0.06em;
-    color: rgba(250,246,239,0.30);
-  }
-  .igh__breadcrumb-{{ section.id }} a {
-    color: rgba(250,246,239,0.30);
-    text-decoration: none;
-    transition: color 0.2s;
-  }
-  .igh__breadcrumb-{{ section.id }} a:hover { color: var(--cm-gold); }
-  .igh__breadcrumb-sep-{{ section.id }} { font-size: 9px; }
+/* TITULO */
+.igh__title-{{ section.id }} {
+  font-family: 'Cormorant Garamond', serif;
+  line-height: 0.9;
+}
 
-  /* heading */
-  .igh__title-{{ section.id }} {
-    font-family: var(--cm-font-serif);
-    line-height: 0.90;
-    margin-bottom: 22px;
-    letter-spacing: 0.01em;
-  }
+.igh__t1-{{ section.id }} {
+  display:block;
+  font-size: clamp(60px,7vw,110px);
+  color:#fff;
+  font-weight:500;
+}
 
-  .igh__t1-{{ section.id }} {
-    display: block;
-    font-size: clamp(52px, 7vw, 108px);
-    font-weight: 700;
-    color: rgba(250,246,239,0.96);
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
-  }
+.igh__t2-{{ section.id }} {
+  display:block;
+  font-size: clamp(28px,3vw,48px);
+  font-style: italic;
+  color:#C49A3C;
+  margin-left:10px;
+}
 
-  .igh__t2-{{ section.id }} {
-    display: block;
-    font-size: clamp(34px, 4.8vw, 72px);
-    font-weight: 400;
-    font-style: italic;
-    color: var(--cm-gold);
-    letter-spacing: 0.01em;
-    line-height: 1.0;
-    margin: 2px 0 2px 6px;
-  }
+.igh__t3-{{ section.id }} {
+  display:block;
+  font-size: clamp(80px,10vw,150px);
+  color:#fff;
+  font-weight:500;
+}
 
-  .igh__t3-{{ section.id }} {
-    display: block;
-    font-size: clamp(64px, 9.5vw, 148px);
-    font-weight: 700;
-    color: rgba(250,246,239,0.96);
-    text-transform: uppercase;
-    letter-spacing: 0.015em;
-    line-height: 0.88;
-  }
+/* subtitulo */
+.igh__sub-{{ section.id }} {
+  font-family:'Cormorant Garamond',serif;
+  font-size:18px;
+  color:rgba(255,255,255,0.75);
+  margin-top:30px;
+}
 
-  /* ornament */
-  .igh__orn-{{ section.id }} {
-    display: block;
-    margin: 20px 0 22px;
-    color: var(--cm-gold);
-    opacity: 0.75;
-  }
+.igh__sub em {
+  display:block;
+  font-style:italic;
+  color:#fff;
+}
 
-  /* subtitle */
-  .igh__sub-{{ section.id }} {
-    font-family: var(--cm-font-sans);
-    font-size: clamp(14px, 1.4vw, 17px);
-    font-weight: 300;
-    color: rgba(250,246,239,0.62);
-    line-height: 1.75;
-    max-width: 400px;
-    margin-bottom: 38px;
-  }
-  .igh__sub-{{ section.id }} em {
-    font-style: italic;
-    color: rgba(250,246,239,0.80);
-    font-family: var(--cm-font-serif);
-  }
+/* boton */
+.igh__cta-{{ section.id }} {
+  margin-top:40px;
+  display:inline-block;
+  padding:14px 28px;
+  border:1px solid rgba(255,255,255,0.4);
+  font-size:12px;
+  letter-spacing:0.2em;
+  text-transform:uppercase;
+  color:#fff;
+  text-decoration:none;
+}
 
-  /* CTA */
-  .igh__cta-{{ section.id }} {
-    display: inline-flex;
-    align-items: center;
-    gap: 12px;
-    font-family: var(--cm-font-sans);
-    font-size: 10px;
-    font-weight: 500;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: rgba(250,246,239,0.85);
-    border: 1px solid rgba(250,246,239,0.28);
-    padding: 14px 28px;
-    text-decoration: none;
-    transition: border-color 0.25s, color 0.25s, background 0.25s;
-  }
-  .igh__cta-{{ section.id }}:hover {
-    border-color: var(--cm-gold);
-    color: var(--cm-gold);
-    background: rgba(196,154,60,0.07);
-  }
-  .igh__cta-{{ section.id }}:focus-visible {
-    outline: 2px solid var(--cm-gold);
-    outline-offset: 3px;
-  }
+.igh__cta-{{ section.id }}:hover {
+  border-color:#C49A3C;
+  color:#C49A3C;
+}
 
-  /* badge */
-  .igh__badge-{{ section.id }} {
-    position: absolute;
-    top: 44px;
-    right: 72px;
-    z-index: 4;
-    width: 116px;
-    height: 116px;
-    opacity: 0.88;
-  }
+/* ===== SECCION ARTE ===== */
 
-  /* ─── FEATURES BAR ───────────────────────────────────── */
-  .igh__bar-{{ section.id }} {
-    background: #001A30;
-    padding: 52px 72px 52px;
-    position: relative;
-    border-top: 1px solid rgba(196,154,60,0.15);
-  }
+.igh__bar-{{ section.id }} {
+  background:#001A30;
+  padding:80px;
+}
 
-  .igh__bar-inner-{{ section.id }} {
-    max-width: 1380px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 300px 1fr;
-    gap: 56px;
-    align-items: center;
-  }
+.igh__bar-inner-{{ section.id }} {
+  display:grid;
+  grid-template-columns: 350px 1fr;
+  gap:60px;
+}
 
-  .igh__bar-title-{{ section.id }} {
-    font-family: var(--cm-font-serif);
-    font-size: clamp(24px, 2.8vw, 42px);
-    font-weight: 700;
-    text-transform: uppercase;
-    color: rgba(250,246,239,0.95);
-    line-height: 1.0;
-    letter-spacing: 0.03em;
-    margin-bottom: 16px;
-  }
-  .igh__bar-title-{{ section.id }} em {
-    display: block;
-    font-style: italic;
-    color: var(--cm-gold);
-    font-weight: 400;
-    text-transform: none;
-    letter-spacing: 0.01em;
-  }
+.igh__bar-title-{{ section.id }} {
+  font-family:'Cormorant Garamond',serif;
+  font-size:48px;
+  color:#fff;
+}
 
-  .igh__bar-sub-{{ section.id }} {
-    font-family: var(--cm-font-sans);
-    font-size: 13px;
-    font-weight: 300;
-    color: rgba(255,255,255,0.40);
-    line-height: 1.70;
-    margin-bottom: 20px;
-  }
+.igh__bar-title-{{ section.id }} em {
+  display:block;
+  color:#C49A3C;
+  font-style:italic;
+}
 
-  .igh__bar-rule-{{ section.id }} {
-    width: 40px;
-    height: 1px;
-    background: var(--cm-gold);
-    opacity: 0.45;
-  }
+.igh__bar-sub-{{ section.id }} {
+  margin-top:20px;
+  font-size:16px;
+  color:rgba(255,255,255,0.6);
+}
 
-  /* feature columns */
-  .igh__feats-{{ section.id }} {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-  }
+.igh__feats-{{ section.id }} {
+  display:grid;
+  grid-template-columns: repeat(4,1fr);
+}
 
-  .igh__feat-{{ section.id }} {
-    padding: 0 32px;
-    border-left: 1px solid rgba(255,255,255,0.09);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 0;
-  }
+/* item */
+.igh__feat-{{ section.id }} {
+  text-align:center;
+  padding:0 20px;
+  border-left:1px solid rgba(255,255,255,0.08);
+}
 
-  .igh__feat-icon-{{ section.id }} {
-    width: 46px;
-    height: 46px;
-    color: var(--cm-gold);
-    margin-bottom: 14px;
-    opacity: 0.85;
-  }
+/* ICONOS EXACTOS */
+.igh__feat-icon-{{ section.id }} svg {
+  width:44px;
+  height:44px;
+  stroke:#C49A3C;
+  stroke-width:0.8;
+  fill:none;
+  margin-bottom:15px;
+}
 
-  .igh__feat-label-{{ section.id }} {
-    font-family: var(--cm-font-sans);
-    font-size: 8.5px;
-    font-weight: 600;
-    letter-spacing: 0.28em;
-    text-transform: uppercase;
-    color: var(--cm-gold);
-    margin-bottom: 10px;
-  }
+/* label */
+.igh__feat-label-{{ section.id }} {
+  font-size:11px;
+  letter-spacing:0.25em;
+  color:#C49A3C;
+  margin-bottom:10px;
+}
 
-  .igh__feat-desc-{{ section.id }} {
-    font-family: var(--cm-font-sans);
-    font-size: 12.5px;
-    font-weight: 300;
-    color: rgba(255,255,255,0.50);
-    line-height: 1.65;
-  }
-
-  /* bottom ornament */
-  .igh__bar-ornament-{{ section.id }} {
-    display: flex;
-    justify-content: center;
-    margin-top: 40px;
-    color: var(--cm-gold);
-    opacity: 0.45;
-  }
-
-  /* ─── RESPONSIVE ─────────────────────────────────────── */
-  @media (max-width: 1199px) {
-    .igh__inner-{{ section.id }},
-    .igh__bar-{{ section.id }} { padding-left: 40px; padding-right: 40px; }
-    .igh__badge-{{ section.id }} { right: 40px; width: 96px; height: 96px; }
-    .igh__t3-{{ section.id }} { font-size: clamp(64px, 9vw, 120px); }
-  }
-
-  @media (max-width: 1023px) {
-    .igh__bar-inner-{{ section.id }} {
-      grid-template-columns: 1fr;
-      gap: 36px;
-    }
-    .igh__feats-{{ section.id }} {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 28px 0;
-    }
-    .igh__feat-{{ section.id }}:nth-child(2n+1) { border-left: none; }
-    .igh__feat-{{ section.id }}:nth-child(2) { border-left: 1px solid rgba(255,255,255,0.09); }
-  }
-
-  @media (max-width: 767px) {
-    .igh-{{ section.id }} { min-height: 88vw; }
-    .igh__inner-{{ section.id }} { padding: 44px 24px 56px; }
-    .igh__overlay-{{ section.id }} {
-      background: linear-gradient(to bottom, rgba(8,6,4,0.42) 0%, rgba(8,6,4,0.72) 55%, rgba(8,6,4,0.88) 100%),
-                  linear-gradient(to right, rgba(8,6,4,0.65) 0%, transparent 70%);
-    }
-    .igh__badge-{{ section.id }} { top: 16px; right: 16px; width: 76px; height: 76px; }
-    .igh__bar-{{ section.id }} { padding: 40px 24px 44px; }
-    .igh__feats-{{ section.id }} { grid-template-columns: 1fr 1fr; gap: 28px 0; }
-    .igh__feat-{{ section.id }} { padding: 0 18px; }
-    .igh__feat-{{ section.id }}:nth-child(odd) { border-left: none; }
-    .igh__feat-{{ section.id }}:nth-child(even) { border-left: 1px solid rgba(255,255,255,0.09); }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .igh__cta-{{ section.id }} { transition: none; }
-  }
+/* texto */
+.igh__feat-desc-{{ section.id }} {
+  font-size:14px;
+  color:rgba(255,255,255,0.6);
+}
 </style>
 
-{%- assign sid = section.id -%}
-{%- assign bg_class = 'igh__bg-' | append: sid -%}
+<section class="igh-{{ section.id }}">
 
-<section class="igh-{{ sid }}" aria-label="...">
+{% if section.settings.image %}
+{{ section.settings.image | image_url: width:2000 | image_tag: class: 'igh__bg-' | append: section.id }}
+{% endif %}
 
-  {%- if section.settings.image != blank -%}
-    {{
-      section.settings.image
-      | image_url: width: 2200
-      | image_tag:
-          class: bg_class,
-          loading: 'eager',
-          fetchpriority: 'high',
-          alt: ''
-    }}
-  {%- endif -%}
+<div class="igh__overlay-{{ section.id }}"></div>
 
+<div class="igh__inner-{{ section.id }}">
 
-  <div class="igh__overlay-{{ sid }}" aria-hidden="true"></div>
-  <div class="igh__grain-{{ sid }}"   aria-hidden="true"></div>
+<h1 class="igh__title-{{ section.id }}">
+<span class="igh__t1-{{ section.id }}">LA GUÍA</span>
+<span class="igh__t2-{{ section.id }}">del</span>
+<span class="igh__t3-{{ section.id }}">IBÉRICO</span>
+</h1>
 
-  <div class="igh__inner-{{ sid }}">
+<p class="igh__sub-{{ section.id }}">
+Todo lo que necesitas saber sobre
+<em>el auténtico lujo español.</em>
+</p>
 
-    <nav class="igh__breadcrumb-{{ sid }}" aria-label="Ruta de navegación">
-      <a href="{{ routes.root_url }}">Inicio</a>
-      <span class="igh__breadcrumb-sep-{{ sid }}" aria-hidden="true">›</span>
-      <span aria-current="page">{{ section.settings.breadcrumb_label | default: 'Guía del Ibérico' }}</span>
-    </nav>
+<a href="#" class="igh__cta-{{ section.id }}">EXPLORAR LA GUÍA →</a>
 
-    <h1 class="igh__title-{{ sid }}">
-      <span class="igh__t1-{{ sid }}">{{ section.settings.heading_line1 | default: 'La Guía' }}</span>
-      <span class="igh__t2-{{ sid }}">{{ section.settings.heading_line2 | default: 'del' }}</span>
-      <span class="igh__t3-{{ sid }}">{{ section.settings.heading_line3 | default: 'Ibérico' }}</span>
-    </h1>
-
-    <!-- wheat ornament -->
-    <svg class="igh__orn-{{ sid }}" width="22" height="30" viewBox="0 0 22 30" fill="none" aria-hidden="true">
-      <line x1="11" y1="30" x2="11" y2="10" stroke="currentColor" stroke-width="1.1"/>
-      <ellipse cx="11" cy="7" rx="3" ry="6" stroke="currentColor" stroke-width="1.1"/>
-      <path d="M11,18 C11,18 5,15 4,10" stroke="currentColor" stroke-width="1" fill="none"/>
-      <path d="M11,18 C11,18 17,15 18,10" stroke="currentColor" stroke-width="1" fill="none"/>
-      <ellipse cx="4" cy="8.5" rx="2.5" ry="4.5" stroke="currentColor" stroke-width="1" fill="none" transform="rotate(-22 4 8.5)"/>
-      <ellipse cx="18" cy="8.5" rx="2.5" ry="4.5" stroke="currentColor" stroke-width="1" fill="none" transform="rotate(22 18 8.5)"/>
-    </svg>
-
-    {%- if section.settings.subtitle_main != blank or section.settings.subtitle_italic != blank -%}
-      <p class="igh__sub-{{ sid }}">
-        {{ section.settings.subtitle_main }}<br>
-        <em>{{ section.settings.subtitle_italic }}</em>
-      </p>
-    {%- endif -%}
-
-    {%- if section.settings.cta_label != blank -%}
-      <a
-        class="igh__cta-{{ sid }}"
-        href="#{{ section.settings.cta_anchor | default: 'iberico-vs-serrano' }}"
-      >{{ section.settings.cta_label }} →</a>
-    {%- endif -%}
-
-  </div>
-
-  <!-- circular badge -->
-  <div class="igh__badge-{{ sid }}" aria-hidden="true">
-    <svg viewBox="0 0 130 130" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <path id="igh-arc-top-{{ sid }}" d="M 15,65 A 50,50 0 0,0 115,65"/>
-        <path id="igh-arc-bot-{{ sid }}" d="M 15,65 A 50,50 0 0,1 115,65"/>
-      </defs>
-      <circle cx="65" cy="65" r="61" stroke="#C49A3C" stroke-width="0.8" opacity="0.55"/>
-      <circle cx="65" cy="65" r="53" stroke="#C49A3C" stroke-width="0.5" stroke-dasharray="2.8 3.8" opacity="0.40"/>
-      <text font-family="'DM Sans',sans-serif" font-size="7.5" font-weight="600" letter-spacing="3" fill="#C49A3C" text-anchor="middle">
-        <textPath href="#igh-arc-top-{{ sid }}" startOffset="50%">{{ section.settings.badge_top | default: '· AUTÉNTICO IBÉRICO ·' }}</textPath>
-      </text>
-      <text x="65" y="58" text-anchor="middle" font-family="'Playfair Display',serif" font-size="22" font-weight="500" fill="#C49A3C">{{ section.settings.badge_center | default: '100%' }}</text>
-      <text font-family="'DM Sans',sans-serif" font-size="7.5" font-weight="600" letter-spacing="3" fill="#C49A3C" text-anchor="middle">
-        <textPath href="#igh-arc-bot-{{ sid }}" startOffset="50%">{{ section.settings.badge_bottom | default: '· CALIDAD PREMIUM ·' }}</textPath>
-      </text>
-    </svg>
-  </div>
-
+</div>
 </section>
 
-<!-- features bar -->
-<div class="igh__bar-{{ sid }}">
-  <div class="igh__bar-inner-{{ sid }}">
+<div class="igh__bar-{{ section.id }}">
+<div class="igh__bar-inner-{{ section.id }}">
 
-    <div>
-      <h2 class="igh__bar-title-{{ sid }}">
-        {{ section.settings.bar_title_a | default: 'El Arte de lo' }}<em>{{ section.settings.bar_title_b | default: 'Excepcional' }}</em>
-      </h2>
-      {%- if section.settings.bar_subtitle != blank -%}
-        <p class="igh__bar-sub-{{ sid }}">{{ section.settings.bar_subtitle }}</p>
-      {%- endif -%}
-      <div class="igh__bar-rule-{{ sid }}"></div>
-    </div>
+<div>
+<h2 class="igh__bar-title-{{ section.id }}">
+EL ARTE DE LO
+<em>Excepcional</em>
+</h2>
 
-    <div class="igh__feats-{{ sid }}">
-      {%- for block in section.blocks -%}
-        <div class="igh__feat-{{ sid }}" {{ block.shopify_attributes }}>
-          <div class="igh__feat-icon-{{ sid }}" aria-hidden="true">
-            {%- case block.settings.icon -%}
-              {%- when 'raza' -%}
-                <svg viewBox="0 0 46 46" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round">
-                  <circle cx="23" cy="23" r="20" stroke-width="0.8" opacity="0.5"/>
-                  <path d="M23 34 C23 34 14 26 14 19 C14 14.5 18 11 23 11 C28 11 32 14.5 32 19 C32 26 23 34 23 34Z"/>
-                  <line x1="23" y1="34" x2="23" y2="29"/>
-                  <path d="M19 20 L16 17" stroke-width="0.9"/>
-                  <path d="M27 20 L30 17" stroke-width="0.9"/>
-                </svg>
-              {%- when 'alimentacion' -%}
-                <svg viewBox="0 0 46 46" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round">
-                  <circle cx="23" cy="23" r="20" stroke-width="0.8" opacity="0.5"/>
-                  <line x1="23" y1="36" x2="23" y2="24"/>
-                  <path d="M23 24 C23 24 13 22 12 14 C16 12 22 16 23 24"/>
-                  <path d="M23 24 C23 24 33 22 34 14 C30 12 24 16 23 24"/>
-                  <path d="M23 30 L18 28" stroke-width="0.9"/>
-                  <path d="M23 28 L28 27" stroke-width="0.9"/>
-                </svg>
-              {%- when 'tiempo' -%}
-                <svg viewBox="0 0 46 46" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round">
-                  <circle cx="23" cy="23" r="20" stroke-width="0.8" opacity="0.5"/>
-                  <circle cx="23" cy="23" r="12"/>
-                  <line x1="23" y1="23" x2="23" y2="15"/>
-                  <line x1="23" y1="23" x2="29" y2="27"/>
-                  <circle cx="23" cy="23" r="1.2" fill="currentColor" stroke="none"/>
-                </svg>
-              {%- when 'experiencia' -%}
-                <svg viewBox="0 0 46 46" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round">
-                  <circle cx="23" cy="23" r="20" stroke-width="0.8" opacity="0.5"/>
-                  <path d="M17 34 C17 34 15 28 15 23 C15 16 18 12 23 11 C26 11 29 13 30 17 C31 21 30 25 27 28 L23 34Z"/>
-                  <line x1="19" y1="22" x2="27" y2="22" stroke-width="0.9"/>
-                  <line x1="18" y1="26" x2="26" y2="26" stroke-width="0.9"/>
-                  <path d="M23 28 L23 34" stroke-width="1.2"/>
-                </svg>
-              {%- else -%}
-                <svg viewBox="0 0 46 46" fill="none" stroke="currentColor" stroke-width="1.2">
-                  <circle cx="23" cy="23" r="20" stroke-width="0.8" opacity="0.5"/>
-                  <circle cx="23" cy="23" r="4"/>
-                </svg>
-            {%- endcase -%}
-          </div>
-          <p class="igh__feat-label-{{ sid }}">{{ block.settings.label }}</p>
-          <p class="igh__feat-desc-{{ sid }}">{{ block.settings.description }}</p>
-        </div>
-      {%- endfor -%}
-    </div>
-
-  </div>
-
-  <!-- bottom ornament -->
-  <div class="igh__bar-ornament-{{ sid }}" aria-hidden="true">
-    <svg width="20" height="28" viewBox="0 0 20 28" fill="none">
-      <line x1="10" y1="0" x2="10" y2="20" stroke="currentColor" stroke-width="1"/>
-      <polyline points="4,14 10,22 16,14" fill="none" stroke="currentColor" stroke-width="1"/>
-      <circle cx="10" cy="1.5" r="1.5" fill="currentColor"/>
-    </svg>
-  </div>
+<p class="igh__bar-sub-{{ section.id }}">
+Tradición, naturaleza y tiempo se unen para crear un producto único en el mundo.
+</p>
 </div>
 
-{% schema %}
-{
-  "name": "Guía Ibérico — Hero",
-  "tag": "section",
-  "max_blocks": 4,
-  "blocks": [
-    {
-      "type": "feature",
-      "name": "Característica",
-      "settings": [
-        {
-          "type": "select",
-          "id": "icon",
-          "label": "Icono",
-          "options": [
-            { "value": "raza",        "label": "Raza (hoja)" },
-            { "value": "alimentacion","label": "Alimentación (árbol)" },
-            { "value": "tiempo",      "label": "Tiempo (reloj)" },
-            { "value": "experiencia", "label": "Experiencia (jamón)" }
-          ],
-          "default": "raza"
-        },
-        {
-          "type": "text",
-          "id": "label",
-          "label": "Etiqueta",
-          "default": "Raza"
-        },
-        {
-          "type": "text",
-          "id": "description",
-          "label": "Descripción",
-          "default": "Cerdos ibéricos puro de bellota."
-        }
-      ]
-    }
-  ],
-  "settings": [
-    {
-      "type": "image_picker",
-      "id": "image",
-      "label": "Imagen de fondo"
-    },
-    {
-      "type": "text",
-      "id": "breadcrumb_label",
-      "label": "Breadcrumb (último nivel)",
-      "default": "Guía del Ibérico"
-    },
-    {
-      "type": "header",
-      "content": "Titular H1 (3 líneas)"
-    },
-    {
-      "type": "text",
-      "id": "heading_line1",
-      "label": "Línea 1 (mayúsculas)",
-      "default": "La Guía"
-    },
-    {
-      "type": "text",
-      "id": "heading_line2",
-      "label": "Línea 2 (itálica dorada)",
-      "default": "del"
-    },
-    {
-      "type": "text",
-      "id": "heading_line3",
-      "label": "Línea 3 (mayúsculas, grande)",
-      "default": "Ibérico"
-    },
-    {
-      "type": "header",
-      "content": "Subtítulo"
-    },
-    {
-      "type": "text",
-      "id": "subtitle_main",
-      "label": "Primera línea",
-      "default": "Todo lo que necesitas saber sobre"
-    },
-    {
-      "type": "text",
-      "id": "subtitle_italic",
-      "label": "Segunda línea (cursiva)",
-      "default": "el auténtico lujo español."
-    },
-    {
-      "type": "header",
-      "content": "Botón CTA"
-    },
-    {
-      "type": "text",
-      "id": "cta_label",
-      "label": "Texto del botón",
-      "default": "Descubrir más"
-    },
-    {
-      "type": "text",
-      "id": "cta_anchor",
-      "label": "Anchor destino (sin #)",
-      "default": "iberico-vs-serrano"
-    },
-    {
-      "type": "header",
-      "content": "Badge circular"
-    },
-    {
-      "type": "text",
-      "id": "badge_top",
-      "label": "Texto superior (arco)",
-      "default": "· AUTÉNTICO IBÉRICO ·"
-    },
-    {
-      "type": "text",
-      "id": "badge_center",
-      "label": "Texto central",
-      "default": "100%"
-    },
-    {
-      "type": "text",
-      "id": "badge_bottom",
-      "label": "Texto inferior (arco)",
-      "default": "· CALIDAD PREMIUM ·"
-    },
-    {
-      "type": "header",
-      "content": "Barra de características"
-    },
-    {
-      "type": "text",
-      "id": "bar_title_a",
-      "label": "Título — líneas normales",
-      "default": "El Arte de lo"
-    },
-    {
-      "type": "text",
-      "id": "bar_title_b",
-      "label": "Título — última línea (itálica dorada)",
-      "default": "Excepcional"
-    },
-    {
-      "type": "text",
-      "id": "bar_subtitle",
-      "label": "Subtítulo de la barra",
-      "default": "Tradición, naturaleza y tiempo se unen para crear un producto único en el mundo."
-    }
-  ],
-  "presets": [
-    {
-      "name": "Guía Ibérico — Hero",
-      "blocks": [
-        { "type": "feature", "settings": { "icon": "raza",        "label": "Raza",         "description": "Cerdos ibéricos puro de bellota." } },
-        { "type": "feature", "settings": { "icon": "alimentacion","label": "Alimentación", "description": "Bellota, pastos naturales y recursos del campo." } },
-        { "type": "feature", "settings": { "icon": "tiempo",      "label": "Tiempo",       "description": "Curación lenta y natural para un sabor inigualable." } },
-        { "type": "feature", "settings": { "icon": "experiencia", "label": "Experiencia",  "description": "Sabor, aroma y textura que cuentan historias." } }
-      ]
-    }
-  ]
-}
-{% endschema %}
+<div class="igh__feats-{{ section.id }}">
+
+<div class="igh__feat-{{ section.id }}">
+<div class="igh__feat-icon-{{ section.id }}">
+<svg viewBox="0 0 24 24">
+<path d="M12 20V10M12 10C10 8 8 7 6 7C6 10 9 12 12 10ZM12 10C14 8 16 7 18 7C18 10 15 12 12 10Z"/>
+</svg>
+</div>
+<div class="igh__feat-label-{{ section.id }}">RAZA</div>
+<div class="igh__feat-desc-{{ section.id }}">Cerdos ibéricos puro de bellota.</div>
+</div>
+
+<div class="igh__feat-{{ section.id }}">
+<div class="igh__feat-icon-{{ section.id }}">
+<svg viewBox="0 0 24 24">
+<path d="M12 20V12M12 12C10 9 7 8 5 8C5 12 9 14 12 12ZM12 12C14 9 17 8 19 8C19 12 15 14 12 12Z"/>
+</svg>
+</div>
+<div class="igh__feat-label-{{ section.id }}">ALIMENTACIÓN</div>
+<div class="igh__feat-desc-{{ section.id }}">Bellota, pastos naturales y recursos del campo.</div>
+</div>
+
+<div class="igh__feat-{{ section.id }}">
+<div class="igh__feat-icon-{{ section.id }}">
+<svg viewBox="0 0 24 24">
+<circle cx="12" cy="12" r="8"/>
+<path d="M12 8V12L15 14"/>
+</svg>
+</div>
+<div class="igh__feat-label-{{ section.id }}">TIEMPO</div>
+<div class="igh__feat-desc-{{ section.id }}">Curación lenta y natural para un sabor inigualable.</div>
+</div>
+
+<div class="igh__feat-{{ section.id }}">
+<div class="igh__feat-icon-{{ section.id }}">
+<svg viewBox="0 0 24 24">
+<path d="M7 20C7 15 10 10 12 8C14 10 17 15 17 20"/>
+<path d="M9 14H15M9 17H15"/>
+</svg>
+</div>
+<div class="igh__feat-label-{{ section.id }}">EXPERIENCIA</div>
+<div class="igh__feat-desc-{{ section.id }}">Sabor, aroma y textura que cuentan historias.</div>
+</div>
+
+</div>
+</div>
+</div>
