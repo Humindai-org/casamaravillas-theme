@@ -1,6 +1,628 @@
+{% doc %}
+  @prompt
+    Corregir la sección hero "iberico-guide-hero" (ID: template--29944711184722__hero) para que la imagen asignada se muestre como fondo de pantalla completa con el texto superpuesto encima. La imagen debe ocupar el 100% del ancho y alto de la sección, el texto y CTA deben estar superpuestos sobre la imagen, añadir un overlay semitransparente rgba negro al 35% entre imagen y texto para legibilidad, mantener título La Guía del Ibérico, subtítulo, botón CTA Descubrir más, badge circular y barra de características
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-iberico-hero-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    min-height: {{ block.settings.section_height }}vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .ai-iberico-hero-bg-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+
+  .ai-iberico-hero-bg-{{ ai_gen_id }} img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .ai-iberico-hero-bg-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ai-iberico-hero-bg-placeholder-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    max-width: 600px;
+    max-height: 600px;
+  }
+
+  .ai-iberico-hero-overlay-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, {{ block.settings.overlay_opacity }});
+    z-index: 2;
+  }
+
+  .ai-iberico-hero-content-{{ ai_gen_id }} {
+    position: relative;
+    z-index: 3;
+    max-width: 1200px;
+    width: 100%;
+    padding: 0 40px;
+    text-align: center;
+    color: {{ block.settings.text_color }};
+  }
+
+  .ai-iberico-hero-badge-{{ ai_gen_id }} {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: {{ block.settings.badge_size }}px;
+    height: {{ block.settings.badge_size }}px;
+    border-radius: 50%;
+    background-color: {{ block.settings.badge_bg_color }};
+    color: {{ block.settings.badge_text_color }};
+    font-size: {{ block.settings.badge_font_size }}px;
+    font-weight: 600;
+    margin: 0 auto {{ block.settings.badge_margin }}px;
+    border: 2px solid {{ block.settings.badge_border_color }};
+  }
+
+  .ai-iberico-hero-title-{{ ai_gen_id }} {
+    font-family: {{ block.settings.title_font.family }}, {{ block.settings.title_font.fallback_families }};
+    font-weight: {{ block.settings.title_font.weight }};
+    font-size: {{ block.settings.title_size }}px;
+    line-height: 1.2;
+    margin: 0 0 {{ block.settings.title_margin }}px;
+    color: {{ block.settings.text_color }};
+  }
+
+  .ai-iberico-hero-subtitle-{{ ai_gen_id }} {
+    font-size: {{ block.settings.subtitle_size }}px;
+    line-height: 1.6;
+    margin: 0 0 {{ block.settings.subtitle_margin }}px;
+    color: {{ block.settings.text_color }};
+    opacity: 0.95;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .ai-iberico-hero-cta-{{ ai_gen_id }} {
+    display: inline-block;
+    padding: {{ block.settings.button_padding_vertical }}px {{ block.settings.button_padding_horizontal }}px;
+    background-color: {{ block.settings.button_bg_color }};
+    color: {{ block.settings.button_text_color }};
+    text-decoration: none;
+    border-radius: {{ block.settings.button_border_radius }}px;
+    font-size: {{ block.settings.button_font_size }}px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    margin-bottom: {{ block.settings.button_margin }}px;
+    border: 2px solid {{ block.settings.button_border_color }};
+  }
+
+  .ai-iberico-hero-cta-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.button_hover_bg_color }};
+    color: {{ block.settings.button_hover_text_color }};
+    border-color: {{ block.settings.button_hover_border_color }};
+    transform: translateY(-2px);
+  }
+
+  .ai-iberico-hero-features-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    margin-top: {{ block.settings.features_margin }}px;
+    padding-top: {{ block.settings.features_padding }}px;
+    border-top: 1px solid {{ block.settings.features_border_color }};
+  }
+
+  .ai-iberico-hero-feature-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: {{ block.settings.feature_font_size }}px;
+    color: {{ block.settings.text_color }};
+  }
+
+  .ai-iberico-hero-feature-icon-{{ ai_gen_id }} {
+    width: {{ block.settings.feature_icon_size }}px;
+    height: {{ block.settings.feature_icon_size }}px;
+    color: {{ block.settings.feature_icon_color }};
+  }
+
+  @media screen and (max-width: 768px) {
+    .ai-iberico-hero-{{ ai_gen_id }} {
+      min-height: {{ block.settings.section_height_mobile }}vh;
+    }
+
+    .ai-iberico-hero-content-{{ ai_gen_id }} {
+      padding: 0 20px;
+    }
+
+    .ai-iberico-hero-title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.title_size | times: 0.6 }}px;
+    }
+
+    .ai-iberico-hero-subtitle-{{ ai_gen_id }} {
+      font-size: {{ block.settings.subtitle_size | times: 0.85 }}px;
+    }
+
+    .ai-iberico-hero-features-{{ ai_gen_id }} {
+      gap: 20px;
+    }
+
+    .ai-iberico-hero-feature-{{ ai_gen_id }} {
+      font-size: {{ block.settings.feature_font_size | times: 0.9 }}px;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-iberico-hero-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-iberico-hero-bg-{{ ai_gen_id }}">
+    {% if block.settings.background_image %}
+      <img
+        src="{{ block.settings.background_image | image_url: width: 2400 }}"
+        alt="{{ block.settings.background_image.alt | escape }}"
+        loading="eager"
+        width="{{ block.settings.background_image.width }}"
+        height="{{ block.settings.background_image.height }}"
+      >
+    {% else %}
+      <div class="ai-iberico-hero-bg-placeholder-{{ ai_gen_id }}">
+        {{ 'hero-apparel-1' | placeholder_svg_tag }}
+      </div>
+    {% endif %}
+  </div>
+
+  <div class="ai-iberico-hero-overlay-{{ ai_gen_id }}"></div>
+
+  <div class="ai-iberico-hero-content-{{ ai_gen_id }}">
+    {% if block.settings.show_badge and block.settings.badge_text != blank %}
+      <div class="ai-iberico-hero-badge-{{ ai_gen_id }}">
+        {{ block.settings.badge_text }}
+      </div>
+    {% endif %}
+
+    {% if block.settings.title != blank %}
+      <h1 class="ai-iberico-hero-title-{{ ai_gen_id }}">
+        {{ block.settings.title }}
+      </h1>
+    {% endif %}
+
+    {% if block.settings.subtitle != blank %}
+      <div class="ai-iberico-hero-subtitle-{{ ai_gen_id }}">
+        {{ block.settings.subtitle }}
+      </div>
+    {% endif %}
+
+    {% if block.settings.cta_text != blank %}
+      <a
+        href="{{ block.settings.cta_link }}"
+        class="ai-iberico-hero-cta-{{ ai_gen_id }}"
+      >
+        {{ block.settings.cta_text }}
+      </a>
+    {% endif %}
+
+    {% if block.settings.show_features %}
+      <div class="ai-iberico-hero-features-{{ ai_gen_id }}">
+        {% if block.settings.feature_1_text != blank %}
+          <div class="ai-iberico-hero-feature-{{ ai_gen_id }}">
+            <svg class="ai-iberico-hero-feature-icon-{{ ai_gen_id }}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            <span>{{ block.settings.feature_1_text }}</span>
+          </div>
+        {% endif %}
+
+        {% if block.settings.feature_2_text != blank %}
+          <div class="ai-iberico-hero-feature-{{ ai_gen_id }}">
+            <svg class="ai-iberico-hero-feature-icon-{{ ai_gen_id }}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            <span>{{ block.settings.feature_2_text }}</span>
+          </div>
+        {% endif %}
+
+        {% if block.settings.feature_3_text != blank %}
+          <div class="ai-iberico-hero-feature-{{ ai_gen_id }}">
+            <svg class="ai-iberico-hero-feature-icon-{{ ai_gen_id }}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            <span>{{ block.settings.feature_3_text }}</span>
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
+  </div>
+</div>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "Iberico guide hero",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Imagen de fondo"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Imagen de fondo"
+    },
+    {
+      "type": "range",
+      "id": "section_height",
+      "label": "Altura en desktop",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "vh",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "section_height_mobile",
+      "label": "Altura en móvil",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "vh",
+      "default": 70
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Opacidad del overlay",
+      "min": 0,
+      "max": 1,
+      "step": 0.1,
+      "default": 0.4
+    },
+    {
+      "type": "header",
+      "content": "Badge circular"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_badge",
+      "label": "Mostrar badge",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Texto del badge",
+      "default": "2024"
+    },
+    {
+      "type": "range",
+      "id": "badge_size",
+      "label": "Tamaño del badge",
+      "min": 40,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 70
+    },
+    {
+      "type": "range",
+      "id": "badge_font_size",
+      "label": "Tamaño de fuente",
+      "min": 10,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "badge_bg_color",
+      "label": "Color de fondo",
+      "default": "#B8903A"
+    },
+    {
+      "type": "color",
+      "id": "badge_text_color",
+      "label": "Color de texto",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "badge_border_color",
+      "label": "Color de borde",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "badge_margin",
+      "label": "Margen inferior",
+      "min": 10,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Título"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Título",
+      "default": "La Guía del Ibérico"
+    },
+    {
+      "type": "font_picker",
+      "id": "title_font",
+      "label": "Tipografía del título",
+      "default": "libre_baskerville_n4"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "label": "Tamaño del título",
+      "min": 30,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "title_margin",
+      "label": "Margen inferior",
+      "min": 10,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Subtítulo"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtítulo",
+      "default": "Descubre todo sobre el jamón ibérico: tipos, cortes, conservación y maridajes perfectos"
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size",
+      "label": "Tamaño del subtítulo",
+      "min": 14,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "subtitle_margin",
+      "label": "Margen inferior",
+      "min": 20,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "header",
+      "content": "Botón CTA"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Texto del botón",
+      "default": "Descubrir más"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Enlace del botón"
+    },
+    {
+      "type": "range",
+      "id": "button_font_size",
+      "label": "Tamaño de fuente",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "button_padding_vertical",
+      "label": "Padding vertical",
+      "min": 8,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "button_padding_horizontal",
+      "label": "Padding horizontal",
+      "min": 20,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "label": "Radio de borde",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "default": 4
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Color de fondo",
+      "default": "#B8903A"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Color de texto",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "button_border_color",
+      "label": "Color de borde",
+      "default": "#B8903A"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_bg_color",
+      "label": "Color de fondo hover",
+      "default": "#0D1B2A"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_text_color",
+      "label": "Color de texto hover",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_border_color",
+      "label": "Color de borde hover",
+      "default": "#0D1B2A"
+    },
+    {
+      "type": "range",
+      "id": "button_margin",
+      "label": "Margen inferior",
+      "min": 20,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Barra de características"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_features",
+      "label": "Mostrar características",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "feature_1_text",
+      "label": "Característica 1",
+      "default": "100% Ibérico"
+    },
+    {
+      "type": "text",
+      "id": "feature_2_text",
+      "label": "Característica 2",
+      "default": "Crianza artesanal"
+    },
+    {
+      "type": "text",
+      "id": "feature_3_text",
+      "label": "Característica 3",
+      "default": "Denominación de origen"
+    },
+    {
+      "type": "range",
+      "id": "feature_font_size",
+      "label": "Tamaño de fuente",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "feature_icon_size",
+      "label": "Tamaño de icono",
+      "min": 14,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "color",
+      "id": "feature_icon_color",
+      "label": "Color de icono",
+      "default": "#B8903A"
+    },
+    {
+      "type": "color",
+      "id": "features_border_color",
+      "label": "Color de borde superior",
+      "default": "rgba(255, 255, 255, 0.3)"
+    },
+    {
+      "type": "range",
+      "id": "features_margin",
+      "label": "Margen superior",
+      "min": 0,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "features_padding",
+      "label": "Padding superior",
+      "min": 10,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "header",
+      "content": "Colores del texto"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Color del texto",
+      "default": "#FFFFFF"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Iberico guide hero"
+    }
+  ]
+}
 {% endschema %}
