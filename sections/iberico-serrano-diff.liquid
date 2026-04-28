@@ -1,0 +1,499 @@
+<style>
+  .isd-{{ section.id }} {
+    background: var(--cm-white);
+    padding: 96px 24px;
+    border-bottom: 1px solid var(--cm-border);
+    scroll-margin-top: 56px;
+  }
+
+  .isd__inner-{{ section.id }} {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  /* ── Header ── */
+  .isd__header-{{ section.id }} {
+    text-align: center;
+    margin-bottom: 64px;
+  }
+
+  .isd__eyebrow-{{ section.id }} {
+    display: block;
+    font-family: var(--cm-font-sans);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.45em;
+    text-transform: uppercase;
+    color: var(--cm-gold);
+    margin-bottom: 18px;
+  }
+
+  .isd__heading-{{ section.id }} {
+    font-family: var(--cm-font-serif);
+    font-size: clamp(24px, 3vw, 40px);
+    font-weight: 400;
+    color: var(--cm-navy);
+    line-height: 1.2;
+    margin-bottom: 16px;
+  }
+
+  .isd__heading-{{ section.id }} em {
+    font-style: italic;
+    color: var(--cm-gold);
+  }
+
+  .isd__intro-{{ section.id }} {
+    font-family: var(--cm-font-sans);
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--cm-text-mid);
+    line-height: 1.8;
+    max-width: 580px;
+    margin: 0 auto;
+  }
+
+  /* ── Comparison grid ── */
+  .isd__grid-{{ section.id }} {
+    display: grid;
+    grid-template-columns: 1fr 80px 1fr;
+    gap: 0;
+    align-items: stretch;
+  }
+
+  /* Column headers */
+  .isd__col-{{ section.id }} {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .isd__col-head-{{ section.id }} {
+    padding: 24px 32px;
+    border-bottom: 2px solid var(--cm-navy);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .isd__col-head-{{ section.id }}--iberico {
+    background: var(--cm-navy);
+    justify-content: flex-end;
+  }
+
+  .isd__col-head-{{ section.id }}--serrano {
+    background: var(--cm-off);
+    justify-content: flex-start;
+  }
+
+  .isd__col-title-{{ section.id }} {
+    font-family: var(--cm-font-serif);
+    font-size: clamp(17px, 2vw, 22px);
+    font-weight: 400;
+    line-height: 1.2;
+  }
+
+  .isd__col-title-{{ section.id }}--iberico {
+    color: var(--cm-off);
+    text-align: right;
+  }
+
+  .isd__col-title-{{ section.id }}--serrano {
+    color: var(--cm-navy);
+    text-align: left;
+  }
+
+  .isd__col-badge-{{ section.id }} {
+    font-family: var(--cm-font-sans);
+    font-size: 7.5px;
+    font-weight: 600;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    padding: 4px 8px;
+    border: 1px solid;
+    line-height: 1;
+  }
+
+  .isd__col-badge-{{ section.id }}--iberico {
+    color: var(--cm-gold);
+    border-color: rgba(196,151,58,0.5);
+  }
+
+  .isd__col-badge-{{ section.id }}--serrano {
+    color: var(--cm-text-light);
+    border-color: var(--cm-border);
+  }
+
+  /* Center divider column */
+  .isd__divider-{{ section.id }} {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-left: 1px solid var(--cm-border);
+    border-right: 1px solid var(--cm-border);
+  }
+
+  .isd__divider-head-{{ section.id }} {
+    background: var(--cm-navy);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 2px solid var(--cm-navy);
+    min-height: 80px;
+  }
+
+  .isd__divider-head-{{ section.id }} span {
+    font-family: var(--cm-font-sans);
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: rgba(250,246,239,0.28);
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+  }
+
+  /* Row */
+  .isd__row-{{ section.id }} {
+    display: contents;
+  }
+
+  .isd__cell-{{ section.id }} {
+    padding: 22px 32px;
+    border-bottom: 1px solid var(--cm-border);
+    display: flex;
+    align-items: center;
+  }
+
+  .isd__cell-{{ section.id }}--iberico {
+    background: var(--cm-navy);
+    justify-content: flex-end;
+    text-align: right;
+  }
+
+  .isd__cell-{{ section.id }}--serrano {
+    background: var(--cm-white);
+    justify-content: flex-start;
+    text-align: left;
+  }
+
+  .isd__cell-attr-{{ section.id }} {
+    font-family: var(--cm-font-sans);
+    font-size: 8px;
+    font-weight: 600;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--cm-text-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 22px 8px;
+    border-bottom: 1px solid var(--cm-border);
+    text-align: center;
+    line-height: 1.4;
+    background: var(--cm-off);
+  }
+
+  .isd__cell-text-iberico-{{ section.id }} {
+    font-family: var(--cm-font-sans);
+    font-size: 13.5px;
+    font-weight: 300;
+    color: rgba(250,246,239,0.82);
+    line-height: 1.6;
+  }
+
+  .isd__cell-text-serrano-{{ section.id }} {
+    font-family: var(--cm-font-sans);
+    font-size: 13.5px;
+    font-weight: 300;
+    color: var(--cm-text-mid);
+    line-height: 1.6;
+  }
+
+  .isd__cell-highlight-{{ section.id }} {
+    font-weight: 500;
+    color: var(--cm-gold) !important;
+  }
+
+  /* Footer note */
+  .isd__note-{{ section.id }} {
+    margin-top: 32px;
+    text-align: center;
+    font-family: var(--cm-font-sans);
+    font-size: 12px;
+    font-weight: 300;
+    color: var(--cm-text-light);
+    line-height: 1.7;
+  }
+
+  /* ── Mobile: vertical stack ── */
+  @media (max-width: 767px) {
+    .isd-{{ section.id }} { padding: 64px 24px; }
+
+    .isd__grid-{{ section.id }} {
+      grid-template-columns: 1fr;
+      gap: 2px;
+      background: var(--cm-border);
+    }
+
+    .isd__col-{{ section.id }} { display: contents; }
+    .isd__divider-{{ section.id }} { display: none; }
+
+    .isd__col-head-{{ section.id }} {
+      justify-content: flex-start;
+    }
+
+    .isd__col-head-{{ section.id }}--iberico {
+      order: -2;
+    }
+
+    .isd__col-title-{{ section.id }}--iberico { text-align: left; }
+
+    .isd__cell-{{ section.id }}--iberico {
+      justify-content: flex-start;
+      text-align: left;
+    }
+
+    .isd__cell-attr-{{ section.id }} {
+      display: none;
+    }
+
+    .isd__cell-text-iberico-{{ section.id }},
+    .isd__cell-text-serrano-{{ section.id }} {
+      font-size: 13px;
+    }
+
+    .isd__cell-{{ section.id }} {
+      padding: 16px 20px;
+      position: relative;
+    }
+
+    .isd__cell-{{ section.id }}::before {
+      display: block;
+      font-family: var(--cm-font-sans);
+      font-size: 7.5px;
+      font-weight: 600;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+      opacity: 0.45;
+    }
+
+    .isd__cell-{{ section.id }}--iberico::before {
+      content: attr(data-attr);
+      color: var(--cm-gold);
+    }
+
+    .isd__cell-{{ section.id }}--serrano::before {
+      content: attr(data-attr);
+      color: var(--cm-text-light);
+    }
+  }
+</style>
+
+{%- liquid
+  assign rows_iberico = section.settings.iberico_raza
+    | append: '||' | append: section.settings.iberico_alimentacion
+    | append: '||' | append: section.settings.iberico_grasa
+    | append: '||' | append: section.settings.iberico_sabor
+    | append: '||' | append: section.settings.iberico_denominacion
+    | split: '||'
+  assign rows_serrano = section.settings.serrano_raza
+    | append: '||' | append: section.settings.serrano_alimentacion
+    | append: '||' | append: section.settings.serrano_grasa
+    | append: '||' | append: section.settings.serrano_sabor
+    | append: '||' | append: section.settings.serrano_denominacion
+    | split: '||'
+  assign attrs = 'Raza del cerdo||Alimentación||Grasa infiltrada||Sabor||Denominación' | split: '||'
+-%}
+
+<section class="isd-{{ section.id }}" id="iberico-vs-serrano">
+  <div class="isd__inner-{{ section.id }}">
+
+    <header class="isd__header-{{ section.id }}">
+      {%- if section.settings.eyebrow != blank -%}
+        <span class="isd__eyebrow-{{ section.id }}">{{ section.settings.eyebrow }}</span>
+      {%- endif -%}
+      <h2 class="isd__heading-{{ section.id }}">
+        {%- assign h_words = section.settings.heading | default: 'Jamón Ibérico vs. Jamón Serrano' | split: ' ' -%}
+        {%- for word in h_words -%}
+          {%- if forloop.last -%}<em>{{ word }}</em>{%- else -%}{{ word }} {%- endif -%}
+        {%- endfor -%}
+      </h2>
+      {%- if section.settings.intro != blank -%}
+        <p class="isd__intro-{{ section.id }}">{{ section.settings.intro }}</p>
+      {%- endif -%}
+    </header>
+
+    <div class="isd__grid-{{ section.id }}" role="table" aria-label="Comparativa jamón ibérico vs serrano">
+
+      {%- comment %} Column headers {%- endcomment %}
+      <div class="isd__col-{{ section.id }}" role="columnheader">
+        <div class="isd__col-head-{{ section.id }} isd__col-head-{{ section.id }}--iberico">
+          <span class="isd__col-badge-{{ section.id }} isd__col-badge-{{ section.id }}--iberico">Premium</span>
+          <span class="isd__col-title-{{ section.id }} isd__col-title-{{ section.id }}--iberico">{{ section.settings.col_iberico | default: 'Jamón Ibérico' }}</span>
+        </div>
+      </div>
+
+      <div class="isd__divider-{{ section.id }}" aria-hidden="true">
+        <div class="isd__divider-head-{{ section.id }}">
+          <span>vs</span>
+        </div>
+      </div>
+
+      <div class="isd__col-{{ section.id }}" role="columnheader">
+        <div class="isd__col-head-{{ section.id }} isd__col-head-{{ section.id }}--serrano">
+          <span class="isd__col-title-{{ section.id }} isd__col-title-{{ section.id }}--serrano">{{ section.settings.col_serrano | default: 'Jamón Serrano' }}</span>
+          <span class="isd__col-badge-{{ section.id }} isd__col-badge-{{ section.id }}--serrano">Estándar</span>
+        </div>
+      </div>
+
+      {%- comment %} Rows {%- endcomment %}
+      {%- for attr in attrs -%}
+        <div class="isd__cell-{{ section.id }} isd__cell-{{ section.id }}--iberico" role="cell" data-attr="{{ attr }}">
+          <span class="isd__cell-text-iberico-{{ section.id }}{% if forloop.first %} isd__cell-highlight-{{ section.id }}{% endif %}">
+            {{ rows_iberico[forloop.index0] }}
+          </span>
+        </div>
+
+        <div class="isd__cell-attr-{{ section.id }}" role="rowheader">{{ attr }}</div>
+
+        <div class="isd__cell-{{ section.id }} isd__cell-{{ section.id }}--serrano" role="cell" data-attr="{{ attr }}">
+          <span class="isd__cell-text-serrano-{{ section.id }}">{{ rows_serrano[forloop.index0] }}</span>
+        </div>
+      {%- endfor -%}
+
+    </div>
+
+    {%- if section.settings.note != blank -%}
+      <p class="isd__note-{{ section.id }}">{{ section.settings.note }}</p>
+    {%- endif -%}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Guía Ibérico — Ibérico vs Serrano",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Etiqueta superior",
+      "default": "La diferencia fundamental"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Título H2",
+      "default": "Jamón Ibérico vs. Jamón Serrano"
+    },
+    {
+      "type": "text",
+      "id": "intro",
+      "label": "Texto introductorio",
+      "default": "No todo el jamón es igual. Entender la diferencia entre ambos es el primer paso para elegir con criterio."
+    },
+    {
+      "type": "header",
+      "content": "Nombres de columna"
+    },
+    {
+      "type": "text",
+      "id": "col_iberico",
+      "label": "Nombre columna izquierda",
+      "default": "Jamón Ibérico"
+    },
+    {
+      "type": "text",
+      "id": "col_serrano",
+      "label": "Nombre columna derecha",
+      "default": "Jamón Serrano"
+    },
+    {
+      "type": "header",
+      "content": "Columna: Jamón Ibérico"
+    },
+    {
+      "type": "text",
+      "id": "iberico_raza",
+      "label": "Raza del cerdo",
+      "default": "Cerdo ibérico (100% o cruce)"
+    },
+    {
+      "type": "text",
+      "id": "iberico_alimentacion",
+      "label": "Alimentación",
+      "default": "Bellota, pasto o pienso — según categoría"
+    },
+    {
+      "type": "text",
+      "id": "iberico_grasa",
+      "label": "Grasa infiltrada",
+      "default": "Alta — veteado visible y ácido oleico elevado"
+    },
+    {
+      "type": "text",
+      "id": "iberico_sabor",
+      "label": "Sabor",
+      "default": "Intenso, complejo, con matices de frutos secos"
+    },
+    {
+      "type": "text",
+      "id": "iberico_denominacion",
+      "label": "Denominación",
+      "default": "Jabugo, Guijuelo, Dehesa Extremadura, Los Pedroches"
+    },
+    {
+      "type": "header",
+      "content": "Columna: Jamón Serrano"
+    },
+    {
+      "type": "text",
+      "id": "serrano_raza",
+      "label": "Raza del cerdo",
+      "default": "Cerdo blanco (Large White, Landrace, Duroc)"
+    },
+    {
+      "type": "text",
+      "id": "serrano_alimentacion",
+      "label": "Alimentación",
+      "default": "Pienso en estabulación"
+    },
+    {
+      "type": "text",
+      "id": "serrano_grasa",
+      "label": "Grasa infiltrada",
+      "default": "Baja — exterior, sin infiltración muscular"
+    },
+    {
+      "type": "text",
+      "id": "serrano_sabor",
+      "label": "Sabor",
+      "default": "Suave, salado, poco complejo"
+    },
+    {
+      "type": "text",
+      "id": "serrano_denominacion",
+      "label": "Denominación",
+      "default": "Serrano (ETG europea) o sin denominación específica"
+    },
+    {
+      "type": "header",
+      "content": "Nota al pie"
+    },
+    {
+      "type": "text",
+      "id": "note",
+      "label": "Nota informativa (opcional)",
+      "default": "* La calidad dentro del jamón ibérico varía según la raza del animal y su alimentación. Consulta los 4 tipos en la siguiente sección."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Guía Ibérico — Ibérico vs Serrano"
+    }
+  ]
+}
+{% endschema %}

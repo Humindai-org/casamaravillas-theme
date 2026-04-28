@@ -1,0 +1,245 @@
+<style>
+  .itoc-{{ section.id }} {
+    background: var(--cm-navy);
+    border-bottom: 1px solid rgba(196,151,58,0.2);
+    position: sticky;
+    top: 0;
+    z-index: 40;
+  }
+
+  /* ── Desktop: band horizontal ── */
+  .itoc__band-{{ section.id }} {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 48px;
+    display: flex;
+    align-items: center;
+    gap: 0;
+  }
+
+  .itoc__label-{{ section.id }} {
+    font-family: var(--cm-font-sans);
+    font-size: 8.5px;
+    font-weight: 600;
+    letter-spacing: 0.38em;
+    text-transform: uppercase;
+    color: rgba(250,246,239,0.3);
+    padding: 18px 28px 18px 0;
+    border-right: 1px solid rgba(255,255,255,0.1);
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+
+  .itoc__links-{{ section.id }} {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    flex: 1;
+    padding: 0 0 0 8px;
+  }
+
+  .itoc__link-{{ section.id }} {
+    font-family: var(--cm-font-sans);
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    color: rgba(250,246,239,0.5);
+    padding: 18px 20px;
+    text-transform: none;
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s ease, border-color 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .itoc__link-{{ section.id }}:hover {
+    color: var(--cm-gold);
+    border-bottom-color: rgba(196,151,58,0.4);
+  }
+
+  .itoc__link-{{ section.id }}:focus-visible {
+    outline: 1px solid var(--cm-gold);
+    outline-offset: -2px;
+  }
+
+  .itoc__link-{{ section.id }}.is-active {
+    color: var(--cm-gold);
+    border-bottom-color: var(--cm-gold);
+  }
+
+  /* ── Mobile: accordion ── */
+  .itoc__mobile-{{ section.id }} {
+    display: none;
+  }
+
+  .itoc__toggle-{{ section.id }} {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 24px;
+    font-family: var(--cm-font-sans);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--cm-gold);
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  .itoc__toggle-{{ section.id }} svg {
+    width: 14px;
+    height: 14px;
+    color: var(--cm-gold);
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+  }
+
+  .itoc__mobile-{{ section.id }}[open] .itoc__toggle-{{ section.id }} svg {
+    transform: rotate(180deg);
+  }
+
+  .itoc__mobile-links-{{ section.id }} {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid rgba(255,255,255,0.07);
+    padding: 8px 0;
+  }
+
+  .itoc__mobile-link-{{ section.id }} {
+    font-family: var(--cm-font-sans);
+    font-size: 12px;
+    font-weight: 400;
+    color: rgba(250,246,239,0.55);
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: color 0.2s;
+  }
+
+  .itoc__mobile-link-{{ section.id }}::before {
+    content: '';
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--cm-gold);
+    opacity: 0.5;
+    flex-shrink: 0;
+  }
+
+  .itoc__mobile-link-{{ section.id }}:hover {
+    color: var(--cm-gold);
+  }
+
+  .itoc__mobile-link-{{ section.id }}:focus-visible {
+    outline: 1px solid var(--cm-gold);
+    outline-offset: 2px;
+  }
+
+  @media (max-width: 767px) {
+    .itoc__band-{{ section.id }} { display: none; }
+    .itoc__mobile-{{ section.id }} { display: block; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .itoc__link-{{ section.id }},
+    .itoc__toggle-{{ section.id }} svg,
+    .itoc__mobile-link-{{ section.id }} { transition: none; }
+  }
+</style>
+
+{%- liquid
+  assign links_count = section.blocks.size
+-%}
+
+{%- if links_count > 0 -%}
+
+  {%- comment %} Desktop band {%- endcomment %}
+  <nav class="itoc-{{ section.id }}" aria-label="Contenidos de la guía">
+    <div class="itoc__band-{{ section.id }}">
+      <span class="itoc__label-{{ section.id }}">{{ section.settings.label | default: 'Contenidos' }}</span>
+      <div class="itoc__links-{{ section.id }}">
+        {%- for block in section.blocks -%}
+          {%- if block.settings.title != blank and block.settings.anchor != blank -%}
+            <a
+              class="itoc__link-{{ section.id }}"
+              href="#{{ block.settings.anchor }}"
+              {{ block.shopify_attributes }}
+            >{{ block.settings.title }}</a>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </nav>
+
+  {%- comment %} Mobile accordion {%- endcomment %}
+  <details class="itoc-{{ section.id }} itoc__mobile-{{ section.id }}" aria-label="Contenidos de la guía">
+    <summary class="itoc__toggle-{{ section.id }}">
+      {{ section.settings.label | default: 'Contenidos' }}
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <polyline points="6 9 12 15 18 9"/>
+      </svg>
+    </summary>
+    <div class="itoc__mobile-links-{{ section.id }}">
+      {%- for block in section.blocks -%}
+        {%- if block.settings.title != blank and block.settings.anchor != blank -%}
+          <a
+            class="itoc__mobile-link-{{ section.id }}"
+            href="#{{ block.settings.anchor }}"
+          >{{ block.settings.title }}</a>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </details>
+
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Guía Ibérico — Índice",
+  "tag": null,
+  "max_blocks": 6,
+  "blocks": [
+    {
+      "type": "toc_link",
+      "name": "Enlace",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Etiqueta del enlace",
+          "default": "Sección"
+        },
+        {
+          "type": "text",
+          "id": "anchor",
+          "label": "ID del anchor (sin #)",
+          "default": "seccion"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Etiqueta del índice",
+      "default": "Contenidos"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Guía Ibérico — Índice",
+      "blocks": [
+        { "type": "toc_link", "settings": { "title": "Ibérico vs Serrano", "anchor": "iberico-vs-serrano" } },
+        { "type": "toc_link", "settings": { "title": "Los 4 tipos", "anchor": "tipos-de-jamon" } },
+        { "type": "toc_link", "settings": { "title": "Denominaciones de Origen", "anchor": "denominaciones" } },
+        { "type": "toc_link", "settings": { "title": "Cómo cortar", "anchor": "cortar-conservar" } },
+        { "type": "toc_link", "settings": { "title": "Preguntas frecuentes", "anchor": "preguntas-frecuentes" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

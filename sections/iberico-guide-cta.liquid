@@ -1,0 +1,259 @@
+<style>
+  .igc-{{ section.id }} {
+    background: var(--cm-navy);
+    padding: 96px 24px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .igc__grain-{{ section.id }} {
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+    background-size: 180px;
+    pointer-events: none;
+  }
+
+  .igc__inner-{{ section.id }} {
+    position: relative;
+    z-index: 2;
+    max-width: 720px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .igc__eyebrow-{{ section.id }} {
+    display: block;
+    font-family: var(--cm-font-sans);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--cm-gold);
+    margin-bottom: 24px;
+  }
+
+  .igc__rule-{{ section.id }} {
+    width: 40px;
+    height: 1px;
+    background: rgba(196,151,58,0.4);
+    margin: 0 auto 28px;
+  }
+
+  .igc__heading-{{ section.id }} {
+    font-family: var(--cm-font-serif);
+    font-size: clamp(26px, 3.5vw, 46px);
+    font-weight: 400;
+    color: var(--cm-off);
+    line-height: 1.2;
+    margin-bottom: 18px;
+  }
+
+  .igc__heading-{{ section.id }} em {
+    font-style: italic;
+    color: var(--cm-gold);
+  }
+
+  .igc__subtext-{{ section.id }} {
+    font-family: var(--cm-font-sans);
+    font-size: clamp(13px, 1.5vw, 15px);
+    font-weight: 300;
+    color: rgba(250,246,239,0.55);
+    line-height: 1.8;
+    max-width: 500px;
+    margin: 0 auto 48px;
+    letter-spacing: 0.02em;
+  }
+
+  /* ── CTA buttons ── */
+  .igc__actions-{{ section.id }} {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .igc__btn-primary-{{ section.id }} {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    font-family: var(--cm-font-sans);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cm-navy);
+    background: var(--cm-gold);
+    padding: 16px 32px;
+    transition: background 0.22s ease, color 0.22s ease;
+  }
+
+  .igc__btn-primary-{{ section.id }}:hover {
+    background: var(--cm-gold-h);
+  }
+
+  .igc__btn-primary-{{ section.id }}:focus-visible {
+    outline: 2px solid var(--cm-off);
+    outline-offset: 3px;
+  }
+
+  .igc__btn-secondary-{{ section.id }} {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    font-family: var(--cm-font-sans);
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(250,246,239,0.7);
+    border: 1px solid rgba(250,246,239,0.2);
+    padding: 16px 32px;
+    transition: border-color 0.22s ease, color 0.22s ease;
+  }
+
+  .igc__btn-secondary-{{ section.id }}:hover {
+    border-color: rgba(250,246,239,0.5);
+    color: var(--cm-off);
+  }
+
+  .igc__btn-secondary-{{ section.id }}:focus-visible {
+    outline: 2px solid var(--cm-gold);
+    outline-offset: 3px;
+  }
+
+  .igc__btn-primary-{{ section.id }} svg,
+  .igc__btn-secondary-{{ section.id }} svg {
+    width: 12px;
+    height: 12px;
+    flex-shrink: 0;
+    transition: transform 0.22s ease;
+  }
+
+  .igc__btn-primary-{{ section.id }}:hover svg,
+  .igc__btn-secondary-{{ section.id }}:hover svg {
+    transform: translateX(3px);
+  }
+
+  @media (max-width: 600px) {
+    .igc-{{ section.id }} { padding: 72px 24px; }
+    .igc__actions-{{ section.id }} { flex-direction: column; align-items: stretch; }
+    .igc__btn-primary-{{ section.id }},
+    .igc__btn-secondary-{{ section.id }} { justify-content: center; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .igc__btn-primary-{{ section.id }},
+    .igc__btn-primary-{{ section.id }} svg,
+    .igc__btn-secondary-{{ section.id }},
+    .igc__btn-secondary-{{ section.id }} svg { transition: none; }
+  }
+</style>
+
+<section class="igc-{{ section.id }}">
+  <div class="igc__grain-{{ section.id }}" aria-hidden="true"></div>
+
+  <div class="igc__inner-{{ section.id }}">
+    {%- if section.settings.eyebrow != blank -%}
+      <span class="igc__eyebrow-{{ section.id }}">{{ section.settings.eyebrow }}</span>
+    {%- endif -%}
+
+    <div class="igc__rule-{{ section.id }}" aria-hidden="true"></div>
+
+    <h2 class="igc__heading-{{ section.id }}">
+      {%- assign h_words = section.settings.heading | default: 'Descubre nuestra selección de ibéricos' | split: ' ' -%}
+      {%- for word in h_words -%}
+        {%- if forloop.last -%}<em>{{ word }}</em>{%- else -%}{{ word }} {%- endif -%}
+      {%- endfor -%}
+    </h2>
+
+    {%- if section.settings.subtext != blank -%}
+      <p class="igc__subtext-{{ section.id }}">{{ section.settings.subtext }}</p>
+    {%- endif -%}
+
+    <div class="igc__actions-{{ section.id }}">
+      {%- if section.settings.btn1_label != blank and section.settings.btn1_url != blank -%}
+        <a class="igc__btn-primary-{{ section.id }}" href="{{ section.settings.btn1_url }}">
+          {{ section.settings.btn1_label }}
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="5" y1="12" x2="19" y2="12"/>
+            <polyline points="12 5 19 12 12 19"/>
+          </svg>
+        </a>
+      {%- endif -%}
+
+      {%- if section.settings.btn2_label != blank and section.settings.btn2_url != blank -%}
+        <a class="igc__btn-secondary-{{ section.id }}" href="{{ section.settings.btn2_url }}">
+          {{ section.settings.btn2_label }}
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="5" y1="12" x2="19" y2="12"/>
+            <polyline points="12 5 19 12 12 19"/>
+          </svg>
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Guía Ibérico — CTA Final",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Etiqueta superior",
+      "default": "Ya conoces el ibérico"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Título H2",
+      "default": "Descubre nuestra selección de ibéricos"
+    },
+    {
+      "type": "text",
+      "id": "subtext",
+      "label": "Subtítulo",
+      "default": "Jamones, embutidos y packs de regalo seleccionados con los mismos criterios que acabas de leer. Con envío a toda España."
+    },
+    {
+      "type": "header",
+      "content": "Botón principal"
+    },
+    {
+      "type": "text",
+      "id": "btn1_label",
+      "label": "Texto",
+      "default": "Ver jamones"
+    },
+    {
+      "type": "url",
+      "id": "btn1_url",
+      "label": "Enlace"
+    },
+    {
+      "type": "header",
+      "content": "Botón secundario"
+    },
+    {
+      "type": "text",
+      "id": "btn2_label",
+      "label": "Texto",
+      "default": "Ver packs regalo"
+    },
+    {
+      "type": "url",
+      "id": "btn2_url",
+      "label": "Enlace"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Guía Ibérico — CTA Final"
+    }
+  ]
+}
+{% endschema %}

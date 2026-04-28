@@ -1,22 +1,296 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
-    "main": {
-      "type": "page-body",
+    "hero": {
+      "type": "iberico-guide-hero",
       "settings": {
-        "show_title": true
+        "breadcrumb_label": "Guía del Ibérico",
+        "eyebrow": "Mundo ibérico",
+        "heading": "Guía del Jamón Ibérico",
+        "subtitle": "Todo lo que necesitas saber para elegir, cortar y disfrutar el mejor ibérico — tipos, denominaciones de origen y consejos de conservación.",
+        "cta_label": "Explorar la guía",
+        "cta_anchor": "iberico-vs-serrano"
+      }
+    },
+    "toc": {
+      "type": "iberico-toc",
+      "settings": {
+        "label": "Contenidos"
+      },
+      "blocks": {
+        "toc_1": {
+          "type": "toc_link",
+          "settings": {
+            "title": "Ibérico vs Serrano",
+            "anchor": "iberico-vs-serrano"
+          }
+        },
+        "toc_2": {
+          "type": "toc_link",
+          "settings": {
+            "title": "Los 4 tipos",
+            "anchor": "tipos-de-jamon"
+          }
+        },
+        "toc_3": {
+          "type": "toc_link",
+          "settings": {
+            "title": "Denominaciones de Origen",
+            "anchor": "denominaciones"
+          }
+        },
+        "toc_4": {
+          "type": "toc_link",
+          "settings": {
+            "title": "Cómo cortar",
+            "anchor": "cortar-conservar"
+          }
+        },
+        "toc_5": {
+          "type": "toc_link",
+          "settings": {
+            "title": "Preguntas frecuentes",
+            "anchor": "preguntas-frecuentes"
+          }
+        }
+      },
+      "block_order": ["toc_1", "toc_2", "toc_3", "toc_4", "toc_5"]
+    },
+    "serrano_diff": {
+      "type": "iberico-serrano-diff",
+      "settings": {
+        "eyebrow": "La diferencia fundamental",
+        "heading": "Jamón Ibérico vs. Jamón Serrano",
+        "intro": "No todo el jamón es igual. Entender la diferencia entre ambos es el primer paso para elegir con criterio.",
+        "col_iberico": "Jamón Ibérico",
+        "col_serrano": "Jamón Serrano",
+        "iberico_raza": "Cerdo ibérico (100% o cruce con Duroc)",
+        "iberico_alimentacion": "Bellota, pasto o pienso según categoría",
+        "iberico_grasa": "Alta — veteado visible y ácido oleico elevado",
+        "iberico_sabor": "Intenso, complejo, con matices de frutos secos",
+        "iberico_denominacion": "Jabugo, Guijuelo, Dehesa Extremadura, Los Pedroches",
+        "serrano_raza": "Cerdo blanco (Large White, Landrace, Duroc)",
+        "serrano_alimentacion": "Pienso en estabulación",
+        "serrano_grasa": "Baja — exterior, sin infiltración muscular",
+        "serrano_sabor": "Suave, salado, con escasa complejidad",
+        "serrano_denominacion": "Serrano (ETG europea) o sin denominación específica",
+        "note": "* La calidad dentro del jamón ibérico varía según la raza del animal y su alimentación. Consulta los 4 tipos en la siguiente sección."
+      }
+    },
+    "quality_guide": {
+      "type": "iberico-quality-guide",
+      "settings": {
+        "eyebrow": "La clasificación oficial",
+        "heading": "Los 4 Tipos de Jamón Ibérico",
+        "subhead": "El Real Decreto 4/2014 establece cuatro categorías según la raza del animal y su alimentación durante la montanera."
+      },
+      "blocks": {
+        "tier_1": {
+          "type": "tier",
+          "settings": {
+            "tag": "La cima del ibérico",
+            "name": "Bellota 100% Ibérico",
+            "description": "Cerdo 100% de raza ibérica criado en libertad en la dehesa. Alimentado exclusivamente con bellotas y hierbas naturales durante la montanera (octubre–febrero). Es el jamón de mayor calidad organoléptica, con grasa infiltrada en el músculo que aporta el característico sabor a fruto seco.",
+            "level": 4,
+            "level_label": "Calidad máxima",
+            "color": "gold"
+          }
+        },
+        "tier_2": {
+          "type": "tier",
+          "settings": {
+            "tag": "Alta calidad",
+            "name": "Bellota Ibérico",
+            "description": "Cerdo ibérico (con cruce permitido de hasta 50% de raza Duroc) alimentado con bellotas en la dehesa durante la montanera. Excelente calidad, con la profundidad de sabor característica de la alimentación en campo. La opción premium accesible.",
+            "level": 3,
+            "level_label": "Alta calidad",
+            "color": "terracotta"
+          }
+        },
+        "tier_3": {
+          "type": "tier",
+          "settings": {
+            "tag": "Calidad media-alta",
+            "name": "Cebo de Campo Ibérico",
+            "description": "Cerdo ibérico criado en extensivo con acceso a pastos naturales, complementado con piensos. No accede a la montanera de bellota, pero el ejercicio en campo libre le aporta una infiltración grasa mayor que el cebo estabulado.",
+            "level": 2,
+            "level_label": "Calidad media-alta",
+            "color": "burgundy"
+          }
+        },
+        "tier_4": {
+          "type": "tier",
+          "settings": {
+            "tag": "Calidad estándar",
+            "name": "Cebo Ibérico",
+            "description": "Cerdo ibérico criado en granja intensiva y alimentado con piensos compuestos. Conserva la genética ibérica, que le aporta cierta infiltración grasa frente al cerdo blanco, pero sin los matices de la montanera ni el ejercicio en campo.",
+            "level": 1,
+            "level_label": "Calidad estándar",
+            "color": "slate"
+          }
+        }
+      },
+      "block_order": ["tier_1", "tier_2", "tier_3", "tier_4"]
+    },
+    "denominaciones": {
+      "type": "iberico-denominaciones",
+      "settings": {
+        "eyebrow": "El origen importa",
+        "heading": "Denominaciones de Origen Protegidas",
+        "subhead": "Cuatro territorios, cuatro personalidades distintas. Cada Denominación de Origen garantiza el origen, la raza y el proceso de elaboración del jamón ibérico."
+      },
+      "blocks": {
+        "do_1": {
+          "type": "do",
+          "settings": {
+            "do_type": "D.O.P.",
+            "name": "DOP Jabugo",
+            "region": "Huelva — Andalucía",
+            "municipality": "Jabugo, Huelva",
+            "flavor": "Aroma intenso y complejo, notas de frutos secos y hierbas de sierra. Grasa muy infiltrada con alto contenido en ácido oleico. Referente mundial del jamón ibérico de bellota.",
+            "link_label": "Jamón de Jabugo"
+          }
+        },
+        "do_2": {
+          "type": "do",
+          "settings": {
+            "do_type": "I.G.P.",
+            "name": "IGP Guijuelo",
+            "region": "Salamanca — Castilla y León",
+            "municipality": "Guijuelo, Salamanca",
+            "flavor": "Sabor suave y delicado, curación lenta favorecida por el microclima de la sierra de Béjar. Menos salado que otras denominaciones, con textura de grasa más firme.",
+            "link_label": "Jamón de Guijuelo"
+          }
+        },
+        "do_3": {
+          "type": "do",
+          "settings": {
+            "do_type": "D.O.P.",
+            "name": "DOP Dehesa de Extremadura",
+            "region": "Cáceres y Badajoz — Extremadura",
+            "municipality": "Extremadura",
+            "flavor": "Carácter robusto y pronunciado, aromas terrosos de la dehesa extremeña. Alto contenido en grasa infiltrada. Curación en secaderos de montaña con variaciones térmicas marcadas.",
+            "link_label": "Jamón de Extremadura"
+          }
+        },
+        "do_4": {
+          "type": "do",
+          "settings": {
+            "do_type": "D.O.P.",
+            "name": "DOP Los Pedroches",
+            "region": "Córdoba — Andalucía",
+            "municipality": "Valle de Los Pedroches, Córdoba",
+            "flavor": "Sabor elegante y equilibrado, con notas de bellota muy definidas. La dehesa cordobesa aporta una grasa de color rosado-amarillento con alta proporción de ácido oleico.",
+            "link_label": "Jamón Los Pedroches"
+          }
+        }
+      },
+      "block_order": ["do_1", "do_2", "do_3", "do_4"]
+    },
+    "guide_process": {
+      "type": "iberico-guide-process",
+      "settings": {
+        "eyebrow": "Guía práctica",
+        "heading": "Cómo Cortar y Conservar tu Jamón",
+        "subhead": "Tres pasos esenciales para sacar el máximo partido a tu pieza.",
+        "cta_note": "¿Quieres profundizar? Nuestra guía completa te explica el proceso de corte paso a paso, con los ángulos correctos y los errores más comunes que evitar.",
+        "cta_label": "Leer la guía completa"
+      },
+      "blocks": {
+        "step_1": {
+          "type": "step",
+          "settings": {
+            "title": "Prepara el jamonero",
+            "description": "Coloca el jamón con la pezuña hacia arriba si vas a empezar por la maza (la parte más carnosa). Fija la pieza con seguridad en el soporte para evitar movimientos durante el corte."
+          }
+        },
+        "step_2": {
+          "type": "step",
+          "settings": {
+            "title": "Técnica del corte",
+            "description": "Usa un cuchillo jamonero largo y flexible. Corta lonchas finas y uniformes en dirección paralela al hueso, con movimientos largos y suaves. Cada loncha debe tener grasa blanca-rosada en los bordes."
+          }
+        },
+        "step_3": {
+          "type": "step",
+          "settings": {
+            "title": "Conservación en casa",
+            "description": "Cubre la zona de corte con la propia grasa del jamón o con un paño de algodón. Guarda a temperatura ambiente en un lugar fresco y seco, alejado de la luz directa. Un jamón entero se conserva hasta 3 semanas una vez iniciado."
+          }
+        }
+      },
+      "block_order": ["step_1", "step_2", "step_3"]
+    },
+    "faq": {
+      "type": "faq",
+      "settings": {
+        "eyebrow": "Preguntas frecuentes",
+        "title": "<p>Todo lo que <em>necesitas</em> saber</p>"
+      },
+      "blocks": {
+        "faq_1": {
+          "type": "faq_item",
+          "settings": {
+            "question": "¿Qué diferencia hay entre jamón ibérico de bellota y jamón ibérico de cebo?",
+            "answer": "<p>La diferencia está en la alimentación y el entorno durante la fase de cría. El jamón ibérico de bellota proviene de cerdos que han pasado la montanera (octubre–febrero) en libertad en la dehesa, alimentándose exclusivamente de bellotas y hierbas naturales. Esto le aporta grasa infiltrada en el músculo con un sabor intenso y complejo. El cebo ibérico, en cambio, proviene de animales alimentados con piensos en granja, lo que se traduce en una menor infiltración grasa y un perfil de sabor más suave.</p>"
+          }
+        },
+        "faq_2": {
+          "type": "faq_item",
+          "settings": {
+            "question": "¿Qué significa que un jamón sea '100% ibérico'?",
+            "answer": "<p>El porcentaje hace referencia a la pureza racial del cerdo, no a su alimentación. Un jamón '100% ibérico' proviene de un cerdo de raza ibérica pura (ambos progenitores ibéricos). Si no lleva ese porcentaje, puede ser un cruce con hasta un 50% de raza Duroc, lo cual también está permitido bajo la denominación 'ibérico'. Para la máxima calidad, busca la etiqueta negra: 'Bellota 100% Ibérico'.</p>"
+          }
+        },
+        "faq_3": {
+          "type": "faq_item",
+          "settings": {
+            "question": "¿Cuántas Denominaciones de Origen tiene el jamón ibérico en España?",
+            "answer": "<p>Existen cuatro zonas protegidas para el jamón ibérico en España: la DOP Jabugo (Huelva), la IGP Guijuelo (Salamanca), la DOP Dehesa de Extremadura y la DOP Los Pedroches (Córdoba). Cada denominación establece requisitos específicos de raza, alimentación, proceso de elaboración y zona geográfica. Fuera de estas denominaciones también se produce jamón ibérico, pero sin la garantía institucional de origen.</p>"
+          }
+        },
+        "faq_4": {
+          "type": "faq_item",
+          "settings": {
+            "question": "¿Cómo se conserva un jamón ibérico entero en casa?",
+            "answer": "<p>Una vez iniciado el jamón, cubre siempre la zona de corte con las primeras lonchas de grasa que retiraste o con un paño de algodón limpio. Guárdalo a temperatura ambiente (entre 15 y 25 °C), en un lugar fresco, seco y bien ventilado, alejado de la luz solar directa. No lo refrigeres: el frío endurece la grasa y altera el sabor. Un jamón bien conservado puede durar entre 2 y 3 semanas una vez iniciado sin perder calidad.</p>"
+          }
+        },
+        "faq_5": {
+          "type": "faq_item",
+          "settings": {
+            "question": "¿A qué temperatura se debe servir el jamón ibérico?",
+            "answer": "<p>El jamón ibérico se debe servir a temperatura ambiente, entre 20 y 23 °C. A esa temperatura la grasa adquiere la textura untuosa característica y libera todos sus aromas. Si las lonchas están muy frías, puedes calentarlas ligeramente con las manos antes de servirlas. Nunca lo presentes recién sacado del frío: la grasa se vuelve blanca y el sabor se aplana.</p>"
+          }
+        },
+        "faq_6": {
+          "type": "faq_item",
+          "settings": {
+            "question": "¿Cuál es la diferencia entre jamón ibérico y paleta ibérica?",
+            "answer": "<p>Ambas piezas provienen del cerdo ibérico, pero de extremidades distintas: el jamón procede de las patas traseras y la paleta de las delanteras. El jamón es más grande (entre 6 y 9 kg), tiene mayor proporción de músculo noble y un proceso de curación más largo (entre 24 y 48 meses). La paleta es más pequeña (entre 3,5 y 5,5 kg), cura en menos tiempo y tiene un sabor ligeramente más intenso y graso. Para el mismo nivel de crianza, la paleta suele tener mejor relación calidad-precio.</p>"
+          }
+        }
+      },
+      "block_order": ["faq_1", "faq_2", "faq_3", "faq_4", "faq_5", "faq_6"]
+    },
+    "guide_cta": {
+      "type": "iberico-guide-cta",
+      "settings": {
+        "eyebrow": "Ya conoces el ibérico",
+        "heading": "Descubre nuestra selección de ibéricos",
+        "subtext": "Jamones, embutidos y packs de regalo seleccionados con los mismos criterios que acabas de leer. Con envío a toda España.",
+        "btn1_label": "Ver jamones",
+        "btn2_label": "Ver packs regalo"
       }
     }
   },
   "order": [
-    "main"
+    "hero",
+    "toc",
+    "serrano_diff",
+    "quality_guide",
+    "denominaciones",
+    "guide_process",
+    "faq",
+    "guide_cta"
   ]
 }

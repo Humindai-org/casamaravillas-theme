@@ -1,0 +1,348 @@
+<style>
+  .igp-{{ section.id }} {
+    background: var(--cm-off);
+    padding: 96px 24px;
+    border-bottom: 1px solid var(--cm-border);
+    scroll-margin-top: 56px;
+  }
+
+  .igp__inner-{{ section.id }} {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  /* ── Header ── */
+  .igp__header-{{ section.id }} {
+    text-align: center;
+    margin-bottom: 64px;
+  }
+
+  .igp__eyebrow-{{ section.id }} {
+    display: block;
+    font-family: var(--cm-font-sans);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.45em;
+    text-transform: uppercase;
+    color: var(--cm-gold);
+    margin-bottom: 18px;
+  }
+
+  .igp__heading-{{ section.id }} {
+    font-family: var(--cm-font-serif);
+    font-size: clamp(24px, 3vw, 40px);
+    font-weight: 400;
+    color: var(--cm-navy);
+    line-height: 1.2;
+    margin-bottom: 14px;
+  }
+
+  .igp__heading-{{ section.id }} em {
+    font-style: italic;
+    color: var(--cm-gold);
+  }
+
+  .igp__subhead-{{ section.id }} {
+    font-family: var(--cm-font-sans);
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--cm-text-mid);
+    line-height: 1.75;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+
+  /* ── Steps grid ── */
+  .igp__steps-{{ section.id }} {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    background: var(--cm-border);
+    border: 1px solid var(--cm-border);
+    margin-bottom: 56px;
+  }
+
+  /* ── Step card ── */
+  .igp__step-{{ section.id }} {
+    background: var(--cm-white);
+    padding: 36px 32px 40px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  /* Number */
+  .igp__num-{{ section.id }} {
+    font-family: var(--cm-font-serif);
+    font-size: 48px;
+    font-weight: 400;
+    color: rgba(0,41,75,0.07);
+    line-height: 1;
+    margin-bottom: 20px;
+    letter-spacing: -0.02em;
+    user-select: none;
+  }
+
+  /* Gold rule */
+  .igp__step-rule-{{ section.id }} {
+    width: 24px;
+    height: 2px;
+    background: var(--cm-gold);
+    margin-bottom: 20px;
+  }
+
+  /* Step title */
+  .igp__step-title-{{ section.id }} {
+    font-family: var(--cm-font-serif);
+    font-size: clamp(17px, 1.8vw, 21px);
+    font-weight: 400;
+    color: var(--cm-navy);
+    line-height: 1.25;
+    margin-bottom: 12px;
+  }
+
+  /* Step description */
+  .igp__step-desc-{{ section.id }} {
+    font-family: var(--cm-font-sans);
+    font-size: 13.5px;
+    font-weight: 300;
+    color: var(--cm-text-mid);
+    line-height: 1.75;
+    flex: 1;
+  }
+
+  /* ── Blog CTA block ── */
+  .igp__cta-block-{{ section.id }} {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 20px;
+    padding: 48px 40px;
+    background: var(--cm-white);
+    border: 1px solid var(--cm-border);
+    border-top: 3px solid var(--cm-gold);
+  }
+
+  .igp__cta-text-{{ section.id }} {
+    font-family: var(--cm-font-sans);
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--cm-text-mid);
+    line-height: 1.7;
+    max-width: 520px;
+  }
+
+  .igp__cta-text-{{ section.id }} strong {
+    font-weight: 500;
+    color: var(--cm-navy);
+  }
+
+  .igp__cta-link-{{ section.id }} {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    font-family: var(--cm-font-sans);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cm-navy);
+    background: var(--cm-gold);
+    padding: 14px 28px;
+    transition: background 0.22s ease, color 0.22s ease;
+  }
+
+  .igp__cta-link-{{ section.id }}:hover {
+    background: var(--cm-gold-h);
+    color: var(--cm-navy);
+  }
+
+  .igp__cta-link-{{ section.id }}:focus-visible {
+    outline: 2px solid var(--cm-navy);
+    outline-offset: 3px;
+  }
+
+  .igp__cta-link-{{ section.id }} svg {
+    width: 12px;
+    height: 12px;
+    flex-shrink: 0;
+    transition: transform 0.22s ease;
+  }
+
+  .igp__cta-link-{{ section.id }}:hover svg {
+    transform: translateX(3px);
+  }
+
+  /* ── Tablet ── */
+  @media (max-width: 1023px) {
+    .igp__step-{{ section.id }} { padding: 28px 24px 32px; }
+  }
+
+  /* ── Mobile ── */
+  @media (max-width: 767px) {
+    .igp-{{ section.id }} { padding: 64px 24px; }
+    .igp__steps-{{ section.id }} {
+      grid-template-columns: 1fr;
+    }
+    .igp__cta-block-{{ section.id }} {
+      padding: 32px 24px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .igp__cta-link-{{ section.id }},
+    .igp__cta-link-{{ section.id }} svg { transition: none; }
+  }
+</style>
+
+<section class="igp-{{ section.id }}" id="cortar-conservar">
+  <div class="igp__inner-{{ section.id }}">
+
+    <header class="igp__header-{{ section.id }}">
+      {%- if section.settings.eyebrow != blank -%}
+        <span class="igp__eyebrow-{{ section.id }}">{{ section.settings.eyebrow }}</span>
+      {%- endif -%}
+      <h2 class="igp__heading-{{ section.id }}">
+        {%- assign h_words = section.settings.heading | default: 'Cómo Cortar y Conservar tu Jamón' | split: ' ' -%}
+        {%- for word in h_words -%}
+          {%- if forloop.last -%}<em>{{ word }}</em>{%- else -%}{{ word }} {%- endif -%}
+        {%- endfor -%}
+      </h2>
+      {%- if section.settings.subhead != blank -%}
+        <p class="igp__subhead-{{ section.id }}">{{ section.settings.subhead }}</p>
+      {%- endif -%}
+    </header>
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="igp__steps-{{ section.id }}">
+        {%- for block in section.blocks -%}
+          <div class="igp__step-{{ section.id }}" {{ block.shopify_attributes }}>
+            <span class="igp__num-{{ section.id }}" aria-hidden="true">0{{ forloop.index }}</span>
+            <div class="igp__step-rule-{{ section.id }}" aria-hidden="true"></div>
+            <h3 class="igp__step-title-{{ section.id }}">{{ block.settings.title | default: 'Paso' }}</h3>
+            {%- if block.settings.description != blank -%}
+              <p class="igp__step-desc-{{ section.id }}">{{ block.settings.description }}</p>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.cta_label != blank and section.settings.cta_url != blank -%}
+      <div class="igp__cta-block-{{ section.id }}">
+        {%- if section.settings.cta_note != blank -%}
+          <p class="igp__cta-text-{{ section.id }}">{{ section.settings.cta_note }}</p>
+        {%- endif -%}
+        <a
+          class="igp__cta-link-{{ section.id }}"
+          href="{{ section.settings.cta_url }}"
+        >
+          {{ section.settings.cta_label }}
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="5" y1="12" x2="19" y2="12"/>
+            <polyline points="12 5 19 12 12 19"/>
+          </svg>
+        </a>
+      </div>
+    {%- endif -%}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Guía Ibérico — Cómo Cortar",
+  "tag": "section",
+  "max_blocks": 3,
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Paso",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Título del paso",
+          "default": "Paso"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Descripción",
+          "default": "Descripción breve del paso."
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Etiqueta superior",
+      "default": "Guía práctica"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Título H2",
+      "default": "Cómo Cortar y Conservar tu Jamón"
+    },
+    {
+      "type": "text",
+      "id": "subhead",
+      "label": "Subtítulo",
+      "default": "Tres pasos esenciales para sacar el máximo partido a tu pieza."
+    },
+    {
+      "type": "header",
+      "content": "CTA al blog"
+    },
+    {
+      "type": "text",
+      "id": "cta_note",
+      "label": "Texto antes del botón",
+      "default": "¿Quieres profundizar? Nuestra guía completa te explica el proceso de corte paso a paso, con los ángulos correctos y los errores más comunes que evitar."
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "URL del artículo del blog"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Texto del botón",
+      "default": "Leer la guía completa"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Guía Ibérico — Cómo Cortar",
+      "blocks": [
+        {
+          "type": "step",
+          "settings": {
+            "title": "Prepara el jamonero",
+            "description": "Coloca el jamón con la pezuña hacia arriba si vas a empezar por la maza (la parte más carnosa). Fija la pieza con seguridad en el soporte para evitar movimientos durante el corte."
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "Técnica del corte",
+            "description": "Usa un cuchillo jamonero largo y flexible. Corta lonchas finas y uniformes en dirección paralela al hueso, con movimientos largos y suaves. Cada loncha debe tener grasa blanca-rosada en los bordes."
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "Conservación en casa",
+            "description": "Cubre la zona de corte con la propia grasa del jamón o con un paño de algodón. Guarda a temperatura ambiente en un lugar fresco y seco, alejado de la luz directa. Un jamón entero se conserva hasta 3 semanas una vez iniciado."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
