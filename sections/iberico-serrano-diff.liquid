@@ -10,6 +10,7 @@
     padding: 96px 24px;
     border-bottom: 1px solid var(--cm-border);
     scroll-margin-top: 56px;
+    overflow: hidden;
   }
 
   .isd__inner-{{ section.id }} {
@@ -61,8 +62,53 @@
     margin: 0 auto;
   }
 
+  /* ── Pig wrapper ── */
+  .isd__pig-wrap-{{ section.id }} {
+    position: relative;
+  }
+
+  .isd__pig-{{ section.id }} {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-52%);
+    width: 400px;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0;
+    transition: opacity 0.8s ease 0.4s;
+  }
+
+  .isd__pig-{{ section.id }}.is-visible {
+    opacity: 1;
+  }
+
+  .isd__pig--left-{{ section.id }} {
+    left: -260px;
+  }
+
+  .isd__pig--right-{{ section.id }} {
+    right: -260px;
+    transition-delay: 0.5s;
+  }
+
+  .isd__pig-{{ section.id }} img {
+    display: block;
+    width: 100%;
+  }
+
+  .isd__pig--left-{{ section.id }} img {
+    filter: sepia(1) saturate(6) hue-rotate(308deg) brightness(0.55);
+  }
+
+  .isd__pig--right-{{ section.id }} img {
+    filter: sepia(1) saturate(0.35) brightness(1.25) hue-rotate(5deg);
+    transform: scaleX(-1);
+  }
+
   /* ── Table ── */
   .isd__table-{{ section.id }} {
+    position: relative;
+    z-index: 1;
     animation: isd-fade-up-{{ section.id }} 0.5s ease 0.1s both;
   }
 
@@ -442,6 +488,14 @@
       {%- endif -%}
     </header>
 
+    <div class="isd__pig-wrap-{{ section.id }}">
+      <div class="isd__pig-{{ section.id }} isd__pig--left-{{ section.id }}" data-isd-pig>
+        <img src="{{ 'pig_transparent.png' | asset_url }}" alt="" aria-hidden="true">
+      </div>
+      <div class="isd__pig-{{ section.id }} isd__pig--right-{{ section.id }}" data-isd-pig>
+        <img src="{{ 'pig_transparent.png' | asset_url }}" alt="" aria-hidden="true">
+      </div>
+
     <div class="isd__table-{{ section.id }}">
 
       <div class="isd__col-heads-{{ section.id }}">
@@ -493,6 +547,8 @@
       </div>
     {%- endif -%}
 
+    </div>{{- /* close isd__pig-wrap */ -}}
+
     {%- if section.settings.cta_label != blank -%}
       <div class="isd__cta-{{ section.id }}">
         <div>
@@ -508,6 +564,26 @@
 
   </div>
 </section>
+
+<script>
+  (function() {
+    var pigs = document.querySelectorAll('[data-isd-pig]');
+    var shown = false;
+    function show() {
+      if (shown) return;
+      shown = true;
+      pigs.forEach(function(el) { el.classList.add('is-visible'); });
+    }
+    if ('IntersectionObserver' in window) {
+      var obs = new IntersectionObserver(function(entries) {
+        if (entries[0].isIntersecting) { show(); obs.disconnect(); }
+      }, { threshold: 0.15 });
+      if (pigs[0]) obs.observe(pigs[0].closest('section'));
+    } else {
+      show();
+    }
+  })();
+</script>
 
 {% schema %}
 {
