@@ -11,62 +11,10 @@
   "sections": {
     "hero": {
       "type": "iberico-guide-hero",
-      "blocks": {
-        "feat_1": {
-          "type": "feature",
-          "settings": {
-            "icon": "raza",
-            "label": "Raza",
-            "description": "Cerdos ibéricos puro de bellota."
-          }
-        },
-        "feat_2": {
-          "type": "feature",
-          "settings": {
-            "icon": "alimentacion",
-            "label": "Alimentación",
-            "description": "Bellota, pastos naturales y recursos del campo."
-          }
-        },
-        "feat_3": {
-          "type": "feature",
-          "settings": {
-            "icon": "tiempo",
-            "label": "Tiempo",
-            "description": "Curación lenta y natural para un sabor inigualable."
-          }
-        },
-        "feat_4": {
-          "type": "feature",
-          "settings": {
-            "icon": "experiencia",
-            "label": "Experiencia",
-            "description": "Sabor, aroma y textura que cuentan historias."
-          }
-        }
-      },
-      "block_order": [
-        "feat_1",
-        "feat_2",
-        "feat_3",
-        "feat_4"
-      ],
       "settings": {
-        "image": "shopify://shop_images/f356acc68645c032869cac2825f23b97.png",
         "breadcrumb_label": "Guía del Ibérico",
-        "heading_line1": "La Guía",
-        "heading_line2": "del",
-        "heading_line3": "Ibérico",
-        "subtitle_main": "Todo lo que necesitas saber sobre",
-        "subtitle_italic": "el auténtico lujo español.",
-        "cta_label": "Descubrir más",
-        "cta_anchor": "iberico-vs-serrano",
-        "badge_top": "· AUTÉNTICO IBÉRICO ·",
-        "badge_center": "100%",
-        "badge_bottom": "· CALIDAD PREMIUM ·",
-        "bar_title_a": "El Arte de lo",
-        "bar_title_b": "Excepcional",
-        "bar_subtitle": "Tradición, naturaleza y tiempo se unen para crear un producto único en el mundo."
+        "cta_label": "Explorar la guía",
+        "cta_anchor": "iberico-vs-serrano"
       }
     },
     "toc": {
@@ -136,9 +84,7 @@
         "serrano_grasa": "Baja — exterior, sin infiltración muscular",
         "serrano_sabor": "Suave, salado, con escasa complejidad",
         "serrano_denominacion": "Serrano (ETG europea) o sin denominación específica",
-        "note": "* La calidad dentro del jamón ibérico varía según la raza del animal y su alimentación. Consulta los 4 tipos en la siguiente sección.",
-        "cta_label": "",
-        "cta_url": ""
+        "note": "* La calidad dentro del jamón ibérico varía según la raza del animal y su alimentación. Consulta los 4 tipos en la siguiente sección."
       }
     },
     "quality_guide": {
@@ -208,56 +154,44 @@
           "type": "do",
           "settings": {
             "do_type": "D.O.P.",
-            "name": "Jabugo",
+            "name": "DOP Jabugo",
             "region": "Huelva — Andalucía",
             "municipality": "Jabugo, Huelva",
             "flavor": "Aroma intenso y complejo, notas de frutos secos y hierbas de sierra. Grasa muy infiltrada con alto contenido en ácido oleico. Referente mundial del jamón ibérico de bellota.",
-            "detail": "Curación mínima de 24 meses en la sierra de Aracena, con altitud superior a 400 m.",
-            "color": "navy",
-            "link": "",
-            "link_label": "Ver Jabugo"
+            "link_label": "Jamón de Jabugo"
           }
         },
         "do_2": {
           "type": "do",
           "settings": {
             "do_type": "I.G.P.",
-            "name": "Guijuelo",
+            "name": "IGP Guijuelo",
             "region": "Salamanca — Castilla y León",
             "municipality": "Guijuelo, Salamanca",
             "flavor": "Sabor suave y delicado, curación lenta favorecida por el microclima de la sierra de Béjar. Menos salado que otras denominaciones, con textura de grasa más firme.",
-            "detail": "A 1.000 m de altitud, el frío y la baja humedad condicionan una curación única.",
-            "color": "cognac",
-            "link": "",
-            "link_label": "Ver Guijuelo"
+            "link_label": "Jamón de Guijuelo"
           }
         },
         "do_3": {
           "type": "do",
           "settings": {
             "do_type": "D.O.P.",
-            "name": "Dehesa de Extremadura",
+            "name": "DOP Dehesa de Extremadura",
             "region": "Cáceres y Badajoz — Extremadura",
             "municipality": "Extremadura",
             "flavor": "Carácter robusto y pronunciado, aromas terrosos de la dehesa extremeña. Alto contenido en grasa infiltrada. Curación en secaderos de montaña con variaciones térmicas marcadas.",
-            "detail": "La dehesa extremeña, con encinas centenarias, produce una bellota de gran valor energético.",
-            "color": "umber",
-            "link": "",
-            "link_label": "Ver Extremadura"
+            "link_label": "Jamón de Extremadura"
           }
         },
         "do_4": {
           "type": "do",
           "settings": {
             "do_type": "D.O.P.",
-            "name": "Los Pedroches",
+            "name": "DOP Los Pedroches",
             "region": "Córdoba — Andalucía",
             "municipality": "Valle de Los Pedroches, Córdoba",
             "flavor": "Sabor elegante y equilibrado, con notas de bellota muy definidas. La dehesa cordobesa aporta una grasa de color rosado-amarillento con alta proporción de ácido oleico.",
-            "detail": "El Valle de Los Pedroches alberga una de las manchas de dehesa más extensas de Europa.",
-            "color": "forest",
-            "link": "",
-            "link_label": "Ver Los Pedroches"
+            "link_label": "Jamón Los Pedroches"
           }
         }
       },
@@ -308,7 +242,6 @@
         "heading": "Cómo Cortar y Conservar tu Jamón",
         "subhead": "Tres pasos esenciales para sacar el máximo partido a tu pieza.",
         "cta_note": "¿Quieres profundizar? Nuestra guía completa te explica el proceso de corte paso a paso, con los ángulos correctos y los errores más comunes que evitar.",
-        "cta_url": "",
         "cta_label": "Leer la guía completa"
       }
     },
@@ -378,9 +311,7 @@
         "heading": "Descubre nuestra selección de ibéricos",
         "subtext": "Jamones, embutidos y packs de regalo seleccionados con los mismos criterios que acabas de leer. Con envío a toda España.",
         "btn1_label": "Ver jamones",
-        "btn1_url": "",
-        "btn2_label": "Ver packs regalo",
-        "btn2_url": ""
+        "btn2_label": "Ver packs regalo"
       }
     }
   },
