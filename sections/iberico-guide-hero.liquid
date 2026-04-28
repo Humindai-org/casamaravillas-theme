@@ -308,20 +308,22 @@
 </style>
 
 {%- assign sid = section.id -%}
+{%- assign bg_class = 'igh__bg-' | append: sid -%}
 
-<section class="igh-{{ sid }}" aria-label="{{ section.settings.heading_line1 | default: 'La Guía' }} {{ section.settings.heading_line3 | default: 'Ibérico' }}">
+<section class="igh-{{ sid }}" aria-label="...">
 
   {%- if section.settings.image != blank -%}
     {{
       section.settings.image
       | image_url: width: 2200
       | image_tag:
-          class: 'igh__bg-' | append: sid,
+          class: bg_class,
           loading: 'eager',
           fetchpriority: 'high',
           alt: ''
     }}
   {%- endif -%}
+
 
   <div class="igh__overlay-{{ sid }}" aria-hidden="true"></div>
   <div class="igh__grain-{{ sid }}"   aria-hidden="true"></div>
