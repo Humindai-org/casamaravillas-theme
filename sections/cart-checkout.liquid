@@ -1,0 +1,467 @@
+{{ 'cart-checkout.css' | asset_url | stylesheet_tag }}
+
+<div class="co-wrapper">
+
+  {%- if cart.item_count == 0 -%}
+    <div class="co-empty">
+      <p class="co-empty__title">Tu carrito está vacío</p>
+      <p class="co-empty__sub">Descubre nuestra selección de ibéricos premium.</p>
+      <a href="{{ routes.collections_url }}/all" class="co-btn-primary">Seguir comprando</a>
+    </div>
+  {%- else -%}
+
+  <div class="co-header">
+    <a href="{{ routes.root_url }}" class="co-logo">
+      <img src="{{ 'logo2-sin-bg.png' | asset_url }}" alt="{{ shop.name }}" height="40">
+    </a>
+    <nav class="co-steps-nav" aria-label="Pasos del checkout">
+      <span class="co-step-indicator active" data-step-nav="1">Cesta</span>
+      <span class="co-steps-sep">—</span>
+      <span class="co-step-indicator" data-step-nav="2">Datos de envío</span>
+      <span class="co-steps-sep">—</span>
+      <span class="co-step-indicator" data-step-nav="3">Envío</span>
+      <span class="co-steps-sep">—</span>
+      <span class="co-step-indicator" data-step-nav="4">Pago</span>
+    </nav>
+  </div>
+
+  <div class="co-layout">
+
+    <div class="co-left">
+
+      <!-- STEP 1: CESTA -->
+      <div class="co-step active" id="step-1" data-step="1">
+        <div class="co-step__head">
+          <h2 class="co-step__title">Cesta</h2>
+          <span class="co-step__check" aria-hidden="true">✓</span>
+        </div>
+        <div class="co-step__content">
+
+          <div class="co-cart-items" id="co-cart-items">
+            {%- for item in cart.items -%}
+              <div class="co-cart-item" data-key="{{ item.key }}" data-line="{{ forloop.index }}">
+                <div class="co-cart-item__img-wrap">
+                  {%- if item.image -%}
+                    <img
+                      class="co-cart-item__img"
+                      src="{{ item.image | image_url: width: 160 }}"
+                      alt="{{ item.title | escape }}"
+                      width="80" height="80" loading="lazy"
+                    >
+                  {%- else -%}
+                    <div class="co-cart-item__img co-cart-item__img--empty"></div>
+                  {%- endif -%}
+                </div>
+                <div class="co-cart-item__info">
+                  <p class="co-cart-item__name">{{ item.product.title }}</p>
+                  {%- unless item.variant.title == 'Default Title' -%}
+                    <p class="co-cart-item__variant">{{ item.variant.title }}</p>
+                  {%- endunless -%}
+                  {%- if item.original_price != item.final_price -%}
+                    <p class="co-cart-item__original-price">{{ item.original_price | money }}</p>
+                  {%- endif -%}
+                  <div class="co-cart-item__qty-wrap">
+                    <button class="co-qty-btn" type="button" aria-label="Reducir cantidad" data-action="decrease">−</button>
+                    <input
+                      class="co-qty-input"
+                      type="number"
+                      value="{{ item.quantity }}"
+                      min="0"
+                      aria-label="Cantidad"
+                      data-line="{{ forloop.index }}"
+                      data-key="{{ item.key }}"
+                    >
+                    <button class="co-qty-btn" type="button" aria-label="Aumentar cantidad" data-action="increase">+</button>
+                  </div>
+                  <button class="co-cart-item__remove" type="button" data-key="{{ item.key }}" data-line="{{ forloop.index }}">Eliminar</button>
+                </div>
+                <div class="co-cart-item__price-wrap">
+                  <span class="co-cart-item__price">{{ item.final_line_price | money }}</span>
+                </div>
+              </div>
+            {%- endfor -%}
+          </div>
+
+          <div class="co-values">
+            <div class="co-value-item"><span class="co-value-icon">→</span><span>Envíos gratis a partir de 80&euro;</span></div>
+            <div class="co-value-item"><span class="co-value-icon">→</span><span>Calidad garantizada</span></div>
+            <div class="co-value-item"><span class="co-value-icon">→</span><span>Embalaje especial</span></div>
+            <div class="co-value-item"><span class="co-value-icon">→</span><span>Conservación óptima y envío controlado</span></div>
+          </div>
+
+          <div class="co-newsletter">
+            <p class="co-newsletter__label">Recibe novedades y ofertas exclusivas</p>
+            <div class="co-newsletter__form">
+              <input class="co-newsletter__input" type="email" id="co-newsletter-email" placeholder="Tu correo electrónico" autocomplete="email">
+              <button class="co-newsletter__btn" type="button" id="co-newsletter-btn">Suscribirme</button>
+            </div>
+            <p class="co-newsletter__msg" id="co-newsletter-msg" aria-live="polite"></p>
+          </div>
+
+          <button class="co-btn-primary co-step__next" type="button" data-next="2">
+            Continuar con el envío
+          </button>
+
+        </div>
+      </div>
+
+      <!-- STEP 2: DATOS DE ENVÍO -->
+      <div class="co-step" id="step-2" data-step="2">
+        <div class="co-step__head">
+          <h2 class="co-step__title">Datos de envío</h2>
+          <span class="co-step__check" aria-hidden="true">✓</span>
+        </div>
+        <div class="co-step__content">
+          <div class="co-form">
+
+            <div class="co-form__group co-form__group--full">
+              <label class="co-label" for="co-email">Correo electrónico</label>
+              <input class="co-input" type="email" id="co-email" name="email" placeholder="correo@ejemplo.com" autocomplete="email" required>
+              <span class="co-input-error" id="co-email-error"></span>
+            </div>
+
+            <div class="co-form__row">
+              <div class="co-form__group">
+                <label class="co-label" for="co-nombre">Nombre</label>
+                <input class="co-input" type="text" id="co-nombre" name="first_name" placeholder="Nombre" autocomplete="given-name" required>
+                <span class="co-input-error" id="co-nombre-error"></span>
+              </div>
+              <div class="co-form__group">
+                <label class="co-label" for="co-apellidos">Apellidos</label>
+                <input class="co-input" type="text" id="co-apellidos" name="last_name" placeholder="Apellidos" autocomplete="family-name" required>
+                <span class="co-input-error" id="co-apellidos-error"></span>
+              </div>
+            </div>
+
+            <div class="co-form__group co-form__group--full">
+              <label class="co-label" for="co-direccion">Dirección</label>
+              <input class="co-input" type="text" id="co-direccion" name="address1" placeholder="Calle y número" autocomplete="address-line1" required>
+              <span class="co-input-error" id="co-direccion-error"></span>
+            </div>
+
+            <div class="co-form__group co-form__group--full">
+              <label class="co-label" for="co-apartamento">Apartamento, piso, etc. <span class="co-label__optional">(opcional)</span></label>
+              <input class="co-input" type="text" id="co-apartamento" name="address2" placeholder="Apartamento, suite, edificio..." autocomplete="address-line2">
+            </div>
+
+            <div class="co-form__group co-form__group--full">
+              <label class="co-label" for="co-pais">País</label>
+              <select class="co-select" id="co-pais" name="country" required>
+                <option value="">Selecciona un país</option>
+                <optgroup label="Unión Europea">
+                  <option value="ES" selected>España</option>
+                  <option value="AT">Austria</option>
+                  <option value="BE">Bélgica</option>
+                  <option value="BG">Bulgaria</option>
+                  <option value="HR">Croacia</option>
+                  <option value="CY">Chipre</option>
+                  <option value="CZ">República Checa</option>
+                  <option value="DK">Dinamarca</option>
+                  <option value="EE">Estonia</option>
+                  <option value="FI">Finlandia</option>
+                  <option value="FR">Francia</option>
+                  <option value="DE">Alemania</option>
+                  <option value="GR">Grecia</option>
+                  <option value="HU">Hungría</option>
+                  <option value="IE">Irlanda</option>
+                  <option value="IT">Italia</option>
+                  <option value="LV">Letonia</option>
+                  <option value="LT">Lituania</option>
+                  <option value="LU">Luxemburgo</option>
+                  <option value="MT">Malta</option>
+                  <option value="NL">Países Bajos</option>
+                  <option value="PL">Polonia</option>
+                  <option value="PT">Portugal</option>
+                  <option value="RO">Rumanía</option>
+                  <option value="SK">Eslovaquia</option>
+                  <option value="SI">Eslovenia</option>
+                  <option value="SE">Suecia</option>
+                </optgroup>
+                <optgroup label="Otros países">
+                  <option value="CH">Suiza</option>
+                  <option value="GB">Reino Unido</option>
+                </optgroup>
+              </select>
+              <span class="co-input-error" id="co-pais-error"></span>
+            </div>
+
+            <div class="co-form__row">
+              <div class="co-form__group">
+                <label class="co-label" for="co-ciudad">Ciudad / Provincia</label>
+                <select class="co-select" id="co-ciudad" name="city" required>
+                  <option value="">Selecciona una opción</option>
+                </select>
+                <span class="co-input-error" id="co-ciudad-error"></span>
+              </div>
+              <div class="co-form__group">
+                <label class="co-label" for="co-cp">Código postal</label>
+                <input class="co-input" type="text" id="co-cp" name="zip" placeholder="00000" autocomplete="postal-code" maxlength="10" required>
+                <span class="co-input-error" id="co-cp-error"></span>
+              </div>
+            </div>
+
+            <div class="co-form__group co-form__group--full">
+              <label class="co-label" for="co-telefono">Teléfono</label>
+              <input class="co-input" type="tel" id="co-telefono" name="phone" placeholder="+34 000 000 000" autocomplete="tel" required>
+              <span class="co-input-error" id="co-telefono-error"></span>
+            </div>
+
+          </div>
+          <div class="co-step__actions">
+            <button class="co-btn-ghost" type="button" data-prev="1">← Volver a la cesta</button>
+            <button class="co-btn-primary" type="button" data-next="3">Continuar al envío</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 3: ENVÍO -->
+      <div class="co-step" id="step-3" data-step="3">
+        <div class="co-step__head">
+          <h2 class="co-step__title">Método de envío</h2>
+          <span class="co-step__check" aria-hidden="true">✓</span>
+        </div>
+        <div class="co-step__content">
+
+          <div class="co-shipping-options">
+            <label class="co-shipping-option" for="shipping-standard">
+              <input class="co-shipping-radio" type="radio" id="shipping-standard" name="shipping_method" value="standard" checked>
+              <div class="co-shipping-option__body">
+                <div class="co-shipping-option__info">
+                  <span class="co-shipping-option__name">Envío estándar</span>
+                  <span class="co-shipping-option__desc">3–5 días hábiles · Seguimiento incluido</span>
+                </div>
+                <span class="co-shipping-option__price">Gratis a partir de 80&euro;</span>
+              </div>
+            </label>
+            <label class="co-shipping-option" for="shipping-express">
+              <input class="co-shipping-radio" type="radio" id="shipping-express" name="shipping_method" value="express">
+              <div class="co-shipping-option__body">
+                <div class="co-shipping-option__info">
+                  <span class="co-shipping-option__name">Envío express</span>
+                  <span class="co-shipping-option__desc">24–48 horas · Entrega garantizada</span>
+                </div>
+                <span class="co-shipping-option__price">9,90&euro;</span>
+              </div>
+            </label>
+            <label class="co-shipping-option" for="shipping-regalo">
+              <input class="co-shipping-radio" type="radio" id="shipping-regalo" name="shipping_method" value="regalo">
+              <div class="co-shipping-option__body">
+                <div class="co-shipping-option__info">
+                  <span class="co-shipping-option__name">Envío regalo</span>
+                  <span class="co-shipping-option__desc">Embalaje premium · Mensaje personalizado</span>
+                </div>
+                <span class="co-shipping-option__price">14,90&euro;</span>
+              </div>
+            </label>
+          </div>
+
+          <div class="co-gift-wrap" id="co-gift-wrap" aria-hidden="true">
+            <label class="co-label" for="co-gift-message">Mensaje para el regalo</label>
+            <textarea
+              class="co-textarea co-gift-message"
+              id="co-gift-message"
+              name="gift_message"
+              placeholder="Escribe aquí tu mensaje personalizado..."
+              rows="3"
+              maxlength="200"
+            ></textarea>
+            <span class="co-textarea-counter"><span id="co-gift-char">0</span>/200</span>
+          </div>
+
+          <div class="co-step__actions">
+            <button class="co-btn-ghost" type="button" data-prev="2">← Volver a datos</button>
+            <button class="co-btn-primary" type="button" data-next="4">Continuar a pago</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 4: PAGO -->
+      <div class="co-step" id="step-4" data-step="4">
+        <div class="co-step__head">
+          <h2 class="co-step__title">Pago</h2>
+          <span class="co-step__check" aria-hidden="true">✓</span>
+        </div>
+        <div class="co-step__content">
+
+          <div class="co-payment-card">
+            <p class="co-payment-card__label">Tarjeta bancaria</p>
+            <div class="co-form">
+              <div class="co-form__group co-form__group--full">
+                <label class="co-label" for="co-card-number">Número de tarjeta</label>
+                <input class="co-input co-input--card" type="text" id="co-card-number" placeholder="0000 0000 0000 0000" inputmode="numeric" autocomplete="cc-number" maxlength="19">
+                <span class="co-input-error" id="co-card-error"></span>
+              </div>
+              <div class="co-form__row">
+                <div class="co-form__group">
+                  <label class="co-label" for="co-card-expiry">Expiración</label>
+                  <input class="co-input" type="text" id="co-card-expiry" placeholder="MM / AA" inputmode="numeric" autocomplete="cc-exp" maxlength="7">
+                  <span class="co-input-error" id="co-expiry-error"></span>
+                </div>
+                <div class="co-form__group">
+                  <label class="co-label" for="co-card-cvv">CVV</label>
+                  <input class="co-input" type="text" id="co-card-cvv" placeholder="•••" inputmode="numeric" autocomplete="cc-csc" maxlength="4">
+                  <span class="co-input-error" id="co-cvv-error"></span>
+                </div>
+              </div>
+              <div class="co-form__group co-form__group--full">
+                <label class="co-checkbox">
+                  <input type="checkbox" id="co-save-card" class="co-checkbox__input">
+                  <span class="co-checkbox__mark"></span>
+                  <span class="co-checkbox__label">Guardar esta tarjeta para la próxima compra</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="co-payment-alt">
+            <p class="co-payment-alt__label">Otros métodos de pago</p>
+            <div class="co-payment-alt__methods">
+              <button class="co-payment-method" type="button" id="co-scalapay-btn">
+                <span class="co-payment-method__name">Scalapay</span>
+                <span class="co-payment-method__sub">3 cuotas sin intereses</span>
+              </button>
+              {%- for gateway in shop.enabled_payment_types -%}
+                {%- unless gateway == 'credit_card' or gateway == 'scalapay' -%}
+                  <button class="co-payment-method" type="button" data-gateway="{{ gateway }}">
+                    {{ gateway | capitalize }}
+                  </button>
+                {%- endunless -%}
+              {%- endfor -%}
+            </div>
+          </div>
+
+          <div class="co-discount">
+            <p class="co-discount__label">Código de descuento</p>
+            <div class="co-discount__form">
+              <input class="co-input" type="text" id="co-discount-code" placeholder="Introduce tu código" autocomplete="off">
+              <button class="co-btn-ghost co-discount__btn" type="button" id="co-discount-apply">Aplicar</button>
+            </div>
+            <p class="co-discount__msg" id="co-discount-msg" aria-live="polite"></p>
+          </div>
+
+          <div class="co-form__group co-form__group--full">
+            <label class="co-checkbox co-checkbox--required">
+              <input type="checkbox" id="co-terms" class="co-checkbox__input" required>
+              <span class="co-checkbox__mark"></span>
+              <span class="co-checkbox__label">
+                Acepto los
+                <a href="/pages/terminos-y-condiciones" class="co-link" target="_blank" rel="noopener">términos y condiciones</a>
+                y la
+                <a href="/pages/politica-de-privacidad" class="co-link" target="_blank" rel="noopener">política de privacidad</a>
+              </span>
+            </label>
+            <span class="co-input-error" id="co-terms-error"></span>
+          </div>
+
+          <div class="co-step__actions">
+            <button class="co-btn-ghost" type="button" data-prev="3">← Volver al envío</button>
+            <form action="{{ routes.cart_url }}/checkout" method="post" id="co-checkout-form">
+              <input type="hidden" name="checkout[email]" id="hidden-email">
+              <input type="hidden" name="checkout[shipping_address][first_name]" id="hidden-first-name">
+              <input type="hidden" name="checkout[shipping_address][last_name]" id="hidden-last-name">
+              <input type="hidden" name="checkout[shipping_address][address1]" id="hidden-address1">
+              <input type="hidden" name="checkout[shipping_address][address2]" id="hidden-address2">
+              <input type="hidden" name="checkout[shipping_address][country]" id="hidden-country">
+              <input type="hidden" name="checkout[shipping_address][city]" id="hidden-city">
+              <input type="hidden" name="checkout[shipping_address][zip]" id="hidden-zip">
+              <input type="hidden" name="checkout[shipping_address][phone]" id="hidden-phone">
+              <button class="co-btn-primary co-btn-primary--checkout" type="submit" name="checkout" id="co-checkout-btn">
+                <span class="co-btn__text">Finalizar compra</span>
+                <span class="co-btn__spinner" aria-hidden="true"></span>
+              </button>
+            </form>
+          </div>
+
+        </div>
+      </div>
+
+    </div><!-- /co-left -->
+
+    <!-- RIGHT: Resumen sticky -->
+    <div class="co-right">
+      <div class="co-summary">
+        <p class="co-summary__title">Resumen del pedido</p>
+
+        <div class="co-summary__items" id="co-summary-items">
+          {%- for item in cart.items -%}
+            <div class="co-summary__item" data-key="{{ item.key }}">
+              <div class="co-summary__item-img-wrap">
+                {%- if item.image -%}
+                  <img
+                    class="co-summary__item-img"
+                    src="{{ item.image | image_url: width: 80 }}"
+                    alt="{{ item.title | escape }}"
+                    width="40" height="40"
+                  >
+                {%- endif -%}
+                <span class="co-summary__item-qty">{{ item.quantity }}</span>
+              </div>
+              <div class="co-summary__item-info">
+                <p class="co-summary__item-name">{{ item.product.title }}</p>
+                {%- unless item.variant.title == 'Default Title' -%}
+                  <p class="co-summary__item-variant">{{ item.variant.title }}</p>
+                {%- endunless -%}
+              </div>
+              <span class="co-summary__item-price">{{ item.final_line_price | money }}</span>
+            </div>
+          {%- endfor -%}
+        </div>
+
+        <div class="co-summary__totals">
+          <div class="co-summary__row">
+            <span>Subtotal</span>
+            <span id="co-subtotal">{{ cart.total_price | money }}</span>
+          </div>
+          <div class="co-summary__row" id="co-shipping-row">
+            <span>Envío</span>
+            <span id="co-shipping-cost">Calculado en siguiente paso</span>
+          </div>
+          <div class="co-summary__row" id="co-discount-row" style="display:none">
+            <span>Descuento</span>
+            <span id="co-discount-amount" class="co-summary__discount"></span>
+          </div>
+          <div class="co-summary__row co-summary__row--iva">
+            <span>IVA incluido (10%)</span>
+            <span id="co-iva">{{ cart.total_price | times: 0.0909 | money }}</span>
+          </div>
+          <div class="co-summary__row co-summary__row--total">
+            <span>Total</span>
+            <span id="co-total" class="co-summary__total-amount">{{ cart.total_price | money }}</span>
+          </div>
+        </div>
+
+        <div class="co-invoice">
+          <label class="co-checkbox">
+            <input type="checkbox" id="co-invoice-check" class="co-checkbox__input">
+            <span class="co-checkbox__mark"></span>
+            <span class="co-checkbox__label">Solicitar factura</span>
+          </label>
+          <div class="co-invoice__fields" id="co-invoice-fields" aria-hidden="true">
+            <input class="co-input co-input--sm" type="text" id="co-invoice-nif" placeholder="NIF / CIF">
+            <input class="co-input co-input--sm" type="text" id="co-invoice-empresa" placeholder="Nombre de la empresa">
+          </div>
+        </div>
+
+        <div class="co-help">
+          <a href="/pages/contacto" class="co-help__link">
+            <span class="co-help__icon">?</span>
+            <span>¿Necesitas ayuda?</span>
+          </a>
+        </div>
+
+      </div>
+    </div><!-- /co-right -->
+
+  </div><!-- /co-layout -->
+  {%- endif -%}
+
+</div><!-- /co-wrapper -->
+
+<script src="{{ 'cart-checkout.js' | asset_url }}" defer></script>
+
+{% schema %}
+{
+  "name": "Checkout Premium",
+  "settings": []
+}
+{% endschema %}
