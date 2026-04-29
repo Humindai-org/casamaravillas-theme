@@ -1,42 +1,13 @@
 (function () {
   'use strict';
 
-  /* ── Mock discount codes ── */
-  var DISCOUNTS = {
-    'IBERICO10': 0.10,
-    'BELLOTA15': 0.15,
-    'CASA20':    0.20
-  };
+  /* ---- OPEN / CLOSE ---- */
 
-  var discountPct  = 0;
-  var baseTotal    = 0; // cents, updated on every cart fetch
-
-  /* ── Money format ── */
-  var moneyFmt = new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' });
-
-  function formatMoney(cents) {
-    return moneyFmt.format(cents / 100);
-  }
-
-  /* ───────────────────────────────
-     Drawer open / close
-  ─────────────────────────────── */
-  function openCart(showSuccess) {
+  function openCart() {
     var drawer = document.getElementById('cart-drawer');
     if (!drawer) return;
     drawer.classList.add('active');
     document.body.style.overflow = 'hidden';
-
-    if (showSuccess) {
-      var msg = document.getElementById('cart-success');
-      if (msg) {
-        msg.style.display = 'flex';
-        clearTimeout(msg._hideTimer);
-        msg._hideTimer = setTimeout(function () {
-          msg.style.display = 'none';
-        }, 3000);
-      }
-    }
   }
 
   function closeCart() {
@@ -46,121 +17,166 @@
     document.body.style.overflow = '';
   }
 
-  function goToCheckout() {
-    window.location.href = '/checkout';
+  /* ---- FETCH & RENDER CART ---- */
+
+  function fetchAndRenderCart() {
+    fetch('/cart.js')
+      .then(function (res) { return res.json(); })
+      .then(function (cart) {
+        renderCartItems(cart);
+        updateCartCount(cart.item_count);
+        updateCartTotals(cart);
+      })
+      .catch(function (err) {
+        console.error('[cart-drawer] fetch error:', err);
+      });
   }
 
-  /* ───────────────────────────────
-     Cart AJAX operations
-  ─────────────────────────────── */
-  function cartChange(key, quantity) {
-    return fetch('/cart/change.js', {
+  function renderCartItems(cart) {
+    var container = document.getElementById('cart-items-container');
+    if (!container) return;
+
+    if (cart.items.length === 0) {
+      container.innerHTML =
+        '<div class="cart-empty">' +
+          '<p>Tu cesta está vacía.</p>' +
+          '<a href="/collections/all">Seguir comprando</a>' +
+        '</div>';
+      return;
+    }
+
+    var html = '';
+    cart.items.forEach(function (item) {
+      /* Resize Shopify CDN image to 160×160 crop center */
+      var imageUrl = item.image
+        ? item.image.replace(/(\.(jpg|jpeg|png|webp|gif))(\?|$)/i, '_80x80_crop_center$1$3')
+        : '';
+
+      var variantHtml = (item.variant_title && item.variant_title !== 'Default Title')
+        ? '<p class="cart-variant">' + escapeHtml(item.variant_title) + '</p>'
+        : '';
+
+      html +=
+        '<div class="cart-item" data-key="' + item.key + '">' +
+          '<a href="' + item.url + '" class="cart-item-image-link">' +
+            (imageUrl
+              ? '<img src="' + imageUrl + '" alt="' + escapeHtml(item.title) + '" class="cart-item-img" width="80" height="80" loading="lazy">'
+              : '<div class="cart-item-img"></div>'
+            ) +
+          '</a>' +
+          '<div class="cart-item-info">' +
+            '<a href="' + item.url + '" class="cart-title">' + escapeHtml(item.product_title) + '</a>' +
+            variantHtml +
+            '<div class="cart-qty">' +
+              '<button class="cart-qty-btn" onclick="updateQty(\'' + item.key + '\',' + (item.quantity - 1) + ')" aria-label="Reducir cantidad">−</button>' +
+              '<span class="cart-qty-num">' + item.quantity + '</span>' +
+              '<button class="cart-qty-btn" onclick="updateQty(\'' + item.key + '\',' + (item.quantity + 1) + ')" aria-label="Aumentar cantidad">+</button>' +
+            '</div>' +
+          '</div>' +
+          '<div class="cart-item-right">' +
+            '<span class="cart-price">' + formatMoney(item.final_line_price) + '</span>' +
+            '<button class="cart-remove" onclick="removeItem(\'' + item.key + '\')" aria-label="Eliminar">' +
+              '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+                '<path d="M2 4h12M6 4V2h4v2M5 4l.5 9h5L11 4" stroke="#6B6050" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>' +
+              '</svg>' +
+            '</button>' +
+          '</div>' +
+        '</div>';
+    });
+
+    container.innerHTML = html;
+  }
+
+  function updateCartCount(count) {
+    /* Counter inside the drawer */
+    var countEl = document.getElementById('cart-item-count');
+    if (countEl) countEl.textContent = count;
+
+    /* Header badge (.site-header__cart-count) */
+    var cartLink = document.querySelector('.site-header__cart');
+    if (cartLink) {
+      var badge = cartLink.querySelector('.site-header__cart-count');
+      if (count > 0) {
+        if (!badge) {
+          badge = document.createElement('span');
+          badge.className = 'site-header__cart-count';
+          cartLink.appendChild(badge);
+        }
+        badge.textContent = count;
+        badge.setAttribute('aria-label', count + ' artículos');
+      } else if (badge) {
+        badge.remove();
+      }
+    }
+  }
+
+  function updateCartTotals(cart) {
+    var subtotalEl = document.getElementById('cart-subtotal');
+    var totalEl    = document.getElementById('cart-total');
+    var formatted  = formatMoney(cart.total_price);
+    if (subtotalEl) subtotalEl.textContent = formatted;
+    if (totalEl)    totalEl.textContent    = formatted;
+  }
+
+  /* ---- UPDATE QTY ---- */
+
+  function updateQty(key, quantity) {
+    if (quantity < 0) quantity = 0;
+    fetch('/cart/change.js', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ id: key, quantity: quantity })
     })
-      .then(function (r) { return r.json(); })
+      .then(function (res) { return res.json(); })
       .then(function (cart) {
-        baseTotal = cart.total_price;
-        refreshDrawer(cart);
-        return cart;
+        renderCartItems(cart);
+        updateCartCount(cart.item_count);
+        updateCartTotals(cart);
       })
       .catch(function (err) {
-        console.error('[cart-drawer] cartChange error:', err);
+        console.error('[cart-drawer] updateQty error:', err);
       });
   }
 
-  function updateQty(key, delta) {
-    var item = document.querySelector('.cart-item[data-key="' + key + '"]');
-    var input = item ? item.querySelector('input[type="number"]') : null;
-    var current = input ? parseInt(input.value, 10) : 1;
-    var newQty = Math.max(0, current + delta);
-    cartChange(key, newQty);
-  }
-
-  function setQty(key, qty) {
-    var q = parseInt(qty, 10);
-    if (isNaN(q) || q < 0) return;
-    cartChange(key, q);
-  }
+  /* ---- REMOVE ITEM ---- */
 
   function removeItem(key) {
-    cartChange(key, 0);
-  }
-
-  /* ───────────────────────────────
-     Refresh drawer via Section Rendering API
-     Only replaces the items list and totals;
-     overlay state and discount UI are preserved.
-  ─────────────────────────────── */
-  function refreshDrawer(cartData) {
-    updateHeaderCount(cartData.item_count);
-
-    return fetch('/?sections=cart-drawer')
-      .then(function (r) { return r.json(); })
-      .then(function (sections) {
-        var html = sections['cart-drawer'];
-        if (!html) return;
-
-        var parser = new DOMParser();
-        var doc = parser.parseFromString(html, 'text/html');
-
-        /* Items list */
-        var newItems = doc.getElementById('cart-items-wrap');
-        var curItems = document.getElementById('cart-items-wrap');
-        if (newItems && curItems) curItems.innerHTML = newItems.innerHTML;
-
-        /* Totals — apply active discount on top of Liquid-formatted values */
-        var curSubtotal = document.getElementById('cd-subtotal');
-        var curTotal    = document.getElementById('cd-total');
-        var newSubtotal = doc.getElementById('cd-subtotal');
-
-        if (curSubtotal && newSubtotal) {
-          if (discountPct > 0) {
-            var raw        = cartData.total_price;
-            var discounted = Math.round(raw * (1 - discountPct));
-            curSubtotal.textContent = formatMoney(raw);
-            if (curTotal) curTotal.textContent = formatMoney(discounted);
-          } else {
-            curSubtotal.textContent = newSubtotal.textContent;
-            var newTotal = doc.getElementById('cd-total');
-            if (newTotal && curTotal) curTotal.textContent = newTotal.textContent;
-          }
-        }
+    fetch('/cart/change.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: key, quantity: 0 })
+    })
+      .then(function (res) { return res.json(); })
+      .then(function (cart) {
+        renderCartItems(cart);
+        updateCartCount(cart.item_count);
+        updateCartTotals(cart);
       })
       .catch(function (err) {
-        console.error('[cart-drawer] refreshDrawer error:', err);
+        console.error('[cart-drawer] removeItem error:', err);
       });
   }
 
-  /* ───────────────────────────────
-     Header cart count badge
-  ─────────────────────────────── */
-  function updateHeaderCount(count) {
-    var cartLink = document.querySelector('.site-header__cart');
-    if (!cartLink) return;
-    var badge = cartLink.querySelector('.site-header__cart-count');
+  /* ---- APPLY DISCOUNT ---- */
 
-    if (count > 0) {
-      if (!badge) {
-        badge = document.createElement('span');
-        badge.className = 'site-header__cart-count';
-        cartLink.appendChild(badge);
-      }
-      badge.textContent = count;
-      badge.setAttribute('aria-label', count + ' artículos');
-    } else if (badge) {
-      badge.remove();
-    }
+  function applyDiscount() {
+    var input = document.getElementById('discount-code');
+    if (!input || !input.value.trim()) return;
+    window.location.href = '/checkout?discount=' + encodeURIComponent(input.value.trim());
   }
 
-  /* ───────────────────────────────
-     Intercept product "Add to cart" forms
-  ─────────────────────────────── */
+  /* ---- GO TO CHECKOUT ---- */
+
+  function goToCheckout() {
+    window.location.href = '/checkout';
+  }
+
+  /* ---- ADD TO CART INTERCEPT ---- */
+
   document.addEventListener('submit', function (e) {
     var form = e.target;
-    /* Detect Shopify product form by presence of [name="add"] button */
-    if (!form.querySelector('[name="add"]')) return;
+    /* Detect product forms by [name="add"] button — works regardless of action query params */
+    if (!form || !form.querySelector('[name="add"]')) return;
     e.preventDefault();
 
     var submitBtn = form.querySelector('[name="add"]');
@@ -174,17 +190,14 @@
       method: 'POST',
       body: new FormData(form)
     })
-      .then(function (r) { return r.json(); })
+      .then(function (res) { return res.json(); })
       .then(function () {
-        return fetch('/cart.js').then(function (r) { return r.json(); });
-      })
-      .then(function (cart) {
-        baseTotal = cart.total_price;
-        refreshDrawer(cart);
-        openCart(true);
+        fetchAndRenderCart();
+        openCart();
       })
       .catch(function (err) {
         console.error('[cart-drawer] add-to-cart error:', err);
+        form.submit();
       })
       .finally(function () {
         if (submitBtn) {
@@ -194,82 +207,35 @@
       });
   });
 
-  /* ───────────────────────────────
-     Discount code
-  ─────────────────────────────── */
-  function initDiscount() {
-    var applyBtn = document.getElementById('cd-apply');
-    var input    = document.getElementById('cd-input');
-    var msg      = document.getElementById('cd-msg');
-    if (!applyBtn || !input) return;
+  /* ---- KEYBOARD: ESC closes drawer ---- */
 
-    applyBtn.addEventListener('click', function () {
-      var code = input.value.trim().toUpperCase();
-      var pct  = DISCOUNTS[code];
-
-      if (pct) {
-        discountPct = pct;
-        fetch('/cart.js')
-          .then(function (r) { return r.json(); })
-          .then(function (cart) {
-            baseTotal = cart.total_price;
-            var discounted = Math.round(cart.total_price * (1 - pct));
-            var elSub = document.getElementById('cd-subtotal');
-            var elTot = document.getElementById('cd-total');
-            if (elSub) elSub.textContent = formatMoney(cart.total_price);
-            if (elTot) elTot.textContent = formatMoney(discounted);
-            if (msg) {
-              msg.style.color   = '#3a7d3a';
-              msg.textContent   = '✔ Descuento aplicado: -' + Math.round(pct * 100) + '%';
-            }
-          });
-      } else {
-        discountPct = 0;
-        if (msg) {
-          msg.style.color = '#c0392b';
-          msg.textContent = 'Código no válido.';
-        }
-      }
-    });
-
-    input.addEventListener('keydown', function (e) {
-      if (e.key === 'Enter') applyBtn.click();
-    });
-  }
-
-  /* ───────────────────────────────
-     Cart icon in header opens drawer
-  ─────────────────────────────── */
-  function initHeaderCartLink() {
-    var cartLink = document.querySelector('.site-header__cart');
-    if (!cartLink) return;
-    cartLink.addEventListener('click', function (e) {
-      /* Only intercept if not on the /cart page */
-      if (window.location.pathname === '/cart') return;
-      e.preventDefault();
-      openCart(false);
-    });
-  }
-
-  /* ───────────────────────────────
-     Keyboard: Escape closes drawer
-  ─────────────────────────────── */
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') closeCart();
   });
 
-  /* ───────────────────────────────
-     Expose globals (used by inline onclick in liquid)
-  ─────────────────────────────── */
-  window.openCart    = openCart;
-  window.closeCart   = closeCart;
-  window.goToCheckout = goToCheckout;
-  window.updateQty   = updateQty;
-  window.setQty      = setQty;
-  window.removeItem  = removeItem;
+  /* ---- HELPERS ---- */
 
-  /* ── Init ── */
-  initDiscount();
-  initHeaderCartLink();
+  function formatMoney(cents) {
+    return new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(cents / 100);
+  }
+
+  function escapeHtml(str) {
+    if (!str) return '';
+    return str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
+
+  /* ---- EXPOSE GLOBALS (used by inline onclick in .liquid) ---- */
+
+  window.openCart      = openCart;
+  window.closeCart     = closeCart;
+  window.updateQty     = updateQty;
+  window.removeItem    = removeItem;
+  window.applyDiscount = applyDiscount;
+  window.goToCheckout  = goToCheckout;
 
 })();

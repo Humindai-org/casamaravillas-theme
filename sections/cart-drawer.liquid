@@ -1,126 +1,236 @@
 {{ 'cart-drawer.css' | asset_url | stylesheet_tag }}
 
-<div id="cart-drawer" class="cart-drawer">
-
-  <!-- Overlay -->
+<div id="cart-drawer" class="cart-drawer" role="dialog" aria-modal="true" aria-label="Tu cesta">
   <div class="cart-overlay" onclick="closeCart()"></div>
 
-  <!-- Drawer -->
   <div class="cart-panel">
 
-    <!-- Header -->
+    <!-- HEADER -->
     <div class="cart-header">
-      <h2>Tu cesta</h2>
-      <button onclick="closeCart()" aria-label="Cerrar cesta">×</button>
-    </div>
-
-    <!-- Success message -->
-    <div class="cart-success" id="cart-success">
-      <span class="cart-success-icon">
-        <svg width="18" height="18" viewBox="0 0 20 20">
-          <circle cx="10" cy="10" r="9" stroke="#C6B79D" fill="none"/>
-          <path d="M6 10.5L8.5 13L14 7.5" stroke="#6B7C5B" stroke-width="1.5" fill="none"/>
+      <div>
+        <h2>PRODUCTO AÑADIDO<br>A TU CESTA</h2>
+        <div class="cart-added-confirm">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="8" cy="8" r="7" stroke="#6B6050" stroke-width="1.2" fill="none"/>
+            <path d="M5 8.2 L7 10.2 L11 6" stroke="#6B6050" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          </svg>
+          <span>Se ha añadido a tu cesta correctamente.</span>
+        </div>
+      </div>
+      <button class="cart-close" onclick="closeCart()" aria-label="Cerrar cesta">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <line x1="2" y1="2" x2="16" y2="16" stroke="#00294B" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="16" y1="2" x2="2" y2="16" stroke="#00294B" stroke-width="1.5" stroke-linecap="round"/>
         </svg>
-      </span>
-      <span class="cart-success-text">Producto añadido a tu cesta</span>
+      </button>
     </div>
 
-    <!-- Products -->
-    <div class="cart-items" id="cart-items-wrap">
-      {%- if cart.item_count > 0 -%}
-        {%- for item in cart.items -%}
-          <div class="cart-item" data-key="{{ item.key }}">
+    <div class="cart-divider"></div>
 
+    <!-- CART COUNT -->
+    <p class="cart-count">TU CESTA (<span id="cart-item-count">{{ cart.item_count }}</span>)</p>
+
+    <!-- ITEMS -->
+    <div class="cart-items" id="cart-items-container">
+      {%- for item in cart.items -%}
+        <div class="cart-item" data-key="{{ item.key }}">
+          <a href="{{ item.url }}" class="cart-item-image-link">
             {%- if item.image -%}
-              <img src="{{ item.image | image_url: width: 120 }}" alt="{{ item.title | escape }}" width="60" height="60" loading="lazy">
+              <img
+                src="{{ item.image | image_url: width: 160, height: 160, crop: 'center' }}"
+                alt="{{ item.title | escape }}"
+                class="cart-item-img"
+                width="80"
+                height="80"
+                loading="lazy"
+              >
             {%- else -%}
-              <div class="cart-img-placeholder"></div>
+              <div class="cart-item-img"></div>
             {%- endif -%}
-
-            <div class="cart-info">
-              <p class="cart-title">{{ item.product.title }}</p>
-              {%- unless item.variant.title == 'Default Title' -%}
-                <p class="cart-variant">{{ item.variant.title }}</p>
-              {%- endunless -%}
-              <div class="cart-qty">
-                <button type="button" onclick="updateQty('{{ item.key }}', -1)" aria-label="Reducir cantidad">−</button>
-                <input type="number" value="{{ item.quantity }}" min="1" aria-label="Cantidad" onchange="setQty('{{ item.key }}', this.value)">
-                <button type="button" onclick="updateQty('{{ item.key }}', 1)" aria-label="Aumentar cantidad">+</button>
-              </div>
+          </a>
+          <div class="cart-item-info">
+            <a href="{{ item.url }}" class="cart-title">{{ item.product.title }}</a>
+            {%- unless item.variant.title == 'Default Title' -%}
+              <p class="cart-variant">{{ item.variant.title }}</p>
+            {%- endunless -%}
+            {%- if item.variant.weight > 0 -%}
+              <p class="cart-variant">{{ item.variant.weight | weight_with_unit }}</p>
+            {%- endif -%}
+            <div class="cart-qty">
+              <button
+                class="cart-qty-btn"
+                onclick="updateQty('{{ item.key }}', {{ item.quantity | minus: 1 }})"
+                aria-label="Reducir cantidad"
+              >−</button>
+              <span class="cart-qty-num">{{ item.quantity }}</span>
+              <button
+                class="cart-qty-btn"
+                onclick="updateQty('{{ item.key }}', {{ item.quantity | plus: 1 }})"
+                aria-label="Aumentar cantidad"
+              >+</button>
             </div>
-
-            <div class="cart-price">{{ item.final_line_price | money }}</div>
-
-            <button class="remove" type="button" onclick="removeItem('{{ item.key }}')" aria-label="Eliminar">×</button>
-
           </div>
-        {%- endfor -%}
+          <div class="cart-item-right">
+            <span class="cart-price">{{ item.final_line_price | money }}</span>
+            <button
+              class="cart-remove"
+              onclick="removeItem('{{ item.key }}')"
+              aria-label="Eliminar {{ item.title | escape }}"
+            >
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M2 4h12M6 4V2h4v2M5 4l.5 9h5L11 4" stroke="#6B6050" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+              </svg>
+            </button>
+          </div>
+        </div>
       {%- else -%}
         <div class="cart-empty">
           <p>Tu cesta está vacía.</p>
-          <a href="{{ routes.collections_url }}/all">Explorar productos</a>
+          <a href="{{ routes.collections_url }}/all">Seguir comprando</a>
         </div>
-      {%- endif -%}
+      {%- endfor -%}
     </div>
 
-    <!-- Discount -->
+    <!-- DISCOUNT -->
     <div class="cart-discount">
-      <label for="cd-input">Código de descuento</label>
+      <label for="discount-code">CÓDIGO DE DESCUENTO</label>
       <div class="discount-row">
-        <input id="cd-input" type="text" placeholder="Introduce tu código">
-        <button type="button" id="cd-apply">Aplicar</button>
+        <input
+          type="text"
+          id="discount-code"
+          name="discount"
+          placeholder="Introduce tu código"
+          autocomplete="off"
+        >
+        <button class="discount-apply-btn" onclick="applyDiscount()">APLICAR</button>
       </div>
-      <p id="cd-msg"></p>
     </div>
 
-    <!-- Summary -->
+    <!-- SUMMARY -->
     <div class="cart-summary">
       <div class="row">
         <span>Subtotal</span>
-        <span id="cd-subtotal">{{ cart.total_price | money }}</span>
+        <span id="cart-subtotal">{{ cart.total_price | money }}</span>
       </div>
-
+      <div class="row">
+        <span class="shipping-label">
+          Envío
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:inline;vertical-align:middle;margin-left:2px;">
+            <circle cx="6" cy="6" r="5" stroke="#6B6050" stroke-width="1" fill="none"/>
+            <line x1="6" y1="5" x2="6" y2="9" stroke="#6B6050" stroke-width="1" stroke-linecap="round"/>
+            <circle cx="6" cy="3.5" r="0.6" fill="#6B6050"/>
+          </svg>
+        </span>
+        <span>
+          {%- if cart.total_price >= 8000 -%}
+            Gratis
+          {%- else -%}
+            Calculado al pagar
+          {%- endif -%}
+        </span>
+      </div>
+      <div class="cart-divider"></div>
       <div class="row total">
-        <span>Total</span>
-        <span id="cd-total">{{ cart.total_price | money }}</span>
+        <span>TOTAL</span>
+        <span id="cart-total">{{ cart.total_price | money }}</span>
       </div>
-
-      <p class="iva">IVA incluido</p>
+      <p class="iva">(IVA incluido)</p>
     </div>
 
-    <!-- CTA -->
-    <button class="checkout-btn" type="button" onclick="goToCheckout()">
-      Ir a pagar
-    </button>
+    <!-- CTA BUTTONS -->
+    <button class="checkout-btn" onclick="goToCheckout()">IR A PAGAR</button>
+    <button class="continue-btn" onclick="closeCart()">SEGUIR COMPRANDO</button>
 
-    <button class="continue-btn" type="button" onclick="closeCart()">
-      Seguir comprando
-    </button>
-
-    <!-- Value props -->
+    <!-- VALUES ICONS -->
     <div class="cart-values">
+      <div class="cart-values-grid">
 
-      <div class="cart-value">
-        <svg width="16" height="16" viewBox="0 0 24 24">
-          <path d="M3 7h13l3 3v7H3z" stroke="currentColor" fill="none"/>
-        </svg>
-        Envío gratuito a partir de 80€
+        <!-- Envío gratuito -->
+        <div class="cart-value-item">
+          <svg width="32" height="32" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="1" y="9" width="22" height="16" rx="1" stroke="#6B6050" stroke-width="1.4" fill="none"/>
+            <path d="M23 13h5.5L32 18v7h-9V13z" stroke="#6B6050" stroke-width="1.4" fill="none" stroke-linejoin="round"/>
+            <circle cx="8" cy="27" r="2.5" stroke="#6B6050" stroke-width="1.4" fill="none"/>
+            <circle cx="27" cy="27" r="2.5" stroke="#6B6050" stroke-width="1.4" fill="none"/>
+            <line x1="10.5" y1="27" x2="24.5" y2="27" stroke="#6B6050" stroke-width="1.4"/>
+            <line x1="1" y1="27" x2="5.5" y2="27" stroke="#6B6050" stroke-width="1.4"/>
+          </svg>
+          <span>Envío gratuito a partir de 80€</span>
+        </div>
+
+        <!-- Conservación óptima -->
+        <div class="cart-value-item">
+          <svg width="32" height="32" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g transform="rotate(0 20 20)">
+              <line x1="20" y1="2" x2="20" y2="38" stroke="#6B6050" stroke-width="1.2" stroke-linecap="round"/>
+              <line x1="20" y1="7" x2="16.5" y2="2.5" stroke="#6B6050" stroke-width="1.1" stroke-linecap="round"/>
+              <line x1="20" y1="7" x2="23.5" y2="2.5" stroke="#6B6050" stroke-width="1.1" stroke-linecap="round"/>
+            </g>
+            <g transform="rotate(45 20 20)">
+              <line x1="20" y1="2" x2="20" y2="38" stroke="#6B6050" stroke-width="1.2" stroke-linecap="round"/>
+              <line x1="20" y1="7" x2="16.5" y2="2.5" stroke="#6B6050" stroke-width="1.1" stroke-linecap="round"/>
+              <line x1="20" y1="7" x2="23.5" y2="2.5" stroke="#6B6050" stroke-width="1.1" stroke-linecap="round"/>
+            </g>
+            <g transform="rotate(90 20 20)">
+              <line x1="20" y1="2" x2="20" y2="38" stroke="#6B6050" stroke-width="1.2" stroke-linecap="round"/>
+              <line x1="20" y1="7" x2="16.5" y2="2.5" stroke="#6B6050" stroke-width="1.1" stroke-linecap="round"/>
+              <line x1="20" y1="7" x2="23.5" y2="2.5" stroke="#6B6050" stroke-width="1.1" stroke-linecap="round"/>
+            </g>
+            <g transform="rotate(135 20 20)">
+              <line x1="20" y1="2" x2="20" y2="38" stroke="#6B6050" stroke-width="1.2" stroke-linecap="round"/>
+              <line x1="20" y1="7" x2="16.5" y2="2.5" stroke="#6B6050" stroke-width="1.1" stroke-linecap="round"/>
+              <line x1="20" y1="7" x2="23.5" y2="2.5" stroke="#6B6050" stroke-width="1.1" stroke-linecap="round"/>
+            </g>
+            <g transform="rotate(180 20 20)">
+              <line x1="20" y1="2" x2="20" y2="38" stroke="#6B6050" stroke-width="1.2" stroke-linecap="round"/>
+              <line x1="20" y1="7" x2="16.5" y2="2.5" stroke="#6B6050" stroke-width="1.1" stroke-linecap="round"/>
+              <line x1="20" y1="7" x2="23.5" y2="2.5" stroke="#6B6050" stroke-width="1.1" stroke-linecap="round"/>
+            </g>
+            <g transform="rotate(225 20 20)">
+              <line x1="20" y1="2" x2="20" y2="38" stroke="#6B6050" stroke-width="1.2" stroke-linecap="round"/>
+              <line x1="20" y1="7" x2="16.5" y2="2.5" stroke="#6B6050" stroke-width="1.1" stroke-linecap="round"/>
+              <line x1="20" y1="7" x2="23.5" y2="2.5" stroke="#6B6050" stroke-width="1.1" stroke-linecap="round"/>
+            </g>
+            <g transform="rotate(270 20 20)">
+              <line x1="20" y1="2" x2="20" y2="38" stroke="#6B6050" stroke-width="1.2" stroke-linecap="round"/>
+              <line x1="20" y1="7" x2="16.5" y2="2.5" stroke="#6B6050" stroke-width="1.1" stroke-linecap="round"/>
+              <line x1="20" y1="7" x2="23.5" y2="2.5" stroke="#6B6050" stroke-width="1.1" stroke-linecap="round"/>
+            </g>
+            <g transform="rotate(315 20 20)">
+              <line x1="20" y1="2" x2="20" y2="38" stroke="#6B6050" stroke-width="1.2" stroke-linecap="round"/>
+              <line x1="20" y1="7" x2="16.5" y2="2.5" stroke="#6B6050" stroke-width="1.1" stroke-linecap="round"/>
+              <line x1="20" y1="7" x2="23.5" y2="2.5" stroke="#6B6050" stroke-width="1.1" stroke-linecap="round"/>
+            </g>
+          </svg>
+          <span>Conservación óptima garantizada</span>
+        </div>
+
+        <!-- Embalaje especializado -->
+        <div class="cart-value-item">
+          <svg width="32" height="32" viewBox="0 0 40 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="5" y="18" width="30" height="22" stroke="#6B6050" stroke-width="1.3" fill="none"/>
+            <rect x="3" y="13" width="34" height="7" stroke="#6B6050" stroke-width="1.3" fill="none"/>
+            <line x1="20" y1="13" x2="20" y2="40" stroke="#6B6050" stroke-width="1.2"/>
+            <line x1="5" y1="27" x2="35" y2="27" stroke="#6B6050" stroke-width="1.2"/>
+            <path d="M20 13 C16 8 8 7 10 12 C11 15 18 14 20 13" stroke="#6B6050" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+            <path d="M20 13 C24 8 32 7 30 12 C29 15 22 14 20 13" stroke="#6B6050" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+          </svg>
+          <span>Embalaje especializado</span>
+        </div>
+
+        <!-- Calidad garantizada -->
+        <div class="cart-value-item">
+          <svg width="32" height="32" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M14 22 L9 32 L14 29 L17 33 L20 22" stroke="#6B6050" stroke-width="1.4" fill="none" stroke-linejoin="round"/>
+            <path d="M22 22 L27 32 L22 29 L19 33 L18 22" stroke="#6B6050" stroke-width="1.4" fill="none" stroke-linejoin="round"/>
+            <circle cx="18" cy="14" r="10" stroke="#6B6050" stroke-width="1.4" fill="none"/>
+            <circle cx="18" cy="14" r="7" stroke="#6B6050" stroke-width="1" fill="none"/>
+            <path d="M13.5 14 L16.5 17 L22.5 11" stroke="#6B6050" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          </svg>
+          <span>Calidad garantizada</span>
+        </div>
+
       </div>
-
-      <div class="cart-value">
-        <svg width="16" height="16" viewBox="0 0 24 24">
-          <path d="M12 2v20M2 12h20" stroke="currentColor" fill="none"/>
-        </svg>
-        Conservación óptima garantizada
-      </div>
-
-      <div class="cart-value">
-        <svg width="16" height="16" viewBox="0 0 24 24">
-          <path d="M3 3h18v18H3z" stroke="currentColor" fill="none"/>
-        </svg>
-        Embalaje especializado
-      </div>
-
     </div>
 
   </div>
