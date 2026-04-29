@@ -1,0 +1,111 @@
+{{ 'cart-drawer.css' | asset_url | stylesheet_tag }}
+
+<div id="cart-drawer" class="cart-drawer">
+
+  <!-- Overlay -->
+  <div class="cart-overlay" onclick="closeCart()"></div>
+
+  <!-- Drawer -->
+  <div class="cart-panel">
+
+    <!-- Header -->
+    <div class="cart-header">
+      <h2>Tu cesta</h2>
+      <button onclick="closeCart()" aria-label="Cerrar cesta">×</button>
+    </div>
+
+    <!-- Success message -->
+    <div class="cart-success" id="cart-success">
+      ✔ Producto añadido correctamente
+    </div>
+
+    <!-- Products -->
+    <div class="cart-items" id="cart-items-wrap">
+      {%- if cart.item_count > 0 -%}
+        {%- for item in cart.items -%}
+          <div class="cart-item" data-key="{{ item.key }}">
+
+            {%- if item.image -%}
+              <img src="{{ item.image | image_url: width: 120 }}" alt="{{ item.title | escape }}" width="60" height="60" loading="lazy">
+            {%- else -%}
+              <div class="cart-img-placeholder"></div>
+            {%- endif -%}
+
+            <div class="cart-info">
+              <p class="cart-title">{{ item.product.title }}</p>
+              {%- unless item.variant.title == 'Default Title' -%}
+                <p class="cart-variant">{{ item.variant.title }}</p>
+              {%- endunless -%}
+              <div class="cart-qty">
+                <button type="button" onclick="updateQty('{{ item.key }}', -1)" aria-label="Reducir cantidad">−</button>
+                <input type="number" value="{{ item.quantity }}" min="1" aria-label="Cantidad" onchange="setQty('{{ item.key }}', this.value)">
+                <button type="button" onclick="updateQty('{{ item.key }}', 1)" aria-label="Aumentar cantidad">+</button>
+              </div>
+            </div>
+
+            <div class="cart-price">{{ item.final_line_price | money }}</div>
+
+            <button class="remove" type="button" onclick="removeItem('{{ item.key }}')" aria-label="Eliminar">×</button>
+
+          </div>
+        {%- endfor -%}
+      {%- else -%}
+        <div class="cart-empty">
+          <p>Tu cesta está vacía.</p>
+          <a href="{{ routes.collections_url }}/all">Explorar productos</a>
+        </div>
+      {%- endif -%}
+    </div>
+
+    <!-- Discount -->
+    <div class="cart-discount">
+      <label for="cd-input">Código de descuento</label>
+      <div class="discount-row">
+        <input id="cd-input" type="text" placeholder="Introduce tu código">
+        <button type="button" id="cd-apply">Aplicar</button>
+      </div>
+      <p id="cd-msg"></p>
+    </div>
+
+    <!-- Summary -->
+    <div class="cart-summary">
+      <div class="row">
+        <span>Subtotal</span>
+        <span id="cd-subtotal">{{ cart.total_price | money }}</span>
+      </div>
+
+      <div class="row total">
+        <span>Total</span>
+        <span id="cd-total">{{ cart.total_price | money }}</span>
+      </div>
+
+      <p class="iva">IVA incluido</p>
+    </div>
+
+    <!-- CTA -->
+    <button class="checkout-btn" type="button" onclick="goToCheckout()">
+      Ir a pagar
+    </button>
+
+    <button class="continue-btn" type="button" onclick="closeCart()">
+      Seguir comprando
+    </button>
+
+    <!-- Value props -->
+    <div class="cart-values">
+      <div>✓ Envío gratuito a partir de 80€</div>
+      <div>✓ Conservación óptima garantizada</div>
+      <div>✓ Embalaje especializado</div>
+    </div>
+
+  </div>
+</div>
+
+<script src="{{ 'cart-drawer.js' | asset_url }}" defer></script>
+
+{% schema %}
+{
+  "name": "Cart Drawer",
+  "settings": []
+}
+{% endschema %}
