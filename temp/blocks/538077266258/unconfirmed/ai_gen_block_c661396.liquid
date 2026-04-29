@@ -1,6 +1,79 @@
+{% doc %}
+  @prompt
+    Fix the Add to cart button hover and active state so that when a user hovers or clicks the button, the text color becomes white (#ffffff) to remain readable against the blue background. Add a CSS override targeting the button hover and active states for the add-to-cart button on the product page.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-add-to-cart-fix-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+  }
+
+  .ai-add-to-cart-fix-{{ ai_gen_id }} button[type="submit"]:hover,
+  .ai-add-to-cart-fix-{{ ai_gen_id }} button[type="submit"]:active,
+  .ai-add-to-cart-fix-{{ ai_gen_id }} button[type="submit"]:focus,
+  .ai-add-to-cart-fix-{{ ai_gen_id }} .product-form__submit:hover,
+  .ai-add-to-cart-fix-{{ ai_gen_id }} .product-form__submit:active,
+  .ai-add-to-cart-fix-{{ ai_gen_id }} .product-form__submit:focus,
+  .ai-add-to-cart-fix-{{ ai_gen_id }} [name="add"]:hover,
+  .ai-add-to-cart-fix-{{ ai_gen_id }} [name="add"]:active,
+  .ai-add-to-cart-fix-{{ ai_gen_id }} [name="add"]:focus {
+    color: {{ block.settings.button_text_color }} !important;
+    background-color: {{ block.settings.button_hover_bg_color }} !important;
+  }
+
+  .ai-add-to-cart-fix-{{ ai_gen_id }} button[type="submit"],
+  .ai-add-to-cart-fix-{{ ai_gen_id }} .product-form__submit,
+  .ai-add-to-cart-fix-{{ ai_gen_id }} [name="add"] {
+    transition: all 0.3s ease;
+  }
+{% endstyle %}
+
+<div class="ai-add-to-cart-fix-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  {% if block.settings.show_info %}
+    <div style="padding: 12px; background-color: #f0f0f0; border-radius: 4px; margin-bottom: 16px; font-size: 13px; color: #666;">
+      ℹ️ Add to Cart button hover fix active
+    </div>
+  {% endif %}
+</div>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "Add to cart button fix",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Button hover colors"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Text color on hover",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_bg_color",
+      "label": "Background color on hover",
+      "default": "#0D1B2A"
+    },
+    {
+      "type": "header",
+      "content": "Display"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_info",
+      "label": "Show info message",
+      "default": false,
+      "info": "Display a message indicating the fix is active (for testing)"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Add to cart button fix"
+    }
+  ]
+}
 {% endschema %}
