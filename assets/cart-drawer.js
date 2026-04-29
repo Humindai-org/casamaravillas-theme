@@ -30,7 +30,7 @@
     if (showSuccess) {
       var msg = document.getElementById('cart-success');
       if (msg) {
-        msg.style.display = 'block';
+        msg.style.display = 'flex';
         clearTimeout(msg._hideTimer);
         msg._hideTimer = setTimeout(function () {
           msg.style.display = 'none';

@@ -1,7 +1,25 @@
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Montserrat:wght@400;500;600&display=swap');
 
-/* ── Base state ── */
-.cart-success { display: none; }
+/* ── Success (hidden by default, shown via JS as flex) ── */
+.cart-success {
+  display: none;
+  align-items: center;
+  gap: 10px;
+  background: #F3F1EC;
+  padding: 14px 16px;
+  margin: 16px 0 24px 0;
+  font-size: 14px;
+  color: #3E3A33;
+}
+
+.cart-success-icon {
+  display: flex;
+  align-items: center;
+}
+
+.cart-success-text {
+  font-family: "Montserrat", sans-serif;
+}
 
 .cart-img-placeholder {
   width: 60px;
@@ -343,13 +361,22 @@
 /* ── Values ── */
 .cart-values {
   flex-shrink: 0;
-  margin-top: 16px;
-  font-size: 11px;
+  margin-top: 18px;
+}
+
+.cart-value {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
   font-family: "Montserrat", sans-serif;
   color: #6B6050;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.cart-value svg {
+  color: #C6B79D;
+  flex-shrink: 0;
 }
 
 /* ── Mobile ── */
