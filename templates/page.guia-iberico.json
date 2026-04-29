@@ -12,21 +12,7 @@
     "hero": {
       "type": "iberico-guide-hero",
       "settings": {
-        "image": "shopify://shop_images/f356acc68645c032869cac2825f23b97.png",
-        "breadcrumb_label": "Guía del Ibérico",
-        "heading_line1": "La Guía",
-        "heading_line2": "del",
-        "heading_line3": "Ibérico",
-        "subtitle_main": "Todo lo que necesitas saber sobre",
-        "subtitle_italic": "el auténtico lujo español.",
-        "cta_label": "Explorar la guía",
-        "cta_anchor": "iberico-vs-serrano",
-        "badge_top": "· AUTÉNTICO IBÉRICO ·",
-        "badge_center": "100%",
-        "badge_bottom": "· CALIDAD PREMIUM ·",
-        "bar_title_a": "El Arte de lo",
-        "bar_title_b": "Excepcional",
-        "bar_subtitle": "Tradición, naturaleza y tiempo se unen para crear un producto único en el mundo."
+        "image": "shopify://shop_images/f356acc68645c032869cac2825f23b97.png"
       }
     },
     "toc": {
