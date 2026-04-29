@@ -98,6 +98,25 @@
         "view_all_url": "/collections/jamones"
       }
     },
+    "iberico_guide": {
+      "type": "shopify-guia-iberico-section",
+      "settings": {
+        "eyebrow": "Conocimiento · Tradición · Origen",
+        "heading": "Las 4 preguntas que todo el mundo tiene",
+        "question_1": "¿En qué se diferencia el ibérico del serrano?",
+        "question_2": "¿Qué significa cada etiqueta de la clasificación?",
+        "question_3": "¿De dónde vienen las denominaciones de origen?",
+        "question_4": "¿Cómo se corta y conserva un jamón en casa?",
+        "cta_label": "La guía del ibérico",
+        "cta_url": "/pages/guia-iberico",
+        "caption_1": "Raza, alimentación y crianza: tres diferencias clave.",
+        "caption_2": "Los colores funcionan como un código de origen, pureza y alimentación.",
+        "caption_3": "Jabugo, Guijuelo, Extremadura y Los Pedroches sobre el mapa real de España.",
+        "caption_4": "Corte fino, grasa protegida y frío controlado para conservarlo en casa.",
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    },
     "story_teaser": {
       "type": "story-teaser",
       "settings": {
@@ -205,5 +224,5 @@
       }
     }
   },
-  "order": ["hero", "trust", "featured", "products", "story_teaser", "marquee", "faq", "newsletter"]
+  "order": ["hero", "trust", "featured", "products", "iberico_guide", "story_teaser", "marquee", "faq", "newsletter"]
 }

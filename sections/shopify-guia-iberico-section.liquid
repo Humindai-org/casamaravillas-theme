@@ -1,0 +1,402 @@
+{% comment %}
+  Section: La guia del iberico
+  Uso: guardar como sections/guia-iberico.liquid y agregarla desde el editor de tema.
+{% endcomment %}
+
+<section class="iberico-guide-{{ section.id }}">
+  <div class="iberico-guide__inner">
+    <p class="iberico-guide__eyebrow">{{ section.settings.eyebrow }}</p>
+
+    <div class="iberico-guide__grid">
+      <div class="iberico-guide__left">
+        <p class="iberico-guide__heading">{{ section.settings.heading }}</p>
+
+        <ul class="iberico-guide__questions" id="IbericoQuestions-{{ section.id }}">
+          <li class="iberico-guide__question is-active" data-index="0">
+            <span class="iberico-guide__num">i.</span>
+            <span class="iberico-guide__text">{{ section.settings.question_1 }}</span>
+            <span class="iberico-guide__arrow">→</span>
+          </li>
+          <li class="iberico-guide__question" data-index="1">
+            <span class="iberico-guide__num">ii.</span>
+            <span class="iberico-guide__text">{{ section.settings.question_2 }}</span>
+            <span class="iberico-guide__arrow">→</span>
+          </li>
+          <li class="iberico-guide__question" data-index="2">
+            <span class="iberico-guide__num">iii.</span>
+            <span class="iberico-guide__text">{{ section.settings.question_3 }}</span>
+            <span class="iberico-guide__arrow">→</span>
+          </li>
+          <li class="iberico-guide__question" data-index="3">
+            <span class="iberico-guide__num">iv.</span>
+            <span class="iberico-guide__text">{{ section.settings.question_4 }}</span>
+            <span class="iberico-guide__arrow">→</span>
+          </li>
+        </ul>
+
+        <div class="iberico-guide__cta-row">
+          <a href="{% if section.settings.cta_url != blank %}{{ section.settings.cta_url }}{% else %}#{% endif %}" class="iberico-guide__cta">{{ section.settings.cta_label }} →</a>
+          <div class="iberico-guide__cta-line"></div>
+        </div>
+      </div>
+
+      <div class="iberico-guide__right" id="IbericoPanel-{{ section.id }}">
+        <div class="iberico-guide__slot is-visible" data-slot="0">
+          <div class="iberico-guide__pig-compare">
+            <div class="iberico-guide__pig-card">
+              <span class="iberico-guide__pig-label">Ibérico</span>
+              <img class="iberico-guide__pig-art" src="{{ 'pig-iberico-red.png' | asset_url }}" alt="Cerdo iberico rojo">
+              <span class="iberico-guide__pig-meta">bellota · dehesa · raza</span>
+            </div>
+            <div class="iberico-guide__pig-card">
+              <span class="iberico-guide__pig-label">Serrano</span>
+              <img class="iberico-guide__pig-art" src="{{ 'pig-serrano-beige.png' | asset_url }}" alt="Cerdo serrano beige">
+              <span class="iberico-guide__pig-meta">curación · grano · tradición</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="iberico-guide__slot" data-slot="1">
+          <img class="iberico-guide__photo iberico-guide__photo--dark" src="{{ 'precintos-premium.png' | asset_url }}" alt="Clasificacion por etiquetas del jamon iberico">
+        </div>
+
+        <div class="iberico-guide__slot" data-slot="2">
+          <img class="iberico-guide__photo iberico-guide__photo--light" src="{{ 'dop-map-premium.png' | asset_url }}" alt="Mapa de España con denominaciones de origen del jamon iberico">
+        </div>
+
+        <div class="iberico-guide__slot" data-slot="3">
+          {% if section.settings.cut_image != blank %}
+            {{ section.settings.cut_image | image_url: width: 1400 | image_tag: class: 'iberico-guide__photo', loading: 'lazy', alt: 'Jamon iberico en jamonera siendo cortado' }}
+          {% else %}
+            <img class="iberico-guide__photo" src="{{ 'jamon-jamonera.png' | asset_url }}" alt="Jamon iberico en jamonera siendo cortado">
+          {% endif %}
+        </div>
+
+        <div class="iberico-guide__caption" id="IbericoCaption-{{ section.id }}">{{ section.settings.caption_1 }}</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap');
+
+  .iberico-guide-{{ section.id }} {
+    --cream: #F5F0E8;
+    --cream-mid: #EDE6D6;
+    --ink: #1A1612;
+    --ink-light: #6B5E4E;
+    --rust: #8B3A2A;
+    --rust-pale: #C4724A;
+    --serif: 'Cormorant Garamond', Georgia, serif;
+    --sans: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    padding: {{ section.settings.padding_top }}px 2rem {{ section.settings.padding_bottom }}px;
+  }
+
+  .iberico-guide-{{ section.id }} .iberico-guide__inner { max-width: 1180px; margin: 0 auto; }
+  .iberico-guide-{{ section.id }} .iberico-guide__eyebrow {
+    font-family: var(--sans);
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    margin: 0 0 3.5rem;
+  }
+  .iberico-guide-{{ section.id }} .iberico-guide__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-top: 0.5px solid var(--ink-light);
+  }
+  .iberico-guide-{{ section.id }} .iberico-guide__left {
+    padding: 3.5rem 4rem 3.5rem 0;
+    border-right: 0.5px solid var(--ink-light);
+  }
+  .iberico-guide-{{ section.id }} .iberico-guide__heading {
+    font-family: var(--serif);
+    font-size: clamp(27px, 3.1vw, 38px);
+    font-weight: 300;
+    line-height: 1.05;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--ink);
+    margin: 0 0 2.8rem;
+    max-width: 430px;
+  }
+  .iberico-guide-{{ section.id }} .iberico-guide__questions { list-style: none; margin: 0; padding: 0; }
+  .iberico-guide-{{ section.id }} .iberico-guide__question {
+    display: flex;
+    align-items: baseline;
+    gap: 1.25rem;
+    padding: 1.5rem 0;
+    border-bottom: 0.5px solid rgba(107, 94, 78, 0.25);
+    cursor: pointer;
+    transition: all 0.25s ease;
+    position: relative;
+  }
+  .iberico-guide-{{ section.id }} .iberico-guide__question:last-child { border-bottom: none; }
+  .iberico-guide-{{ section.id }} .iberico-guide__num {
+    font-family: var(--serif);
+    font-size: 12px;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--ink-light);
+    min-width: 1.5rem;
+    transition: color 0.25s ease;
+  }
+  .iberico-guide-{{ section.id }} .iberico-guide__text {
+    font-family: var(--serif);
+    font-size: 17px;
+    font-weight: 300;
+    line-height: 1.28;
+    color: var(--ink);
+    transition: color 0.25s ease;
+  }
+  .iberico-guide-{{ section.id }} .iberico-guide__arrow {
+    margin-left: auto;
+    font-size: 20px;
+    color: transparent;
+    transition: all 0.25s ease;
+    flex-shrink: 0;
+  }
+  .iberico-guide-{{ section.id }} .iberico-guide__question:hover .iberico-guide__text,
+  .iberico-guide-{{ section.id }} .iberico-guide__question.is-active .iberico-guide__text { color: var(--rust); }
+  .iberico-guide-{{ section.id }} .iberico-guide__question:hover .iberico-guide__num,
+  .iberico-guide-{{ section.id }} .iberico-guide__question.is-active .iberico-guide__num { color: var(--rust-pale); }
+  .iberico-guide-{{ section.id }} .iberico-guide__question:hover .iberico-guide__arrow,
+  .iberico-guide-{{ section.id }} .iberico-guide__question.is-active .iberico-guide__arrow { color: var(--rust); transform: translateX(4px); }
+  .iberico-guide-{{ section.id }} .iberico-guide__cta-row {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+  .iberico-guide-{{ section.id }} .iberico-guide__cta {
+    font-family: var(--serif);
+    font-size: 17px;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--rust);
+    text-decoration: none;
+    border-bottom: 1px solid var(--rust);
+    padding-bottom: 2px;
+    transition: opacity 0.2s ease;
+  }
+  .iberico-guide-{{ section.id }} .iberico-guide__cta:hover { opacity: 0.65; }
+  .iberico-guide-{{ section.id }} .iberico-guide__cta-line {
+    flex: 1;
+    height: 0.5px;
+    background: rgba(107, 94, 78, 0.3);
+  }
+  .iberico-guide-{{ section.id }} .iberico-guide__right {
+    position: relative;
+    overflow: hidden;
+    min-height: 520px;
+    background: var(--cream-mid);
+  }
+  .iberico-guide-{{ section.id }} .iberico-guide__slot {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.55s ease, visibility 0s linear 0.55s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+  }
+  .iberico-guide-{{ section.id }} .iberico-guide__slot.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.55s ease;
+  }
+  .iberico-guide-{{ section.id }} .iberico-guide__slot svg { width: 100%; height: 100%; display: block; }
+  .iberico-guide-{{ section.id }} .iberico-guide__pig-compare {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    background: var(--cream-mid);
+    padding: 5.6rem 2.6rem 4.6rem;
+  }
+  .iberico-guide-{{ section.id }} .iberico-guide__pig-compare::before {
+    content: "";
+    position: absolute;
+    top: 4.8rem;
+    bottom: 5.8rem;
+    left: 50%;
+    border-left: 0.5px dashed #BCA789;
+  }
+  .iberico-guide-{{ section.id }} .iberico-guide__pig-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2.1rem;
+    min-width: 0;
+  }
+  .iberico-guide-{{ section.id }} .iberico-guide__pig-label,
+  .iberico-guide-{{ section.id }} .iberico-guide__map-note {
+    font-family: var(--sans);
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+  }
+  .iberico-guide-{{ section.id }} .iberico-guide__pig-card:first-child .iberico-guide__pig-label { color: var(--rust); }
+  .iberico-guide-{{ section.id }} .iberico-guide__pig-art {
+    width: min(92%, 270px);
+    height: auto;
+    object-fit: contain;
+  }
+  .iberico-guide-{{ section.id }} .iberico-guide__pig-meta {
+    width: min(80%, 210px);
+    padding-top: 0.85rem;
+    border-top: 0.5px solid currentColor;
+    font-family: var(--serif);
+    font-size: 15px;
+    font-style: italic;
+    text-align: center;
+    color: var(--ink-light);
+  }
+  .iberico-guide-{{ section.id }} .iberico-guide__pig-card:first-child .iberico-guide__pig-meta { color: var(--rust); }
+  .iberico-guide-{{ section.id }} .iberico-guide__photo {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    filter: saturate(0.98) contrast(1.04);
+    background: #120F0D;
+  }
+  .iberico-guide-{{ section.id }} .iberico-guide__photo-fallback {
+    width: 100%;
+    height: 100%;
+    background: #1A1612;
+    color: rgba(245,240,232,0.72);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--serif);
+    font-size: 18px;
+    font-style: italic;
+  }
+  .iberico-guide-{{ section.id }} .iberico-guide__caption {
+    position: absolute;
+    bottom: 2rem;
+    left: 2rem;
+    right: 2rem;
+    font-family: var(--serif);
+    font-size: 12px;
+    font-style: italic;
+    color: var(--ink-light);
+    letter-spacing: 0.04em;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    border-top: 0.5px solid rgba(107,94,78,0.3);
+    padding-top: 0.75rem;
+    pointer-events: none;
+    z-index: 3;
+  }
+  .iberico-guide-{{ section.id }} .iberico-guide__caption.is-dark {
+    color: rgba(245,240,232,0.82);
+    border-top-color: rgba(245,240,232,0.28);
+    text-shadow: 0 1px 16px rgba(0,0,0,0.35);
+  }
+  .iberico-guide-{{ section.id }} .iberico-guide__caption.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (max-width: 768px) {
+    .iberico-guide-{{ section.id }} { padding-left: 1.2rem; padding-right: 1.2rem; }
+    .iberico-guide-{{ section.id }} .iberico-guide__eyebrow { margin-bottom: 2.2rem; }
+    .iberico-guide-{{ section.id }} .iberico-guide__grid { grid-template-columns: 1fr; }
+    .iberico-guide-{{ section.id }} .iberico-guide__left {
+      border-right: none;
+      border-bottom: 0.5px solid var(--ink-light);
+      padding: 2rem 0;
+    }
+    .iberico-guide-{{ section.id }} .iberico-guide__right { min-height: 390px; }
+    .iberico-guide-{{ section.id }} .iberico-guide__heading { font-size: 30px; }
+    .iberico-guide-{{ section.id }} .iberico-guide__text { font-size: 17px; }
+    .iberico-guide-{{ section.id }} .iberico-guide__caption { left: 1.4rem; right: 1.4rem; bottom: 1.4rem; }
+    .iberico-guide-{{ section.id }} .iberico-guide__pig-compare { padding: 4.8rem 1rem 4.4rem; gap: 0.6rem; }
+    .iberico-guide-{{ section.id }} .iberico-guide__pig-art { width: min(98%, 210px); }
+    .iberico-guide-{{ section.id }} .iberico-guide__pig-meta { width: 92%; font-size: 13px; }
+  }
+</style>
+
+<script>
+  (() => {
+    const root = document.querySelector('.iberico-guide-{{ section.id }}');
+    if (!root) return;
+
+    const items = root.querySelectorAll('.iberico-guide__question');
+    const slots = root.querySelectorAll('.iberico-guide__slot');
+    const caption = root.querySelector('.iberico-guide__caption');
+    const captions = [
+      {{ section.settings.caption_1 | json }},
+      {{ section.settings.caption_2 | json }},
+      {{ section.settings.caption_3 | json }},
+      {{ section.settings.caption_4 | json }}
+    ];
+    let current = 0;
+
+    function activate(index) {
+      if (index === current) return;
+      items[current].classList.remove('is-active');
+      slots[current].classList.remove('is-visible');
+      current = index;
+      items[current].classList.add('is-active');
+      slots[current].classList.add('is-visible');
+      caption.classList.remove('is-visible');
+      caption.classList.toggle('is-dark', index === 3);
+      setTimeout(() => {
+        caption.textContent = captions[index];
+        caption.classList.add('is-visible');
+      }, 200);
+    }
+
+    caption.textContent = captions[0];
+    setTimeout(() => caption.classList.add('is-visible'), 400);
+
+    items.forEach((item, index) => {
+      item.addEventListener('mouseenter', () => activate(index));
+      item.addEventListener('click', () => activate(index));
+      item.addEventListener('focus', () => activate(index));
+      item.setAttribute('tabindex', '0');
+      item.setAttribute('role', 'button');
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Guia del iberico",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Conocimiento · Tradicion · Origen" },
+    { "type": "text", "id": "heading", "label": "Titulo pequeno", "default": "Las 4 preguntas que todo el mundo tiene" },
+    { "type": "text", "id": "question_1", "label": "Pregunta 1", "default": "¿En qué se diferencia el ibérico del serrano?" },
+    { "type": "text", "id": "question_2", "label": "Pregunta 2", "default": "¿Qué significa cada etiqueta de la clasificación?" },
+    { "type": "text", "id": "question_3", "label": "Pregunta 3", "default": "¿De dónde vienen las denominaciones de origen?" },
+    { "type": "text", "id": "question_4", "label": "Pregunta 4", "default": "¿Cómo se corta y conserva un jamón en casa?" },
+    { "type": "text", "id": "cta_label", "label": "Texto CTA", "default": "La guía del ibérico" },
+    { "type": "url", "id": "cta_url", "label": "URL CTA" },
+    { "type": "image_picker", "id": "cut_image", "label": "Imagen de jamon cortado" },
+    { "type": "text", "id": "caption_1", "label": "Caption 1", "default": "Raza, alimentación y crianza: tres diferencias clave." },
+    { "type": "text", "id": "caption_2", "label": "Caption 2", "default": "Los colores funcionan como un código de origen, pureza y alimentación." },
+    { "type": "text", "id": "caption_3", "label": "Caption 3", "default": "Jabugo, Guijuelo, Extremadura y Los Pedroches sobre el mapa real de España." },
+    { "type": "text", "id": "caption_4", "label": "Caption 4", "default": "Corte fino, grasa protegida y frío controlado para conservarlo en casa." },
+    { "type": "range", "id": "padding_top", "label": "Padding superior", "min": 32, "max": 120, "step": 4, "unit": "px", "default": 64 },
+    { "type": "range", "id": "padding_bottom", "label": "Padding inferior", "min": 32, "max": 120, "step": 4, "unit": "px", "default": 64 }
+  ],
+  "presets": [
+    { "name": "Guia del iberico" }
+  ]
+}
+{% endschema %}
