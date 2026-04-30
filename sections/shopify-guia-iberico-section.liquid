@@ -1,6 +1,5 @@
 {% comment %}
   Section: La guia del iberico
-  Uso: guardar como sections/guia-iberico.liquid y agregarla desde el editor de tema.
 {% endcomment %}
 
 <section class="iberico-guide-{{ section.id }}">
@@ -41,36 +40,61 @@
       </div>
 
       <div class="iberico-guide__right" id="IbericoPanel-{{ section.id }}">
-        <div class="iberico-guide__slot is-visible" data-slot="0">
-          <div class="iberico-guide__pig-compare">
-            <div class="iberico-guide__pig-card">
-              <span class="iberico-guide__pig-label">Ibérico</span>
-              <img class="iberico-guide__pig-art" src="{{ 'pig-iberico-red.png' | asset_url }}" alt="Cerdo iberico rojo">
-              <span class="iberico-guide__pig-meta">bellota · dehesa · raza</span>
-            </div>
-            <div class="iberico-guide__pig-card">
-              <span class="iberico-guide__pig-label">Serrano</span>
-              <img class="iberico-guide__pig-art" src="{{ 'pig-serrano-beige.png' | asset_url }}" alt="Cerdo serrano beige">
-              <span class="iberico-guide__pig-meta">curación · grano · tradición</span>
+        {% for block in section.blocks %}
+          {% assign slot_index = forloop.index0 %}
+          <div class="iberico-guide__slot{% if forloop.first %} is-visible{% endif %}" data-slot="{{ slot_index }}" {{ block.shopify_attributes }}>
+            {% if block.settings.image != blank %}
+              {% assign img_alt = block.settings.alt | default: 'Imagen de la guía del ibérico' %}
+              {{ block.settings.image | image_url: width: 1400 | image_tag: class: 'iberico-guide__photo', loading: 'lazy', alt: img_alt }}
+            {% else %}
+              {% case slot_index %}
+                {% when 0 %}
+                  <div class="iberico-guide__pig-compare">
+                    <div class="iberico-guide__pig-card">
+                      <span class="iberico-guide__pig-label">Ibérico</span>
+                      <img class="iberico-guide__pig-art" src="{{ 'pig-iberico-red.png' | asset_url }}" alt="Cerdo iberico rojo">
+                      <span class="iberico-guide__pig-meta">bellota · dehesa · raza</span>
+                    </div>
+                    <div class="iberico-guide__pig-card">
+                      <span class="iberico-guide__pig-label">Serrano</span>
+                      <img class="iberico-guide__pig-art" src="{{ 'pig-serrano-beige.png' | asset_url }}" alt="Cerdo serrano beige">
+                      <span class="iberico-guide__pig-meta">curación · grano · tradición</span>
+                    </div>
+                  </div>
+                {% when 1 %}
+                  <img class="iberico-guide__photo iberico-guide__photo--dark" src="{{ 'precintos-premium.png' | asset_url }}" alt="Clasificacion por etiquetas del jamon iberico">
+                {% when 2 %}
+                  <img class="iberico-guide__photo iberico-guide__photo--light" src="{{ 'dop-map-premium.png' | asset_url }}" alt="Mapa de España con denominaciones de origen del jamon iberico">
+                {% else %}
+                  <img class="iberico-guide__photo" src="{{ 'jamon-jamonera.png' | asset_url }}" alt="Jamon iberico en jamonera siendo cortado">
+              {% endcase %}
+            {% endif %}
+          </div>
+        {% else %}
+          <div class="iberico-guide__slot is-visible" data-slot="0">
+            <div class="iberico-guide__pig-compare">
+              <div class="iberico-guide__pig-card">
+                <span class="iberico-guide__pig-label">Ibérico</span>
+                <img class="iberico-guide__pig-art" src="{{ 'pig-iberico-red.png' | asset_url }}" alt="Cerdo iberico rojo">
+                <span class="iberico-guide__pig-meta">bellota · dehesa · raza</span>
+              </div>
+              <div class="iberico-guide__pig-card">
+                <span class="iberico-guide__pig-label">Serrano</span>
+                <img class="iberico-guide__pig-art" src="{{ 'pig-serrano-beige.png' | asset_url }}" alt="Cerdo serrano beige">
+                <span class="iberico-guide__pig-meta">curación · grano · tradición</span>
+              </div>
             </div>
           </div>
-        </div>
-
-        <div class="iberico-guide__slot" data-slot="1">
-          <img class="iberico-guide__photo iberico-guide__photo--dark" src="{{ 'precintos-premium.png' | asset_url }}" alt="Clasificacion por etiquetas del jamon iberico">
-        </div>
-
-        <div class="iberico-guide__slot" data-slot="2">
-          <img class="iberico-guide__photo iberico-guide__photo--light" src="{{ 'dop-map-premium.png' | asset_url }}" alt="Mapa de España con denominaciones de origen del jamon iberico">
-        </div>
-
-        <div class="iberico-guide__slot" data-slot="3">
-          {% if section.settings.cut_image != blank %}
-            {{ section.settings.cut_image | image_url: width: 1400 | image_tag: class: 'iberico-guide__photo', loading: 'lazy', alt: 'Jamon iberico en jamonera siendo cortado' }}
-          {% else %}
+          <div class="iberico-guide__slot" data-slot="1">
+            <img class="iberico-guide__photo iberico-guide__photo--dark" src="{{ 'precintos-premium.png' | asset_url }}" alt="Clasificacion por etiquetas del jamon iberico">
+          </div>
+          <div class="iberico-guide__slot" data-slot="2">
+            <img class="iberico-guide__photo iberico-guide__photo--light" src="{{ 'dop-map-premium.png' | asset_url }}" alt="Mapa de España con denominaciones de origen del jamon iberico">
+          </div>
+          <div class="iberico-guide__slot" data-slot="3">
             <img class="iberico-guide__photo" src="{{ 'jamon-jamonera.png' | asset_url }}" alt="Jamon iberico en jamonera siendo cortado">
-          {% endif %}
-        </div>
+          </div>
+        {% endfor %}
 
         <div class="iberico-guide__caption" id="IbericoCaption-{{ section.id }}">{{ section.settings.caption_1 }}</div>
       </div>
@@ -339,30 +363,37 @@
     const items = root.querySelectorAll('.iberico-guide__question');
     const slots = root.querySelectorAll('.iberico-guide__slot');
     const caption = root.querySelector('.iberico-guide__caption');
-    const captions = [
-      {{ section.settings.caption_1 | json }},
-      {{ section.settings.caption_2 | json }},
-      {{ section.settings.caption_3 | json }},
-      {{ section.settings.caption_4 | json }}
-    ];
+
+    {% if section.blocks.size > 0 %}
+      const blockCaptions = [{% for block in section.blocks %}{{ block.settings.caption | default: '' | json }}{% unless forloop.last %},{% endunless %}{% endfor %}];
+      const settingCaptions = [{{ section.settings.caption_1 | json }},{{ section.settings.caption_2 | json }},{{ section.settings.caption_3 | json }},{{ section.settings.caption_4 | json }}];
+      const captions = blockCaptions.map((c, i) => c || settingCaptions[i] || '');
+      const darkSlots = [{% for block in section.blocks %}{{ block.settings.dark_caption }}{% unless forloop.last %},{% endunless %}{% endfor %}];
+    {% else %}
+      const captions = [{{ section.settings.caption_1 | json }},{{ section.settings.caption_2 | json }},{{ section.settings.caption_3 | json }},{{ section.settings.caption_4 | json }}];
+      const darkSlots = [false, false, false, true];
+    {% endif %}
+
     let current = 0;
 
     function activate(index) {
       if (index === current) return;
+      if (!items[index] || !slots[index]) return;
       items[current].classList.remove('is-active');
       slots[current].classList.remove('is-visible');
       current = index;
       items[current].classList.add('is-active');
       slots[current].classList.add('is-visible');
       caption.classList.remove('is-visible');
-      caption.classList.toggle('is-dark', index === 3);
+      caption.classList.toggle('is-dark', darkSlots[index] === true);
       setTimeout(() => {
         caption.textContent = captions[index];
         caption.classList.add('is-visible');
       }, 200);
     }
 
-    caption.textContent = captions[0];
+    caption.classList.toggle('is-dark', darkSlots[0] === true);
+    caption.textContent = captions[0] || '';
     setTimeout(() => caption.classList.add('is-visible'), 400);
 
     items.forEach((item, index) => {
@@ -387,16 +418,36 @@
     { "type": "text", "id": "question_4", "label": "Pregunta 4", "default": "¿Cómo se corta y conserva un jamón en casa?" },
     { "type": "text", "id": "cta_label", "label": "Texto CTA", "default": "La guía del ibérico" },
     { "type": "url", "id": "cta_url", "label": "URL CTA" },
-    { "type": "image_picker", "id": "cut_image", "label": "Imagen de jamon cortado" },
-    { "type": "text", "id": "caption_1", "label": "Caption 1", "default": "Raza, alimentación y crianza: tres diferencias clave." },
-    { "type": "text", "id": "caption_2", "label": "Caption 2", "default": "Los colores funcionan como un código de origen, pureza y alimentación." },
-    { "type": "text", "id": "caption_3", "label": "Caption 3", "default": "Jabugo, Guijuelo, Extremadura y Los Pedroches sobre el mapa real de España." },
-    { "type": "text", "id": "caption_4", "label": "Caption 4", "default": "Corte fino, grasa protegida y frío controlado para conservarlo en casa." },
+    { "type": "text", "id": "caption_1", "label": "Caption 1 (por defecto)", "default": "Raza, alimentación y crianza: tres diferencias clave." },
+    { "type": "text", "id": "caption_2", "label": "Caption 2 (por defecto)", "default": "Los colores funcionan como un código de origen, pureza y alimentación." },
+    { "type": "text", "id": "caption_3", "label": "Caption 3 (por defecto)", "default": "Jabugo, Guijuelo, Extremadura y Los Pedroches sobre el mapa real de España." },
+    { "type": "text", "id": "caption_4", "label": "Caption 4 (por defecto)", "default": "Corte fino, grasa protegida y frío controlado para conservarlo en casa." },
     { "type": "range", "id": "padding_top", "label": "Padding superior", "min": 32, "max": 120, "step": 4, "unit": "px", "default": 64 },
     { "type": "range", "id": "padding_bottom", "label": "Padding inferior", "min": 32, "max": 120, "step": 4, "unit": "px", "default": 64 }
   ],
+  "blocks": [
+    {
+      "type": "image_slide",
+      "name": "Imagen",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Imagen" },
+        { "type": "text", "id": "caption", "label": "Caption (sobrescribe el caption de ajustes si se rellena)" },
+        { "type": "text", "id": "alt", "label": "Texto alternativo", "default": "Imagen de la guía del ibérico" },
+        { "type": "checkbox", "id": "dark_caption", "label": "Caption en tono claro (para fondos oscuros)", "default": false }
+      ]
+    }
+  ],
+  "max_blocks": 4,
   "presets": [
-    { "name": "Guia del iberico" }
+    {
+      "name": "Guia del iberico",
+      "blocks": [
+        { "type": "image_slide" },
+        { "type": "image_slide" },
+        { "type": "image_slide" },
+        { "type": "image_slide" }
+      ]
+    }
   ]
 }
 {% endschema %}
