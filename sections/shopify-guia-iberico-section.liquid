@@ -45,7 +45,7 @@
           <div class="iberico-guide__slot{% if forloop.first %} is-visible{% endif %}" data-slot="{{ slot_index }}" {{ block.shopify_attributes }}>
             {% if block.settings.image != blank %}
               {% assign img_alt = block.settings.alt | default: 'Imagen de la guía del ibérico' %}
-              {{ block.settings.image | image_url: width: 1400 | image_tag: class: 'iberico-guide__photo', loading: 'lazy', alt: img_alt }}
+              {{ block.settings.image | image_url: width: 1400 | image_tag: class: 'iberico-guide__photo iberico-guide__photo--block', loading: 'lazy', alt: img_alt }}
             {% else %}
               {% case slot_index %}
                 {% when 0 %}
@@ -296,7 +296,10 @@
     overflow: hidden; 
     object-position: center;
     filter: saturate(0.98) contrast(1.04);
-    background: #120F0D;
+  }
+  .iberico-guide-{{ section.id }} .iberico-guide__photo--block {
+    object-fit: scale-down;
+    padding: 1.5rem;
   }
   .iberico-guide-{{ section.id }} .iberico-guide__photo-fallback {
     width: 100%;
@@ -323,14 +326,11 @@
     opacity: 0;
     transform: translateY(6px);
     transition: opacity 0.4s ease, transform 0.4s ease;
-    border-top: 0.5px solid rgba(107,94,78,0.3);
-    padding-top: 0.75rem;
     pointer-events: none;
     z-index: 3;
   }
   .iberico-guide-{{ section.id }} .iberico-guide__caption.is-dark {
     color: rgba(245,240,232,0.82);
-    border-top-color: rgba(245,240,232,0.28);
     text-shadow: 0 1px 16px rgba(0,0,0,0.35);
   }
   .iberico-guide-{{ section.id }} .iberico-guide__caption.is-visible {
