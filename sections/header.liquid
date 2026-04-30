@@ -68,19 +68,21 @@
     align-items: center;
     gap: 8px;
     padding: 9px 20px;
+    background: var(--cm-navy);
     border: 1.5px solid var(--cm-navy);
-    color: var(--cm-navy);
+    color: var(--cm-white);
     text-decoration: none;
     font-size: 11px;
     letter-spacing: 0.12em;
     font-weight: 500;
     font-family: var(--cm-font-sans);
+    cursor: pointer;
     transition: background 0.3s, color 0.3s;
   }
 
   .site-header__cart:hover {
-    background: var(--cm-navy);
-    color: var(--cm-white);
+    background: var(--cm-white);
+    color: var(--cm-navy);
   }
 
   .site-header__cart-count {
@@ -382,26 +384,26 @@
            loading="eager">
     </a>
 
-<!-- Derecha: enlaces configurables + carrito -->
-      <div class="site-header__top-right">
-        {%- if section.settings.nosotros_url != blank -%}
-          <a href="{{ section.settings.nosotros_url }}">{{ section.settings.nosotros_label | default: 'Nosotros' }}</a>
+    <!-- Derecha: enlaces configurables + carrito -->
+    <div class="site-header__top-right">
+      {%- if section.settings.nosotros_url != blank -%}
+        <a href="{{ section.settings.nosotros_url }}">{{ section.settings.nosotros_label | default: 'Nosotros' }}</a>
+      {%- endif -%}
+      {%- if section.settings.guia_url != blank -%}
+        <a href="{{ section.settings.guia_url }}">{{ section.settings.guia_label | default: 'Guía del Ibérico' }}</a>
+      {%- endif -%}
+      <a href="{{ routes.cart_url }}" class="site-header__cart" aria-label="Carrito de compra" onclick="if(typeof openCart!=='undefined'){openCart();return false;}">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <path d="M16 10a4 4 0 01-8 0"/>
+        </svg>
+        <span>Carrito</span>
+        {%- if cart.item_count > 0 -%}
+          <span class="site-header__cart-count" aria-label="{{ cart.item_count }} artículos">{{ cart.item_count }}</span>
         {%- endif -%}
-        {%- if section.settings.guia_url != blank -%}
-          <a href="{{ section.settings.guia_url }}">{{ section.settings.guia_label | default: 'Guía del Ibérico' }}</a>
-        {%- endif -%}
-        <button onclick="openCart()" class="site-header__cart" aria-label="Carrito de compra" style="background:none;border:none;cursor:pointer;padding:0;">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-            <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
-            <line x1="3" y1="6" x2="21" y2="6"/>
-            <path d="M16 10a4 4 0 01-8 0"/>
-          </svg>
-          <span>Carrito</span>
-          {%- if cart.item_count > 0 -%}
-            <span class="site-header__cart-count" aria-label="{{ cart.item_count }} artículos">{{ cart.item_count }}</span>
-          {%- endif -%}
-        </button>
-      </div>
+      </a>
+    </div>
 
 
   </div>

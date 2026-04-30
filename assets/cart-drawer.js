@@ -26,6 +26,9 @@
         renderCartItems(cart);
         updateCartCount(cart.item_count);
         updateCartTotals(cart);
+        if (cart.items.length > 0) {
+          fetchRecommendations(cart.items[0].product_id);
+        }
       })
       .catch(function (err) {
         console.error('[cart-drawer] fetch error:', err);
@@ -227,6 +230,50 @@
       .replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;')
       .replace(/'/g, '&#039;');
+  }
+
+  /* ---- RECOMMENDATIONS ---- */
+
+  function fetchRecommendations(productId) {
+    if (!productId) return;
+    fetch('/recommendations/products.json?product_id=' + productId + '&limit=4&intent=related')
+      .then(function (res) { return res.json(); })
+      .then(function (data) { renderRecommendations(data.products); })
+      .catch(function (err) {
+        console.error('[cart-drawer] recommendations error:', err);
+      });
+  }
+
+  function renderRecommendations(products) {
+    var section = document.getElementById('cart-recommendations');
+    var grid    = document.getElementById('cart-rec-grid');
+    if (!section || !grid) return;
+
+    if (!products || products.length === 0) {
+      section.style.display = 'none';
+      return;
+    }
+
+    var html = '';
+    products.forEach(function (p) {
+      var imgSrc = p.featured_image
+        ? p.featured_image.replace(/(\.(jpg|jpeg|png|webp|gif))(\?|$)/i, '_240x240_crop_center$1$3')
+        : '';
+      html +=
+        '<a href="' + p.url + '" class="cart-rec-item">' +
+          (imgSrc
+            ? '<img src="' + imgSrc + '" alt="' + escapeHtml(p.title) + '" class="cart-rec-img" loading="lazy">'
+            : '<div class="cart-rec-img"></div>'
+          ) +
+          '<div class="cart-rec-info">' +
+            '<span class="cart-rec-name">' + escapeHtml(p.title) + '</span>' +
+            '<span class="cart-rec-price">' + formatMoney(p.price_min) + '</span>' +
+          '</div>' +
+        '</a>';
+    });
+
+    grid.innerHTML = html;
+    section.style.display = 'block';
   }
 
   /* ---- EXPOSE GLOBALS (used by inline onclick in .liquid) ---- */
