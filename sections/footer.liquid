@@ -253,7 +253,7 @@
     </p>
     <div class="site-footer__payments" aria-label="Métodos de pago aceptados">
       {% for type in shop.enabled_payment_types %}
-        {{ type | payment_type_img_url: '60x38' | image_tag: alt: type }}
+        {{ type | payment_type_svg_tag }}
       {% endfor %}
     </div>
   </div>
