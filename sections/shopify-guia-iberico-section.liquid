@@ -42,7 +42,7 @@
       <div class="iberico-guide__right" id="IbericoPanel-{{ section.id }}">
         {% for block in section.blocks %}
           {% assign slot_index = forloop.index0 %}
-          <div class="iberico-guide__slot{% if forloop.first %} is-visible{% endif %}" data-slot="{{ slot_index }}" {{ block.shopify_attributes }}>
+          <div class="iberico-guide__slot{% if forloop.first %} is-visible{% endif %}{% if block.settings.slot_bg == 'dark' %} iberico-guide__slot--dark{% endif %}" data-slot="{{ slot_index }}" {{ block.shopify_attributes }}>
             {% if block.settings.image != blank %}
               {% assign img_alt = block.settings.alt | default: 'Imagen de la guía del ibérico' %}
               {{ block.settings.image | image_url: width: 1400 | image_tag: class: 'iberico-guide__photo iberico-guide__photo--block', loading: 'lazy', alt: img_alt }}
@@ -85,13 +85,13 @@
               </div>
             </div>
           </div>
-          <div class="iberico-guide__slot" data-slot="1">
+          <div class="iberico-guide__slot iberico-guide__slot--dark" data-slot="1">
             <img class="iberico-guide__photo iberico-guide__photo--dark" src="{{ 'precintos-premium.png' | asset_url }}" alt="Clasificacion por etiquetas del jamon iberico">
           </div>
           <div class="iberico-guide__slot" data-slot="2">
             <img class="iberico-guide__photo iberico-guide__photo--light" src="{{ 'dop-map-premium.png' | asset_url }}" alt="Mapa de España con denominaciones de origen del jamon iberico">
           </div>
-          <div class="iberico-guide__slot" data-slot="3">
+          <div class="iberico-guide__slot iberico-guide__slot--dark" data-slot="3">
             <img class="iberico-guide__photo" src="{{ 'jamon-jamonera.png' | asset_url }}" alt="Jamon iberico en jamonera siendo cortado">
           </div>
         {% endfor %}
@@ -301,6 +301,13 @@
     object-fit: scale-down;
     padding: 1.5rem;
   }
+  .iberico-guide-{{ section.id }} .iberico-guide__slot--dark {
+    background: #120F0D;
+  }
+  .iberico-guide-{{ section.id }} .iberico-guide__slot--dark .iberico-guide__photo--block {
+    padding: 0;
+    object-fit: contain;
+  }
   .iberico-guide-{{ section.id }} .iberico-guide__photo-fallback {
     width: 100%;
     height: 100%;
@@ -435,6 +442,7 @@
         { "type": "image_picker", "id": "image", "label": "Imagen" },
         { "type": "text", "id": "caption", "label": "Caption (sobrescribe el caption de ajustes si se rellena)" },
         { "type": "text", "id": "alt", "label": "Texto alternativo", "default": "Imagen de la guía del ibérico" },
+        { "type": "select", "id": "slot_bg", "label": "Fondo del bloque", "options": [{ "value": "cream", "label": "Crema" }, { "value": "dark", "label": "Oscuro" }], "default": "cream" },
         { "type": "checkbox", "id": "dark_caption", "label": "Caption en tono claro (para fondos oscuros)", "default": false }
       ]
     }
