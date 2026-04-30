@@ -9,14 +9,21 @@
  */
 {
   "current": {
-    "color_background": "#FFFFFF",
+    "color_background": "#ffffff",
     "color_background_secondary": "#FAFAF7",
-    "color_navy": "#0D1B2A",
+    "color_navy": "#0d1b2a",
     "color_gold": "#B8903A",
-    "color_text": "#1A1814",
+    "color_text": "#1a1814",
     "color_text_muted": "#6A6560",
     "color_border": "#E8E5DF",
-    "font_size_base": 14
+    "font_size_base": 14,
+    "sections": {
+      "cart-drawer": {
+        "type": "cart-drawer",
+        "settings": {}
+      }
+    },
+    "content_for_index": []
   },
   "presets": {}
 }
