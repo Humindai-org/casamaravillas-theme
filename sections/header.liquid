@@ -1,9 +1,3 @@
-{%- assign current_month = 'now' | date: '%-m' | plus: 0 -%}
-{%- assign show_navidad = false -%}
-{%- if current_month >= 10 or current_month == 1 -%}
-  {%- assign show_navidad = true -%}
-{%- endif -%}
-
 <style>
   /* ── Wrapper sticky ── */
   .site-header {
@@ -28,7 +22,6 @@
     border-bottom: 1px solid var(--cm-border);
   }
 
-  /* Placeholder izquierdo para centrar el logo */
   .site-header__top-left {
     flex: 1;
     display: flex;
@@ -144,7 +137,6 @@
     color: var(--cm-navy);
   }
 
-  /* Línea dorada bajo el item activo */
   .site-header__nav-list > li > a::after {
     content: '';
     position: absolute;
@@ -161,7 +153,6 @@
     transform: scaleX(1);
   }
 
-  /* Chevron */
   .nav-chevron {
     width: 10px;
     height: 10px;
@@ -370,12 +361,13 @@
   }
 </style>
 
+{%- assign main_nav = linklists[section.settings.main_menu] -%}
+
 <header class="site-header" id="site-header">
 
   <!-- Fila 1: Logo + utilidades -->
   <div class="site-header__top">
 
-    <!-- Izquierda — placeholder + hamburger mobile -->
     <div class="site-header__top-left">
       <button class="site-header__hamburger" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobile-drawer" id="hamburger-btn">
         <span></span>
@@ -384,17 +376,20 @@
       </button>
     </div>
 
-    <!-- Centro — Logo -->
     <a href="{{ routes.root_url }}" class="site-header__logo" aria-label="{{ shop.name }}">
       <img src="{{ 'logo2-sin-bg.png' | asset_url }}"
            alt="{{ shop.name }}"
            loading="eager">
     </a>
 
-    <!-- Derecha — Nosotros, Blog, Carrito -->
+    <!-- Derecha: enlaces configurables + carrito -->
     <div class="site-header__top-right">
-      <a href="/pages/nosotros">Nosotros</a>
-      <a href="/pages/guia-iberico">Guía del ibérico</a>
+      {%- if section.settings.nosotros_url != blank -%}
+        <a href="{{ section.settings.nosotros_url }}">{{ section.settings.nosotros_label | default: 'Nosotros' }}</a>
+      {%- endif -%}
+      {%- if section.settings.guia_url != blank -%}
+        <a href="{{ section.settings.guia_url }}">{{ section.settings.guia_label | default: 'Guía del Ibérico' }}</a>
+      {%- endif -%}
       <a href="{{ routes.cart_url }}" class="site-header__cart" aria-label="Carrito de compra">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
           <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
@@ -410,76 +405,33 @@
 
   </div>
 
-  <!-- Fila 2: Navegación de producto -->
-  <nav class="site-header__nav" aria-label="Navegación principal">
-    <ul class="site-header__nav-list">
-
-      <!-- Jamones -->
-      <li>
-        <a href="{{ routes.collections_url }}/jamones">
-          Jamones
-          <svg class="nav-chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2 3.5l3 3 3-3"/></svg>
-        </a>
-        <ul class="site-header__dropdown">
-          <li><a href="{{ routes.collections_url }}/jamon-iberico-de-bellota">Bellota 100% Ibérico</a></li>
-          <li><a href="{{ routes.collections_url }}/jamon-iberico-bellota">Bellota Ibérico</a></li>
-          <li><a href="{{ routes.collections_url }}/jamon-iberico-cebo">Ibérico de Cebo</a></li>
-          <li class="site-header__dropdown-divider"></li>
-          <li><a href="{{ routes.collections_url }}/jamones">Ver todos</a></li>
-        </ul>
-      </li>
-
-      <!-- Embutidos -->
-      <li>
-        <a href="{{ routes.collections_url }}/embutidos">
-          Embutidos
-          <svg class="nav-chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2 3.5l3 3 3-3"/></svg>
-        </a>
-        <ul class="site-header__dropdown">
-          <li><a href="{{ routes.collections_url }}/lomo-iberico">Lomo Ibérico</a></li>
-          <li><a href="{{ routes.collections_url }}/chorizo-iberico">Chorizo Ibérico</a></li>
-          <li><a href="{{ routes.collections_url }}/salchichon-iberico">Salchichón Ibérico</a></li>
-          <li><a href="{{ routes.collections_url }}/loncheados">Loncheados</a></li>
-          <li class="site-header__dropdown-divider"></li>
-          <li><a href="{{ routes.collections_url }}/embutidos">Ver todos</a></li>
-        </ul>
-      </li>
-
-      <!-- Carnes Ibéricas -->
-      <li>
-        <a href="{{ routes.collections_url }}/carnes-ibericas">
-          Carnes Ibéricas
-          <svg class="nav-chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2 3.5l3 3 3-3"/></svg>
-        </a>
-        <ul class="site-header__dropdown">
-          <li><a href="{{ routes.collections_url }}/secreto-iberico">Secreto Ibérico</a></li>
-          <li><a href="{{ routes.collections_url }}/presa-iberica">Presa Ibérica</a></li>
-          <li><a href="{{ routes.collections_url }}/pluma-iberica">Pluma Ibérica</a></li>
-          <li><a href="{{ routes.collections_url }}/carrilleras-ibericas">Carrilleras Ibéricas</a></li>
-          <li class="site-header__dropdown-divider"></li>
-          <li><a href="{{ routes.collections_url }}/carnes-ibericas">Ver todas</a></li>
-        </ul>
-      </li>
-
-      <!-- Packs & Regalos -->
-      <li>
-        <a href="{{ routes.collections_url }}/packs-y-regalos">
-          Packs & Regalos
-          <svg class="nav-chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2 3.5l3 3 3-3"/></svg>
-        </a>
-        <ul class="site-header__dropdown">
-          <li><a href="{{ routes.collections_url }}/pack-degustacion">Pack Degustación</a></li>
-          <li><a href="{{ routes.collections_url }}/regalo-empresa">Regalo Empresa</a></li>
-          {%- if show_navidad -%}
-            <li><a href="{{ routes.collections_url }}/cestas-navidad">Cesta Navidad</a></li>
-          {%- endif -%}
-          <li class="site-header__dropdown-divider"></li>
-          <li><a href="{{ routes.collections_url }}/packs-y-regalos">Ver todos</a></li>
-        </ul>
-      </li>
-
-    </ul>
-  </nav>
+  <!-- Fila 2: Navegación principal desde menú de Shopify -->
+  {%- if main_nav.links.size > 0 -%}
+    <nav class="site-header__nav" aria-label="Navegación principal">
+      <ul class="site-header__nav-list">
+        {%- for link in main_nav.links -%}
+          <li>
+            <a href="{{ link.url }}">
+              {{ link.title }}
+              {%- if link.links.size > 0 -%}
+                <svg class="nav-chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2 3.5l3 3 3-3"/></svg>
+              {%- endif -%}
+            </a>
+            {%- if link.links.size > 0 -%}
+              <ul class="site-header__dropdown">
+                {%- for child in link.links -%}
+                  {%- if forloop.last and link.links.size > 1 -%}
+                    <li class="site-header__dropdown-divider"></li>
+                  {%- endif -%}
+                  <li><a href="{{ child.url }}">{{ child.title }}</a></li>
+                {%- endfor -%}
+              </ul>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+      </ul>
+    </nav>
+  {%- endif -%}
 
 </header>
 
@@ -491,68 +443,33 @@
     <nav>
       <ul class="site-header__drawer-nav">
 
-        <li>
-          <button class="site-header__drawer-toggle" aria-expanded="false" data-target="drawer-jamones">
-            Jamones
-            <svg class="nav-chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2 3.5l3 3 3-3"/></svg>
-          </button>
-          <div class="site-header__drawer-sub" id="drawer-jamones">
-            <a href="{{ routes.collections_url }}/jamon-iberico-de-bellota">Bellota 100% Ibérico</a>
-            <a href="{{ routes.collections_url }}/jamon-iberico-bellota">Bellota Ibérico</a>
-            <a href="{{ routes.collections_url }}/jamon-iberico-cebo">Ibérico de Cebo</a>
-            <div class="drawer-divider"></div>
-            <a href="{{ routes.collections_url }}/jamones">Ver todos</a>
-          </div>
-        </li>
+        {%- for link in main_nav.links -%}
+          {%- if link.links.size > 0 -%}
+            <li>
+              <button class="site-header__drawer-toggle" aria-expanded="false" data-target="drawer-{{ link.handle }}">
+                {{ link.title }}
+                <svg class="nav-chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2 3.5l3 3 3-3"/></svg>
+              </button>
+              <div class="site-header__drawer-sub" id="drawer-{{ link.handle }}">
+                {%- for child in link.links -%}
+                  {%- if forloop.last and link.links.size > 1 -%}
+                    <div class="drawer-divider"></div>
+                  {%- endif -%}
+                  <a href="{{ child.url }}">{{ child.title }}</a>
+                {%- endfor -%}
+              </div>
+            </li>
+          {%- else -%}
+            <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+          {%- endif -%}
+        {%- endfor -%}
 
-        <li>
-          <button class="site-header__drawer-toggle" aria-expanded="false" data-target="drawer-embutidos">
-            Embutidos
-            <svg class="nav-chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2 3.5l3 3 3-3"/></svg>
-          </button>
-          <div class="site-header__drawer-sub" id="drawer-embutidos">
-            <a href="{{ routes.collections_url }}/lomo-iberico">Lomo Ibérico</a>
-            <a href="{{ routes.collections_url }}/chorizo-iberico">Chorizo Ibérico</a>
-            <a href="{{ routes.collections_url }}/salchichon-iberico">Salchichón Ibérico</a>
-            <a href="{{ routes.collections_url }}/loncheados">Loncheados</a>
-            <div class="drawer-divider"></div>
-            <a href="{{ routes.collections_url }}/embutidos">Ver todos</a>
-          </div>
-        </li>
-
-        <li>
-          <button class="site-header__drawer-toggle" aria-expanded="false" data-target="drawer-carnes">
-            Carnes Ibéricas
-            <svg class="nav-chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2 3.5l3 3 3-3"/></svg>
-          </button>
-          <div class="site-header__drawer-sub" id="drawer-carnes">
-            <a href="{{ routes.collections_url }}/secreto-iberico">Secreto Ibérico</a>
-            <a href="{{ routes.collections_url }}/presa-iberica">Presa Ibérica</a>
-            <a href="{{ routes.collections_url }}/pluma-iberica">Pluma Ibérica</a>
-            <a href="{{ routes.collections_url }}/carrilleras-ibericas">Carrilleras Ibéricas</a>
-            <div class="drawer-divider"></div>
-            <a href="{{ routes.collections_url }}/carnes-ibericas">Ver todas</a>
-          </div>
-        </li>
-
-        <li>
-          <button class="site-header__drawer-toggle" aria-expanded="false" data-target="drawer-packs">
-            Packs & Regalos
-            <svg class="nav-chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2 3.5l3 3 3-3"/></svg>
-          </button>
-          <div class="site-header__drawer-sub" id="drawer-packs">
-            <a href="{{ routes.collections_url }}/pack-degustacion">Pack Degustación</a>
-            <a href="{{ routes.collections_url }}/regalo-empresa">Regalo Empresa</a>
-            {%- if show_navidad -%}
-              <a href="{{ routes.collections_url }}/cestas-navidad">Cesta Navidad</a>
-            {%- endif -%}
-            <div class="drawer-divider"></div>
-            <a href="{{ routes.collections_url }}/packs-y-regalos">Ver todos</a>
-          </div>
-        </li>
-
-        <li><a href="/pages/nosotros">Nosotros</a></li>
-        <li><a href="/pages/guia-iberico">Guía del ibérico</a></li>
+        {%- if section.settings.nosotros_url != blank -%}
+          <li><a href="{{ section.settings.nosotros_url }}">{{ section.settings.nosotros_label | default: 'Nosotros' }}</a></li>
+        {%- endif -%}
+        {%- if section.settings.guia_url != blank -%}
+          <li><a href="{{ section.settings.guia_url }}">{{ section.settings.guia_label | default: 'Guía del Ibérico' }}</a></li>
+        {%- endif -%}
         <li><a href="{{ routes.cart_url }}">Carrito ({{ cart.item_count }})</a></li>
 
       </ul>
@@ -613,6 +530,48 @@
 {
   "name": "Cabecera",
   "class": "site-header-section",
-  "settings": []
+  "settings": [
+    {
+      "type": "header",
+      "content": "Menú principal (barra de navegación)"
+    },
+    {
+      "type": "link_list",
+      "id": "main_menu",
+      "label": "Menú de navegación",
+      "info": "Ve a Admin → Navegación para crear o editar este menú. Los elementos de primer nivel aparecen como pestañas; sus sub-elementos forman el desplegable.",
+      "default": "main-menu"
+    },
+    {
+      "type": "header",
+      "content": "Barra superior — enlace Nosotros"
+    },
+    {
+      "type": "url",
+      "id": "nosotros_url",
+      "label": "Página de destino"
+    },
+    {
+      "type": "text",
+      "id": "nosotros_label",
+      "label": "Texto del enlace",
+      "default": "Nosotros"
+    },
+    {
+      "type": "header",
+      "content": "Barra superior — enlace Guía del Ibérico"
+    },
+    {
+      "type": "url",
+      "id": "guia_url",
+      "label": "Página de destino"
+    },
+    {
+      "type": "text",
+      "id": "guia_label",
+      "label": "Texto del enlace",
+      "default": "Guía del Ibérico"
+    }
+  ]
 }
 {% endschema %}

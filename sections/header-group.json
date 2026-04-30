@@ -11,7 +11,13 @@
     },
     "header": {
       "type": "header",
-      "settings": {}
+      "settings": {
+        "main_menu": "main-menu",
+        "nosotros_url": "/pages/nosotros",
+        "nosotros_label": "Nosotros",
+        "guia_url": "/pages/guia-iberico",
+        "guia_label": "Guía del Ibérico"
+      }
     }
   },
   "order": ["announcement-bar", "header"]
