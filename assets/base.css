@@ -194,6 +194,12 @@ h1, h2, h3, h4, h5, h6 {
 /* ── MAIN CONTENT ── */
 main { min-height: 50vh; }
 
+/* ── IBERICO GUIDE — fondos personalizados por bloque ── */
+#template--29787201798482__iberico_guide [data-block-id="image_slide_tYTLww"],
+#template--29787201798482__iberico_guide [data-block-id="image_slide_6AfTeD"] {
+  background-color: #EFECE3 !important;
+}
+
 /* ── RESPONSIVE HELPERS ── */
 @media (max-width: 767px) {
   .hide-mobile { display: none !important; }

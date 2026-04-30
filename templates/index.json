@@ -157,6 +157,7 @@
             "image": "shopify://shop_images/imagen_1.png",
             "caption": "",
             "alt": "Imagen de la guía del ibérico",
+            "slot_bg": "cream",
             "dark_caption": false
           }
         },
@@ -166,6 +167,7 @@
             "image": "shopify://shop_images/imagen_2.png",
             "caption": "",
             "alt": "Imagen de la guía del ibérico",
+            "slot_bg": "dark",
             "dark_caption": false
           }
         },
@@ -175,6 +177,7 @@
             "image": "shopify://shop_images/imagen_3.png",
             "caption": "",
             "alt": "Imagen de la guía del ibérico",
+            "slot_bg": "cream",
             "dark_caption": false
           }
         },
@@ -184,6 +187,7 @@
             "image": "shopify://shop_images/imagen_4.png",
             "caption": "",
             "alt": "Imagen de la guía del ibérico",
+            "slot_bg": "dark",
             "dark_caption": false
           }
         }
