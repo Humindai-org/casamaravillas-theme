@@ -207,3 +207,14 @@ main { min-height: 50vh; }
 @media (min-width: 768px) {
   .hide-desktop { display: none !important; }
 }
+
+/* Color de fondo del footer */
+#shopify-section-sections--29787200815442__footer {
+  background-color: #101D36 !important;
+}
+
+/* Agrandar el logo del footer */
+#shopify-section-sections--29787200815442__footer img {
+  max-width: 220px;
+  height: auto;
+}
