@@ -68,21 +68,22 @@
     align-items: center;
     gap: 8px;
     padding: 9px 20px;
-    background: var(--cm-navy);
+    background: var(--cm-white);
     border: 1.5px solid var(--cm-navy);
-    color: var(--cm-white);
+    color: var(--cm-navy);
     text-decoration: none;
     font-size: 11px;
     letter-spacing: 0.12em;
     font-weight: 500;
     font-family: var(--cm-font-sans);
     cursor: pointer;
-    transition: background 0.3s, color 0.3s;
+    transition: background 0.3s, color 0.3s, border-color 0.3s;
   }
 
   .site-header__cart:hover {
-    background: var(--cm-white);
-    color: var(--cm-navy);
+    background: var(--cm-navy);
+    border-color: var(--cm-navy);
+    color: var(--cm-white);
   }
 
   .site-header__cart-count {
@@ -398,7 +399,7 @@
           <line x1="3" y1="6" x2="21" y2="6"/>
           <path d="M16 10a4 4 0 01-8 0"/>
         </svg>
-        <span>Carrito</span>
+        <span>Cesta</span>
         {%- if cart.item_count > 0 -%}
           <span class="site-header__cart-count" aria-label="{{ cart.item_count }} artículos">{{ cart.item_count }}</span>
         {%- endif -%}
@@ -473,7 +474,7 @@
         {%- if section.settings.guia_url != blank -%}
           <li><a href="{{ section.settings.guia_url }}">{{ section.settings.guia_label | default: 'Guía del Ibérico' }}</a></li>
         {%- endif -%}
-        <li><a href="{{ routes.cart_url }}">Carrito ({{ cart.item_count }})</a></li>
+        <li><a href="{{ routes.cart_url }}">Cesta ({{ cart.item_count }})</a></li>
 
       </ul>
     </nav>
