@@ -1,8 +1,9 @@
 <style>
   .site-footer {
-    background: var(--cm-navy);
-    color: rgba(255,255,255,0.6);
+    background: var(--cm-off);
+    color: var(--cm-text-mid);
     font-family: var(--cm-font-sans);
+    border-top: 1px solid var(--cm-border);
   }
 
   .site-footer__main {
@@ -21,16 +22,15 @@
   }
 
   .site-footer__logo img {
-    height: 40px;
+    height: 90px;
     width: auto;
-    opacity: 0.9;
   }
 
   .site-footer__logo-text {
     font-family: var(--cm-font-serif);
-    font-size: 20px;
+    font-size: 22px;
     font-weight: 400;
-    color: rgba(255,255,255,0.9);
+    color: var(--cm-navy);
     letter-spacing: 0.07em;
     display: block;
     line-height: 1;
@@ -48,7 +48,7 @@
   .site-footer__tagline {
     font-size: 13px;
     line-height: 1.75;
-    color: rgba(255,255,255,0.4);
+    color: var(--cm-text-light);
     margin-bottom: 28px;
     max-width: 260px;
   }
@@ -65,8 +65,8 @@
     justify-content: center;
     width: 36px;
     height: 36px;
-    border: 1px solid rgba(255,255,255,0.15);
-    color: rgba(255,255,255,0.5);
+    border: 1px solid var(--cm-border2);
+    color: var(--cm-text-light);
     text-decoration: none;
     font-size: 14px;
     transition: border-color 0.3s, color 0.3s;
@@ -87,7 +87,7 @@
     font-size: 10px;
     letter-spacing: 0.35em;
     text-transform: uppercase;
-    color: rgba(255,255,255,0.3);
+    color: var(--cm-text-light);
     margin-bottom: 20px;
     font-family: var(--cm-font-sans);
     font-weight: 500;
@@ -102,18 +102,18 @@
 
   .site-footer__nav-list a {
     font-size: 13px;
-    color: rgba(255,255,255,0.55);
+    color: var(--cm-text-mid);
     text-decoration: none;
     transition: color 0.3s;
     font-family: var(--cm-font-sans);
   }
 
-  .site-footer__nav-list a:hover { color: rgba(255,255,255,0.9); }
+  .site-footer__nav-list a:hover { color: var(--cm-navy); }
 
   /* Métodos de pago */
   .site-footer__bottom {
     padding: 20px 72px;
-    border-top: 1px solid rgba(255,255,255,0.06);
+    border-top: 1px solid var(--cm-border);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -123,7 +123,7 @@
 
   .site-footer__copyright {
     font-size: 11px;
-    color: rgba(255,255,255,0.25);
+    color: var(--cm-text-light);
     letter-spacing: 0.04em;
   }
 
@@ -134,15 +134,17 @@
     flex-wrap: wrap;
   }
 
-  .site-footer__payment-badge {
-    background: rgba(255,255,255,0.07);
-    border: 1px solid rgba(255,255,255,0.1);
-    padding: 4px 10px;
-    font-size: 9.5px;
-    letter-spacing: 0.08em;
-    color: rgba(255,255,255,0.35);
-    font-family: var(--cm-font-sans);
-    font-weight: 500;
+  .site-footer__payment-logo {
+    height: 24px;
+    width: auto;
+    display: flex;
+    align-items: center;
+    opacity: 0.75;
+    transition: opacity 0.2s;
+  }
+
+  .site-footer__payment-logo:hover {
+    opacity: 1;
   }
 
   @media (max-width: 1023px) {
@@ -175,11 +177,11 @@
     <!-- Columna marca -->
     <div class="site-footer__brand-col">
       <a href="{{ routes.root_url }}" class="site-footer__logo">
-        {%- if section.settings.logo_light != blank -%}
-          {{ section.settings.logo_light | image_url: width: 200 | image_tag:
+        {%- if section.settings.logo != blank -%}
+          {{ section.settings.logo | image_url: width: 400 | image_tag:
               loading: 'lazy',
               alt: shop.name,
-              style: 'height: 40px; width: auto;'
+              style: 'height: 90px; width: auto;'
           }}
         {%- else -%}
           <span class="site-footer__logo-text">{{ shop.name }}</span>
@@ -216,7 +218,6 @@
       <ul class="site-footer__nav-list">
         <li><a href="{{ routes.collections_url }}/jamones">Jamones</a></li>
         <li><a href="{{ routes.collections_url }}/embutidos">Embutidos</a></li>
-        <li><a href="{{ routes.collections_url }}/paletas">Paletas</a></li>
         <li><a href="{{ routes.collections_url }}/packs-y-regalos">Packs & Regalos</a></li>
       </ul>
     </div>
@@ -225,8 +226,8 @@
     <div class="site-footer__nav-col">
       <h4>Información</h4>
       <ul class="site-footer__nav-list">
-        <li><a href="/pages/sobre-nosotros">Sobre nosotros</a></li>
-        <li><a href="/blogs/noticias">Blog</a></li>
+        <li><a href="/pages/sobre-nosotros">Nosotros</a></li>
+        <li><a href="/blogs/noticias">Guía del ibérico</a></li>
         <li><a href="/pages/envios-y-devoluciones">Envíos y devoluciones</a></li>
         <li><a href="/pages/contacto">Contacto</a></li>
       </ul>
@@ -251,11 +252,53 @@
       © {{ 'now' | date: '%Y' }} {{ shop.name }}. Todos los derechos reservados.
     </p>
     <div class="site-footer__payments" aria-label="Métodos de pago aceptados">
-      <span class="site-footer__payment-badge">Visa</span>
-      <span class="site-footer__payment-badge">Mastercard</span>
-      <span class="site-footer__payment-badge">PayPal</span>
-      <span class="site-footer__payment-badge">Bizum</span>
-      <span class="site-footer__payment-badge">Apple Pay</span>
+      <!-- Visa -->
+      <span class="site-footer__payment-logo" title="Visa">
+        <svg height="24" viewBox="0 0 750 471" xmlns="http://www.w3.org/2000/svg">
+          <rect width="750" height="471" rx="40" fill="#1A1F71"/>
+          <path d="M278 334L316 138H378L340 334H278Z" fill="white"/>
+          <path d="M524 143C511 138 491 133 466 133C404 133 360 165 359 211C358 245 390 264 414 275C439 286 447 293 447 303C447 318 429 325 412 325C388 325 375 321 354 312L346 308L337 362C352 369 381 375 411 375C477 375 520 344 521 294C521 267 505 246 469 229C447 218 433 211 433 200C433 191 443 181 465 181C484 181 498 185 509 190L515 193L524 143Z" fill="white"/>
+          <path d="M612 138H563C548 138 537 142 530 158L440 334H507L520 298H601L609 334H669L612 138ZM538 250C543 237 563 184 563 184C563 184 568 171 572 163L576 184C576 184 589 245 592 250H538Z" fill="white"/>
+          <path d="M230 138L170 276L163 242C151 205 117 165 79 145L134 334H202L298 138H230Z" fill="white"/>
+          <path d="M113 138H11L10 143C88 163 139 207 163 242L139 160C135 144 125 138 113 138Z" fill="#FAA61A"/>
+        </svg>
+      </span>
+      <!-- Mastercard -->
+      <span class="site-footer__payment-logo" title="Mastercard">
+        <svg height="24" viewBox="0 0 750 471" xmlns="http://www.w3.org/2000/svg">
+          <rect width="750" height="471" rx="40" fill="#252525"/>
+          <circle cx="290" cy="236" r="155" fill="#EB001B"/>
+          <circle cx="460" cy="236" r="155" fill="#F79E1B"/>
+          <path d="M375 122C405 143 428 174 438 210H312C322 174 345 143 375 122ZM375 350C345 329 322 298 312 262H438C428 298 405 329 375 350Z" fill="#FF5F00"/>
+        </svg>
+      </span>
+      <!-- PayPal -->
+      <span class="site-footer__payment-logo" title="PayPal">
+        <svg height="24" viewBox="0 0 750 471" xmlns="http://www.w3.org/2000/svg">
+          <rect width="750" height="471" rx="40" fill="#F7F7F7" stroke="#E0E0E0" stroke-width="2"/>
+          <path d="M260 155H340C383 155 405 177 399 215C392 259 361 282 318 282H298L283 350H230L260 155Z" fill="#253B80"/>
+          <path d="M310 155H390C433 155 455 177 449 215C442 259 411 282 368 282H348L333 350H280L310 155Z" fill="#179BD7" transform="translate(50,0)"/>
+          <path d="M283 282H303L288 350H268L283 282Z" fill="#222D65"/>
+        </svg>
+      </span>
+      <!-- Bizum -->
+      <span class="site-footer__payment-logo" title="Bizum">
+        <svg height="24" viewBox="0 0 750 471" xmlns="http://www.w3.org/2000/svg">
+          <rect width="750" height="471" rx="40" fill="#00ADEF"/>
+          <text x="375" y="290" font-family="Arial, sans-serif" font-weight="700" font-size="130" fill="white" text-anchor="middle" letter-spacing="2">Bizum</text>
+        </svg>
+      </span>
+      <!-- Apple Pay -->
+      <span class="site-footer__payment-logo" title="Apple Pay">
+        <svg height="24" viewBox="0 0 750 471" xmlns="http://www.w3.org/2000/svg">
+          <rect width="750" height="471" rx="40" fill="#000000"/>
+          <path d="M203 160C211 150 216 137 215 124C203 125 188 132 180 142C172 151 166 165 167 177C180 178 194 171 203 160Z" fill="white"/>
+          <path d="M214 179C196 178 181 189 172 189C163 189 150 180 135 180C113 181 92 194 81 215C58 257 76 320 98 354C109 371 122 390 140 389C157 388 164 378 183 378C202 378 208 389 226 389C244 388 256 371 267 354C279 336 284 318 285 317C284 317 251 304 251 267C250 235 276 220 277 219C261 196 234 178 214 179Z" fill="white"/>
+          <path d="M380 144H417C443 144 459 161 459 188C459 215 442 233 415 233H397V271H380V144ZM397 219H412C429 219 441 208 441 188C441 168 430 158 413 158H397V219Z" fill="white"/>
+          <path d="M462 249C462 233 475 224 498 222L524 221V214C524 204 517 198 505 198C495 198 487 203 485 211H469C471 193 488 181 506 181C527 181 541 193 541 212V271H524V256H524C519 265 510 272 496 272C477 272 462 262 462 249ZM524 240V233L501 234C490 235 480 240 480 249C480 258 488 263 498 263C513 263 524 253 524 240Z" fill="white"/>
+          <path d="M553 305V292C557 293 561 294 565 294C577 294 584 289 588 277L591 268L557 183H575L599 258H600L624 183H641L606 278C597 304 585 314 566 314C562 314 557 313 553 305Z" fill="white"/>
+        </svg>
+      </span>
     </div>
   </div>
 </footer>
@@ -266,8 +309,8 @@
   "settings": [
     {
       "type": "image_picker",
-      "id": "logo_light",
-      "label": "Logo versión clara (para fondo oscuro)"
+      "id": "logo",
+      "label": "Logo (versión oscura, para fondo claro)"
     },
     {
       "type": "textarea",
