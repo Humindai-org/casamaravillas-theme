@@ -3,11 +3,13 @@
 
   /* ---- OPEN / CLOSE ---- */
 
-  function openCart() {
+  function openCart(showConfirm) {
     var drawer = document.getElementById('cart-drawer');
     if (!drawer) return;
     drawer.classList.add('active');
     document.body.style.overflow = 'hidden';
+    var confirm = document.getElementById('cart-added-confirm');
+    if (confirm) confirm.style.display = showConfirm ? 'flex' : 'none';
   }
 
   function closeCart() {
@@ -196,7 +198,7 @@
       .then(function (res) { return res.json(); })
       .then(function () {
         fetchAndRenderCart();
-        openCart();
+        openCart(true);
       })
       .catch(function (err) {
         console.error('[cart-drawer] add-to-cart error:', err);
