@@ -15,7 +15,7 @@
       "type": "announcement-bar",
       "settings": {
         "show_announcement": true,
-        "announcement_text": "Envío gratis a partir de <em>€80</em> &nbsp;·&nbsp; Entrega en 24–48h &nbsp;·&nbsp; Productos ibéricos de Alicante"
+        "announcement_text": "Envío gratis a partir de <em>€80</em>  ·  Entrega en 24–48h  ·  Productos ibéricos de Alicante"
       }
     },
     "header": {
@@ -24,10 +24,13 @@
         "main_menu": "main-menu",
         "nosotros_url": "/pages/nosotros",
         "nosotros_label": "Nosotros",
-        "guia_url": "/pages/guia-iberico",
+        "guia_url": "shopify://pages/guia-del-iberico",
         "guia_label": "Guía del Ibérico"
       }
     }
   },
-  "order": ["announcement-bar", "header"]
+  "order": [
+    "announcement-bar",
+    "header"
+  ]
 }
