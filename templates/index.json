@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero": {
@@ -31,7 +40,12 @@
           }
         }
       },
-      "block_order": ["slide-1", "slide-2", "slide-3"]
+      "block_order": [
+        "slide-1",
+        "slide-2",
+        "slide-3"
+      ],
+      "settings": {}
     },
     "trust": {
       "type": "trust-band",
@@ -65,27 +79,62 @@
           }
         }
       },
-      "block_order": ["trust-1", "trust-2", "trust-3", "trust-4"],
+      "block_order": [
+        "trust-1",
+        "trust-2",
+        "trust-3",
+        "trust-4"
+      ],
       "settings": {}
     },
     "featured": {
       "type": "featured-product",
       "blocks": {
-        "attr-1": { "type": "attribute", "settings": { "key": "Raza", "value": "100% Ibérico" } },
-        "attr-2": { "type": "attribute", "settings": { "key": "Alimentación", "value": "Bellota (Montanera)" } },
-        "attr-3": { "type": "attribute", "settings": { "key": "Curación", "value": "36–48 meses" } },
-        "attr-4": { "type": "attribute", "settings": { "key": "Peso", "value": "7–8 kg aprox." } }
+        "attr-1": {
+          "type": "attribute",
+          "settings": {
+            "key": "Raza",
+            "value": "100% Ibérico"
+          }
+        },
+        "attr-2": {
+          "type": "attribute",
+          "settings": {
+            "key": "Alimentación",
+            "value": "Bellota (Montanera)"
+          }
+        },
+        "attr-3": {
+          "type": "attribute",
+          "settings": {
+            "key": "Curación",
+            "value": "36–48 meses"
+          }
+        },
+        "attr-4": {
+          "type": "attribute",
+          "settings": {
+            "key": "Peso",
+            "value": "7–8 kg aprox."
+          }
+        }
       },
-      "block_order": ["attr-1", "attr-2", "attr-3", "attr-4"],
+      "block_order": [
+        "attr-1",
+        "attr-2",
+        "attr-3",
+        "attr-4"
+      ],
       "settings": {
+        "img_label": "Producto destacado",
+        "img_title": "Jamón Ibérico de Bellota",
         "eyebrow": "Selección especial",
         "product_name": "Jamón Ibérico de Bellota",
         "product_name_en": "Iberian Acorn-Fed Ham",
         "description": "Criado en libertad en la dehesa, alimentado con bellotas durante la montanera. Una pieza excepcional con el característico veteado de la grasa infiltrada.",
         "price": "89",
         "cta_label": "Comprar ahora",
-        "img_label": "Producto destacado",
-        "img_title": "Jamón Ibérico de Bellota"
+        "cta_url": ""
       }
     },
     "products": {
@@ -93,6 +142,7 @@
       "settings": {
         "eyebrow": "Tienda",
         "title": "<p>Nuestra <em>selección</em></p>",
+        "collection": "",
         "products_to_show": 4,
         "view_all_label": "Ver jamones",
         "view_all_url": "/collections/jamones"
@@ -100,6 +150,50 @@
     },
     "iberico_guide": {
       "type": "shopify-guia-iberico-section",
+      "blocks": {
+        "image_slide_tYTLww": {
+          "type": "image_slide",
+          "settings": {
+            "image": "shopify://shop_images/imagen_1.png",
+            "caption": "",
+            "alt": "Imagen de la guía del ibérico",
+            "dark_caption": false
+          }
+        },
+        "image_slide_P7MLjw": {
+          "type": "image_slide",
+          "settings": {
+            "image": "shopify://shop_images/imagen_2.png",
+            "caption": "",
+            "alt": "Imagen de la guía del ibérico",
+            "dark_caption": false
+          }
+        },
+        "image_slide_6AfTeD": {
+          "type": "image_slide",
+          "settings": {
+            "image": "shopify://shop_images/imagen_3.png",
+            "caption": "",
+            "alt": "Imagen de la guía del ibérico",
+            "dark_caption": false
+          }
+        },
+        "image_slide_9aGLtA": {
+          "type": "image_slide",
+          "settings": {
+            "image": "shopify://shop_images/imagen_4.png",
+            "caption": "",
+            "alt": "Imagen de la guía del ibérico",
+            "dark_caption": false
+          }
+        }
+      },
+      "block_order": [
+        "image_slide_tYTLww",
+        "image_slide_P7MLjw",
+        "image_slide_6AfTeD",
+        "image_slide_9aGLtA"
+      ],
       "settings": {
         "eyebrow": "Conocimiento · Tradición · Origen",
         "heading": "Las 4 preguntas que todo el mundo tiene",
@@ -109,12 +203,12 @@
         "question_4": "¿Cómo se corta y conserva un jamón en casa?",
         "cta_label": "La guía del ibérico",
         "cta_url": "/pages/guia-iberico",
-        "caption_1": "Raza, alimentación y crianza: tres diferencias clave.",
-        "caption_2": "Los colores funcionan como un código de origen, pureza y alimentación.",
-        "caption_3": "Jabugo, Guijuelo, Extremadura y Los Pedroches sobre el mapa real de España.",
-        "caption_4": "Corte fino, grasa protegida y frío controlado para conservarlo en casa.",
-        "padding_top": 64,
-        "padding_bottom": 64
+        "caption_1": "",
+        "caption_2": "",
+        "caption_3": "",
+        "caption_4": "",
+        "padding_top": 76,
+        "padding_bottom": 52
       }
     },
     "story_teaser": {
@@ -207,7 +301,18 @@
           }
         }
       },
-      "block_order": ["faq-1", "faq-2", "faq-3", "faq-4", "faq-5", "faq-6", "faq-7", "faq-8", "faq-9", "faq-10"],
+      "block_order": [
+        "faq-1",
+        "faq-2",
+        "faq-3",
+        "faq-4",
+        "faq-5",
+        "faq-6",
+        "faq-7",
+        "faq-8",
+        "faq-9",
+        "faq-10"
+      ],
       "settings": {
         "eyebrow": "Preguntas frecuentes",
         "title": "<p>Todo lo que <em>necesitas</em> saber</p>"
@@ -224,5 +329,15 @@
       }
     }
   },
-  "order": ["hero", "trust", "featured", "products", "iberico_guide", "story_teaser", "marquee", "faq", "newsletter"]
+  "order": [
+    "hero",
+    "trust",
+    "featured",
+    "products",
+    "iberico_guide",
+    "story_teaser",
+    "marquee",
+    "faq",
+    "newsletter"
+  ]
 }
