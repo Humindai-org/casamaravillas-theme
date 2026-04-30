@@ -1,6 +1,129 @@
+{% doc %}
+  @prompt
+    Modify the existing "Guia del iberico" section (ID: template--29787201798482__shopify_guia_iberico_section_dwFXfn) to support multiple images instead of just one. The section is a 4-question FAQ-style guide about Iberian ham with: 1 eyebrow text, 1 main heading, 4 questions with captions, 1 CTA, and currently 1 fixed image field (cut_image). Add support for multiple images by converting the single image field into repeatable image blocks, so the merchant can add as many images as needed. Each image block should optionally support a caption or alt text. Keep all existing content fields and layout intact.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-guide-image-{{ ai_gen_id }} {
+    width: 100%;
+    display: block;
+  }
+
+  .ai-guide-image-wrapper-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    margin-bottom: 16px;
+  }
+
+  .ai-guide-image-wrapper-{{ ai_gen_id }} img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: {{ block.settings.image_border_radius }}px;
+    object-fit: cover;
+  }
+
+  .ai-guide-image-placeholder-{{ ai_gen_id }} {
+    background-color: #f4f4f4;
+    width: 100%;
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: {{ block.settings.image_border_radius }}px;
+    position: relative;
+  }
+
+  .ai-guide-image-placeholder-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    max-width: 400px;
+    max-height: 400px;
+  }
+
+  .ai-guide-empty-state-{{ ai_gen_id }} {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 20px;
+    font-size: 14px;
+    color: #6A6560;
+    text-align: center;
+    pointer-events: none;
+  }
+
+  .ai-guide-image-caption-{{ ai_gen_id }} {
+    margin-top: 8px;
+    font-size: 14px;
+    color: #6A6560;
+    text-align: center;
+    font-style: italic;
+  }
+{% endstyle %}
+
+<div class="ai-guide-image-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-guide-image-wrapper-{{ ai_gen_id }}">
+    {% if block.settings.image %}
+      <img
+        src="{{ block.settings.image | image_url: width: 1200 }}"
+        alt="{{ block.settings.image_alt | escape }}"
+        loading="lazy"
+        width="{{ block.settings.image.width }}"
+        height="{{ block.settings.image.height }}"
+      >
+    {% else %}
+      <div class="ai-guide-image-placeholder-{{ ai_gen_id }}">
+        {{ 'image' | placeholder_svg_tag }}
+        <div class="ai-guide-empty-state-{{ ai_gen_id }}">
+          Add an image for the guide
+        </div>
+      </div>
+    {% endif %}
+    
+    {% if block.settings.caption != blank %}
+      <div class="ai-guide-image-caption-{{ ai_gen_id }}">
+        {{ block.settings.caption }}
+      </div>
+    {% endif %}
+  </div>
+</div>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "Guide image",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "Image alt text"
+    },
+    {
+      "type": "textarea",
+      "id": "caption",
+      "label": "Caption"
+    },
+    {
+      "type": "range",
+      "id": "image_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    }
+  ],
+  "presets": [
+    {
+      "name": "Guide image"
+    }
+  ]
+}
 {% endschema %}
