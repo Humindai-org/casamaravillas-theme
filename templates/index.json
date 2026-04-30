@@ -240,6 +240,18 @@
         "cta_label": "Quiero suscribirme",
         "cta_url": "/pages/suscripcion"
       }
+    },
+    "product_grid_VxPcmf": {
+      "type": "product-grid",
+      "name": "Grid de productos",
+      "settings": {
+        "eyebrow": "Tienda",
+        "title": "<p>Nuestra <em>selección</em></p>",
+        "collection": "",
+        "products_to_show": 4,
+        "view_all_label": "Ver toda la colección",
+        "view_all_url": ""
+      }
     }
   },
   "order": [
@@ -248,6 +260,7 @@
     "featured",
     "products",
     "iberico_guide",
+    "product_grid_VxPcmf",
     "story_teaser",
     "marquee",
     "newsletter"
