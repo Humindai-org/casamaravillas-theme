@@ -87,6 +87,17 @@
       ],
       "settings": {}
     },
+    "products": {
+      "type": "product-grid",
+      "settings": {
+        "eyebrow": "Tienda",
+        "title": "<p>Nuestra <em>selección</em></p>",
+        "collection": "",
+        "products_to_show": 4,
+        "view_all_label": "Ver jamones",
+        "view_all_url": "/collections/jamones"
+      }
+    },
     "featured": {
       "type": "featured-product",
       "blocks": {
@@ -135,17 +146,6 @@
         "price": "89",
         "cta_label": "Comprar ahora",
         "cta_url": ""
-      }
-    },
-    "products": {
-      "type": "product-grid",
-      "settings": {
-        "eyebrow": "Tienda",
-        "title": "<p>Nuestra <em>selección</em></p>",
-        "collection": "",
-        "products_to_show": 4,
-        "view_all_label": "Ver jamones",
-        "view_all_url": "/collections/jamones"
       }
     },
     "iberico_guide": {
@@ -215,6 +215,18 @@
         "padding_bottom": 52
       }
     },
+    "product_grid_VxPcmf": {
+      "type": "product-grid",
+      "name": "Grid de productos",
+      "settings": {
+        "eyebrow": "Tienda",
+        "title": "<p>Nuestra <em>selección</em></p>",
+        "collection": "",
+        "products_to_show": 4,
+        "view_all_label": "Ver toda la colección",
+        "view_all_url": ""
+      }
+    },
     "story_teaser": {
       "type": "story-teaser",
       "settings": {
@@ -240,27 +252,15 @@
         "cta_label": "Quiero suscribirme",
         "cta_url": "/pages/suscripcion"
       }
-    },
-    "product_grid_VxPcmf": {
-      "type": "product-grid",
-      "name": "Grid de productos",
-      "settings": {
-        "eyebrow": "Tienda",
-        "title": "<p>Nuestra <em>selección</em></p>",
-        "collection": "",
-        "products_to_show": 4,
-        "view_all_label": "Ver toda la colección",
-        "view_all_url": ""
-      }
     }
   },
   "order": [
     "hero",
     "trust",
-    "featured",
     "products",
-    "iberico_guide",
+    "featured",
     "product_grid_VxPcmf",
+    "iberico_guide",
     "story_teaser",
     "marquee",
     "newsletter"
