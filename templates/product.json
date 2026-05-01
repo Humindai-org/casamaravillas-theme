@@ -1,19 +1,48 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
       "type": "main-product",
-      "settings": {}
+      "blocks": {
+        "trust_badge_ya7xh6": {
+          "type": "trust_badge",
+          "settings": {
+            "text": "Envío en 24-48h",
+            "icon": "leaf"
+          }
+        }
+      },
+      "block_order": [
+        "trust_badge_ya7xh6"
+      ],
+      "settings": {
+        "show_sticky_atc": true,
+        "show_quick_facts": true,
+        "show_trust_badges": true
+      }
     },
     "related": {
       "type": "product-grid",
       "settings": {
         "eyebrow": "También te puede gustar",
         "title": "<p>Productos <em>relacionados</em></p>",
+        "collection": "",
         "products_to_show": 4,
         "view_all_label": "Ver toda la colección",
         "view_all_url": "/collections/all"
       }
     }
   },
-  "order": ["main", "related"]
+  "order": [
+    "main",
+    "related"
+  ]
 }
