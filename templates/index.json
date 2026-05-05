@@ -15,20 +15,19 @@
         "slide-1": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/hero.2.png",
-            "eyebrow": "Tradición artesanal",
+            "image": "shopify://shop_images/12.2.png",
+            "eyebrow": "Alicante, España",
             "tagline": "Tres generaciones dedicadas al sector ibérico",
-            "cta_label": "Descubrir ibéricos",
+            "cta_label": "Descubrir colección",
             "cta_url": "/collections/jamones"
           }
         },
         "slide-2": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/hero2.3.png",
-            "eyebrow": "Embutidos Ibéricos",
+            "eyebrow": "Tradición artesanal",
             "tagline": "Selección de las mejores piezas ibéricas de la dehesa española",
-            "cta_label": "Explorar embutidos",
+            "cta_label": "Nuestra historia",
             "cta_url": "/pages/sobre-nosotros"
           }
         },
