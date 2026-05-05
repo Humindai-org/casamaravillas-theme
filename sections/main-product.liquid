@@ -1020,7 +1020,8 @@
       {%- endunless -%}
 
       {%- comment -%} ── FORMULARIO DE COMPRA ── {%- endcomment -%}
-      {%- form 'product', product, id: 'cm-form-' | append: section.id, novalidate: true -%}
+      {%- assign product_form_id = 'cm-form-' | append: section.id -%}
+      {%- form 'product', product, id: product_form_id, novalidate: true -%}
         <input type="hidden" name="id" id="cm-variant-id-{{ section.id }}" value="{{ current_variant.id }}">
 
         <div class="cm-pdp__purchase">

@@ -1,0 +1,142 @@
+{% comment %}
+  embutidos-filters.liquid
+  Filtros para la colección Embutidos Ibéricos.
+  Variables: section_id, collection, current_tags, drawer (boolean)
+{% endcomment %}
+
+{%- liquid
+  assign price_min = request.parameters['filter.v.price.gte'] | default: ''
+  assign price_max = request.parameters['filter.v.price.lte'] | default: ''
+  assign slider_min_val = price_min | default: 0
+  assign slider_max_val = price_max | default: 250
+
+  assign calidad_tags   = 'calidad_bellota,calidad_cebo-de-campo,calidad_cebo' | split: ','
+  assign calidad_labels = 'Bellota 100% Ibérico,Cebo de Campo,Cebo Ibérico' | split: ','
+  assign calidad_dots   = '5,4,3' | split: ','
+
+  assign tipo_tags   = 'tipo_chorizo,tipo_salchichon,tipo_lomo,tipo_morcon,tipo_morcilla' | split: ','
+  assign tipo_labels = 'Chorizo,Salchichón,Lomo,Morcón,Morcilla' | split: ','
+
+  assign formato_tags   = 'formato_entero,formato_loncheado,formato_pieza' | split: ','
+  assign formato_labels = 'Entero,Loncheado,Pieza' | split: ','
+-%}
+
+<!-- ── PRECIO ── -->
+<div class="ic__fg-{{ section_id }} is-open" id="icfg-precio-{{ section_id }}{% if drawer %}-drawer{% endif %}">
+  <button
+    class="ic__fg-toggle-{{ section_id }}"
+    aria-expanded="true"
+    aria-controls="icfg-precio-body-{{ section_id }}{% if drawer %}-drawer{% endif %}"
+  >
+    Precio
+    <svg class="ic__fg-icon-{{ section_id }}" viewBox="0 0 24 24" fill="none"
+         stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/>
+    </svg>
+  </button>
+  <div class="ic__fg-body-{{ section_id }}" id="icfg-precio-body-{{ section_id }}{% if drawer %}-drawer{% endif %}">
+    <div class="ic-price-slider-group-{{ section_id }}">
+      <div class="ic__price-slider-vals-{{ section_id }}">
+        <span>€<span class="ic__price-val-min-{{ section_id }}">{{ slider_min_val }}</span></span>
+        <span class="ic__price-slider-sep-{{ section_id }}">—</span>
+        <span>€<span class="ic__price-val-max-{{ section_id }}">{{ slider_max_val }}</span></span>
+      </div>
+      <div class="ic__price-slider-wrap-{{ section_id }}">
+        <div class="ic__price-slider-track-{{ section_id }}">
+          <div class="ic__price-slider-fill-{{ section_id }}"></div>
+        </div>
+        <input type="range" class="ic__price-range-{{ section_id }}" data-price-role="min"
+               min="0" max="250" step="5" value="{{ slider_min_val }}" aria-label="Precio mínimo">
+        <input type="range" class="ic__price-range-{{ section_id }}" data-price-role="max"
+               min="0" max="250" step="5" value="{{ slider_max_val }}" aria-label="Precio máximo">
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── CALIDAD ── -->
+<div class="ic__fg-{{ section_id }} is-open" id="icfg-calidad-{{ section_id }}{% if drawer %}-drawer{% endif %}">
+  <button
+    class="ic__fg-toggle-{{ section_id }}"
+    aria-expanded="true"
+    aria-controls="icfg-calidad-body-{{ section_id }}{% if drawer %}-drawer{% endif %}"
+  >
+    Calidad
+    <svg class="ic__fg-icon-{{ section_id }}" viewBox="0 0 24 24" fill="none"
+         stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/>
+    </svg>
+  </button>
+  <div class="ic__fg-body-{{ section_id }}" id="icfg-calidad-body-{{ section_id }}{% if drawer %}-drawer{% endif %}">
+    {%- for i in (0..2) -%}
+      {%- assign tag   = calidad_tags[i] -%}
+      {%- assign label = calidad_labels[i] -%}
+      {%- assign dots  = calidad_dots[i] | plus: 0 -%}
+      {%- assign is_checked = false -%}
+      {%- for t in current_tags -%}{%- if t == tag -%}{%- assign is_checked = true -%}{%- endif -%}{%- endfor -%}
+      <label class="ic__quality-item-{{ section_id }}">
+        <input type="checkbox" data-filter-tag="{{ tag }}" {% if is_checked %}checked{% endif %} aria-label="{{ label }}">
+        <span class="ic__qdots-{{ section_id }}" aria-hidden="true">
+          {%- for d in (1..5) -%}
+            <span class="ic__qdot-{{ section_id }}{% if d <= dots %} is-filled{% endif %}"></span>
+          {%- endfor -%}
+        </span>
+        <span class="ic__qlabel-{{ section_id }}">{{ label }}</span>
+      </label>
+    {%- endfor -%}
+  </div>
+</div>
+
+<!-- ── TIPO ── -->
+<div class="ic__fg-{{ section_id }} is-open" id="icfg-tipo-{{ section_id }}{% if drawer %}-drawer{% endif %}">
+  <button
+    class="ic__fg-toggle-{{ section_id }}"
+    aria-expanded="true"
+    aria-controls="icfg-tipo-body-{{ section_id }}{% if drawer %}-drawer{% endif %}"
+  >
+    Tipo
+    <svg class="ic__fg-icon-{{ section_id }}" viewBox="0 0 24 24" fill="none"
+         stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/>
+    </svg>
+  </button>
+  <div class="ic__fg-body-{{ section_id }}" id="icfg-tipo-body-{{ section_id }}{% if drawer %}-drawer{% endif %}">
+    {%- for i in (0..4) -%}
+      {%- assign tag   = tipo_tags[i] -%}
+      {%- assign label = tipo_labels[i] -%}
+      {%- assign is_checked = false -%}
+      {%- for t in current_tags -%}{%- if t == tag -%}{%- assign is_checked = true -%}{%- endif -%}{%- endfor -%}
+      <label class="ic__check-item-{{ section_id }}">
+        <input type="checkbox" data-filter-tag="{{ tag }}" {% if is_checked %}checked{% endif %} aria-label="{{ label }}">
+        <span class="ic__check-label-{{ section_id }}">{{ label }}</span>
+      </label>
+    {%- endfor -%}
+  </div>
+</div>
+
+<!-- ── FORMATO ── -->
+<div class="ic__fg-{{ section_id }}" id="icfg-formato-{{ section_id }}{% if drawer %}-drawer{% endif %}">
+  <button
+    class="ic__fg-toggle-{{ section_id }}"
+    aria-expanded="false"
+    aria-controls="icfg-formato-body-{{ section_id }}{% if drawer %}-drawer{% endif %}"
+  >
+    Formato
+    <svg class="ic__fg-icon-{{ section_id }}" viewBox="0 0 24 24" fill="none"
+         stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/>
+    </svg>
+  </button>
+  <div class="ic__fg-body-{{ section_id }}" id="icfg-formato-body-{{ section_id }}{% if drawer %}-drawer{% endif %}">
+    {%- for i in (0..2) -%}
+      {%- assign tag   = formato_tags[i] -%}
+      {%- assign label = formato_labels[i] -%}
+      {%- assign is_checked = false -%}
+      {%- for t in current_tags -%}{%- if t == tag -%}{%- assign is_checked = true -%}{%- endif -%}{%- endfor -%}
+      <label class="ic__check-item-{{ section_id }}">
+        <input type="checkbox" data-filter-tag="{{ tag }}" {% if is_checked %}checked{% endif %} aria-label="{{ label }}">
+        <span class="ic__check-label-{{ section_id }}">{{ label }}</span>
+      </label>
+    {%- endfor -%}
+  </div>
+</div>

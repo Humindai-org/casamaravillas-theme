@@ -690,12 +690,15 @@
       {%- if current_tags.size > 0 -%}
         <div class="ic__chips-{{ section.id }}">
           {%- for tag in current_tags -%}
-            {%- assign other_tags = current_tags | where_exp: "t", "t != tag" -%}
-            {%- if other_tags.size > 0 -%}
-              {%- assign chip_url = collection.url | append: '/' | append: other_tags | join: '+' -%}
-            {%- else -%}
-              {%- assign chip_url = collection.url -%}
-            {%- endif -%}
+            {%- assign chip_url = collection.url -%}
+            {%- assign tag_separator = '/' -%}
+            {%- for current_tag in current_tags -%}
+              {%- unless current_tag == tag -%}
+                {%- assign tag_handle = current_tag | handleize -%}
+                {%- assign chip_url = chip_url | append: tag_separator | append: tag_handle -%}
+                {%- assign tag_separator = '+' -%}
+              {%- endunless -%}
+            {%- endfor -%}
             <a class="ic__chip-{{ section.id }}" href="{{ chip_url }}">
               {{ tag | replace: '_', ' ' | replace: '-', ' ' }} &times;
             </a>
