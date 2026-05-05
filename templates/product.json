@@ -14,14 +14,71 @@
       "blocks": {
         "trust_badge_ya7xh6": {
           "type": "trust_badge",
+          "settings": { "text": "Envío en 24-48h", "icon": "truck" }
+        },
+        "trust_badge_seg": {
+          "type": "trust_badge",
+          "settings": { "text": "Pago 100% seguro", "icon": "shield" }
+        },
+        "trust_badge_cal": {
+          "type": "trust_badge",
+          "settings": { "text": "Producto 100% auténtico", "icon": "star" }
+        },
+        "acc_conservacion": {
+          "type": "accordion",
           "settings": {
-            "text": "Envío en 24-48h",
-            "icon": "leaf"
+            "icon": "conservation",
+            "title": "Conservación e información nutricional",
+            "metafield_key": "storage_before",
+            "content_fallback": ""
+          }
+        },
+        "acc_origen": {
+          "type": "accordion",
+          "settings": {
+            "icon": "origin",
+            "title": "Origen y producción",
+            "metafield_key": "geographic_origin",
+            "content_fallback": ""
+          }
+        },
+        "acc_consumo": {
+          "type": "accordion",
+          "settings": {
+            "icon": "fork",
+            "title": "Consumo y recomendaciones",
+            "metafield_key": "serving_suggestions",
+            "content_fallback": ""
+          }
+        },
+        "acc_info": {
+          "type": "accordion",
+          "settings": {
+            "icon": "info",
+            "title": "Información adicional",
+            "metafield_key": "allergens",
+            "content_fallback": ""
+          }
+        },
+        "acc_cata": {
+          "type": "accordion",
+          "settings": {
+            "icon": "sun",
+            "title": "Notas de cata",
+            "metafield_key": "flavor_notes",
+            "content_fallback": ""
           }
         }
       },
       "block_order": [
-        "trust_badge_ya7xh6"
+        "trust_badge_ya7xh6",
+        "trust_badge_seg",
+        "trust_badge_cal",
+        "acc_conservacion",
+        "acc_origen",
+        "acc_consumo",
+        "acc_info",
+        "acc_cata"
       ],
       "settings": {
         "show_sticky_atc": true,
