@@ -1,0 +1,285 @@
+{%- comment -%} combina-tu-compra.liquid — Sección upsell post-ATC para Casa Maravillas {%- endcomment -%}
+
+{%- assign combina_col = section.settings.collection -%}
+{%- assign show_count  = section.settings.products_to_show | default: 5 -%}
+{%- assign sec_title   = section.settings.title | default: 'Combina tu compra con' -%}
+
+<style>
+  /* ── Sección oculta por defecto, se revela tras ATC ── */
+  #cm-combina-section {
+    display: none;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+
+  #cm-combina-section.is-animating {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .cm-combina {
+    background: var(--cm-off);
+    border-top: 3px solid var(--pdp-accent, var(--cm-gold));
+    padding: 56px 24px 64px;
+  }
+
+  .cm-combina__inner {
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  .cm-combina__eyebrow {
+    font-size: 10px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    font-family: var(--cm-font-sans);
+    font-weight: 500;
+    color: var(--pdp-accent, var(--cm-gold));
+    margin-bottom: 32px;
+  }
+
+  /* ── Carrusel ── */
+  .cm-combina__slider {
+    position: relative;
+  }
+
+  .cm-combina__track-wrap {
+    overflow: hidden;
+  }
+
+  .cm-combina__track {
+    display: flex;
+    gap: 16px;
+    transition: transform 0.4s ease;
+  }
+
+  /* ── Tarjeta ── */
+  .cm-combina__card {
+    flex: 0 0 calc(20% - 13px);
+    min-width: 180px;
+  }
+
+  .cm-combina__card-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .cm-combina__card-img-wrap {
+    aspect-ratio: 1;
+    overflow: hidden;
+    background: var(--cm-light);
+    margin-bottom: 12px;
+    position: relative;
+  }
+
+  .cm-combina__card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+  }
+
+  .cm-combina__card-link:hover .cm-combina__card-img { transform: scale(1.05); }
+
+  .cm-combina__card-name {
+    font-family: var(--cm-font-serif);
+    font-size: 15px;
+    color: var(--cm-navy);
+    font-weight: 400;
+    line-height: 1.3;
+    margin-bottom: 6px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .cm-combina__card-price {
+    font-size: 13px;
+    font-family: var(--cm-font-sans);
+    color: var(--cm-text-mid);
+    font-weight: 500;
+  }
+
+  /* ── Flechas ── */
+  .cm-combina__arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    background: var(--cm-white);
+    border: 1px solid var(--cm-border);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--cm-navy);
+    z-index: 2;
+    transition: background 0.2s, border-color 0.2s;
+  }
+
+  .cm-combina__arrow:hover {
+    background: var(--cm-navy);
+    color: var(--cm-white);
+    border-color: var(--cm-navy);
+  }
+
+  .cm-combina__arrow:focus-visible {
+    outline: 2px solid var(--pdp-accent, var(--cm-gold));
+    outline-offset: 2px;
+  }
+
+  .cm-combina__arrow--prev { left: -20px; }
+  .cm-combina__arrow--next { right: -20px; }
+
+  .cm-combina__arrow[disabled] { opacity: 0.3; cursor: default; pointer-events: none; }
+
+  /* ── Responsive ── */
+  @media (max-width: 900px) {
+    .cm-combina__card { flex: 0 0 calc(33.333% - 11px); }
+    .cm-combina__arrow--prev { left: 0; }
+    .cm-combina__arrow--next { right: 0; }
+  }
+
+  @media (max-width: 600px) {
+    .cm-combina { padding: 40px 20px 48px; }
+    .cm-combina__card { flex: 0 0 calc(50% - 8px); min-width: 140px; }
+  }
+</style>
+
+<div id="cm-combina-section" aria-label="{{ sec_title }}">
+  <div class="cm-combina">
+    <div class="cm-combina__inner">
+      <p class="cm-combina__eyebrow">{{ sec_title }}</p>
+
+      {%- if combina_col != blank and combina_col.products.size > 0 -%}
+        <div class="cm-combina__slider">
+          <button
+            class="cm-combina__arrow cm-combina__arrow--prev"
+            id="cm-combina-prev"
+            aria-label="Productos anteriores"
+            disabled
+          >
+            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M15 19l-7-7 7-7"/>
+            </svg>
+          </button>
+
+          <div class="cm-combina__track-wrap">
+            <div class="cm-combina__track" id="cm-combina-track">
+              {%- for prod in combina_col.products limit: show_count -%}
+                <div class="cm-combina__card">
+                  <a href="{{ prod.url }}" class="cm-combina__card-link">
+                    <div class="cm-combina__card-img-wrap">
+                      {%- if prod.featured_image -%}
+                        <img
+                          class="cm-combina__card-img"
+                          src="{{ prod.featured_image | image_url: width: 400 }}"
+                          alt="{{ prod.featured_image.alt | escape | default: prod.title }}"
+                          width="400"
+                          height="400"
+                          loading="lazy"
+                        >
+                      {%- else -%}
+                        <div class="cm-combina__card-img" style="background:var(--cm-light);"></div>
+                      {%- endif -%}
+                    </div>
+                    <h3 class="cm-combina__card-name">{{ prod.title }}</h3>
+                    <p class="cm-combina__card-price">{{ prod.price | money }}</p>
+                  </a>
+                </div>
+              {%- endfor -%}
+            </div>
+          </div>
+
+          <button
+            class="cm-combina__arrow cm-combina__arrow--next"
+            id="cm-combina-next"
+            aria-label="Productos siguientes"
+          >
+            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M9 5l7 7-7 7"/>
+            </svg>
+          </button>
+        </div>
+      {%- else -%}
+        <p style="font-size:14px;color:var(--cm-text-light);font-family:var(--cm-font-sans);">
+          Selecciona una colección para mostrar los productos.
+        </p>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const track   = document.getElementById('cm-combina-track');
+  const btnPrev = document.getElementById('cm-combina-prev');
+  const btnNext = document.getElementById('cm-combina-next');
+  if (!track || !btnPrev || !btnNext) return;
+
+  let current = 0;
+  const cards = track.querySelectorAll('.cm-combina__card');
+  const total = cards.length;
+
+  function visibleCount() {
+    const w = track.parentElement.offsetWidth;
+    if (w < 600) return 2;
+    if (w < 900) return 3;
+    return 5;
+  }
+
+  function go(idx) {
+    const vis = visibleCount();
+    const max = Math.max(0, total - vis);
+    current = Math.min(Math.max(0, idx), max);
+    const cardW = cards[0] ? cards[0].offsetWidth + 16 : 0;
+    track.style.transform = 'translateX(-' + (current * cardW) + 'px)';
+    btnPrev.disabled = (current === 0);
+    btnNext.disabled = (current >= max);
+  }
+
+  btnPrev.addEventListener('click', () => go(current - 1));
+  btnNext.addEventListener('click', () => go(current + 1));
+  window.addEventListener('resize', () => go(current));
+  go(0);
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Combina tu compra",
+  "tag": "div",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Título",
+      "default": "Combina tu compra con"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Colección de productos"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 3,
+      "max": 8,
+      "step": 1,
+      "default": 5,
+      "label": "Máximo de productos a mostrar"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Combina tu compra"
+    }
+  ]
+}
+{% endschema %}

@@ -29,6 +29,13 @@
         "show_trust_badges": true
       }
     },
+    "combina": {
+      "type": "combina-tu-compra",
+      "settings": {
+        "title": "Combina tu compra con",
+        "products_to_show": 5
+      }
+    },
     "related": {
       "type": "product-grid",
       "settings": {
@@ -43,6 +50,7 @@
   },
   "order": [
     "main",
+    "combina",
     "related"
   ]
 }

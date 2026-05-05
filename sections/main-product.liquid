@@ -5,10 +5,18 @@
 
 {%- assign current_variant = product.selected_or_first_available_variant -%}
 {%- assign featured_image = current_variant.featured_image | default: product.featured_image -%}
+{%- assign product_accent = '#00294B' -%}
+{%- case product.type -%}
+  {%- when 'Jamón' -%}           {%- assign product_accent = '#C4973A' -%}
+  {%- when 'Carnes Ibéricas' -%} {%- assign product_accent = '#C05A38' -%}
+  {%- when 'Embutidos' -%}       {%- assign product_accent = '#7A1F3C' -%}
+  {%- when 'Packs & Regalos' -%} {%- assign product_accent = '#4A5B6B' -%}
+{%- endcase -%}
 
 <style>
   /* ── LAYOUT PRINCIPAL ── */
   .cm-pdp {
+    --pdp-accent: {{ product_accent }};
     max-width: 1280px;
     margin: 0 auto;
     padding: 56px 24px 80px;
@@ -27,12 +35,17 @@
     top: 100px;
   }
 
+  .cm-pdp__gallery-inner {
+    display: flex;
+    gap: 14px;
+    align-items: stretch;
+  }
+
   .cm-pdp__main-img-wrap {
-    width: 100%;
+    flex: 1;
     aspect-ratio: 4 / 5;
     overflow: hidden;
     background: var(--cm-light);
-    margin-bottom: 10px;
     position: relative;
   }
 
@@ -46,38 +59,49 @@
 
   .cm-pdp__main-img.is-loading { opacity: 0; }
 
-  .cm-pdp__thumbs {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 6px;
+  /* Navegación vertical */
+  .cm-pdp__nav-vertical {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 32px;
+    gap: 0;
   }
 
-  .cm-pdp__thumb {
-    aspect-ratio: 1;
-    overflow: hidden;
-    background: var(--cm-light);
-    border: 2px solid transparent;
+  .cm-pdp__nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    background: none;
+    border: none;
     cursor: pointer;
-    padding: 0;
-    transition: border-color 0.2s;
+    padding: 10px 0;
   }
 
-  .cm-pdp__thumb img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    transition: transform 0.3s ease;
+  .cm-pdp__nav-num {
+    font-size: 9px;
+    font-family: var(--cm-font-sans);
+    color: var(--cm-text-light);
+    letter-spacing: 0.05em;
+    line-height: 1;
+    transition: color 0.2s;
   }
 
-  .cm-pdp__thumb:hover img { transform: scale(1.08); }
-
-  .cm-pdp__thumb.is-active { border-color: var(--cm-gold); }
-
-  .cm-pdp__thumb:focus-visible {
-    outline: 2px solid var(--cm-gold);
-    outline-offset: 2px;
+  .cm-pdp__nav-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--cm-border2);
+    transition: background 0.25s, transform 0.25s;
   }
+
+  .cm-pdp__nav-item.is-active .cm-pdp__nav-num { color: var(--pdp-accent); font-weight: 600; }
+  .cm-pdp__nav-item.is-active .cm-pdp__nav-dot { background: var(--pdp-accent); transform: scale(1.6); }
+  .cm-pdp__nav-item:hover:not(.is-active) .cm-pdp__nav-dot { background: var(--cm-text-light); }
+  .cm-pdp__nav-item:focus-visible { outline: 2px solid var(--pdp-accent); outline-offset: 2px; }
 
   /* ── INFO ── */
   .cm-pdp__eyebrow {
@@ -623,6 +647,57 @@
     align-items: center;
     gap: 14px;
     min-width: 0;
+    flex: 1;
+  }
+
+  .cm-sticky-atc__right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-shrink: 0;
+  }
+
+  .cm-sticky-qty {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--cm-border);
+    height: 46px;
+  }
+
+  .cm-sticky-qty__btn {
+    width: 38px;
+    height: 100%;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--cm-text);
+    font-size: 18px;
+    font-family: var(--cm-font-sans);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+    flex-shrink: 0;
+  }
+
+  .cm-sticky-qty__btn:hover { background: var(--cm-light); }
+
+  .cm-sticky-qty__btn:focus-visible {
+    outline: 2px solid var(--cm-gold);
+    outline-offset: -2px;
+  }
+
+  .cm-sticky-qty__val {
+    width: 36px;
+    text-align: center;
+    font-size: 14px;
+    font-family: var(--cm-font-sans);
+    color: var(--cm-text);
+    border-left: 1px solid var(--cm-border);
+    border-right: 1px solid var(--cm-border);
+    line-height: 46px;
+    display: block;
+    flex-shrink: 0;
   }
 
   .cm-sticky-atc__img {
@@ -704,12 +779,15 @@
   }
 
   @media (max-width: 600px) {
-    .cm-pdp__thumbs { grid-template-columns: repeat(4, 1fr); }
+    .cm-pdp__gallery-inner { flex-direction: column-reverse; }
+    .cm-pdp__nav-vertical { flex-direction: row; width: 100%; justify-content: center; padding: 8px 0; }
+    .cm-pdp__nav-item { flex-direction: column; padding: 0 8px; }
     .cm-pdp__purchase { flex-direction: column; }
     .cm-qty { width: 100%; justify-content: space-between; }
     .cm-pdp__add-btn { width: 100%; }
     .cm-origin-item { grid-template-columns: 1fr; gap: 4px; }
     .cm-sticky-atc__product { display: none; }
+    .cm-sticky-qty { display: none; }
     .cm-sticky-atc__btn { width: 100%; }
     .cm-sticky-atc__inner { padding: 12px 20px; }
     .cm-pdp__accordions { padding: 0 20px; }
@@ -737,47 +815,44 @@
 
     {%- comment -%} ── COLUMNA IZQUIERDA: GALERÍA ── {%- endcomment -%}
     <div class="cm-pdp__gallery">
+      <div class="cm-pdp__gallery-inner">
 
-      <div class="cm-pdp__main-img-wrap">
-        {%- if featured_image -%}
-          <img
-            id="cm-main-img-{{ section.id }}"
-            class="cm-pdp__main-img"
-            src="{{ featured_image | image_url: width: 900 }}"
-            alt="{{ featured_image.alt | escape | default: product.title }}"
-            width="{{ featured_image.width }}"
-            height="{{ featured_image.height }}"
-            loading="eager"
-            itemprop="image"
-          >
-        {%- else -%}
-          <div class="cm-pdp__main-img" style="background:var(--cm-light);"></div>
-        {%- endif -%}
-      </div>
-
-      {%- if product.images.size > 1 -%}
-        <div class="cm-pdp__thumbs" role="list" aria-label="Imágenes del producto">
-          {%- for image in product.images limit: 6 -%}
-            <button
-              class="cm-pdp__thumb{% if forloop.first %} is-active{% endif %}"
-              data-image-src="{{ image | image_url: width: 900 }}"
-              data-image-alt="{{ image.alt | escape | default: product.title }}"
-              aria-label="Ver imagen {{ forloop.index }}"
-              role="listitem"
-              type="button"
-            >
-              <img
-                src="{{ image | image_url: width: 160 }}"
-                alt="{{ image.alt | escape | default: product.title }}"
-                width="160"
-                height="160"
-                loading="lazy"
+        {%- if product.images.size > 1 -%}
+          <div class="cm-pdp__nav-vertical" role="list" aria-label="Imágenes del producto">
+            {%- for image in product.images limit: 6 -%}
+              <button
+                class="cm-pdp__nav-item{% if forloop.first %} is-active{% endif %}"
+                data-image-src="{{ image | image_url: width: 900 }}"
+                data-image-alt="{{ image.alt | escape | default: product.title }}"
+                aria-label="Ver imagen {{ forloop.index }}"
+                role="listitem"
+                type="button"
               >
-            </button>
-          {%- endfor -%}
-        </div>
-      {%- endif -%}
+                <span class="cm-pdp__nav-num">0{{ forloop.index }}</span>
+                <span class="cm-pdp__nav-dot"></span>
+              </button>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
 
+        <div class="cm-pdp__main-img-wrap">
+          {%- if featured_image -%}
+            <img
+              id="cm-main-img-{{ section.id }}"
+              class="cm-pdp__main-img"
+              src="{{ featured_image | image_url: width: 900 }}"
+              alt="{{ featured_image.alt | escape | default: product.title }}"
+              width="{{ featured_image.width }}"
+              height="{{ featured_image.height }}"
+              loading="eager"
+              itemprop="image"
+            >
+          {%- else -%}
+            <div class="cm-pdp__main-img" style="background:var(--cm-light);"></div>
+          {%- endif -%}
+        </div>
+
+      </div>
     </div>
     {%- comment -%} fin galería {%- endcomment -%}
 
@@ -1078,8 +1153,7 @@
     {%- assign mf_stor_before  = product.metafields.custom.storage_before.value -%}
     {%- assign mf_stor_after   = product.metafields.custom.storage_after.value -%}
     {%- assign mf_nutritional  = product.metafields.custom.nutritional_info.value -%}
-    {%- if mf_stor_before or mf_stor_after or mf_nutritional -%}
-      <div class="cm-accordion cm-reveal" data-accordion>
+    <div class="cm-accordion cm-reveal" data-accordion>
         <button
           class="cm-accordion__trigger"
           aria-expanded="false"
@@ -1127,12 +1201,10 @@
           </div>
         </div>
       </div>
-    {%- endif -%}
 
     {%- comment -%} 2. Origen y producción {%- endcomment -%}
     {%- assign mf_geo_origin = product.metafields.custom.geographic_origin.value -%}
-    {%- if mf_geo_origin or mf_breed or mf_feeding or mf_curing -%}
-      <div class="cm-accordion cm-reveal" data-accordion>
+    <div class="cm-accordion cm-reveal" data-accordion>
         <button
           class="cm-accordion__trigger"
           aria-expanded="false"
@@ -1184,14 +1256,12 @@
           </div>
         </div>
       </div>
-    {%- endif -%}
 
     {%- comment -%} 3. Consumo y recomendaciones {%- endcomment -%}
     {%- assign mf_serving  = product.metafields.custom.serving_suggestions.value -%}
     {%- assign mf_pairing  = product.metafields.custom.pairing_ideas.value -%}
     {%- assign mf_cutting  = product.metafields.custom.cutting_tips.value -%}
-    {%- if mf_serving or mf_pairing or mf_cutting -%}
-      <div class="cm-accordion cm-reveal" data-accordion>
+    <div class="cm-accordion cm-reveal" data-accordion>
         <button
           class="cm-accordion__trigger"
           aria-expanded="false"
@@ -1239,14 +1309,12 @@
           </div>
         </div>
       </div>
-    {%- endif -%}
 
     {%- comment -%} 4. Información adicional {%- endcomment -%}
     {%- assign mf_allergens   = product.metafields.custom.allergens.value -%}
     {%- assign mf_certs       = product.metafields.custom.certifications.value -%}
     {%- assign mf_producer    = product.metafields.custom.producer_story.value -%}
-    {%- if mf_allergens or mf_certs or mf_producer -%}
-      <div class="cm-accordion cm-reveal" data-accordion>
+    <div class="cm-accordion cm-reveal" data-accordion>
         <button
           class="cm-accordion__trigger"
           aria-expanded="false"
@@ -1294,14 +1362,12 @@
           </div>
         </div>
       </div>
-    {%- endif -%}
 
     {%- comment -%} 5. Notas de cata {%- endcomment -%}
     {%- assign mf_flavor  = product.metafields.custom.flavor_notes.value -%}
     {%- assign mf_aroma   = product.metafields.custom.aroma_notes.value -%}
     {%- assign mf_texture = product.metafields.custom.texture_notes.value -%}
-    {%- if mf_flavor or mf_aroma or mf_texture -%}
-      <div class="cm-accordion cm-reveal" data-accordion>
+    <div class="cm-accordion cm-reveal" data-accordion>
         <button
           class="cm-accordion__trigger"
           aria-expanded="false"
@@ -1368,7 +1434,6 @@
           </div>
         </div>
       </div>
-    {%- endif -%}
 
   </div>
   {%- comment -%} fin acordeones {%- endcomment -%}
@@ -1402,15 +1467,22 @@
           </span>
         </div>
       </div>
-      <button
-        type="button"
-        class="cm-sticky-atc__btn"
-        id="cm-sticky-btn-{{ section.id }}"
-        {%- unless current_variant.available -%}disabled{%- endunless -%}
-        aria-label="Añadir a la cesta"
-      >
-        {%- if current_variant.available -%}Añadir a la cesta{%- else -%}Agotado{%- endif -%}
-      </button>
+      <div class="cm-sticky-atc__right">
+        <div class="cm-sticky-qty" role="group" aria-label="Cantidad">
+          <button type="button" class="cm-sticky-qty__btn" id="cm-sticky-qty-minus-{{ section.id }}" aria-label="Reducir cantidad">−</button>
+          <span class="cm-sticky-qty__val" id="cm-sticky-qty-val-{{ section.id }}">1</span>
+          <button type="button" class="cm-sticky-qty__btn" id="cm-sticky-qty-plus-{{ section.id }}" aria-label="Aumentar cantidad">+</button>
+        </div>
+        <button
+          type="button"
+          class="cm-sticky-atc__btn"
+          id="cm-sticky-btn-{{ section.id }}"
+          {%- unless current_variant.available -%}disabled{%- endunless -%}
+          aria-label="Añadir a la cesta"
+        >
+          {%- if current_variant.available -%}Añadir a la cesta{%- else -%}Agotado{%- endif -%}
+        </button>
+      </div>
     </div>
   </div>
 {%- endif -%}
@@ -1434,22 +1506,22 @@
       .replace('{{amount_no_decimals}}', Math.round(cents / 100));
   }
 
-  /* ── Galería ── */
+  /* ── Galería — navegación vertical ── */
   const mainImg = $('cm-main-img-' + SID);
   if (mainImg) {
-    document.querySelectorAll('.cm-pdp__thumb').forEach(thumb => {
-      thumb.addEventListener('click', () => {
+    document.querySelectorAll('.cm-pdp__nav-item').forEach(navItem => {
+      navItem.addEventListener('click', () => {
         mainImg.classList.add('is-loading');
-        const newSrc = thumb.dataset.imageSrc;
+        const newSrc = navItem.dataset.imageSrc;
         const tempImg = new Image();
         tempImg.onload = () => {
           mainImg.src = newSrc;
-          mainImg.alt = thumb.dataset.imageAlt || '';
+          mainImg.alt = navItem.dataset.imageAlt || '';
           mainImg.classList.remove('is-loading');
         };
         tempImg.src = newSrc;
-        document.querySelectorAll('.cm-pdp__thumb').forEach(t => t.classList.remove('is-active'));
-        thumb.classList.add('is-active');
+        document.querySelectorAll('.cm-pdp__nav-item').forEach(t => t.classList.remove('is-active'));
+        navItem.classList.add('is-active');
       });
     });
   }
@@ -1458,18 +1530,26 @@
   const qtyInput = $('cm-qty-' + SID);
   const qtyMinus = $('cm-qty-minus-' + SID);
   const qtyPlus  = $('cm-qty-plus-' + SID);
-  if (qtyInput) {
-    qtyMinus?.addEventListener('click', () => {
-      const v = parseInt(qtyInput.value, 10);
-      if (v > 1) qtyInput.value = v - 1;
-    });
-    qtyPlus?.addEventListener('click', () => {
-      qtyInput.value = parseInt(qtyInput.value, 10) + 1;
-    });
-    qtyInput.addEventListener('change', () => {
-      if (parseInt(qtyInput.value, 10) < 1) qtyInput.value = 1;
-    });
+
+  function getQty() { return qtyInput ? parseInt(qtyInput.value, 10) || 1 : 1; }
+  function setQty(v) {
+    v = Math.max(1, v);
+    if (qtyInput) qtyInput.value = v;
+    const stickyVal = $('cm-sticky-qty-val-' + SID);
+    if (stickyVal) stickyVal.textContent = v;
   }
+
+  if (qtyInput) {
+    qtyMinus?.addEventListener('click', () => setQty(getQty() - 1));
+    qtyPlus?.addEventListener('click',  () => setQty(getQty() + 1));
+    qtyInput.addEventListener('change', () => setQty(parseInt(qtyInput.value, 10)));
+  }
+
+  /* ── Qty sticky sincronizada ── */
+  const stickyQtyMinus = $('cm-sticky-qty-minus-' + SID);
+  const stickyQtyPlus  = $('cm-sticky-qty-plus-' + SID);
+  stickyQtyMinus?.addEventListener('click', () => setQty(getQty() - 1));
+  stickyQtyPlus?.addEventListener('click',  () => setQty(getQty() + 1));
 
   /* ── Selector de variantes ── */
   const selectedOptions = {};
@@ -1553,6 +1633,67 @@
     }
   }
 
+  /* ── AJAX añadir al carrito ── */
+  function revealCombina() {
+    const el = document.getElementById('cm-combina-section');
+    if (!el) return;
+    el.style.display = 'block';
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        el.classList.add('is-animating');
+        setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 300);
+      });
+    });
+  }
+
+  function updateCartCount() {
+    fetch('/cart.js')
+      .then(r => r.json())
+      .then(cart => {
+        document.querySelectorAll('[data-cart-count], .cart-count, .header__cart-count, .js-cart-count').forEach(el => {
+          el.textContent = cart.item_count;
+          el.setAttribute('aria-label', cart.item_count + ' artículos en la cesta');
+        });
+      })
+      .catch(() => {});
+  }
+
+  function setAddBtnState(state) {
+    const addBtn    = $('cm-add-' + SID);
+    const addText   = $('cm-add-text-' + SID);
+    const stickyBtn = $('cm-sticky-btn-' + SID);
+    const labels = { idle: 'Añadir a la cesta', loading: 'Añadiendo…', done: '✓ Añadido' };
+    if (addBtn)    addBtn.disabled = (state !== 'idle');
+    if (addText)   addText.textContent = labels[state] || labels.idle;
+    if (stickyBtn) { stickyBtn.disabled = (state !== 'idle'); stickyBtn.textContent = labels[state] || labels.idle; }
+  }
+
+  const mainForm = $('cm-form-' + SID);
+  if (mainForm) {
+    mainForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const variantId = $('cm-variant-id-' + SID)?.value;
+      if (!variantId) return;
+
+      setAddBtnState('loading');
+
+      try {
+        const res = await fetch('/cart/add.js', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({ id: variantId, quantity: getQty() })
+        });
+        if (!res.ok) throw new Error('add failed');
+        setAddBtnState('done');
+        updateCartCount();
+        revealCombina();
+        setTimeout(() => setAddBtnState('idle'), 2500);
+      } catch {
+        setAddBtnState('idle');
+      }
+    });
+  }
+
   /* ── Toggle descripción ── */
   const descToggle = $('cm-desc-toggle-' + SID);
   if (descToggle) {
@@ -1619,7 +1760,6 @@
 
   if (stickyBtn) {
     stickyBtn.addEventListener('click', () => {
-      const mainForm = document.getElementById('cm-form-' + SID);
       if (mainForm) mainForm.requestSubmit ? mainForm.requestSubmit() : mainForm.submit();
     });
   }
