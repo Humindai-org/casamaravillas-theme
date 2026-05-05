@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "contact": {
@@ -17,7 +26,6 @@
         "trust-1": {
           "type": "trust_item",
           "settings": {
-            "icon": "🚚",
             "title": "Envío gratis",
             "description": "A partir de €80 en Península"
           }
@@ -25,7 +33,6 @@
         "trust-2": {
           "type": "trust_item",
           "settings": {
-            "icon": "🏆",
             "title": "Calidad garantizada",
             "description": "Tres generaciones de artesanía ibérica"
           }
@@ -33,7 +40,6 @@
         "trust-3": {
           "type": "trust_item",
           "settings": {
-            "icon": "❄️",
             "title": "Embalaje especial",
             "description": "Conservación en frío garantizada"
           }
@@ -41,15 +47,22 @@
         "trust-4": {
           "type": "trust_item",
           "settings": {
-            "icon": "🎁",
             "title": "Packaging regalo",
             "description": "Presentación premium para regalar"
           }
         }
       },
-      "block_order": ["trust-1", "trust-2", "trust-3", "trust-4"],
+      "block_order": [
+        "trust-1",
+        "trust-2",
+        "trust-3",
+        "trust-4"
+      ],
       "settings": {}
     }
   },
-  "order": ["contact", "trust"]
+  "order": [
+    "contact",
+    "trust"
+  ]
 }

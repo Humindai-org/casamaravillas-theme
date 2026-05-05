@@ -10,11 +10,9 @@
 {
   "sections": {
     "main": {
-      "type": "main-blog",
+      "type": "main-404",
       "settings": {}
     }
   },
-  "order": [
-    "main"
-  ]
+  "order": ["main"]
 }
