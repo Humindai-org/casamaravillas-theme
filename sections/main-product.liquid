@@ -159,11 +159,10 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 6px;
-    padding: 14px 12px;
+    gap: 10px;
+    padding: 24px 16px;
     flex: 1;
-    min-width: 80px;
-    max-width: 140px;
+    min-width: 100px;
     border-right: 1px solid var(--border-color);
     text-align: center;
   }
@@ -173,13 +172,13 @@
   .cm-fact__icon {
     color: var(--accent-gold);
     flex-shrink: 0;
-    font-size: 22px;
+    font-size: 32px;
     display: flex;
     justify-content: center;
   }
 
   .cm-fact__label {
-    font-size: 9px;
+    font-size: 11px;
     letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--text-secondary);
@@ -189,7 +188,7 @@
   }
 
   .cm-fact__value {
-    font-size: 11px;
+    font-size: 15px;
     font-weight: 500;
     color: var(--text-primary);
     font-family: var(--cm-font-sans);
@@ -1089,7 +1088,7 @@
     .cm-pdp { padding: 32px 20px 64px; }
     .cm-cata-grid { grid-template-columns: 1fr; gap: 16px; }
     .cm-pdp__facts { overflow-x: auto; }
-    .cm-fact { min-width: 90px; }
+    .cm-fact { min-width: 110px; }
   }
 
   @media (max-width: 600px) {
@@ -1579,7 +1578,7 @@
             {%- if mf_curing != blank -%}
               <div class="cm-fact">
                 <span class="cm-fact__icon" aria-hidden="true">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M7 4h10M7 20h10M7 4l5 6.5L17 4M7 20l5-6.5L17 20"/>
                     <path d="M9.5 16.5c.5-1 1.3-1.5 2.5-1.5s2 .5 2.5 1.5"/>
                   </svg>
@@ -1594,7 +1593,7 @@
             {%- if mf_breed != blank -%}
               <div class="cm-fact">
                 <span class="cm-fact__icon" aria-hidden="true">
-                  <svg width="22" height="22" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+                  <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M4 18c0-1.5.5-2.5 1.5-3l1-3 2 1c1-.5 2-.8 3-.8h8c2 0 4 1 5 2.5l3-.5-1 2.5c.8 1 1.2 2 1.2 3.3 0 1.5-.6 3-1.8 4l-.5 2.5h-2l-.5-1.5c-1 .3-2 .5-3 .5h-7l-.5 1h-2L9.5 24c-.8-.3-1.5-.7-2-1.2L6 23l-.5-2.3C4.5 20 4 19 4 18z"/>
                     <path d="M6.5 12l1.5-2.5 2 1.5"/>
                     <circle cx="5.5" cy="17" r="0.4" fill="currentColor"/>
@@ -1615,25 +1614,25 @@
               <div class="cm-fact">
                 <span class="cm-fact__icon" aria-hidden="true">
                   {%- if feeding_lower contains 'bellota' -%}
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
                       <path d="M6.5 9.5c0-2 2-3.5 5.5-3.5s5.5 1.5 5.5 3.5c0 .6-.3 1-.8 1.2H7.3c-.5-.2-.8-.6-.8-1.2z"/>
                       <path d="M8 9h8M9 7.5h6M12 6V3.5"/>
                       <path d="M12 4c.8-.8 1.5-1 2-.5"/>
                       <path d="M7 10.7c0 4 2 8.3 5 10.3 3-2 5-6.3 5-10.3"/>
                     </svg>
                   {%- elsif feeding_lower contains 'campo' or feeding_lower contains 'pasto' -%}
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
                       <path d="M5 21c1-4 2.5-7 5-9M10 21c0-4 1-7 2.5-9M14 21c0-3.5 1.2-6.5 3-8.5M19 21c.3-2.5 1.2-4.5 2.5-6M3 21h18"/>
                     </svg>
                   {%- elsif feeding_lower contains 'mixto' or feeding_lower contains 'mezcla' -%}
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
                       <path d="M6 8h12l-1.5 12h-9z"/>
                       <path d="M8 8c0-1.5 1.5-2.5 4-2.5s4 1 4 2.5"/>
                       <circle cx="10" cy="13" r="0.8"/><circle cx="13.5" cy="14" r="0.8"/>
                       <path d="M11 16c0-.8.7-1.3 1.5-1.3s1.5.5 1.5 1.3-.7 2-1.5 2-1.5-1.2-1.5-2z"/>
                     </svg>
                   {%- else -%}
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
                       <path d="M12 21V8"/>
                       <path d="M12 9c0-1.5-1.2-2.5-2.8-2.5C9.2 8 10.4 9 12 9zM12 9c0-1.5 1.2-2.5 2.8-2.5C14.8 8 13.6 9 12 9z"/>
                       <path d="M12 12c0-1.5-1.2-2.5-2.8-2.5C9.2 11 10.4 12 12 12zM12 12c0-1.5 1.2-2.5 2.8-2.5C14.8 11 13.6 12 12 12z"/>
@@ -1652,7 +1651,7 @@
             {%- if mf_origin != blank -%}
               <div class="cm-fact">
                 <span class="cm-fact__icon" aria-hidden="true">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M3.5 10c1-1.5 3-2.5 5-2.5 1.5 0 2.5.8 4 .8 1.5 0 2.5-1 4.5-1 2 0 3 1 3.5 2.2v6.5c-1 1.2-2.5 2-4.5 2-2 0-3-1-4.5-1-1.5 0-2.5.8-4 .8-1.8 0-3.5-.5-4.5-1.5z"/>
                     <circle cx="14" cy="12" r="1.5"/>
                     <path d="M14 13.5v3"/>
@@ -1668,7 +1667,7 @@
             {%- if mf_weight != blank -%}
               <div class="cm-fact">
                 <span class="cm-fact__icon" aria-hidden="true">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M12 3.5v3M9 6.5h6"/>
                     <path d="M7 10c1-2.5 2.5-3.5 5-3.5s4 1 5 3.5"/>
                     <path d="M6 10h12l-1.5 10h-9z"/>
@@ -2636,6 +2635,8 @@ document.addEventListener('DOMContentLoaded', function() {
       setAddBtnState('done');
       updateCartCount();
       revealCombina();
+      if (typeof window.fetchAndRenderCart === 'function') window.fetchAndRenderCart();
+      if (typeof window.openCart === 'function') window.openCart(true);
       setTimeout(() => setAddBtnState('idle'), 2500);
     } catch(err) {
       console.warn('[CM] Cart add failed:', err && err.message);
@@ -2648,6 +2649,7 @@ document.addEventListener('DOMContentLoaded', function() {
   if (mainForm) {
     mainForm.addEventListener('submit', (e) => {
       e.preventDefault();
+      e.stopImmediatePropagation();
       addToCartAjax();
     });
   }
