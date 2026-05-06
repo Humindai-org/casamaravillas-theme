@@ -38,7 +38,7 @@
           "settings": {
             "icon": "conservation",
             "title": "Conservación e información nutricional",
-            "metafield_key": "{{ product.metafields.custom.aroma_notes.value }}",
+            "metafield_key": "custom.storage_before",
             "content_fallback": ""
           }
         },
