@@ -29,13 +29,18 @@
   }
 
   /* ── LAYOUT PRINCIPAL ── */
-  .cm-pdp {
-    --pdp-accent: {{ product_accent }};
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 56px 24px 80px;
-    background: var(--bg-primary);
-  }
+.cm-pdp {
+  --pdp-accent: {{ product_accent }};
+  width: 100%;
+  padding: 56px 48px 80px;
+  background: var(--bg-primary);
+  box-sizing: border-box;
+}
+
+.cm-pdp__grid {
+  max-width: 1280px;
+  margin: 0 auto;
+}
 
   .cm-pdp__grid {
     display: grid;
