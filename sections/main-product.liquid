@@ -2126,15 +2126,38 @@ setTimeout(function() {
 
 })();
 }); // DOMContentLoaded
+
 setTimeout(function() {
-  var accs = document.querySelectorAll('.cm-accordion');
-  console.log('Acordeones encontrados:', accs.length);
-  accs.forEach(function(acc, i) {
+  var allAccordions = document.querySelectorAll('.cm-accordion');
+  if (!allAccordions || allAccordions.length === 0) return;
+
+  allAccordions.forEach(function(acc) {
     var trigger = acc.querySelector('.cm-accordion__trigger');
     var content = acc.querySelector('.cm-accordion__content');
-    console.log('Acordeón ' + i + ' — trigger:', trigger, '— content:', content);
+    if (!trigger || !content) return;
+
+    content.style.maxHeight = '0px';
+    content.style.overflow = 'hidden';
+    content.style.transition = 'max-height 0.4s ease';
+    content.style.display = 'block';
+
+    trigger.addEventListener('click', function() {
+      var isOpen = trigger.getAttribute('aria-expanded') === 'true';
+
+      allAccordions.forEach(function(a) {
+        var t = a.querySelector('.cm-accordion__trigger');
+        var c = a.querySelector('.cm-accordion__content');
+        if (t) t.setAttribute('aria-expanded', 'false');
+        if (c) c.style.maxHeight = '0px';
+      });
+
+      if (!isOpen) {
+        trigger.setAttribute('aria-expanded', 'true');
+        content.style.maxHeight = '2000px';
+      }
+    });
   });
-}, 500);
+}, 300);
 </script>
 
 {% schema %}
