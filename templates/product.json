@@ -14,22 +14,31 @@
       "blocks": {
         "trust_badge_ya7xh6": {
           "type": "trust_badge",
-          "settings": { "text": "Envío en 24-48h", "icon": "truck" }
+          "settings": {
+            "text": "Envío en 24-48h",
+            "icon": "truck"
+          }
         },
         "trust_badge_seg": {
           "type": "trust_badge",
-          "settings": { "text": "Pago 100% seguro", "icon": "shield" }
+          "settings": {
+            "text": "Pago 100% seguro",
+            "icon": "shield"
+          }
         },
         "trust_badge_cal": {
           "type": "trust_badge",
-          "settings": { "text": "Producto 100% auténtico", "icon": "star" }
+          "settings": {
+            "text": "Producto 100% auténtico",
+            "icon": "star"
+          }
         },
         "acc_conservacion": {
           "type": "accordion",
           "settings": {
             "icon": "conservation",
             "title": "Conservación e información nutricional",
-            "metafield_key": "storage_before",
+            "metafield_key": "{{ product.metafields.custom.aroma_notes.value }}",
             "content_fallback": ""
           }
         },
@@ -83,13 +92,16 @@
       "settings": {
         "show_sticky_atc": true,
         "show_quick_facts": true,
-        "show_trust_badges": true
+        "show_trust_badges": true,
+        "show_weight_selector": true,
+        "weight_options": "6-7 kg, 8-9 kg"
       }
     },
     "combina": {
       "type": "combina-tu-compra",
       "settings": {
         "title": "Combina tu compra con",
+        "collection": "",
         "products_to_show": 5
       }
     },
