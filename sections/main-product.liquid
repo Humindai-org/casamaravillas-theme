@@ -533,6 +533,91 @@
     margin-bottom: 24px;
   }
 
+  .cm-combina__carousel-outer {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .cm-combina__scroll-wrap {
+    flex: 1;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .cm-combina__scroll-wrap::-webkit-scrollbar { display: none; }
+
+  .cm-combina__track {
+    display: flex;
+    gap: 16px;
+  }
+
+  .cm-combina__card {
+    flex-shrink: 0;
+    width: 200px;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .cm-combina__card-img {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    display: block;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+  }
+
+  .cm-combina__card-title {
+    font-family: var(--cm-font-sans);
+    font-size: 13px;
+    color: var(--text-primary);
+    margin: 8px 0 4px;
+    line-height: 1.3;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .cm-combina__card-price {
+    font-family: var(--cm-font-sans);
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin: 0;
+  }
+
+  .cm-combina__arrow {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--border-color);
+    background: var(--bg-card);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-primary);
+    transition: background 0.2s;
+  }
+  .cm-combina__arrow:hover { background: var(--bg-secondary); }
+  .cm-combina__arrow:disabled { opacity: 0.3; cursor: default; }
+
+  .cm-combina__skeleton {
+    flex-shrink: 0;
+    width: 200px;
+    aspect-ratio: 1;
+    background: linear-gradient(90deg, var(--bg-secondary) 25%, var(--border-color) 50%, var(--bg-secondary) 75%);
+    background-size: 200% 100%;
+    animation: cm-shimmer 1.5s infinite;
+    border: 1px solid var(--border-color);
+  }
+
+  @keyframes cm-shimmer {
+    from { background-position: 200% 0; }
+    to   { background-position: -200% 0; }
+  }
+
   /* ── ACORDEONES ── */
   .cm-pdp__accordions {
     max-width: 1280px;
@@ -1435,9 +1520,23 @@
 {%- comment -%} ════════════════════════════════════ COMBINA (oculta por defecto) ══ {%- endcomment -%}
 <div class="cm-combina-section" id="cm-combina-section">
   <h2 class="cm-combina__title">Combina tu compra con</h2>
-  <p style="color:var(--text-secondary);font-size:14px;font-family:var(--cm-font-sans);">
-    Descubre los productos que mejor maridan con tu selección.
-  </p>
+  <div class="cm-combina__carousel-outer">
+    <button class="cm-combina__arrow cm-combina__arrow--prev" id="cm-combina-prev" aria-label="Anterior" type="button" disabled>
+      <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+    <div class="cm-combina__scroll-wrap" id="cm-combina-wrap">
+      <div class="cm-combina__track" id="cm-combina-track">
+        <div class="cm-combina__skeleton"></div>
+        <div class="cm-combina__skeleton"></div>
+        <div class="cm-combina__skeleton"></div>
+        <div class="cm-combina__skeleton"></div>
+        <div class="cm-combina__skeleton"></div>
+      </div>
+    </div>
+    <button class="cm-combina__arrow cm-combina__arrow--next" id="cm-combina-next" aria-label="Siguiente" type="button">
+      <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+    </button>
+  </div>
 </div>
 
 {%- comment -%} ════════════════════════════════════ STICKY ATC ══ {%- endcomment -%}
@@ -1494,7 +1593,7 @@ document.addEventListener('DOMContentLoaded', function() {
   'use strict';
 
   const SID = '{{ section.id }}';
-  const data = window['cmPDP_' + SID]; = {
+  const data = window['cmPDP_' + SID];
 
   /* ── Utilidades ── */
   function $(id) { return document.getElementById(id); }
@@ -1645,10 +1744,72 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   /* ── AJAX añadir al carrito ── */
+  function loadCombinaProducts() {
+    var track = document.getElementById('cm-combina-track');
+    if (!track || track.dataset.loaded) return;
+    track.dataset.loaded = 'true';
+
+    var productId = '{{ product.id }}';
+
+    function renderProducts(products) {
+      if (!products || products.length === 0) {
+        track.innerHTML = '<p style="padding:8px 0;color:var(--text-secondary);font-family:var(--cm-font-sans);font-size:14px;">Sin productos relacionados disponibles.</p>';
+        return;
+      }
+      track.innerHTML = '';
+      products.forEach(function(p) {
+        var cents = p.variants && p.variants[0] ? p.variants[0].price : 0;
+        var price = (cents / 100).toFixed(2).replace('.', ',') + ' €';
+        var img = p.featured_image || '';
+        var card = document.createElement('a');
+        card.href = p.url;
+        card.className = 'cm-combina__card';
+        card.innerHTML =
+          '<img src="' + img + '" alt="' + (p.title || '').replace(/"/g, '&quot;') + '" class="cm-combina__card-img" loading="lazy">' +
+          '<p class="cm-combina__card-title">' + (p.title || '') + '</p>' +
+          '<p class="cm-combina__card-price">' + price + '</p>';
+        track.appendChild(card);
+      });
+
+      var wrap = document.getElementById('cm-combina-wrap');
+      var prevBtn = document.getElementById('cm-combina-prev');
+      var nextBtn = document.getElementById('cm-combina-next');
+      if (wrap && prevBtn && nextBtn) {
+        function scrollByCard(dir) {
+          var card = track.querySelector('.cm-combina__card');
+          if (card) wrap.scrollLeft += dir * (card.offsetWidth + 16);
+        }
+        prevBtn.addEventListener('click', function() { scrollByCard(-1); });
+        nextBtn.addEventListener('click', function() { scrollByCard(1); });
+        wrap.addEventListener('scroll', function() {
+          prevBtn.disabled = wrap.scrollLeft <= 0;
+          nextBtn.disabled = wrap.scrollLeft >= wrap.scrollWidth - wrap.offsetWidth - 1;
+        });
+        prevBtn.disabled = true;
+      }
+    }
+
+    fetch('/recommendations/products.json?product_id=' + productId + '&limit=8&intent=complementary')
+      .then(function(r) { return r.json(); })
+      .then(function(d) {
+        if (d.products && d.products.length > 0) {
+          renderProducts(d.products);
+        } else {
+          return fetch('/recommendations/products.json?product_id=' + productId + '&limit=8&intent=related')
+            .then(function(r) { return r.json(); })
+            .then(function(d2) { renderProducts(d2.products); });
+        }
+      })
+      .catch(function() {
+        track.innerHTML = '<p style="padding:8px 0;color:var(--text-secondary);font-family:var(--cm-font-sans);font-size:14px;">No se pudieron cargar los productos.</p>';
+      });
+  }
+
   function revealCombina() {
     const el = document.getElementById('cm-combina-section');
     if (!el) return;
     el.style.display = 'block';
+    loadCombinaProducts();
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         el.classList.add('is-animating');
@@ -1762,7 +1923,16 @@ setTimeout(function() {
         var t = a.querySelector('.cm-accordion__trigger');
         var c = a.querySelector('.cm-accordion__content');
         if (t) t.setAttribute('aria-expanded', 'false');
-        if (c) c.style.maxHeight = '0p
+        if (c) c.style.maxHeight = '0px';
+      });
+
+      if (!isOpen) {
+        trigger.setAttribute('aria-expanded', 'true');
+        content.style.maxHeight = content.scrollHeight + 'px';
+      }
+    });
+  });
+}, 200);
 
   /* ── Sticky ATC ── */
   {%- if section.settings.show_sticky_atc -%}
