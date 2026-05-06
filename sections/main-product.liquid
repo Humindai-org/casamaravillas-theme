@@ -758,6 +758,39 @@
     padding: 4px 0 12px;
   }
 
+  /* Contenido rich dentro del acordeón */
+  .cm-accordion-block ul,
+  .cm-accordion-block ol {
+    padding-left: 20px;
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.8;
+    font-family: var(--cm-font-sans);
+    margin: 0;
+  }
+
+  .cm-accordion-block li { margin-bottom: 4px; }
+
+  .cm-accordion-block strong { color: var(--text-primary); font-weight: 600; }
+
+  .cm-accordion-block em { font-style: italic; }
+
+  /* Bloque imagen dentro del acordeón */
+  .cm-accordion-block--image img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .cm-accordion-block__caption {
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-family: var(--cm-font-sans);
+    font-style: italic;
+    margin-top: 8px;
+    text-align: center;
+  }
+
   /* Tabla nutricional */
   .cm-nutritional-table table {
     width: 100%;
@@ -1734,7 +1767,38 @@
           aria-labelledby="cm-acc-btn-{{ block.id }}"
         >
           <div class="cm-accordion__body">
-            {%- if acc_content != blank -%}
+            {%- if block.blocks.size > 0 -%}
+              {%- for child_block in block.blocks -%}
+                {%- case child_block.type -%}
+
+                  {%- when 'richtext_block' -%}
+                    <div class="cm-accordion-block" {{ child_block.shopify_attributes }}>
+                      {%- if child_block.settings.subtitle != blank -%}
+                        <p class="cm-accordion-block__title">{{ child_block.settings.subtitle }}</p>
+                      {%- endif -%}
+                      {{ child_block.settings.text }}
+                    </div>
+
+                  {%- when 'image_block' -%}
+                    {%- if child_block.settings.image != blank -%}
+                      <div class="cm-accordion-block cm-accordion-block--image" {{ child_block.shopify_attributes }}>
+                        <img
+                          src="{{ child_block.settings.image | image_url: width: 800 }}"
+                          alt="{{ child_block.settings.image.alt | escape | default: child_block.settings.caption }}"
+                          width="{{ child_block.settings.image.width }}"
+                          height="{{ child_block.settings.image.height }}"
+                          loading="lazy"
+                        >
+                        {%- if child_block.settings.caption != blank -%}
+                          <p class="cm-accordion-block__caption">{{ child_block.settings.caption }}</p>
+                        {%- endif -%}
+                      </div>
+                    {%- endif -%}
+
+                {%- endcase -%}
+              {%- endfor -%}
+
+            {%- elsif acc_content != blank -%}
               <div class="cm-accordion-block">{{ acc_content }}</div>
             {%- endif -%}
             {%- assign has_kv = false -%}
@@ -1759,7 +1823,7 @@
                 {%- endfor -%}
               </dl>
             {%- endif -%}
-            {%- if acc_content == blank and has_kv == false -%}
+            {%- if block.blocks.size == 0 and acc_content == blank and has_kv == false -%}
               <p class="cm-accordion-block__empty">Información no añadida todavía para este producto.</p>
             {%- endif -%}
           </div>
@@ -2397,6 +2461,41 @@ setTimeout(function() {
     {
       "type": "accordion",
       "name": "Sección de información",
+      "blocks": [
+        {
+          "type": "richtext_block",
+          "name": "Texto / Lista",
+          "settings": [
+            {
+              "type": "text",
+              "id": "subtitle",
+              "label": "Subtítulo (opcional)"
+            },
+            {
+              "type": "richtext",
+              "id": "text",
+              "label": "Contenido",
+              "info": "Soporta texto, negrita, cursiva, listas con viñetas y listas numeradas"
+            }
+          ]
+        },
+        {
+          "type": "image_block",
+          "name": "Imagen",
+          "settings": [
+            {
+              "type": "image_picker",
+              "id": "image",
+              "label": "Imagen"
+            },
+            {
+              "type": "text",
+              "id": "caption",
+              "label": "Pie de foto (opcional)"
+            }
+          ]
+        }
+      ],
       "settings": [
         {
           "type": "select",
@@ -2418,16 +2517,20 @@ setTimeout(function() {
           "default": "Información"
         },
         {
+          "type": "header",
+          "content": "Metadato (opcional)"
+        },
+        {
           "type": "text",
           "id": "metafield_key",
           "label": "Clave del metadato (namespace: custom)",
-          "info": "Escribe la clave exacta del metadato del producto. Ej: storage_before, geographic_origin, serving_suggestions, allergens, flavor_notes"
+          "info": "Solo se usa si no hay bloques de contenido añadidos. Ej: storage_before, geographic_origin"
         },
         {
           "type": "richtext",
           "id": "content_fallback",
-          "label": "Contenido del acordeón",
-          "info": "Edita el contenido directamente aquí. Soporta texto, negrita, listas y enlaces. Si también configuras una clave de metadato, el metadato tiene prioridad."
+          "label": "Contenido de respaldo",
+          "info": "Se muestra si no hay bloques ni metadato"
         },
         {
           "type": "header",
