@@ -1057,6 +1057,66 @@
     .option-buttons { flex-direction: column; }
     .option-btn { width: 100%; text-align: center; }
   }
+
+  /* ── TARJETAS DE INFO ── */
+.cm-info-cards {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.cm-info-card {
+  flex: 1;
+  min-width: 220px;
+  max-width: 360px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 28px 24px;
+  background: var(--bg-card);
+}
+
+.cm-info-card__title {
+  font-family: var(--cm-font-serif);
+  font-size: 18px;
+  color: var(--text-primary);
+  font-weight: 400;
+  margin-bottom: 8px;
+}
+
+.cm-info-card__link {
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-decoration: underline;
+  color: var(--text-primary);
+  font-family: var(--cm-font-sans);
+  display: block;
+  margin-bottom: 20px;
+}
+
+.cm-info-card__values {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.cm-info-card__item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cm-info-card__label {
+  font-size: 11px;
+  color: var(--text-secondary);
+  font-family: var(--cm-font-sans);
+}
+
+.cm-info-card__value {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent-gold);
+  font-family: var(--cm-font-sans);
+}
 </style>
 
 {%- comment -%} Datos de variantes para JS {%- endcomment -%}
