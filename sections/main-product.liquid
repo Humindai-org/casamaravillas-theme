@@ -1502,9 +1502,9 @@ document.addEventListener('DOMContentLoaded', function() {
     if (!data) return cents;
     const amount = (cents / 100).toFixed(2);
     return data.moneyFormat
-      .replace('{{amount}}', amount)
-      .replace('{{amount_with_comma_separator}}', amount.replace('.', ','))
-      .replace('{{amount_no_decimals}}', Math.round(cents / 100));
+      .replace('{' + '{amount}}', amount)
+      .replace('{' + '{amount_with_comma_separator}}', amount.replace('.', ','))
+      .replace('{' + '{amount_no_decimals}}', Math.round(cents / 100));
   }
 
   /* ── Galería — thumbnails ── */
