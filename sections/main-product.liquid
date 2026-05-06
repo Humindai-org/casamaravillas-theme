@@ -13,7 +13,6 @@
   {%- when 'Packs & Regalos' -%} {%- assign product_accent = '#4A5B6B' -%}
 {%- endcase -%}
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
 
 <style>
   /* ── VARIABLES DE COLOR — paleta crema clara ── */
@@ -29,17 +28,20 @@
   }
 
   /* ── LAYOUT PRINCIPAL ── */
-  .cm-pdp {
-    --pdp-accent: {{ product_accent }};
-    width: 100%;
-    padding: 56px 48px 80px;
-    background: var(--bg-primary);
-    box-sizing: border-box;
-  }
+.cm-pdp {
+  --pdp-accent: {{ product_accent }};
+  width: 100%;
+  padding: 56px 48px 80px;
+  background: var(--bg-primary);
+  box-sizing: border-box;
+}
+
+.cm-pdp__grid {
+  max-width: 1280px;
+  margin: 0 auto;
+}
 
   .cm-pdp__grid {
-    max-width: 1280px;
-    margin: 0 auto;
     display: grid;
     grid-template-columns: 55% 45%;
     gap: 64px;
@@ -50,15 +52,15 @@
   .cm-pdp__gallery {
     position: sticky;
     top: 100px;
-  }
-
-  .cm-pdp__gallery-inner {
     display: flex;
+    flex-direction: row;
     gap: 14px;
-    align-items: stretch;
+    align-items: flex-start;
   }
 
   .cm-pdp__main-img-wrap {
+    flex: 1;
+    min-width: 0;
     aspect-ratio: 4 / 5;
     overflow: hidden;
     background: var(--bg-secondary);
@@ -75,27 +77,30 @@
 
   .cm-pdp__main-img.is-loading { opacity: 0; }
 
-  /* Thumbnails */
+  /* Thumbnails — columna vertical izquierda */
   .cm-pdp__thumbnails {
     display: flex;
+    flex-direction: column;
     gap: 10px;
-    margin-top: 12px;
-    overflow-x: auto;
-    overflow-y: hidden;
-    max-height: 100px;
+    order: -1;
+    width: 72px;
+    flex-shrink: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: 520px;
     scrollbar-width: thin;
     scrollbar-color: var(--border-color) transparent;
-    padding-bottom: 4px;
+    padding-right: 2px;
   }
 
-  .cm-pdp__thumbnails::-webkit-scrollbar { height: 4px; }
+  .cm-pdp__thumbnails::-webkit-scrollbar { width: 3px; }
   .cm-pdp__thumbnails::-webkit-scrollbar-track { background: transparent; }
   .cm-pdp__thumbnails::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 2px; }
 
   .cm-pdp__thumb-btn {
     flex-shrink: 0;
-    width: 76px;
-    height: 76px;
+    width: 72px;
+    height: 72px;
     border: 2px solid var(--border-color);
     background: var(--bg-card);
     cursor: pointer;
@@ -615,235 +620,13 @@
     to   { background-position: -200% 0; }
   }
 
-  /* ── CARRUSEL INFORMATIVO ── */
-  .cm-carousel-section {
-    max-width: 1280px;
-    margin: 48px auto 0;
-    padding: 0 24px;
-  }
-
-  .cm-carousel-section__title {
-    font-size: 11px;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: var(--text-secondary);
-    font-family: var(--cm-font-sans);
-    font-weight: 500;
-    margin-bottom: 16px;
-  }
-
-  .cm-carousel-wrap { position: relative; }
-
-  .cm-carousel {
-    display: flex;
-    gap: 16px;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
-    -webkit-overflow-scrolling: touch;
-    padding-bottom: 4px;
-  }
-
-  .cm-carousel::-webkit-scrollbar { display: none; }
-
-  .cm-carousel-card {
-    flex-shrink: 0;
-    width: 260px;
-    scroll-snap-align: start;
-    border: 1px solid var(--border-color);
-    background: var(--bg-card);
-    padding: 24px;
-    cursor: pointer;
-    transition: border-color 0.2s, box-shadow 0.2s;
-  }
-
-  .cm-carousel-card:hover {
-    border-color: var(--accent-gold);
-    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-  }
-
-  .cm-carousel-card__icon {
-    color: var(--accent-gold);
-    margin-bottom: 14px;
-    display: flex;
-  }
-
-  .cm-carousel-card__title {
-    font-family: var(--cm-font-serif);
-    font-size: 17px;
-    color: var(--text-primary);
-    font-weight: 400;
-    margin-bottom: 8px;
-    line-height: 1.3;
-  }
-
-  .cm-carousel-card__preview {
-    font-size: 12px;
-    color: var(--text-secondary);
-    font-family: var(--cm-font-sans);
-    line-height: 1.6;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    margin-bottom: 16px;
-    min-height: 58px;
-  }
-
-  .cm-carousel-card__cta {
-    font-size: 10px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--accent-gold);
-    font-family: var(--cm-font-sans);
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .cm-carousel-arrows {
-    display: flex;
-    gap: 8px;
-    margin-top: 16px;
-    justify-content: flex-end;
-  }
-
-  .cm-carousel-arrow {
-    width: 38px;
-    height: 38px;
-    border: 1px solid var(--border-color);
-    background: var(--bg-card);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--text-primary);
-    transition: background 0.2s, border-color 0.2s, color 0.2s;
-  }
-
-  .cm-carousel-arrow:hover {
-    background: var(--accent-gold);
-    border-color: var(--accent-gold);
-    color: #1A1410;
-  }
-
-  .cm-carousel-arrow:disabled { opacity: 0.3; cursor: not-allowed; }
-
-  /* ── POP-UP ── */
-  .cm-popup-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(26,20,16,0.6);
-    z-index: 200;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 24px;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-  }
-
-  .cm-popup-overlay.is-open {
-    opacity: 1;
-    pointer-events: auto;
-  }
-
-  .cm-popup {
-    background: var(--bg-card);
-    max-width: 580px;
-    width: 100%;
-    max-height: 80vh;
-    overflow-y: auto;
-    padding: 40px;
-    position: relative;
-    transform: translateY(16px);
-    transition: transform 0.3s ease;
-  }
-
-  .cm-popup-overlay.is-open .cm-popup {
-    transform: translateY(0);
-  }
-
-  .cm-popup__close {
-    position: absolute;
-    top: 16px;
-    right: 16px;
-    width: 36px;
-    height: 36px;
-    background: none;
-    border: 1px solid var(--border-color);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--text-primary);
-    transition: background 0.2s;
-  }
-
-  .cm-popup__close:hover { background: var(--bg-secondary); }
-
-  .cm-popup__eyebrow {
-    font-size: 10px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--accent-gold);
-    font-family: var(--cm-font-sans);
-    margin-bottom: 8px;
-  }
-
-  .cm-popup__title {
-    font-family: var(--cm-font-serif);
-    font-size: 24px;
-    color: var(--text-primary);
-    font-weight: 400;
-    margin-bottom: 24px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid var(--border-color);
-  }
-
-  .cm-popup__content {
-    font-size: 14px;
-    color: var(--text-secondary);
-    font-family: var(--cm-font-sans);
-    line-height: 1.8;
-  }
-
-  .cm-popup__content p { margin-bottom: 12px; }
-  .cm-popup__content ul { padding-left: 20px; margin-bottom: 12px; }
-  .cm-popup__content li { margin-bottom: 6px; }
-
-  .cm-popup__section {
-    margin-bottom: 24px;
-    padding-bottom: 24px;
-    border-bottom: 1px solid var(--border-color);
-  }
-
-  .cm-popup__section:last-child {
-    border-bottom: none;
-    margin-bottom: 0;
-    padding-bottom: 0;
-  }
-
-  .cm-popup__section-title {
-    font-size: 10px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--accent-gold);
-    font-family: var(--cm-font-sans);
-    font-weight: 600;
-    margin-bottom: 10px;
-  }
-
   /* ── ACORDEONES ── */
   .cm-pdp__accordions {
     max-width: 1280px;
-    margin: 48px auto 0;
+    margin: 56px auto 0;
     padding: 0 24px;
     border-top: 1px solid var(--border-color);
-    background: var(--bg-secondary);
-    padding-top: 0;
+    background: var(--bg-primary);
   }
 
   .cm-accordion {
@@ -907,7 +690,6 @@
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.45s ease;
-    display: block;
   }
 
   .cm-accordion__body {
@@ -935,6 +717,38 @@
     font-family: var(--cm-font-sans);
   }
 
+  .cm-accordion-kv {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .cm-accordion-kv__row {
+    display: grid;
+    grid-template-columns: minmax(120px, 35%) 1fr;
+    gap: 8px 16px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .cm-accordion-kv__row:last-child { border-bottom: none; }
+
+  .cm-accordion-kv__label {
+    font-family: var(--cm-font-sans);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .cm-accordion-kv__value {
+    font-family: var(--cm-font-sans);
+    font-size: 14px;
+    color: var(--text-primary);
+    margin: 0;
+  }
+
   .cm-accordion-block__empty {
     font-size: 13px;
     color: var(--text-secondary);
@@ -943,6 +757,7 @@
     padding: 4px 0 12px;
   }
 
+  /* Contenido rich dentro del acordeón */
   .cm-accordion-block ul,
   .cm-accordion-block ol {
     padding-left: 20px;
@@ -954,8 +769,112 @@
   }
 
   .cm-accordion-block li { margin-bottom: 4px; }
+
   .cm-accordion-block strong { color: var(--text-primary); font-weight: 600; }
+
   .cm-accordion-block em { font-style: italic; }
+
+  /* Bloque imagen dentro del acordeón */
+  .cm-accordion-block--image img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .cm-accordion-block__caption {
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-family: var(--cm-font-sans);
+    font-style: italic;
+    margin-top: 8px;
+    text-align: center;
+  }
+
+  /* Tabla nutricional */
+  .cm-nutritional-table table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    font-family: var(--cm-font-sans);
+  }
+
+  .cm-nutritional-table th,
+  .cm-nutritional-table td {
+    padding: 9px 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--cm-border);
+    color: var(--cm-text-mid);
+  }
+
+  .cm-nutritional-table th {
+    font-weight: 500;
+    color: var(--text-primary);
+    background: var(--bg-secondary);
+  }
+
+  /* Lista de origen */
+  .cm-origin-list { display: flex; flex-direction: column; gap: 0; }
+
+  .cm-origin-item {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    padding: 11px 0;
+    border-bottom: 1px solid var(--cm-border);
+    gap: 16px;
+    align-items: baseline;
+  }
+
+  .cm-origin-item:last-child { border-bottom: none; }
+
+  .cm-origin-item dt {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--cm-text-light);
+    font-family: var(--cm-font-sans);
+    font-weight: 500;
+  }
+
+  .cm-origin-item dd {
+    font-size: 14px;
+    color: var(--cm-text-mid);
+    font-family: var(--cm-font-sans);
+  }
+
+  /* Grid de notas de cata */
+  .cm-cata-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .cm-cata-item {
+    padding: 24px;
+    background: var(--cm-off);
+    text-align: center;
+  }
+
+  .cm-cata-item__icon {
+    color: var(--cm-gold);
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .cm-cata-item h4 {
+    font-family: var(--cm-font-serif);
+    font-size: 16px;
+    color: var(--text-primary);
+    font-weight: 400;
+    margin-bottom: 8px;
+  }
+
+  .cm-cata-item p {
+    font-size: 13px;
+    color: var(--cm-text-mid);
+    line-height: 1.7;
+    font-family: var(--cm-font-sans);
+  }
 
   /* ── STICKY ATC ── */
   .cm-sticky-atc {
@@ -1029,6 +948,11 @@
 
   .cm-sticky-qty__btn:hover { background: rgba(255,255,255,0.08); }
 
+  .cm-sticky-qty__btn:focus-visible {
+    outline: 2px solid var(--accent-gold);
+    outline-offset: -2px;
+  }
+
   .cm-sticky-qty__val {
     width: 36px;
     text-align: center;
@@ -1090,6 +1014,11 @@
 
   .cm-sticky-atc__btn:disabled { opacity: 0.45; cursor: not-allowed; }
 
+  .cm-sticky-atc__btn:focus-visible {
+    outline: 2px solid var(--accent-gold);
+    outline-offset: 2px;
+  }
+
   /* ── VALORACIONES ── */
   .cm-pdp__rating {
     display: flex;
@@ -1120,11 +1049,45 @@
     transform: translateY(0);
   }
 
+  /* ── Tabla nutricional ── */
+  .cm-nutritional-table th,
+  .cm-nutritional-table td  { border-bottom-color: var(--border-color); color: var(--text-secondary); }
+  .cm-nutritional-table th  { background: var(--bg-secondary); color: var(--text-primary); }
+
+  /* ── Lista de origen ── */
+  .cm-origin-item    { border-bottom-color: var(--border-color); }
+  .cm-origin-item dt { color: var(--text-secondary); }
+  .cm-origin-item dd { color: var(--text-primary); }
+
+  /* ── Notas de cata ── */
+  .cm-cata-item    { background: var(--bg-secondary); }
+  .cm-cata-item h4 { color: var(--text-primary); }
+  .cm-cata-item p  { color: var(--text-secondary); }
+
   /* ── RESPONSIVE ── */
   @media (max-width: 900px) {
-    .cm-pdp__grid { grid-template-columns: 1fr; gap: 40px; }
-    .cm-pdp__gallery { position: static; }
+    .cm-pdp__grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    .cm-pdp__gallery {
+      position: static;
+      flex-direction: column;
+    }
+    .cm-pdp__thumbnails {
+      flex-direction: row;
+      order: 0;
+      width: auto;
+      max-height: 80px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding-right: 0;
+      padding-bottom: 2px;
+    }
+    .cm-pdp__thumbnails::-webkit-scrollbar { width: auto; height: 3px; }
+    .cm-pdp__thumb-btn { width: 68px; height: 68px; }
     .cm-pdp { padding: 32px 20px 64px; }
+    .cm-cata-grid { grid-template-columns: 1fr; gap: 16px; }
     .cm-pdp__facts { overflow-x: auto; }
     .cm-fact { min-width: 90px; }
   }
@@ -1133,22 +1096,380 @@
     .cm-pdp__purchase { flex-direction: column; }
     .cm-qty { width: 100%; justify-content: space-between; }
     .cm-pdp__add-btn { width: 100%; }
+    .cm-origin-item { grid-template-columns: 1fr; gap: 4px; }
     .cm-sticky-atc__product { display: none; }
     .cm-sticky-qty { display: none; }
     .cm-sticky-atc__btn { width: 100%; }
     .cm-sticky-atc__inner { padding: 12px 20px; }
     .cm-pdp__accordions { padding: 0 20px; }
-    .cm-carousel-section { padding: 0 20px; }
-    .cm-carousel-card { width: 220px; }
-    .cm-popup { padding: 28px 20px; }
     .option-buttons { flex-direction: column; }
     .option-btn { width: 100%; text-align: center; }
+  }
+
+  /* ── UPSELL (añade con descuento) ── */
+  .cm-upsell {
+    margin-top: 20px;
+    border: 1.5px solid var(--accent-gold);
+    background: linear-gradient(135deg, #fdf9f0 0%, #fff 100%);
+    padding: 16px 18px;
+    border-radius: 2px;
+  }
+
+  .cm-upsell__header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .cm-upsell__header-icon { color: var(--accent-gold); flex-shrink: 0; }
+
+  .cm-upsell__heading {
+    font-family: var(--cm-font-sans);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent-gold);
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .cm-upsell__items { display: flex; flex-direction: column; gap: 10px; }
+
+  .cm-upsell__item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    padding: 10px 12px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    transition: border-color 0.2s;
+  }
+
+  .cm-upsell__item:hover { border-color: var(--accent-gold); }
+
+  .cm-upsell__check {
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+    accent-color: var(--accent-gold);
+    cursor: pointer;
+  }
+
+  .cm-upsell__img {
+    width: 52px;
+    height: 52px;
+    object-fit: cover;
+    flex-shrink: 0;
+    border: 1px solid var(--border-color);
+  }
+
+  .cm-upsell__info { flex: 1; min-width: 0; }
+
+  .cm-upsell__name {
+    font-family: var(--cm-font-sans);
+    font-size: 13px;
+    color: var(--text-primary);
+    font-weight: 500;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 4px;
+  }
+
+  .cm-upsell__prices { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+  .cm-upsell__price-orig {
+    font-family: var(--cm-font-sans);
+    font-size: 12px;
+    color: var(--text-secondary);
+    text-decoration: line-through;
+  }
+
+  .cm-upsell__price-disc {
+    font-family: var(--cm-font-sans);
+    font-size: 13px;
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+
+  .cm-upsell__badge {
+    font-family: var(--cm-font-sans);
+    font-size: 11px;
+    font-weight: 700;
+    background: var(--accent-gold);
+    color: #fff;
+    padding: 2px 6px;
+    letter-spacing: 0.04em;
+  }
+
+  .cm-upsell__tag {
+    font-family: var(--cm-font-sans);
+    font-size: 11px;
+    color: var(--text-secondary);
+    display: block;
+    margin-top: 3px;
+    font-style: italic;
+  }
+
+  .cm-upsell__note {
+    font-family: var(--cm-font-sans);
+    font-size: 11px;
+    color: var(--text-secondary);
+    margin: 12px 0 0;
+    text-align: center;
+  }
+
+  /* ── NUEVAS VARIABLES ── */
+  :root {
+    --cm-navy: #0E1F33;
+    --cm-gold-deep: #9A7B2E;
+  }
+
+  /* ── PRECIO SERIF ── */
+  .cm-pdp__price {
+    font-size: 36px;
+    font-weight: 500;
+    font-family: var(--cm-font-serif);
+    letter-spacing: -0.01em;
+  }
+
+  /* ── DESCRIPCIÓN EDITORIAL ── */
+  .cm-pdp__desc {
+    margin-bottom: 24px;
+    padding-left: 16px;
+    border-left: 1.5px solid var(--accent-gold);
+  }
+  .cm-pdp__desc-preview {
+    font-family: var(--cm-font-serif);
+    font-size: 17px;
+    line-height: 1.55;
+    font-style: italic;
+  }
+
+  /* ── WISHLIST ── */
+  .cm-wishlist-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 6px 0;
+    font-family: var(--cm-font-sans);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    font-weight: 500;
+    transition: color .2s;
+    margin-bottom: 20px;
+    cursor: pointer;
+    border: none;
+    background: none;
+  }
+  .cm-wishlist-btn svg {
+    width: 17px; height: 17px;
+    flex-shrink: 0;
+    fill: none;
+    stroke: currentColor;
+    transition: fill .25s, stroke .25s;
+  }
+  .cm-wishlist-btn:hover,
+  .cm-wishlist-btn.is-active { color: var(--accent-gold); }
+  .cm-wishlist-btn:hover svg { stroke: var(--accent-gold); }
+  .cm-wishlist-btn.is-active svg { fill: var(--accent-gold); stroke: var(--accent-gold); }
+  .cm-wishlist-btn:focus-visible { outline: 2px solid var(--accent-gold); outline-offset: 2px; }
+
+  /* ── SECCIÓN INFORMACIÓN DEL PRODUCTO ── */
+  .cm-info-section {
+    border-top: 1px solid var(--border-color);
+    padding: 80px 48px;
+    background: var(--bg-primary);
+  }
+  .cm-info-section__inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: minmax(260px, 0.85fr) 2.2fr;
+    gap: 64px;
+    align-items: start;
+  }
+  .cm-info-headline { position: sticky; top: 100px; }
+  .cm-info-eyebrow {
+    display: block;
+    font-family: var(--cm-font-sans);
+    font-size: 10.5px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--accent-gold);
+    font-weight: 500;
+    margin-bottom: 18px;
+  }
+  .cm-info-title {
+    font-family: var(--cm-font-serif);
+    font-size: clamp(36px, 4.2vw, 60px);
+    line-height: 1;
+    color: var(--cm-navy);
+    font-weight: 500;
+    margin-bottom: 20px;
+    letter-spacing: -0.015em;
+  }
+  .cm-info-title em { font-style: italic; color: var(--cm-gold-deep); font-weight: 400; }
+  .cm-info-body {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--text-secondary);
+    max-width: 290px;
+    margin: 0;
+  }
+  .cm-info-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .cm-info-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    padding: 30px 28px 24px;
+    transition: transform .35s ease, box-shadow .35s ease;
+  }
+  .cm-info-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 40px -22px rgba(26,20,16,0.18);
+  }
+  .cm-info-card__icon {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: var(--bg-secondary);
+    display: grid; place-items: center;
+    color: var(--accent-gold);
+    margin-bottom: 16px;
+  }
+  .cm-info-card__title {
+    font-family: var(--cm-font-serif);
+    font-size: 22px;
+    line-height: 1.05;
+    color: var(--cm-navy);
+    font-weight: 500;
+    margin-bottom: 18px;
+    letter-spacing: -0.01em;
+  }
+  .cm-info-card__rows {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border-color);
+  }
+  .cm-info-card__row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 8px;
+  }
+  .cm-info-card__label {
+    font-family: var(--cm-font-sans);
+    font-size: 10.5px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    font-weight: 500;
+  }
+  .cm-info-card__value {
+    font-family: var(--cm-font-serif);
+    font-size: 17px;
+    color: var(--cm-gold-deep);
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  @media (max-width: 960px) {
+    .cm-info-section { padding: 56px 24px; }
+    .cm-info-section__inner { grid-template-columns: 1fr; gap: 36px; }
+    .cm-info-headline { position: static; }
+    .cm-info-cards { grid-template-columns: 1fr; }
+  }
+
+  /* ── ACORDEÓN REDISEÑADO ── */
+  .cm-acc-header {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 52px 24px 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-bottom: 1px solid var(--border-color);
+  }
+  .cm-acc-header__eyebrow {
+    display: block;
+    font-family: var(--cm-font-sans);
+    font-size: 10.5px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--accent-gold);
+    font-weight: 500;
+    margin-bottom: 12px;
+  }
+  .cm-acc-header__title {
+    font-family: var(--cm-font-serif);
+    font-size: clamp(28px, 3.2vw, 38px);
+    color: var(--cm-navy);
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.01em;
+  }
+  .cm-acc-header__title em { font-style: italic; color: var(--cm-gold-deep); font-weight: 400; }
+  .cm-acc-header__count {
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-style: italic;
+    font-family: var(--cm-font-serif);
+  }
+  /* Trigger: circular icon */
+  .cm-accordion__trigger { gap: 20px; }
+  .cm-accordion__trigger-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid var(--border-color);
+    font-size: 20px;
+    flex-shrink: 0;
+    transition: background .35s ease, border-color .35s ease, color .35s ease;
+  }
+  .cm-accordion__trigger[aria-expanded="true"] .cm-accordion__trigger-icon {
+    background: var(--accent-gold);
+    border-color: var(--accent-gold);
+    color: #fff;
+  }
+  .cm-accordion__trigger-title {
+    font-family: var(--cm-font-serif);
+    font-size: 21px;
+    font-weight: 500;
+    letter-spacing: -0.005em;
+  }
+  .cm-accordion__trigger[aria-expanded="true"] .cm-accordion__trigger-title {
+    color: var(--cm-gold-deep);
+  }
+  .cm-accordion__trigger-summary {
+    display: block;
+    font-size: 12.5px;
+    color: var(--text-secondary);
+    margin-top: 3px;
+    font-family: var(--cm-font-sans);
+    font-weight: 300;
+  }
+  .cm-accordion__trigger[aria-expanded="true"] .cm-accordion__trigger-summary {
+    display: none;
+  }
+  .cm-accordion__body { padding-left: 68px; padding-bottom: 30px; }
+  @media (max-width: 600px) {
+    .cm-acc-header { padding: 36px 20px 22px; flex-direction: column; gap: 12px; align-items: flex-start; }
+    .cm-accordion__body { padding-left: 16px; }
   }
 </style>
 
 {%- comment -%} Datos de variantes para JS {%- endcomment -%}
 <script>
-  window['cmPDP_{{ section.id }}'] = {
+  window.cmPDP_{{ section.id }} = {
     variants: {{ product.variants | json }},
     moneyFormat: {{ shop.money_format | json }}
   };
@@ -1162,10 +1483,12 @@
   itemtype="https://schema.org/Product"
 >
 
+  {%- comment -%} ── GRID: GALERÍA + INFO ── {%- endcomment -%}
   <div class="cm-pdp__grid">
 
     {%- comment -%} ── COLUMNA IZQUIERDA: GALERÍA ── {%- endcomment -%}
     <div class="cm-pdp__gallery">
+
       <div class="cm-pdp__main-img-wrap">
         {%- if featured_image -%}
           <img
@@ -1205,7 +1528,9 @@
           {%- endfor -%}
         </div>
       {%- endif -%}
+
     </div>
+    {%- comment -%} fin galería {%- endcomment -%}
 
     {%- comment -%} ── COLUMNA DERECHA: INFO ── {%- endcomment -%}
     <div class="cm-pdp__info">
@@ -1250,51 +1575,113 @@
         {%- assign mf_weight  = product.metafields.custom.weight_info.value -%}
         {%- if mf_curing or mf_breed or mf_feeding or mf_origin or mf_weight -%}
           <div class="cm-pdp__facts" aria-label="Características principales del producto">
+
             {%- if mf_curing != blank -%}
               <div class="cm-fact">
-                <span class="cm-fact__icon" aria-hidden="true"><i class="ti ti-calendar"></i></span>
+                <span class="cm-fact__icon" aria-hidden="true">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M7 4h10M7 20h10M7 4l5 6.5L17 4M7 20l5-6.5L17 20"/>
+                    <path d="M9.5 16.5c.5-1 1.3-1.5 2.5-1.5s2 .5 2.5 1.5"/>
+                  </svg>
+                </span>
                 <div>
                   <span class="cm-fact__label">Curación</span>
                   <span class="cm-fact__value">{{ mf_curing }}</span>
                 </div>
               </div>
             {%- endif -%}
+
             {%- if mf_breed != blank -%}
               <div class="cm-fact">
-                <span class="cm-fact__icon" aria-hidden="true"><i class="ti ti-paw"></i></span>
+                <span class="cm-fact__icon" aria-hidden="true">
+                  <svg width="22" height="22" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 18c0-1.5.5-2.5 1.5-3l1-3 2 1c1-.5 2-.8 3-.8h8c2 0 4 1 5 2.5l3-.5-1 2.5c.8 1 1.2 2 1.2 3.3 0 1.5-.6 3-1.8 4l-.5 2.5h-2l-.5-1.5c-1 .3-2 .5-3 .5h-7l-.5 1h-2L9.5 24c-.8-.3-1.5-.7-2-1.2L6 23l-.5-2.3C4.5 20 4 19 4 18z"/>
+                    <path d="M6.5 12l1.5-2.5 2 1.5"/>
+                    <circle cx="5.5" cy="17" r="0.4" fill="currentColor"/>
+                    <circle cx="8" cy="15" r="0.5" fill="currentColor"/>
+                    <path d="M27 16c1-.3 1.5.5 1 1.3-.4.6-.2 1.2.3 1.5"/>
+                    <path d="M9 24v2M11.5 25v1.5M20 24v2M22.5 25v1.5"/>
+                  </svg>
+                </span>
                 <div>
                   <span class="cm-fact__label">Raza</span>
                   <span class="cm-fact__value">{{ mf_breed }}</span>
                 </div>
               </div>
             {%- endif -%}
+
             {%- if mf_feeding != blank -%}
+              {%- assign feeding_lower = mf_feeding | downcase -%}
               <div class="cm-fact">
-                <span class="cm-fact__icon" aria-hidden="true"><i class="ti ti-leaf"></i></span>
+                <span class="cm-fact__icon" aria-hidden="true">
+                  {%- if feeding_lower contains 'bellota' -%}
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M6.5 9.5c0-2 2-3.5 5.5-3.5s5.5 1.5 5.5 3.5c0 .6-.3 1-.8 1.2H7.3c-.5-.2-.8-.6-.8-1.2z"/>
+                      <path d="M8 9h8M9 7.5h6M12 6V3.5"/>
+                      <path d="M12 4c.8-.8 1.5-1 2-.5"/>
+                      <path d="M7 10.7c0 4 2 8.3 5 10.3 3-2 5-6.3 5-10.3"/>
+                    </svg>
+                  {%- elsif feeding_lower contains 'campo' or feeding_lower contains 'pasto' -%}
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M5 21c1-4 2.5-7 5-9M10 21c0-4 1-7 2.5-9M14 21c0-3.5 1.2-6.5 3-8.5M19 21c.3-2.5 1.2-4.5 2.5-6M3 21h18"/>
+                    </svg>
+                  {%- elsif feeding_lower contains 'mixto' or feeding_lower contains 'mezcla' -%}
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M6 8h12l-1.5 12h-9z"/>
+                      <path d="M8 8c0-1.5 1.5-2.5 4-2.5s4 1 4 2.5"/>
+                      <circle cx="10" cy="13" r="0.8"/><circle cx="13.5" cy="14" r="0.8"/>
+                      <path d="M11 16c0-.8.7-1.3 1.5-1.3s1.5.5 1.5 1.3-.7 2-1.5 2-1.5-1.2-1.5-2z"/>
+                    </svg>
+                  {%- else -%}
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M12 21V8"/>
+                      <path d="M12 9c0-1.5-1.2-2.5-2.8-2.5C9.2 8 10.4 9 12 9zM12 9c0-1.5 1.2-2.5 2.8-2.5C14.8 8 13.6 9 12 9z"/>
+                      <path d="M12 12c0-1.5-1.2-2.5-2.8-2.5C9.2 11 10.4 12 12 12zM12 12c0-1.5 1.2-2.5 2.8-2.5C14.8 11 13.6 12 12 12z"/>
+                      <path d="M12 15c0-1.5-1.2-2.5-2.8-2.5C9.2 14 10.4 15 12 15zM12 15c0-1.5 1.2-2.5 2.8-2.5C14.8 14 13.6 15 12 15z"/>
+                      <path d="M12 5c-.5-1 0-2 1-2.5.3 1-.2 2-1 2.5z"/>
+                    </svg>
+                  {%- endif -%}
+                </span>
                 <div>
                   <span class="cm-fact__label">Alimentación</span>
                   <span class="cm-fact__value">{{ mf_feeding }}</span>
                 </div>
               </div>
             {%- endif -%}
+
             {%- if mf_origin != blank -%}
               <div class="cm-fact">
-                <span class="cm-fact__icon" aria-hidden="true"><i class="ti ti-map-pin"></i></span>
+                <span class="cm-fact__icon" aria-hidden="true">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3.5 10c1-1.5 3-2.5 5-2.5 1.5 0 2.5.8 4 .8 1.5 0 2.5-1 4.5-1 2 0 3 1 3.5 2.2v6.5c-1 1.2-2.5 2-4.5 2-2 0-3-1-4.5-1-1.5 0-2.5.8-4 .8-1.8 0-3.5-.5-4.5-1.5z"/>
+                    <circle cx="14" cy="12" r="1.5"/>
+                    <path d="M14 13.5v3"/>
+                  </svg>
+                </span>
                 <div>
                   <span class="cm-fact__label">Origen</span>
                   <span class="cm-fact__value">{{ mf_origin }}</span>
                 </div>
               </div>
             {%- endif -%}
+
             {%- if mf_weight != blank -%}
               <div class="cm-fact">
-                <span class="cm-fact__icon" aria-hidden="true"><i class="ti ti-weight"></i></span>
+                <span class="cm-fact__icon" aria-hidden="true">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 3.5v3M9 6.5h6"/>
+                    <path d="M7 10c1-2.5 2.5-3.5 5-3.5s4 1 5 3.5"/>
+                    <path d="M6 10h12l-1.5 10h-9z"/>
+                    <path d="M9 14h6M10 17h4"/>
+                  </svg>
+                </span>
                 <div>
                   <span class="cm-fact__label">Peso</span>
                   <span class="cm-fact__value">{{ mf_weight }}</span>
                 </div>
               </div>
             {%- endif -%}
+
           </div>
         {%- endif -%}
       {%- endif -%}
@@ -1312,11 +1699,23 @@
 
         {%- if current_variant.compare_at_price > current_variant.price -%}
           {%- assign discount_pct = current_variant.compare_at_price | minus: current_variant.price | times: 100 | divided_by: current_variant.compare_at_price -%}
-          <span id="cm-price-{{ section.id }}" class="cm-pdp__price cm-pdp__price--sale" itemprop="price" content="{{ current_variant.price | divided_by: 100.0 }}">{{ current_variant.price | money }}</span>
-          <span id="cm-compare-price-{{ section.id }}" class="cm-pdp__price--compare">{{ current_variant.compare_at_price | money }}</span>
+          <span
+            id="cm-price-{{ section.id }}"
+            class="cm-pdp__price cm-pdp__price--sale"
+            itemprop="price"
+            content="{{ current_variant.price | divided_by: 100.0 }}"
+          >{{ current_variant.price | money }}</span>
+          <span id="cm-compare-price-{{ section.id }}" class="cm-pdp__price--compare">
+            {{ current_variant.compare_at_price | money }}
+          </span>
           <span id="cm-discount-badge-{{ section.id }}" class="cm-pdp__discount-badge">-{{ discount_pct }}%</span>
         {%- else -%}
-          <span id="cm-price-{{ section.id }}" class="cm-pdp__price" itemprop="price" content="{{ current_variant.price | divided_by: 100.0 }}">{{ current_variant.price | money }}</span>
+          <span
+            id="cm-price-{{ section.id }}"
+            class="cm-pdp__price"
+            itemprop="price"
+            content="{{ current_variant.price | divided_by: 100.0 }}"
+          >{{ current_variant.price | money }}</span>
         {%- endif -%}
       </div>
 
@@ -1331,7 +1730,9 @@
         <div class="cm-pdp__variants">
           {%- for option in product.options_with_values -%}
             <div class="cm-pdp__select-wrap">
-              <label class="cm-pdp__select-label" for="cm-sel-{{ forloop.index }}-{{ section.id }}">{{ option.name }}</label>
+              <label class="cm-pdp__select-label" for="cm-sel-{{ forloop.index }}-{{ section.id }}">
+                {{ option.name }}
+              </label>
               <select
                 id="cm-sel-{{ forloop.index }}-{{ section.id }}"
                 class="cm-pdp__select"
@@ -1343,17 +1744,21 @@
                 {%- endfor -%}
               </select>
               <span class="cm-pdp__select-arrow" aria-hidden="true">
-                <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 9l-7 7-7-7"/></svg>
+                <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                  <path d="M19 9l-7 7-7-7"/>
+                </svg>
               </span>
             </div>
           {%- endfor -%}
         </div>
       {%- endunless -%}
 
-      {%- comment -%} ── SELECTOR DE PESO APROXIMADO ── {%- endcomment -%}
+      {%- comment -%} ── SELECTOR DE PESO APROXIMADO (configurable en Shopify) ── {%- endcomment -%}
       {%- if section.settings.show_weight_selector and section.settings.weight_options != blank -%}
         <div class="cm-pdp__select-wrap">
-          <label class="cm-pdp__select-label" for="cm-weight-sel-{{ section.id }}">Peso Aproximado</label>
+          <label class="cm-pdp__select-label" for="cm-weight-sel-{{ section.id }}">
+            Peso Aproximado
+          </label>
           <select id="cm-weight-sel-{{ section.id }}" class="cm-pdp__select" data-weight-select>
             {%- assign weight_opts = section.settings.weight_options | split: ',' -%}
             {%- for opt in weight_opts -%}
@@ -1361,14 +1766,18 @@
             {%- endfor -%}
           </select>
           <span class="cm-pdp__select-arrow" aria-hidden="true">
-            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 9l-7 7-7-7"/></svg>
+            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+              <path d="M19 9l-7 7-7-7"/>
+            </svg>
           </span>
         </div>
       {%- endif -%}
 
       {%- comment -%} ── SELECTOR DE CURACIÓN ── {%- endcomment -%}
       <div class="cm-curing-selector" id="cm-curing-{{ section.id }}">
-        <label class="cm-pdp__select-label" for="cm-curing-sel-{{ section.id }}">Punto de Curación</label>
+        <label class="cm-pdp__select-label" for="cm-curing-sel-{{ section.id }}">
+          Punto de Curación
+        </label>
         <div class="cm-pdp__select-wrap">
           <select id="cm-curing-sel-{{ section.id }}" class="cm-pdp__select" data-curing-select>
             <option value="tierno" data-desc="Textura suave, sabor delicado. Ideal para amantes de cortes más frescos.">Más tierno</option>
@@ -1376,7 +1785,9 @@
             <option value="curado" data-desc="Sabor intenso y concentrado. Mayor tiempo de maduración.">Más curado</option>
           </select>
           <span class="cm-pdp__select-arrow" aria-hidden="true">
-            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 9l-7 7-7-7"/></svg>
+            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+              <path d="M19 9l-7 7-7-7"/>
+            </svg>
           </span>
         </div>
         <p class="option-hint" id="cm-curing-hint-{{ section.id }}">El punto perfecto entre textura y sabor. Nuestra selección recomendada.</p>
@@ -1386,16 +1797,40 @@
       {%- assign product_form_id = 'cm-form-' | append: section.id -%}
       {%- form 'product', product, id: product_form_id, novalidate: true -%}
         <input type="hidden" name="id" id="cm-variant-id-{{ section.id }}" value="{{ current_variant.id }}">
+
         <div class="cm-pdp__purchase">
           <div class="cm-qty" role="group" aria-label="Selector de cantidad">
-            <button type="button" class="cm-qty__btn" id="cm-qty-minus-{{ section.id }}" aria-label="Reducir cantidad">
-              <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14"/></svg>
+            <button
+              type="button"
+              class="cm-qty__btn"
+              id="cm-qty-minus-{{ section.id }}"
+              aria-label="Reducir cantidad"
+            >
+              <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <path d="M5 12h14"/>
+              </svg>
             </button>
-            <input type="number" id="cm-qty-{{ section.id }}" name="quantity" min="1" value="1" class="cm-qty__input" aria-label="Cantidad">
-            <button type="button" class="cm-qty__btn" id="cm-qty-plus-{{ section.id }}" aria-label="Aumentar cantidad">
-              <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+            <input
+              type="number"
+              id="cm-qty-{{ section.id }}"
+              name="quantity"
+              min="1"
+              value="1"
+              class="cm-qty__input"
+              aria-label="Cantidad"
+            >
+            <button
+              type="button"
+              class="cm-qty__btn"
+              id="cm-qty-plus-{{ section.id }}"
+              aria-label="Aumentar cantidad"
+            >
+              <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <path d="M12 5v14M5 12h14"/>
+              </svg>
             </button>
           </div>
+
           <button
             type="submit"
             name="add"
@@ -1416,17 +1851,107 @@
         </div>
       {%- endform -%}
 
+      {%- comment -%} ── LISTA DE DESEOS ── {%- endcomment -%}
+      <button
+        type="button"
+        class="cm-wishlist-btn"
+        id="cm-wishlist-{{ section.id }}"
+        aria-label="Añadir a la lista de deseos"
+        aria-pressed="false"
+      >
+        <svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M20.84 4.6a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.07a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+        </svg>
+        <span class="cm-wishlist-text">Añadir a la lista de deseos</span>
+      </button>
+
+      {%- comment -%} ── UPSELL: AÑADE CON DESCUENTO ── {%- endcomment -%}
+      {%- assign upsell_blocks = section.blocks | where: 'type', 'upsell_product' -%}
+      {%- if upsell_blocks.size > 0 -%}
+        <div class="cm-upsell" id="cm-upsell-{{ section.id }}">
+          <div class="cm-upsell__header">
+            <svg class="cm-upsell__header-icon" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+            </svg>
+            <p class="cm-upsell__heading">{{ section.settings.upsell_title | default: 'Puedes añadir estos productos con descuento' }}</p>
+          </div>
+          <div class="cm-upsell__items">
+            {%- for block in upsell_blocks -%}
+              {%- assign up_handle = block.settings.product_handle | strip -%}
+              {%- if up_handle == blank -%}{%- continue -%}{%- endif -%}
+              {%- assign up = all_products[up_handle] -%}
+              {%- if up == empty -%}{%- continue -%}{%- endif -%}
+              {%- assign up_variant = up.selected_or_first_available_variant -%}
+              {%- assign up_disc = block.settings.discount_pct | default: 0 -%}
+              {%- assign up_disc_amount = up_variant.price | times: up_disc | divided_by: 100 -%}
+              {%- assign up_disc_price = up_variant.price | minus: up_disc_amount -%}
+              <label class="cm-upsell__item" for="cm-up-{{ block.id }}" {{ block.shopify_attributes }}>
+                <input
+                  type="checkbox"
+                  class="cm-upsell__check"
+                  id="cm-up-{{ block.id }}"
+                  data-variant-id="{{ up_variant.id }}"
+                  data-price="{{ up_disc_price }}"
+                  data-orig-price="{{ up_variant.price }}"
+                  data-title="{{ up.title | escape }}"
+                  data-disc="{{ up_disc }}"
+                  checked
+                >
+                {%- if up.featured_image -%}
+                  <img
+                    src="{{ up.featured_image | image_url: width: 120 }}"
+                    alt="{{ up.title | escape }}"
+                    class="cm-upsell__img"
+                    loading="lazy"
+                    width="52"
+                    height="52"
+                  >
+                {%- endif -%}
+                <div class="cm-upsell__info">
+                  <span class="cm-upsell__name">{{ up.title }}</span>
+                  <span class="cm-upsell__prices">
+                    {%- if up_disc > 0 -%}
+                      <span class="cm-upsell__price-orig">{{ up_variant.price | money }}</span>
+                      <span class="cm-upsell__price-disc">{{ up_disc_price | money }}</span>
+                      <span class="cm-upsell__badge">-{{ up_disc }}%</span>
+                    {%- else -%}
+                      <span class="cm-upsell__price-disc">{{ up_variant.price | money }}</span>
+                    {%- endif -%}
+                  </span>
+                  {%- if block.settings.badge != blank -%}
+                    <span class="cm-upsell__tag">{{ block.settings.badge }}</span>
+                  {%- endif -%}
+                </div>
+              </label>
+            {%- endfor -%}
+          </div>
+          <p class="cm-upsell__note">Los productos marcados se añadirán junto a tu pedido principal.</p>
+        </div>
+      {%- endif -%}
+
       {%- comment -%} ── DESCRIPCIÓN CORTA ── {%- endcomment -%}
       {%- if product.description != blank -%}
         {%- assign desc_text = product.description | strip_html -%}
         <div class="cm-pdp__desc" id="cm-desc-{{ section.id }}">
           {%- if desc_text.size > 180 -%}
-            <div class="cm-pdp__desc-full" id="cm-desc-full-{{ section.id }}" aria-hidden="true">{{ product.description }}</div>
-            <p class="cm-pdp__desc-preview" id="cm-desc-preview-{{ section.id }}">{{ desc_text | truncate: 280 }}</p>
-            <button class="cm-desc-toggle" id="cm-desc-toggle-{{ section.id }}" aria-expanded="false" aria-controls="cm-desc-full-{{ section.id }}" type="button">
+            <div class="cm-pdp__desc-full" id="cm-desc-full-{{ section.id }}" aria-hidden="true">
+              {{ product.description }}
+            </div>
+            <p class="cm-pdp__desc-preview" id="cm-desc-preview-{{ section.id }}">
+              {{ desc_text | truncate: 280 }}
+            </p>
+            <button
+              class="cm-desc-toggle"
+              id="cm-desc-toggle-{{ section.id }}"
+              aria-expanded="false"
+              aria-controls="cm-desc-full-{{ section.id }}"
+              type="button"
+            >
               <span class="cm-desc-toggle__more">Leer más</span>
               <span class="cm-desc-toggle__less" style="display:none">Leer menos</span>
-              <svg class="cm-desc-toggle__chevron" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M19 9l-7 7-7-7"/></svg>
+              <svg class="cm-desc-toggle__chevron" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
+                <path d="M19 9l-7 7-7-7"/>
+              </svg>
             </button>
           {%- else -%}
             <div class="cm-pdp__desc-preview">{{ product.description }}</div>
@@ -1443,13 +1968,22 @@
                 <span class="cm-trust-item__icon" aria-hidden="true">
                   {%- case block.settings.icon -%}
                     {%- when 'truck' -%}
-                      <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"/></svg>
+                      <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"/>
+                      </svg>
                     {%- when 'shield' -%}
-                      <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
+                      <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/>
+                      </svg>
                     {%- when 'star' -%}
-                      <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"/></svg>
+                      <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"/>
+                      </svg>
                     {%- when 'leaf' -%}
-                      <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3C7 3 4 7 4 11c0 5 4 8 8 9 4-1 8-4 8-9 0-4-3-8-8-8z"/><path d="M12 21V12M8 15l4-3 4 3"/></svg>
+                      <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 3C7 3 4 7 4 11c0 5 4 8 8 9 4-1 8-4 8-9 0-4-3-8-8-8z"/>
+                        <path d="M12 21V12M8 15l4-3 4 3"/>
+                      </svg>
                   {%- endcase -%}
                 </span>
                 <span>{{ block.settings.text }}</span>
@@ -1460,234 +1994,265 @@
       {%- endif -%}
 
     </div>
+    {%- comment -%} fin info {%- endcomment -%}
+
   </div>
   {%- comment -%} fin grid {%- endcomment -%}
 
-</section>
+  {%- comment -%} ════════════════════════════════════ INFORMACIÓN DEL PRODUCTO ══ {%- endcomment -%}
+  {%- if section.settings.show_info_section -%}
+  <div class="cm-info-section">
+    <div class="cm-info-section__inner">
 
-{%- comment -%} ════════════════════════════════════ CARRUSEL INFORMATIVO ══ {%- endcomment -%}
-{%- assign mf_nutritional = product.metafields.custom.nutritional_info -%}
-{%- assign mf_allergens   = product.metafields.custom.allergens -%}
-{%- assign mf_flavor      = product.metafields.custom.flavor_notes -%}
-{%- assign mf_texture     = product.metafields.custom.texture_notes -%}
-{%- assign mf_aroma       = product.metafields.custom.aroma_notes -%}
-{%- assign mf_serving     = product.metafields.custom.serving_suggestions -%}
-{%- assign mf_cutting     = product.metafields.custom.cutting_tips -%}
-
-{%- assign has_nutritional = false -%}
-{%- assign has_cata        = false -%}
-{%- assign has_consumo     = false -%}
-{%- if mf_nutritional != blank or mf_allergens != blank -%}{%- assign has_nutritional = true -%}{%- endif -%}
-{%- if mf_flavor != blank or mf_texture != blank or mf_aroma != blank -%}{%- assign has_cata = true -%}{%- endif -%}
-{%- if mf_serving != blank or mf_cutting != blank -%}{%- assign has_consumo = true -%}{%- endif -%}
-
-{%- if has_nutritional or has_cata or has_consumo -%}
-<div class="cm-carousel-section" id="cm-carousel-{{ section.id }}">
-  <p class="cm-carousel-section__title">Información del producto</p>
-  <div class="cm-carousel-wrap">
-    <div class="cm-carousel" id="cm-carousel-track-{{ section.id }}">
-
-      {%- if has_nutritional -%}
-      <div class="cm-carousel-card" data-popup="nutritional" role="button" tabindex="0" aria-label="Ver información nutricional">
-        <div class="cm-carousel-card__icon">
-          <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0112 15a9.065 9.065 0 00-6.23-.693L5 14.5m14.8.8l1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0112 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5"/>
-          </svg>
-        </div>
-        <p class="cm-carousel-card__title">Información nutricional</p>
-        <p class="cm-carousel-card__preview">
-          {%- if mf_nutritional != blank -%}{{ mf_nutritional.value | strip_html | truncate: 100 }}{%- else -%}Consulta los valores nutricionales y alérgenos de este producto.{%- endif -%}
+      <div class="cm-info-headline">
+        <span class="cm-info-eyebrow">Información del producto</span>
+        <h2 class="cm-info-title">
+          Tan delicioso<br>
+          como <em>saludable.</em>
+        </h2>
+        <p class="cm-info-body">
+          Cada pieza pasa por nuestro proceso de selección, curación y maduración.
+          Aquí tienes los datos que importan, sin letra pequeña.
         </p>
-        <span class="cm-carousel-card__cta">Saber más <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></span>
       </div>
-      {%- endif -%}
 
-      {%- if has_cata -%}
-      <div class="cm-carousel-card" data-popup="cata" role="button" tabindex="0" aria-label="Ver notas de cata">
-        <div class="cm-carousel-card__icon">
-          <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"/>
-          </svg>
-        </div>
-        <p class="cm-carousel-card__title">Notas de cata</p>
-        <p class="cm-carousel-card__preview">
-          {%- if mf_texture != blank -%}{{ mf_texture.value | truncate: 100 }}{%- elsif mf_flavor != blank -%}{{ mf_flavor.value | strip_html | truncate: 100 }}{%- else -%}Descubre las notas de textura, aroma y sabor de este producto.{%- endif -%}
-        </p>
-        <span class="cm-carousel-card__cta">Saber más <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></span>
+      <div class="cm-info-cards">
+
+        {%- comment -%} Card 1: Información nutricional {%- endcomment -%}
+        <article class="cm-info-card">
+          <div class="cm-info-card__icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M13.5 14V5a1.5 1.5 0 1 0-3 0v9a3.5 3.5 0 1 0 3 0z"/>
+              <circle cx="12" cy="17" r="1.6" fill="currentColor"/>
+              <path d="M13.5 7h1.5M13.5 9h1.5M13.5 11h1.5"/>
+            </svg>
+          </div>
+          <h3 class="cm-info-card__title">Información nutricional</h3>
+          <div class="cm-info-card__rows">
+            {%- assign _kcal  = product.metafields.custom.kcal.value | default: section.settings.info_kcal -%}
+            {%- assign _prot  = product.metafields.custom.protein_g.value | default: section.settings.info_protein -%}
+            {%- assign _sugar = product.metafields.custom.sugars_g.value | default: section.settings.info_sugars -%}
+            {%- if _kcal != blank -%}
+              <div class="cm-info-card__row">
+                <span class="cm-info-card__label">Valor energético</span>
+                <span class="cm-info-card__value">{{ _kcal }}</span>
+              </div>
+            {%- endif -%}
+            {%- if _prot != blank -%}
+              <div class="cm-info-card__row">
+                <span class="cm-info-card__label">Proteínas</span>
+                <span class="cm-info-card__value">{{ _prot }}</span>
+              </div>
+            {%- endif -%}
+            {%- if _sugar != blank -%}
+              <div class="cm-info-card__row">
+                <span class="cm-info-card__label">Azúcares</span>
+                <span class="cm-info-card__value">{{ _sugar }}</span>
+              </div>
+            {%- elsif _kcal != blank -%}
+              <div class="cm-info-card__row">
+                <span class="cm-info-card__label">Azúcares</span>
+                <span class="cm-info-card__value">0 g</span>
+              </div>
+            {%- endif -%}
+          </div>
+        </article>
+
+        {%- comment -%} Card 2: Conservación y consumo {%- endcomment -%}
+        <article class="cm-info-card">
+          <div class="cm-info-card__icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M7 4h10M7 20h10M7 4l5 6.5L17 4M7 20l5-6.5L17 20"/>
+              <path d="M9.5 16.5c.5-1 1.3-1.5 2.5-1.5s2 .5 2.5 1.5"/>
+            </svg>
+          </div>
+          <h3 class="cm-info-card__title">Conservación y consumo</h3>
+          <div class="cm-info-card__rows">
+            {%- assign _cons_t  = product.metafields.custom.conservation_temp.value | default: section.settings.info_conservation_temp -%}
+            {%- assign _serv_t  = product.metafields.custom.service_temp.value | default: section.settings.info_service_temp -%}
+            {%- assign _cons_d  = product.metafields.custom.conservation_days.value | default: section.settings.info_conservation_days -%}
+            {%- if _cons_t != blank -%}
+              <div class="cm-info-card__row">
+                <span class="cm-info-card__label">Conservación</span>
+                <span class="cm-info-card__value">{{ _cons_t }}</span>
+              </div>
+            {%- endif -%}
+            {%- if _serv_t != blank -%}
+              <div class="cm-info-card__row">
+                <span class="cm-info-card__label">Consumo ideal</span>
+                <span class="cm-info-card__value">{{ _serv_t }}</span>
+              </div>
+            {%- endif -%}
+            {%- if _cons_d != blank -%}
+              <div class="cm-info-card__row">
+                <span class="cm-info-card__label">Una vez abierto</span>
+                <span class="cm-info-card__value">{{ _cons_d }}</span>
+              </div>
+            {%- endif -%}
+          </div>
+        </article>
+
       </div>
-      {%- endif -%}
+    </div>
+  </div>
+  {%- endif -%}
 
-      {%- if has_consumo -%}
-      <div class="cm-carousel-card" data-popup="consumo" role="button" tabindex="0" aria-label="Ver consumo y corte">
-        <div class="cm-carousel-card__icon">
-          <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 8.25v-1.5m0 1.5c-1.355 0-2.697.056-4.024.166C6.845 8.51 6 9.473 6 10.608v2.513m6-4.87c1.355 0 2.697.055 4.024.165C17.155 8.51 18 9.473 18 10.608v2.513m-3-4.87v-1.5m-6 4.5v7.5m12-7.5v7.5m-12 0h12"/>
-          </svg>
-        </div>
-        <p class="cm-carousel-card__title">Consumo y corte</p>
-        <p class="cm-carousel-card__preview">
-          {%- if mf_serving != blank -%}{{ mf_serving.value | strip_html | truncate: 100 }}{%- elsif mf_cutting != blank -%}{{ mf_cutting.value | truncate: 100 }}{%- else -%}Recomendaciones de consumo y técnicas de corte.{%- endif -%}
-        </p>
-        <span class="cm-carousel-card__cta">Saber más <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></span>
+  {%- comment -%} ════════════════════════════════════ ACORDEONES (bloques) ══ {%- endcomment -%}
+  {%- assign accordion_blocks = section.blocks | where: 'type', 'accordion' -%}
+  {%- if accordion_blocks.size > 0 -%}
+  <div class="cm-pdp__accordions" id="cm-accordions-{{ section.id }}" aria-label="Información detallada del producto">
+
+    {%- comment -%} ── ENCABEZADO DEL ACORDEÓN ── {%- endcomment -%}
+    <div class="cm-acc-header">
+      <div>
+        <span class="cm-acc-header__eyebrow">Detalles de la pieza</span>
+        <h2 class="cm-acc-header__title">Todo lo que <em>debes saber.</em></h2>
       </div>
-      {%- endif -%}
-
+      <span class="cm-acc-header__count">{{ accordion_blocks.size }} secciones</span>
     </div>
-    <div class="cm-carousel-arrows">
-      <button class="cm-carousel-arrow" id="cm-carousel-prev-{{ section.id }}" aria-label="Anterior">
-        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 19l-7-7 7-7"/></svg>
-      </button>
-      <button class="cm-carousel-arrow" id="cm-carousel-next-{{ section.id }}" aria-label="Siguiente">
-        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg>
-      </button>
-    </div>
-  </div>
-</div>
 
-{%- comment -%} ── POP-UPS ── {%- endcomment -%}
-<div class="cm-popup-overlay" id="cm-popup-nutritional" role="dialog" aria-modal="true" aria-label="Información nutricional">
-  <div class="cm-popup">
-    <button class="cm-popup__close" data-close-popup aria-label="Cerrar">
-      <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 18L18 6M6 6l12 12"/></svg>
-    </button>
-    <p class="cm-popup__eyebrow">Producto ibérico</p>
-    <h3 class="cm-popup__title">Información nutricional</h3>
-    <div class="cm-popup__content">
-      {%- if mf_nutritional != blank -%}
-        <div class="cm-popup__section">
-          <p class="cm-popup__section-title">Valores nutricionales</p>
-          <div>{{ mf_nutritional | metafield_tag }}</div>
-        </div>
-      {%- endif -%}
-      {%- if mf_allergens != blank -%}
-        <div class="cm-popup__section">
-          <p class="cm-popup__section-title">Alérgenos</p>
-          <p>{{ mf_allergens.value }}</p>
-        </div>
-      {%- endif -%}
-    </div>
-  </div>
-</div>
+    {%- assign acc_index = 0 -%}
+    {%- for block in section.blocks -%}
+      {%- if block.type != 'accordion' -%}{%- continue -%}{%- endif -%}
+      {%- assign acc_index = acc_index | plus: 1 -%}
 
-<div class="cm-popup-overlay" id="cm-popup-cata" role="dialog" aria-modal="true" aria-label="Notas de cata">
-  <div class="cm-popup">
-    <button class="cm-popup__close" data-close-popup aria-label="Cerrar">
-      <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 18L18 6M6 6l12 12"/></svg>
-    </button>
-    <p class="cm-popup__eyebrow">Producto ibérico</p>
-    <h3 class="cm-popup__title">Notas de cata</h3>
-    <div class="cm-popup__content">
-      {%- if mf_texture != blank -%}
-        <div class="cm-popup__section">
-          <p class="cm-popup__section-title">Textura</p>
-          <p>{{ mf_texture.value }}</p>
-        </div>
-      {%- endif -%}
-      {%- if mf_aroma != blank -%}
-        <div class="cm-popup__section">
-          <p class="cm-popup__section-title">Aroma</p>
-          <p>{{ mf_aroma.value }}</p>
-        </div>
-      {%- endif -%}
-      {%- if mf_flavor != blank -%}
-        <div class="cm-popup__section">
-          <p class="cm-popup__section-title">Sabor</p>
-          <div>{{ mf_flavor | metafield_tag }}</div>
-        </div>
-      {%- endif -%}
-    </div>
-  </div>
-</div>
-
-<div class="cm-popup-overlay" id="cm-popup-consumo" role="dialog" aria-modal="true" aria-label="Consumo y corte">
-  <div class="cm-popup">
-    <button class="cm-popup__close" data-close-popup aria-label="Cerrar">
-      <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 18L18 6M6 6l12 12"/></svg>
-    </button>
-    <p class="cm-popup__eyebrow">Producto ibérico</p>
-    <h3 class="cm-popup__title">Consumo y corte</h3>
-    <div class="cm-popup__content">
-      {%- if mf_serving != blank -%}
-        <div class="cm-popup__section">
-          <p class="cm-popup__section-title">Sugerencias de consumo</p>
-          <div>{{ mf_serving | metafield_tag }}</div>
-        </div>
-      {%- endif -%}
-      {%- if mf_cutting != blank -%}
-        <div class="cm-popup__section">
-          <p class="cm-popup__section-title">Consejos de corte</p>
-          <p>{{ mf_cutting.value }}</p>
-        </div>
-      {%- endif -%}
-    </div>
-  </div>
-</div>
-{%- endif -%}
-
-{%- comment -%} ════════════════════════════════════ ACORDEONES (bloques) ══ {%- endcomment -%}
-{%- assign accordion_blocks = section.blocks | where: 'type', 'accordion' -%}
-{%- if accordion_blocks.size > 0 -%}
-<div class="cm-pdp__accordions" id="cm-accordions-{{ section.id }}" aria-label="Información detallada del producto">
-
-  {%- for block in section.blocks -%}
-    {%- if block.type != 'accordion' -%}{%- continue -%}{%- endif -%}
-
-    {%- assign acc_mf_key = block.settings.metafield_key -%}
-    {%- assign acc_mf_val = blank -%}
-    {%- if acc_mf_key != blank -%}
-      {%- assign acc_mf_obj = product.metafields.custom[acc_mf_key] -%}
-      {%- if acc_mf_obj.type == 'rich_text' -%}
-        {%- assign acc_mf_val = acc_mf_obj | metafield_tag -%}
-      {%- else -%}
-        {%- assign acc_mf_val = acc_mf_obj.value -%}
-      {%- endif -%}
-    {%- endif -%}
-    {%- assign acc_content = acc_mf_val | default: block.settings.content_fallback -%}
-
-    <div class="cm-accordion" {{ block.shopify_attributes }}>
-      <button
-        class="cm-accordion__trigger"
-        aria-expanded="false"
-        aria-controls="cm-acc-{{ block.id }}"
-        id="cm-acc-btn-{{ block.id }}"
-        type="button"
-      >
-        <span class="cm-accordion__trigger-left">
-          <span class="cm-accordion__trigger-icon" aria-hidden="true">
-            {%- case block.settings.icon -%}
-              {%- when 'conservation' -%}
-                <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0112 15a9.065 9.065 0 00-6.23-.693L5 14.5m14.8.8l1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0112 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5"/></svg>
-              {%- when 'origin' -%}
-                <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6.75V15m6-6v8.25m.503 3.498l4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 00-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0z"/></svg>
-              {%- when 'fork' -%}
-                <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8.25v-1.5m0 1.5c-1.355 0-2.697.056-4.024.166C6.845 8.51 6 9.473 6 10.608v2.513m6-4.87c1.355 0 2.697.055 4.024.165C17.155 8.51 18 9.473 18 10.608v2.513m-3-4.87v-1.5m-6 4.5v7.5m12-7.5v7.5m-12 0h12"/></svg>
-              {%- when 'sun' -%}
-                <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"/></svg>
-              {%- else -%}
-                <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"/></svg>
-            {%- endcase -%}
-          </span>
-          <span class="cm-accordion__trigger-title">{{ block.settings.title }}</span>
-        </span>
-        <svg class="cm-accordion__chevron" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
-          <path d="M19 9l-7 7-7-7"/>
-        </svg>
-      </button>
-      <div class="cm-accordion__content" id="cm-acc-{{ block.id }}" role="region" aria-labelledby="cm-acc-btn-{{ block.id }}">
-        <div class="cm-accordion__body">
-          {%- if acc_content != blank -%}
-            <div class="cm-accordion-block">{{ acc_content }}</div>
+      {%- comment -%} Leer metadato: primero intenta namespace custom, luego usa contenido directo del bloque {%- endcomment -%}
+      {%- assign acc_mf_key = block.settings.metafield_key | strip -%}
+      {%- assign acc_mf_val = blank -%}
+      {%- if acc_mf_key != blank -%}
+        {%- assign acc_mf_obj = product.metafields.custom[acc_mf_key] -%}
+        {%- if acc_mf_obj != blank -%}
+          {%- if acc_mf_obj.type == 'rich_text' -%}
+            {%- assign acc_mf_val = acc_mf_obj | metafield_tag -%}
+          {%- elsif acc_mf_obj.type == 'multi_line_text_field' -%}
+            {%- assign acc_mf_val = acc_mf_obj.value | newline_to_br -%}
           {%- else -%}
-            <p class="cm-accordion-block__empty">Información no añadida todavía para este producto.</p>
+            {%- assign acc_mf_val = acc_mf_obj.value | default: '' -%}
           {%- endif -%}
+        {%- endif -%}
+      {%- endif -%}
+      {%- assign acc_content = acc_mf_val | default: block.settings.content_fallback -%}
+
+      <div class="cm-accordion" data-accordion {{ block.shopify_attributes }}>
+        <button
+          class="cm-accordion__trigger"
+          aria-expanded="false"
+          aria-controls="cm-acc-{{ block.id }}"
+          id="cm-acc-btn-{{ block.id }}"
+          type="button"
+        >
+          <span class="cm-accordion__trigger-left">
+            <span class="cm-accordion__trigger-icon" aria-hidden="true">
+              {%- case block.settings.icon -%}
+                {%- when 'conservation' -%}
+                  <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0112 15a9.065 9.065 0 00-6.23-.693L5 14.5m14.8.8l1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0112 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5"/>
+                  </svg>
+                {%- when 'origin' -%}
+                  <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 6.75V15m6-6v8.25m.503 3.498l4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 00-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0z"/>
+                  </svg>
+                {%- when 'fork' -%}
+                  <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 8.25v-1.5m0 1.5c-1.355 0-2.697.056-4.024.166C6.845 8.51 6 9.473 6 10.608v2.513m6-4.87c1.355 0 2.697.055 4.024.165C17.155 8.51 18 9.473 18 10.608v2.513m-3-4.87v-1.5m-6 4.5v7.5m12-7.5v7.5m-12 0h12"/>
+                  </svg>
+                {%- when 'sun' -%}
+                  <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"/>
+                  </svg>
+                {%- else -%}
+                  <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"/>
+                  </svg>
+              {%- endcase -%}
+            </span>
+            <div>
+              <span class="cm-accordion__trigger-title">{{ block.settings.title }}</span>
+              {%- if block.settings.summary != blank -%}
+                <span class="cm-accordion__trigger-summary">{{ block.settings.summary }}</span>
+              {%- endif -%}
+            </div>
+          </span>
+          <svg class="cm-accordion__chevron" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <path d="M19 9l-7 7-7-7"/>
+          </svg>
+        </button>
+        <div
+          class="cm-accordion__content"
+          id="cm-acc-{{ block.id }}"
+          role="region"
+          aria-labelledby="cm-acc-btn-{{ block.id }}"
+        >
+          <div class="cm-accordion__body">
+            {%- if block.blocks.size > 0 -%}
+              {%- for child_block in block.blocks -%}
+                {%- case child_block.type -%}
+
+                  {%- when 'richtext_block' -%}
+                    <div class="cm-accordion-block" {{ child_block.shopify_attributes }}>
+                      {%- if child_block.settings.subtitle != blank -%}
+                        <p class="cm-accordion-block__title">{{ child_block.settings.subtitle }}</p>
+                      {%- endif -%}
+                      {{ child_block.settings.text }}
+                    </div>
+
+                  {%- when 'image_block' -%}
+                    {%- if child_block.settings.image != blank -%}
+                      <div class="cm-accordion-block cm-accordion-block--image" {{ child_block.shopify_attributes }}>
+                        <img
+                          src="{{ child_block.settings.image | image_url: width: 800 }}"
+                          alt="{{ child_block.settings.image.alt | escape | default: child_block.settings.caption }}"
+                          width="{{ child_block.settings.image.width }}"
+                          height="{{ child_block.settings.image.height }}"
+                          loading="lazy"
+                        >
+                        {%- if child_block.settings.caption != blank -%}
+                          <p class="cm-accordion-block__caption">{{ child_block.settings.caption }}</p>
+                        {%- endif -%}
+                      </div>
+                    {%- endif -%}
+
+                {%- endcase -%}
+              {%- endfor -%}
+
+            {%- elsif acc_content != blank -%}
+              <div class="cm-accordion-block">{{ acc_content }}</div>
+            {%- endif -%}
+            {%- assign has_kv = false -%}
+            {%- for i in (1..5) -%}
+              {%- assign kv_lbl = 'kv_' | append: i | append: '_label' -%}
+              {%- assign kv_val = 'kv_' | append: i | append: '_value' -%}
+              {%- if block.settings[kv_lbl] != blank or block.settings[kv_val] != blank -%}
+                {%- assign has_kv = true -%}
+              {%- endif -%}
+            {%- endfor -%}
+            {%- if has_kv -%}
+              <dl class="cm-accordion-kv">
+                {%- for i in (1..5) -%}
+                  {%- assign kv_lbl = 'kv_' | append: i | append: '_label' -%}
+                  {%- assign kv_val = 'kv_' | append: i | append: '_value' -%}
+                  {%- if block.settings[kv_lbl] != blank or block.settings[kv_val] != blank -%}
+                    <div class="cm-accordion-kv__row">
+                      <dt class="cm-accordion-kv__label">{{ block.settings[kv_lbl] }}</dt>
+                      <dd class="cm-accordion-kv__value">{{ block.settings[kv_val] }}</dd>
+                    </div>
+                  {%- endif -%}
+                {%- endfor -%}
+              </dl>
+            {%- endif -%}
+            {%- if block.blocks.size == 0 and acc_content == blank and has_kv == false -%}
+              <p class="cm-accordion-block__empty">Información no añadida todavía para este producto.</p>
+            {%- endif -%}
+          </div>
         </div>
       </div>
-    </div>
 
-  {%- endfor -%}
-</div>
-{%- endif -%}
-{%- comment -%} fin acordeones {%- endcomment -%}
+    {%- endfor -%}
+  </div>
+  {%- endif -%}
+  {%- comment -%} fin acordeones {%- endcomment -%}
+
+</section>
 
 {%- comment -%} ════════════════════════════════════ COMBINA (oculta por defecto) ══ {%- endcomment -%}
 <div class="cm-combina-section" id="cm-combina-section">
@@ -1713,15 +2278,29 @@
 
 {%- comment -%} ════════════════════════════════════ STICKY ATC ══ {%- endcomment -%}
 {%- if section.settings.show_sticky_atc -%}
-  <div class="cm-sticky-atc" id="cm-sticky-atc-{{ section.id }}" aria-hidden="true" aria-label="Compra rápida">
+  <div
+    class="cm-sticky-atc"
+    id="cm-sticky-atc-{{ section.id }}"
+    aria-hidden="true"
+    aria-label="Compra rápida"
+  >
     <div class="cm-sticky-atc__inner">
       <div class="cm-sticky-atc__product">
         {%- if product.featured_image -%}
-          <img class="cm-sticky-atc__img" src="{{ product.featured_image | image_url: width: 100 }}" alt="{{ product.title | escape }}" width="44" height="44" loading="lazy">
+          <img
+            class="cm-sticky-atc__img"
+            src="{{ product.featured_image | image_url: width: 100 }}"
+            alt="{{ product.title | escape }}"
+            width="44"
+            height="44"
+            loading="lazy"
+          >
         {%- endif -%}
         <div>
           <span class="cm-sticky-atc__name">{{ product.title | truncate: 45 }}</span>
-          <span class="cm-sticky-atc__price" id="cm-sticky-price-{{ section.id }}">{{ current_variant.price | money }}</span>
+          <span class="cm-sticky-atc__price" id="cm-sticky-price-{{ section.id }}">
+            {{ current_variant.price | money }}
+          </span>
         </div>
       </div>
       <div class="cm-sticky-atc__right">
@@ -1730,7 +2309,13 @@
           <span class="cm-sticky-qty__val" id="cm-sticky-qty-val-{{ section.id }}">1</span>
           <button type="button" class="cm-sticky-qty__btn" id="cm-sticky-qty-plus-{{ section.id }}" aria-label="Aumentar cantidad">+</button>
         </div>
-        <button type="button" class="cm-sticky-atc__btn" id="cm-sticky-btn-{{ section.id }}" {%- unless current_variant.available -%}disabled{%- endunless -%} aria-label="Añadir a la cesta">
+        <button
+          type="button"
+          class="cm-sticky-atc__btn"
+          id="cm-sticky-btn-{{ section.id }}"
+          {%- unless current_variant.available -%}disabled{%- endunless -%}
+          aria-label="Añadir a la cesta"
+        >
           {%- if current_variant.available -%}Añadir a la cesta{%- else -%}Agotado{%- endif -%}
         </button>
       </div>
@@ -1744,14 +2329,14 @@ document.addEventListener('DOMContentLoaded', function() {
 (function() {
   'use strict';
 
-  var SID = '{{ section.id }}';
-  var data = window['cmPDP_' + SID];
+  const SID = '{{ section.id }}';
+  const data = window['cmPDP_' + SID];
 
   /* ── Utilidades ── */
-  function $id(id) { return document.getElementById(id); }
+  function $(id) { return document.getElementById(id); }
   function formatMoney(cents) {
     if (!data) return cents;
-    var amount = (cents / 100).toFixed(2);
+    const amount = (cents / 100).toFixed(2);
     return data.moneyFormat
       .replace('{' + '{amount}}', amount)
       .replace('{' + '{amount_with_comma_separator}}', amount.replace('.', ','))
@@ -1759,64 +2344,65 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   /* ── Galería — thumbnails ── */
-  var mainImg = $id('cm-main-img-' + SID);
+  const mainImg = $('cm-main-img-' + SID);
   if (mainImg) {
-    document.querySelectorAll('.cm-pdp__thumb-btn').forEach(function(btn) {
-      btn.addEventListener('click', function() {
+    document.querySelectorAll('.cm-pdp__thumb-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
         mainImg.classList.add('is-loading');
-        var newSrc = btn.dataset.imageSrc;
-        var tempImg = new Image();
-        tempImg.onload = function() {
+        const newSrc = btn.dataset.imageSrc;
+        const tempImg = new Image();
+        tempImg.onload = () => {
           mainImg.src = newSrc;
           mainImg.alt = btn.dataset.imageAlt || '';
           mainImg.classList.remove('is-loading');
         };
         tempImg.src = newSrc;
-        document.querySelectorAll('.cm-pdp__thumb-btn').forEach(function(t) { t.classList.remove('is-active'); });
+        document.querySelectorAll('.cm-pdp__thumb-btn').forEach(t => t.classList.remove('is-active'));
         btn.classList.add('is-active');
       });
     });
   }
 
-  /* ── Selector de curación ── */
-  var curingSelect = document.querySelector('#cm-curing-' + SID + ' [data-curing-select]');
-  var curingHint   = $id('cm-curing-hint-' + SID);
+  /* ── Selector de curación (dropdown) ── */
+  const curingSelect = document.querySelector('#cm-curing-' + SID + ' [data-curing-select]');
+  const curingHint   = $('cm-curing-hint-' + SID);
   if (curingSelect) {
     curingSelect.addEventListener('change', function() {
-      var opt = this.options[this.selectedIndex];
+      const opt = this.options[this.selectedIndex];
       if (curingHint) curingHint.textContent = opt.dataset.desc || '';
     });
   }
 
   /* ── Selector de cantidad ── */
-  var qtyInput = $id('cm-qty-' + SID);
-  var qtyMinus = $id('cm-qty-minus-' + SID);
-  var qtyPlus  = $id('cm-qty-plus-' + SID);
+  const qtyInput = $('cm-qty-' + SID);
+  const qtyMinus = $('cm-qty-minus-' + SID);
+  const qtyPlus  = $('cm-qty-plus-' + SID);
 
   function getQty() { return qtyInput ? parseInt(qtyInput.value, 10) || 1 : 1; }
   function setQty(v) {
     v = Math.max(1, v);
     if (qtyInput) qtyInput.value = v;
-    var stickyVal = $id('cm-sticky-qty-val-' + SID);
+    const stickyVal = $('cm-sticky-qty-val-' + SID);
     if (stickyVal) stickyVal.textContent = v;
   }
 
   if (qtyInput) {
-    if (qtyMinus) qtyMinus.addEventListener('click', function() { setQty(getQty() - 1); });
-    if (qtyPlus)  qtyPlus.addEventListener('click',  function() { setQty(getQty() + 1); });
-    qtyInput.addEventListener('change', function() { setQty(parseInt(qtyInput.value, 10)); });
+    qtyMinus?.addEventListener('click', () => setQty(getQty() - 1));
+    qtyPlus?.addEventListener('click',  () => setQty(getQty() + 1));
+    qtyInput.addEventListener('change', () => setQty(parseInt(qtyInput.value, 10)));
   }
 
-  var stickyQtyMinus = $id('cm-sticky-qty-minus-' + SID);
-  var stickyQtyPlus  = $id('cm-sticky-qty-plus-' + SID);
-  if (stickyQtyMinus) stickyQtyMinus.addEventListener('click', function() { setQty(getQty() - 1); });
-  if (stickyQtyPlus)  stickyQtyPlus.addEventListener('click',  function() { setQty(getQty() + 1); });
+  /* ── Qty sticky sincronizada ── */
+  const stickyQtyMinus = $('cm-sticky-qty-minus-' + SID);
+  const stickyQtyPlus  = $('cm-sticky-qty-plus-' + SID);
+  stickyQtyMinus?.addEventListener('click', () => setQty(getQty() - 1));
+  stickyQtyPlus?.addEventListener('click',  () => setQty(getQty() + 1));
 
   /* ── Selector de variantes ── */
-  var selectedOptions = {};
-  document.querySelectorAll('.cm-pdp__select[data-section="' + SID + '"]').forEach(function(sel) {
+  const selectedOptions = {};
+  document.querySelectorAll('.cm-pdp__select[data-section="' + SID + '"]').forEach(sel => {
     selectedOptions[sel.dataset.optionIndex] = sel.value;
-    sel.addEventListener('change', function() {
+    sel.addEventListener('change', () => {
       selectedOptions[sel.dataset.optionIndex] = sel.value;
       updateVariant();
     });
@@ -1824,25 +2410,27 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function findVariant() {
     if (!data) return null;
-    return data.variants.find(function(v) {
-      var m1 = !v.option1 || v.option1 === selectedOptions[1];
-      var m2 = !v.option2 || v.option2 === selectedOptions[2];
-      var m3 = !v.option3 || v.option3 === selectedOptions[3];
+    return data.variants.find(v => {
+      const m1 = !v.option1 || v.option1 === selectedOptions[1];
+      const m2 = !v.option2 || v.option2 === selectedOptions[2];
+      const m3 = !v.option3 || v.option3 === selectedOptions[3];
       return m1 && m2 && m3;
     });
   }
 
   function updateVariant() {
-    var variant = findVariant();
+    const variant = findVariant();
     if (!variant) return;
 
-    var idInput = $id('cm-variant-id-' + SID);
+    /* ID oculto */
+    const idInput = $('cm-variant-id-' + SID);
     if (idInput) idInput.value = variant.id;
 
-    var priceEl  = $id('cm-price-' + SID);
-    var cmpEl    = $id('cm-compare-price-' + SID);
-    var badgeEl  = $id('cm-discount-badge-' + SID);
-    var stickyP  = $id('cm-sticky-price-' + SID);
+    /* Precio */
+    const priceEl  = $('cm-price-' + SID);
+    const cmpEl    = $('cm-compare-price-' + SID);
+    const badgeEl  = $('cm-discount-badge-' + SID);
+    const stickyP  = $('cm-sticky-price-' + SID);
 
     if (priceEl) {
       priceEl.textContent = formatMoney(variant.price);
@@ -1858,7 +2446,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     if (badgeEl) {
       if (variant.compare_at_price > variant.price) {
-        var pct = Math.round((variant.compare_at_price - variant.price) * 100 / variant.compare_at_price);
+        const pct = Math.round((variant.compare_at_price - variant.price) * 100 / variant.compare_at_price);
         badgeEl.textContent = '-' + pct + '%';
         badgeEl.style.display = '';
       } else {
@@ -1867,9 +2455,10 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     if (stickyP) stickyP.textContent = formatMoney(variant.price);
 
-    var addBtn  = $id('cm-add-' + SID);
-    var addText = $id('cm-add-text-' + SID);
-    var stickyBtn = $id('cm-sticky-btn-' + SID);
+    /* Botón añadir */
+    const addBtn  = $('cm-add-' + SID);
+    const addText = $('cm-add-text-' + SID);
+    const stickyBtn = $('cm-sticky-btn-' + SID);
     if (addBtn) {
       addBtn.disabled = !variant.available;
       if (addText) addText.textContent = variant.available ? 'Añadir a la cesta' : 'Agotado';
@@ -1879,10 +2468,11 @@ document.addEventListener('DOMContentLoaded', function() {
       stickyBtn.textContent = variant.available ? 'Añadir a la cesta' : 'Agotado';
     }
 
+    /* Imagen de variante */
     if (variant.featured_image && mainImg) {
       mainImg.classList.add('is-loading');
-      var tempImg = new Image();
-      tempImg.onload = function() {
+      const tempImg = new Image();
+      tempImg.onload = () => {
         mainImg.src = variant.featured_image.src;
         mainImg.classList.remove('is-loading');
       };
@@ -1895,6 +2485,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var track = document.getElementById('cm-combina-track');
     if (!track || track.dataset.loaded) return;
     track.dataset.loaded = 'true';
+
     var productId = '{{ product.id }}';
 
     function renderProducts(products) {
@@ -1905,7 +2496,7 @@ document.addEventListener('DOMContentLoaded', function() {
       track.innerHTML = '';
       products.forEach(function(p) {
         var cents = p.variants && p.variants[0] ? p.variants[0].price : 0;
-        var price = (cents / 100).toFixed(2).replace('.', ',') + ' €';
+        var price = (cents / 100).toFixed(2).replace('.', ',') + ' €';
         var img = p.featured_image || '';
         var card = document.createElement('a');
         card.href = p.url;
@@ -1921,14 +2512,12 @@ document.addEventListener('DOMContentLoaded', function() {
       var prevBtn = document.getElementById('cm-combina-prev');
       var nextBtn = document.getElementById('cm-combina-next');
       if (wrap && prevBtn && nextBtn) {
-        prevBtn.addEventListener('click', function() {
+        function scrollByCard(dir) {
           var card = track.querySelector('.cm-combina__card');
-          if (card) wrap.scrollLeft -= (card.offsetWidth + 16);
-        });
-        nextBtn.addEventListener('click', function() {
-          var card = track.querySelector('.cm-combina__card');
-          if (card) wrap.scrollLeft += (card.offsetWidth + 16);
-        });
+          if (card) wrap.scrollLeft += dir * (card.offsetWidth + 16);
+        }
+        prevBtn.addEventListener('click', function() { scrollByCard(-1); });
+        nextBtn.addEventListener('click', function() { scrollByCard(1); });
         wrap.addEventListener('scroll', function() {
           prevBtn.disabled = wrap.scrollLeft <= 0;
           nextBtn.disabled = wrap.scrollLeft >= wrap.scrollWidth - wrap.offsetWidth - 1;
@@ -1954,146 +2543,146 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   function revealCombina() {
-    var el = document.getElementById('cm-combina-section');
+    const el = document.getElementById('cm-combina-section');
     if (!el) return;
     el.style.display = 'block';
     loadCombinaProducts();
-    requestAnimationFrame(function() {
-      requestAnimationFrame(function() {
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
         el.classList.add('is-animating');
-        setTimeout(function() { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 300);
+        setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 300);
       });
     });
   }
 
   function updateCartCount() {
     fetch('/cart.js')
-      .then(function(r) { return r.json(); })
-      .then(function(cart) {
-        document.querySelectorAll('[data-cart-count], .cart-count, .header__cart-count, .js-cart-count').forEach(function(el) {
+      .then(r => r.json())
+      .then(cart => {
+        document.querySelectorAll('[data-cart-count], .cart-count, .header__cart-count, .js-cart-count').forEach(el => {
           el.textContent = cart.item_count;
           el.setAttribute('aria-label', cart.item_count + ' artículos en la cesta');
         });
       })
-      .catch(function() {});
+      .catch(() => {});
   }
 
   function setAddBtnState(state) {
-    var addBtn    = $id('cm-add-' + SID);
-    var addText   = $id('cm-add-text-' + SID);
-    var stickyBtn = $id('cm-sticky-btn-' + SID);
-    var labels = { idle: 'Añadir a la cesta', loading: 'Añadiendo…', done: '✓ Añadido' };
+    const addBtn    = $('cm-add-' + SID);
+    const addText   = $('cm-add-text-' + SID);
+    const stickyBtn = $('cm-sticky-btn-' + SID);
+    const labels = { idle: 'Añadir a la cesta', loading: 'Añadiendo…', done: '✓ Añadido' };
     if (addBtn)    addBtn.disabled = (state !== 'idle');
     if (addText)   addText.textContent = labels[state] || labels.idle;
     if (stickyBtn) { stickyBtn.disabled = (state !== 'idle'); stickyBtn.textContent = labels[state] || labels.idle; }
   }
 
-  var mainForm = $id('cm-form-' + SID);
-  if (mainForm) {
-    mainForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-      var variantId = $id('cm-variant-id-' + SID) ? $id('cm-variant-id-' + SID).value : null;
-      if (!variantId) return;
+  const mainForm = $('cm-form-' + SID);
+  let isSubmitting = false;
 
-      setAddBtnState('loading');
+  async function addToCartAjax() {
+    if (isSubmitting) return;
+    isSubmitting = true;
 
-      var curingSelectEl = document.querySelector('#cm-curing-' + SID + ' [data-curing-select]');
-      var curingVal = curingSelectEl ? curingSelectEl.value : '';
-      var weightSelectEl = document.querySelector('[data-weight-select]');
-      var weightVal = weightSelectEl ? weightSelectEl.value : '';
-      var cartBody = { id: variantId, quantity: getQty(), properties: {} };
+    const variantId = $('cm-variant-id-' + SID)?.value;
+    if (!variantId) { isSubmitting = false; return; }
+
+    setAddBtnState('loading');
+
+    try {
+      const curingSelectEl = document.querySelector('#cm-curing-' + SID + ' [data-curing-select]');
+      const curingVal = curingSelectEl ? curingSelectEl.value : '';
+      const weightSelectEl = document.querySelector('[data-weight-select]');
+      const weightVal = weightSelectEl ? weightSelectEl.value : '';
+      const cartBody = {
+        id: variantId,
+        quantity: getQty(),
+        properties: {}
+      };
       if (curingVal) cartBody.properties['Punto de curación'] = curingVal;
       if (weightVal) cartBody.properties['Peso aproximado'] = weightVal;
 
-      fetch('/cart/add.js', {
+      const ctrl = new AbortController();
+      const tOut = setTimeout(() => ctrl.abort(), 12000);
+
+      const res = await fetch('/cart/add.js', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify(cartBody)
-      })
-      .then(function(res) {
-        if (!res.ok) throw new Error('add failed');
-        setAddBtnState('done');
-        updateCartCount();
-        revealCombina();
-        setTimeout(function() { setAddBtnState('idle'); }, 2500);
-      })
-      .catch(function() { setAddBtnState('idle'); });
+        body: JSON.stringify(cartBody),
+        signal: ctrl.signal
+      });
+      clearTimeout(tOut);
+
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}));
+        throw new Error(errData.description || 'HTTP ' + res.status);
+      }
+
+      /* Añadir upsell items seleccionados */
+      const upsellChecks = document.querySelectorAll('#cm-upsell-' + SID + ' .cm-upsell__check:checked');
+      for (const chk of upsellChecks) {
+        const vid = chk.dataset.variantId;
+        const disc = parseInt(chk.dataset.disc || '0', 10);
+        if (!vid) continue;
+        const upBody = { id: vid, quantity: 1, properties: {} };
+        if (disc > 0) upBody.properties['Descuento bundle'] = '-' + disc + '%';
+        await fetch('/cart/add.js', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify(upBody)
+        }).catch(() => {});
+      }
+
+      setAddBtnState('done');
+      updateCartCount();
+      revealCombina();
+      setTimeout(() => setAddBtnState('idle'), 2500);
+    } catch(err) {
+      console.warn('[CM] Cart add failed:', err && err.message);
+      setAddBtnState('idle');
+    } finally {
+      isSubmitting = false;
+    }
+  }
+
+  if (mainForm) {
+    mainForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      addToCartAjax();
     });
   }
 
   /* ── Toggle descripción ── */
-  var descToggle = $id('cm-desc-toggle-' + SID);
+  const descToggle = $('cm-desc-toggle-' + SID);
   if (descToggle) {
-    var fullEl    = $id('cm-desc-full-' + SID);
-    var previewEl = $id('cm-desc-preview-' + SID);
-    var moreText  = descToggle.querySelector('.cm-desc-toggle__more');
-    var lessText  = descToggle.querySelector('.cm-desc-toggle__less');
+    const fullEl    = $('cm-desc-full-' + SID);
+    const previewEl = $('cm-desc-preview-' + SID);
+    const moreText  = descToggle.querySelector('.cm-desc-toggle__more');
+    const lessText  = descToggle.querySelector('.cm-desc-toggle__less');
 
-    descToggle.addEventListener('click', function() {
-      var expanded = descToggle.getAttribute('aria-expanded') === 'true';
+    descToggle.addEventListener('click', () => {
+      const expanded = descToggle.getAttribute('aria-expanded') === 'true';
       descToggle.setAttribute('aria-expanded', String(!expanded));
-      if (fullEl)    { fullEl.classList.toggle('is-open', !expanded); fullEl.setAttribute('aria-hidden', String(expanded)); }
+      if (fullEl)    {
+        fullEl.classList.toggle('is-open', !expanded);
+        fullEl.setAttribute('aria-hidden', String(expanded));
+      }
       if (previewEl) previewEl.style.display = expanded ? '' : 'none';
       if (moreText)  moreText.style.display  = expanded ? '' : 'none';
       if (lessText)  lessText.style.display  = expanded ? 'none' : '';
     });
   }
 
-  /* ── Sticky ATC ── */
-  {%- if section.settings.show_sticky_atc -%}
-  var addBtnEl  = $id('cm-add-' + SID);
-  var stickyAtc = $id('cm-sticky-atc-' + SID);
-  var stickyBtn = $id('cm-sticky-btn-' + SID);
-
-  if (addBtnEl && stickyAtc) {
-    if (window.Shopify && Shopify.designMode) {
-      stickyAtc.classList.add('is-visible');
-      stickyAtc.setAttribute('aria-hidden', 'false');
-    } else if ('IntersectionObserver' in window) {
-      var observer = new IntersectionObserver(function(entries) {
-        entries.forEach(function(entry) {
-          var visible = !entry.isIntersecting;
-          stickyAtc.classList.toggle('is-visible', visible);
-          stickyAtc.setAttribute('aria-hidden', String(!visible));
-        });
-      }, { threshold: 0, rootMargin: '0px 0px -60px 0px' });
-      observer.observe(addBtnEl);
-    }
-  }
-
-  if (stickyBtn) {
-    stickyBtn.addEventListener('click', function() {
-      if (mainForm) { if (mainForm.requestSubmit) { mainForm.requestSubmit(); } else { mainForm.submit(); } }
-    });
-  }
-  {%- endif -%}
-
-  /* ── Scroll reveal ── */
-  if ('IntersectionObserver' in window) {
-    var revealObs = new IntersectionObserver(function(entries) {
-      entries.forEach(function(entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-revealed');
-          revealObs.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.08 });
-    document.querySelectorAll('.cm-reveal').forEach(function(el) { revealObs.observe(el); });
-  } else {
-    document.querySelectorAll('.cm-reveal').forEach(function(el) { el.classList.add('is-revealed'); });
-  }
-
-})();
-}); // DOMContentLoaded
-
-/* ── Acordeones ── */
+  /* ── Acordeones ── */
 setTimeout(function() {
   var allAccordions = document.querySelectorAll('.cm-accordion');
+  
   if (!allAccordions || allAccordions.length === 0) return;
 
   allAccordions.forEach(function(acc) {
     var trigger = acc.querySelector('.cm-accordion__trigger');
     var content = acc.querySelector('.cm-accordion__content');
+    
     if (!trigger || !content) return;
 
     content.style.maxHeight = '0px';
@@ -2113,66 +2702,90 @@ setTimeout(function() {
 
       if (!isOpen) {
         trigger.setAttribute('aria-expanded', 'true');
-        content.style.maxHeight = '2000px';
+        content.style.maxHeight = content.scrollHeight + 'px';
       }
     });
   });
-}, 300);
+}, 200);
 
-/* ── Carrusel + Pop-ups ── */
-setTimeout(function() {
-  var track   = document.getElementById('cm-carousel-track-{{ section.id }}');
-  var prevBtn = document.getElementById('cm-carousel-prev-{{ section.id }}');
-  var nextBtn = document.getElementById('cm-carousel-next-{{ section.id }}');
+  /* ── Sticky ATC ── */
+  {%- if section.settings.show_sticky_atc -%}
+  const addBtnEl  = $('cm-add-' + SID);
+  const stickyAtc = $('cm-sticky-atc-' + SID);
+  const stickyBtn = $('cm-sticky-btn-' + SID);
 
-  if (track && prevBtn && nextBtn) {
-    var cardWidth = 276;
-    prevBtn.addEventListener('click', function() { track.scrollBy({ left: -cardWidth, behavior: 'smooth' }); });
-    nextBtn.addEventListener('click', function() { track.scrollBy({ left: cardWidth, behavior: 'smooth' }); });
+  if (addBtnEl && stickyAtc) {
+    /* En el editor de Shopify siempre visible para poder diseñar */
+    if (window.Shopify && Shopify.designMode) {
+      stickyAtc.classList.add('is-visible');
+      stickyAtc.setAttribute('aria-hidden', 'false');
+    } else if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          const visible = !entry.isIntersecting;
+          stickyAtc.classList.toggle('is-visible', visible);
+          stickyAtc.setAttribute('aria-hidden', String(!visible));
+        });
+      }, { threshold: 0, rootMargin: '0px 0px -60px 0px' });
+      observer.observe(addBtnEl);
+    }
   }
 
-  /* Pop-ups */
-  document.querySelectorAll('.cm-carousel-card[data-popup]').forEach(function(card) {
-    function openPopup() {
-      var popupId = 'cm-popup-' + card.getAttribute('data-popup');
-      var overlay = document.getElementById(popupId);
-      if (overlay) {
-        overlay.classList.add('is-open');
-        document.body.style.overflow = 'hidden';
-      }
-    }
-    card.addEventListener('click', openPopup);
-    card.addEventListener('keydown', function(e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openPopup(); } });
-  });
+  if (stickyBtn) {
+    stickyBtn.addEventListener('click', () => addToCartAjax());
+  }
+  {%- endif -%}
 
-  document.querySelectorAll('.cm-popup-overlay').forEach(function(overlay) {
-    overlay.addEventListener('click', function(e) {
-      if (e.target === overlay) {
-        overlay.classList.remove('is-open');
-        document.body.style.overflow = '';
-      }
-    });
-  });
-
-  document.querySelectorAll('[data-close-popup]').forEach(function(btn) {
-    btn.addEventListener('click', function() {
-      var overlay = btn.closest('.cm-popup-overlay');
-      if (overlay) {
-        overlay.classList.remove('is-open');
-        document.body.style.overflow = '';
-      }
-    });
-  });
-
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') {
-      document.querySelectorAll('.cm-popup-overlay.is-open').forEach(function(o) {
-        o.classList.remove('is-open');
-        document.body.style.overflow = '';
+  /* ── Scroll reveal ── */
+  if ('IntersectionObserver' in window) {
+    const revealObs = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-revealed');
+          revealObs.unobserve(entry.target);
+        }
       });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.cm-reveal').forEach(el => revealObs.observe(el));
+  } else {
+    document.querySelectorAll('#cm-pdp-' + SID + ' .cm-reveal').forEach(el => el.classList.add('is-revealed'));
+  }
+
+  /* ── Wishlist toggle ── */
+  const wishlistBtn = $('cm-wishlist-' + SID);
+  if (wishlistBtn) {
+    const wishlistKey = 'cm_wishlist_' + '{{ product.id }}';
+    const wishlistIcon = wishlistBtn.querySelector('svg');
+    const wishlistText = wishlistBtn.querySelector('.cm-wishlist-text');
+
+    function setWishlistState(active) {
+      wishlistBtn.classList.toggle('is-active', active);
+      wishlistBtn.setAttribute('aria-pressed', String(active));
+      if (wishlistText) wishlistText.textContent = active ? 'Guardado en tu lista' : 'Añadir a la lista de deseos';
+      try { localStorage.setItem(wishlistKey, active ? '1' : ''); } catch(e) {}
     }
+
+    try {
+      if (localStorage.getItem(wishlistKey) === '1') setWishlistState(true);
+    } catch(e) {}
+
+    wishlistBtn.addEventListener('click', () => {
+      const isActive = wishlistBtn.classList.contains('is-active');
+      setWishlistState(!isActive);
+    });
+  }
+
+})();
+}); // DOMContentLoaded
+setTimeout(function() {
+  var accs = document.querySelectorAll('.cm-accordion');
+  console.log('Acordeones encontrados:', accs.length);
+  accs.forEach(function(acc, i) {
+    var trigger = acc.querySelector('.cm-accordion__trigger');
+    var content = acc.querySelector('.cm-accordion__content');
+    console.log('Acordeón ' + i + ' — trigger:', trigger, '— content:', content);
   });
-}, 300);
+}, 500);
 </script>
 
 {% schema %}
@@ -2191,6 +2804,17 @@ setTimeout(function() {
       "default": true
     },
     {
+      "type": "header",
+      "content": "Sección \"Añade con descuento\""
+    },
+    {
+      "type": "text",
+      "id": "upsell_title",
+      "label": "Título de la sección upsell",
+      "default": "Puedes añadir estos productos con descuento",
+      "info": "Aparece encima de los productos upsell, entre el carrito y la descripción."
+    },
+    {
       "type": "checkbox",
       "id": "show_quick_facts",
       "label": "Mostrar barra de características rápidas",
@@ -2201,6 +2825,52 @@ setTimeout(function() {
       "id": "show_trust_badges",
       "label": "Mostrar sellos de confianza",
       "default": true
+    },
+    {
+      "type": "header",
+      "content": "Sección 'Información del producto'"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_info_section",
+      "label": "Mostrar sección de información editorial",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "info_kcal",
+      "label": "Kcal (respaldo si no hay metadato custom.kcal)",
+      "placeholder": "321 kcal"
+    },
+    {
+      "type": "text",
+      "id": "info_protein",
+      "label": "Proteínas (respaldo si no hay metadato custom.protein_g)",
+      "placeholder": "33 g"
+    },
+    {
+      "type": "text",
+      "id": "info_sugars",
+      "label": "Azúcares (respaldo si no hay metadato custom.sugars_g)",
+      "placeholder": "0 g"
+    },
+    {
+      "type": "text",
+      "id": "info_conservation_temp",
+      "label": "Temperatura de conservación (respaldo)",
+      "placeholder": "14 – 18 °C"
+    },
+    {
+      "type": "text",
+      "id": "info_service_temp",
+      "label": "Temperatura de consumo (respaldo)",
+      "placeholder": "20 – 24 °C"
+    },
+    {
+      "type": "text",
+      "id": "info_conservation_days",
+      "label": "Días una vez abierto (respaldo)",
+      "placeholder": "30 días"
     },
     {
       "type": "header",
@@ -2246,8 +2916,73 @@ setTimeout(function() {
       ]
     },
     {
+      "type": "upsell_product",
+      "name": "Producto upsell (con descuento)",
+      "settings": [
+        {
+          "type": "text",
+          "id": "product_handle",
+          "label": "Handle del producto",
+          "info": "El handle está en la URL del producto en Shopify Admin. Ej: cuchillo-jamonero-profesional"
+        },
+        {
+          "type": "range",
+          "id": "discount_pct",
+          "min": 0,
+          "max": 50,
+          "step": 5,
+          "unit": "%",
+          "label": "Descuento (%)",
+          "default": 10,
+          "info": "El precio mostrado será visual. El descuento real se aplica como nota en el carrito."
+        },
+        {
+          "type": "text",
+          "id": "badge",
+          "label": "Etiqueta descriptiva (opcional)",
+          "info": "Ej: Maridaje perfecto · Imprescindible con el jamón",
+          "placeholder": "Ej: El accesorio ideal"
+        }
+      ]
+    },
+    {
       "type": "accordion",
       "name": "Sección de información",
+      "blocks": [
+        {
+          "type": "richtext_block",
+          "name": "Texto / Lista",
+          "settings": [
+            {
+              "type": "text",
+              "id": "subtitle",
+              "label": "Subtítulo (opcional)"
+            },
+            {
+              "type": "richtext",
+              "id": "text",
+              "label": "Contenido",
+              "info": "Soporta texto, negrita, cursiva, listas con viñetas y listas numeradas"
+            }
+          ]
+        },
+        {
+          "type": "image_block",
+          "name": "Imagen",
+          "settings": [
+            {
+              "type": "image_picker",
+              "id": "image",
+              "label": "Imagen"
+            },
+            {
+              "type": "text",
+              "id": "caption",
+              "label": "Pie de foto (opcional)"
+            }
+          ]
+        }
+      ],
       "settings": [
         {
           "type": "select",
@@ -2270,15 +3005,80 @@ setTimeout(function() {
         },
         {
           "type": "text",
+          "id": "summary",
+          "label": "Resumen (visible cuando está cerrado)",
+          "info": "Breve descripción que aparece bajo el título cuando el acordeón está colapsado.",
+          "placeholder": "Breve descripción de esta sección…"
+        },
+        {
+          "type": "header",
+          "content": "Metadato (opcional)"
+        },
+        {
+          "type": "text",
           "id": "metafield_key",
           "label": "Clave del metadato (namespace: custom)",
-          "info": "Ej: storage_before, geographic_origin, serving_suggestions, allergens, flavor_notes"
+          "info": "Solo se usa si no hay bloques de contenido añadidos. Ej: storage_before, geographic_origin"
         },
         {
           "type": "richtext",
           "id": "content_fallback",
           "label": "Contenido de respaldo",
-          "info": "Se muestra si el metadato está vacío o no existe"
+          "info": "Se muestra si no hay bloques ni metadato"
+        },
+        {
+          "type": "header",
+          "content": "Filas clave-valor (opcional)"
+        },
+        {
+          "type": "text",
+          "id": "kv_1_label",
+          "label": "Fila 1 — etiqueta"
+        },
+        {
+          "type": "text",
+          "id": "kv_1_value",
+          "label": "Fila 1 — valor"
+        },
+        {
+          "type": "text",
+          "id": "kv_2_label",
+          "label": "Fila 2 — etiqueta"
+        },
+        {
+          "type": "text",
+          "id": "kv_2_value",
+          "label": "Fila 2 — valor"
+        },
+        {
+          "type": "text",
+          "id": "kv_3_label",
+          "label": "Fila 3 — etiqueta"
+        },
+        {
+          "type": "text",
+          "id": "kv_3_value",
+          "label": "Fila 3 — valor"
+        },
+        {
+          "type": "text",
+          "id": "kv_4_label",
+          "label": "Fila 4 — etiqueta"
+        },
+        {
+          "type": "text",
+          "id": "kv_4_value",
+          "label": "Fila 4 — valor"
+        },
+        {
+          "type": "text",
+          "id": "kv_5_label",
+          "label": "Fila 5 — etiqueta"
+        },
+        {
+          "type": "text",
+          "id": "kv_5_value",
+          "label": "Fila 5 — valor"
         }
       ]
     }
