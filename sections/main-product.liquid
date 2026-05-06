@@ -1494,7 +1494,7 @@ document.addEventListener('DOMContentLoaded', function() {
   'use strict';
 
   const SID = '{{ section.id }}';
-  const data = window.cmPDP_{{ section.id }};
+  const data = window['cmPDP_{{ section.id }}'] = {
 
   /* ── Utilidades ── */
   function $(id) { return document.getElementById(id); }
