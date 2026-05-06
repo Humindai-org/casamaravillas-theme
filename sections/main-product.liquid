@@ -2207,43 +2207,96 @@ setTimeout(function() {
         }
       ]
     },
+{
+  "type": "accordion",
+  "name": "Sección de información",
+  "settings": [
     {
-      "type": "accordion",
-      "name": "Sección de información",
-      "settings": [
-        {
-          "type": "select",
-          "id": "icon",
-          "label": "Icono",
-          "options": [
-            { "value": "conservation", "label": "Conservación (termómetro)" },
-            { "value": "origin",       "label": "Origen (mapa/bandera)" },
-            { "value": "fork",         "label": "Consumo (tenedor)" },
-            { "value": "sun",          "label": "Cata (sol)" },
-            { "value": "info",         "label": "Información (círculo i)" }
-          ],
-          "default": "info"
-        },
-        {
-          "type": "text",
-          "id": "title",
-          "label": "Título del acordeón",
-          "default": "Información"
-        },
-        {
-          "type": "text",
-          "id": "metafield_key",
-          "label": "Clave del metadato (namespace: custom)",
-          "info": "Escribe la clave exacta del metadato del producto. Ej: storage_before, geographic_origin, serving_suggestions, allergens, flavor_notes"
-        },
-        {
-          "type": "richtext",
-          "id": "content_fallback",
-          "label": "Contenido alternativo",
-          "info": "Se muestra si el metadato está vacío o no existe"
-        }
-      ]
+      "type": "select",
+      "id": "icon",
+      "label": "Icono",
+      "options": [
+        { "value": "conservation", "label": "Conservación (termómetro)" },
+        { "value": "origin",       "label": "Origen (mapa/bandera)" },
+        { "value": "fork",         "label": "Consumo (tenedor)" },
+        { "value": "sun",          "label": "Cata (sol)" },
+        { "value": "info",         "label": "Información (círculo i)" }
+      ],
+      "default": "info"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Título del acordeón",
+      "default": "Información"
+    },
+    {
+      "type": "select",
+      "id": "display_type",
+      "label": "Tipo de contenido",
+      "options": [
+        { "value": "metafield",    "label": "Texto desde metadato" },
+        { "value": "nutrition",    "label": "Tarjeta nutricional" },
+        { "value": "conservation", "label": "Tarjeta conservación/consumo" }
+      ],
+      "default": "metafield"
+    },
+    {
+      "type": "header",
+      "content": "Datos nutricionales"
+    },
+    {
+      "type": "text",
+      "id": "kcal",
+      "label": "Valor energético (ej: 321 Kcal)"
+    },
+    {
+      "type": "text",
+      "id": "protein",
+      "label": "Proteínas (ej: 33 g)"
+    },
+    {
+      "type": "text",
+      "id": "sugar",
+      "label": "Azúcares (ej: 0 g)"
+    },
+    {
+      "type": "text",
+      "id": "fat",
+      "label": "Grasas (ej: 18 g)"
+    },
+    {
+      "type": "header",
+      "content": "Conservación y consumo"
+    },
+    {
+      "type": "text",
+      "id": "conservation_temp",
+      "label": "Temperatura conservación (ej: 14-18°)"
+    },
+    {
+      "type": "text",
+      "id": "consumption_temp",
+      "label": "Temperatura consumo (ej: 20-24°)"
+    },
+    {
+      "type": "header",
+      "content": "O cargar desde metadato"
+    },
+    {
+      "type": "text",
+      "id": "metafield_key",
+      "label": "Clave del metadato (namespace: custom)",
+      "info": "Ej: storage_before, geographic_origin, serving_suggestions, allergens, flavor_notes"
+    },
+    {
+      "type": "richtext",
+      "id": "content_fallback",
+      "label": "Contenido de respaldo",
+      "info": "Se muestra si el metadato está vacío o no existe"
     }
+  ]
+}
   ],
   "presets": [
     {
