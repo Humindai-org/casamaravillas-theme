@@ -13,19 +13,34 @@
   {%- when 'Packs & Regalos' -%} {%- assign product_accent = '#4A5B6B' -%}
 {%- endcase -%}
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+
 <style>
+  /* ── VARIABLES DE COLOR — paleta crema clara ── */
+  :root {
+    --bg-primary:   #F5F0E8;
+    --bg-secondary: #EDEAE2;
+    --bg-card:      #FFFFFF;
+    --text-primary: #1A1410;
+    --text-secondary: #6B5E4E;
+    --accent-gold:  #C9A84C;
+    --border-color: #D6CFC4;
+    --sticky-bg:    #1A1410;
+  }
+
   /* ── LAYOUT PRINCIPAL ── */
   .cm-pdp {
     --pdp-accent: {{ product_accent }};
     max-width: 1280px;
     margin: 0 auto;
     padding: 56px 24px 80px;
+    background: var(--bg-primary);
   }
 
   .cm-pdp__grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 80px;
+    grid-template-columns: 55% 45%;
+    gap: 64px;
     align-items: start;
   }
 
@@ -42,10 +57,9 @@
   }
 
   .cm-pdp__main-img-wrap {
-    flex: 1;
     aspect-ratio: 4 / 5;
     overflow: hidden;
-    background: var(--cm-light);
+    background: var(--bg-secondary);
     position: relative;
   }
 
@@ -59,56 +73,52 @@
 
   .cm-pdp__main-img.is-loading { opacity: 0; }
 
-  /* Navegación vertical */
-  .cm-pdp__nav-vertical {
+  /* Thumbnails */
+  .cm-pdp__thumbnails {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    gap: 10px;
+    margin-top: 12px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    max-height: 100px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-color) transparent;
+    padding-bottom: 4px;
+  }
+
+  .cm-pdp__thumbnails::-webkit-scrollbar { height: 4px; }
+  .cm-pdp__thumbnails::-webkit-scrollbar-track { background: transparent; }
+  .cm-pdp__thumbnails::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 2px; }
+
+  .cm-pdp__thumb-btn {
     flex-shrink: 0;
-    width: 32px;
-    gap: 0;
-  }
-
-  .cm-pdp__nav-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 5px;
-    background: none;
-    border: none;
+    width: 76px;
+    height: 76px;
+    border: 2px solid var(--border-color);
+    background: var(--bg-card);
     cursor: pointer;
-    padding: 10px 0;
+    padding: 0;
+    overflow: hidden;
+    transition: border-color 0.2s;
   }
 
-  .cm-pdp__nav-num {
-    font-size: 9px;
-    font-family: var(--cm-font-sans);
-    color: var(--cm-text-light);
-    letter-spacing: 0.05em;
-    line-height: 1;
-    transition: color 0.2s;
+  .cm-pdp__thumb-btn img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
 
-  .cm-pdp__nav-dot {
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    background: var(--cm-border2);
-    transition: background 0.25s, transform 0.25s;
-  }
-
-  .cm-pdp__nav-item.is-active .cm-pdp__nav-num { color: var(--pdp-accent); font-weight: 600; }
-  .cm-pdp__nav-item.is-active .cm-pdp__nav-dot { background: var(--pdp-accent); transform: scale(1.6); }
-  .cm-pdp__nav-item:hover:not(.is-active) .cm-pdp__nav-dot { background: var(--cm-text-light); }
-  .cm-pdp__nav-item:focus-visible { outline: 2px solid var(--pdp-accent); outline-offset: 2px; }
+  .cm-pdp__thumb-btn.is-active { border-color: var(--accent-gold); }
+  .cm-pdp__thumb-btn:hover:not(.is-active) { border-color: var(--text-secondary); }
+  .cm-pdp__thumb-btn:focus-visible { outline: 2px solid var(--accent-gold); outline-offset: 2px; }
 
   /* ── INFO ── */
   .cm-pdp__eyebrow {
-    font-size: 10px;
+    font-size: 11px;
     letter-spacing: 0.22em;
     text-transform: uppercase;
-    color: var(--cm-gold);
+    color: var(--accent-gold);
     font-family: var(--cm-font-sans);
     font-weight: 500;
     margin-bottom: 14px;
@@ -117,7 +127,7 @@
   .cm-pdp__title {
     font-family: var(--cm-font-serif);
     font-size: clamp(28px, 3vw, 42px);
-    color: var(--cm-navy);
+    color: var(--text-primary);
     line-height: 1.15;
     margin-bottom: 20px;
     font-weight: 400;
@@ -127,10 +137,12 @@
   .cm-pdp__facts {
     display: flex;
     gap: 0;
-    border: 1px solid var(--cm-border);
+    border: 1px solid var(--border-color);
     margin-bottom: 28px;
     overflow-x: auto;
     scrollbar-width: none;
+    background: var(--bg-card);
+    border-radius: 4px;
   }
 
   .cm-pdp__facts::-webkit-scrollbar { display: none; }
@@ -139,26 +151,27 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 13px 18px;
+    padding: 14px 16px;
     flex: 1;
     min-width: 100px;
-    border-right: 1px solid var(--cm-border);
+    border-right: 1px solid var(--border-color);
     white-space: nowrap;
   }
 
   .cm-fact:last-child { border-right: none; }
 
   .cm-fact__icon {
-    color: var(--cm-gold);
+    color: var(--accent-gold);
     flex-shrink: 0;
     display: flex;
+    font-size: 20px;
   }
 
   .cm-fact__label {
     font-size: 9px;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: var(--cm-text-light);
+    color: var(--text-secondary);
     font-family: var(--cm-font-sans);
     display: block;
     line-height: 1;
@@ -168,7 +181,7 @@
   .cm-fact__value {
     font-size: 12px;
     font-weight: 500;
-    color: var(--cm-navy);
+    color: var(--text-primary);
     font-family: var(--cm-font-sans);
     display: block;
     line-height: 1;
@@ -185,7 +198,7 @@
   .cm-pdp__price {
     font-size: 28px;
     font-weight: 400;
-    color: var(--cm-text);
+    color: var(--text-primary);
     font-family: var(--cm-font-sans);
   }
 
@@ -193,7 +206,7 @@
 
   .cm-pdp__price--compare {
     font-size: 17px;
-    color: var(--cm-text-light);
+    color: var(--text-secondary);
     text-decoration: line-through;
   }
 
@@ -209,7 +222,7 @@
 
   .cm-pdp__price-kg {
     font-size: 12px;
-    color: var(--cm-text-light);
+    color: var(--text-secondary);
     font-family: var(--cm-font-sans);
     margin-bottom: 24px;
   }
@@ -226,7 +239,7 @@
     font-size: 10px;
     letter-spacing: 0.15em;
     text-transform: uppercase;
-    color: var(--cm-text-light);
+    color: var(--text-secondary);
     font-family: var(--cm-font-sans);
     margin-bottom: 10px;
     display: block;
@@ -235,9 +248,9 @@
   .cm-pdp__select {
     width: 100%;
     padding: 14px 44px 14px 16px;
-    background: transparent;
-    border: 1px solid var(--cm-border);
-    color: var(--cm-text);
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
     font-family: var(--cm-font-sans);
     font-size: 14px;
     appearance: none;
@@ -246,24 +259,70 @@
     transition: border-color 0.2s;
   }
 
-  .cm-pdp__select:hover { border-color: var(--cm-text); }
-  .cm-pdp__select:focus { outline: 2px solid var(--cm-gold); outline-offset: 0; }
+  .cm-pdp__select:hover { border-color: var(--text-primary); }
+  .cm-pdp__select:focus { outline: 2px solid var(--accent-gold); outline-offset: 0; }
 
   .cm-pdp__select-arrow {
     position: absolute;
     right: 14px;
     bottom: 16px;
     pointer-events: none;
-    color: var(--cm-gold);
+    color: var(--accent-gold);
     display: flex;
   }
 
   /* Nota de impuestos */
   .cm-pdp__tax-note {
     font-size: 12px;
-    color: var(--cm-text-light);
+    color: var(--text-secondary);
     font-family: var(--cm-font-sans);
     margin-bottom: 20px;
+  }
+
+  /* ── SELECTOR DE CURACIÓN ── */
+  .cm-curing-selector { margin-bottom: 24px; }
+
+  .option-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    font-family: var(--cm-font-sans);
+    margin: 0 0 8px;
+    display: block;
+  }
+
+  .option-buttons { display: flex; gap: 8px; flex-wrap: wrap; margin: 0 0 8px; }
+
+  .option-btn {
+    padding: 10px 18px;
+    border: 1.5px solid var(--border-color);
+    background: var(--bg-card);
+    color: var(--text-primary);
+    font-family: var(--cm-font-sans);
+    font-size: 13px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: border-color 0.2s, background 0.2s, color 0.2s;
+  }
+
+  .option-btn:hover { border-color: var(--accent-gold); }
+
+  .option-btn.active {
+    border-color: var(--accent-gold);
+    background: var(--accent-gold);
+    color: #1A1410;
+    font-weight: 600;
+  }
+
+  .option-hint {
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-family: var(--cm-font-sans);
+    font-style: italic;
+    margin: 0;
+    min-height: 18px;
   }
 
   /* ── COMPRA ── */
@@ -277,8 +336,9 @@
   .cm-qty {
     display: flex;
     align-items: center;
-    border: 1px solid var(--cm-border);
+    border: 1px solid var(--border-color);
     flex-shrink: 0;
+    background: var(--bg-card);
   }
 
   .cm-qty__btn {
@@ -287,7 +347,7 @@
     background: none;
     border: none;
     cursor: pointer;
-    color: var(--cm-text);
+    color: var(--text-primary);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -295,10 +355,10 @@
     font-family: var(--cm-font-sans);
   }
 
-  .cm-qty__btn:hover { background: var(--cm-light); }
+  .cm-qty__btn:hover { background: var(--bg-secondary); }
 
   .cm-qty__btn:focus-visible {
-    outline: 2px solid var(--cm-gold);
+    outline: 2px solid var(--accent-gold);
     outline-offset: -2px;
   }
 
@@ -306,12 +366,12 @@
     width: 44px;
     height: 52px;
     border: none;
-    border-left: 1px solid var(--cm-border);
-    border-right: 1px solid var(--cm-border);
+    border-left: 1px solid var(--border-color);
+    border-right: 1px solid var(--border-color);
     text-align: center;
     font-size: 14px;
     font-family: var(--cm-font-sans);
-    color: var(--cm-text);
+    color: var(--text-primary);
     background: transparent;
     -moz-appearance: textfield;
   }
@@ -322,13 +382,13 @@
   .cm-pdp__add-btn {
     flex: 1;
     height: 52px;
-    background: var(--cm-navy);
-    color: var(--cm-white);
-    border: 1px solid var(--cm-navy);
+    background: var(--accent-gold);
+    color: #1A1410;
+    border: 1px solid var(--accent-gold);
     font-family: var(--cm-font-sans);
     font-size: 11px;
     letter-spacing: 0.18em;
-    font-weight: 500;
+    font-weight: 700;
     text-transform: uppercase;
     cursor: pointer;
     display: flex;
@@ -340,7 +400,7 @@
 
   .cm-pdp__add-btn:hover:not(:disabled) {
     background: transparent;
-    color: var(--cm-navy);
+    color: var(--accent-gold);
   }
 
   .cm-pdp__add-btn:disabled {
@@ -349,7 +409,7 @@
   }
 
   .cm-pdp__add-btn:focus-visible {
-    outline: 2px solid var(--cm-gold);
+    outline: 2px solid var(--accent-gold);
     outline-offset: 2px;
   }
 
@@ -358,14 +418,14 @@
 
   .cm-pdp__desc-preview {
     font-size: 14px;
-    color: var(--cm-text-mid);
+    color: var(--text-secondary);
     line-height: 1.8;
     transition: opacity 0.3s;
   }
 
   .cm-pdp__desc-full {
     font-size: 14px;
-    color: var(--cm-text-mid);
+    color: var(--text-secondary);
     line-height: 1.8;
     max-height: 0;
     overflow: hidden;
@@ -387,7 +447,7 @@
     font-size: 11px;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: var(--cm-gold);
+    color: var(--accent-gold);
     font-family: var(--cm-font-sans);
     font-weight: 500;
     margin-top: 10px;
@@ -398,10 +458,10 @@
     transition: color 0.2s;
   }
 
-  .cm-desc-toggle:hover { color: var(--cm-navy); }
+  .cm-desc-toggle:hover { color: var(--text-primary); }
 
   .cm-desc-toggle:focus-visible {
-    outline: 2px solid var(--cm-gold);
+    outline: 2px solid var(--accent-gold);
     outline-offset: 2px;
   }
 
@@ -417,7 +477,7 @@
   /* ── TRUST BADGES ── */
   .cm-pdp__trust {
     padding-top: 24px;
-    border-top: 1px solid var(--cm-border);
+    border-top: 1px solid var(--border-color);
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -428,14 +488,35 @@
     align-items: center;
     gap: 12px;
     font-size: 13px;
-    color: var(--cm-text-mid);
+    color: var(--text-secondary);
     font-family: var(--cm-font-sans);
   }
 
   .cm-trust-item__icon {
-    color: var(--cm-gold);
+    color: var(--accent-gold);
     flex-shrink: 0;
     display: flex;
+  }
+
+  /* ── SECCIÓN COMBINA ── */
+  .cm-combina-section {
+    display: none;
+    max-width: 1280px;
+    margin: 48px auto 0;
+    padding: 40px 24px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 24px rgba(26,20,16,0.07);
+  }
+
+  .cm-combina-section.is-animating { display: block; }
+
+  .cm-combina__title {
+    font-family: var(--cm-font-serif);
+    font-size: 24px;
+    color: var(--text-primary);
+    font-weight: 400;
+    margin-bottom: 24px;
   }
 
   /* ── ACORDEONES ── */
@@ -443,11 +524,13 @@
     max-width: 1280px;
     margin: 64px auto 0;
     padding: 0 24px;
-    border-top: 1px solid var(--cm-border);
+    border-top: 1px solid var(--border-color);
+    background: var(--bg-secondary);
+    padding-top: 0;
   }
 
   .cm-accordion {
-    border-bottom: 1px solid var(--cm-border);
+    border-bottom: 1px solid var(--border-color);
   }
 
   .cm-accordion__trigger {
@@ -465,7 +548,7 @@
   }
 
   .cm-accordion__trigger:focus-visible {
-    outline: 2px solid var(--cm-gold);
+    outline: 2px solid var(--accent-gold);
     outline-offset: 2px;
   }
 
@@ -476,21 +559,22 @@
   }
 
   .cm-accordion__trigger-icon {
-    color: var(--cm-gold);
+    color: var(--accent-gold);
     flex-shrink: 0;
     display: flex;
+    font-size: 20px;
   }
 
   .cm-accordion__trigger-title {
     font-family: var(--cm-font-serif);
     font-size: 18px;
-    color: var(--cm-navy);
+    color: var(--text-primary);
     font-weight: 400;
   }
 
   .cm-accordion__chevron {
     flex-shrink: 0;
-    color: var(--cm-text-light);
+    color: var(--text-secondary);
     transition: transform 0.35s ease;
   }
 
@@ -499,7 +583,7 @@
   }
 
   .cm-accordion__trigger[aria-expanded="true"] .cm-accordion__trigger-title {
-    color: var(--cm-gold);
+    color: var(--accent-gold);
   }
 
   .cm-accordion__content {
@@ -519,7 +603,7 @@
     font-size: 10px;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: var(--cm-gold);
+    color: var(--accent-gold);
     font-family: var(--cm-font-sans);
     font-weight: 500;
     margin-bottom: 10px;
@@ -528,14 +612,14 @@
   .cm-accordion-block p,
   .cm-accordion-block div {
     font-size: 14px;
-    color: var(--cm-text-mid);
+    color: var(--text-secondary);
     line-height: 1.8;
     font-family: var(--cm-font-sans);
   }
 
   .cm-accordion-block__empty {
     font-size: 13px;
-    color: var(--cm-text-light);
+    color: var(--text-secondary);
     font-family: var(--cm-font-sans);
     font-style: italic;
     padding: 4px 0 12px;
@@ -559,8 +643,8 @@
 
   .cm-nutritional-table th {
     font-weight: 500;
-    color: var(--cm-navy);
-    background: var(--cm-off);
+    color: var(--text-primary);
+    background: var(--bg-secondary);
   }
 
   /* Lista de origen */
@@ -615,7 +699,7 @@
   .cm-cata-item h4 {
     font-family: var(--cm-font-serif);
     font-size: 16px;
-    color: var(--cm-navy);
+    color: var(--text-primary);
     font-weight: 400;
     margin-bottom: 8px;
   }
@@ -638,9 +722,9 @@
     opacity: 0;
     transition: transform 0.35s ease, opacity 0.35s ease;
     pointer-events: none;
-    background: var(--cm-white);
-    border-top: 1px solid var(--cm-border);
-    box-shadow: 0 -8px 32px rgba(0, 41, 75, 0.08);
+    background: var(--sticky-bg);
+    border-top: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 -8px 32px rgba(0,0,0,0.25);
   }
 
   .cm-sticky-atc.is-visible {
@@ -677,7 +761,7 @@
   .cm-sticky-qty {
     display: flex;
     align-items: center;
-    border: 1px solid var(--cm-border);
+    border: 1px solid rgba(255,255,255,0.2);
     height: 46px;
   }
 
@@ -687,7 +771,7 @@
     background: none;
     border: none;
     cursor: pointer;
-    color: var(--cm-text);
+    color: #F5EDDA;
     font-size: 18px;
     font-family: var(--cm-font-sans);
     display: flex;
@@ -697,10 +781,10 @@
     flex-shrink: 0;
   }
 
-  .cm-sticky-qty__btn:hover { background: var(--cm-light); }
+  .cm-sticky-qty__btn:hover { background: rgba(255,255,255,0.08); }
 
   .cm-sticky-qty__btn:focus-visible {
-    outline: 2px solid var(--cm-gold);
+    outline: 2px solid var(--accent-gold);
     outline-offset: -2px;
   }
 
@@ -709,9 +793,9 @@
     text-align: center;
     font-size: 14px;
     font-family: var(--cm-font-sans);
-    color: var(--cm-text);
-    border-left: 1px solid var(--cm-border);
-    border-right: 1px solid var(--cm-border);
+    color: #F5EDDA;
+    border-left: 1px solid rgba(255,255,255,0.2);
+    border-right: 1px solid rgba(255,255,255,0.2);
     line-height: 46px;
     display: block;
     flex-shrink: 0;
@@ -727,7 +811,7 @@
   .cm-sticky-atc__name {
     font-family: var(--cm-font-serif);
     font-size: 16px;
-    color: var(--cm-navy);
+    color: #F5EDDA;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -737,7 +821,7 @@
   .cm-sticky-atc__price {
     font-size: 14px;
     font-weight: 500;
-    color: var(--cm-text);
+    color: #F5EDDA;
     font-family: var(--cm-font-sans);
     display: block;
   }
@@ -746,13 +830,13 @@
     flex-shrink: 0;
     height: 46px;
     padding: 0 32px;
-    background: var(--cm-navy);
-    color: var(--cm-white);
-    border: 1px solid var(--cm-navy);
+    background: var(--accent-gold);
+    color: #1A1410;
+    border: 1px solid var(--accent-gold);
     font-family: var(--cm-font-sans);
     font-size: 10px;
     letter-spacing: 0.2em;
-    font-weight: 500;
+    font-weight: 700;
     text-transform: uppercase;
     cursor: pointer;
     transition: background 0.3s, color 0.3s;
@@ -760,13 +844,13 @@
 
   .cm-sticky-atc__btn:hover:not(:disabled) {
     background: transparent;
-    color: var(--cm-navy);
+    color: var(--accent-gold);
   }
 
   .cm-sticky-atc__btn:disabled { opacity: 0.45; cursor: not-allowed; }
 
   .cm-sticky-atc__btn:focus-visible {
-    outline: 2px solid var(--cm-gold);
+    outline: 2px solid var(--accent-gold);
     outline-offset: 2px;
   }
 
@@ -778,15 +862,15 @@
     margin-bottom: 20px;
   }
   .cm-pdp__stars { display: flex; gap: 2px; align-items: center; }
-  .cm-star { width: 16px; height: 16px; color: var(--cm-gold); flex-shrink: 0; }
-  .cm-star--empty { color: var(--cm-border2); }
+  .cm-star { width: 16px; height: 16px; color: var(--accent-gold); flex-shrink: 0; }
+  .cm-star--empty { color: var(--border-color); }
   .cm-pdp__rating-count {
     font-size: 12px;
-    color: var(--cm-text-light);
+    color: var(--text-secondary);
     font-family: var(--cm-font-sans);
     text-decoration: none;
   }
-  a.cm-pdp__rating-count:hover { color: var(--cm-gold); }
+  a.cm-pdp__rating-count:hover { color: var(--accent-gold); }
 
   /* ── SCROLL REVEAL ── */
   .cm-reveal {
@@ -799,6 +883,21 @@
     opacity: 1;
     transform: translateY(0);
   }
+
+  /* ── Tabla nutricional ── */
+  .cm-nutritional-table th,
+  .cm-nutritional-table td  { border-bottom-color: var(--border-color); color: var(--text-secondary); }
+  .cm-nutritional-table th  { background: var(--bg-secondary); color: var(--text-primary); }
+
+  /* ── Lista de origen ── */
+  .cm-origin-item    { border-bottom-color: var(--border-color); }
+  .cm-origin-item dt { color: var(--text-secondary); }
+  .cm-origin-item dd { color: var(--text-primary); }
+
+  /* ── Notas de cata ── */
+  .cm-cata-item    { background: var(--bg-secondary); }
+  .cm-cata-item h4 { color: var(--text-primary); }
+  .cm-cata-item p  { color: var(--text-secondary); }
 
   /* ── RESPONSIVE ── */
   @media (max-width: 900px) {
@@ -814,9 +913,6 @@
   }
 
   @media (max-width: 600px) {
-    .cm-pdp__gallery-inner { flex-direction: column-reverse; }
-    .cm-pdp__nav-vertical { flex-direction: row; width: 100%; justify-content: center; padding: 8px 0; }
-    .cm-pdp__nav-item { flex-direction: column; padding: 0 8px; }
     .cm-pdp__purchase { flex-direction: column; }
     .cm-qty { width: 100%; justify-content: space-between; }
     .cm-pdp__add-btn { width: 100%; }
@@ -826,99 +922,9 @@
     .cm-sticky-atc__btn { width: 100%; }
     .cm-sticky-atc__inner { padding: 12px 20px; }
     .cm-pdp__accordions { padding: 0 20px; }
+    .option-buttons { flex-direction: column; }
+    .option-btn { width: 100%; text-align: center; }
   }
-
-  /* ── DARK SKIN ─────────────────────────────────────────────── */
-  .cm-pdp { background: #0D0A07; }
-
-  .cm-pdp__main-img-wrap { background: rgba(255,255,255,0.04); }
-
-  /* Nav galería */
-  .cm-pdp__nav-num         { color: rgba(240,234,224,0.3); }
-  .cm-pdp__nav-dot         { background: rgba(255,255,255,0.18); }
-  .cm-pdp__nav-item.is-active .cm-pdp__nav-num { color: var(--pdp-accent); }
-  .cm-pdp__nav-item.is-active .cm-pdp__nav-dot { background: var(--pdp-accent); }
-  .cm-pdp__nav-item:hover:not(.is-active) .cm-pdp__nav-dot { background: rgba(255,255,255,0.4); }
-
-  /* Valoraciones */
-  .cm-star--empty          { color: rgba(255,255,255,0.15); }
-  .cm-pdp__rating-count    { color: rgba(240,234,224,0.45); }
-
-  /* Textos info */
-  .cm-pdp__title           { color: #F5EDDA; }
-  .cm-fact__label          { color: rgba(240,234,224,0.45); }
-  .cm-fact__value          { color: #F5EDDA; }
-  .cm-pdp__price           { color: #F5EDDA; }
-  .cm-pdp__price--compare  { color: rgba(240,234,224,0.4); }
-  .cm-pdp__price-kg        { color: rgba(240,234,224,0.5); }
-  .cm-pdp__tax-note        { color: rgba(240,234,224,0.45); }
-  .cm-pdp__desc-preview,
-  .cm-pdp__desc-full       { color: rgba(240,234,224,0.75); }
-  .cm-desc-toggle          { color: var(--cm-gold); }
-  .cm-desc-toggle:hover    { color: #F5EDDA; }
-
-  /* Bordes */
-  .cm-pdp__facts      { border-color: rgba(255,255,255,0.1); }
-  .cm-fact            { border-right-color: rgba(255,255,255,0.1); }
-  .cm-pdp__trust      { border-top-color: rgba(255,255,255,0.08); }
-  .cm-trust-item      { color: rgba(240,234,224,0.75); }
-
-  /* Select dropdown */
-  .cm-pdp__select-label { color: rgba(240,234,224,0.45); }
-  .cm-pdp__select {
-    background: #0D0A07;
-    border-color: rgba(255,255,255,0.15);
-    color: #F5EDDA;
-  }
-  .cm-pdp__select option { background: #1A1512; color: #F5EDDA; }
-  .cm-pdp__select:hover  { border-color: rgba(255,255,255,0.35); }
-
-  /* Cantidad */
-  .cm-qty             { border-color: rgba(255,255,255,0.15); }
-  .cm-qty__btn        { color: #F5EDDA; }
-  .cm-qty__btn:hover  { background: rgba(255,255,255,0.06); }
-  .cm-qty__input      { color: #F5EDDA; border-left-color: rgba(255,255,255,0.15); border-right-color: rgba(255,255,255,0.15); }
-
-  /* Botón ATC — gold sólido */
-  .cm-pdp__add-btn                      { background: var(--cm-gold); color: #0D0A07; border-color: var(--cm-gold); font-weight: 600; }
-  .cm-pdp__add-btn:hover:not(:disabled) { background: transparent; color: var(--cm-gold); }
-
-  /* Acordeones */
-  .cm-pdp__accordions { border-top-color: rgba(255,255,255,0.08); }
-  .cm-accordion       { border-bottom-color: rgba(255,255,255,0.08); }
-  .cm-accordion__trigger-title { color: #F5EDDA; }
-  .cm-accordion__trigger[aria-expanded="true"] .cm-accordion__trigger-title { color: var(--cm-gold); }
-  .cm-accordion__chevron { color: rgba(240,234,224,0.35); }
-  .cm-accordion-block__title { color: var(--cm-gold); }
-  .cm-accordion-block p,
-  .cm-accordion-block div { color: rgba(240,234,224,0.75); }
-
-  /* Tabla nutricional */
-  .cm-nutritional-table th,
-  .cm-nutritional-table td  { border-bottom-color: rgba(255,255,255,0.08); color: rgba(240,234,224,0.75); }
-  .cm-nutritional-table th  { background: rgba(255,255,255,0.05); color: #F5EDDA; }
-
-  /* Lista de origen */
-  .cm-origin-item    { border-bottom-color: rgba(255,255,255,0.08); }
-  .cm-origin-item dt { color: rgba(240,234,224,0.45); }
-  .cm-origin-item dd { color: rgba(240,234,224,0.8); }
-
-  /* Notas de cata */
-  .cm-cata-item    { background: rgba(255,255,255,0.04); }
-  .cm-cata-item h4 { color: #F5EDDA; }
-  .cm-cata-item p  { color: rgba(240,234,224,0.75); }
-
-  /* Sticky ATC */
-  .cm-sticky-atc        { background: #0D0A07 !important; border-top-color: rgba(255,255,255,0.1); box-shadow: 0 -8px 32px rgba(0,0,0,0.4); }
-  .cm-sticky-atc__name  { color: #F5EDDA !important; }
-  .cm-sticky-atc__price { color: #F5EDDA !important; }
-  .cm-sticky-qty        { border-color: rgba(255,255,255,0.2) !important; }
-  .cm-sticky-qty__btn   { color: #F5EDDA !important; background: transparent; }
-  .cm-sticky-qty__btn:hover { background: rgba(255,255,255,0.08) !important; }
-  .cm-sticky-qty__val   { color: #F5EDDA !important; border-left-color: rgba(255,255,255,0.2) !important; border-right-color: rgba(255,255,255,0.2) !important; background: transparent; }
-  .cm-sticky-atc__btn                       { background: var(--cm-gold) !important; color: #0D0A07 !important; border-color: var(--cm-gold) !important; font-weight: 600; }
-  .cm-sticky-atc__btn:hover:not(:disabled)  { background: transparent !important; color: var(--cm-gold) !important; }
-  /* ── DARK SKIN END ── */
 </style>
 
 {%- comment -%} Datos de variantes para JS {%- endcomment -%}
@@ -942,44 +948,47 @@
 
     {%- comment -%} ── COLUMNA IZQUIERDA: GALERÍA ── {%- endcomment -%}
     <div class="cm-pdp__gallery">
-      <div class="cm-pdp__gallery-inner">
 
-        {%- if product.images.size > 1 -%}
-          <div class="cm-pdp__nav-vertical" role="list" aria-label="Imágenes del producto">
-            {%- for image in product.images limit: 6 -%}
-              <button
-                class="cm-pdp__nav-item{% if forloop.first %} is-active{% endif %}"
-                data-image-src="{{ image | image_url: width: 900 }}"
-                data-image-alt="{{ image.alt | escape | default: product.title }}"
-                aria-label="Ver imagen {{ forloop.index }}"
-                role="listitem"
-                type="button"
-              >
-                <span class="cm-pdp__nav-num">0{{ forloop.index }}</span>
-                <span class="cm-pdp__nav-dot"></span>
-              </button>
-            {%- endfor -%}
-          </div>
+      <div class="cm-pdp__main-img-wrap">
+        {%- if featured_image -%}
+          <img
+            id="cm-main-img-{{ section.id }}"
+            class="cm-pdp__main-img"
+            src="{{ featured_image | image_url: width: 900 }}"
+            alt="{{ featured_image.alt | escape | default: product.title }}"
+            width="{{ featured_image.width }}"
+            height="{{ featured_image.height }}"
+            loading="eager"
+            itemprop="image"
+          >
+        {%- else -%}
+          <div class="cm-pdp__main-img" style="background:var(--bg-secondary);"></div>
         {%- endif -%}
-
-        <div class="cm-pdp__main-img-wrap">
-          {%- if featured_image -%}
-            <img
-              id="cm-main-img-{{ section.id }}"
-              class="cm-pdp__main-img"
-              src="{{ featured_image | image_url: width: 900 }}"
-              alt="{{ featured_image.alt | escape | default: product.title }}"
-              width="{{ featured_image.width }}"
-              height="{{ featured_image.height }}"
-              loading="eager"
-              itemprop="image"
-            >
-          {%- else -%}
-            <div class="cm-pdp__main-img" style="background:var(--cm-light);"></div>
-          {%- endif -%}
-        </div>
-
       </div>
+
+      {%- if product.images.size > 1 -%}
+        <div class="cm-pdp__thumbnails" role="list" aria-label="Miniaturas del producto">
+          {%- for image in product.images limit: 8 -%}
+            <button
+              class="cm-pdp__thumb-btn{% if forloop.first %} is-active{% endif %}"
+              data-image-src="{{ image | image_url: width: 900 }}"
+              data-image-alt="{{ image.alt | escape | default: product.title }}"
+              aria-label="Ver imagen {{ forloop.index }}"
+              role="listitem"
+              type="button"
+            >
+              <img
+                src="{{ image | image_url: width: 120 }}"
+                alt="{{ image.alt | escape | default: product.title }}"
+                width="76"
+                height="76"
+                loading="lazy"
+              >
+            </button>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
     </div>
     {%- comment -%} fin galería {%- endcomment -%}
 
@@ -1030,9 +1039,7 @@
             {%- if mf_curing != blank -%}
               <div class="cm-fact">
                 <span class="cm-fact__icon" aria-hidden="true">
-                  <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>
-                  </svg>
+                  <i class="ti ti-calendar"></i>
                 </span>
                 <div>
                   <span class="cm-fact__label">Curación</span>
@@ -1044,10 +1051,7 @@
             {%- if mf_breed != blank -%}
               <div class="cm-fact">
                 <span class="cm-fact__icon" aria-hidden="true">
-                  <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z"/>
-                    <circle cx="6" cy="6" r=".5" fill="currentColor"/>
-                  </svg>
+                  <i class="ti ti-paw"></i>
                 </span>
                 <div>
                   <span class="cm-fact__label">Raza</span>
@@ -1057,35 +1061,9 @@
             {%- endif -%}
 
             {%- if mf_feeding != blank -%}
-              {%- assign feeding_lower = mf_feeding | downcase -%}
               <div class="cm-fact">
                 <span class="cm-fact__icon" aria-hidden="true">
-                  {%- if feeding_lower contains 'bellota' -%}
-                    {{- '<!-- bellota: acorn -->' -}}
-                    <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                      <ellipse cx="12" cy="16" rx="5" ry="5.5"/>
-                      <path d="M7 11 Q9.5 8 12 8 Q14.5 8 17 11"/>
-                      <path d="M12 8 L12 5.5"/>
-                      <path d="M10 5.5 L14 5.5"/>
-                    </svg>
-                  {%- elsif feeding_lower contains 'campo' -%}
-                    {{- '<!-- cebo de campo: pasture -->' -}}
-                    <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M2 18 Q6 11 10 15 Q14 19 18 13 Q20 9 22 14"/>
-                      <line x1="2" y1="21" x2="22" y2="21"/>
-                      <path d="M7 15 L7 11"/>
-                      <path d="M7 11 L5 13 M7 11 L9 13"/>
-                    </svg>
-                  {%- else -%}
-                    {{- '<!-- cebo: grain/cereal -->' -}}
-                    <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M12 22 L12 8"/>
-                      <path d="M12 11 Q10 9 8 11 Q10 13 12 11"/>
-                      <path d="M12 11 Q14 9 16 11 Q14 13 12 11"/>
-                      <path d="M12 16 Q10 14 8 16 Q10 18 12 16"/>
-                      <path d="M12 16 Q14 14 16 16 Q14 18 12 16"/>
-                    </svg>
-                  {%- endif -%}
+                  <i class="ti ti-leaf"></i>
                 </span>
                 <div>
                   <span class="cm-fact__label">Alimentación</span>
@@ -1097,10 +1075,7 @@
             {%- if mf_origin != blank -%}
               <div class="cm-fact">
                 <span class="cm-fact__icon" aria-hidden="true">
-                  <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/>
-                    <path d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/>
-                  </svg>
+                  <i class="ti ti-map-pin"></i>
                 </span>
                 <div>
                   <span class="cm-fact__label">Origen</span>
@@ -1112,10 +1087,7 @@
             {%- if mf_weight != blank -%}
               <div class="cm-fact">
                 <span class="cm-fact__icon" aria-hidden="true">
-                  <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M12 3a2 2 0 100 4 2 2 0 000-4z"/>
-                    <path d="M6.343 7.343A8 8 0 1020 12H4a8 8 0 002.343-4.657z"/>
-                  </svg>
+                  <i class="ti ti-weight"></i>
                 </span>
                 <div>
                   <span class="cm-fact__label">Peso</span>
@@ -1194,6 +1166,29 @@
           {%- endfor -%}
         </div>
       {%- endunless -%}
+
+      {%- comment -%} ── SELECTOR DE CURACIÓN ── {%- endcomment -%}
+      <div class="cm-curing-selector" id="cm-curing-{{ section.id }}">
+        <span class="option-label">Punto de Curación</span>
+        <div class="option-buttons">
+          <button type="button" class="option-btn"
+            data-value="tierno"
+            data-desc="Textura suave, sabor delicado. Ideal para amantes de cortes más frescos.">
+            Más tierno
+          </button>
+          <button type="button" class="option-btn active"
+            data-value="equilibrado"
+            data-desc="El punto perfecto entre textura y sabor. Nuestra selección recomendada.">
+            Equilibrado
+          </button>
+          <button type="button" class="option-btn"
+            data-value="curado"
+            data-desc="Sabor intenso y concentrado. Mayor tiempo de maduración.">
+            Más curado
+          </button>
+        </div>
+        <p class="option-hint" id="cm-curing-hint-{{ section.id }}">El punto perfecto entre textura y sabor. Nuestra selección recomendada.</p>
+      </div>
 
       {%- comment -%} ── FORMULARIO DE COMPRA ── {%- endcomment -%}
       {%- assign product_form_id = 'cm-form-' | append: section.id -%}
@@ -1401,6 +1396,14 @@
 
 </section>
 
+{%- comment -%} ════════════════════════════════════ COMBINA (oculta por defecto) ══ {%- endcomment -%}
+<div class="cm-combina-section" id="cm-combina-section">
+  <h2 class="cm-combina__title">Combina tu compra con</h2>
+  <p style="color:var(--text-secondary);font-size:14px;font-family:var(--cm-font-sans);">
+    Descubre los productos que mejor maridan con tu selección.
+  </p>
+</div>
+
 {%- comment -%} ════════════════════════════════════ STICKY ATC ══ {%- endcomment -%}
 {%- if section.settings.show_sticky_atc -%}
   <div
@@ -1467,25 +1470,35 @@
       .replace('{{amount_no_decimals}}', Math.round(cents / 100));
   }
 
-  /* ── Galería — navegación vertical ── */
+  /* ── Galería — thumbnails ── */
   const mainImg = $('cm-main-img-' + SID);
   if (mainImg) {
-    document.querySelectorAll('.cm-pdp__nav-item').forEach(navItem => {
-      navItem.addEventListener('click', () => {
+    document.querySelectorAll('.cm-pdp__thumb-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
         mainImg.classList.add('is-loading');
-        const newSrc = navItem.dataset.imageSrc;
+        const newSrc = btn.dataset.imageSrc;
         const tempImg = new Image();
         tempImg.onload = () => {
           mainImg.src = newSrc;
-          mainImg.alt = navItem.dataset.imageAlt || '';
+          mainImg.alt = btn.dataset.imageAlt || '';
           mainImg.classList.remove('is-loading');
         };
         tempImg.src = newSrc;
-        document.querySelectorAll('.cm-pdp__nav-item').forEach(t => t.classList.remove('is-active'));
-        navItem.classList.add('is-active');
+        document.querySelectorAll('.cm-pdp__thumb-btn').forEach(t => t.classList.remove('is-active'));
+        btn.classList.add('is-active');
       });
     });
   }
+
+  /* ── Selector de curación ── */
+  const curingHint = $('cm-curing-hint-' + SID);
+  document.querySelectorAll('#cm-curing-' + SID + ' .option-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#cm-curing-' + SID + ' .option-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      if (curingHint) curingHint.textContent = btn.dataset.desc;
+    });
+  });
 
   /* ── Selector de cantidad ── */
   const qtyInput = $('cm-qty-' + SID);
@@ -1639,10 +1652,19 @@
       setAddBtnState('loading');
 
       try {
+        const activeOption = document.querySelector('#cm-curing-' + SID + ' .option-btn.active');
+        const curingVal = activeOption ? activeOption.dataset.value : '';
+        const cartBody = {
+          id: variantId,
+          quantity: getQty(),
+          properties: {}
+        };
+        if (curingVal) cartBody.properties['Punto de curación'] = curingVal;
+
         const res = await fetch('/cart/add.js', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-          body: JSON.stringify({ id: variantId, quantity: getQty() })
+          body: JSON.stringify(cartBody)
         });
         if (!res.ok) throw new Error('add failed');
         setAddBtnState('done');
