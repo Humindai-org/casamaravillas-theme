@@ -37,7 +37,7 @@
           "type": "accordion",
           "settings": {
             "icon": "conservation",
-            "title": "Conservación e información nutricional",
+            "title": "Conservación",
             "metafield_key": "custom.storage_before",
             "content_fallback": ""
           }
