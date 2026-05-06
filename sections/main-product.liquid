@@ -2892,6 +2892,39 @@ setTimeout(function() {
   ],
   "blocks": [
     {
+      "type": "richtext_block",
+      "name": "Texto / Lista (dentro de acordeón)",
+      "settings": [
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtítulo (opcional)"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Contenido",
+          "info": "Soporta texto, negrita, cursiva, listas con viñetas y listas numeradas"
+        }
+      ]
+    },
+    {
+      "type": "image_block",
+      "name": "Imagen (dentro de acordeón)",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Imagen"
+        },
+        {
+          "type": "text",
+          "id": "caption",
+          "label": "Pie de foto (opcional)"
+        }
+      ]
+    },
+    {
       "type": "trust_badge",
       "name": "Sello de confianza",
       "settings": [
@@ -2948,41 +2981,6 @@ setTimeout(function() {
     {
       "type": "accordion",
       "name": "Sección de información",
-      "blocks": [
-        {
-          "type": "richtext_block",
-          "name": "Texto / Lista",
-          "settings": [
-            {
-              "type": "text",
-              "id": "subtitle",
-              "label": "Subtítulo (opcional)"
-            },
-            {
-              "type": "richtext",
-              "id": "text",
-              "label": "Contenido",
-              "info": "Soporta texto, negrita, cursiva, listas con viñetas y listas numeradas"
-            }
-          ]
-        },
-        {
-          "type": "image_block",
-          "name": "Imagen",
-          "settings": [
-            {
-              "type": "image_picker",
-              "id": "image",
-              "label": "Imagen"
-            },
-            {
-              "type": "text",
-              "id": "caption",
-              "label": "Pie de foto (opcional)"
-            }
-          ]
-        }
-      ],
       "settings": [
         {
           "type": "select",
