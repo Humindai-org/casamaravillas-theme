@@ -53,15 +53,15 @@
   .cm-pdp__gallery {
     position: sticky;
     top: 100px;
+  }
+
+  .cm-pdp__gallery-inner {
     display: flex;
-    flex-direction: row;
     gap: 14px;
-    align-items: flex-start;
+    align-items: stretch;
   }
 
   .cm-pdp__main-img-wrap {
-    flex: 1;
-    min-width: 0;
     aspect-ratio: 4 / 5;
     overflow: hidden;
     background: var(--bg-secondary);
@@ -78,30 +78,27 @@
 
   .cm-pdp__main-img.is-loading { opacity: 0; }
 
-  /* Thumbnails — columna vertical izquierda */
+  /* Thumbnails */
   .cm-pdp__thumbnails {
     display: flex;
-    flex-direction: column;
     gap: 10px;
-    order: -1;
-    width: 72px;
-    flex-shrink: 0;
-    overflow-y: auto;
-    overflow-x: hidden;
-    max-height: 520px;
+    margin-top: 12px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    max-height: 100px;
     scrollbar-width: thin;
     scrollbar-color: var(--border-color) transparent;
-    padding-right: 2px;
+    padding-bottom: 4px;
   }
 
-  .cm-pdp__thumbnails::-webkit-scrollbar { width: 3px; }
+  .cm-pdp__thumbnails::-webkit-scrollbar { height: 4px; }
   .cm-pdp__thumbnails::-webkit-scrollbar-track { background: transparent; }
   .cm-pdp__thumbnails::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 2px; }
 
   .cm-pdp__thumb-btn {
     flex-shrink: 0;
-    width: 72px;
-    height: 72px;
+    width: 76px;
+    height: 76px;
     border: 2px solid var(--border-color);
     background: var(--bg-card);
     cursor: pointer;
@@ -624,10 +621,11 @@
   /* ── ACORDEONES ── */
   .cm-pdp__accordions {
     max-width: 1280px;
-    margin: 56px auto 0;
+    margin: 64px auto 0;
     padding: 0 24px;
     border-top: 1px solid var(--border-color);
-    background: var(--bg-primary);
+    background: var(--bg-secondary);
+    padding-top: 0;
   }
 
   .cm-accordion {
@@ -718,38 +716,6 @@
     font-family: var(--cm-font-sans);
   }
 
-  .cm-accordion-kv {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  .cm-accordion-kv__row {
-    display: grid;
-    grid-template-columns: minmax(120px, 35%) 1fr;
-    gap: 8px 16px;
-    padding: 10px 0;
-    border-bottom: 1px solid var(--border-color);
-  }
-
-  .cm-accordion-kv__row:last-child { border-bottom: none; }
-
-  .cm-accordion-kv__label {
-    font-family: var(--cm-font-sans);
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--text-secondary);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-  }
-
-  .cm-accordion-kv__value {
-    font-family: var(--cm-font-sans);
-    font-size: 14px;
-    color: var(--text-primary);
-    margin: 0;
-  }
-
   .cm-accordion-block__empty {
     font-size: 13px;
     color: var(--text-secondary);
@@ -758,7 +724,7 @@
     padding: 4px 0 12px;
   }
 
-  /* Contenido rich dentro del acordeón */
+   /* Contenido rich dentro del acordeón */
   .cm-accordion-block ul,
   .cm-accordion-block ol {
     padding-left: 20px;
@@ -1071,22 +1037,7 @@
       grid-template-columns: 1fr;
       gap: 40px;
     }
-    .cm-pdp__gallery {
-      position: static;
-      flex-direction: column;
-    }
-    .cm-pdp__thumbnails {
-      flex-direction: row;
-      order: 0;
-      width: auto;
-      max-height: 80px;
-      overflow-x: auto;
-      overflow-y: hidden;
-      padding-right: 0;
-      padding-bottom: 2px;
-    }
-    .cm-pdp__thumbnails::-webkit-scrollbar { width: auto; height: 3px; }
-    .cm-pdp__thumb-btn { width: 68px; height: 68px; }
+    .cm-pdp__gallery { position: static; }
     .cm-pdp { padding: 32px 20px 64px; }
     .cm-cata-grid { grid-template-columns: 1fr; gap: 16px; }
     .cm-pdp__facts { overflow-x: auto; }
@@ -1105,122 +1056,6 @@
     .cm-pdp__accordions { padding: 0 20px; }
     .option-buttons { flex-direction: column; }
     .option-btn { width: 100%; text-align: center; }
-  }
-
-  /* ── UPSELL (añade con descuento) ── */
-  .cm-upsell {
-    margin-top: 20px;
-    border: 1.5px solid var(--accent-gold);
-    background: linear-gradient(135deg, #fdf9f0 0%, #fff 100%);
-    padding: 16px 18px;
-    border-radius: 2px;
-  }
-
-  .cm-upsell__header {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 12px;
-  }
-
-  .cm-upsell__header-icon { color: var(--accent-gold); flex-shrink: 0; }
-
-  .cm-upsell__heading {
-    font-family: var(--cm-font-sans);
-    font-size: 11px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--accent-gold);
-    font-weight: 600;
-    margin: 0;
-  }
-
-  .cm-upsell__items { display: flex; flex-direction: column; gap: 10px; }
-
-  .cm-upsell__item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    cursor: pointer;
-    padding: 10px 12px;
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    transition: border-color 0.2s;
-  }
-
-  .cm-upsell__item:hover { border-color: var(--accent-gold); }
-
-  .cm-upsell__check {
-    flex-shrink: 0;
-    width: 16px;
-    height: 16px;
-    accent-color: var(--accent-gold);
-    cursor: pointer;
-  }
-
-  .cm-upsell__img {
-    width: 52px;
-    height: 52px;
-    object-fit: cover;
-    flex-shrink: 0;
-    border: 1px solid var(--border-color);
-  }
-
-  .cm-upsell__info { flex: 1; min-width: 0; }
-
-  .cm-upsell__name {
-    font-family: var(--cm-font-sans);
-    font-size: 13px;
-    color: var(--text-primary);
-    font-weight: 500;
-    display: block;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    margin-bottom: 4px;
-  }
-
-  .cm-upsell__prices { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-
-  .cm-upsell__price-orig {
-    font-family: var(--cm-font-sans);
-    font-size: 12px;
-    color: var(--text-secondary);
-    text-decoration: line-through;
-  }
-
-  .cm-upsell__price-disc {
-    font-family: var(--cm-font-sans);
-    font-size: 13px;
-    color: var(--text-primary);
-    font-weight: 600;
-  }
-
-  .cm-upsell__badge {
-    font-family: var(--cm-font-sans);
-    font-size: 11px;
-    font-weight: 700;
-    background: var(--accent-gold);
-    color: #fff;
-    padding: 2px 6px;
-    letter-spacing: 0.04em;
-  }
-
-  .cm-upsell__tag {
-    font-family: var(--cm-font-sans);
-    font-size: 11px;
-    color: var(--text-secondary);
-    display: block;
-    margin-top: 3px;
-    font-style: italic;
-  }
-
-  .cm-upsell__note {
-    font-family: var(--cm-font-sans);
-    font-size: 11px;
-    color: var(--text-secondary);
-    margin: 12px 0 0;
-    text-align: center;
   }
 </style>
 
@@ -1562,70 +1397,6 @@
         </div>
       {%- endform -%}
 
-      {%- comment -%} ── UPSELL: AÑADE CON DESCUENTO ── {%- endcomment -%}
-      {%- assign upsell_blocks = section.blocks | where: 'type', 'upsell_product' -%}
-      {%- if upsell_blocks.size > 0 -%}
-        <div class="cm-upsell" id="cm-upsell-{{ section.id }}">
-          <div class="cm-upsell__header">
-            <svg class="cm-upsell__header-icon" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-            </svg>
-            <p class="cm-upsell__heading">{{ section.settings.upsell_title | default: 'Puedes añadir estos productos con descuento' }}</p>
-          </div>
-          <div class="cm-upsell__items">
-            {%- for block in upsell_blocks -%}
-              {%- assign up_handle = block.settings.product_handle | strip -%}
-              {%- if up_handle == blank -%}{%- continue -%}{%- endif -%}
-              {%- assign up = all_products[up_handle] -%}
-              {%- if up == empty -%}{%- continue -%}{%- endif -%}
-              {%- assign up_variant = up.selected_or_first_available_variant -%}
-              {%- assign up_disc = block.settings.discount_pct | default: 0 -%}
-              {%- assign up_disc_amount = up_variant.price | times: up_disc | divided_by: 100 -%}
-              {%- assign up_disc_price = up_variant.price | minus: up_disc_amount -%}
-              <label class="cm-upsell__item" for="cm-up-{{ block.id }}" {{ block.shopify_attributes }}>
-                <input
-                  type="checkbox"
-                  class="cm-upsell__check"
-                  id="cm-up-{{ block.id }}"
-                  data-variant-id="{{ up_variant.id }}"
-                  data-price="{{ up_disc_price }}"
-                  data-orig-price="{{ up_variant.price }}"
-                  data-title="{{ up.title | escape }}"
-                  data-disc="{{ up_disc }}"
-                  checked
-                >
-                {%- if up.featured_image -%}
-                  <img
-                    src="{{ up.featured_image | image_url: width: 120 }}"
-                    alt="{{ up.title | escape }}"
-                    class="cm-upsell__img"
-                    loading="lazy"
-                    width="52"
-                    height="52"
-                  >
-                {%- endif -%}
-                <div class="cm-upsell__info">
-                  <span class="cm-upsell__name">{{ up.title }}</span>
-                  <span class="cm-upsell__prices">
-                    {%- if up_disc > 0 -%}
-                      <span class="cm-upsell__price-orig">{{ up_variant.price | money }}</span>
-                      <span class="cm-upsell__price-disc">{{ up_disc_price | money }}</span>
-                      <span class="cm-upsell__badge">-{{ up_disc }}%</span>
-                    {%- else -%}
-                      <span class="cm-upsell__price-disc">{{ up_variant.price | money }}</span>
-                    {%- endif -%}
-                  </span>
-                  {%- if block.settings.badge != blank -%}
-                    <span class="cm-upsell__tag">{{ block.settings.badge }}</span>
-                  {%- endif -%}
-                </div>
-              </label>
-            {%- endfor -%}
-          </div>
-          <p class="cm-upsell__note">Los productos marcados se añadirán junto a tu pedido principal.</p>
-        </div>
-      {%- endif -%}
-
       {%- comment -%} ── DESCRIPCIÓN CORTA ── {%- endcomment -%}
       {%- if product.description != blank -%}
         {%- assign desc_text = product.description | strip_html -%}
@@ -1704,20 +1475,16 @@
     {%- for block in section.blocks -%}
       {%- if block.type != 'accordion' -%}{%- continue -%}{%- endif -%}
 
-      {%- comment -%} Leer metadato: primero intenta namespace custom, luego usa contenido directo del bloque {%- endcomment -%}
-      {%- assign acc_mf_key = block.settings.metafield_key | strip -%}
+      {%- comment -%} Leer metadato dinámicamente por clave {%- endcomment -%}
+      {%- assign acc_mf_key = block.settings.metafield_key -%}
       {%- assign acc_mf_val = blank -%}
       {%- if acc_mf_key != blank -%}
         {%- assign acc_mf_obj = product.metafields.custom[acc_mf_key] -%}
-        {%- if acc_mf_obj != blank -%}
           {%- if acc_mf_obj.type == 'rich_text' -%}
             {%- assign acc_mf_val = acc_mf_obj | metafield_tag -%}
-          {%- elsif acc_mf_obj.type == 'multi_line_text_field' -%}
-            {%- assign acc_mf_val = acc_mf_obj.value | newline_to_br -%}
           {%- else -%}
-            {%- assign acc_mf_val = acc_mf_obj.value | default: '' -%}
+            {%- assign acc_mf_val = acc_mf_obj.value -%}
           {%- endif -%}
-        {%- endif -%}
       {%- endif -%}
       {%- assign acc_content = acc_mf_val | default: block.settings.content_fallback -%}
 
@@ -1767,63 +1534,9 @@
           aria-labelledby="cm-acc-btn-{{ block.id }}"
         >
           <div class="cm-accordion__body">
-            {%- if block.blocks.size > 0 -%}
-              {%- for child_block in block.blocks -%}
-                {%- case child_block.type -%}
-
-                  {%- when 'richtext_block' -%}
-                    <div class="cm-accordion-block" {{ child_block.shopify_attributes }}>
-                      {%- if child_block.settings.subtitle != blank -%}
-                        <p class="cm-accordion-block__title">{{ child_block.settings.subtitle }}</p>
-                      {%- endif -%}
-                      {{ child_block.settings.text }}
-                    </div>
-
-                  {%- when 'image_block' -%}
-                    {%- if child_block.settings.image != blank -%}
-                      <div class="cm-accordion-block cm-accordion-block--image" {{ child_block.shopify_attributes }}>
-                        <img
-                          src="{{ child_block.settings.image | image_url: width: 800 }}"
-                          alt="{{ child_block.settings.image.alt | escape | default: child_block.settings.caption }}"
-                          width="{{ child_block.settings.image.width }}"
-                          height="{{ child_block.settings.image.height }}"
-                          loading="lazy"
-                        >
-                        {%- if child_block.settings.caption != blank -%}
-                          <p class="cm-accordion-block__caption">{{ child_block.settings.caption }}</p>
-                        {%- endif -%}
-                      </div>
-                    {%- endif -%}
-
-                {%- endcase -%}
-              {%- endfor -%}
-
-            {%- elsif acc_content != blank -%}
+            {%- if acc_content != blank -%}
               <div class="cm-accordion-block">{{ acc_content }}</div>
-            {%- endif -%}
-            {%- assign has_kv = false -%}
-            {%- for i in (1..5) -%}
-              {%- assign kv_lbl = 'kv_' | append: i | append: '_label' -%}
-              {%- assign kv_val = 'kv_' | append: i | append: '_value' -%}
-              {%- if block.settings[kv_lbl] != blank or block.settings[kv_val] != blank -%}
-                {%- assign has_kv = true -%}
-              {%- endif -%}
-            {%- endfor -%}
-            {%- if has_kv -%}
-              <dl class="cm-accordion-kv">
-                {%- for i in (1..5) -%}
-                  {%- assign kv_lbl = 'kv_' | append: i | append: '_label' -%}
-                  {%- assign kv_val = 'kv_' | append: i | append: '_value' -%}
-                  {%- if block.settings[kv_lbl] != blank or block.settings[kv_val] != blank -%}
-                    <div class="cm-accordion-kv__row">
-                      <dt class="cm-accordion-kv__label">{{ block.settings[kv_lbl] }}</dt>
-                      <dd class="cm-accordion-kv__value">{{ block.settings[kv_val] }}</dd>
-                    </div>
-                  {%- endif -%}
-                {%- endfor -%}
-              </dl>
-            {%- endif -%}
-            {%- if block.blocks.size == 0 and acc_content == blank and has_kv == false -%}
+            {%- else -%}
               <p class="cm-accordion-block__empty">Información no añadida todavía para este producto.</p>
             {%- endif -%}
           </div>
@@ -2161,77 +1874,40 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   const mainForm = $('cm-form-' + SID);
-  let isSubmitting = false;
+  if (mainForm) {
+    mainForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const variantId = $('cm-variant-id-' + SID)?.value;
+      if (!variantId) return;
 
-  async function addToCartAjax() {
-    if (isSubmitting) return;
-    isSubmitting = true;
+      setAddBtnState('loading');
 
-    const variantId = $('cm-variant-id-' + SID)?.value;
-    if (!variantId) { isSubmitting = false; return; }
+      try {
+        const curingSelectEl = document.querySelector('#cm-curing-' + SID + ' [data-curing-select]');
+        const curingVal = curingSelectEl ? curingSelectEl.value : '';
+        const weightSelectEl = document.querySelector('[data-weight-select]');
+        const weightVal = weightSelectEl ? weightSelectEl.value : '';
+        const cartBody = {
+          id: variantId,
+          quantity: getQty(),
+          properties: {}
+        };
+        if (curingVal) cartBody.properties['Punto de curación'] = curingVal;
+        if (weightVal) cartBody.properties['Peso aproximado'] = weightVal;
 
-    setAddBtnState('loading');
-
-    try {
-      const curingSelectEl = document.querySelector('#cm-curing-' + SID + ' [data-curing-select]');
-      const curingVal = curingSelectEl ? curingSelectEl.value : '';
-      const weightSelectEl = document.querySelector('[data-weight-select]');
-      const weightVal = weightSelectEl ? weightSelectEl.value : '';
-      const cartBody = {
-        id: variantId,
-        quantity: getQty(),
-        properties: {}
-      };
-      if (curingVal) cartBody.properties['Punto de curación'] = curingVal;
-      if (weightVal) cartBody.properties['Peso aproximado'] = weightVal;
-
-      const ctrl = new AbortController();
-      const tOut = setTimeout(() => ctrl.abort(), 12000);
-
-      const res = await fetch('/cart/add.js', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify(cartBody),
-        signal: ctrl.signal
-      });
-      clearTimeout(tOut);
-
-      if (!res.ok) {
-        const errData = await res.json().catch(() => ({}));
-        throw new Error(errData.description || 'HTTP ' + res.status);
-      }
-
-      /* Añadir upsell items seleccionados */
-      const upsellChecks = document.querySelectorAll('#cm-upsell-' + SID + ' .cm-upsell__check:checked');
-      for (const chk of upsellChecks) {
-        const vid = chk.dataset.variantId;
-        const disc = parseInt(chk.dataset.disc || '0', 10);
-        if (!vid) continue;
-        const upBody = { id: vid, quantity: 1, properties: {} };
-        if (disc > 0) upBody.properties['Descuento bundle'] = '-' + disc + '%';
-        await fetch('/cart/add.js', {
+        const res = await fetch('/cart/add.js', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-          body: JSON.stringify(upBody)
-        }).catch(() => {});
+          body: JSON.stringify(cartBody)
+        });
+        if (!res.ok) throw new Error('add failed');
+        setAddBtnState('done');
+        updateCartCount();
+        revealCombina();
+        setTimeout(() => setAddBtnState('idle'), 2500);
+      } catch {
+        setAddBtnState('idle');
       }
-
-      setAddBtnState('done');
-      updateCartCount();
-      revealCombina();
-      setTimeout(() => setAddBtnState('idle'), 2500);
-    } catch(err) {
-      console.warn('[CM] Cart add failed:', err && err.message);
-      setAddBtnState('idle');
-    } finally {
-      isSubmitting = false;
-    }
-  }
-
-  if (mainForm) {
-    mainForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      addToCartAjax();
     });
   }
 
@@ -2315,7 +1991,9 @@ setTimeout(function() {
   }
 
   if (stickyBtn) {
-    stickyBtn.addEventListener('click', () => addToCartAjax());
+    stickyBtn.addEventListener('click', () => {
+      if (mainForm) mainForm.requestSubmit ? mainForm.requestSubmit() : mainForm.submit();
+    });
   }
   {%- endif -%}
 
@@ -2361,17 +2039,6 @@ setTimeout(function() {
       "id": "show_sticky_atc",
       "label": "Mostrar barra de compra fija (sticky)",
       "default": true
-    },
-    {
-      "type": "header",
-      "content": "Sección \"Añade con descuento\""
-    },
-    {
-      "type": "text",
-      "id": "upsell_title",
-      "label": "Título de la sección upsell",
-      "default": "Puedes añadir estos productos con descuento",
-      "info": "Aparece encima de los productos upsell, entre el carrito y la descripción."
     },
     {
       "type": "checkbox",
@@ -2429,73 +2096,8 @@ setTimeout(function() {
       ]
     },
     {
-      "type": "upsell_product",
-      "name": "Producto upsell (con descuento)",
-      "settings": [
-        {
-          "type": "text",
-          "id": "product_handle",
-          "label": "Handle del producto",
-          "info": "El handle está en la URL del producto en Shopify Admin. Ej: cuchillo-jamonero-profesional"
-        },
-        {
-          "type": "range",
-          "id": "discount_pct",
-          "min": 0,
-          "max": 50,
-          "step": 5,
-          "unit": "%",
-          "label": "Descuento (%)",
-          "default": 10,
-          "info": "El precio mostrado será visual. El descuento real se aplica como nota en el carrito."
-        },
-        {
-          "type": "text",
-          "id": "badge",
-          "label": "Etiqueta descriptiva (opcional)",
-          "info": "Ej: Maridaje perfecto · Imprescindible con el jamón",
-          "placeholder": "Ej: El accesorio ideal"
-        }
-      ]
-    },
-    {
       "type": "accordion",
       "name": "Sección de información",
-      "blocks": [
-        {
-          "type": "richtext_block",
-          "name": "Texto / Lista",
-          "settings": [
-            {
-              "type": "text",
-              "id": "subtitle",
-              "label": "Subtítulo (opcional)"
-            },
-            {
-              "type": "richtext",
-              "id": "text",
-              "label": "Contenido",
-              "info": "Soporta texto, negrita, cursiva, listas con viñetas y listas numeradas"
-            }
-          ]
-        },
-        {
-          "type": "image_block",
-          "name": "Imagen",
-          "settings": [
-            {
-              "type": "image_picker",
-              "id": "image",
-              "label": "Imagen"
-            },
-            {
-              "type": "text",
-              "id": "caption",
-              "label": "Pie de foto (opcional)"
-            }
-          ]
-        }
-      ],
       "settings": [
         {
           "type": "select",
@@ -2517,74 +2119,16 @@ setTimeout(function() {
           "default": "Información"
         },
         {
-          "type": "header",
-          "content": "Metadato (opcional)"
-        },
-        {
           "type": "text",
           "id": "metafield_key",
           "label": "Clave del metadato (namespace: custom)",
-          "info": "Solo se usa si no hay bloques de contenido añadidos. Ej: storage_before, geographic_origin"
+          "info": "Escribe la clave exacta del metadato del producto. Ej: storage_before, geographic_origin, serving_suggestions, allergens, flavor_notes"
         },
         {
           "type": "richtext",
           "id": "content_fallback",
-          "label": "Contenido de respaldo",
-          "info": "Se muestra si no hay bloques ni metadato"
-        },
-        {
-          "type": "header",
-          "content": "Filas clave-valor (opcional)"
-        },
-        {
-          "type": "text",
-          "id": "kv_1_label",
-          "label": "Fila 1 — etiqueta"
-        },
-        {
-          "type": "text",
-          "id": "kv_1_value",
-          "label": "Fila 1 — valor"
-        },
-        {
-          "type": "text",
-          "id": "kv_2_label",
-          "label": "Fila 2 — etiqueta"
-        },
-        {
-          "type": "text",
-          "id": "kv_2_value",
-          "label": "Fila 2 — valor"
-        },
-        {
-          "type": "text",
-          "id": "kv_3_label",
-          "label": "Fila 3 — etiqueta"
-        },
-        {
-          "type": "text",
-          "id": "kv_3_value",
-          "label": "Fila 3 — valor"
-        },
-        {
-          "type": "text",
-          "id": "kv_4_label",
-          "label": "Fila 4 — etiqueta"
-        },
-        {
-          "type": "text",
-          "id": "kv_4_value",
-          "label": "Fila 4 — valor"
-        },
-        {
-          "type": "text",
-          "id": "kv_5_label",
-          "label": "Fila 5 — etiqueta"
-        },
-        {
-          "type": "text",
-          "id": "kv_5_value",
-          "label": "Fila 5 — valor"
+          "label": "Contenido alternativo",
+          "info": "Se muestra si el metadato está vacío o no existe"
         }
       ]
     }
