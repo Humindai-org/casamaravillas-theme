@@ -1739,7 +1739,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   /* ── Acordeones ── */
-  const accordions = document.querySelectorAll('#cm-pdp-' + SID + ' [data-accordion]');
+  const accordions = document.querySelectorAll('.cm-accordion[data-accordion]');
   accordions.forEach(acc => {
     const trigger = acc.querySelector('.cm-accordion__trigger');
     const content = acc.querySelector('.cm-accordion__content');
@@ -1804,7 +1804,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       });
     }, { threshold: 0.08 });
-    document.querySelectorAll('#cm-pdp-' + SID + ' .cm-reveal').forEach(el => revealObs.observe(el));
+    document.querySelectorAll('.cm-reveal').forEach(el => revealObs.observe(el));
   } else {
     document.querySelectorAll('#cm-pdp-' + SID + ' .cm-reveal').forEach(el => el.classList.add('is-revealed'));
   }
