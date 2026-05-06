@@ -1361,7 +1361,12 @@
       {%- assign acc_mf_key = block.settings.metafield_key -%}
       {%- assign acc_mf_val = blank -%}
       {%- if acc_mf_key != blank -%}
-        {%- assign acc_mf_val = product.metafields.custom[acc_mf_key].value -%}
+        {%- assign acc_mf_obj = product.metafields.custom[acc_mf_key] -%}
+          {%- if acc_mf_obj.type == 'rich_text' -%}
+            {%- assign acc_mf_val = acc_mf_obj | metafield_tag -%}
+          {%- else -%}
+            {%- assign acc_mf_val = acc_mf_obj.value -%}
+          {%- endif -%}
       {%- endif -%}
       {%- assign acc_content = acc_mf_val | default: block.settings.content_fallback -%}
 
