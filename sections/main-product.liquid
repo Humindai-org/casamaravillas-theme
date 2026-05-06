@@ -1811,6 +1811,15 @@ setTimeout(function() {
 
 })();
 }); // DOMContentLoaded
+setTimeout(function() {
+  var accs = document.querySelectorAll('.cm-accordion');
+  console.log('Acordeones encontrados:', accs.length);
+  accs.forEach(function(acc, i) {
+    var trigger = acc.querySelector('.cm-accordion__trigger');
+    var content = acc.querySelector('.cm-accordion__content');
+    console.log('Acordeón ' + i + ' — trigger:', trigger, '— content:', content);
+  });
+}, 500);
 </script>
 
 {% schema %}
