@@ -25,16 +25,25 @@
   {%- endif %}
 
   {% # theme-check-disable RemoteAsset %}
-  <!-- Google Fonts: Libre Baskerville + Outfit (self-host in assets to drop this disable) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@200;300;400;500;600&display=swap" rel="stylesheet">
   {% # theme-check-enable RemoteAsset %}
 
-  <!-- Theme CSS -->
   {{ 'base.css' | asset_url | stylesheet_tag }}
 
   {{ content_for_header }}
+
+  {%- if template.name == 'product' -%}
+  <style>
+    #main-content {
+      max-width: 100% !important;
+      width: 100% !important;
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+  </style>
+  {%- endif -%}
 </head>
 
 <body class="template-{{ template.name }}">
@@ -49,7 +58,6 @@
 
   {% section 'cart-drawer' %}
 
-  <!-- Theme JS -->
   <script src="{{ 'theme.js' | asset_url }}" defer></script>
 
 </body>
