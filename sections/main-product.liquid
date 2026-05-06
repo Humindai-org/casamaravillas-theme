@@ -1534,11 +1534,63 @@
           aria-labelledby="cm-acc-btn-{{ block.id }}"
         >
           <div class="cm-accordion__body">
-            {%- if acc_content != blank -%}
-              <div class="cm-accordion-block">{{ acc_content }}</div>
-            {%- else -%}
-              <p class="cm-accordion-block__empty">Información no añadida todavía para este producto.</p>
-            {%- endif -%}
+          {%- if block.settings.display_type == 'nutrition' -%}
+  <div class="cm-info-cards">
+    {%- if block.settings.kcal != blank or block.settings.protein != blank or block.settings.sugar != blank -%}
+      <div class="cm-info-card">
+        <p class="cm-info-card__title">Información nutricional</p>
+        <a href="#" class="cm-info-card__link">SABER MÁS</a>
+        <div class="cm-info-card__values">
+          {%- if block.settings.kcal != blank -%}
+            <div class="cm-info-card__item">
+              <span class="cm-info-card__label">Valor energético</span>
+              <span class="cm-info-card__value">• {{ block.settings.kcal }}</span>
+            </div>
+          {%- endif -%}
+          {%- if block.settings.protein != blank -%}
+            <div class="cm-info-card__item">
+              <span class="cm-info-card__label">Proteínas</span>
+              <span class="cm-info-card__value">• {{ block.settings.protein }}</span>
+            </div>
+          {%- endif -%}
+          {%- if block.settings.sugar != blank -%}
+            <div class="cm-info-card__item">
+              <span class="cm-info-card__label">Azúcares</span>
+              <span class="cm-info-card__value">• {{ block.settings.sugar }}</span>
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+
+{%- elsif block.settings.display_type == 'conservation' -%}
+  <div class="cm-info-cards">
+    <div class="cm-info-card">
+      <p class="cm-info-card__title">Conservación y consumo</p>
+      <a href="#" class="cm-info-card__link">SABER MÁS</a>
+      <div class="cm-info-card__values">
+        {%- if block.settings.conservation_temp != blank -%}
+          <div class="cm-info-card__item">
+            <span class="cm-info-card__label">Conservación</span>
+            <span class="cm-info-card__value">• {{ block.settings.conservation_temp }}</span>
+          </div>
+        {%- endif -%}
+        {%- if block.settings.consumption_temp != blank -%}
+          <div class="cm-info-card__item">
+            <span class="cm-info-card__label">Consumo</span>
+            <span class="cm-info-card__value">• {{ block.settings.consumption_temp }}</span>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+
+{%- elsif acc_content != blank -%}
+  <div class="cm-accordion-block">{{ acc_content }}</div>
+{%- else -%}
+  <p class="cm-accordion-block__empty">Información no añadida todavía para este producto.</p>
+{%- endif -%}
           </div>
         </div>
       </div>
