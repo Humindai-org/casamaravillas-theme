@@ -280,11 +280,12 @@
 
   /* ---- EXPOSE GLOBALS (used by inline onclick in .liquid) ---- */
 
-  window.openCart      = openCart;
-  window.closeCart     = closeCart;
-  window.updateQty     = updateQty;
-  window.removeItem    = removeItem;
-  window.applyDiscount = applyDiscount;
-  window.goToCheckout  = goToCheckout;
+  window.openCart            = openCart;
+  window.closeCart           = closeCart;
+  window.updateQty           = updateQty;
+  window.removeItem          = removeItem;
+  window.applyDiscount       = applyDiscount;
+  window.goToCheckout        = goToCheckout;
+  window.fetchAndRenderCart  = fetchAndRenderCart;
 
 })();

@@ -38,8 +38,19 @@
           "settings": {
             "icon": "conservation",
             "title": "Conservación",
+            "summary": "",
             "metafield_key": "custom.storage_before",
-            "content_fallback": ""
+            "content_fallback": "",
+            "kv_1_label": "",
+            "kv_1_value": "",
+            "kv_2_label": "",
+            "kv_2_value": "",
+            "kv_3_label": "",
+            "kv_3_value": "",
+            "kv_4_label": "",
+            "kv_4_value": "",
+            "kv_5_label": "",
+            "kv_5_value": ""
           }
         },
         "acc_origen": {
@@ -47,8 +58,19 @@
           "settings": {
             "icon": "origin",
             "title": "Origen y producción",
+            "summary": "",
             "metafield_key": "geographic_origin",
-            "content_fallback": ""
+            "content_fallback": "",
+            "kv_1_label": "",
+            "kv_1_value": "",
+            "kv_2_label": "",
+            "kv_2_value": "",
+            "kv_3_label": "",
+            "kv_3_value": "",
+            "kv_4_label": "",
+            "kv_4_value": "",
+            "kv_5_label": "",
+            "kv_5_value": ""
           }
         },
         "acc_consumo": {
@@ -56,8 +78,19 @@
           "settings": {
             "icon": "fork",
             "title": "Consumo y recomendaciones",
+            "summary": "",
             "metafield_key": "serving_suggestions",
-            "content_fallback": ""
+            "content_fallback": "",
+            "kv_1_label": "",
+            "kv_1_value": "",
+            "kv_2_label": "",
+            "kv_2_value": "",
+            "kv_3_label": "",
+            "kv_3_value": "",
+            "kv_4_label": "",
+            "kv_4_value": "",
+            "kv_5_label": "",
+            "kv_5_value": ""
           }
         },
         "acc_info": {
@@ -65,8 +98,19 @@
           "settings": {
             "icon": "info",
             "title": "Información adicional",
+            "summary": "",
             "metafield_key": "allergens",
-            "content_fallback": ""
+            "content_fallback": "",
+            "kv_1_label": "",
+            "kv_1_value": "",
+            "kv_2_label": "",
+            "kv_2_value": "",
+            "kv_3_label": "",
+            "kv_3_value": "",
+            "kv_4_label": "",
+            "kv_4_value": "",
+            "kv_5_label": "",
+            "kv_5_value": ""
           }
         },
         "acc_cata": {
@@ -74,8 +118,19 @@
           "settings": {
             "icon": "sun",
             "title": "Notas de cata",
+            "summary": "",
             "metafield_key": "flavor_notes",
-            "content_fallback": ""
+            "content_fallback": "",
+            "kv_1_label": "",
+            "kv_1_value": "",
+            "kv_2_label": "",
+            "kv_2_value": "",
+            "kv_3_label": "",
+            "kv_3_value": "",
+            "kv_4_label": "",
+            "kv_4_value": "",
+            "kv_5_label": "",
+            "kv_5_value": ""
           }
         }
       },
@@ -91,8 +146,16 @@
       ],
       "settings": {
         "show_sticky_atc": true,
+        "upsell_title": "Puedes añadir estos productos con descuento",
         "show_quick_facts": true,
         "show_trust_badges": true,
+        "show_info_section": true,
+        "info_kcal": "100",
+        "info_protein": "27",
+        "info_sugars": "0",
+        "info_conservation_temp": "20",
+        "info_service_temp": "21",
+        "info_conservation_days": "50",
         "show_weight_selector": true,
         "weight_options": "6-7 kg, 8-9 kg"
       }
