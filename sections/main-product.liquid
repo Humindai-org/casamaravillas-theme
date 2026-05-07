@@ -1917,30 +1917,9 @@
       {%- comment -%} ── DESCRIPCIÓN CORTA ── {%- endcomment -%}
       {%- if product.description != blank -%}
         <div class="cm-pdp__desc" id="cm-desc-{{ section.id }}">
-          {%- assign desc_text = product.description | strip_html -%}
-          {%- if desc_text.size > 180 -%}
-            <div class="cm-pdp__desc-full" id="cm-desc-full-{{ section.id }}" aria-hidden="true">
-              {{ product.description }}
-            </div>
-            <div class="cm-pdp__desc-preview" id="cm-desc-preview-{{ section.id }}">
-              {{ product.description | truncatewords: 50 }}
-            </div>
-            <button
-              class="cm-desc-toggle"
-              id="cm-desc-toggle-{{ section.id }}"
-              aria-expanded="false"
-              aria-controls="cm-desc-full-{{ section.id }}"
-              type="button"
-            >
-              <span class="cm-desc-toggle__more">Leer más</span>
-              <span class="cm-desc-toggle__less" style="display:none">Leer menos</span>
-              <svg class="cm-desc-toggle__chevron" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
-                <path d="M19 9l-7 7-7-7"/>
-              </svg>
-            </button>
-          {%- else -%}
-            <div class="cm-pdp__desc-preview">{{ product.description }}</div>
-          {%- endif -%}
+          <div class="cm-pdp__desc-preview" id="cm-desc-preview-{{ section.id }}">
+            {{ product.description }}
+          </div>
         </div>
       {%- endif -%}
 
