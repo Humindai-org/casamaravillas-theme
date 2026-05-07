@@ -9,8 +9,19 @@
  */
 {
   "sections": {
-    "main": {
+    "gallery": {
       "type": "main-product",
+      "settings": {
+        "show_sticky_atc": true,
+        "upsell_title": "Puedes añadir estos productos con descuento",
+        "show_quick_facts": true,
+        "show_trust_badges": true,
+        "show_weight_selector": true,
+        "weight_options": "6-7 kg, 8-9 kg"
+      }
+    },
+    "specifications": {
+      "type": "product-specifications",
       "blocks": {
         "trust_badge_ya7xh6": {
           "type": "trust_badge",
@@ -32,7 +43,40 @@
             "text": "Producto 100% auténtico",
             "icon": "star"
           }
-        },
+        }
+      },
+      "block_order": [
+        "trust_badge_ya7xh6",
+        "trust_badge_seg",
+        "trust_badge_cal"
+      ]
+    },
+    "information": {
+      "type": "product-information",
+      "settings": {
+        "eyebrow_text": "Información del producto",
+        "title_text": "Transparencia Con Sabor A",
+        "title_em_text": "Tradición",
+        "description_text": "Detrás de cada pieza hay un proceso que merece ser conocido. Por eso te lo contamos todo: su composición nutricional, cómo conservarlo y cómo disfrutarlo al máximo. Porque saber lo que comes es parte del placer.",
+        "card1_title": "Información nutricional",
+        "kcal_label": "Valor energético",
+        "info_kcal": "100",
+        "protein_label": "Proteínas",
+        "info_protein": "27",
+        "sugars_label": "Azúcares",
+        "info_sugars": "0",
+        "card2_title": "Conservación y consumo",
+        "conservation_label": "Conservación",
+        "info_conservation_temp": "20",
+        "service_label": "Consumo ideal",
+        "info_service_temp": "21",
+        "opened_label": "Una vez abierto",
+        "info_conservation_days": "50"
+      }
+    },
+    "details": {
+      "type": "product-details-accordion",
+      "blocks": {
         "acc_conservacion": {
           "type": "accordion",
           "settings": {
@@ -135,30 +179,12 @@
         }
       },
       "block_order": [
-        "trust_badge_ya7xh6",
-        "trust_badge_seg",
-        "trust_badge_cal",
         "acc_conservacion",
         "acc_origen",
         "acc_consumo",
         "acc_info",
         "acc_cata"
-      ],
-      "settings": {
-        "show_sticky_atc": true,
-        "upsell_title": "Puedes añadir estos productos con descuento",
-        "show_quick_facts": true,
-        "show_trust_badges": true,
-        "show_info_section": true,
-        "info_kcal": "100",
-        "info_protein": "27",
-        "info_sugars": "0",
-        "info_conservation_temp": "20",
-        "info_service_temp": "21",
-        "info_conservation_days": "50",
-        "show_weight_selector": true,
-        "weight_options": "6-7 kg, 8-9 kg"
-      }
+      ]
     },
     "combina": {
       "type": "combina-tu-compra",
@@ -181,7 +207,10 @@
     }
   },
   "order": [
-    "main",
+    "gallery",
+    "specifications",
+    "information",
+    "details",
     "combina",
     "related"
   ]
