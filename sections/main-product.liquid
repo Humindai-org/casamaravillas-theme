@@ -1916,15 +1916,15 @@
 
       {%- comment -%} ── DESCRIPCIÓN CORTA ── {%- endcomment -%}
       {%- if product.description != blank -%}
-        {%- assign desc_text = product.description | strip_html -%}
         <div class="cm-pdp__desc" id="cm-desc-{{ section.id }}">
+          {%- assign desc_text = product.description | strip_html -%}
           {%- if desc_text.size > 180 -%}
             <div class="cm-pdp__desc-full" id="cm-desc-full-{{ section.id }}" aria-hidden="true">
               {{ product.description }}
             </div>
-            <p class="cm-pdp__desc-preview" id="cm-desc-preview-{{ section.id }}">
-              {{ desc_text | truncate: 280 }}
-            </p>
+            <div class="cm-pdp__desc-preview" id="cm-desc-preview-{{ section.id }}">
+              {{ product.description | truncatewords: 50 }}
+            </div>
             <button
               class="cm-desc-toggle"
               id="cm-desc-toggle-{{ section.id }}"
