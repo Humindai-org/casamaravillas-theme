@@ -204,8 +204,8 @@
       "name": "Detalles de la Pieza",
       "settings": {
         "header_eyebrow": "Detalles de la pieza",
-        "header_title": "Todo lo que",
-        "header_title_em": "debes saber.",
+        "header_title": "Todo lo que debes saber",
+        "header_title_em": "",
         "sections_label": "secciones",
         "empty_message": "Información no añadida todavía para este producto."
       }
