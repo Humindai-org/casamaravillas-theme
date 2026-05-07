@@ -1585,12 +1585,42 @@
         </div>
       {%- endunless -%}
 
-      {%- comment -%} ── SELECTOR DE PESO APROXIMADO (configurable en Shopify) ── {%- endcomment -%}
-      {%- if section.settings.show_weight_selector and section.settings.weight_options != blank -%}
+      {%- comment -%} ── SELECTOR DE PESO/PACK (configurable según tipo de producto) ── {%- endcomment -%}
+      {%- assign cm_product_type = section.settings.product_type -%}
+
+      {%- if cm_product_type == 'lonchado' and section.settings.pack_options != blank -%}
         <div class="cm-pdp__select-wrap">
-          <label class="cm-pdp__select-label" for="cm-weight-sel-{{ section.id }}">
-            Peso Aproximado
-          </label>
+          <label class="cm-pdp__select-label" for="cm-pack-sel-{{ section.id }}">Pack</label>
+          <select id="cm-pack-sel-{{ section.id }}" class="cm-pdp__select" data-pack-select>
+            {%- assign pack_opts = section.settings.pack_options | split: ',' -%}
+            {%- for opt in pack_opts -%}
+              <option value="{{ opt | strip | escape }}">{{ opt | strip }}</option>
+            {%- endfor -%}
+          </select>
+          <span class="cm-pdp__select-arrow" aria-hidden="true">
+            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+              <path d="M19 9l-7 7-7-7"/>
+            </svg>
+          </span>
+        </div>
+      {%- elsif cm_product_type == 'deshuesado' and section.settings.show_weight_selector and section.settings.weight_options_deshuesado != blank -%}
+        <div class="cm-pdp__select-wrap">
+          <label class="cm-pdp__select-label" for="cm-weight-sel-{{ section.id }}">Peso Aproximado</label>
+          <select id="cm-weight-sel-{{ section.id }}" class="cm-pdp__select" data-weight-select>
+            {%- assign weight_opts = section.settings.weight_options_deshuesado | split: ',' -%}
+            {%- for opt in weight_opts -%}
+              <option value="{{ opt | strip | escape }}">{{ opt | strip }}</option>
+            {%- endfor -%}
+          </select>
+          <span class="cm-pdp__select-arrow" aria-hidden="true">
+            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+              <path d="M19 9l-7 7-7-7"/>
+            </svg>
+          </span>
+        </div>
+      {%- elsif cm_product_type == 'entero' and section.settings.show_weight_selector and section.settings.weight_options != blank -%}
+        <div class="cm-pdp__select-wrap">
+          <label class="cm-pdp__select-label" for="cm-weight-sel-{{ section.id }}">Peso Aproximado</label>
           <select id="cm-weight-sel-{{ section.id }}" class="cm-pdp__select" data-weight-select>
             {%- assign weight_opts = section.settings.weight_options | split: ',' -%}
             {%- for opt in weight_opts -%}
@@ -1606,24 +1636,26 @@
       {%- endif -%}
 
       {%- comment -%} ── SELECTOR DE CURACIÓN ── {%- endcomment -%}
-      <div class="cm-curing-selector" id="cm-curing-{{ section.id }}">
-        <label class="cm-pdp__select-label" for="cm-curing-sel-{{ section.id }}">
-          Punto de Curación
-        </label>
-        <div class="cm-pdp__select-wrap">
-          <select id="cm-curing-sel-{{ section.id }}" class="cm-pdp__select" data-curing-select>
-            <option value="tierno" data-desc="Textura suave, sabor delicado. Ideal para amantes de cortes más frescos.">Más tierno</option>
-            <option value="equilibrado" selected data-desc="El punto perfecto entre textura y sabor. Nuestra selección recomendada.">Equilibrado</option>
-            <option value="curado" data-desc="Sabor intenso y concentrado. Mayor tiempo de maduración.">Más curado</option>
-          </select>
-          <span class="cm-pdp__select-arrow" aria-hidden="true">
-            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
-              <path d="M19 9l-7 7-7-7"/>
-            </svg>
-          </span>
+      {%- if section.settings.show_curing_selector -%}
+        <div class="cm-curing-selector" id="cm-curing-{{ section.id }}">
+          <label class="cm-pdp__select-label" for="cm-curing-sel-{{ section.id }}">
+            Punto de Curación
+          </label>
+          <div class="cm-pdp__select-wrap">
+            <select id="cm-curing-sel-{{ section.id }}" class="cm-pdp__select" data-curing-select>
+              <option value="tierno" data-desc="Textura suave, sabor delicado. Ideal para amantes de cortes más frescos.">Más tierno</option>
+              <option value="equilibrado" selected data-desc="El punto perfecto entre textura y sabor. Nuestra selección recomendada.">Equilibrado</option>
+              <option value="curado" data-desc="Sabor intenso y concentrado. Mayor tiempo de maduración.">Más curado</option>
+            </select>
+            <span class="cm-pdp__select-arrow" aria-hidden="true">
+              <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                <path d="M19 9l-7 7-7-7"/>
+              </svg>
+            </span>
+          </div>
+          <p class="option-hint" id="cm-curing-hint-{{ section.id }}">El punto perfecto entre textura y sabor. Nuestra selección recomendada.</p>
         </div>
-        <p class="option-hint" id="cm-curing-hint-{{ section.id }}">El punto perfecto entre textura y sabor. Nuestra selección recomendada.</p>
-      </div>
+      {%- endif -%}
 
       {%- comment -%} ── FORMULARIO DE COMPRA ── {%- endcomment -%}
       {%- assign product_form_id = 'cm-form-' | append: section.id -%}
@@ -2054,6 +2086,8 @@ document.addEventListener('DOMContentLoaded', function() {
       const curingVal = curingSelectEl ? curingSelectEl.value : '';
       const weightSelectEl = document.querySelector('[data-weight-select]');
       const weightVal = weightSelectEl ? weightSelectEl.value : '';
+      const packSelectEl = document.querySelector('[data-pack-select]');
+      const packVal = packSelectEl ? packSelectEl.value : '';
       const cartBody = {
         id: variantId,
         quantity: getQty(),
@@ -2061,6 +2095,7 @@ document.addEventListener('DOMContentLoaded', function() {
       };
       if (curingVal) cartBody.properties['Punto de curación'] = curingVal;
       if (weightVal) cartBody.properties['Peso aproximado'] = weightVal;
+      if (packVal) cartBody.properties['Pack'] = packVal;
 
       const ctrl = new AbortController();
       const tOut = setTimeout(() => ctrl.abort(), 12000);
@@ -2224,7 +2259,32 @@ document.addEventListener('DOMContentLoaded', function() {
     },
     {
       "type": "header",
-      "content": "Selector de peso"
+      "content": "Tipo de producto"
+    },
+    {
+      "type": "select",
+      "id": "product_type",
+      "label": "Tipo de producto",
+      "options": [
+        { "value": "entero",      "label": "Jamón entero" },
+        { "value": "deshuesado",  "label": "Jamón deshuesado" },
+        { "value": "lonchado",    "label": "Lonchado" }
+      ],
+      "default": "entero"
+    },
+    {
+      "type": "header",
+      "content": "Punto de curación"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_curing_selector",
+      "label": "Mostrar selector de punto de curación",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Selector de peso — Jamón entero"
     },
     {
       "type": "checkbox",
@@ -2238,6 +2298,28 @@ document.addEventListener('DOMContentLoaded', function() {
       "label": "Opciones de peso (separadas por comas)",
       "default": "6-7 kg, 8-9 kg",
       "info": "Ej: 6-7 kg, 8-9 kg, 10-11 kg. Cada opción separada por coma."
+    },
+    {
+      "type": "header",
+      "content": "Selector de peso — Deshuesado"
+    },
+    {
+      "type": "text",
+      "id": "weight_options_deshuesado",
+      "label": "Opciones de peso para deshuesado (separadas por comas)",
+      "default": "500 g, 1 kg, 1.5 kg",
+      "info": "Solo se muestra cuando el tipo de producto es Deshuesado."
+    },
+    {
+      "type": "header",
+      "content": "Selector de pack — Lonchado"
+    },
+    {
+      "type": "text",
+      "id": "pack_options",
+      "label": "Opciones de pack (separadas por comas)",
+      "default": "Pack 1 ud., Pack 3 ud., Pack 10 ud.",
+      "info": "Solo se muestra cuando el tipo de producto es Lonchado. Reemplaza al selector de peso."
     }
   ],
   "presets": [
