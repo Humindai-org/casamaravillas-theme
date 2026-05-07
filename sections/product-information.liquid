@@ -1,0 +1,358 @@
+{% comment %}
+  product-information.liquid — Sección de información del producto
+  Información nutricional y conservación/consumo
+{% endcomment %}
+
+<style>
+  /* ── VARIABLES DE COLOR — paleta crema clara ── */
+  :root {
+    --bg-primary:   #F5F0E8;
+    --bg-secondary: #EDEAE2;
+    --bg-card:      #FFFFFF;
+    --text-primary: #1A1410;
+    --text-secondary: #6B5E4E;
+    --accent-gold:  #C9A84C;
+    --border-color: #D6CFC4;
+  }
+
+  .cm-info-section {
+    width: 100%;
+    background: var(--bg-primary);
+    padding: 56px 48px 80px;
+    box-sizing: border-box;
+  }
+
+  .cm-info-section__inner {
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  .cm-info-headline {
+    margin-bottom: 64px;
+    text-align: center;
+  }
+
+  .cm-info-eyebrow {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+  }
+
+  .cm-info-title {
+    font-family: var(--cm-font-serif, Georgia, serif);
+    font-size: clamp(28px, 5vw, 48px);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+    margin: 0 0 20px;
+    line-height: 1.2;
+  }
+
+  .cm-info-title em {
+    font-style: italic;
+    font-weight: 600;
+  }
+
+  .cm-info-body {
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .cm-info-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+
+  @media (max-width: 768px) {
+    .cm-info-cards {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+  }
+
+  .cm-info-card {
+    background: var(--bg-card);
+    padding: 32px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+  }
+
+  .cm-info-card__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    background: var(--bg-secondary);
+    border-radius: 8px;
+    margin-bottom: 20px;
+    color: var(--accent-gold);
+  }
+
+  .cm-info-card__icon svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .cm-info-card__title {
+    font-family: var(--cm-font-serif, Georgia, serif);
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0 0 20px;
+  }
+
+  .cm-info-card__rows {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .cm-info-card__row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .cm-info-card__row:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .cm-info-card__label {
+    font-size: 13px;
+    color: var(--text-secondary);
+    font-weight: 500;
+  }
+
+  .cm-info-card__value {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+</style>
+
+<div class="cm-info-section">
+  <div class="cm-info-section__inner">
+
+    <div class="cm-info-headline">
+      <span class="cm-info-eyebrow">{{ section.settings.eyebrow_text }}</span>
+      <h2 class="cm-info-title">
+        {{ section.settings.title_text }}<br>
+        <em>{{ section.settings.title_em_text }}</em>
+      </h2>
+      <p class="cm-info-body">
+        {{ section.settings.description_text }}
+      </p>
+    </div>
+
+    <div class="cm-info-cards">
+
+      {%- comment -%} Card 1: Información nutricional {%- endcomment -%}
+      <article class="cm-info-card">
+        <div class="cm-info-card__icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M13.5 14V5a1.5 1.5 0 1 0-3 0v9a3.5 3.5 0 1 0 3 0z"/>
+            <circle cx="12" cy="17" r="1.6" fill="currentColor"/>
+            <path d="M13.5 7h1.5M13.5 9h1.5M13.5 11h1.5"/>
+          </svg>
+        </div>
+        <h3 class="cm-info-card__title">{{ section.settings.card1_title }}</h3>
+        <div class="cm-info-card__rows">
+          {%- assign _kcal  = product.metafields.custom.kcal.value | default: section.settings.info_kcal -%}
+          {%- assign _prot  = product.metafields.custom.protein_g.value | default: section.settings.info_protein -%}
+          {%- assign _sugar = product.metafields.custom.sugars_g.value | default: section.settings.info_sugars -%}
+          {%- if _kcal != blank -%}
+            <div class="cm-info-card__row">
+              <span class="cm-info-card__label">{{ section.settings.kcal_label }}</span>
+              <span class="cm-info-card__value">{{ _kcal }} kcal</span>
+            </div>
+          {%- endif -%}
+          {%- if _prot != blank -%}
+            <div class="cm-info-card__row">
+              <span class="cm-info-card__label">{{ section.settings.protein_label }}</span>
+              <span class="cm-info-card__value">{{ _prot }} gr</span>
+            </div>
+          {%- endif -%}
+          {%- if _sugar != blank -%}
+            <div class="cm-info-card__row">
+              <span class="cm-info-card__label">{{ section.settings.sugars_label }}</span>
+              <span class="cm-info-card__value">{{ _sugar }} gr</span>
+            </div>
+          {%- elsif _kcal != blank -%}
+            <div class="cm-info-card__row">
+              <span class="cm-info-card__label">{{ section.settings.sugars_label }}</span>
+              <span class="cm-info-card__value">0 gr</span>
+            </div>
+          {%- endif -%}
+        </div>
+      </article>
+
+      {%- comment -%} Card 2: Conservación y consumo {%- endcomment -%}
+      <article class="cm-info-card">
+        <div class="cm-info-card__icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M7 4h10M7 20h10M7 4l5 6.5L17 4M7 20l5-6.5L17 20"/>
+            <path d="M9.5 16.5c.5-1 1.3-1.5 2.5-1.5s2 .5 2.5 1.5"/>
+          </svg>
+        </div>
+        <h3 class="cm-info-card__title">{{ section.settings.card2_title }}</h3>
+        <div class="cm-info-card__rows">
+          {%- assign _cons_t  = product.metafields.custom.conservation_temp.value | default: section.settings.info_conservation_temp -%}
+          {%- assign _serv_t  = product.metafields.custom.service_temp.value | default: section.settings.info_service_temp -%}
+          {%- assign _cons_d  = product.metafields.custom.conservation_days.value | default: section.settings.info_conservation_days -%}
+          {%- if _cons_t != blank -%}
+            <div class="cm-info-card__row">
+              <span class="cm-info-card__label">{{ section.settings.conservation_label }}</span>
+              <span class="cm-info-card__value">{{ _cons_t }}°</span>
+            </div>
+          {%- endif -%}
+          {%- if _serv_t != blank -%}
+            <div class="cm-info-card__row">
+              <span class="cm-info-card__label">{{ section.settings.service_label }}</span>
+              <span class="cm-info-card__value">{{ _serv_t }}°</span>
+            </div>
+          {%- endif -%}
+          {%- if _cons_d != blank -%}
+            <div class="cm-info-card__row">
+              <span class="cm-info-card__label">{{ section.settings.opened_label }}</span>
+              <span class="cm-info-card__value">{{ _cons_d }} días</span>
+            </div>
+          {%- endif -%}
+        </div>
+      </article>
+
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Información del Producto",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow_text",
+      "label": "Texto superior",
+      "default": "Información del producto"
+    },
+    {
+      "type": "text",
+      "id": "title_text",
+      "label": "Título principal",
+      "default": "Transparencia Con Sabor A"
+    },
+    {
+      "type": "text",
+      "id": "title_em_text",
+      "label": "Texto en cursiva del título",
+      "default": "Tradición"
+    },
+    {
+      "type": "textarea",
+      "id": "description_text",
+      "label": "Descripción",
+      "default": "Detrás de cada pieza hay un proceso que merece ser conocido. Por eso te lo contamos todo: su composición nutricional, cómo conservarlo y cómo disfrutarlo al máximo. Porque saber lo que comes es parte del placer."
+    },
+    {
+      "type": "text",
+      "id": "card1_title",
+      "label": "Título Tarjeta 1",
+      "default": "Información nutricional"
+    },
+    {
+      "type": "text",
+      "id": "kcal_label",
+      "label": "Etiqueta Valor energético",
+      "default": "Valor energético"
+    },
+    {
+      "type": "text",
+      "id": "info_kcal",
+      "label": "Valor energético por defecto",
+      "default": "200"
+    },
+    {
+      "type": "text",
+      "id": "protein_label",
+      "label": "Etiqueta Proteínas",
+      "default": "Proteínas"
+    },
+    {
+      "type": "text",
+      "id": "info_protein",
+      "label": "Proteínas por defecto",
+      "default": "28"
+    },
+    {
+      "type": "text",
+      "id": "sugars_label",
+      "label": "Etiqueta Azúcares",
+      "default": "Azúcares"
+    },
+    {
+      "type": "text",
+      "id": "info_sugars",
+      "label": "Azúcares por defecto",
+      "default": "0"
+    },
+    {
+      "type": "text",
+      "id": "card2_title",
+      "label": "Título Tarjeta 2",
+      "default": "Conservación y consumo"
+    },
+    {
+      "type": "text",
+      "id": "conservation_label",
+      "label": "Etiqueta Conservación",
+      "default": "Conservación"
+    },
+    {
+      "type": "text",
+      "id": "info_conservation_temp",
+      "label": "Temperatura conservación por defecto",
+      "default": "4"
+    },
+    {
+      "type": "text",
+      "id": "service_label",
+      "label": "Etiqueta Consumo ideal",
+      "default": "Consumo ideal"
+    },
+    {
+      "type": "text",
+      "id": "info_service_temp",
+      "label": "Temperatura servicio por defecto",
+      "default": "12"
+    },
+    {
+      "type": "text",
+      "id": "opened_label",
+      "label": "Etiqueta Una vez abierto",
+      "default": "Una vez abierto"
+    },
+    {
+      "type": "text",
+      "id": "info_conservation_days",
+      "label": "Días conservación por defecto",
+      "default": "7"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Información del Producto"
+    }
+  ]
+}
+{% endschema %}

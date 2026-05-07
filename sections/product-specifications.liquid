@@ -1,0 +1,618 @@
+{% comment %}
+  product-specifications.liquid — Sección de especificaciones del producto
+  Precio, peso, punto de curación, compra, deseos, barra de confianza
+{% endcomment %}
+
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+
+<style>
+  /* ── VARIABLES DE COLOR — paleta crema clara ── */
+  :root {
+    --bg-primary:   #F5F0E8;
+    --bg-secondary: #EDEAE2;
+    --bg-card:      #FFFFFF;
+    --text-primary: #1A1410;
+    --text-secondary: #6B5E4E;
+    --accent-gold:  #C9A84C;
+    --border-color: #D6CFC4;
+  }
+
+  .cm-pdp__price-row {
+    display: flex;
+    gap: 12px;
+    align-items: baseline;
+    margin-top: 12px;
+    margin-bottom: 8px;
+  }
+
+  .cm-pdp__price {
+    font-family: var(--cm-font-serif, Georgia, serif);
+    font-size: clamp(28px, 6.5vw, 48px);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+    line-height: 1;
+  }
+
+  .cm-pdp__price--sale {
+    color: var(--pdp-accent, var(--accent-gold));
+  }
+
+  .cm-pdp__price--compare {
+    font-size: 14px;
+    color: var(--text-secondary);
+    text-decoration: line-through;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
+
+  .cm-pdp__discount-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--pdp-accent, var(--accent-gold));
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 8px;
+    border-radius: 3px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  .cm-pdp__tax-note {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin: 0 0 4px;
+    font-style: italic;
+  }
+
+  .cm-pdp__price-kg {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin: 0 0 20px;
+  }
+
+  .cm-pdp__variants {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+
+  .cm-pdp__select-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    position: relative;
+  }
+
+  .cm-pdp__select-label {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-primary);
+  }
+
+  .cm-pdp__select {
+    padding: 10px 12px 10px 14px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background: white;
+    font-size: 14px;
+    color: var(--text-primary);
+    cursor: pointer;
+    appearance: none;
+    transition: border-color 0.2s ease;
+    font-family: var(--cm-font-sans, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif);
+  }
+
+  .cm-pdp__select:hover {
+    border-color: var(--accent-gold);
+  }
+
+  .cm-pdp__select:focus {
+    outline: none;
+    border-color: var(--accent-gold);
+    box-shadow: inset 0 0 0 1px var(--accent-gold);
+  }
+
+  .cm-pdp__select-arrow {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    line-height: 1;
+    margin-top: 20px;
+  }
+
+  .cm-curing-selector {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+
+  .option-hint {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin: 0;
+    line-height: 1.5;
+    font-style: italic;
+  }
+
+  .cm-pdp__purchase {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .cm-qty {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    overflow: hidden;
+    background: white;
+  }
+
+  .cm-qty__btn {
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-primary);
+    transition: background-color 0.2s ease;
+  }
+
+  .cm-qty__btn:hover {
+    background-color: var(--bg-secondary);
+  }
+
+  .cm-qty__btn:active {
+    background-color: var(--border-color);
+  }
+
+  .cm-qty__input {
+    width: 40px;
+    border: none;
+    background: transparent;
+    text-align: center;
+    font-size: 14px;
+    color: var(--text-primary);
+    padding: 0;
+  }
+
+  .cm-qty__input::-webkit-outer-spin-button,
+  .cm-qty__input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  .cm-pdp__add-btn {
+    width: 100%;
+    padding: 12px 20px;
+    background: var(--pdp-accent, var(--accent-gold));
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: opacity 0.2s ease;
+    font-family: var(--cm-font-sans, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif);
+  }
+
+  .cm-pdp__add-btn:hover:not(:disabled) {
+    opacity: 0.9;
+  }
+
+  .cm-pdp__add-btn:active:not(:disabled) {
+    opacity: 0.8;
+  }
+
+  .cm-pdp__add-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .cm-pdp__add-btn svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .cm-wishlist-btn {
+    width: 100%;
+    padding: 12px 20px;
+    background: transparent;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    color: var(--text-primary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    font-family: var(--cm-font-sans, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif);
+  }
+
+  .cm-wishlist-btn:hover {
+    border-color: var(--accent-gold);
+    background-color: var(--bg-secondary);
+  }
+
+  .cm-wishlist-btn[aria-pressed="true"] {
+    background-color: var(--pdp-accent, var(--accent-gold));
+    color: white;
+    border-color: var(--pdp-accent, var(--accent-gold));
+  }
+
+  .cm-wishlist-btn svg {
+    width: 18px;
+    height: 18px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .cm-wishlist-btn[aria-pressed="true"] svg {
+    fill: currentColor;
+  }
+
+  .cm-pdp__trust {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border-color);
+  }
+
+  @media (max-width: 768px) {
+    .cm-pdp__trust {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+  }
+
+  .cm-trust-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    text-align: center;
+  }
+
+  .cm-trust-item__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--pdp-accent, var(--accent-gold));
+  }
+
+  .cm-trust-item {
+    font-size: 12px;
+    color: var(--text-secondary);
+    line-height: 1.4;
+  }
+
+  .cm-trust-item svg {
+    width: 48px;
+    height: 48px;
+  }
+</style>
+
+<div class="cm-pdp-specifications">
+  {%- comment -%} ── PRECIO ── {%- endcomment -%}
+  <div
+    id="cm-price-wrap-{{ section.id }}"
+    class="cm-pdp__price-row"
+    itemprop="offers"
+    itemscope
+    itemtype="https://schema.org/Offer"
+  >
+    <meta itemprop="priceCurrency" content="{{ cart.currency.iso_code }}">
+    <meta itemprop="availability" content="{% if current_variant.available %}InStock{% else %}OutOfStock{% endif %}">
+
+    {%- if current_variant.compare_at_price > current_variant.price -%}
+      {%- assign discount_pct = current_variant.compare_at_price | minus: current_variant.price | times: 100 | divided_by: current_variant.compare_at_price -%}
+      <span
+        id="cm-price-{{ section.id }}"
+        class="cm-pdp__price cm-pdp__price--sale"
+        itemprop="price"
+        content="{{ current_variant.price | divided_by: 100.0 }}"
+      >{{ current_variant.price | money }}</span>
+      <span id="cm-compare-price-{{ section.id }}" class="cm-pdp__price--compare">
+        {{ current_variant.compare_at_price | money }}
+      </span>
+      <span id="cm-discount-badge-{{ section.id }}" class="cm-pdp__discount-badge">-{{ discount_pct }}%</span>
+    {%- else -%}
+      <span
+        id="cm-price-{{ section.id }}"
+        class="cm-pdp__price"
+        itemprop="price"
+        content="{{ current_variant.price | divided_by: 100.0 }}"
+      >{{ current_variant.price | money }}</span>
+    {%- endif -%}
+  </div>
+
+  <p class="cm-pdp__tax-note">Impuestos incluidos</p>
+
+  {%- if product.metafields.custom.price_per_kg.value != blank -%}
+    <p class="cm-pdp__price-kg">{{ product.metafields.custom.price_per_kg.value }}/kg</p>
+  {%- endif -%}
+
+  {%- comment -%} ── VARIANTES ── {%- endcomment -%}
+  {%- unless product.has_only_default_variant -%}
+    <div class="cm-pdp__variants">
+      {%- for option in product.options_with_values -%}
+        <div class="cm-pdp__select-wrap">
+          <label class="cm-pdp__select-label" for="cm-sel-{{ forloop.index }}-{{ section.id }}">
+            {{ option.name }}
+          </label>
+          <select
+            id="cm-sel-{{ forloop.index }}-{{ section.id }}"
+            class="cm-pdp__select"
+            data-option-index="{{ forloop.index }}"
+            data-section="{{ section.id }}"
+          >
+            {%- for value in option.values -%}
+              <option value="{{ value | escape }}"{% if option.selected_value == value %} selected{% endif %}>{{ value }}</option>
+            {%- endfor -%}
+          </select>
+          <span class="cm-pdp__select-arrow" aria-hidden="true">
+            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+              <path d="M19 9l-7 7-7-7"/>
+            </svg>
+          </span>
+        </div>
+      {%- endfor -%}
+    </div>
+  {%- endunless -%}
+
+  {%- comment -%} ── SELECTOR DE PESO APROXIMADO ── {%- endcomment -%}
+  {%- if section.settings.show_weight_selector and section.settings.weight_options != blank -%}
+    <div class="cm-pdp__select-wrap">
+      <label class="cm-pdp__select-label" for="cm-weight-sel-{{ section.id }}">
+        Peso Aproximado
+      </label>
+      <select id="cm-weight-sel-{{ section.id }}" class="cm-pdp__select" data-weight-select>
+        {%- assign weight_opts = section.settings.weight_options | split: ',' -%}
+        {%- for opt in weight_opts -%}
+          <option value="{{ opt | strip | escape }}">{{ opt | strip }}</option>
+        {%- endfor -%}
+      </select>
+      <span class="cm-pdp__select-arrow" aria-hidden="true">
+        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+          <path d="M19 9l-7 7-7-7"/>
+        </svg>
+      </span>
+    </div>
+  {%- endif -%}
+
+  {%- comment -%} ── SELECTOR DE CURACIÓN ── {%- endcomment -%}
+  <div class="cm-curing-selector" id="cm-curing-{{ section.id }}">
+    <label class="cm-pdp__select-label" for="cm-curing-sel-{{ section.id }}">
+      Punto de Curación
+    </label>
+    <div class="cm-pdp__select-wrap">
+      <select id="cm-curing-sel-{{ section.id }}" class="cm-pdp__select" data-curing-select>
+        <option value="tierno" data-desc="Textura suave, sabor delicado. Ideal para amantes de cortes más frescos.">Más tierno</option>
+        <option value="equilibrado" selected data-desc="El punto perfecto entre textura y sabor. Nuestra selección recomendada.">Equilibrado</option>
+        <option value="curado" data-desc="Sabor intenso y concentrado. Mayor tiempo de maduración.">Más curado</option>
+      </select>
+      <span class="cm-pdp__select-arrow" aria-hidden="true">
+        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+          <path d="M19 9l-7 7-7-7"/>
+        </svg>
+      </span>
+    </div>
+    <p class="option-hint" id="cm-curing-hint-{{ section.id }}">El punto perfecto entre textura y sabor. Nuestra selección recomendada.</p>
+  </div>
+
+  {%- comment -%} ── FORMULARIO DE COMPRA ── {%- endcomment -%}
+  {%- assign product_form_id = 'cm-form-' | append: section.id -%}
+  {%- form 'product', product, id: product_form_id, novalidate: true -%}
+    <input type="hidden" name="id" id="cm-variant-id-{{ section.id }}" value="{{ current_variant.id }}">
+
+    <div class="cm-pdp__purchase">
+      <div class="cm-qty" role="group" aria-label="Selector de cantidad">
+        <button
+          type="button"
+          class="cm-qty__btn"
+          id="cm-qty-minus-{{ section.id }}"
+          aria-label="Reducir cantidad"
+        >
+          <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <path d="M5 12h14"/>
+          </svg>
+        </button>
+        <input
+          type="number"
+          id="cm-qty-{{ section.id }}"
+          name="quantity"
+          min="1"
+          value="1"
+          class="cm-qty__input"
+          aria-label="Cantidad"
+        >
+        <button
+          type="button"
+          class="cm-qty__btn"
+          id="cm-qty-plus-{{ section.id }}"
+          aria-label="Aumentar cantidad"
+        >
+          <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <path d="M12 5v14M5 12h14"/>
+          </svg>
+        </button>
+      </div>
+
+      <button
+        type="submit"
+        name="add"
+        id="cm-add-{{ section.id }}"
+        class="cm-pdp__add-btn"
+        {%- unless current_variant.available -%}disabled{%- endunless -%}
+        aria-label="Añadir {{ product.title | escape }} a la cesta"
+      >
+        {%- if current_variant.available -%}
+          <span id="cm-add-text-{{ section.id }}">Añadir a la cesta</span>
+          <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"/>
+          </svg>
+        {%- else -%}
+          <span id="cm-add-text-{{ section.id }}">Agotado</span>
+        {%- endif -%}
+      </button>
+    </div>
+  {%- endform -%}
+
+  {%- comment -%} ── LISTA DE DESEOS ── {%- endcomment -%}
+  <button
+    type="button"
+    class="cm-wishlist-btn"
+    id="cm-wishlist-{{ section.id }}"
+    aria-label="Añadir a la lista de deseos"
+    aria-pressed="false"
+  >
+    <svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M20.84 4.6a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.07a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+    </svg>
+    <span class="cm-wishlist-text">Añadir a la lista de deseos</span>
+  </button>
+
+  {%- comment -%} ── TRUST BADGES (Barra de confianza) ── {%- endcomment -%}
+  {%- if section.settings.show_trust_badges -%}
+    <div class="cm-pdp__trust">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'trust_badge' -%}
+          <div class="cm-trust-item" {{ block.shopify_attributes }}>
+            <span class="cm-trust-item__icon" aria-hidden="true">
+              {%- case block.settings.icon -%}
+                {%- when 'refrigerado' -%}
+                  {% render 'svg-icon' with icon: 'refrigerado', width: 48, height: 48 %}
+                {%- when 'envio' -%}
+                  {% render 'svg-icon' with icon: 'envio', width: 48, height: 48 %}
+                {%- when 'garantia' -%}
+                  {% render 'svg-icon' with icon: 'garantia', width: 48, height: 48 %}
+                {%- else -%}
+                  {% render 'svg-icon' with icon: 'garantia', width: 48, height: 48 %}
+              {%- endcase -%}
+            </span>
+            <span>{{ block.settings.text }}</span>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Especificaciones del Producto",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_weight_selector",
+      "label": "Mostrar selector de peso",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "weight_options",
+      "label": "Opciones de peso (separadas por coma)",
+      "placeholder": "200g, 350g, 500g",
+      "default": "200g, 350g, 500g"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_trust_badges",
+      "label": "Mostrar barra de confianza",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "trust_badge",
+      "name": "Icono de confianza",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icono",
+          "options": [
+            {
+              "value": "refrigerado",
+              "label": "Refrigerado"
+            },
+            {
+              "value": "envio",
+              "label": "Envío"
+            },
+            {
+              "value": "garantia",
+              "label": "Garantía"
+            }
+          ],
+          "default": "garantia"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Texto",
+          "default": "Garantía de calidad"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Especificaciones del Producto",
+      "blocks": [
+        {
+          "type": "trust_badge",
+          "settings": {
+            "icon": "envio",
+            "text": "Envío refrigerado"
+          }
+        },
+        {
+          "type": "trust_badge",
+          "settings": {
+            "icon": "refrigerado",
+            "text": "Pago seguro"
+          }
+        },
+        {
+          "type": "trust_badge",
+          "settings": {
+            "icon": "garantia",
+            "text": "Garantía de calidad"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

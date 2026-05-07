@@ -1,0 +1,610 @@
+{% comment %}
+  product-details-accordion.liquid — Sección de detalles del producto
+  Acordeón interactivo con información detallada (conservación, origen, consumo, etc.)
+{% endcomment %}
+
+<style>
+  /* ── VARIABLES DE COLOR — paleta crema clara ── */
+  :root {
+    --bg-primary:   #F5F0E8;
+    --bg-secondary: #EDEAE2;
+    --bg-card:      #FFFFFF;
+    --text-primary: #1A1410;
+    --text-secondary: #6B5E4E;
+    --accent-gold:  #C9A84C;
+    --border-color: #D6CFC4;
+  }
+
+  .cm-pdp__accordions {
+    max-width: 1280px;
+    margin: 56px auto 0;
+    padding: 0 24px;
+    border-top: 1px solid var(--border-color);
+    background: var(--bg-primary);
+  }
+
+  .cm-acc-header {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 52px 24px 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .cm-acc-header__eyebrow {
+    display: block;
+    font-family: var(--cm-font-sans, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif);
+    font-size: 10.5px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--accent-gold);
+    font-weight: 500;
+    margin-bottom: 12px;
+  }
+
+  .cm-acc-header__title {
+    font-family: var(--cm-font-serif, Georgia, serif);
+    font-size: clamp(28px, 3.2vw, 38px);
+    color: var(--text-primary);
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.01em;
+  }
+
+  .cm-acc-header__title em {
+    font-style: italic;
+    color: var(--accent-gold);
+    font-weight: 400;
+  }
+
+  .cm-acc-header__count {
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-style: italic;
+    font-family: var(--cm-font-serif, Georgia, serif);
+  }
+
+  .cm-accordion {
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .cm-accordion__trigger {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 22px 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    font-family: var(--cm-font-sans, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif);
+    gap: 16px;
+  }
+
+  .cm-accordion__trigger:focus-visible {
+    outline: 2px solid var(--accent-gold);
+    outline-offset: 2px;
+  }
+
+  .cm-accordion__trigger-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .cm-accordion__trigger-icon {
+    color: var(--accent-gold);
+    flex-shrink: 0;
+    display: flex;
+    font-size: 20px;
+  }
+
+  .cm-accordion__trigger-title {
+    font-family: var(--cm-font-serif, Georgia, serif);
+    font-size: 18px;
+    color: var(--text-primary);
+    font-weight: 400;
+  }
+
+  .cm-accordion__trigger-summary {
+    display: block;
+    font-size: 13px;
+    color: var(--text-secondary);
+    font-family: var(--cm-font-sans, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif);
+    margin-top: 4px;
+  }
+
+  .cm-accordion__chevron {
+    flex-shrink: 0;
+    color: var(--text-secondary);
+    transition: transform 0.35s ease;
+  }
+
+  .cm-accordion__trigger[aria-expanded="true"] .cm-accordion__chevron {
+    transform: rotate(180deg);
+  }
+
+  .cm-accordion__trigger[aria-expanded="true"] .cm-accordion__trigger-title {
+    color: var(--accent-gold);
+  }
+
+  .cm-accordion__content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.45s ease;
+  }
+
+  .cm-accordion__body {
+    padding: 0 0 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .cm-accordion-block__title {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent-gold);
+    font-family: var(--cm-font-sans, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif);
+    font-weight: 500;
+    margin-bottom: 10px;
+  }
+
+  .cm-accordion-block,
+  .cm-accordion-block p,
+  .cm-accordion-block div,
+  .cm-accordion-block * {
+    font-size: 12.5px;
+    color: var(--text-secondary);
+    line-height: 1.8;
+    font-family: var(--cm-font-sans, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif) !important;
+    font-weight: 300;
+    font-style: italic !important;
+  }
+
+  .cm-accordion-kv {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .cm-accordion-kv__row {
+    display: grid;
+    grid-template-columns: minmax(120px, 35%) 1fr;
+    gap: 8px 16px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .cm-accordion-kv__row:last-child {
+    border-bottom: none;
+  }
+
+  .cm-accordion-kv__label {
+    font-family: var(--cm-font-sans, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .cm-accordion-kv__value {
+    font-family: var(--cm-font-sans, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif);
+    font-size: 14px;
+    color: var(--text-primary);
+    margin: 0;
+  }
+
+  .cm-accordion-block__empty {
+    font-size: 13px;
+    color: var(--text-secondary);
+    font-family: var(--cm-font-sans, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif);
+    font-style: italic;
+    padding: 4px 0 12px;
+  }
+
+  .cm-accordion-block ul,
+  .cm-accordion-block ol {
+    padding-left: 20px;
+    font-size: 12.5px;
+    color: var(--text-secondary);
+    line-height: 1.8;
+    font-family: var(--cm-font-sans, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif);
+    margin: 0;
+    font-weight: 300;
+  }
+
+  .cm-accordion-block li {
+    margin-bottom: 4px;
+  }
+
+  .cm-accordion-block strong {
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+
+  .cm-accordion-block em {
+    font-style: italic;
+  }
+
+  .cm-accordion-block--image img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .cm-accordion-block__caption {
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-family: var(--cm-font-sans, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif);
+    font-style: italic;
+    margin-top: 8px;
+    text-align: center;
+  }
+
+  @media (max-width: 768px) {
+    .cm-pdp__accordions {
+      padding: 0 20px;
+    }
+
+    .cm-acc-header {
+      padding: 36px 20px 22px;
+      flex-direction: column;
+      gap: 12px;
+      align-items: flex-start;
+    }
+  }
+</style>
+
+{% assign accordion_blocks = section.blocks | where: 'type', 'accordion' %}
+{% if accordion_blocks.size > 0 %}
+<div class="cm-pdp__accordions" id="cm-accordions-{{ section.id }}" aria-label="Información detallada del producto">
+
+  {%- comment -%} ── ENCABEZADO DEL ACORDEÓN ── {%- endcomment -%}
+  <div class="cm-acc-header">
+    <div>
+      <span class="cm-acc-header__eyebrow">{{ section.settings.header_eyebrow }}</span>
+      <h2 class="cm-acc-header__title">{{ section.settings.header_title }}<em>{{ section.settings.header_title_em }}</em></h2>
+    </div>
+    <span class="cm-acc-header__count">{{ accordion_blocks.size }} {{ section.settings.sections_label }}</span>
+  </div>
+
+  {%- assign acc_index = 0 -%}
+  {%- for block in section.blocks -%}
+    {%- if block.type != 'accordion' -%}{%- continue -%}{%- endif -%}
+    {%- assign acc_index = acc_index | plus: 1 -%}
+
+    {%- comment -%} Leer metadato: primero intenta namespace custom, luego usa contenido directo del bloque {%- endcomment -%}
+    {%- assign acc_mf_key = block.settings.metafield_key | strip -%}
+    {%- assign acc_mf_val = blank -%}
+    {%- if acc_mf_key != blank -%}
+      {%- assign acc_mf_obj = product.metafields.custom[acc_mf_key] -%}
+      {%- if acc_mf_obj != blank -%}
+        {%- if acc_mf_obj.type == 'rich_text' -%}
+          {%- assign acc_mf_val = acc_mf_obj | metafield_tag -%}
+        {%- elsif acc_mf_obj.type == 'multi_line_text_field' -%}
+          {%- assign acc_mf_val = acc_mf_obj.value | newline_to_br -%}
+        {%- else -%}
+          {%- assign acc_mf_val = acc_mf_obj.value | default: '' -%}
+        {%- endif -%}
+      {%- endif -%}
+    {%- endif -%}
+    {%- assign acc_content = acc_mf_val | default: block.settings.content_fallback -%}
+
+    <div class="cm-accordion" data-accordion {{ block.shopify_attributes }}>
+      <button
+        class="cm-accordion__trigger"
+        aria-expanded="false"
+        aria-controls="cm-acc-{{ block.id }}"
+        id="cm-acc-btn-{{ block.id }}"
+        type="button"
+      >
+        <span class="cm-accordion__trigger-left">
+          <span class="cm-accordion__trigger-icon" aria-hidden="true">
+            {%- case block.settings.icon -%}
+              {%- when 'conservation' -%}
+                <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9v12a3 3 0 003 3h6a3 3 0 003-3V9m-12 0a3 3 0 013-3h6a3 3 0 013 3m-12 0h12M10 14h4"/></svg>
+              {%- when 'origin' -%}
+                <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0110.3 10.3M12 22a15.3 15.3 0 01-10.3-10.3M2 12h20M12 2a15.3 15.3 0 00-10.3 10.3M12 22a15.3 15.3 0 0010.3-10.3"/></svg>
+              {%- when 'fork' -%}
+                <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2h6v7M15 2h6v7M12 9v13M8 22h8"/></svg>
+              {%- when 'info' -%}
+                <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+              {%- else -%}
+                <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2M12 2v20M2 12h20"/></svg>
+            {%- endcase -%}
+          </span>
+          <div>
+            <span class="cm-accordion__trigger-title">{{ block.settings.title }}</span>
+            {%- if block.settings.summary != blank -%}
+              <span class="cm-accordion__trigger-summary">{{ block.settings.summary }}</span>
+            {%- endif -%}
+          </div>
+        </span>
+        <svg class="cm-accordion__chevron" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <path d="M19 9l-7 7-7-7"/>
+        </svg>
+      </button>
+      <div
+        class="cm-accordion__content"
+        id="cm-acc-{{ block.id }}"
+        role="region"
+        aria-labelledby="cm-acc-btn-{{ block.id }}"
+      >
+        <div class="cm-accordion__body">
+          {%- if block.blocks.size > 0 -%}
+            {%- for child_block in block.blocks -%}
+              {%- case child_block.type -%}
+
+                {%- when 'richtext_block' -%}
+                  <div class="cm-accordion-block" {{ child_block.shopify_attributes }}>
+                    {%- if child_block.settings.subtitle != blank -%}
+                      <p class="cm-accordion-block__title">{{ child_block.settings.subtitle }}</p>
+                    {%- endif -%}
+                    {{ child_block.settings.text }}
+                  </div>
+
+                {%- when 'image_block' -%}
+                  {%- if child_block.settings.image != blank -%}
+                    <div class="cm-accordion-block cm-accordion-block--image" {{ child_block.shopify_attributes }}>
+                      <img
+                        src="{{ child_block.settings.image | image_url: width: 800 }}"
+                        alt="{{ child_block.settings.image.alt | escape | default: child_block.settings.caption }}"
+                        width="{{ child_block.settings.image.width }}"
+                        height="{{ child_block.settings.image.height }}"
+                        loading="lazy"
+                      >
+                      {%- if child_block.settings.caption != blank -%}
+                        <p class="cm-accordion-block__caption">{{ child_block.settings.caption }}</p>
+                      {%- endif -%}
+                    </div>
+                  {%- endif -%}
+
+              {%- endcase -%}
+            {%- endfor -%}
+
+          {%- elsif acc_content != blank -%}
+            <div class="cm-accordion-block">{{ acc_content }}</div>
+          {%- endif -%}
+          {%- assign has_kv = false -%}
+          {%- for i in (1..5) -%}
+            {%- assign kv_lbl = 'kv_' | append: i | append: '_label' -%}
+            {%- assign kv_val = 'kv_' | append: i | append: '_value' -%}
+            {%- if block.settings[kv_lbl] != blank or block.settings[kv_val] != blank -%}
+              {%- assign has_kv = true -%}
+            {%- endif -%}
+          {%- endfor -%}
+          {%- if has_kv -%}
+            <dl class="cm-accordion-kv">
+              {%- for i in (1..5) -%}
+                {%- assign kv_lbl = 'kv_' | append: i | append: '_label' -%}
+                {%- assign kv_val = 'kv_' | append: i | append: '_value' -%}
+                {%- if block.settings[kv_lbl] != blank or block.settings[kv_val] != blank -%}
+                  <div class="cm-accordion-kv__row">
+                    <dt class="cm-accordion-kv__label">{{ block.settings[kv_lbl] }}</dt>
+                    <dd class="cm-accordion-kv__value">{{ block.settings[kv_val] }}</dd>
+                  </div>
+                {%- endif -%}
+              {%- endfor -%}
+            </dl>
+          {%- endif -%}
+          {%- if block.blocks.size == 0 and acc_content == blank and has_kv == false -%}
+            <p class="cm-accordion-block__empty">{{ section.settings.empty_message }}</p>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+
+  {%- endfor -%}
+</div>
+{%- endif -%}
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const accordions = document.querySelectorAll('[data-accordion]');
+
+    accordions.forEach(accordion => {
+      const trigger = accordion.querySelector('.cm-accordion__trigger');
+      const content = accordion.querySelector('.cm-accordion__content');
+
+      if (!trigger || !content) return;
+
+      trigger.addEventListener('click', function() {
+        const isExpanded = this.getAttribute('aria-expanded') === 'true';
+
+        this.setAttribute('aria-expanded', !isExpanded);
+
+        if (!isExpanded) {
+          content.style.maxHeight = content.scrollHeight + 'px';
+        } else {
+          content.style.maxHeight = '0';
+        }
+      });
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Detalles de la Pieza",
+  "settings": [
+    {
+      "type": "text",
+      "id": "header_eyebrow",
+      "label": "Texto superior",
+      "default": "Detalles de la pieza"
+    },
+    {
+      "type": "text",
+      "id": "header_title",
+      "label": "Título principal",
+      "default": "Todo lo que "
+    },
+    {
+      "type": "text",
+      "id": "header_title_em",
+      "label": "Texto en cursiva del título",
+      "default": "debes saber."
+    },
+    {
+      "type": "text",
+      "id": "sections_label",
+      "label": "Etiqueta de secciones",
+      "default": "secciones"
+    },
+    {
+      "type": "text",
+      "id": "empty_message",
+      "label": "Mensaje cuando está vacío",
+      "default": "Información no añadida todavía para este producto."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "richtext_block",
+      "name": "Bloque de texto",
+      "settings": [
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtítulo (opcional)"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Contenido",
+          "info": "Soporta texto, negrita, cursiva, listas con viñetas y listas numeradas"
+        }
+      ]
+    },
+    {
+      "type": "image_block",
+      "name": "Bloque de imagen",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Imagen"
+        },
+        {
+          "type": "text",
+          "id": "caption",
+          "label": "Pie de foto (opcional)"
+        }
+      ]
+    },
+    {
+      "type": "accordion",
+      "name": "Sección de información",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icono",
+          "options": [
+            { "value": "conservation", "label": "Conservación (frigorífico)" },
+            { "value": "origin",       "label": "Origen (globo)" },
+            { "value": "fork",         "label": "Consumo (tenedor)" },
+            { "value": "info",         "label": "Información (círculo i)" },
+            { "value": "sun",          "label": "Cata (sol)" }
+          ],
+          "default": "info"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Título del acordeón",
+          "default": "Información"
+        },
+        {
+          "type": "text",
+          "id": "summary",
+          "label": "Resumen (visible cuando está cerrado)",
+          "info": "Breve descripción que aparece bajo el título cuando el acordeón está colapsado.",
+          "placeholder": "Breve descripción de esta sección…"
+        },
+        {
+          "type": "header",
+          "content": "Metadato (opcional)"
+        },
+        {
+          "type": "text",
+          "id": "metafield_key",
+          "label": "Clave del metadato (namespace: custom)",
+          "info": "Solo se usa si no hay bloques de contenido añadidos. Ej: storage_before, geographic_origin"
+        },
+        {
+          "type": "richtext",
+          "id": "content_fallback",
+          "label": "Contenido de respaldo",
+          "info": "Se muestra si no hay bloques ni metadato"
+        },
+        {
+          "type": "header",
+          "content": "Filas clave-valor (opcional)"
+        },
+        {
+          "type": "text",
+          "id": "kv_1_label",
+          "label": "Fila 1 — etiqueta"
+        },
+        {
+          "type": "text",
+          "id": "kv_1_value",
+          "label": "Fila 1 — valor"
+        },
+        {
+          "type": "text",
+          "id": "kv_2_label",
+          "label": "Fila 2 — etiqueta"
+        },
+        {
+          "type": "text",
+          "id": "kv_2_value",
+          "label": "Fila 2 — valor"
+        },
+        {
+          "type": "text",
+          "id": "kv_3_label",
+          "label": "Fila 3 — etiqueta"
+        },
+        {
+          "type": "text",
+          "id": "kv_3_value",
+          "label": "Fila 3 — valor"
+        },
+        {
+          "type": "text",
+          "id": "kv_4_label",
+          "label": "Fila 4 — etiqueta"
+        },
+        {
+          "type": "text",
+          "id": "kv_4_value",
+          "label": "Fila 4 — valor"
+        },
+        {
+          "type": "text",
+          "id": "kv_5_label",
+          "label": "Fila 5 — etiqueta"
+        },
+        {
+          "type": "text",
+          "id": "kv_5_value",
+          "label": "Fila 5 — valor"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Detalles de la Pieza"
+    }
+  ]
+}
+{% endschema %}
