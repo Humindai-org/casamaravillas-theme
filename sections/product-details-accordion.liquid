@@ -325,8 +325,28 @@
                 <img src="{{ 'icon-consumo.svg' | asset_url }}" alt="" width="28" height="28" loading="lazy">
               {%- when 'info' -%}
                 <img src="{{ 'icon-info.svg' | asset_url }}" alt="" width="28" height="28" loading="lazy">
-              {%- else -%}
+              {%- when 'cata' -%}
                 <img src="{{ 'icon-cata.svg' | asset_url }}" alt="" width="28" height="28" loading="lazy">
+              {%- when 'bellota' -%}
+                <img src="{{ 'icon-bellota.svg' | asset_url }}" alt="" width="28" height="28" loading="lazy">
+              {%- when 'cereales' -%}
+                <img src="{{ 'icon-cereales.svg' | asset_url }}" alt="" width="28" height="28" loading="lazy">
+              {%- when 'curacion' -%}
+                <img src="{{ 'icon-curacion.svg' | asset_url }}" alt="" width="28" height="28" loading="lazy">
+              {%- when 'envio' -%}
+                <img src="{{ 'icon-envio.svg' | asset_url }}" alt="" width="28" height="28" loading="lazy">
+              {%- when 'garantia' -%}
+                <img src="{{ 'icon-garantia.svg' | asset_url }}" alt="" width="28" height="28" loading="lazy">
+              {%- when 'pasto' -%}
+                <img src="{{ 'icon-pasto.svg' | asset_url }}" alt="" width="28" height="28" loading="lazy">
+              {%- when 'peso' -%}
+                <img src="{{ 'icon-peso.svg' | asset_url }}" alt="" width="28" height="28" loading="lazy">
+              {%- when 'raza' -%}
+                <img src="{{ 'icon-raza.svg' | asset_url }}" alt="" width="28" height="28" loading="lazy">
+              {%- when 'refrigerado' -%}
+                <img src="{{ 'icon-refrigerado.svg' | asset_url }}" alt="" width="28" height="28" loading="lazy">
+              {%- else -%}
+                <img src="{{ 'icon-info.svg' | asset_url }}" alt="" width="28" height="28" loading="lazy">
             {%- endcase -%}
           </span>
           <div>
@@ -517,11 +537,20 @@
           "id": "icon",
           "label": "Icono",
           "options": [
-            { "value": "conservation", "label": "Conservación (frigorífico)" },
-            { "value": "origin",       "label": "Origen (globo)" },
-            { "value": "fork",         "label": "Consumo (tenedor)" },
-            { "value": "info",         "label": "Información (círculo i)" },
-            { "value": "sun",          "label": "Cata (sol)" }
+            { "value": "conservation",  "label": "Conservación (frigorífico)" },
+            { "value": "origin",        "label": "Origen (globo)" },
+            { "value": "fork",          "label": "Consumo (tenedor)" },
+            { "value": "info",          "label": "Información (círculo i)" },
+            { "value": "cata",          "label": "Cata (sol)" },
+            { "value": "bellota",       "label": "Bellota" },
+            { "value": "cereales",      "label": "Cereales" },
+            { "value": "curacion",      "label": "Curación" },
+            { "value": "envio",         "label": "Envío" },
+            { "value": "garantia",      "label": "Garantía" },
+            { "value": "pasto",         "label": "Pasto" },
+            { "value": "peso",          "label": "Peso" },
+            { "value": "raza",          "label": "Raza" },
+            { "value": "refrigerado",   "label": "Refrigerado" }
           ],
           "default": "info"
         },
