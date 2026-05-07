@@ -489,6 +489,105 @@
     transform: rotate(180deg);
   }
 
+  /* ── PRODUCTOS COMPLEMENTARIOS ── */
+  .cm-comp-products {
+    margin-top: 28px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border-color);
+  }
+
+  .cm-comp__eyebrow {
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent-gold);
+    font-family: var(--cm-font-sans);
+    font-weight: 600;
+    margin: 0 0 16px;
+  }
+
+  .cm-comp__list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .cm-comp__card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    padding: 10px;
+  }
+
+  .cm-comp__card-img {
+    width: 56px;
+    height: 56px;
+    object-fit: cover;
+    flex-shrink: 0;
+    background: var(--bg-secondary);
+    display: block;
+  }
+
+  .cm-comp__card-body {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .cm-comp__card-name {
+    font-family: var(--cm-font-sans);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-primary);
+    line-height: 1.35;
+    margin: 0 0 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .cm-comp__card-price {
+    font-family: var(--cm-font-sans);
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin: 0;
+  }
+
+  .cm-comp__atc-btn {
+    flex-shrink: 0;
+    background: var(--pdp-accent, var(--accent-gold));
+    color: #fff;
+    border: none;
+    padding: 8px 14px;
+    font-family: var(--cm-font-sans);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s;
+    line-height: 1;
+  }
+
+  .cm-comp__atc-btn:hover:not(:disabled) {
+    background: var(--text-primary);
+  }
+
+  .cm-comp__atc-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  .cm-comp__skeleton {
+    height: 76px;
+    background: linear-gradient(90deg, var(--bg-secondary) 25%, var(--border-color) 50%, var(--bg-secondary) 75%);
+    background-size: 200% 100%;
+    animation: cm-shimmer 1.5s infinite;
+    border: 1px solid var(--border-color);
+  }
+
   /* ── SECCIÓN COMBINA ── */
   .cm-combina-section {
     display: none;
@@ -1729,6 +1828,28 @@
         <span class="cm-wishlist-text">Añadir a la lista de deseos</span>
       </button>
 
+      {%- comment -%} ── PRODUCTOS COMPLEMENTARIOS ── {%- endcomment -%}
+      {%- if section.settings.show_complementary_products -%}
+        <div
+          class="cm-comp-products"
+          id="cm-comp-{{ section.id }}"
+          data-product-id="{{ product.id }}"
+          data-max="{{ section.settings.complementary_max | default: 3 }}"
+          {%- if section.settings.complementary_collection != blank -%}
+            data-fallback="{{ section.settings.complementary_collection }}"
+          {%- endif -%}
+        >
+          <p class="cm-comp__eyebrow">
+            {{- section.settings.complementary_title | default: 'Complementa tu pedido con' -}}
+          </p>
+          <div class="cm-comp__list" id="cm-comp-list-{{ section.id }}">
+            {%- for i in (1..3) -%}
+              <div class="cm-comp__skeleton"></div>
+            {%- endfor -%}
+          </div>
+        </div>
+      {%- endif -%}
+
       {%- comment -%} ── DESCRIPCIÓN CORTA ── {%- endcomment -%}
       {%- if product.description != blank -%}
         <div class="cm-pdp__desc" id="cm-desc-{{ section.id }}">
@@ -2238,6 +2359,91 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
+  /* ── Productos complementarios ── */
+  {%- if section.settings.show_complementary_products -%}
+  const compEl = $('cm-comp-' + SID);
+  if (compEl) {
+    const compListEl = $('cm-comp-list-' + SID);
+    const compProductId = compEl.dataset.productId;
+    const compMax = parseInt(compEl.dataset.max || '3', 10);
+    const compFallback = compEl.dataset.fallback || '';
+
+    function compImgSrc(p) {
+      var fi = p.featured_image;
+      if (!fi) return '';
+      return typeof fi === 'string' ? fi : (fi.src || '');
+    }
+
+    function renderCompItems(products) {
+      if (!products || products.length === 0) {
+        compEl.style.display = 'none';
+        return;
+      }
+      compListEl.innerHTML = '';
+      products.slice(0, compMax).forEach(function(p) {
+        var variant = p.variants && p.variants[0];
+        if (!variant) return;
+        var available = variant.available !== false;
+        var img = compImgSrc(p);
+        var card = document.createElement('div');
+        card.className = 'cm-comp__card';
+        card.innerHTML =
+          (img ? '<img class="cm-comp__card-img" src="' + img + '" alt="' + (p.title || '').replace(/"/g, '&quot;') + '" width="56" height="56" loading="lazy">' : '') +
+          '<div class="cm-comp__card-body">' +
+            '<p class="cm-comp__card-name">' + (p.title || '') + '</p>' +
+            '<p class="cm-comp__card-price">' + formatMoney(variant.price) + '</p>' +
+          '</div>' +
+          '<button type="button" class="cm-comp__atc-btn" data-variant-id="' + variant.id + '"' + (!available ? ' disabled' : '') + '>' +
+            (available ? 'Agregar a mi cesta' : 'Agotado') +
+          '</button>';
+        card.querySelector('.cm-comp__atc-btn').addEventListener('click', async function() {
+          var btn = this;
+          var vid = btn.dataset.variantId;
+          btn.disabled = true;
+          btn.textContent = 'A\xf1adiendo…';
+          try {
+            var res = await fetch('/cart/add.js', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+              body: JSON.stringify({ id: parseInt(vid, 10), quantity: 1 })
+            });
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            btn.textContent = '✓ A\xf1adido';
+            updateCartCount();
+            if (typeof window.fetchAndRenderCart === 'function') window.fetchAndRenderCart();
+            if (typeof window.openCart === 'function') window.openCart(true);
+            setTimeout(function() {
+              btn.disabled = false;
+              btn.textContent = 'Agregar a mi cesta';
+            }, 2200);
+          } catch(e) {
+            btn.disabled = false;
+            btn.textContent = 'Agregar a mi cesta';
+          }
+        });
+        compListEl.appendChild(card);
+      });
+    }
+
+    fetch('/recommendations/products.json?product_id=' + compProductId + '&limit=' + compMax + '&intent=complementary')
+      .then(function(r) { return r.json(); })
+      .then(function(d) {
+        if (d.products && d.products.length > 0) {
+          renderCompItems(d.products);
+        } else if (compFallback) {
+          return fetch('/collections/' + compFallback + '/products.json?limit=' + (compMax + 1))
+            .then(function(r) { return r.json(); })
+            .then(function(d2) {
+              renderCompItems((d2.products || []).filter(function(p) { return String(p.id) !== compProductId; }));
+            });
+        } else {
+          compEl.style.display = 'none';
+        }
+      })
+      .catch(function() { compEl.style.display = 'none'; });
+  }
+  {%- endif -%}
+
 })();
 }); // DOMContentLoaded
 </script>
@@ -2320,6 +2526,38 @@ document.addEventListener('DOMContentLoaded', function() {
       "label": "Opciones de pack (separadas por comas)",
       "default": "Pack 1 ud., Pack 3 ud., Pack 10 ud.",
       "info": "Solo se muestra cuando el tipo de producto es Lonchado. Reemplaza al selector de peso."
+    },
+    {
+      "type": "header",
+      "content": "Productos complementarios"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_complementary_products",
+      "label": "Mostrar productos complementarios",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "complementary_title",
+      "label": "Título de la sección",
+      "default": "Complementa tu pedido con",
+      "info": "Aparece encima de las sugerencias de productos."
+    },
+    {
+      "type": "collection",
+      "id": "complementary_collection",
+      "label": "Colección de respaldo",
+      "info": "Se usa si no hay productos complementarios configurados en Shopify Admin → Producto → Recomendaciones."
+    },
+    {
+      "type": "range",
+      "id": "complementary_max",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "default": 3,
+      "label": "Número máximo de productos"
     }
   ],
   "presets": [
