@@ -9,182 +9,54 @@
  */
 {
   "sections": {
-    "gallery": {
+    "main": {
       "type": "main-product",
       "settings": {
         "show_sticky_atc": true,
-        "upsell_title": "Puedes añadir estos productos con descuento",
-        "show_quick_facts": true,
-        "show_trust_badges": true,
         "show_weight_selector": true,
         "weight_options": "6-7 kg, 8-9 kg"
       }
     },
-    "specifications": {
-      "type": "product-specifications",
+    "trust_band_YfPnnW": {
+      "type": "trust-band",
       "blocks": {
-        "trust_badge_ya7xh6": {
-          "type": "trust_badge",
+        "trust_item_diRE88": {
+          "type": "trust_item",
           "settings": {
-            "text": "Envío en 24-48h",
-            "icon": "truck"
+            "title": "Envío gratis",
+            "description": "A partir de €80 en Península"
           }
         },
-        "trust_badge_seg": {
-          "type": "trust_badge",
+        "trust_item_LQKy7Q": {
+          "type": "trust_item",
           "settings": {
-            "text": "Pago 100% seguro",
-            "icon": "shield"
+            "title": "Calidad garantizada",
+            "description": "Tres generaciones de artesanía ibérica"
           }
         },
-        "trust_badge_cal": {
-          "type": "trust_badge",
+        "trust_item_pGzHrd": {
+          "type": "trust_item",
           "settings": {
-            "text": "Producto 100% auténtico",
-            "icon": "star"
+            "title": "Embalaje especial",
+            "description": "Conservación en frío garantizada"
+          }
+        },
+        "trust_item_hhUz6U": {
+          "type": "trust_item",
+          "settings": {
+            "title": "Packaging regalo",
+            "description": "Presentación premium para regalar"
           }
         }
       },
       "block_order": [
-        "trust_badge_ya7xh6",
-        "trust_badge_seg",
-        "trust_badge_cal"
-      ]
-    },
-    "information": {
-      "type": "product-information",
-      "settings": {
-        "eyebrow_text": "Información del producto",
-        "title_text": "Transparencia Con Sabor A",
-        "title_em_text": "Tradición",
-        "description_text": "Detrás de cada pieza hay un proceso que merece ser conocido. Por eso te lo contamos todo: su composición nutricional, cómo conservarlo y cómo disfrutarlo al máximo. Porque saber lo que comes es parte del placer.",
-        "card1_title": "Información nutricional",
-        "kcal_label": "Valor energético",
-        "info_kcal": "100",
-        "protein_label": "Proteínas",
-        "info_protein": "27",
-        "sugars_label": "Azúcares",
-        "info_sugars": "0",
-        "card2_title": "Conservación y consumo",
-        "conservation_label": "Conservación",
-        "info_conservation_temp": "20",
-        "service_label": "Consumo ideal",
-        "info_service_temp": "21",
-        "opened_label": "Una vez abierto",
-        "info_conservation_days": "50"
-      }
-    },
-    "details": {
-      "type": "product-details-accordion",
-      "blocks": {
-        "acc_conservacion": {
-          "type": "accordion",
-          "settings": {
-            "icon": "conservation",
-            "title": "Conservación",
-            "summary": "",
-            "metafield_key": "custom.storage_before",
-            "content_fallback": "",
-            "kv_1_label": "",
-            "kv_1_value": "",
-            "kv_2_label": "",
-            "kv_2_value": "",
-            "kv_3_label": "",
-            "kv_3_value": "",
-            "kv_4_label": "",
-            "kv_4_value": "",
-            "kv_5_label": "",
-            "kv_5_value": ""
-          }
-        },
-        "acc_origen": {
-          "type": "accordion",
-          "settings": {
-            "icon": "origin",
-            "title": "Origen y producción",
-            "summary": "",
-            "metafield_key": "geographic_origin",
-            "content_fallback": "",
-            "kv_1_label": "",
-            "kv_1_value": "",
-            "kv_2_label": "",
-            "kv_2_value": "",
-            "kv_3_label": "",
-            "kv_3_value": "",
-            "kv_4_label": "",
-            "kv_4_value": "",
-            "kv_5_label": "",
-            "kv_5_value": ""
-          }
-        },
-        "acc_consumo": {
-          "type": "accordion",
-          "settings": {
-            "icon": "fork",
-            "title": "Consumo y recomendaciones",
-            "summary": "",
-            "metafield_key": "serving_suggestions",
-            "content_fallback": "",
-            "kv_1_label": "",
-            "kv_1_value": "",
-            "kv_2_label": "",
-            "kv_2_value": "",
-            "kv_3_label": "",
-            "kv_3_value": "",
-            "kv_4_label": "",
-            "kv_4_value": "",
-            "kv_5_label": "",
-            "kv_5_value": ""
-          }
-        },
-        "acc_info": {
-          "type": "accordion",
-          "settings": {
-            "icon": "info",
-            "title": "Información adicional",
-            "summary": "",
-            "metafield_key": "allergens",
-            "content_fallback": "",
-            "kv_1_label": "",
-            "kv_1_value": "",
-            "kv_2_label": "",
-            "kv_2_value": "",
-            "kv_3_label": "",
-            "kv_3_value": "",
-            "kv_4_label": "",
-            "kv_4_value": "",
-            "kv_5_label": "",
-            "kv_5_value": ""
-          }
-        },
-        "acc_cata": {
-          "type": "accordion",
-          "settings": {
-            "icon": "sun",
-            "title": "Notas de cata",
-            "summary": "",
-            "metafield_key": "flavor_notes",
-            "content_fallback": "",
-            "kv_1_label": "",
-            "kv_1_value": "",
-            "kv_2_label": "",
-            "kv_2_value": "",
-            "kv_3_label": "",
-            "kv_3_value": "",
-            "kv_4_label": "",
-            "kv_4_value": "",
-            "kv_5_label": "",
-            "kv_5_value": ""
-          }
-        }
-      },
-      "block_order": [
-        "acc_conservacion",
-        "acc_origen",
-        "acc_consumo",
-        "acc_info",
-        "acc_cata"
-      ]
+        "trust_item_diRE88",
+        "trust_item_LQKy7Q",
+        "trust_item_pGzHrd",
+        "trust_item_hhUz6U"
+      ],
+      "name": "Banda de confianza",
+      "settings": {}
     },
     "combina": {
       "type": "combina-tu-compra",
@@ -192,6 +64,150 @@
         "title": "Combina tu compra con",
         "collection": "",
         "products_to_show": 5
+      }
+    },
+    "product_information_zDBpen": {
+      "type": "product-information",
+      "name": "Información del Producto",
+      "settings": {
+        "eyebrow_text": "Información del producto",
+        "title_text": "Transparencia con sabor a",
+        "title_em_text": "TRADICIÓN",
+        "description_text": "Detrás de cada pieza hay un proceso que merece ser conocido. Por eso te lo contamos todo: su composición nutricional, cómo conservarlo y cómo disfrutarlo al máximo. Porque saber lo que comes es parte del placer.",
+        "card1_title": "Información nutricional",
+        "kcal_label": "Valor energético",
+        "info_kcal": "200",
+        "protein_label": "Proteínas",
+        "info_protein": "28",
+        "sugars_label": "Azúcares",
+        "info_sugars": "0",
+        "card2_title": "Conservación y consumo",
+        "conservation_label": "Conservación",
+        "info_conservation_temp": "4",
+        "service_label": "Consumo ideal",
+        "info_service_temp": "12",
+        "opened_label": "Una vez abierto",
+        "info_conservation_days": "7"
+      }
+    },
+    "product_details_accordion_Dtwtwz": {
+      "type": "product-details-accordion",
+      "blocks": {
+        "accordion_eNJyBz": {
+          "type": "accordion",
+          "settings": {
+            "icon": "origin",
+            "title": "Origen",
+            "summary": "",
+            "metafield_key": "",
+            "content_fallback": "",
+            "kv_1_label": "",
+            "kv_1_value": "",
+            "kv_2_label": "",
+            "kv_2_value": "",
+            "kv_3_label": "",
+            "kv_3_value": "",
+            "kv_4_label": "",
+            "kv_4_value": "",
+            "kv_5_label": "",
+            "kv_5_value": ""
+          }
+        },
+        "accordion_z7nhkT": {
+          "type": "accordion",
+          "settings": {
+            "icon": "info",
+            "title": "Información",
+            "summary": "",
+            "metafield_key": "",
+            "content_fallback": "",
+            "kv_1_label": "",
+            "kv_1_value": "",
+            "kv_2_label": "",
+            "kv_2_value": "",
+            "kv_3_label": "",
+            "kv_3_value": "",
+            "kv_4_label": "",
+            "kv_4_value": "",
+            "kv_5_label": "",
+            "kv_5_value": ""
+          }
+        },
+        "accordion_pNab39": {
+          "type": "accordion",
+          "settings": {
+            "icon": "info",
+            "title": "Alergenos",
+            "summary": "",
+            "metafield_key": "",
+            "content_fallback": "",
+            "kv_1_label": "",
+            "kv_1_value": "",
+            "kv_2_label": "",
+            "kv_2_value": "",
+            "kv_3_label": "",
+            "kv_3_value": "",
+            "kv_4_label": "",
+            "kv_4_value": "",
+            "kv_5_label": "",
+            "kv_5_value": ""
+          }
+        },
+        "accordion_UqXNXn": {
+          "type": "accordion",
+          "settings": {
+            "icon": "conservation",
+            "title": "Consumo",
+            "summary": "",
+            "metafield_key": "",
+            "content_fallback": "",
+            "kv_1_label": "",
+            "kv_1_value": "",
+            "kv_2_label": "",
+            "kv_2_value": "",
+            "kv_3_label": "",
+            "kv_3_value": "",
+            "kv_4_label": "",
+            "kv_4_value": "",
+            "kv_5_label": "",
+            "kv_5_value": ""
+          }
+        },
+        "accordion_dA6gdX": {
+          "type": "accordion",
+          "settings": {
+            "icon": "sun",
+            "title": "Cata",
+            "summary": "",
+            "metafield_key": "",
+            "content_fallback": "",
+            "kv_1_label": "",
+            "kv_1_value": "",
+            "kv_2_label": "",
+            "kv_2_value": "",
+            "kv_3_label": "",
+            "kv_3_value": "",
+            "kv_4_label": "",
+            "kv_4_value": "",
+            "kv_5_label": "",
+            "kv_5_value": ""
+          }
+        }
+      },
+      "block_order": [
+        "accordion_eNJyBz",
+        "accordion_z7nhkT",
+        "accordion_pNab39",
+        "accordion_UqXNXn",
+        "accordion_dA6gdX"
+      ],
+      "name": "Detalles de la Pieza",
+      "settings": {
+        "header_eyebrow": "Detalles de la pieza",
+        "header_title": "Todo lo que",
+        "header_title_em": "debes saber.",
+        "sections_label": "secciones",
+        "empty_message": "Información no añadida todavía para este producto."
       }
     },
     "related": {
@@ -207,11 +223,11 @@
     }
   },
   "order": [
-    "gallery",
-    "specifications",
-    "information",
-    "details",
+    "main",
+    "trust_band_YfPnnW",
     "combina",
+    "product_information_zDBpen",
+    "product_details_accordion_Dtwtwz",
     "related"
   ]
 }
