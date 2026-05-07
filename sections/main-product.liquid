@@ -491,7 +491,6 @@
   .cm-pdp__trust {
     padding-top: 40px;
     margin-top: 40px;
-    border-top: 1px solid var(--border-color);
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -1609,7 +1608,7 @@
             {%- if mf_breed != blank -%}
               <div class="cm-fact">
                 <span class="cm-fact__icon" aria-hidden="true">
-                  <img src="{{ 'iconos/raza.svg' | asset_url }}" alt="" width="36" height="28" loading="lazy">
+                  {% render 'svg-icon' with icon: 'raza', width: 36, height: 28 %}
                 </span>
                 <div>
                   <span class="cm-fact__label">Raza</span>
@@ -1623,13 +1622,13 @@
               <div class="cm-fact">
                 <span class="cm-fact__icon" aria-hidden="true">
                   {%- if feeding_lower contains 'bellota' -%}
-                    <img src="{{ 'iconos/bellota.svg' | asset_url }}" alt="" width="28" height="32" loading="lazy">
+                    {% render 'svg-icon' with icon: 'bellota', width: 28, height: 32 %}
                   {%- elsif feeding_lower contains 'campo' or feeding_lower contains 'pasto' -%}
-                    <img src="{{ 'iconos/pasto.svg' | asset_url }}" alt="" width="32" height="32" loading="lazy">
+                    {% render 'svg-icon' with icon: 'pasto', width: 32, height: 32 %}
                   {%- elsif feeding_lower contains 'mixto' or feeding_lower contains 'mezcla' or feeding_lower contains 'cereal' or feeding_lower contains 'pienso' -%}
-                    <img src="{{ 'iconos/cereales.svg' | asset_url }}" alt="" width="32" height="32" loading="lazy">
+                    {% render 'svg-icon' with icon: 'cereales', width: 32, height: 32 %}
                   {%- else -%}
-                    <img src="{{ 'iconos/bellota.svg' | asset_url }}" alt="" width="28" height="32" loading="lazy">
+                    {% render 'svg-icon' with icon: 'bellota', width: 28, height: 32 %}
                   {%- endif -%}
                 </span>
                 <div>
@@ -1642,7 +1641,7 @@
             {%- if mf_origin != blank -%}
               <div class="cm-fact">
                 <span class="cm-fact__icon" aria-hidden="true">
-                  <img src="{{ 'iconos/origen.svg' | asset_url }}" alt="" width="32" height="32" loading="lazy">
+                  {% render 'svg-icon' with icon: 'origen', width: 32, height: 32 %}
                 </span>
                 <div>
                   <span class="cm-fact__label">Origen</span>
@@ -1654,7 +1653,7 @@
             {%- if mf_weight != blank -%}
               <div class="cm-fact">
                 <span class="cm-fact__icon" aria-hidden="true">
-                  <img src="{{ 'iconos/peso.svg' | asset_url }}" alt="" width="32" height="32" loading="lazy">
+                  {% render 'svg-icon' with icon: 'peso', width: 32, height: 32 %}
                 </span>
                 <div>
                   <span class="cm-fact__label">Peso</span>
@@ -1949,19 +1948,19 @@
                 <span class="cm-trust-item__icon" aria-hidden="true">
                   {%- case block.settings.icon -%}
                     {%- when 'refrigerado' -%}
-                      <img src="{{ 'iconos/refrigerado.svg' | asset_url }}" alt="" width="48" height="48" loading="lazy">
+                      {% render 'svg-icon' with icon: 'refrigerado', width: 48, height: 48 %}
                     {%- when 'envio' -%}
-                      <img src="{{ 'iconos/envio.svg' | asset_url }}" alt="" width="48" height="48" loading="lazy">
+                      {% render 'svg-icon' with icon: 'envio', width: 48, height: 48 %}
                     {%- when 'garantia' -%}
-                      <img src="{{ 'iconos/garantia.svg' | asset_url }}" alt="" width="48" height="48" loading="lazy">
+                      {% render 'svg-icon' with icon: 'garantia', width: 48, height: 48 %}
                     {%- when 'truck' -%}
-                      <img src="{{ 'iconos/refrigerado.svg' | asset_url }}" alt="" width="48" height="48" loading="lazy">
+                      {% render 'svg-icon' with icon: 'refrigerado', width: 48, height: 48 %}
                     {%- when 'shield' -%}
-                      <img src="{{ 'iconos/envio.svg' | asset_url }}" alt="" width="48" height="48" loading="lazy">
+                      {% render 'svg-icon' with icon: 'envio', width: 48, height: 48 %}
                     {%- when 'star' -%}
-                      <img src="{{ 'iconos/garantia.svg' | asset_url }}" alt="" width="48" height="48" loading="lazy">
+                      {% render 'svg-icon' with icon: 'garantia', width: 48, height: 48 %}
                     {%- else -%}
-                      <img src="{{ 'iconos/garantia.svg' | asset_url }}" alt="" width="48" height="48" loading="lazy">
+                      {% render 'svg-icon' with icon: 'garantia', width: 48, height: 48 %}
                   {%- endcase -%}
                 </span>
                 <span>{{ block.settings.text }}</span>
@@ -2123,15 +2122,15 @@
             <span class="cm-accordion__trigger-icon" aria-hidden="true">
               {%- case block.settings.icon -%}
                 {%- when 'conservation' -%}
-                  <img src="{{ 'iconos/conservacion.svg' | asset_url }}" alt="" width="20" height="20" loading="lazy">
+                  {% render 'svg-icon' with icon: 'conservacion', width: 20, height: 20 %}
                 {%- when 'origin' -%}
-                  <img src="{{ 'iconos/origen.svg' | asset_url }}" alt="" width="20" height="20" loading="lazy">
+                  {% render 'svg-icon' with icon: 'origen', width: 20, height: 20 %}
                 {%- when 'fork' -%}
-                  <img src="{{ 'iconos/consumo.svg' | asset_url }}" alt="" width="20" height="20" loading="lazy">
+                  {% render 'svg-icon' with icon: 'consumo', width: 20, height: 20 %}
                 {%- when 'sun' -%}
-                  <img src="{{ 'iconos/info.svg' | asset_url }}" alt="" width="20" height="20" loading="lazy">
+                  {% render 'svg-icon' with icon: 'info', width: 20, height: 20 %}
                 {%- else -%}
-                  <img src="{{ 'iconos/cata.svg' | asset_url }}" alt="" width="20" height="20" loading="lazy">
+                  {% render 'svg-icon' with icon: 'cata', width: 20, height: 20 %}
               {%- endcase -%}
             </span>
             <div>
