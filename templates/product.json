@@ -135,7 +135,7 @@
             "icon": "raza",
             "title": "Raza y Alimentación",
             "summary": "",
-            "metafield_key": "",
+            "metafield_key": "{{ product.metafields.custom.breed.value }}{{ product.metafields.custom.feeding_type.value }}",
             "content_fallback": "",
             "kv_1_label": "",
             "kv_1_value": "",
