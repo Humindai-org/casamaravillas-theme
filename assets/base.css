@@ -191,13 +191,14 @@ h1, h2, h3, h4, h5, h6 {
 .cm-link-arrow::after { content: '→'; font-size: 14px; }
 .cm-link-arrow:hover { gap: 16px; border-color: var(--cm-navy); }
 
-/* Uniformizar fuente de valores en el acordeón de detalles */
-.product-details-accordion .accordion__content p,
-.product-details-accordion .accordion__content span,
-.product-details-accordion .accordion__content li,
-.product-details-accordion .kv-value {
-  font-family: var(--font-body-family);
-  font-weight: var(--font-body-weight);
+/* Uniformizar fuente en bloques específicos del acordeón */
+.cm-accordion-block--uniform,
+.cm-accordion-block--uniform p,
+.cm-accordion-block--uniform span,
+.cm-accordion-block--uniform li {
+  font-family: var(--cm-font-sans) !important;
+  font-weight: 300 !important;
+  font-style: normal !important;
 }
 
 /* ── MAIN CONTENT ── */

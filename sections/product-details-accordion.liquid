@@ -305,6 +305,11 @@
       {%- endif -%}
     {%- endif -%}
     {%- assign acc_content = acc_mf_val | default: block.settings.content_fallback -%}
+    {%- assign block_title = block.settings.title | downcase -%}
+    {%- assign is_uniform_block = false -%}
+    {%- if block_title contains 'maridaje' or block_title contains 'consejo' or block_title contains 'alérgeno' -%}
+      {%- assign is_uniform_block = true -%}
+    {%- endif -%}
 
     <div class="cm-accordion" data-accordion {{ block.shopify_attributes }}>
       <button
@@ -372,7 +377,7 @@
               {%- case child_block.type -%}
 
                 {%- when 'richtext_block' -%}
-                  <div class="cm-accordion-block" {{ child_block.shopify_attributes }}>
+                  <div class="cm-accordion-block{% if is_uniform_block %} cm-accordion-block--uniform{% endif %}" {{ child_block.shopify_attributes }}>
                     {%- if child_block.settings.subtitle != blank -%}
                       <p class="cm-accordion-block__title">{{ child_block.settings.subtitle }}</p>
                     {%- endif -%}
@@ -399,7 +404,7 @@
             {%- endfor -%}
 
           {%- elsif acc_content != blank -%}
-            <div class="cm-accordion-block">{{ acc_content }}</div>
+            <div class="cm-accordion-block{% if is_uniform_block %} cm-accordion-block--uniform{% endif %}">{{ acc_content }}</div>
           {%- endif -%}
           {%- assign has_kv = false -%}
           {%- for i in (1..5) -%}
