@@ -195,7 +195,7 @@
             "icon": "garantia",
             "title": "Alérgenos e ingredientes",
             "summary": "",
-            "metafield_key": "",
+            "metafield_key": "{{ product.metafields.custom.allergens.value }}",
             "content_fallback": "",
             "kv_1_label": "",
             "kv_1_value": "",
