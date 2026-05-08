@@ -196,7 +196,7 @@ h1, h2, h3, h4, h5, h6 {
 .cm-accordion-block.cm-accordion-block--uniform p,
 .cm-accordion-block.cm-accordion-block--uniform div,
 .cm-accordion-block.cm-accordion-block--uniform * {
-  font-size: 12.5px !important;
+  font-size: 14px !important;
   font-weight: 400 !important;
   font-style: normal !important;
   color: var(--cm-text-mid) !important;
