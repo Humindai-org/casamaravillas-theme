@@ -13,8 +13,16 @@
       "type": "main-product",
       "settings": {
         "show_sticky_atc": true,
+        "product_type": "entero",
+        "show_curing_selector": true,
         "show_weight_selector": true,
-        "weight_options": "6-7 kg, 8-9 kg"
+        "weight_options": "6-7 kg, 8-9 kg",
+        "weight_options_deshuesado": "500 g, 1 kg, 1.5 kg",
+        "pack_options": "Pack 1 ud., Pack 3 ud., Pack 10 ud.",
+        "show_complementary_products": true,
+        "complementary_title": "Complementa tu pedido con",
+        "complementary_collection": "",
+        "complementary_max": 3
       }
     },
     "trust_band_YfPnnW": {
@@ -79,8 +87,16 @@
         "info_kcal": "200",
         "protein_label": "Proteínas",
         "info_protein": "28",
+        "fats_label": "Grasas",
+        "info_fats": "24",
+        "saturated_fats_label": "— de las cuales saturadas",
+        "info_saturated_fats": "9",
+        "carbs_label": "Hidratos de carbono",
+        "info_carbs": "0",
         "sugars_label": "Azúcares",
         "info_sugars": "0",
+        "salt_label": "Sal",
+        "info_salt": "4",
         "card2_title": "Conservación y consumo",
         "conservation_label": "Conservación",
         "info_conservation_temp": "4",
@@ -93,11 +109,11 @@
     "product_details_accordion_Dtwtwz": {
       "type": "product-details-accordion",
       "blocks": {
-        "accordion_eNJyBz": {
+        "accordion_dA6gdX": {
           "type": "accordion",
           "settings": {
-            "icon": "origin",
-            "title": "Origen",
+            "icon": "cata",
+            "title": "Cata",
             "summary": "",
             "metafield_key": "",
             "content_fallback": "",
@@ -116,8 +132,8 @@
         "accordion_z7nhkT": {
           "type": "accordion",
           "settings": {
-            "icon": "info",
-            "title": "Información",
+            "icon": "raza",
+            "title": "Raza y Alimentación",
             "summary": "",
             "metafield_key": "",
             "content_fallback": "",
@@ -133,11 +149,11 @@
             "kv_5_value": ""
           }
         },
-        "accordion_pNab39": {
+        "accordion_eNJyBz": {
           "type": "accordion",
           "settings": {
             "icon": "info",
-            "title": "Alergenos",
+            "title": "Maridaje",
             "summary": "",
             "metafield_key": "",
             "content_fallback": "",
@@ -157,7 +173,7 @@
           "type": "accordion",
           "settings": {
             "icon": "fork",
-            "title": "Consumo",
+            "title": "Consejos de corte",
             "summary": "",
             "metafield_key": "",
             "content_fallback": "",
@@ -173,11 +189,11 @@
             "kv_5_value": ""
           }
         },
-        "accordion_dA6gdX": {
+        "accordion_pNab39": {
           "type": "accordion",
           "settings": {
-            "icon": "sun",
-            "title": "Cata",
+            "icon": "info",
+            "title": "Alérgenos e ingredientes",
             "summary": "",
             "metafield_key": "",
             "content_fallback": "",
@@ -195,11 +211,11 @@
         }
       },
       "block_order": [
-        "accordion_eNJyBz",
+        "accordion_dA6gdX",
         "accordion_z7nhkT",
-        "accordion_pNab39",
+        "accordion_eNJyBz",
         "accordion_UqXNXn",
-        "accordion_dA6gdX"
+        "accordion_pNab39"
       ],
       "name": "Detalles de la Pieza",
       "settings": {
