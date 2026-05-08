@@ -295,7 +295,7 @@
     {%- if acc_mf_key != blank -%}
       {%- assign acc_mf_obj = product.metafields.custom[acc_mf_key] -%}
       {%- if acc_mf_obj != blank -%}
-        {%- if acc_mf_obj.type == 'rich_text' -%}
+        {%- if acc_mf_obj.type == 'rich_text_field' -%}
           {%- assign acc_mf_val = acc_mf_obj | metafield_tag -%}
         {%- elsif acc_mf_obj.type == 'multi_line_text_field' -%}
           {%- assign acc_mf_val = acc_mf_obj.value | newline_to_br -%}
