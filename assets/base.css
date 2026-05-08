@@ -195,16 +195,18 @@ h1, h2, h3, h4, h5, h6 {
 .cm-accordion-block.cm-accordion-block--uniform,
 .cm-accordion-block.cm-accordion-block--uniform p,
 .cm-accordion-block.cm-accordion-block--uniform div,
-.cm-accordion-block.cm-accordion-block--uniform * {
+.cm-accordion-block.cm-accordion-block--uniform span,
+.cm-accordion-block.cm-accordion-block--uniform li {
   font-size: 14px !important;
-  font-weight: 400 !important;
+  font-weight: var(--font-body-weight) !important;
   font-style: normal !important;
   color: var(--cm-text-primary) !important;
 }
 
-/* Recuperar negrita y listas */
-.cm-accordion-block.cm-accordion-block--uniform strong {
-  font-weight: 600 !important;
+/* Mantener diferencia visual en negrita */
+.cm-accordion-block.cm-accordion-block--uniform strong,
+.cm-accordion-block.cm-accordion-block--uniform b {
+  font-weight: var(--font-body-weight--bold, 600) !important;
 }
 
 .cm-accordion-block.cm-accordion-block--uniform ul,
