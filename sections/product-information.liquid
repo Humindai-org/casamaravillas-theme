@@ -173,12 +173,34 @@
         <h3 class="cm-info-card__title">{{ section.settings.card1_title }}</h3>
         <div class="cm-info-card__rows">
           {%- assign _kcal  = product.metafields.custom.kcal.value | default: section.settings.info_kcal -%}
+          {%- assign _fats  = product.metafields.custom.fats_g.value | default: section.settings.info_fats -%}
+          {%- assign _sat_fats  = product.metafields.custom.saturated_fats_g.value | default: section.settings.info_saturated_fats -%}
+          {%- assign _carbs  = product.metafields.custom.carbohydrates_g.value | default: section.settings.info_carbs -%}
           {%- assign _prot  = product.metafields.custom.protein_g.value | default: section.settings.info_protein -%}
           {%- assign _sugar = product.metafields.custom.sugars_g.value | default: section.settings.info_sugars -%}
+          {%- assign _salt  = product.metafields.custom.salt_g.value | default: section.settings.info_salt -%}
           {%- if _kcal != blank -%}
             <div class="cm-info-card__row">
               <span class="cm-info-card__label">{{ section.settings.kcal_label }}</span>
               <span class="cm-info-card__value">{{ _kcal }} kcal</span>
+            </div>
+          {%- endif -%}
+          {%- if _fats != blank -%}
+            <div class="cm-info-card__row">
+              <span class="cm-info-card__label">{{ section.settings.fats_label }}</span>
+              <span class="cm-info-card__value">{{ _fats }} gr</span>
+            </div>
+          {%- endif -%}
+          {%- if _sat_fats != blank -%}
+            <div class="cm-info-card__row">
+              <span class="cm-info-card__label">{{ section.settings.saturated_fats_label }}</span>
+              <span class="cm-info-card__value">{{ _sat_fats }} gr</span>
+            </div>
+          {%- endif -%}
+          {%- if _carbs != blank -%}
+            <div class="cm-info-card__row">
+              <span class="cm-info-card__label">{{ section.settings.carbs_label }}</span>
+              <span class="cm-info-card__value">{{ _carbs }} gr</span>
             </div>
           {%- endif -%}
           {%- if _prot != blank -%}
@@ -196,6 +218,12 @@
             <div class="cm-info-card__row">
               <span class="cm-info-card__label">{{ section.settings.sugars_label }}</span>
               <span class="cm-info-card__value">0 gr</span>
+            </div>
+          {%- endif -%}
+          {%- if _salt != blank -%}
+            <div class="cm-info-card__row">
+              <span class="cm-info-card__label">{{ section.settings.salt_label }}</span>
+              <span class="cm-info-card__value">{{ _salt }} gr</span>
             </div>
           {%- endif -%}
         </div>
@@ -299,6 +327,42 @@
     },
     {
       "type": "text",
+      "id": "fats_label",
+      "label": "Etiqueta Grasas",
+      "default": "Grasas"
+    },
+    {
+      "type": "text",
+      "id": "info_fats",
+      "label": "Grasas por defecto",
+      "default": "24"
+    },
+    {
+      "type": "text",
+      "id": "saturated_fats_label",
+      "label": "Etiqueta Grasas saturadas",
+      "default": "— de las cuales saturadas"
+    },
+    {
+      "type": "text",
+      "id": "info_saturated_fats",
+      "label": "Grasas saturadas por defecto",
+      "default": "9"
+    },
+    {
+      "type": "text",
+      "id": "carbs_label",
+      "label": "Etiqueta Hidratos de carbono",
+      "default": "Hidratos de carbono"
+    },
+    {
+      "type": "text",
+      "id": "info_carbs",
+      "label": "Hidratos de carbono por defecto",
+      "default": "0"
+    },
+    {
+      "type": "text",
       "id": "sugars_label",
       "label": "Etiqueta Azúcares",
       "default": "Azúcares"
@@ -308,6 +372,18 @@
       "id": "info_sugars",
       "label": "Azúcares por defecto",
       "default": "0"
+    },
+    {
+      "type": "text",
+      "id": "salt_label",
+      "label": "Etiqueta Sal",
+      "default": "Sal"
+    },
+    {
+      "type": "text",
+      "id": "info_salt",
+      "label": "Sal por defecto",
+      "default": "4"
     },
     {
       "type": "text",
