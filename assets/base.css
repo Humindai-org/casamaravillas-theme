@@ -199,8 +199,22 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 14px !important;
   font-weight: 400 !important;
   font-style: normal !important;
-  color: var(--cm-text-mid) !important;
-  font-family: var(--cm-font-sans) !important;
+  color: var(--cm-text-primary) !important;
+}
+
+/* Recuperar negrita y listas */
+.cm-accordion-block.cm-accordion-block--uniform strong {
+  font-weight: 600 !important;
+}
+
+.cm-accordion-block.cm-accordion-block--uniform ul,
+.cm-accordion-block.cm-accordion-block--uniform ol {
+  padding-left: 20px !important;
+  list-style: disc !important;
+}
+
+.cm-accordion-block.cm-accordion-block--uniform li {
+  list-style: inherit !important;
 }
 
 /* ── MAIN CONTENT ── */
