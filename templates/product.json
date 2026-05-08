@@ -99,11 +99,11 @@
         "info_salt": "{{ product.metafields.custom.salt.value }}",
         "card2_title": "Conservación y consumo",
         "conservation_label": "Conservación",
-        "info_conservation_temp": "4",
+        "info_conservation_temp": "20-25",
         "service_label": "Consumo ideal",
-        "info_service_temp": "12",
+        "info_service_temp": "20-24",
         "opened_label": "Una vez abierto",
-        "info_conservation_days": "7"
+        "info_conservation_days": ""
       }
     },
     "product_details_accordion_Dtwtwz": {
