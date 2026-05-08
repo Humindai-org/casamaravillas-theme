@@ -115,7 +115,7 @@
             "icon": "cata",
             "title": "Cata",
             "summary": "",
-            "metafield_key": "",
+            "metafield_key": "{{ product.metafields.custom.flavor_notes.value }}{{ product.metafields.custom.aroma_notes.value }}{{ product.metafields.custom.texture_notes.value }}",
             "content_fallback": "",
             "kv_1_label": "",
             "kv_1_value": "",
