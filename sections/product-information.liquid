@@ -178,7 +178,7 @@
           </svg>
         </div>
         <h3 class="cm-info-card__title">{{ section.settings.card1_title }}</h3>
-        <p class="cm-info-card__subtitle">Cada 100gr</p>
+        <p class="cm-info-card__subtitle">Cada 100g</p>
         <div class="cm-info-card__rows">
           {%- assign _kcal  = product.metafields.custom.kcal.value | default: section.settings.info_kcal -%}
           {%- assign _fats  = product.metafields.custom.fats_g.value | default: section.settings.info_fats -%}
@@ -196,42 +196,42 @@
           {%- if _fats != blank -%}
             <div class="cm-info-card__row">
               <span class="cm-info-card__label">{{ section.settings.fats_label }}</span>
-              <span class="cm-info-card__value">{{ _fats }} gr</span>
+              <span class="cm-info-card__value">{{ _fats }} g</span>
             </div>
           {%- endif -%}
           {%- if _sat_fats != blank -%}
             <div class="cm-info-card__row">
               <span class="cm-info-card__label">{{ section.settings.saturated_fats_label }}</span>
-              <span class="cm-info-card__value">{{ _sat_fats }} gr</span>
+              <span class="cm-info-card__value">{{ _sat_fats }} g</span>
             </div>
           {%- endif -%}
           {%- if _carbs != blank -%}
             <div class="cm-info-card__row">
               <span class="cm-info-card__label">{{ section.settings.carbs_label }}</span>
-              <span class="cm-info-card__value">{{ _carbs }} gr</span>
+              <span class="cm-info-card__value">{{ _carbs }} g</span>
             </div>
           {%- endif -%}
           {%- if _prot != blank -%}
             <div class="cm-info-card__row">
               <span class="cm-info-card__label">{{ section.settings.protein_label }}</span>
-              <span class="cm-info-card__value">{{ _prot }} gr</span>
+              <span class="cm-info-card__value">{{ _prot }} g</span>
             </div>
           {%- endif -%}
           {%- if _sugar != blank -%}
             <div class="cm-info-card__row">
               <span class="cm-info-card__label">{{ section.settings.sugars_label }}</span>
-              <span class="cm-info-card__value">{{ _sugar }} gr</span>
+              <span class="cm-info-card__value">{{ _sugar }} g</span>
             </div>
           {%- elsif _kcal != blank -%}
             <div class="cm-info-card__row">
               <span class="cm-info-card__label">{{ section.settings.sugars_label }}</span>
-              <span class="cm-info-card__value">0 gr</span>
+              <span class="cm-info-card__value">0 g</span>
             </div>
           {%- endif -%}
           {%- if _salt != blank -%}
             <div class="cm-info-card__row">
               <span class="cm-info-card__label">{{ section.settings.salt_label }}</span>
-              <span class="cm-info-card__value">{{ _salt }} gr</span>
+              <span class="cm-info-card__value">{{ _salt }} g</span>
             </div>
           {%- endif -%}
         </div>
