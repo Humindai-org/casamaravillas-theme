@@ -14,7 +14,7 @@
       "settings": {
         "show_sticky_atc": true,
         "product_type": "lonchado",
-        "show_curing_selector": true,
+        "show_curing_selector": false,
         "show_weight_selector": true,
         "weight_options": "6-7 kg, 8-9 kg",
         "weight_options_deshuesado": "500 g, 1 kg, 1.5 kg",
