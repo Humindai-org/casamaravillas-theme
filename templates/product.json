@@ -13,7 +13,7 @@
       "type": "main-product",
       "settings": {
         "show_sticky_atc": true,
-        "product_type": "entero",
+        "product_type": "lonchado",
         "show_curing_selector": true,
         "show_weight_selector": true,
         "weight_options": "6-7 kg, 8-9 kg",
@@ -192,7 +192,7 @@
         "accordion_pNab39": {
           "type": "accordion",
           "settings": {
-            "icon": "info",
+            "icon": "garantia",
             "title": "Alérgenos e ingredientes",
             "summary": "",
             "metafield_key": "",
