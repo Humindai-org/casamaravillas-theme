@@ -2193,11 +2193,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     /* Actualizar selectores de peso/pack según tipo de producto */
     let variantType = 'entero';
-    if (variant.title && (variant.title.includes('lonchado') || variant.title.includes('Lonchado'))) {
+    const titleLower = variant.title ? variant.title.toLowerCase() : '';
+    if (titleLower.includes('lonchado')) {
       variantType = 'lonchado';
-    } else if (variant.title && (variant.title.includes('deshuesado') || variant.title.includes('Deshuesado'))) {
+    } else if (titleLower.includes('deshuesado')) {
       variantType = 'deshuesado';
     }
+    console.log('Variant:', variant.title, 'Type detected:', variantType);
 
     const packWrapper = document.querySelector('#cm-pdp-' + SID + ' [data-pack-select]')?.closest('.cm-pdp__select-wrap');
     const weightWrappers = document.querySelectorAll('#cm-pdp-' + SID + ' [data-weight-select]')?.forEach(el => el.closest('.cm-pdp__select-wrap'));
