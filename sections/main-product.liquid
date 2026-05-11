@@ -1778,16 +1778,10 @@
         </div>
       {%- endunless -%}
 
-      {%- comment -%} ── SELECTOR DE PESO/PACK (configurable según tipo de producto) ── {%- endcomment -%}
-      {%- assign cm_product_type = 'entero' -%}
-      {%- if product.title contains 'lonchado' or product.title contains 'Lonchado' -%}
-        {%- assign cm_product_type = 'lonchado' -%}
-      {%- elsif product.title contains 'deshuesado' or product.title contains 'Deshuesado' -%}
-        {%- assign cm_product_type = 'deshuesado' -%}
-      {%- endif -%}
+      {%- comment -%} ── SELECTOR DE PESO/PACK (todos renderizados, JS muestra/oculta según tipo) ── {%- endcomment -%}
 
-      {%- if cm_product_type == 'lonchado' and section.settings.pack_options != blank -%}
-        <div class="cm-pdp__select-wrap">
+      {%- if section.settings.pack_options != blank -%}
+        <div class="cm-pdp__select-wrap" data-selector-type="lonchado" style="display: none;">
           <label class="cm-pdp__select-label" for="cm-pack-sel-{{ section.id }}">Pack</label>
           <select id="cm-pack-sel-{{ section.id }}" class="cm-pdp__select" data-pack-select>
             {%- assign pack_opts = section.settings.pack_options | split: ',' -%}
@@ -1801,10 +1795,12 @@
             </svg>
           </span>
         </div>
-      {%- elsif cm_product_type == 'deshuesado' and section.settings.show_weight_selector and section.settings.weight_options_deshuesado != blank -%}
-        <div class="cm-pdp__select-wrap">
-          <label class="cm-pdp__select-label" for="cm-weight-sel-{{ section.id }}">Peso Aproximado</label>
-          <select id="cm-weight-sel-{{ section.id }}" class="cm-pdp__select" data-weight-select>
+      {%- endif -%}
+
+      {%- if section.settings.show_weight_selector and section.settings.weight_options_deshuesado != blank -%}
+        <div class="cm-pdp__select-wrap" data-selector-type="deshuesado" style="display: none;">
+          <label class="cm-pdp__select-label" for="cm-weight-desh-{{ section.id }}">Peso Aproximado</label>
+          <select id="cm-weight-desh-{{ section.id }}" class="cm-pdp__select" data-weight-select data-weight-type="deshuesado">
             {%- assign weight_opts = section.settings.weight_options_deshuesado | split: ',' -%}
             {%- for opt in weight_opts -%}
               <option value="{{ opt | strip | escape }}">{{ opt | strip }}</option>
@@ -1816,10 +1812,12 @@
             </svg>
           </span>
         </div>
-      {%- elsif cm_product_type == 'entero' and section.settings.show_weight_selector and section.settings.weight_options != blank -%}
-        <div class="cm-pdp__select-wrap">
-          <label class="cm-pdp__select-label" for="cm-weight-sel-{{ section.id }}">Peso Aproximado</label>
-          <select id="cm-weight-sel-{{ section.id }}" class="cm-pdp__select" data-weight-select>
+      {%- endif -%}
+
+      {%- if section.settings.show_weight_selector and section.settings.weight_options != blank -%}
+        <div class="cm-pdp__select-wrap" data-selector-type="entero">
+          <label class="cm-pdp__select-label" for="cm-weight-ent-{{ section.id }}">Peso Aproximado</label>
+          <select id="cm-weight-ent-{{ section.id }}" class="cm-pdp__select" data-weight-select data-weight-type="entero">
             {%- assign weight_opts = section.settings.weight_options | split: ',' -%}
             {%- for opt in weight_opts -%}
               <option value="{{ opt | strip | escape }}">{{ opt | strip }}</option>
@@ -2200,16 +2198,12 @@ document.addEventListener('DOMContentLoaded', function() {
       variantType = 'deshuesado';
     }
 
-    const packSel = document.querySelector('#cm-pdp-' + SID + ' [data-pack-select]');
-    if (packSel) {
-      const packWrapper = packSel.closest('.cm-pdp__select-wrap');
-      if (packWrapper) packWrapper.style.display = variantType === 'lonchado' ? '' : 'none';
+    const sectionEl = document.querySelector('#cm-pdp-' + SID);
+    if (sectionEl) {
+      sectionEl.querySelectorAll('[data-selector-type]').forEach(wrapper => {
+        wrapper.style.display = wrapper.dataset.selectorType === variantType ? '' : 'none';
+      });
     }
-
-    document.querySelectorAll('#cm-pdp-' + SID + ' [data-weight-select]').forEach(sel => {
-      const wrapper = sel.closest('.cm-pdp__select-wrap');
-      if (wrapper) wrapper.style.display = (variantType === 'entero' || variantType === 'deshuesado') ? '' : 'none';
-    });
   }
 
   /* ── AJAX añadir al carrito ── */
@@ -2678,7 +2672,7 @@ document.addEventListener('DOMContentLoaded', function() {
       "type": "text",
       "id": "pack_options",
       "label": "Opciones de pack (separadas por comas)",
-      "default": "Pack 1 ud., Pack 3 ud., Pack 10 ud.",
+      "default": "1, 10, 20, 30",
       "info": "Solo se muestra cuando el tipo de producto es Lonchado. Reemplaza al selector de peso."
     },
     {
