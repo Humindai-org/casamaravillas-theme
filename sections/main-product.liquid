@@ -1659,7 +1659,8 @@
         {%- assign detail_alimentacion = section.settings.product_detail_alimentacion | default: product.metafields.huminda.alimentacion.value -%}
         {%- assign detail_origen    = section.settings.product_detail_origen | default: product.metafields.huminda.origen.value -%}
         {%- assign detail_curacion  = section.settings.product_detail_curacion | default: product.metafields.huminda.curacion.value -%}
-        {%- if detail_raza or detail_alimentacion or detail_origen or detail_curacion -%}
+        {%- assign detail_formato   = section.settings.product_detail_formato | default: product.metafields.huminda.formato.value -%}
+        {%- if detail_raza or detail_alimentacion or detail_origen or detail_curacion or detail_formato -%}
           <div class="cm-product-cards">
             {%- if detail_raza != blank -%}
               <div class="cm-product-card">
@@ -1705,6 +1706,16 @@
                 </div>
                 <div class="cm-product-card__label">Curación</div>
                 <div class="cm-product-card__value">{{ detail_curacion }}</div>
+              </div>
+            {%- endif -%}
+
+            {%- if detail_formato != blank -%}
+              <div class="cm-product-card" data-format-value="{{ detail_formato | downcase }}">
+                <div class="cm-product-card__icon">
+                  {%- render 'svg-icon', icon: 'formato' -%}
+                </div>
+                <div class="cm-product-card__label">Formato</div>
+                <div class="cm-product-card__value">{{ detail_formato }}</div>
               </div>
             {%- endif -%}
           </div>
@@ -2129,49 +2140,39 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   function updateWeightPackSelector(variant) {
-    if (!variant || !variant.title) return;
+    const sectionEl = document.querySelector('#cm-pdp-' + SID);
+    if (!sectionEl) return;
 
-    const titleLower = variant.title.toLowerCase();
+    // Leer el formato desde el data-format-value en la tarjeta de producto
+    const formatCard = sectionEl.querySelector('[data-format-value]');
     let selectorType = 'entero';
 
-    console.log('[Weight Selector] Variant title:', variant.title);
+    if (formatCard) {
+      const formatValue = formatCard.getAttribute('data-format-value').toLowerCase();
+      console.log('[Weight Selector] Format value:', formatValue);
 
-    if (titleLower.includes('cortado a mano') || titleLower.includes('lonchado')) {
-      selectorType = 'lonchado';
-    } else if (titleLower.includes('deshuesado')) {
-      selectorType = 'deshuesado';
+      if (formatValue.includes('cortado')) {
+        selectorType = 'lonchado';
+      } else if (formatValue.includes('deshuesado')) {
+        selectorType = 'deshuesado';
+      } else if (formatValue.includes('entera')) {
+        selectorType = 'entero';
+      }
+    } else {
+      console.log('[Weight Selector] No format card found, defaulting to entero');
     }
 
     console.log('[Weight Selector] Detected type:', selectorType);
 
-    const sectionEl = document.querySelector('#cm-pdp-' + SID);
-    if (!sectionEl) {
-      console.log('[Weight Selector] Section not found:', 'cm-pdp-' + SID);
-      return;
-    }
-
     const selectors = sectionEl.querySelectorAll('[data-selector-type]');
-    console.log('[Weight Selector] Found selectors:', selectors.length);
-
-    let foundMatch = false;
     selectors.forEach(selector => {
-      const selectorDataType = selector.getAttribute('data-selector-type');
-      console.log('[Weight Selector] Comparing:', selectorDataType, '===', selectorType, '?', selectorDataType === selectorType);
-
-      if (selectorDataType === selectorType) {
+      if (selector.getAttribute('data-selector-type') === selectorType) {
         selector.style.display = '';
-        foundMatch = true;
-        console.log('[Weight Selector] Showing:', selectorDataType);
+        console.log('[Weight Selector] Showing:', selectorType);
       } else {
         selector.style.display = 'none';
       }
     });
-
-    if (!foundMatch) {
-      console.log('[Weight Selector] No match found, showing entero as fallback');
-      const enteroSelector = sectionEl.querySelector('[data-selector-type="entero"]');
-      if (enteroSelector) enteroSelector.style.display = '';
-    }
   }
 
   /* Inicializar selector al cargar */
@@ -2652,6 +2653,12 @@ document.addEventListener('DOMContentLoaded', function() {
       "id": "product_detail_curacion",
       "label": "Curación",
       "placeholder": "Ej: 36–48 meses"
+    },
+    {
+      "type": "text",
+      "id": "product_detail_formato",
+      "label": "Formato",
+      "placeholder": "Ej: Cortado, Deshuesado, Entera"
     },
     {
       "type": "header",
