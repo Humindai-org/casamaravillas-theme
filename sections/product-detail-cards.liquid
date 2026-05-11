@@ -1,0 +1,572 @@
+{%- style -%}
+  .cm-product-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 1.5rem;
+    padding: 2rem 0;
+    max-width: 100%;
+  }
+
+  .cm-product-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.75rem;
+  }
+
+  .cm-product-card__icon {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .cm-product-card__icon svg {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .cm-product-card__label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-secondary);
+    line-height: 1.2;
+  }
+
+  .cm-product-card__value {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-text);
+    line-height: 1.3;
+    word-break: break-word;
+  }
+
+  .cm-product-card__more-btn {
+    background: none;
+    border: none;
+    color: var(--color-link, #666);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 0.25rem 0;
+    transition: color 0.2s ease;
+  }
+
+  .cm-product-card__more-btn:hover {
+    color: var(--color-text);
+  }
+
+  .cm-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+  }
+
+  .cm-modal.active {
+    display: flex;
+  }
+
+  .cm-modal__content {
+    background: white;
+    border-radius: 8px;
+    max-width: 600px;
+    width: 100%;
+    max-height: 85vh;
+    overflow-y: auto;
+    padding: 2rem;
+    position: relative;
+  }
+
+  .cm-modal__header {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: var(--color-text);
+  }
+
+  .cm-modal__section {
+    margin-bottom: 1.5rem;
+  }
+
+  .cm-modal__section-title {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    color: var(--color-text);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+  }
+
+  .cm-modal__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .cm-modal__item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .cm-modal__item-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-secondary);
+  }
+
+  .cm-modal__item-value {
+    font-size: 0.9rem;
+    color: var(--color-text);
+    font-weight: 500;
+  }
+
+  .cm-modal__text {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--color-text);
+    margin-bottom: 1rem;
+  }
+
+  .cm-modal__list {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--color-text);
+    margin-bottom: 1rem;
+    padding-left: 1rem;
+  }
+
+  .cm-modal__list li {
+    margin-bottom: 0.5rem;
+  }
+
+  .cm-modal__footer {
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+    border-top: 1px solid #e5e5e5;
+    padding-top: 1rem;
+    margin-top: 1rem;
+  }
+
+  .cm-modal__close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--color-text-secondary);
+    transition: color 0.2s ease;
+  }
+
+  .cm-modal__close:hover {
+    color: var(--color-text);
+  }
+
+  @media (max-width: 640px) {
+    .cm-product-cards {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      padding: 1.5rem 0;
+    }
+
+    .cm-product-card__icon {
+      width: 48px;
+      height: 48px;
+    }
+
+    .cm-product-card__label {
+      font-size: 0.65rem;
+    }
+
+    .cm-product-card__value {
+      font-size: 0.8rem;
+    }
+
+    .cm-modal__content {
+      padding: 1.5rem;
+      max-height: 90vh;
+    }
+
+    .cm-modal__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+{%- endstyle -%}
+
+<div class="cm-product-cards">
+  {%- for block in section.blocks -%}
+    {%- if block.settings.enabled -%}
+      <div class="cm-product-card">
+        <div class="cm-product-card__icon">
+          {%- assign icon_name = block.settings.icon -%}
+          {%- if block.settings.icon_type == "dynamic" and block.settings.field_type == "alimentacion" -%}
+            {%- assign feeding_type = product.metafields.huminda.alimentacion.value | downcase -%}
+            {%- if feeding_type contains "bellota" or feeding_type == "bellota" -%}
+              {%- assign icon_name = "bellota" -%}
+            {%- elsif feeding_type contains "pasto" or feeding_type == "pastura" or feeding_type == "grass" -%}
+              {%- assign icon_name = "pasto" -%}
+            {%- elsif feeding_type contains "cereal" or feeding_type == "cereales" -%}
+              {%- assign icon_name = "cereales" -%}
+            {%- endif -%}
+          {%- endif -%}
+
+          {%- render 'svg-icon', icon: icon_name -%}
+        </div>
+
+        <div class="cm-product-card__label">{{ block.settings.label }}</div>
+
+        <div class="cm-product-card__value">
+          {%- if block.settings.field_type == "raza" -%}
+            {{ product.metafields.huminda.raza.value | default: block.settings.static_value }}
+          {%- elsif block.settings.field_type == "alimentacion" -%}
+            {{ product.metafields.huminda.alimentacion.value | default: block.settings.static_value }}
+          {%- elsif block.settings.field_type == "origen" -%}
+            {{ product.metafields.huminda.origen.value | default: block.settings.static_value }}
+          {%- elsif block.settings.field_type == "curacion" -%}
+            {{ product.metafields.huminda.curacion.value | default: block.settings.static_value }}
+          {%- else -%}
+            {{ block.settings.static_value }}
+          {%- endif -%}
+        </div>
+
+        {%- if block.settings.show_more_button -%}
+          <button class="cm-product-card__more-btn" data-modal-id="modal-{{ forloop.index }}" onclick="openModal('modal-{{ forloop.index }}')">
+            Saber más
+          </button>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  {%- endfor -%}
+</div>
+
+{%- for block in section.blocks -%}
+  {%- if block.settings.enabled and block.settings.show_more_button -%}
+    <div class="cm-modal" id="modal-{{ forloop.index }}" onclick="closeModalOnOverlay(event, 'modal-{{ forloop.index }}')">
+      <div class="cm-modal__content" onclick="event.stopPropagation()">
+        <button class="cm-modal__close" onclick="closeModal('modal-{{ forloop.index }}')">&times;</button>
+
+        {%- if block.settings.modal_type == "nutritional" -%}
+          <div class="cm-modal__header">{{ block.settings.modal_title | default: 'Información Nutricional' }}</div>
+
+          <div class="cm-modal__section">
+            <div class="cm-modal__section-title">por 100 g</div>
+            <div class="cm-modal__grid">
+              <div class="cm-modal__item">
+                <div class="cm-modal__item-label">Valor energético</div>
+                <div class="cm-modal__item-value">{{ block.settings.energy_value | default: '1338 KJ / 321 Kcal' }}</div>
+              </div>
+              <div class="cm-modal__item">
+                <div class="cm-modal__item-label">Proteínas</div>
+                <div class="cm-modal__item-value">{{ block.settings.proteins | default: '33 g' }}</div>
+              </div>
+              <div class="cm-modal__item">
+                <div class="cm-modal__item-label">Grasas</div>
+                <div class="cm-modal__item-value">{{ block.settings.fats | default: '21 g' }}</div>
+              </div>
+              <div class="cm-modal__item">
+                <div class="cm-modal__item-label">Ácidos grasos saturados</div>
+                <div class="cm-modal__item-value">{{ block.settings.saturated_fats | default: '7,5 g' }}</div>
+              </div>
+              <div class="cm-modal__item">
+                <div class="cm-modal__item-label">Hidratos de carbono</div>
+                <div class="cm-modal__item-value">{{ block.settings.carbs | default: '0 g' }}</div>
+              </div>
+              <div class="cm-modal__item">
+                <div class="cm-modal__item-label">Azúcares</div>
+                <div class="cm-modal__item-value">{{ block.settings.sugars | default: '0 g' }}</div>
+              </div>
+              <div class="cm-modal__item">
+                <div class="cm-modal__item-label">Sal</div>
+                <div class="cm-modal__item-value">{{ block.settings.salt | default: '4,1 g' }}</div>
+              </div>
+            </div>
+          </div>
+
+          {%- if block.settings.ingredients != blank -%}
+            <div class="cm-modal__section">
+              <div class="cm-modal__section-title">Ingredientes</div>
+              <div class="cm-modal__text">{{ block.settings.ingredients }}</div>
+            </div>
+          {%- endif -%}
+
+          {%- if block.settings.allergen_info != blank -%}
+            <div class="cm-modal__section">
+              <div class="cm-modal__text">{{ block.settings.allergen_info }}</div>
+            </div>
+          {%- endif -%}
+
+        {%- elsif block.settings.modal_type == "storage" -%}
+          <div class="cm-modal__header">{{ block.settings.modal_title | default: 'Conservación y Consumo' }}</div>
+
+          {%- if block.settings.before_opening != blank -%}
+            <div class="cm-modal__section">
+              <div class="cm-modal__section-title">Antes de abrir</div>
+              <div class="cm-modal__text">{{ block.settings.before_opening }}</div>
+            </div>
+          {%- endif -%}
+
+          {%- if block.settings.after_opening != blank -%}
+            <div class="cm-modal__section">
+              <div class="cm-modal__section-title">Después de abrir</div>
+              <div class="cm-modal__text">{{ block.settings.after_opening }}</div>
+            </div>
+          {%- endif -%}
+
+          {%- if block.settings.consumption_tips != blank -%}
+            <div class="cm-modal__section">
+              <div class="cm-modal__section-title">Sugerencias de consumo</div>
+              <div class="cm-modal__text">{{ block.settings.consumption_tips }}</div>
+            </div>
+          {%- endif -%}
+
+        {%- else -%}
+          <div class="cm-modal__header">{{ block.settings.modal_title }}</div>
+          <div class="cm-modal__text">{{ block.settings.modal_content }}</div>
+        {%- endif -%}
+
+        {%- if block.settings.modal_footer != blank -%}
+          <div class="cm-modal__footer">{{ block.settings.modal_footer }}</div>
+        {%- endif -%}
+      </div>
+    </div>
+  {%- endif -%}
+{%- endfor -%}
+
+<script>
+  function openModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
+  function closeModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+      modal.classList.remove('active');
+      document.body.style.overflow = 'auto';
+    }
+  }
+
+  function closeModalOnOverlay(event, modalId) {
+    if (event.target.id === modalId) {
+      closeModal(modalId);
+    }
+  }
+
+  document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+      const activeModals = document.querySelectorAll('.cm-modal.active');
+      activeModals.forEach(modal => {
+        modal.classList.remove('active');
+      });
+      document.body.style.overflow = 'auto';
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Product Detail Cards",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "detail_card",
+      "name": "Detail Card",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "enabled",
+          "label": "Enable this card",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Card Label (e.g., Raza, Alimentación)",
+          "default": "Detail"
+        },
+        {
+          "type": "select",
+          "id": "field_type",
+          "label": "Data Source",
+          "options": [
+            {
+              "value": "raza",
+              "label": "Raza (Breed)"
+            },
+            {
+              "value": "alimentacion",
+              "label": "Alimentación (Feeding)"
+            },
+            {
+              "value": "origen",
+              "label": "Origen (Origin)"
+            },
+            {
+              "value": "curacion",
+              "label": "Curación (Curing)"
+            },
+            {
+              "value": "static",
+              "label": "Static Value"
+            }
+          ],
+          "default": "static"
+        },
+        {
+          "type": "text",
+          "id": "static_value",
+          "label": "Static Value (fallback or when field_type is Static)",
+          "default": ""
+        },
+        {
+          "type": "select",
+          "id": "icon_type",
+          "label": "Icon Type",
+          "options": [
+            {
+              "value": "static",
+              "label": "Static Icon"
+            },
+            {
+              "value": "dynamic",
+              "label": "Dynamic (varies by product)"
+            }
+          ],
+          "default": "static"
+        },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Select Icon",
+          "options": [
+            {
+              "value": "raza",
+              "label": "Raza (Breed)"
+            },
+            {
+              "value": "bellota",
+              "label": "Bellota (Acorn)"
+            },
+            {
+              "value": "pasto",
+              "label": "Pasto (Grass/Pasture)"
+            },
+            {
+              "value": "cereales",
+              "label": "Cereales (Cereals)"
+            },
+            {
+              "value": "origen",
+              "label": "Origen (Origin)"
+            },
+            {
+              "value": "consumo",
+              "label": "Consumo (Consumption)"
+            },
+            {
+              "value": "peso",
+              "label": "Peso (Weight)"
+            },
+            {
+              "value": "conservacion",
+              "label": "Conservación (Storage)"
+            },
+            {
+              "value": "info",
+              "label": "Info"
+            },
+            {
+              "value": "envio",
+              "label": "Envío (Shipping)"
+            },
+            {
+              "value": "garantia",
+              "label": "Garantía (Warranty)"
+            },
+            {
+              "value": "cata",
+              "label": "Cata (Tasting)"
+            },
+            {
+              "value": "refrigerado",
+              "label": "Refrigerado (Refrigerated)"
+            }
+          ],
+          "default": "raza"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Detail Cards",
+      "blocks": [
+        {
+          "type": "detail_card",
+          "settings": {
+            "enabled": true,
+            "label": "Raza",
+            "field_type": "raza",
+            "icon": "raza",
+            "icon_type": "static"
+          }
+        },
+        {
+          "type": "detail_card",
+          "settings": {
+            "enabled": true,
+            "label": "Alimentación",
+            "field_type": "alimentacion",
+            "icon": "bellota",
+            "icon_type": "dynamic"
+          }
+        },
+        {
+          "type": "detail_card",
+          "settings": {
+            "enabled": true,
+            "label": "Origen",
+            "field_type": "origen",
+            "icon": "origen",
+            "icon_type": "static"
+          }
+        },
+        {
+          "type": "detail_card",
+          "settings": {
+            "enabled": true,
+            "label": "Curación",
+            "field_type": "curacion",
+            "icon": "consumo",
+            "icon_type": "static"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

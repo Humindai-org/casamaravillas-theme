@@ -1,0 +1,46 @@
+{
+  "namespace": "huminda",
+  "owner_type": "PRODUCT",
+  "definitions": [
+    {
+      "key": "raza",
+      "type": "single_line_text_field",
+      "description": "Product breed/race (e.g., 100% Ibérica)",
+      "name": "Raza",
+      "access": {
+        "storefront": "public",
+        "admin": "merchant_managed"
+      }
+    },
+    {
+      "key": "alimentacion",
+      "type": "single_line_text_field",
+      "description": "Product feeding type (e.g., Bellota, Pasto, Cereales)",
+      "name": "Alimentación",
+      "access": {
+        "storefront": "public",
+        "admin": "merchant_managed"
+      }
+    },
+    {
+      "key": "origen",
+      "type": "single_line_text_field",
+      "description": "Product origin (e.g., Jabugo, Huelva)",
+      "name": "Origen",
+      "access": {
+        "storefront": "public",
+        "admin": "merchant_managed"
+      }
+    },
+    {
+      "key": "curacion",
+      "type": "single_line_text_field",
+      "description": "Product curing time (e.g., 36–48 meses)",
+      "name": "Curación",
+      "access": {
+        "storefront": "public",
+        "admin": "merchant_managed"
+      }
+    }
+  ]
+}
