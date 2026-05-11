@@ -1655,24 +1655,24 @@
 
       {%- comment -%} ── TARJETAS DE DETALLES DEL PRODUCTO ── {%- endcomment -%}
       {%- if section.settings.show_product_details -%}
-        {%- assign mf_raza      = product.metafields.huminda.raza.value -%}
-        {%- assign mf_alimentacion = product.metafields.huminda.alimentacion.value -%}
-        {%- assign mf_origen    = product.metafields.huminda.origen.value -%}
-        {%- assign mf_curacion  = product.metafields.huminda.curacion.value -%}
-        {%- if mf_raza or mf_alimentacion or mf_origen or mf_curacion -%}
+        {%- assign detail_raza      = section.settings.product_detail_raza | default: product.metafields.huminda.raza.value -%}
+        {%- assign detail_alimentacion = section.settings.product_detail_alimentacion | default: product.metafields.huminda.alimentacion.value -%}
+        {%- assign detail_origen    = section.settings.product_detail_origen | default: product.metafields.huminda.origen.value -%}
+        {%- assign detail_curacion  = section.settings.product_detail_curacion | default: product.metafields.huminda.curacion.value -%}
+        {%- if detail_raza or detail_alimentacion or detail_origen or detail_curacion -%}
           <div class="cm-product-cards">
-            {%- if mf_raza != blank -%}
+            {%- if detail_raza != blank -%}
               <div class="cm-product-card">
                 <div class="cm-product-card__icon">
                   {%- render 'svg-icon', icon: 'raza' -%}
                 </div>
                 <div class="cm-product-card__label">Raza</div>
-                <div class="cm-product-card__value">{{ mf_raza }}</div>
+                <div class="cm-product-card__value">{{ detail_raza }}</div>
               </div>
             {%- endif -%}
 
-            {%- if mf_alimentacion != blank -%}
-              {%- assign feeding_lower = mf_alimentacion | downcase -%}
+            {%- if detail_alimentacion != blank -%}
+              {%- assign feeding_lower = detail_alimentacion | downcase -%}
               {%- assign feeding_icon = 'bellota' -%}
               {%- if feeding_lower contains 'pasto' or feeding_lower contains 'pastura' or feeding_lower contains 'campo' -%}
                 {%- assign feeding_icon = 'pasto' -%}
@@ -1684,27 +1684,27 @@
                   {%- render 'svg-icon', icon: feeding_icon -%}
                 </div>
                 <div class="cm-product-card__label">Alimentación</div>
-                <div class="cm-product-card__value">{{ mf_alimentacion }}</div>
+                <div class="cm-product-card__value">{{ detail_alimentacion }}</div>
               </div>
             {%- endif -%}
 
-            {%- if mf_origen != blank -%}
+            {%- if detail_origen != blank -%}
               <div class="cm-product-card">
                 <div class="cm-product-card__icon">
                   {%- render 'svg-icon', icon: 'origen' -%}
                 </div>
                 <div class="cm-product-card__label">Origen</div>
-                <div class="cm-product-card__value">{{ mf_origen }}</div>
+                <div class="cm-product-card__value">{{ detail_origen }}</div>
               </div>
             {%- endif -%}
 
-            {%- if mf_curacion != blank -%}
+            {%- if detail_curacion != blank -%}
               <div class="cm-product-card">
                 <div class="cm-product-card__icon">
                   {%- render 'svg-icon', icon: 'consumo' -%}
                 </div>
                 <div class="cm-product-card__label">Curación</div>
-                <div class="cm-product-card__value">{{ mf_curacion }}</div>
+                <div class="cm-product-card__value">{{ detail_curacion }}</div>
               </div>
             {%- endif -%}
           </div>
@@ -2562,6 +2562,34 @@ document.addEventListener('DOMContentLoaded', function() {
       "id": "show_product_details",
       "label": "Mostrar tarjetas de detalles del producto",
       "default": true
+    },
+    {
+      "type": "header",
+      "content": "Detalles del producto (Tarjetas)"
+    },
+    {
+      "type": "text",
+      "id": "product_detail_raza",
+      "label": "Raza",
+      "placeholder": "Ej: 100% Ibérica"
+    },
+    {
+      "type": "text",
+      "id": "product_detail_alimentacion",
+      "label": "Alimentación",
+      "placeholder": "Ej: Bellota, Pasto, Cereales"
+    },
+    {
+      "type": "text",
+      "id": "product_detail_origen",
+      "label": "Origen",
+      "placeholder": "Ej: Jabugo, Huelva"
+    },
+    {
+      "type": "text",
+      "id": "product_detail_curacion",
+      "label": "Curación",
+      "placeholder": "Ej: 36–48 meses"
     },
     {
       "type": "header",
