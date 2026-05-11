@@ -18,7 +18,7 @@
         "product_detail_alimentacion": "{{ product.metafields.custom.feeding_type.value }}",
         "product_detail_origen": "{{ product.metafields.custom.origin.value }}",
         "product_detail_curacion": "{{ product.metafields.custom.tiempo_de_curacion.value }}",
-        "product_type": "lonchado",
+        "product_type": "deshuesado",
         "show_curing_selector": false,
         "show_weight_selector": true,
         "weight_options": "6-7 kg, 8-9 kg",
