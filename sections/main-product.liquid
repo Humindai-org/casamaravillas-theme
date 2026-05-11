@@ -1779,7 +1779,12 @@
       {%- endunless -%}
 
       {%- comment -%} ── SELECTOR DE PESO/PACK (configurable según tipo de producto) ── {%- endcomment -%}
-      {%- assign cm_product_type = section.settings.product_type -%}
+      {%- assign cm_product_type = 'entero' -%}
+      {%- if product.title contains 'lonchado' or product.title contains 'Lonchado' -%}
+        {%- assign cm_product_type = 'lonchado' -%}
+      {%- elsif product.title contains 'deshuesado' or product.title contains 'Deshuesado' -%}
+        {%- assign cm_product_type = 'deshuesado' -%}
+      {%- endif -%}
 
       {%- if cm_product_type == 'lonchado' and section.settings.pack_options != blank -%}
         <div class="cm-pdp__select-wrap">
