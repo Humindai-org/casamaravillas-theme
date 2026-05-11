@@ -150,6 +150,144 @@
     color: var(--text-secondary);
     margin-top: 4px;
   }
+
+  .cm-info-card__more-btn {
+    display: inline-block;
+    margin-top: 20px;
+    background: none;
+    border: none;
+    color: var(--accent-gold);
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 0;
+    transition: color 0.2s ease;
+  }
+
+  .cm-info-card__more-btn:hover {
+    color: var(--text-primary);
+  }
+
+  /* ── MODAL STYLES ── */
+  .cm-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+  }
+
+  .cm-modal.active {
+    display: flex;
+  }
+
+  .cm-modal__content {
+    background: white;
+    border-radius: 8px;
+    max-width: 600px;
+    width: 100%;
+    max-height: 85vh;
+    overflow-y: auto;
+    padding: 2rem;
+    position: relative;
+  }
+
+  .cm-modal__header {
+    font-family: var(--cm-font-serif, Georgia, serif);
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: var(--text-primary);
+  }
+
+  .cm-modal__section {
+    margin-bottom: 1.5rem;
+  }
+
+  .cm-modal__section-title {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 1rem;
+    color: var(--text-secondary);
+  }
+
+  .cm-modal__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .cm-modal__item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .cm-modal__item-label {
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-secondary);
+  }
+
+  .cm-modal__item-value {
+    font-size: 15px;
+    color: var(--text-primary);
+    font-weight: 500;
+  }
+
+  .cm-modal__text {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+  }
+
+  .cm-modal__footer {
+    font-size: 12px;
+    color: var(--text-secondary);
+    border-top: 1px solid var(--border-color);
+    padding-top: 1rem;
+    margin-top: 1rem;
+  }
+
+  .cm-modal__close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--text-secondary);
+    transition: color 0.2s ease;
+  }
+
+  .cm-modal__close:hover {
+    color: var(--text-primary);
+  }
+
+  @media (max-width: 640px) {
+    .cm-modal__content {
+      padding: 1.5rem;
+      max-height: 90vh;
+    }
+
+    .cm-modal__grid {
+      grid-template-columns: 1fr;
+    }
+  }
 </style>
 
 <div class="cm-info-section">
@@ -235,6 +373,9 @@
             </div>
           {%- endif -%}
         </div>
+        <button class="cm-info-card__more-btn" onclick="openModal('nutritional-modal')">
+          Saber más
+        </button>
       </article>
 
       {%- comment -%} Card 2: Conservación y consumo {%- endcomment -%}
@@ -269,11 +410,167 @@
             </div>
           {%- endif -%}
         </div>
+        <button class="cm-info-card__more-btn" onclick="openModal('storage-modal')">
+          Saber más
+        </button>
       </article>
 
     </div>
   </div>
 </div>
+
+<!-- MODAL: Información Nutricional -->
+<div class="cm-modal" id="nutritional-modal" onclick="closeModalOnOverlay(event, 'nutritional-modal')">
+  <div class="cm-modal__content" onclick="event.stopPropagation()">
+    <button class="cm-modal__close" onclick="closeModal('nutritional-modal')">&times;</button>
+
+    <div class="cm-modal__header">Información Nutricional</div>
+
+    <div class="cm-modal__section">
+      <div class="cm-modal__section-title">por 100 g</div>
+      <div class="cm-modal__grid">
+        {%- assign _kcal  = product.metafields.custom.kcal.value | default: section.settings.info_kcal -%}
+        {%- assign _fats  = product.metafields.custom.fats_g.value | default: section.settings.info_fats -%}
+        {%- assign _sat_fats  = product.metafields.custom.saturated_fats_g.value | default: section.settings.info_saturated_fats -%}
+        {%- assign _carbs  = product.metafields.custom.carbohydrates_g.value | default: section.settings.info_carbs -%}
+        {%- assign _prot  = product.metafields.custom.protein_g.value | default: section.settings.info_protein -%}
+        {%- assign _sugar = product.metafields.custom.sugars_g.value | default: section.settings.info_sugars -%}
+        {%- assign _salt  = product.metafields.custom.salt_g.value | default: section.settings.info_salt -%}
+
+        {%- if _kcal != blank -%}
+          <div class="cm-modal__item">
+            <div class="cm-modal__item-label">{{ section.settings.kcal_label }}</div>
+            <div class="cm-modal__item-value">{{ _kcal }} kcal</div>
+          </div>
+        {%- endif -%}
+
+        {%- if _prot != blank -%}
+          <div class="cm-modal__item">
+            <div class="cm-modal__item-label">{{ section.settings.protein_label }}</div>
+            <div class="cm-modal__item-value">{{ _prot }} g</div>
+          </div>
+        {%- endif -%}
+
+        {%- if _fats != blank -%}
+          <div class="cm-modal__item">
+            <div class="cm-modal__item-label">{{ section.settings.fats_label }}</div>
+            <div class="cm-modal__item-value">{{ _fats }} g</div>
+          </div>
+        {%- endif -%}
+
+        {%- if _sat_fats != blank -%}
+          <div class="cm-modal__item">
+            <div class="cm-modal__item-label">{{ section.settings.saturated_fats_label }}</div>
+            <div class="cm-modal__item-value">{{ _sat_fats }} g</div>
+          </div>
+        {%- endif -%}
+
+        {%- if _carbs != blank -%}
+          <div class="cm-modal__item">
+            <div class="cm-modal__item-label">{{ section.settings.carbs_label }}</div>
+            <div class="cm-modal__item-value">{{ _carbs }} g</div>
+          </div>
+        {%- endif -%}
+
+        {%- if _sugar != blank -%}
+          <div class="cm-modal__item">
+            <div class="cm-modal__item-label">{{ section.settings.sugars_label }}</div>
+            <div class="cm-modal__item-value">{{ _sugar }} g</div>
+          </div>
+        {%- elsif _kcal != blank -%}
+          <div class="cm-modal__item">
+            <div class="cm-modal__item-label">{{ section.settings.sugars_label }}</div>
+            <div class="cm-modal__item-value">0 g</div>
+          </div>
+        {%- endif -%}
+
+        {%- if _salt != blank -%}
+          <div class="cm-modal__item">
+            <div class="cm-modal__item-label">{{ section.settings.salt_label }}</div>
+            <div class="cm-modal__item-value">{{ _salt }} g</div>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+
+    {%- if section.settings.modal_ingredients != blank -%}
+      <div class="cm-modal__section">
+        <div class="cm-modal__section-title">Ingredientes</div>
+        <div class="cm-modal__text">{{ section.settings.modal_ingredients }}</div>
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.modal_allergens != blank -%}
+      <div class="cm-modal__section">
+        <div class="cm-modal__text">{{ section.settings.modal_allergens }}</div>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+<!-- MODAL: Conservación y Consumo -->
+<div class="cm-modal" id="storage-modal" onclick="closeModalOnOverlay(event, 'storage-modal')">
+  <div class="cm-modal__content" onclick="event.stopPropagation()">
+    <button class="cm-modal__close" onclick="closeModal('storage-modal')">&times;</button>
+
+    <div class="cm-modal__header">Conservación y Consumo</div>
+
+    {%- if section.settings.modal_before_opening != blank -%}
+      <div class="cm-modal__section">
+        <div class="cm-modal__section-title">Antes de abrir</div>
+        <div class="cm-modal__text">{{ section.settings.modal_before_opening }}</div>
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.modal_after_opening != blank -%}
+      <div class="cm-modal__section">
+        <div class="cm-modal__section-title">Después de abrir</div>
+        <div class="cm-modal__text">{{ section.settings.modal_after_opening }}</div>
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.modal_consumption_tips != blank -%}
+      <div class="cm-modal__section">
+        <div class="cm-modal__section-title">Sugerencias de consumo</div>
+        <div class="cm-modal__text">{{ section.settings.modal_consumption_tips }}</div>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+<script>
+  function openModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
+  function closeModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+      modal.classList.remove('active');
+      document.body.style.overflow = 'auto';
+    }
+  }
+
+  function closeModalOnOverlay(event, modalId) {
+    if (event.target.id === modalId) {
+      closeModal(modalId);
+    }
+  }
+
+  document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+      const activeModals = document.querySelectorAll('.cm-modal.active');
+      activeModals.forEach(modal => {
+        modal.classList.remove('active');
+      });
+      document.body.style.overflow = 'auto';
+    }
+  });
+</script>
 
 {% schema %}
 {
@@ -434,6 +731,36 @@
       "id": "info_conservation_days",
       "label": "Días conservación por defecto",
       "default": "7"
+    },
+    {
+      "type": "textarea",
+      "id": "modal_ingredients",
+      "label": "Ingredientes (para modal)",
+      "default": ""
+    },
+    {
+      "type": "textarea",
+      "id": "modal_allergens",
+      "label": "Información de alérgenos (para modal)",
+      "default": ""
+    },
+    {
+      "type": "textarea",
+      "id": "modal_before_opening",
+      "label": "Instrucciones antes de abrir",
+      "default": "Conservar en lugar fresco y seco, a temperatura ambiente (20-25 °C aproximadamente)."
+    },
+    {
+      "type": "textarea",
+      "id": "modal_after_opening",
+      "label": "Instrucciones después de abrir",
+      "default": "Una vez abierto, tapar la parte abierta con papel film y un paño para evitar el contacto directo con la luz solar."
+    },
+    {
+      "type": "textarea",
+      "id": "modal_consumption_tips",
+      "label": "Sugerencias de consumo",
+      "default": "Atemperar el producto 15-20 minutos antes de servir. Servir a temperatura ambiente (20-24 °C). Las lonchas deben ser finas para que la grasa se funda correctamente en boca."
     }
   ],
   "presets": [
