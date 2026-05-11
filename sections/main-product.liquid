@@ -2118,20 +2118,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
-  /* Inicializar selector al cargar */
-  setTimeout(() => {
-    updateVariant();
-    /* Fallback: mostrar "entero" si algo falla */
-    const sectionEl = document.querySelector('#cm-pdp-' + SID);
-    if (sectionEl) {
-      const visibleSelectors = sectionEl.querySelectorAll('[data-selector-type]:not([style*="display: none"])');
-      if (visibleSelectors.length === 0) {
-        const enteroSelector = sectionEl.querySelector('[data-selector-type="entero"]');
-        if (enteroSelector) enteroSelector.style.display = '';
-      }
-    }
-  }, 0);
-
   function findVariant() {
     if (!data) return null;
     return data.variants.find(v => {
@@ -2140,6 +2126,44 @@ document.addEventListener('DOMContentLoaded', function() {
       const m3 = !v.option3 || v.option3 === selectedOptions[3];
       return m1 && m2 && m3;
     });
+  }
+
+  function updateWeightPackSelector(variant) {
+    if (!variant || !variant.title) return;
+
+    const titleLower = variant.title.toLowerCase();
+    let selectorType = 'entero';
+
+    if (titleLower.includes('cortado a mano') || titleLower.includes('lonchado')) {
+      selectorType = 'lonchado';
+    } else if (titleLower.includes('deshuesado')) {
+      selectorType = 'deshuesado';
+    }
+
+    const sectionEl = document.querySelector('#cm-pdp-' + SID);
+    if (!sectionEl) return;
+
+    const selectors = sectionEl.querySelectorAll('[data-selector-type]');
+    selectors.forEach(selector => {
+      if (selector.dataset.selectorType === selectorType) {
+        selector.style.display = '';
+      } else {
+        selector.style.display = 'none';
+      }
+    });
+  }
+
+  /* Inicializar selector al cargar */
+  const initialVariant = findVariant();
+  if (initialVariant) {
+    updateWeightPackSelector(initialVariant);
+  } else {
+    /* Fallback: mostrar "entero" si no encuentra variante */
+    const sectionEl = document.querySelector('#cm-pdp-' + SID);
+    if (sectionEl) {
+      const enteroSelector = sectionEl.querySelector('[data-selector-type="entero"]');
+      if (enteroSelector) enteroSelector.style.display = '';
+    }
   }
 
   function updateVariant() {
@@ -2203,26 +2227,8 @@ document.addEventListener('DOMContentLoaded', function() {
       tempImg.src = variant.featured_image.src;
     }
 
-    /* Actualizar selectores de peso/pack según tipo de producto */
-    let variantType = 'entero';
-    const titleLower = variant.title ? variant.title.toLowerCase() : '';
-    if (titleLower.includes('lonchado') || titleLower.includes('cortado a mano')) {
-      variantType = 'lonchado';
-    } else if (titleLower.includes('deshuesado')) {
-      variantType = 'deshuesado';
-    }
-
-    console.log('Variant title:', variant.title, 'Detected type:', variantType);
-    const sectionEl = document.querySelector('#cm-pdp-' + SID);
-    console.log('Section element:', sectionEl, 'SID:', SID);
-    if (sectionEl) {
-      const selectors = sectionEl.querySelectorAll('[data-selector-type]');
-      console.log('Found selectors:', selectors.length);
-      selectors.forEach(wrapper => {
-        console.log('Selector type:', wrapper.dataset.selectorType, 'Display:', variantType === wrapper.dataset.selectorType ? 'show' : 'hide');
-        wrapper.style.display = wrapper.dataset.selectorType === variantType ? '' : 'none';
-      });
-    }
+    /* Actualizar selectores de peso/pack según tipo de variante */
+    updateWeightPackSelector(variant);
   }
 
   /* ── AJAX añadir al carrito ── */
