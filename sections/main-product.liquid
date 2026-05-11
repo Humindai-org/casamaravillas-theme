@@ -2200,16 +2200,16 @@ document.addEventListener('DOMContentLoaded', function() {
       variantType = 'deshuesado';
     }
 
-    const packWrapper = document.querySelector('#cm-pdp-' + SID + ' [data-pack-select]')?.closest('.cm-pdp__select-wrap');
-    const weightWrappers = document.querySelectorAll('#cm-pdp-' + SID + ' [data-weight-select]')?.forEach(el => el.closest('.cm-pdp__select-wrap'));
-
-    if (packWrapper) packWrapper.style.display = variantType === 'lonchado' ? '' : 'none';
-    if (weightWrappers) {
-      document.querySelectorAll('#cm-pdp-' + SID + ' [data-weight-select]').forEach(sel => {
-        const wrapper = sel.closest('.cm-pdp__select-wrap');
-        if (wrapper) wrapper.style.display = (variantType === 'entero' || variantType === 'deshuesado') ? '' : 'none';
-      });
+    const packSel = document.querySelector('#cm-pdp-' + SID + ' [data-pack-select]');
+    if (packSel) {
+      const packWrapper = packSel.closest('.cm-pdp__select-wrap');
+      if (packWrapper) packWrapper.style.display = variantType === 'lonchado' ? '' : 'none';
     }
+
+    document.querySelectorAll('#cm-pdp-' + SID + ' [data-weight-select]').forEach(sel => {
+      const wrapper = sel.closest('.cm-pdp__select-wrap');
+      if (wrapper) wrapper.style.display = (variantType === 'entero' || variantType === 'deshuesado') ? '' : 'none';
+    });
   }
 
   /* ── AJAX añadir al carrito ── */
