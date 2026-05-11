@@ -2119,7 +2119,18 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   /* Inicializar selector al cargar */
-  updateVariant();
+  setTimeout(() => {
+    updateVariant();
+    /* Fallback: mostrar "entero" si algo falla */
+    const sectionEl = document.querySelector('#cm-pdp-' + SID);
+    if (sectionEl) {
+      const visibleSelectors = sectionEl.querySelectorAll('[data-selector-type]:not([style*="display: none"])');
+      if (visibleSelectors.length === 0) {
+        const enteroSelector = sectionEl.querySelector('[data-selector-type="entero"]');
+        if (enteroSelector) enteroSelector.style.display = '';
+      }
+    }
+  }, 0);
 
   function findVariant() {
     if (!data) return null;
