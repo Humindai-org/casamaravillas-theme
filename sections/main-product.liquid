@@ -1483,6 +1483,75 @@
     .cm-acc-header { padding: 36px 20px 22px; flex-direction: column; gap: 12px; align-items: flex-start; }
     .cm-accordion__body { padding-left: 16px; }
   }
+
+  /* ── TARJETAS DE DETALLES DEL PRODUCTO ── */
+  .cm-product-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 1.5rem;
+    padding: 2rem 0;
+    max-width: 100%;
+  }
+
+  .cm-product-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.75rem;
+  }
+
+  .cm-product-card__icon {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .cm-product-card__icon svg {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .cm-product-card__label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-secondary);
+    line-height: 1.2;
+  }
+
+  .cm-product-card__value {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    line-height: 1.3;
+    word-break: break-word;
+  }
+
+  @media (max-width: 640px) {
+    .cm-product-cards {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      padding: 1.5rem 0;
+    }
+
+    .cm-product-card__icon {
+      width: 48px;
+      height: 48px;
+    }
+
+    .cm-product-card__label {
+      font-size: 0.65rem;
+    }
+
+    .cm-product-card__value {
+      font-size: 0.8rem;
+    }
+  }
 </style>
 
 {%- comment -%} Datos de variantes para JS {%- endcomment -%}
@@ -1584,90 +1653,60 @@
         </div>
       {%- endif -%}
 
-      {%- comment -%} ── BARRA DE HECHOS RÁPIDOS ── {%- endcomment -%}
-      {%- if section.settings.show_quick_facts -%}
-        {%- assign mf_curing  = product.metafields.custom.curing_time.value -%}
-        {%- assign mf_breed   = product.metafields.custom.breed.value -%}
-        {%- assign mf_feeding = product.metafields.custom.feeding_type.value -%}
-        {%- assign mf_origin  = product.metafields.custom.origin.value -%}
-        {%- assign mf_weight  = product.metafields.custom.weight_info.value -%}
-        {%- if mf_curing or mf_breed or mf_feeding or mf_origin or mf_weight -%}
-          <div class="cm-pdp__facts" aria-label="Características principales del producto">
-
-            {%- if mf_curing != blank -%}
-              <div class="cm-fact">
-                <span class="cm-fact__icon" aria-hidden="true">
-                  <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="5" y="6" width="22" height="20" rx="2"/>
-                    <path d="M5 12h22"/>
-                    <path d="M11 4v4M21 4v4"/>
-                    <path d="M10 18h4M10 22h7"/>
-                  </svg>
-                </span>
-                <div>
-                  <span class="cm-fact__label">Curación</span>
-                  <span class="cm-fact__value">{{ mf_curing }}</span>
+      {%- comment -%} ── TARJETAS DE DETALLES DEL PRODUCTO ── {%- endcomment -%}
+      {%- if section.settings.show_product_details -%}
+        {%- assign mf_raza      = product.metafields.huminda.raza.value -%}
+        {%- assign mf_alimentacion = product.metafields.huminda.alimentacion.value -%}
+        {%- assign mf_origen    = product.metafields.huminda.origen.value -%}
+        {%- assign mf_curacion  = product.metafields.huminda.curacion.value -%}
+        {%- if mf_raza or mf_alimentacion or mf_origen or mf_curacion -%}
+          <div class="cm-product-cards">
+            {%- if mf_raza != blank -%}
+              <div class="cm-product-card">
+                <div class="cm-product-card__icon">
+                  {%- render 'svg-icon', icon: 'raza' -%}
                 </div>
+                <div class="cm-product-card__label">Raza</div>
+                <div class="cm-product-card__value">{{ mf_raza }}</div>
               </div>
             {%- endif -%}
 
-            {%- if mf_breed != blank -%}
-              <div class="cm-fact">
-                <span class="cm-fact__icon" aria-hidden="true">
-                  {% render 'svg-icon' with icon: 'raza', width: 36, height: 28 %}
-                </span>
-                <div>
-                  <span class="cm-fact__label">Raza</span>
-                  <span class="cm-fact__value">{{ mf_breed }}</span>
+            {%- if mf_alimentacion != blank -%}
+              {%- assign feeding_lower = mf_alimentacion | downcase -%}
+              {%- assign feeding_icon = 'bellota' -%}
+              {%- if feeding_lower contains 'pasto' or feeding_lower contains 'pastura' or feeding_lower contains 'campo' -%}
+                {%- assign feeding_icon = 'pasto' -%}
+              {%- elsif feeding_lower contains 'cereal' or feeding_lower contains 'mixto' or feeding_lower contains 'mezcla' or feeding_lower contains 'pienso' -%}
+                {%- assign feeding_icon = 'cereales' -%}
+              {%- endif -%}
+              <div class="cm-product-card">
+                <div class="cm-product-card__icon">
+                  {%- render 'svg-icon', icon: feeding_icon -%}
                 </div>
+                <div class="cm-product-card__label">Alimentación</div>
+                <div class="cm-product-card__value">{{ mf_alimentacion }}</div>
               </div>
             {%- endif -%}
 
-            {%- if mf_feeding != blank -%}
-              {%- assign feeding_lower = mf_feeding | downcase -%}
-              <div class="cm-fact">
-                <span class="cm-fact__icon" aria-hidden="true">
-                  {%- if feeding_lower contains 'bellota' -%}
-                    {% render 'svg-icon' with icon: 'bellota', width: 28, height: 32 %}
-                  {%- elsif feeding_lower contains 'campo' or feeding_lower contains 'pasto' -%}
-                    {% render 'svg-icon' with icon: 'pasto', width: 32, height: 32 %}
-                  {%- elsif feeding_lower contains 'mixto' or feeding_lower contains 'mezcla' or feeding_lower contains 'cereal' or feeding_lower contains 'pienso' -%}
-                    {% render 'svg-icon' with icon: 'cereales', width: 32, height: 32 %}
-                  {%- else -%}
-                    {% render 'svg-icon' with icon: 'bellota', width: 28, height: 32 %}
-                  {%- endif -%}
-                </span>
-                <div>
-                  <span class="cm-fact__label">Alimentación</span>
-                  <span class="cm-fact__value">{{ mf_feeding }}</span>
+            {%- if mf_origen != blank -%}
+              <div class="cm-product-card">
+                <div class="cm-product-card__icon">
+                  {%- render 'svg-icon', icon: 'origen' -%}
                 </div>
+                <div class="cm-product-card__label">Origen</div>
+                <div class="cm-product-card__value">{{ mf_origen }}</div>
               </div>
             {%- endif -%}
 
-            {%- if mf_origin != blank -%}
-              <div class="cm-fact">
-                <span class="cm-fact__icon" aria-hidden="true">
-                  {% render 'svg-icon' with icon: 'origen', width: 32, height: 32 %}
-                </span>
-                <div>
-                  <span class="cm-fact__label">Origen</span>
-                  <span class="cm-fact__value">{{ mf_origin }}</span>
+            {%- if mf_curacion != blank -%}
+              <div class="cm-product-card">
+                <div class="cm-product-card__icon">
+                  {%- render 'svg-icon', icon: 'consumo' -%}
                 </div>
+                <div class="cm-product-card__label">Curación</div>
+                <div class="cm-product-card__value">{{ mf_curacion }}</div>
               </div>
             {%- endif -%}
-
-            {%- if mf_weight != blank -%}
-              <div class="cm-fact">
-                <span class="cm-fact__icon" aria-hidden="true">
-                  {% render 'svg-icon' with icon: 'peso', width: 32, height: 32 %}
-                </span>
-                <div>
-                  <span class="cm-fact__label">Peso</span>
-                  <span class="cm-fact__value">{{ mf_weight }}</span>
-                </div>
-              </div>
-            {%- endif -%}
-
           </div>
         {%- endif -%}
       {%- endif -%}
@@ -2516,6 +2555,12 @@ document.addEventListener('DOMContentLoaded', function() {
       "type": "checkbox",
       "id": "show_sticky_atc",
       "label": "Mostrar barra de compra fija (sticky)",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_product_details",
+      "label": "Mostrar tarjetas de detalles del producto",
       "default": true
     },
     {
