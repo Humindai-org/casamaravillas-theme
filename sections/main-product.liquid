@@ -1778,10 +1778,10 @@
         </div>
       {%- endunless -%}
 
-      {%- comment -%} ── SELECTOR DE PESO/PACK (todos renderizados, JS muestra/oculta según tipo) ── {%- endcomment -%}
+      {%- comment -%} ── SELECTOR DE PESO/PACK (renderizados ocultos, JS muestra según tipo de variante) ── {%- endcomment -%}
 
       {%- if section.settings.pack_options != blank -%}
-        <div class="cm-pdp__select-wrap" data-selector-type="lonchado">
+        <div class="cm-pdp__select-wrap" data-selector-type="lonchado" style="display: none;">
           <label class="cm-pdp__select-label" for="cm-pack-sel-{{ section.id }}">Cortado a Mano - Pack</label>
           <select id="cm-pack-sel-{{ section.id }}" class="cm-pdp__select" data-pack-select>
             {%- assign pack_opts = section.settings.pack_options | split: ',' -%}
@@ -1798,7 +1798,7 @@
       {%- endif -%}
 
       {%- if section.settings.show_weight_selector and section.settings.weight_options_deshuesado != blank -%}
-        <div class="cm-pdp__select-wrap" data-selector-type="deshuesado">
+        <div class="cm-pdp__select-wrap" data-selector-type="deshuesado" style="display: none;">
           <label class="cm-pdp__select-label" for="cm-weight-desh-{{ section.id }}">Deshuesado - Peso Aproximado</label>
           <select id="cm-weight-desh-{{ section.id }}" class="cm-pdp__select" data-weight-select data-weight-type="deshuesado">
             {%- assign weight_opts = section.settings.weight_options_deshuesado | split: ',' -%}
@@ -1815,7 +1815,7 @@
       {%- endif -%}
 
       {%- if section.settings.show_weight_selector and section.settings.weight_options != blank -%}
-        <div class="cm-pdp__select-wrap" data-selector-type="entero">
+        <div class="cm-pdp__select-wrap" data-selector-type="entero" style="display: none;">
           <label class="cm-pdp__select-label" for="cm-weight-ent-{{ section.id }}">Pieza Entera - Peso Aproximado</label>
           <select id="cm-weight-ent-{{ section.id }}" class="cm-pdp__select" data-weight-select data-weight-type="entero">
             {%- assign weight_opts = section.settings.weight_options | split: ',' -%}
@@ -2129,8 +2129,6 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   function updateWeightPackSelector(variant) {
-    /* Detecta tipo de variante pero no oculta ningún selector */
-    /* Los 3 selectores permanecen siempre visibles */
     if (!variant || !variant.title) return;
 
     const titleLower = variant.title.toLowerCase();
@@ -2141,11 +2139,25 @@ document.addEventListener('DOMContentLoaded', function() {
     } else if (titleLower.includes('deshuesado')) {
       selectorType = 'deshuesado';
     }
-    /* Selector type detectado pero no usado para ocultar/mostrar */
+
+    const sectionEl = document.querySelector('#cm-pdp-' + SID);
+    if (!sectionEl) return;
+
+    const selectors = sectionEl.querySelectorAll('[data-selector-type]');
+    selectors.forEach(selector => {
+      if (selector.dataset.selectorType === selectorType) {
+        selector.style.display = '';
+      } else {
+        selector.style.display = 'none';
+      }
+    });
   }
 
   /* Inicializar selector al cargar */
   const initialVariant = findVariant();
+  if (initialVariant) {
+    updateWeightPackSelector(initialVariant);
+  }
 
   function updateVariant() {
     const variant = findVariant();
