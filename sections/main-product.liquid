@@ -2198,9 +2198,14 @@ document.addEventListener('DOMContentLoaded', function() {
       variantType = 'deshuesado';
     }
 
+    console.log('Variant title:', variant.title, 'Detected type:', variantType);
     const sectionEl = document.querySelector('#cm-pdp-' + SID);
+    console.log('Section element:', sectionEl, 'SID:', SID);
     if (sectionEl) {
-      sectionEl.querySelectorAll('[data-selector-type]').forEach(wrapper => {
+      const selectors = sectionEl.querySelectorAll('[data-selector-type]');
+      console.log('Found selectors:', selectors.length);
+      selectors.forEach(wrapper => {
+        console.log('Selector type:', wrapper.dataset.selectorType, 'Display:', variantType === wrapper.dataset.selectorType ? 'show' : 'hide');
         wrapper.style.display = wrapper.dataset.selectorType === variantType ? '' : 'none';
       });
     }
