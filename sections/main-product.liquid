@@ -2134,29 +2134,53 @@ document.addEventListener('DOMContentLoaded', function() {
     const titleLower = variant.title.toLowerCase();
     let selectorType = 'entero';
 
+    console.log('[Weight Selector] Variant title:', variant.title);
+
     if (titleLower.includes('cortado a mano') || titleLower.includes('lonchado')) {
       selectorType = 'lonchado';
     } else if (titleLower.includes('deshuesado')) {
       selectorType = 'deshuesado';
     }
 
+    console.log('[Weight Selector] Detected type:', selectorType);
+
     const sectionEl = document.querySelector('#cm-pdp-' + SID);
-    if (!sectionEl) return;
+    if (!sectionEl) {
+      console.log('[Weight Selector] Section not found:', 'cm-pdp-' + SID);
+      return;
+    }
 
     const selectors = sectionEl.querySelectorAll('[data-selector-type]');
+    console.log('[Weight Selector] Found selectors:', selectors.length);
+
+    let foundMatch = false;
     selectors.forEach(selector => {
-      if (selector.dataset.selectorType === selectorType) {
+      const selectorDataType = selector.getAttribute('data-selector-type');
+      console.log('[Weight Selector] Comparing:', selectorDataType, '===', selectorType, '?', selectorDataType === selectorType);
+
+      if (selectorDataType === selectorType) {
         selector.style.display = '';
+        foundMatch = true;
+        console.log('[Weight Selector] Showing:', selectorDataType);
       } else {
         selector.style.display = 'none';
       }
     });
+
+    if (!foundMatch) {
+      console.log('[Weight Selector] No match found, showing entero as fallback');
+      const enteroSelector = sectionEl.querySelector('[data-selector-type="entero"]');
+      if (enteroSelector) enteroSelector.style.display = '';
+    }
   }
 
   /* Inicializar selector al cargar */
   const initialVariant = findVariant();
+  console.log('[Weight Selector] Initial variant:', initialVariant);
   if (initialVariant) {
     updateWeightPackSelector(initialVariant);
+  } else {
+    console.log('[Weight Selector] No initial variant found');
   }
 
   function updateVariant() {
