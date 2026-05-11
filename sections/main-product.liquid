@@ -1815,7 +1815,7 @@
       {%- endif -%}
 
       {%- if section.settings.show_weight_selector and section.settings.weight_options != blank -%}
-        <div class="cm-pdp__select-wrap" data-selector-type="entero">
+        <div class="cm-pdp__select-wrap" data-selector-type="entero" style="display: none;">
           <label class="cm-pdp__select-label" for="cm-weight-ent-{{ section.id }}">Peso Aproximado</label>
           <select id="cm-weight-ent-{{ section.id }}" class="cm-pdp__select" data-weight-select data-weight-type="entero">
             {%- assign weight_opts = section.settings.weight_options | split: ',' -%}
@@ -2117,6 +2117,9 @@ document.addEventListener('DOMContentLoaded', function() {
       updateVariant();
     });
   });
+
+  /* Inicializar selector al cargar */
+  updateVariant();
 
   function findVariant() {
     if (!data) return null;
