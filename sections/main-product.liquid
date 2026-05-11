@@ -2190,6 +2190,25 @@ document.addEventListener('DOMContentLoaded', function() {
       };
       tempImg.src = variant.featured_image.src;
     }
+
+    /* Actualizar selectores de peso/pack según tipo de producto */
+    let variantType = 'entero';
+    if (variant.title && (variant.title.includes('lonchado') || variant.title.includes('Lonchado'))) {
+      variantType = 'lonchado';
+    } else if (variant.title && (variant.title.includes('deshuesado') || variant.title.includes('Deshuesado'))) {
+      variantType = 'deshuesado';
+    }
+
+    const packWrapper = document.querySelector('#cm-pdp-' + SID + ' [data-pack-select]')?.closest('.cm-pdp__select-wrap');
+    const weightWrappers = document.querySelectorAll('#cm-pdp-' + SID + ' [data-weight-select]')?.forEach(el => el.closest('.cm-pdp__select-wrap'));
+
+    if (packWrapper) packWrapper.style.display = variantType === 'lonchado' ? '' : 'none';
+    if (weightWrappers) {
+      document.querySelectorAll('#cm-pdp-' + SID + ' [data-weight-select]').forEach(sel => {
+        const wrapper = sel.closest('.cm-pdp__select-wrap');
+        if (wrapper) wrapper.style.display = (variantType === 'entero' || variantType === 'deshuesado') ? '' : 'none';
+      });
+    }
   }
 
   /* ── AJAX añadir al carrito ── */
