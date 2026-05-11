@@ -2302,11 +2302,12 @@ document.addEventListener('DOMContentLoaded', function() {
     setAddBtnState('loading');
 
     try {
-      const curingSelectEl = document.querySelector('#cm-curing-' + SID + ' [data-curing-select]');
+      const sectionEl = document.querySelector('#cm-pdp-' + SID);
+      const curingSelectEl = sectionEl ? sectionEl.querySelector('[data-curing-select]') : null;
       const curingVal = curingSelectEl ? curingSelectEl.value : '';
-      const weightSelectEl = document.querySelector('[data-weight-select]');
+      const weightSelectEl = sectionEl ? sectionEl.querySelector('[data-weight-select]') : null;
       const weightVal = weightSelectEl ? weightSelectEl.value : '';
-      const packSelectEl = document.querySelector('[data-pack-select]');
+      const packSelectEl = sectionEl ? sectionEl.querySelector('[data-pack-select]') : null;
       const packVal = packSelectEl ? packSelectEl.value : '';
       const cartBody = {
         id: variantId,
