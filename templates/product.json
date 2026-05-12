@@ -60,13 +60,21 @@
             "title": "Packaging regalo",
             "description": "Presentación premium para regalar"
           }
+        },
+        "trust_item_formato": {
+          "type": "trust_item",
+          "settings": {
+            "title": "Múltiples formatos",
+            "description": "Cortado, deshuesado o pieza entera"
+          }
         }
       },
       "block_order": [
         "trust_item_diRE88",
         "trust_item_LQKy7Q",
         "trust_item_pGzHrd",
-        "trust_item_hhUz6U"
+        "trust_item_hhUz6U",
+        "trust_item_formato"
       ],
       "name": "Banda de confianza",
       "settings": {}
