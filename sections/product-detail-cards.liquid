@@ -231,8 +231,8 @@
             {%- endif -%}
           {%- endif -%}
 
-          {%- if icon_name == "origen" -%}
-            <img src="{{ 'icon-origen.svg' | asset_url }}" alt="Origen" width="28" height="28" loading="lazy">
+          {%- if icon_name contains ".svg" -%}
+            <img src="{{ icon_name | asset_url }}" alt="{{ block.settings.label }}" width="28" height="28" loading="lazy">
           {%- else -%}
             {%- render 'svg-icon', icon: icon_name -%}
           {%- endif -%}
@@ -484,24 +484,8 @@
               "label": "Cereales (Cereals)"
             },
             {
-              "value": "origen",
-              "label": "Origen (Origin)"
-            },
-            {
-              "value": "consumo",
-              "label": "Consumo (Consumption)"
-            },
-            {
               "value": "peso",
               "label": "Peso (Weight)"
-            },
-            {
-              "value": "conservacion",
-              "label": "Conservación (Storage)"
-            },
-            {
-              "value": "info",
-              "label": "Info"
             },
             {
               "value": "envio",
@@ -518,6 +502,22 @@
             {
               "value": "refrigerado",
               "label": "Refrigerado (Refrigerated)"
+            },
+            {
+              "value": "icon-origen.svg",
+              "label": "Origen (Origin) - SVG"
+            },
+            {
+              "value": "icon-consumo.svg",
+              "label": "Consumo (Consumption) - SVG"
+            },
+            {
+              "value": "info_nutricional.svg",
+              "label": "Información Nutricional - SVG"
+            },
+            {
+              "value": "formato.svg",
+              "label": "Formato (Format) - SVG"
             }
           ],
           "default": "raza"
@@ -664,7 +664,7 @@
             "enabled": true,
             "label": "Origen",
             "field_type": "origen",
-            "icon": "origen",
+            "icon": "icon-origen.svg",
             "icon_type": "static"
           }
         },
@@ -746,7 +746,7 @@
             "label": "Conservación y Consumo",
             "field_type": "static",
             "static_value": "Ver detalles",
-            "icon": "conservacion",
+            "icon": "icon-consumo.svg",
             "icon_type": "static",
             "show_more_button": true,
             "modal_type": "storage",
