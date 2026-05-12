@@ -117,12 +117,7 @@
         "info_service_temp": "20-24",
         "opened_label": "Una vez abierto",
         "info_conservation_days": "",
-        "card2_additional_text": "",
-        "modal_ingredients": "",
-        "modal_allergens": "",
-        "modal_before_opening": "Conservar en lugar fresco y seco, a temperatura ambiente (20-25 °C aproximadamente).",
-        "modal_after_opening": "Una vez abierto, tapar la parte abierta con papel film y un paño para evitar el contacto directo con la luz solar.",
-        "modal_consumption_tips": "Atemperar el producto 15-20 minutos antes de servir. Servir a temperatura ambiente (20-24 °C). Las lonchas deben ser finas para que la grasa se funda correctamente en boca."
+        "card2_additional_text": ""
       }
     },
     "product_details_accordion_Dtwtwz": {
