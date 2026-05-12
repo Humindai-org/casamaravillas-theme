@@ -2140,7 +2140,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  function updateWeightPackSelector(variant) {
+  function updateWeightPackSelector() {
     const sectionEl = document.querySelector('#cm-pdp-' + SID);
     if (!sectionEl || !data) {
       console.log('[Weight Selector] Missing sectionEl or data');
@@ -2191,13 +2191,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   /* Inicializar selector al cargar */
-  const initialVariant = findVariant();
-  console.log('[Weight Selector] Initial variant:', initialVariant);
-  if (initialVariant) {
-    updateWeightPackSelector(initialVariant);
-  } else {
-    console.log('[Weight Selector] No initial variant found');
-  }
+  updateWeightPackSelector();
 
   function updateVariant() {
     const variant = findVariant();
@@ -2261,7 +2255,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     /* Actualizar selectores de peso/pack según tipo de variante */
-    updateWeightPackSelector(variant);
+    updateWeightPackSelector();
   }
 
   /* ── AJAX añadir al carrito ── */
