@@ -2142,30 +2142,34 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function updateWeightPackSelector(variant) {
     const sectionEl = document.querySelector('#cm-pdp-' + SID);
-    if (!sectionEl || !data) return;
+    if (!sectionEl || !data) {
+      console.log('[Weight Selector] Missing sectionEl or data');
+      return;
+    }
 
     // Detectar formato desde product.tags
     let selectorType = 'entero';
     let formatLabel = 'Pieza Entera';
     const tags = data.tags || [];
-    const tagsLower = tags.map(t => t.toLowerCase());
+    const tagsLower = tags.map(t => String(t).trim().toLowerCase());
 
-    console.log('[Weight Selector] Product tags:', tags);
+    console.log('[Weight Selector] Product tags:', tags, 'Tags lowercase:', tagsLower);
 
-    if (tagsLower.includes('cortado a mano')) {
+    if (tagsLower.some(t => t.includes('cortado'))) {
       selectorType = 'lonchado';
       formatLabel = 'Cortado a Mano';
-    } else if (tagsLower.includes('deshuesado')) {
+    } else if (tagsLower.some(t => t.includes('deshuesado'))) {
       selectorType = 'deshuesado';
       formatLabel = 'Deshuesado';
-    } else if (tagsLower.includes('pieza entera')) {
+    } else if (tagsLower.some(t => t.includes('pieza') && t.includes('entera'))) {
       selectorType = 'entero';
       formatLabel = 'Pieza Entera';
     }
 
-    console.log('[Weight Selector] Detected type:', selectorType);
+    console.log('[Weight Selector] Detected type:', selectorType, 'Label:', formatLabel);
 
     const selectors = sectionEl.querySelectorAll('[data-selector-type]');
+    console.log('[Weight Selector] Found selectors:', selectors.length);
     selectors.forEach(selector => {
       if (selector.getAttribute('data-selector-type') === selectorType) {
         selector.style.display = '';
@@ -2177,9 +2181,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Actualizar el elemento de formato en la banda de confianza
     const formatTitleEl = document.querySelector('#cm-trust-formato-title');
+    console.log('[Weight Selector] formatTitleEl found:', !!formatTitleEl);
     if (formatTitleEl) {
       formatTitleEl.textContent = formatLabel;
       console.log('[Weight Selector] Updated trust band format to:', formatLabel);
+    } else {
+      console.log('[Weight Selector] Element #cm-trust-formato-title not found in DOM');
     }
   }
 
