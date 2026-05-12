@@ -64,7 +64,7 @@
         "trust_item_formato": {
           "type": "trust_item",
           "settings": {
-            "title": "Múltiples formatos",
+            "title": "Formato",
             "description": "Cortado, deshuesado o pieza entera"
           }
         }
