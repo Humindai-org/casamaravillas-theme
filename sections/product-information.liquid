@@ -1,7 +1,15 @@
 {% comment %}
   product-information.liquid — Sección de información del producto
   Información nutricional y conservación/consumo
+
+  ICON CONFIGURATION:
+  To change icons, modify these values at the top of the section:
+  Available icons: info_nutricional.svg, icon-consumo.svg, icon-origen.svg, formato.svg,
+                   icon-envio.svg, icon-garantia.svg, icon-conservacion.svg, icon-peso.svg, etc.
 {% endcomment %}
+
+{%- assign icon_card1 = 'info_nutricional.svg' -%}
+{%- assign icon_card2 = 'icon-consumo.svg' -%}
 
 <style>
   /* ── VARIABLES DE COLOR — paleta crema clara ── */
@@ -318,7 +326,7 @@
       {%- comment -%} Card 1: Información nutricional {%- endcomment -%}
       <article class="cm-info-card">
         <div class="cm-info-card__icon">
-          <img src="{{ section.settings.card1_icon | asset_url }}" alt="{{ section.settings.card1_title }}" width="22" height="22" loading="lazy">
+          {%- render 'icon-selector', icon: icon_card1, width: 22, height: 22, alt: section.settings.card1_title -%}
         </div>
         <h3 class="cm-info-card__title">{{ section.settings.card1_title }}</h3>
         <p class="cm-info-card__subtitle">Cada 100g</p>
@@ -386,7 +394,7 @@
       {%- comment -%} Card 2: Conservación y consumo {%- endcomment -%}
       <article class="cm-info-card">
         <div class="cm-info-card__icon">
-          <img src="{{ section.settings.card2_icon | asset_url }}" alt="{{ section.settings.card2_title }}" width="22" height="22" loading="lazy">
+          {%- render 'icon-selector', icon: icon_card2, width: 22, height: 22, alt: section.settings.card2_title -%}
         </div>
         <h3 class="cm-info-card__title">{{ section.settings.card2_title }}</h3>
         <div class="cm-info-card__rows">

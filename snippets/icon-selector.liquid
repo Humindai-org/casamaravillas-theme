@@ -1,0 +1,29 @@
+{%- comment -%}
+Icon Selector Snippet
+Renders icons flexibly - supports both SVG files and inline SVG icons.
+
+Usage:
+  {% render 'icon-selector', icon: 'icon-origen.svg', width: 28, height: 28, alt: 'Origen' %}
+  {% render 'icon-selector', icon: 'raza', width: 32, height: 32 %}
+
+Available SVG Files (with .svg extension):
+  - formato.svg, icon-bellota.svg, icon-cata.svg, icon-cereales.svg
+  - icon-conservacion.svg, icon-consumo.svg, icon-curacion.svg, icon-envio.svg
+  - icon-garantia.svg, icon-info.svg, icon-origen.svg, icon-pasto.svg
+  - icon-peso.svg, icon-raza.svg, icon-refrigerado.svg, info_nutricional.svg
+
+Available Inline Icons (without .svg - uses svg-icon snippet):
+  - raza, bellota, pasto, cereales, cata, envio, garantia, refrigerado, peso, consumo, conservacion, info
+{%- endcomment -%}
+
+{%- if icon contains ".svg" -%}
+  <img
+    src="{{ icon | asset_url }}"
+    alt="{{ alt | default: icon }}"
+    width="{{ width | default: 32 }}"
+    height="{{ height | default: 32 }}"
+    loading="lazy"
+    {%- if css_class %} class="{{ css_class }}"{% endif %}>
+{%- else -%}
+  {%- render 'svg-icon', icon: icon -%}
+{%- endif -%}

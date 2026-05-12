@@ -223,19 +223,15 @@
           {%- if block.settings.icon_type == "dynamic" and block.settings.field_type == "alimentacion" -%}
             {%- assign feeding_type = product.metafields.huminda.alimentacion.value | downcase -%}
             {%- if feeding_type contains "bellota" or feeding_type == "bellota" -%}
-              {%- assign icon_name = "bellota" -%}
+              {%- assign icon_name = "icon-bellota.svg" -%}
             {%- elsif feeding_type contains "pasto" or feeding_type == "pastura" or feeding_type == "grass" -%}
-              {%- assign icon_name = "pasto" -%}
+              {%- assign icon_name = "icon-pasto.svg" -%}
             {%- elsif feeding_type contains "cereal" or feeding_type == "cereales" -%}
-              {%- assign icon_name = "cereales" -%}
+              {%- assign icon_name = "icon-cereales.svg" -%}
             {%- endif -%}
           {%- endif -%}
 
-          {%- if icon_name contains ".svg" -%}
-            <img src="{{ icon_name | asset_url }}" alt="{{ block.settings.label }}" width="28" height="28" loading="lazy">
-          {%- else -%}
-            {%- render 'svg-icon', icon: icon_name -%}
-          {%- endif -%}
+          {%- render 'icon-selector', icon: icon_name, width: 28, height: 28, alt: block.settings.label -%}
         </div>
 
         <div class="cm-product-card__label">{{ block.settings.label }}</div>
@@ -644,7 +640,7 @@
             "enabled": true,
             "label": "Raza",
             "field_type": "raza",
-            "icon": "raza",
+            "icon": "icon-raza.svg",
             "icon_type": "static"
           }
         },
@@ -654,7 +650,7 @@
             "enabled": true,
             "label": "Alimentación",
             "field_type": "alimentacion",
-            "icon": "bellota",
+            "icon": "icon-bellota.svg",
             "icon_type": "dynamic"
           }
         },
@@ -674,7 +670,7 @@
             "enabled": true,
             "label": "Curación",
             "field_type": "curacion",
-            "icon": "curacion",
+            "icon": "icon-curacion.svg",
             "icon_type": "static"
           }
         }
@@ -690,7 +686,7 @@
             "label": "Información Nutricional",
             "field_type": "static",
             "static_value": "por 100g",
-            "icon": "info",
+            "icon": "icon-info.svg",
             "icon_type": "static",
             "show_more_button": true,
             "modal_type": "nutritional",
@@ -718,7 +714,7 @@
             "label": "Información Nutricional",
             "field_type": "static",
             "static_value": "por 100g",
-            "icon": "info",
+            "icon": "icon-info.svg",
             "icon_type": "static",
             "show_more_button": true,
             "modal_type": "nutritional",
@@ -746,7 +742,7 @@
             "label": "Conservación y Consumo",
             "field_type": "static",
             "static_value": "Ver detalles",
-            "icon": "icon-consumo.svg",
+            "icon": "icon-conservacion.svg",
             "icon_type": "static",
             "show_more_button": true,
             "modal_type": "storage",
