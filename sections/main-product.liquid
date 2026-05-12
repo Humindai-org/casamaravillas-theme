@@ -1556,11 +1556,20 @@
 
 {%- comment -%} Datos de variantes para JS {%- endcomment -%}
 <script>
-  window.cmPDP_{{ section.id }} = {
-    variants: {{ product.variants | json }},
-    moneyFormat: {{ shop.money_format | json }},
-    tags: {{ product.tags | json }}
-  };
+  (function() {
+    try {
+      const sectionId = '{{ section.id }}';
+      const dataKey = 'cmPDP_' + sectionId;
+      window[dataKey] = {
+        variants: {{ product.variants | json }},
+        moneyFormat: {{ shop.money_format | json }},
+        tags: {{ product.tags | json }}
+      };
+      console.log('[PDP Data] Assigned window.' + dataKey, window[dataKey]);
+    } catch (e) {
+      console.error('[PDP Data] Error assigning data:', e);
+    }
+  })();
 </script>
 
 {%- comment -%} ════════════════════════════════════ SECCIÓN PRINCIPAL ══ {%- endcomment -%}
@@ -2053,6 +2062,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   const SID = '{{ section.id }}';
   const data = window['cmPDP_' + SID];
+  console.log('[DOMContentLoaded] SID:', SID, 'Data available:', !!data, 'Full data:', data);
 
   /* ── Utilidades ── */
   function $(id) { return document.getElementById(id); }
