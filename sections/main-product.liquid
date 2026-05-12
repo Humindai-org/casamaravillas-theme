@@ -2146,6 +2146,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Leer el formato desde el data-format-value en la tarjeta de producto
     const formatCard = sectionEl.querySelector('[data-format-value]');
     let selectorType = 'entero';
+    let formatLabel = 'Pieza Entera';
 
     if (formatCard) {
       const formatValue = formatCard.getAttribute('data-format-value').toLowerCase();
@@ -2153,10 +2154,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
       if (formatValue.includes('cortado')) {
         selectorType = 'lonchado';
+        formatLabel = 'Cortado a Mano';
       } else if (formatValue.includes('deshuesado')) {
         selectorType = 'deshuesado';
+        formatLabel = 'Deshuesado';
       } else if (formatValue.includes('entera')) {
         selectorType = 'entero';
+        formatLabel = 'Pieza Entera';
       }
     } else {
       console.log('[Weight Selector] No format card found, defaulting to entero');
@@ -2173,6 +2177,13 @@ document.addEventListener('DOMContentLoaded', function() {
         selector.style.display = 'none';
       }
     });
+
+    // Actualizar el elemento de formato en la banda de confianza
+    const formatTitleEl = document.querySelector('#cm-trust-formato-title');
+    if (formatTitleEl) {
+      formatTitleEl.textContent = formatLabel;
+      console.log('[Weight Selector] Updated trust band format to:', formatLabel);
+    }
   }
 
   /* Inicializar selector al cargar */
