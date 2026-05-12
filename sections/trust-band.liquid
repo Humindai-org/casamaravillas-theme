@@ -24,15 +24,6 @@
     height: 32px;
     color: var(--cm-gold);
     flex-shrink: 0;
-    background: transparent !important;
-  }
-
-  #cm-trust-formato .trust-band__icon {
-    width: 48px;
-    height: 48px;
-    background: transparent !important;
-    background-color: transparent !important;
-    background-image: none !important;
   }
 
   .trust-band__title {
@@ -79,7 +70,7 @@
     {%- assign icon_name = icons[forloop.index0] -%}
     <div class="trust-band__cell" {{ block.shopify_attributes }} {%- if icon_name == 'formato' %} id="cm-trust-formato" data-is-formato="true"{% endif %}>
       {%- if icon_name == 'formato' -%}
-        <object data="{{ 'formato.svg' | asset_url }}" type="image/svg+xml" class="trust-band__icon" style="pointer-events: none;"></object>
+        <img src="{{ 'formato.svg' | asset_url }}" alt="Formato" width="32" height="32" loading="lazy" class="trust-band__icon">
       {%- else -%}
         <svg class="trust-band__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           {%- case icon_name -%}

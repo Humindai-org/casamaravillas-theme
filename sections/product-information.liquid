@@ -318,11 +318,7 @@
       {%- comment -%} Card 1: Información nutricional {%- endcomment -%}
       <article class="cm-info-card">
         <div class="cm-info-card__icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M13.5 14V5a1.5 1.5 0 1 0-3 0v9a3.5 3.5 0 1 0 3 0z"/>
-            <circle cx="12" cy="17" r="1.6" fill="currentColor"/>
-            <path d="M13.5 7h1.5M13.5 9h1.5M13.5 11h1.5"/>
-          </svg>
+          <img src="{{ 'info_nutricional.svg' | asset_url }}" alt="Información Nutricional" width="22" height="22" loading="lazy">
         </div>
         <h3 class="cm-info-card__title">{{ section.settings.card1_title }}</h3>
         <p class="cm-info-card__subtitle">Cada 100g</p>
@@ -390,10 +386,7 @@
       {%- comment -%} Card 2: Conservación y consumo {%- endcomment -%}
       <article class="cm-info-card">
         <div class="cm-info-card__icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M7 4h10M7 20h10M7 4l5 6.5L17 4M7 20l5-6.5L17 20"/>
-            <path d="M9.5 16.5c.5-1 1.3-1.5 2.5-1.5s2 .5 2.5 1.5"/>
-          </svg>
+          <img src="{{ 'icon-consumo.svg' | asset_url }}" alt="Conservación y Consumo" width="22" height="22" loading="lazy">
         </div>
         <h3 class="cm-info-card__title">{{ section.settings.card2_title }}</h3>
         <div class="cm-info-card__rows">

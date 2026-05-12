@@ -231,7 +231,11 @@
             {%- endif -%}
           {%- endif -%}
 
-          {%- render 'svg-icon', icon: icon_name -%}
+          {%- if icon_name == "origen" -%}
+            <img src="{{ 'icon-origen.svg' | asset_url }}" alt="Origen" width="28" height="28" loading="lazy">
+          {%- else -%}
+            {%- render 'svg-icon', icon: icon_name -%}
+          {%- endif -%}
         </div>
 
         <div class="cm-product-card__label">{{ block.settings.label }}</div>
