@@ -169,6 +169,15 @@
     color: var(--text-primary);
   }
 
+  .cm-info-card__additional-text {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text-primary);
+  }
+
   /* ── MODAL STYLES ── */
   .cm-modal {
     display: none;
@@ -410,9 +419,11 @@
             </div>
           {%- endif -%}
         </div>
-        <button class="cm-info-card__more-btn" onclick="openModal('storage-modal')">
-          Saber más
-        </button>
+        {%- if section.settings.card2_additional_text != blank -%}
+          <div class="cm-info-card__additional-text">
+            {{ section.settings.card2_additional_text }}
+          </div>
+        {%- endif -%}
       </article>
 
     </div>
@@ -731,6 +742,12 @@
       "id": "info_conservation_days",
       "label": "Días conservación por defecto",
       "default": "7"
+    },
+    {
+      "type": "textarea",
+      "id": "card2_additional_text",
+      "label": "Texto adicional en Conservación y consumo",
+      "default": ""
     },
     {
       "type": "textarea",
