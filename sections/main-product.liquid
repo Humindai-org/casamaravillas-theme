@@ -1558,7 +1558,8 @@
 <script>
   window.cmPDP_{{ section.id }} = {
     variants: {{ product.variants | json }},
-    moneyFormat: {{ shop.money_format | json }}
+    moneyFormat: {{ shop.money_format | json }},
+    tags: {{ product.tags | json }}
   };
 </script>
 
@@ -2141,29 +2142,25 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function updateWeightPackSelector(variant) {
     const sectionEl = document.querySelector('#cm-pdp-' + SID);
-    if (!sectionEl) return;
+    if (!sectionEl || !data) return;
 
-    // Leer el formato desde el data-format-value en la tarjeta de producto
-    const formatCard = sectionEl.querySelector('[data-format-value]');
+    // Detectar formato desde product.tags
     let selectorType = 'entero';
     let formatLabel = 'Pieza Entera';
+    const tags = data.tags || [];
+    const tagsLower = tags.map(t => t.toLowerCase());
 
-    if (formatCard) {
-      const formatValue = formatCard.getAttribute('data-format-value').toLowerCase();
-      console.log('[Weight Selector] Format value:', formatValue);
+    console.log('[Weight Selector] Product tags:', tags);
 
-      if (formatValue.includes('cortado')) {
-        selectorType = 'lonchado';
-        formatLabel = 'Cortado a Mano';
-      } else if (formatValue.includes('deshuesado')) {
-        selectorType = 'deshuesado';
-        formatLabel = 'Deshuesado';
-      } else if (formatValue.includes('entera')) {
-        selectorType = 'entero';
-        formatLabel = 'Pieza Entera';
-      }
-    } else {
-      console.log('[Weight Selector] No format card found, defaulting to entero');
+    if (tagsLower.includes('cortado a mano')) {
+      selectorType = 'lonchado';
+      formatLabel = 'Cortado a Mano';
+    } else if (tagsLower.includes('deshuesado')) {
+      selectorType = 'deshuesado';
+      formatLabel = 'Deshuesado';
+    } else if (tagsLower.includes('pieza entera')) {
+      selectorType = 'entero';
+      formatLabel = 'Pieza Entera';
     }
 
     console.log('[Weight Selector] Detected type:', selectorType);
