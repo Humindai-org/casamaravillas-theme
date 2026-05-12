@@ -318,7 +318,7 @@
       {%- comment -%} Card 1: Información nutricional {%- endcomment -%}
       <article class="cm-info-card">
         <div class="cm-info-card__icon">
-          <img src="{{ 'info_nutricional.svg' | asset_url }}" alt="Información Nutricional" width="22" height="22" loading="lazy">
+          <img src="{{ section.settings.card1_icon | asset_url }}" alt="{{ section.settings.card1_title }}" width="22" height="22" loading="lazy">
         </div>
         <h3 class="cm-info-card__title">{{ section.settings.card1_title }}</h3>
         <p class="cm-info-card__subtitle">Cada 100g</p>
@@ -386,7 +386,7 @@
       {%- comment -%} Card 2: Conservación y consumo {%- endcomment -%}
       <article class="cm-info-card">
         <div class="cm-info-card__icon">
-          <img src="{{ 'icon-consumo.svg' | asset_url }}" alt="Conservación y Consumo" width="22" height="22" loading="lazy">
+          <img src="{{ section.settings.card2_icon | asset_url }}" alt="{{ section.settings.card2_title }}" width="22" height="22" loading="lazy">
         </div>
         <h3 class="cm-info-card__title">{{ section.settings.card2_title }}</h3>
         <div class="cm-info-card__rows">
@@ -611,6 +611,30 @@
       "default": "Información nutricional"
     },
     {
+      "type": "select",
+      "id": "card1_icon",
+      "label": "Icono Tarjeta 1",
+      "default": "info_nutricional.svg",
+      "options": [
+        {
+          "value": "info_nutricional.svg",
+          "label": "Información Nutricional"
+        },
+        {
+          "value": "icon-consumo.svg",
+          "label": "Consumo"
+        },
+        {
+          "value": "icon-origen.svg",
+          "label": "Origen"
+        },
+        {
+          "value": "formato.svg",
+          "label": "Formato"
+        }
+      ]
+    },
+    {
       "type": "text",
       "id": "kcal_label",
       "label": "Etiqueta Valor energético",
@@ -699,6 +723,30 @@
       "id": "card2_title",
       "label": "Título Tarjeta 2",
       "default": "Conservación y consumo"
+    },
+    {
+      "type": "select",
+      "id": "card2_icon",
+      "label": "Icono Tarjeta 2",
+      "default": "icon-consumo.svg",
+      "options": [
+        {
+          "value": "info_nutricional.svg",
+          "label": "Información Nutricional"
+        },
+        {
+          "value": "icon-consumo.svg",
+          "label": "Consumo"
+        },
+        {
+          "value": "icon-origen.svg",
+          "label": "Origen"
+        },
+        {
+          "value": "formato.svg",
+          "label": "Formato"
+        }
+      ]
     },
     {
       "type": "text",
