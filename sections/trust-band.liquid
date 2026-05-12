@@ -71,7 +71,7 @@
     <div class="trust-band__cell" {{ block.shopify_attributes }} {%- if icon_name == 'formato' %} id="cm-trust-formato" data-is-formato="true"{% endif %}>
       {%- if icon_name == 'formato' -%}
         <div class="trust-band__icon">
-          {%- render 'svg-icon', icon: 'formato' -%}
+          <img src="{{ 'formato.png' | asset_url }}" alt="Formato" width="32" height="32" />
         </div>
       {%- else -%}
         <svg class="trust-band__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -89,7 +89,7 @@
       {%- endif -%}
       <div>
         <p class="trust-band__title" {%- if icon_name == 'formato' %} id="cm-trust-formato-title"{% endif %}>{{ block.settings.title }}</p>
-        <p class="trust-band__desc">{{ block.settings.description }}</p>
+        <p class="trust-band__desc" {%- if icon_name == 'formato' %} id="cm-trust-formato-desc"{% endif %}>{{ block.settings.description }}</p>
       </div>
     </div>
   {%- endfor -%}

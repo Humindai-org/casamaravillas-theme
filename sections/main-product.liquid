@@ -2191,13 +2191,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Actualizar el elemento de formato en la banda de confianza
     const formatTitleEl = document.querySelector('#cm-trust-formato-title');
+    const formatDescEl = document.querySelector('#cm-trust-formato-desc');
     const formatCell = document.querySelector('#cm-trust-formato');
     console.log('[Weight Selector] formatTitleEl found:', !!formatTitleEl);
     if (formatTitleEl) {
       formatTitleEl.textContent = formatLabel;
-      console.log('[Weight Selector] Updated trust band format to:', formatLabel);
+      console.log('[Weight Selector] Updated trust band format title to:', formatLabel);
     } else {
       console.log('[Weight Selector] Element #cm-trust-formato-title not found in DOM');
+    }
+    if (formatDescEl) {
+      formatDescEl.textContent = formatLabel;
+      console.log('[Weight Selector] Updated trust band format description to:', formatLabel);
     }
     if (formatCell) {
       formatCell.setAttribute('data-format-type', selectorType);
