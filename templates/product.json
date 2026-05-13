@@ -55,9 +55,9 @@
             "enabled": true,
             "label": "ALIMENTACIÓN",
             "field_type": "alimentacion",
-            "static_value": "-",
+            "static_value": "{{ product.metafields.custom.feeding_type.value }}",
             "card_icon": "icon-cereales.svg",
-            "icon_type": "static"
+            "icon_type": "dynamic"
           }
         }
       },
