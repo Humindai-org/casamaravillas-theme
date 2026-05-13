@@ -33,10 +33,15 @@
           "settings": {
             "enabled": true,
             "label": "Raza",
-            "field_type": "raza",
             "card_icon": "icon-raza.svg",
+            "field_type": "raza",
+            "static_value": "{{ product.metafields.custom.breed.value }}",
             "icon_type": "static",
-            "static_value": "{{ product.metafields.custom.breed.value }}"
+            "show_more_button": false,
+            "modal_type": "nutritional",
+            "modal_title": "More Information",
+            "modal_content": "",
+            "modal_footer": ""
           }
         },
         "detail_card_alimentacion": {
@@ -44,10 +49,15 @@
           "settings": {
             "enabled": true,
             "label": "Alimentación",
+            "card_icon": "icon-cereales.svg",
             "field_type": "alimentacion",
-            "card_icon": "icon-bellota.svg",
+            "static_value": "{{ product.metafields.custom.feeding_type.value }}",
             "icon_type": "dynamic",
-            "static_value": "{{ product.metafields.custom.feeding_type.value }}"
+            "show_more_button": false,
+            "modal_type": "nutritional",
+            "modal_title": "More Information",
+            "modal_content": "",
+            "modal_footer": ""
           }
         },
         "detail_card_origen": {
@@ -55,10 +65,15 @@
           "settings": {
             "enabled": true,
             "label": "Origen",
-            "field_type": "origen",
             "card_icon": "icon-origen.svg",
+            "field_type": "origen",
+            "static_value": "{{ product.metafields.custom.origin.value }}",
             "icon_type": "static",
-            "static_value": "{{ product.metafields.custom.origin.value }}"
+            "show_more_button": false,
+            "modal_type": "nutritional",
+            "modal_title": "More Information",
+            "modal_content": "",
+            "modal_footer": ""
           }
         },
         "detail_card_curacion": {
@@ -66,10 +81,15 @@
           "settings": {
             "enabled": true,
             "label": "Curación",
-            "field_type": "curacion",
             "card_icon": "icon-curacion.svg",
+            "field_type": "curacion",
+            "static_value": "{{ product.metafields.custom.tiempo_de_curacion.value }}",
             "icon_type": "static",
-            "static_value": "{{ product.metafields.custom.tiempo_de_curacion.value }}"
+            "show_more_button": false,
+            "modal_type": "nutritional",
+            "modal_title": "More Information",
+            "modal_content": "",
+            "modal_footer": ""
           }
         }
       },
@@ -153,6 +173,7 @@
         "title_em_text": "TRADICIÓN",
         "description_text": "Detrás de cada pieza hay un proceso que merece ser conocido. Por eso te lo contamos todo: su composición nutricional, cómo conservarlo y cómo disfrutarlo al máximo. Porque saber lo que comes es parte del placer.",
         "card1_title": "Información nutricional",
+        "card1_icon": "info_nutricional.svg",
         "kcal_label": "Valor energético",
         "info_kcal": "{{ product.metafields.custom.energy.value }}",
         "protein_label": "Proteínas",
@@ -168,12 +189,14 @@
         "salt_label": "Sal",
         "info_salt": "{{ product.metafields.custom.salt.value }}",
         "card2_title": "Conservación y consumo",
+        "card2_icon": "icon-consumo.svg",
         "conservation_label": "Conservación",
         "info_conservation_temp": "20-25",
         "service_label": "Consumo ideal",
         "info_service_temp": "20-24",
         "opened_label": "Una vez abierto",
-        "info_conservation_days": ""
+        "info_conservation_days": "",
+        "card2_additional_text": ""
       }
     },
     "product_details_accordion_Dtwtwz": {
