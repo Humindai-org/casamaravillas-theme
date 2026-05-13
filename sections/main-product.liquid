@@ -1675,7 +1675,8 @@
             {%- if detail_raza != blank -%}
               <div class="cm-product-card">
                 <div class="cm-product-card__icon">
-                  {%- render 'svg-icon', icon: 'raza' -%}
+                  {%- assign icon_name = section.settings.product_detail_raza_icon | default: 'icon-raza.svg' -%}
+                  {%- render 'icon-selector', icon: icon_name, width: 48, height: 48, css_class: 'cm-product-card__icon-img' -%}
                 </div>
                 <div class="cm-product-card__label">Raza</div>
                 <div class="cm-product-card__value">{{ detail_raza }}</div>
@@ -1684,15 +1685,10 @@
 
             {%- if detail_alimentacion != blank -%}
               {%- assign feeding_lower = detail_alimentacion | downcase -%}
-              {%- assign feeding_icon = 'bellota' -%}
-              {%- if feeding_lower contains 'pasto' or feeding_lower contains 'pastura' or feeding_lower contains 'campo' -%}
-                {%- assign feeding_icon = 'pasto' -%}
-              {%- elsif feeding_lower contains 'cereal' or feeding_lower contains 'mixto' or feeding_lower contains 'mezcla' or feeding_lower contains 'pienso' -%}
-                {%- assign feeding_icon = 'cereales' -%}
-              {%- endif -%}
+              {%- assign feeding_icon = section.settings.product_detail_alimentacion_icon | default: 'icon-bellota.svg' -%}
               <div class="cm-product-card">
                 <div class="cm-product-card__icon">
-                  {%- render 'svg-icon', icon: feeding_icon -%}
+                  {%- render 'icon-selector', icon: feeding_icon, width: 48, height: 48, css_class: 'cm-product-card__icon-img' -%}
                 </div>
                 <div class="cm-product-card__label">Alimentación</div>
                 <div class="cm-product-card__value">{{ detail_alimentacion }}</div>
@@ -1702,7 +1698,8 @@
             {%- if detail_origen != blank -%}
               <div class="cm-product-card">
                 <div class="cm-product-card__icon">
-                  {%- render 'svg-icon', icon: 'origen' -%}
+                  {%- assign icon_name = section.settings.product_detail_origen_icon | default: 'icon-origen.svg' -%}
+                  {%- render 'icon-selector', icon: icon_name, width: 48, height: 48, css_class: 'cm-product-card__icon-img' -%}
                 </div>
                 <div class="cm-product-card__label">Origen</div>
                 <div class="cm-product-card__value">{{ detail_origen }}</div>
@@ -1712,7 +1709,8 @@
             {%- if detail_curacion != blank -%}
               <div class="cm-product-card">
                 <div class="cm-product-card__icon">
-                  {%- render 'svg-icon', icon: 'curacion' -%}
+                  {%- assign icon_name = section.settings.product_detail_curacion_icon | default: 'icon-curacion.svg' -%}
+                  {%- render 'icon-selector', icon: icon_name, width: 48, height: 48, css_class: 'cm-product-card__icon-img' -%}
                 </div>
                 <div class="cm-product-card__label">Curación</div>
                 <div class="cm-product-card__value">{{ detail_curacion }}</div>
@@ -1722,7 +1720,8 @@
             {%- if detail_formato != blank -%}
               <div class="cm-product-card" data-format-value="{{ detail_formato | downcase }}">
                 <div class="cm-product-card__icon">
-                  {%- render 'svg-icon', icon: 'formato' -%}
+                  {%- assign icon_name = section.settings.product_detail_formato_icon | default: 'formato.svg' -%}
+                  {%- render 'icon-selector', icon: icon_name, width: 48, height: 48, css_class: 'cm-product-card__icon-img' -%}
                 </div>
                 <div class="cm-product-card__label">Formato</div>
                 <div class="cm-product-card__value">{{ detail_formato }}</div>
@@ -2660,10 +2659,58 @@ document.addEventListener('DOMContentLoaded', function() {
       "placeholder": "Ej: 100% Ibérica"
     },
     {
+      "type": "select",
+      "id": "product_detail_raza_icon",
+      "label": "Icono Raza",
+      "default": "icon-raza.svg",
+      "options": [
+        {"value": "icon-raza.svg", "label": "Raza"},
+        {"value": "icon-bellota.svg", "label": "Bellota"},
+        {"value": "icon-pasto.svg", "label": "Pasto"},
+        {"value": "icon-cereales.svg", "label": "Cereales"},
+        {"value": "icon-peso.svg", "label": "Peso"},
+        {"value": "icon-envio.svg", "label": "Envío"},
+        {"value": "icon-garantia.svg", "label": "Garantía"},
+        {"value": "icon-cata.svg", "label": "Cata"},
+        {"value": "icon-refrigerado.svg", "label": "Refrigerado"},
+        {"value": "icon-origen.svg", "label": "Origen"},
+        {"value": "icon-consumo.svg", "label": "Consumo"},
+        {"value": "info_nutricional.svg", "label": "Información Nutricional"},
+        {"value": "formato.svg", "label": "Formato"},
+        {"value": "icon-conservacion.svg", "label": "Conservación"},
+        {"value": "icon-curacion.svg", "label": "Curación"},
+        {"value": "icon-info.svg", "label": "Información"}
+      ]
+    },
+    {
       "type": "text",
       "id": "product_detail_alimentacion",
       "label": "Alimentación",
       "placeholder": "Ej: Bellota, Pasto, Cereales"
+    },
+    {
+      "type": "select",
+      "id": "product_detail_alimentacion_icon",
+      "label": "Icono Alimentación",
+      "default": "icon-bellota.svg",
+      "options": [
+        {"value": "icon-raza.svg", "label": "Raza"},
+        {"value": "icon-bellota.svg", "label": "Bellota"},
+        {"value": "icon-pasto.svg", "label": "Pasto"},
+        {"value": "icon-cereales.svg", "label": "Cereales"},
+        {"value": "icon-peso.svg", "label": "Peso"},
+        {"value": "icon-envio.svg", "label": "Envío"},
+        {"value": "icon-garantia.svg", "label": "Garantía"},
+        {"value": "icon-cata.svg", "label": "Cata"},
+        {"value": "icon-refrigerado.svg", "label": "Refrigerado"},
+        {"value": "icon-origen.svg", "label": "Origen"},
+        {"value": "icon-consumo.svg", "label": "Consumo"},
+        {"value": "info_nutricional.svg", "label": "Información Nutricional"},
+        {"value": "formato.svg", "label": "Formato"},
+        {"value": "icon-conservacion.svg", "label": "Conservación"},
+        {"value": "icon-curacion.svg", "label": "Curación"},
+        {"value": "icon-info.svg", "label": "Información"}
+      ]
     },
     {
       "type": "text",
@@ -2672,16 +2719,88 @@ document.addEventListener('DOMContentLoaded', function() {
       "placeholder": "Ej: Jabugo, Huelva"
     },
     {
+      "type": "select",
+      "id": "product_detail_origen_icon",
+      "label": "Icono Origen",
+      "default": "icon-origen.svg",
+      "options": [
+        {"value": "icon-raza.svg", "label": "Raza"},
+        {"value": "icon-bellota.svg", "label": "Bellota"},
+        {"value": "icon-pasto.svg", "label": "Pasto"},
+        {"value": "icon-cereales.svg", "label": "Cereales"},
+        {"value": "icon-peso.svg", "label": "Peso"},
+        {"value": "icon-envio.svg", "label": "Envío"},
+        {"value": "icon-garantia.svg", "label": "Garantía"},
+        {"value": "icon-cata.svg", "label": "Cata"},
+        {"value": "icon-refrigerado.svg", "label": "Refrigerado"},
+        {"value": "icon-origen.svg", "label": "Origen"},
+        {"value": "icon-consumo.svg", "label": "Consumo"},
+        {"value": "info_nutricional.svg", "label": "Información Nutricional"},
+        {"value": "formato.svg", "label": "Formato"},
+        {"value": "icon-conservacion.svg", "label": "Conservación"},
+        {"value": "icon-curacion.svg", "label": "Curación"},
+        {"value": "icon-info.svg", "label": "Información"}
+      ]
+    },
+    {
       "type": "text",
       "id": "product_detail_curacion",
       "label": "Curación",
       "placeholder": "Ej: 36–48 meses"
     },
     {
+      "type": "select",
+      "id": "product_detail_curacion_icon",
+      "label": "Icono Curación",
+      "default": "icon-curacion.svg",
+      "options": [
+        {"value": "icon-raza.svg", "label": "Raza"},
+        {"value": "icon-bellota.svg", "label": "Bellota"},
+        {"value": "icon-pasto.svg", "label": "Pasto"},
+        {"value": "icon-cereales.svg", "label": "Cereales"},
+        {"value": "icon-peso.svg", "label": "Peso"},
+        {"value": "icon-envio.svg", "label": "Envío"},
+        {"value": "icon-garantia.svg", "label": "Garantía"},
+        {"value": "icon-cata.svg", "label": "Cata"},
+        {"value": "icon-refrigerado.svg", "label": "Refrigerado"},
+        {"value": "icon-origen.svg", "label": "Origen"},
+        {"value": "icon-consumo.svg", "label": "Consumo"},
+        {"value": "info_nutricional.svg", "label": "Información Nutricional"},
+        {"value": "formato.svg", "label": "Formato"},
+        {"value": "icon-conservacion.svg", "label": "Conservación"},
+        {"value": "icon-curacion.svg", "label": "Curación"},
+        {"value": "icon-info.svg", "label": "Información"}
+      ]
+    },
+    {
       "type": "text",
       "id": "product_detail_formato",
       "label": "Formato",
       "placeholder": "Ej: Cortado, Deshuesado, Entera"
+    },
+    {
+      "type": "select",
+      "id": "product_detail_formato_icon",
+      "label": "Icono Formato",
+      "default": "formato.svg",
+      "options": [
+        {"value": "icon-raza.svg", "label": "Raza"},
+        {"value": "icon-bellota.svg", "label": "Bellota"},
+        {"value": "icon-pasto.svg", "label": "Pasto"},
+        {"value": "icon-cereales.svg", "label": "Cereales"},
+        {"value": "icon-peso.svg", "label": "Peso"},
+        {"value": "icon-envio.svg", "label": "Envío"},
+        {"value": "icon-garantia.svg", "label": "Garantía"},
+        {"value": "icon-cata.svg", "label": "Cata"},
+        {"value": "icon-refrigerado.svg", "label": "Refrigerado"},
+        {"value": "icon-origen.svg", "label": "Origen"},
+        {"value": "icon-consumo.svg", "label": "Consumo"},
+        {"value": "info_nutricional.svg", "label": "Información Nutricional"},
+        {"value": "formato.svg", "label": "Formato"},
+        {"value": "icon-conservacion.svg", "label": "Conservación"},
+        {"value": "icon-curacion.svg", "label": "Curación"},
+        {"value": "icon-info.svg", "label": "Información"}
+      ]
     },
     {
       "type": "header",
