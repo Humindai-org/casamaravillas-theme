@@ -1502,8 +1502,8 @@
   }
 
   .cm-product-card__icon {
-    width: 120px;
-    height: 120px;
+    width: 72px;
+    height: 72px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1540,8 +1540,8 @@
     }
 
     .cm-product-card__icon {
-      width: 64px;
-      height: 64px;
+      width: 60px;
+      height: 60px;
     }
 
     .cm-product-card__label {
@@ -1688,8 +1688,12 @@
 
               {%- if card_value != blank -%}
                 <div class="cm-product-card">
-                  <div class="cm-product-card__icon">
-                    {%- render 'icon-selector', icon: icon_name, width: 64, height: 64, css_class: 'cm-product-card__icon-img' -%}
+                  <div class="cm-product-card__icon"{% if field_type == 'alimentacion' %} data-icon-type="alimentacion"{% endif %}>
+                    {%- if field_type == 'alimentacion' -%}
+                      {%- render 'icon-selector', icon: icon_name, width: 56, height: 56, css_class: 'cm-product-card__icon-img' -%}
+                    {%- else -%}
+                      {%- render 'icon-selector', icon: icon_name, width: 68, height: 68, css_class: 'cm-product-card__icon-img' -%}
+                    {%- endif -%}
                   </div>
                   <div class="cm-product-card__label">{{ block.settings.label }}</div>
                   <div class="cm-product-card__value">{{ card_value }}</div>
