@@ -25,83 +25,6 @@
         "complementary_max": 3
       }
     },
-    "product_detail_cards_main": {
-      "type": "product-detail-cards",
-      "blocks": {
-        "detail_card_raza": {
-          "type": "detail_card",
-          "settings": {
-            "enabled": true,
-            "label": "Raza",
-            "card_icon": "icon-raza.svg",
-            "field_type": "raza",
-            "static_value": "{{ product.metafields.custom.breed.value }}",
-            "icon_type": "static",
-            "show_more_button": false,
-            "modal_type": "nutritional",
-            "modal_title": "More Information",
-            "modal_content": "",
-            "modal_footer": ""
-          }
-        },
-        "detail_card_alimentacion": {
-          "type": "detail_card",
-          "settings": {
-            "enabled": true,
-            "label": "Alimentación",
-            "card_icon": "icon-cereales.svg",
-            "field_type": "alimentacion",
-            "static_value": "{{ product.metafields.custom.feeding_type.value }}",
-            "icon_type": "dynamic",
-            "show_more_button": false,
-            "modal_type": "nutritional",
-            "modal_title": "More Information",
-            "modal_content": "",
-            "modal_footer": ""
-          }
-        },
-        "detail_card_origen": {
-          "type": "detail_card",
-          "settings": {
-            "enabled": true,
-            "label": "Origen",
-            "card_icon": "icon-origen.svg",
-            "field_type": "origen",
-            "static_value": "{{ product.metafields.custom.origin.value }}",
-            "icon_type": "static",
-            "show_more_button": false,
-            "modal_type": "nutritional",
-            "modal_title": "More Information",
-            "modal_content": "",
-            "modal_footer": ""
-          }
-        },
-        "detail_card_curacion": {
-          "type": "detail_card",
-          "settings": {
-            "enabled": true,
-            "label": "Curación",
-            "card_icon": "icon-curacion.svg",
-            "field_type": "curacion",
-            "static_value": "{{ product.metafields.custom.tiempo_de_curacion.value }}",
-            "icon_type": "static",
-            "show_more_button": false,
-            "modal_type": "nutritional",
-            "modal_title": "More Information",
-            "modal_content": "",
-            "modal_footer": ""
-          }
-        }
-      },
-      "block_order": [
-        "detail_card_raza",
-        "detail_card_alimentacion",
-        "detail_card_origen",
-        "detail_card_curacion"
-      ],
-      "name": "Detalles del Producto (Tarjetas)",
-      "settings": {}
-    },
     "trust_band_YfPnnW": {
       "type": "trust-band",
       "blocks": {
@@ -333,7 +256,6 @@
   },
   "order": [
     "main",
-    "product_detail_cards_main",
     "trust_band_YfPnnW",
     "combina",
     "product_information_zDBpen",

@@ -1485,6 +1485,73 @@
   }
 
   /* ── TARJETAS DE DETALLES DEL PRODUCTO ── */
+  .cm-product-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 1.5rem;
+    padding: 2rem 0;
+    max-width: 100%;
+  }
+
+  .cm-product-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.75rem;
+  }
+
+  .cm-product-card__icon {
+    width: 90px;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .cm-product-card__icon svg {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .cm-product-card__label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-secondary);
+    line-height: 1.2;
+  }
+
+  .cm-product-card__value {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-text);
+    line-height: 1.3;
+    word-break: break-word;
+  }
+
+  @media (max-width: 640px) {
+    .cm-product-cards {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      padding: 1.5rem 0;
+    }
+
+    .cm-product-card__icon {
+      width: 48px;
+      height: 48px;
+    }
+
+    .cm-product-card__label {
+      font-size: 0.65rem;
+    }
+
+    .cm-product-card__value {
+      font-size: 0.8rem;
+    }
+  }
 </style>
 
 {%- comment -%} Datos de variantes para JS {%- endcomment -%}
@@ -1596,6 +1663,42 @@
         </div>
       {%- endif -%}
 
+      {%- comment -%} ── TARJETAS DE DETALLES DEL PRODUCTO ── {%- endcomment -%}
+      {%- if section.blocks.size > 0 -%}
+        <div class="cm-product-cards">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'detail_card' and block.settings.enabled -%}
+              {%- assign icon_name = block.settings.card_icon | default: 'icon-raza.svg' -%}
+              {%- assign field_type = block.settings.field_type | default: 'static' -%}
+              {%- assign static_value = block.settings.static_value -%}
+
+              {%- comment -%} Obtener valor del producto según el tipo de campo {%- endcomment -%}
+              {%- assign card_value = '' -%}
+              {%- if field_type == 'raza' -%}
+                {%- assign card_value = product.metafields.custom.breed.value | default: static_value -%}
+              {%- elsif field_type == 'alimentacion' -%}
+                {%- assign card_value = product.metafields.custom.feeding_type.value | default: static_value -%}
+              {%- elsif field_type == 'origen' -%}
+                {%- assign card_value = product.metafields.custom.origin.value | default: static_value -%}
+              {%- elsif field_type == 'curacion' -%}
+                {%- assign card_value = product.metafields.custom.tiempo_de_curacion.value | default: static_value -%}
+              {%- elsif field_type == 'static' -%}
+                {%- assign card_value = static_value -%}
+              {%- endif -%}
+
+              {%- if card_value != blank -%}
+                <div class="cm-product-card">
+                  <div class="cm-product-card__icon">
+                    {%- render 'icon-selector', icon: icon_name, width: 48, height: 48, css_class: 'cm-product-card__icon-img' -%}
+                  </div>
+                  <div class="cm-product-card__label">{{ block.settings.label }}</div>
+                  <div class="cm-product-card__value">{{ card_value }}</div>
+                </div>
+              {%- endif -%}
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
 
       {%- comment -%} ── PRECIO ── {%- endcomment -%}
       <div
@@ -2603,6 +2706,79 @@ document.addEventListener('DOMContentLoaded', function() {
       "step": 1,
       "default": 3,
       "label": "Número máximo de productos"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "detail_card",
+      "name": "Tarjeta de Detalle",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "enabled",
+          "label": "Mostrar tarjeta",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Etiqueta",
+          "default": "Detalle"
+        },
+        {
+          "type": "select",
+          "id": "field_type",
+          "label": "Tipo de campo",
+          "default": "static",
+          "options": [
+            { "value": "raza", "label": "Raza" },
+            { "value": "alimentacion", "label": "Alimentación" },
+            { "value": "origen", "label": "Origen" },
+            { "value": "curacion", "label": "Curación" },
+            { "value": "static", "label": "Valor estático" }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "static_value",
+          "label": "Valor estático (si es aplicable)",
+          "default": "-"
+        },
+        {
+          "type": "select",
+          "id": "card_icon",
+          "label": "Icono",
+          "default": "icon-raza.svg",
+          "options": [
+            { "value": "icon-raza.svg", "label": "Raza" },
+            { "value": "icon-bellota.svg", "label": "Bellota" },
+            { "value": "icon-pasto.svg", "label": "Pasto" },
+            { "value": "icon-cereales.svg", "label": "Cereales" },
+            { "value": "icon-origen.svg", "label": "Origen" },
+            { "value": "icon-curacion.svg", "label": "Curación" },
+            { "value": "icon-cata.svg", "label": "Cata" },
+            { "value": "icon-conservacion.svg", "label": "Conservación" },
+            { "value": "icon-consumo.svg", "label": "Consumo" },
+            { "value": "icon-garantia.svg", "label": "Garantía" },
+            { "value": "icon-envio.svg", "label": "Envío" },
+            { "value": "icon-peso.svg", "label": "Peso" },
+            { "value": "icon-info.svg", "label": "Información" },
+            { "value": "icon-refrigerado.svg", "label": "Refrigerado" },
+            { "value": "formato.svg", "label": "Formato" },
+            { "value": "info_nutricional.svg", "label": "Información Nutricional" }
+          ]
+        },
+        {
+          "type": "select",
+          "id": "icon_type",
+          "label": "Tipo de icono",
+          "default": "static",
+          "options": [
+            { "value": "static", "label": "Estático" },
+            { "value": "dynamic", "label": "Dinámico" }
+          ]
+        }
+      ]
     }
   ],
   "presets": [
