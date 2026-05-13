@@ -322,7 +322,7 @@
   var DURATION = 5000;
 
   var slides = [
-    {% for block in section.blocks %}
+    {%- for block in section.blocks -%}
       {
         eyebrow: '{{ block.settings.eyebrow | escape }}',
         heading: '{{ block.settings.heading | escape }}',
@@ -330,8 +330,8 @@
         tagline: '{{ block.settings.tagline | escape }}',
         cta_label: '{{ block.settings.cta_label | escape }}',
         cta_url: '{{ block.settings.cta_url | escape }}'
-      }{{ unless forloop.last }},{{ endunless }}
-    {% endfor %}
+      }{%- unless forloop.last %},{%- endunless %}
+    {%- endfor -%}
   ];
 
   function goTo(index) {
