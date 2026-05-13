@@ -13,12 +13,6 @@
       "type": "main-product",
       "settings": {
         "show_sticky_atc": true,
-        "show_product_details": true,
-        "product_detail_raza": "{{ product.metafields.custom.breed.value }}",
-        "product_detail_alimentacion": "{{ product.metafields.custom.feeding_type.value }}",
-        "product_detail_origen": "{{ product.metafields.custom.origin.value }}",
-        "product_detail_curacion": "{{ product.metafields.custom.tiempo_de_curacion.value }}",
-        "product_detail_formato": "",
         "product_type": "lonchado",
         "show_curing_selector": false,
         "show_weight_selector": true,
@@ -30,6 +24,63 @@
         "complementary_collection": "",
         "complementary_max": 3
       }
+    },
+    "product_detail_cards_main": {
+      "type": "product-detail-cards",
+      "blocks": {
+        "detail_card_raza": {
+          "type": "detail_card",
+          "settings": {
+            "enabled": true,
+            "label": "Raza",
+            "field_type": "raza",
+            "card_icon": "icon-raza.svg",
+            "icon_type": "static",
+            "static_value": "{{ product.metafields.custom.breed.value }}"
+          }
+        },
+        "detail_card_alimentacion": {
+          "type": "detail_card",
+          "settings": {
+            "enabled": true,
+            "label": "Alimentación",
+            "field_type": "alimentacion",
+            "card_icon": "icon-bellota.svg",
+            "icon_type": "dynamic",
+            "static_value": "{{ product.metafields.custom.feeding_type.value }}"
+          }
+        },
+        "detail_card_origen": {
+          "type": "detail_card",
+          "settings": {
+            "enabled": true,
+            "label": "Origen",
+            "field_type": "origen",
+            "card_icon": "icon-origen.svg",
+            "icon_type": "static",
+            "static_value": "{{ product.metafields.custom.origin.value }}"
+          }
+        },
+        "detail_card_curacion": {
+          "type": "detail_card",
+          "settings": {
+            "enabled": true,
+            "label": "Curación",
+            "field_type": "curacion",
+            "card_icon": "icon-curacion.svg",
+            "icon_type": "static",
+            "static_value": "{{ product.metafields.custom.tiempo_de_curacion.value }}"
+          }
+        }
+      },
+      "block_order": [
+        "detail_card_raza",
+        "detail_card_alimentacion",
+        "detail_card_origen",
+        "detail_card_curacion"
+      ],
+      "name": "Detalles del Producto (Tarjetas)",
+      "settings": {}
     },
     "trust_band_YfPnnW": {
       "type": "trust-band",
@@ -259,6 +310,7 @@
   },
   "order": [
     "main",
+    "product_detail_cards_main",
     "trust_band_YfPnnW",
     "combina",
     "product_information_zDBpen",
