@@ -10,15 +10,17 @@
 {
   "sections": {
     "hero": {
-      "type": "hero-carousel",
+      "type": "hero-carousel-split",
       "blocks": {
         "slide-1": {
           "type": "slide",
           "settings": {
             "image": "shopify://shop_images/hero.2.png",
-            "eyebrow": "Tradición artesanal",
+            "eyebrow": "CASA MARAVILLAS · TRADICIÓN ARTESANAL",
+            "heading": "El arte del jamón",
+            "year": "Founded co. 1919",
             "tagline": "Tres generaciones dedicadas al sector ibérico",
-            "cta_label": "Descubrir colección",
+            "cta_label": "COLECCIÓN DE JAMONES",
             "cta_url": "/collections/jamones"
           }
         },
@@ -26,18 +28,22 @@
           "type": "slide",
           "settings": {
             "image": "shopify://shop_images/hero2.3.png",
-            "eyebrow": "Tradición artesanal",
+            "eyebrow": "SELECTA IBÉRICA",
+            "heading": "Pata negra de bellota",
+            "year": "Premium Selection",
             "tagline": "Selección de las mejores piezas ibéricas de la dehesa española",
-            "cta_label": "Nuestra historia",
-            "cta_url": "/pages/sobre-nosotros"
+            "cta_label": "DESCUBRIR JAMONES",
+            "cta_url": "/collections/jamones-pata-negra"
           }
         },
         "slide-3": {
           "type": "slide",
           "settings": {
-            "eyebrow": "Packs & Regalos Gourmet",
+            "eyebrow": "REGALOS GOURMET",
+            "heading": "Packs especiales",
+            "year": "Gift Collections",
             "tagline": "El regalo perfecto para quien aprecia lo auténtico",
-            "cta_label": "Ver packs regalo",
+            "cta_label": "VER PACKS REGALO",
             "cta_url": "/collections/packs-y-regalos"
           }
         }

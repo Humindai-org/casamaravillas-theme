@@ -1,0 +1,502 @@
+<style>
+  /* ──────────────────────────────────────────────
+     HERO CAROUSEL SPLIT — Casa Maravillas
+     Split layout: image left, content right,
+     with carousel functionality
+  ────────────────────────────────────────────── */
+
+  .cm-hero-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: calc(100svh - 136px);
+    min-height: 560px;
+    overflow: hidden;
+    background: var(--cm-cream);
+  }
+
+  /* ── Left column (image carousel) ── */
+  .cm-hero-split__img-col {
+    position: relative;
+    overflow: hidden;
+    background: var(--cm-light);
+  }
+
+  .cm-hero-split__img-track {
+    display: flex;
+    height: 100%;
+    transition: transform 0.9s cubic-bezier(0.77, 0, 0.18, 1);
+    will-change: transform;
+  }
+
+  .cm-hero-split__img-slide {
+    flex: 0 0 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cm-hero-split__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: none;
+    transform: scale(1.0);
+  }
+
+  .cm-hero-split__img-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, transparent 55%, rgba(250, 250, 247, 0.12) 100%);
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  /* ── Right column (content) ── */
+  .cm-hero-split__content-col {
+    background: var(--cm-cream);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 88px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .cm-hero-split__eyebrow {
+    font-family: var(--cm-font-sans);
+    font-size: 9px;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--cm-gold);
+    margin-bottom: 32px;
+    font-weight: 400;
+  }
+
+  .cm-hero-split__h1 {
+    font-family: var(--cm-font-serif);
+    font-size: clamp(46px, 5vw, 88px);
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -0.015em;
+    color: var(--cm-navy);
+    margin-bottom: 12px;
+  }
+
+  .cm-hero-split__year {
+    font-family: var(--cm-font-serif);
+    font-size: 15px;
+    font-style: italic;
+    color: var(--cm-gold);
+    margin-bottom: 28px;
+    letter-spacing: 0.02em;
+  }
+
+  .cm-hero-split__tagline {
+    font-family: var(--cm-font-serif);
+    font-style: italic;
+    font-size: 16px;
+    color: var(--cm-text-mid);
+    max-width: 520px;
+    line-height: 1.6;
+    margin-bottom: 48px;
+    letter-spacing: 0.01em;
+  }
+
+  /* ── CTA + Navigation ── */
+  .cm-hero-split__cta-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+  }
+
+  .cm-hero-split__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 32px;
+    border: 1.5px solid var(--cm-navy);
+    color: var(--cm-navy);
+    font-family: var(--cm-font-sans);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    font-weight: 400;
+    text-transform: uppercase;
+    text-decoration: none;
+    background: transparent;
+    transition: background 0.25s ease, border-color 0.25s ease;
+  }
+  .cm-hero-split__cta:hover {
+    background: rgba(27, 37, 64, 0.05);
+    border-color: var(--cm-navy);
+  }
+  .cm-hero-split__cta:focus-visible {
+    outline: 2px solid var(--cm-navy);
+    outline-offset: 3px;
+  }
+
+  /* ── Navigation controls ── */
+  .cm-hero-split__nav {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .cm-hero-split__nav-btn {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--cm-navy);
+    background: transparent;
+    color: var(--cm-navy);
+    cursor: pointer;
+    transition: background 0.25s ease, border-color 0.25s ease;
+    padding: 0;
+  }
+  .cm-hero-split__nav-btn:hover {
+    background: rgba(27, 37, 64, 0.05);
+  }
+  .cm-hero-split__nav-btn:focus-visible {
+    outline: 2px solid var(--cm-navy);
+    outline-offset: 2px;
+  }
+
+  .cm-hero-split__nav-btn svg {
+    width: 16px;
+    height: 16px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 1.5;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 1023px) {
+    .cm-hero-split__content-col { padding: 64px 48px; }
+  }
+
+  @media (max-width: 767px) {
+    .cm-hero-split {
+      grid-template-columns: 1fr;
+      height: auto;
+    }
+
+    .cm-hero-split__img-col {
+      height: 50vh;
+      min-height: 280px;
+      order: -1;
+    }
+
+    .cm-hero-split__content-col {
+      padding: 48px 24px;
+    }
+
+    .cm-hero-split__h1 {
+      font-size: clamp(36px, 10vw, 56px);
+    }
+  }
+</style>
+
+<section
+  class="cm-hero-split"
+  id="cm-hero-split-{{ section.id }}"
+  aria-label="Hero — {{ shop.name }}"
+  aria-roledescription="carousel"
+>
+
+  <!-- Left: Image carousel -->
+  <div class="cm-hero-split__img-col">
+    <div class="cm-hero-split__img-track" id="cm-hero-split-track-{{ section.id }}">
+      {%- for block in section.blocks -%}
+        <div
+          class="cm-hero-split__img-slide{% if forloop.first %} is-active{% endif %}"
+          role="group"
+          aria-label="Slide {{ forloop.index }} de {{ section.blocks.size }}"
+          {{ block.shopify_attributes }}
+        >
+          {%- if block.settings.image != blank -%}
+            {{ block.settings.image
+              | image_url: width: 900
+              | image_tag:
+                  class: 'cm-hero-split__img',
+                  loading: 'eager',
+                  fetchpriority: 'high',
+                  alt: block.settings.image.alt | escape
+            }}
+          {%- else -%}
+            {% # theme-check-disable-next-line RemoteAsset %}
+            <img
+              src="https://placehold.co/900x1100/1A1814/F4F2EE?text=Jamón+Ibérico"
+              alt="Jamón ibérico de bellota"
+              width="900"
+              height="1100"
+              loading="eager"
+              class="cm-hero-split__img"
+            >
+          {%- endif -%}
+          <div class="cm-hero-split__img-overlay"></div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+
+  <!-- Right: Content -->
+  <div class="cm-hero-split__content-col">
+    <div id="cm-hero-split-content-{{ section.id }}">
+      {%- for block in section.blocks -%}
+        {%- if forloop.first -%}
+          <div class="{% if forloop.first %}is-active{% endif %}" data-slide-index="{{ forloop.index0 }}">
+            {%- if block.settings.eyebrow != blank -%}
+              <p class="cm-hero-split__eyebrow">{{ block.settings.eyebrow }}</p>
+            {%- endif -%}
+
+            <h1 class="cm-hero-split__h1">{{ block.settings.heading | default: 'El arte del jamón' }}</h1>
+
+            {%- if block.settings.year != blank -%}
+              <p class="cm-hero-split__year">{{ block.settings.year }}</p>
+            {%- endif -%}
+
+            {%- if block.settings.tagline != blank -%}
+              <p class="cm-hero-split__tagline">{{ block.settings.tagline }}</p>
+            {%- endif -%}
+
+            <div class="cm-hero-split__cta-group">
+              {%- if block.settings.cta_label != blank -%}
+                <a
+                  href="{{ block.settings.cta_url | default: '/collections/jamones' }}"
+                  class="cm-hero-split__cta"
+                >
+                  {{ block.settings.cta_label }}
+                  <svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                  </svg>
+                </a>
+              {%- endif -%}
+
+              <div class="cm-hero-split__nav">
+                <button
+                  class="cm-hero-split__nav-btn"
+                  id="cm-hero-split-prev-{{ section.id }}"
+                  aria-label="Slide anterior"
+                  type="button"
+                >
+                  <svg viewBox="0 0 24 24">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                  </svg>
+                </button>
+                <button
+                  class="cm-hero-split__nav-btn"
+                  id="cm-hero-split-next-{{ section.id }}"
+                  aria-label="Siguiente slide"
+                  type="button"
+                >
+                  <svg viewBox="0 0 24 24">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+
+</section>
+
+<script>
+(function() {
+  var sectionId = '{{ section.id }}';
+  var hero = document.getElementById('cm-hero-split-' + sectionId);
+  if (!hero) return;
+
+  var track = document.getElementById('cm-hero-split-track-' + sectionId);
+  var contentContainer = document.getElementById('cm-hero-split-content-' + sectionId);
+  var imgSlides = hero.querySelectorAll('.cm-hero-split__img-slide');
+  var prevBtn = document.getElementById('cm-hero-split-prev-' + sectionId);
+  var nextBtn = document.getElementById('cm-hero-split-next-' + sectionId);
+  var current = 0;
+  var autoTimer;
+  var DURATION = 5000;
+
+  var slides = [
+    {% for block in section.blocks %}
+      {
+        eyebrow: '{{ block.settings.eyebrow | escape }}',
+        heading: '{{ block.settings.heading | escape }}',
+        year: '{{ block.settings.year | escape }}',
+        tagline: '{{ block.settings.tagline | escape }}',
+        cta_label: '{{ block.settings.cta_label | escape }}',
+        cta_url: '{{ block.settings.cta_url | escape }}'
+      }{{ unless forloop.last }},{{ endunless }}
+    {% endfor %}
+  ];
+
+  function goTo(index) {
+    if (imgSlides.length === 0) return;
+
+    current = (index + imgSlides.length) % imgSlides.length;
+
+    // Update image slide
+    Array.from(imgSlides).forEach(function(slide) {
+      slide.classList.remove('is-active');
+    });
+    imgSlides[current].classList.add('is-active');
+    track.style.transform = 'translateX(-' + (current * 100) + '%)';
+
+    // Update content
+    var slide = slides[current];
+    if (slide) {
+      contentContainer.innerHTML =
+        '<div class="is-active" data-slide-index="' + current + '">' +
+        (slide.eyebrow ? '<p class="cm-hero-split__eyebrow">' + slide.eyebrow + '</p>' : '') +
+        '<h1 class="cm-hero-split__h1">' + slide.heading + '</h1>' +
+        (slide.year ? '<p class="cm-hero-split__year">' + slide.year + '</p>' : '') +
+        (slide.tagline ? '<p class="cm-hero-split__tagline">' + slide.tagline + '</p>' : '') +
+        '<div class="cm-hero-split__cta-group">' +
+        (slide.cta_label ? '<a href="' + (slide.cta_url || '/collections/jamones') + '" class="cm-hero-split__cta">' + slide.cta_label + ' <svg width="12" height="12" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>' : '') +
+        '<div class="cm-hero-split__nav">' +
+        '<button class="cm-hero-split__nav-btn" aria-label="Slide anterior"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>' +
+        '<button class="cm-hero-split__nav-btn" aria-label="Siguiente slide"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>' +
+        '</div>' +
+        '</div>' +
+        '</div>';
+
+      // Rebind navigation buttons
+      var newPrevBtn = contentContainer.querySelector('.cm-hero-split__nav-btn:first-child');
+      var newNextBtn = contentContainer.querySelector('.cm-hero-split__nav-btn:last-child');
+      if (newPrevBtn) newPrevBtn.addEventListener('click', function() { goTo(current - 1); startAuto(); });
+      if (newNextBtn) newNextBtn.addEventListener('click', function() { goTo(current + 1); startAuto(); });
+    }
+
+    startAuto();
+  }
+
+  function startAuto() {
+    clearInterval(autoTimer);
+    autoTimer = setInterval(function() { goTo(current + 1); }, DURATION);
+  }
+
+  // Event listeners
+  prevBtn.addEventListener('click', function() { goTo(current - 1); startAuto(); });
+  nextBtn.addEventListener('click', function() { goTo(current + 1); startAuto(); });
+
+  // Touch swipe
+  var touchStartX = 0;
+  hero.addEventListener('touchstart', function(e) {
+    touchStartX = e.touches[0].clientX;
+  }, { passive: true });
+  hero.addEventListener('touchend', function(e) {
+    var diff = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) { goTo(diff > 0 ? current + 1 : current - 1); startAuto(); }
+  }, { passive: true });
+
+  // Keyboard
+  hero.setAttribute('tabindex', '0');
+  hero.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowRight') { goTo(current + 1); startAuto(); }
+    if (e.key === 'ArrowLeft') { goTo(current - 1); startAuto(); }
+  });
+
+  // Init
+  goTo(0);
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Hero Carousel Split",
+  "tag": "section",
+  "max_blocks": 3,
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Imagen de fondo"
+        },
+        {
+          "type": "text",
+          "id": "eyebrow",
+          "label": "Etiqueta superior (dorada)",
+          "default": "CASA MARAVILLAS · TRADICIÓN ARTESANAL"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Título principal",
+          "default": "El arte del jamón"
+        },
+        {
+          "type": "text",
+          "id": "year",
+          "label": "Año/etiqueta (cursiva dorada)",
+          "default": "Founded co. 1919"
+        },
+        {
+          "type": "textarea",
+          "id": "tagline",
+          "label": "Tagline (cursiva)",
+          "default": "Tres generaciones dedicadas al sector ibérico"
+        },
+        {
+          "type": "text",
+          "id": "cta_label",
+          "label": "Texto del botón",
+          "default": "COLECCIÓN DE JAMONES"
+        },
+        {
+          "type": "url",
+          "id": "cta_url",
+          "label": "Enlace del botón"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero Carousel Split",
+      "blocks": [
+        {
+          "type": "slide",
+          "settings": {
+            "eyebrow": "CASA MARAVILLAS · TRADICIÓN ARTESANAL",
+            "heading": "El arte del jamón",
+            "year": "Founded co. 1919",
+            "tagline": "Tres generaciones dedicadas al sector ibérico",
+            "cta_label": "COLECCIÓN DE JAMONES",
+            "cta_url": "/collections/jamones"
+          }
+        },
+        {
+          "type": "slide",
+          "settings": {
+            "eyebrow": "SELECTA IBÉRICA",
+            "heading": "Pata negra de bellota",
+            "year": "Premium Selection",
+            "tagline": "Los mejores jamones de la dehesa española",
+            "cta_label": "DESCUBRIR JAMONES",
+            "cta_url": "/collections/jamones-pata-negra"
+          }
+        },
+        {
+          "type": "slide",
+          "settings": {
+            "eyebrow": "REGALOS GOURMET",
+            "heading": "Packs especiales",
+            "year": "Gift Collections",
+            "tagline": "El regalo perfecto para quien aprecia lo auténtico",
+            "cta_label": "VER PACKS REGALO",
+            "cta_url": "/collections/packs-y-regalos"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
