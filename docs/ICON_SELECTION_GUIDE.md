@@ -1,14 +1,15 @@
 # Guía de Selección de Iconos
 
-Este documento explica cómo cambiar y personalizar los iconos en tu tienda Shopify usando GitHub.
+Este documento explica cómo cambiar y personalizar los iconos en tu tienda Shopify directamente desde el editor.
 
 ## Sistema Centralizado
 
 Hemos implementado un **sistema centralizado de iconos** que permite cambiarlos desde el editor de Shopify de forma sencilla. El sistema funciona así:
 
-1. **Los iconos se definen en el código** de cada sección Liquid
-2. **Cambias el nombre del icono** en la variable correspondiente
-3. **Haces push a GitHub** y Shopify se sincroniza automáticamente
+1. **Abre el editor de Shopify**
+2. **Selecciona la sección** que deseas personalizar
+3. **Elige el icono** en el selector del editor
+4. **Los cambios se aplican automáticamente**
 
 ## Iconos Disponibles
 
@@ -33,100 +34,50 @@ icon-refrigerado.svg
 info_nutricional.svg
 ```
 
-## Cómo Cambiar Iconos por Sección
+## Cómo Cambiar Iconos desde el Editor de Shopify
 
-### 1. Banda de Confianza (trust-band.liquid)
+### 1. Banda de Confianza (Trust Band)
 
-**Ubicación de cambio:** `sections/trust-band.liquid`, línea 7
+La banda de confianza contiene 5 elementos con sus iconos asociados:
 
-```liquid
-{%- assign icons = 'icon-envio.svg|icon-garantia.svg|icon-conservacion.svg|icon-peso.svg|formato.svg' | split: '|' -%}
-```
+**Pasos:**
+1. En el editor de Shopify, ve a **Secciones**
+2. Busca y selecciona **"Banda de confianza"**
+3. Para cada elemento (Envío gratis, Calidad garantizada, etc.):
+   - Haz clic en el elemento dentro de la sección
+   - En el panel derecho, selecciona el icono de la lista desplegable "Icono"
+   - El cambio se aplica automáticamente en la vista previa
 
-**Estructura:** Los iconos van en orden, separados por `|`
-- Icono 1 (Envío gratis): `icon-envio.svg`
-- Icono 2 (Calidad garantizada): `icon-garantia.svg`
-- Icono 3 (Embalaje especial): `icon-conservacion.svg`
-- Icono 4 (Packaging regalo): `icon-peso.svg`
-- Icono 5 (Múltiples formatos): `formato.svg`
-
-**Ejemplo:** Para cambiar el ícono de "Envío gratis" a `icon-info.svg`:
-```liquid
-{%- assign icons = 'icon-info.svg|icon-garantia.svg|icon-conservacion.svg|icon-peso.svg|formato.svg' | split: '|' -%}
-```
+**Iconos disponibles:**
+- Envío, Garantía, Conservación, Peso, Formato, Información, y más
 
 ---
 
-### 2. Tarjetas de Información del Producto (product-information.liquid)
+### 2. Tarjetas de Información del Producto
 
-**Ubicación de cambios:** `sections/product-information.liquid`, líneas 11-12
+Las tarjetas de información nutricional y conservación/consumo tienen selectores de iconos:
 
-```liquid
-{%- assign icon_card1 = 'info_nutricional.svg' -%}
-{%- assign icon_card2 = 'icon-consumo.svg' -%}
-```
-
-- **Card 1 (Información Nutricional):** `icon_card1`
-- **Card 2 (Conservación y Consumo):** `icon_card2`
-
-**Ejemplo:** Para cambiar el ícono de "Información Nutricional" a `icon-info.svg`:
-```liquid
-{%- assign icon_card1 = 'icon-info.svg' -%}
-{%- assign icon_card2 = 'icon-consumo.svg' -%}
-```
+**Pasos:**
+1. En el editor de Shopify, busca la sección **"Información del Producto"**
+2. En el panel de configuración, encontrarás:
+   - **Icono Tarjeta 1** (para Información Nutricional)
+   - **Icono Tarjeta 2** (para Conservación y Consumo)
+3. Selecciona el icono que prefieras de cada lista desplegable
+4. Los cambios aparecen inmediatamente en la vista previa
 
 ---
 
-### 3. Tarjetas de Detalles del Producto (product-detail-cards.liquid)
+### 3. Tarjetas de Detalles del Producto (Product Details)
 
-**Ubicación de cambios:** `sections/product-detail-cards.liquid`, líneas 651-680 (presets)
+Cada tarjeta de detalles (Raza, Alimentación, Origen, Curación) tiene su propio selector de icono:
 
-Cada tarjeta tiene su icono configurado en los presets:
+**Pasos:**
+1. En el editor de Shopify, busca la sección **"Product Detail Cards"**
+2. Cada tarjeta incluye un selector **"Select Icon"**
+3. Elige el icono que prefieras para esa tarjeta
+4. Los cambios se aplican inmediatamente
 
-```json
-{
-  "type": "detail_card",
-  "settings": {
-    "enabled": true,
-    "label": "Raza",
-    "icon": "icon-raza.svg",
-    ...
-  }
-}
-```
-
-**Tarjetas disponibles en el preset por defecto:**
-- Raza: `icon-raza.svg`
-- Alimentación (dinámica): `icon-bellota.svg`, `icon-pasto.svg`, `icon-cereales.svg`
-- Origen: `icon-origen.svg`
-- Curación: `icon-curacion.svg`
-
-**Ejemplo:** Para cambiar el ícono de "Raza" a `icon-info.svg`:
-```json
-{
-  "type": "detail_card",
-  "settings": {
-    "label": "Raza",
-    "icon": "icon-info.svg",
-    ...
-  }
-}
-```
-
----
-
-## Flujo de Cambio (GitHub → Shopify)
-
-1. **Edita el archivo** en tu editor local o en GitHub
-2. **Cambia el nombre del icono** (usa exactamente el nombre del archivo SVG)
-3. **Haz commit y push:**
-   ```bash
-   git add sections/trust-band.liquid
-   git commit -m "feat: cambiar icono de banda de confianza"
-   git push
-   ```
-4. **Espera 30 segundos** a que Shopify sincronice los cambios
-5. **Recarga la página del producto** en tu navegador (Ctrl+Shift+R para limpiar caché)
+**Nota:** Para la sección de Alimentación, el icono puede ser dinámico (cambia según el tipo de alimentación del producto)
 
 ---
 
