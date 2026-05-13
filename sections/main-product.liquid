@@ -1670,6 +1670,7 @@
             {%- if block.type == 'detail_card' and block.settings.enabled -%}
               {%- assign icon_name = block.settings.card_icon | default: 'icon-raza.svg' -%}
               {%- assign field_type = block.settings.field_type | default: 'static' -%}
+              {%- assign icon_type = block.settings.icon_type | default: 'static' -%}
               {%- assign static_value = block.settings.static_value -%}
 
               {%- comment -%} Obtener valor del producto según el tipo de campo {%- endcomment -%}
@@ -1684,6 +1685,20 @@
                 {%- assign card_value = product.metafields.custom.tiempo_de_curacion.value | default: static_value -%}
               {%- elsif field_type == 'static' -%}
                 {%- assign card_value = static_value -%}
+              {%- endif -%}
+
+              {%- comment -%} Determinar icono dinámico para alimentación {%- endcomment -%}
+              {%- if icon_type == 'dynamic' and field_type == 'alimentacion' -%}
+                {%- assign card_value_lower = card_value | downcase -%}
+                {%- if card_value_lower contains 'bellota' -%}
+                  {%- assign icon_name = 'icon-bellota.svg' -%}
+                {%- elsif card_value_lower contains 'pasto' -%}
+                  {%- assign icon_name = 'icon-pasto.svg' -%}
+                {%- elsif card_value_lower contains 'cereales' -%}
+                  {%- assign icon_name = 'icon-cereales.svg' -%}
+                {%- else -%}
+                  {%- assign icon_name = 'icon-cereales.svg' -%}
+                {%- endif -%}
               {%- endif -%}
 
               {%- if card_value != blank -%}
