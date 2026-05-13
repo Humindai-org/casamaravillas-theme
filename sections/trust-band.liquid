@@ -20,8 +20,8 @@
   .trust-band__cell:last-child { border-right: none; }
 
   .trust-band__icon {
-    width: 32px;
-    height: 32px;
+    width: 48px;
+    height: 48px;
     color: var(--cm-gold);
     flex-shrink: 0;
   }
@@ -68,7 +68,7 @@
     {%- assign icon_name = block.settings.icon -%}
     <div class="trust-band__cell" {{ block.shopify_attributes }} {%- if icon_name == 'formato.svg' %} id="cm-trust-formato" data-is-formato="true"{% endif %}>
       <div class="trust-band__icon">
-        {%- render 'icon-selector', icon: icon_name, width: 32, height: 32, css_class: 'trust-band__icon-img' -%}
+        {%- render 'icon-selector', icon: icon_name, width: 48, height: 48, css_class: 'trust-band__icon-img' -%}
       </div>
       <div>
         <p class="trust-band__title" {%- if icon_name == 'formato.svg' %} id="cm-trust-formato-title"{% endif %}>{{ block.settings.title }}</p>
