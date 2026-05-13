@@ -63,16 +63,9 @@
   }
 </style>
 
-{%- comment -%}
-Icon mapping for trust band items. Each block uses hardcoded SVG files.
-To change icons per item, modify the icon names below:
-Available icons: formato.svg, icon-envio.svg, icon-garantia.svg, icon-conservacion.svg, icon-peso.svg
-{%- endcomment -%}
-{%- assign icons = 'icon-envio.svg|icon-garantia.svg|icon-conservacion.svg|icon-peso.svg|formato.svg' | split: '|' -%}
-
 <div class="trust-band" id="cm-trust-band">
   {%- for block in section.blocks -%}
-    {%- assign icon_name = icons[forloop.index0] -%}
+    {%- assign icon_name = block.settings.icon -%}
     <div class="trust-band__cell" {{ block.shopify_attributes }} {%- if icon_name == 'formato.svg' %} id="cm-trust-formato" data-is-formato="true"{% endif %}>
       <div class="trust-band__icon">
         {%- render 'icon-selector', icon: icon_name, width: 32, height: 32, css_class: 'trust-band__icon-img' -%}
@@ -106,6 +99,78 @@ Available icons: formato.svg, icon-envio.svg, icon-garantia.svg, icon-conservaci
           "id": "description",
           "label": "Descripción",
           "default": "A partir de €80 en Peninsula"
+        },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icono",
+          "default": "icon-envio.svg",
+          "options": [
+            {
+              "value": "icon-envio.svg",
+              "label": "Envío"
+            },
+            {
+              "value": "icon-garantia.svg",
+              "label": "Garantía"
+            },
+            {
+              "value": "icon-conservacion.svg",
+              "label": "Conservación"
+            },
+            {
+              "value": "icon-peso.svg",
+              "label": "Peso"
+            },
+            {
+              "value": "formato.svg",
+              "label": "Formato"
+            },
+            {
+              "value": "icon-info.svg",
+              "label": "Información"
+            },
+            {
+              "value": "icon-origen.svg",
+              "label": "Origen"
+            },
+            {
+              "value": "icon-raza.svg",
+              "label": "Raza"
+            },
+            {
+              "value": "icon-bellota.svg",
+              "label": "Bellota"
+            },
+            {
+              "value": "icon-pasto.svg",
+              "label": "Pasto"
+            },
+            {
+              "value": "icon-cereales.svg",
+              "label": "Cereales"
+            },
+            {
+              "value": "icon-cata.svg",
+              "label": "Cata"
+            },
+            {
+              "value": "icon-curacion.svg",
+              "label": "Curación"
+            },
+            {
+              "value": "icon-refrigerado.svg",
+              "label": "Refrigerado"
+            },
+            {
+              "value": "icon-consumo.svg",
+              "label": "Consumo"
+            },
+            {
+              "value": "info_nutricional.svg",
+              "label": "Información Nutricional"
+            }
+          ]
         }
       ]
     }
@@ -118,35 +183,40 @@ Available icons: formato.svg, icon-envio.svg, icon-garantia.svg, icon-conservaci
           "type": "trust_item",
           "settings": {
             "title": "Envío gratis",
-            "description": "A partir de €80 en Península"
+            "description": "A partir de €80 en Península",
+            "icon": "icon-envio.svg"
           }
         },
         {
           "type": "trust_item",
           "settings": {
             "title": "Calidad garantizada",
-            "description": "Tres generaciones de artesanía ibérica"
+            "description": "Tres generaciones de artesanía ibérica",
+            "icon": "icon-garantia.svg"
           }
         },
         {
           "type": "trust_item",
           "settings": {
             "title": "Embalaje especial",
-            "description": "Conservación en frío garantizada"
+            "description": "Conservación en frío garantizada",
+            "icon": "icon-conservacion.svg"
           }
         },
         {
           "type": "trust_item",
           "settings": {
             "title": "Packaging regalo",
-            "description": "Presentación premium para regalar"
+            "description": "Presentación premium para regalar",
+            "icon": "icon-peso.svg"
           }
         },
         {
           "type": "trust_item",
           "settings": {
             "title": "Múltiples formatos",
-            "description": "Cortado, deshuesado o pieza entera"
+            "description": "Cortado, deshuesado o pieza entera",
+            "icon": "formato.svg"
           }
         }
       ]
