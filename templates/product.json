@@ -18,6 +18,7 @@
         "product_detail_alimentacion": "{{ product.metafields.custom.feeding_type.value }}",
         "product_detail_origen": "{{ product.metafields.custom.origin.value }}",
         "product_detail_curacion": "{{ product.metafields.custom.tiempo_de_curacion.value }}",
+        "product_detail_formato": "",
         "product_type": "lonchado",
         "show_curing_selector": false,
         "show_weight_selector": true,
@@ -37,35 +38,40 @@
           "type": "trust_item",
           "settings": {
             "title": "Envío gratis",
-            "description": "A partir de €80 en Península"
+            "description": "A partir de €80 en Península",
+            "icon": "icon-envio.svg"
           }
         },
         "trust_item_LQKy7Q": {
           "type": "trust_item",
           "settings": {
             "title": "Calidad garantizada",
-            "description": "Tres generaciones de artesanía ibérica"
+            "description": "Tres generaciones de artesanía ibérica",
+            "icon": "icon-garantia.svg"
           }
         },
         "trust_item_pGzHrd": {
           "type": "trust_item",
           "settings": {
             "title": "Embalaje especial",
-            "description": "Conservación en frío garantizada"
+            "description": "Conservación en frío garantizada",
+            "icon": "icon-refrigerado.svg"
           }
         },
         "trust_item_hhUz6U": {
           "type": "trust_item",
           "settings": {
             "title": "Packaging regalo",
-            "description": "Presentación premium para regalar"
+            "description": "Presentación premium para regalar",
+            "icon": "icon-info.svg"
           }
         },
         "trust_item_formato": {
           "type": "trust_item",
           "settings": {
             "title": "Formato",
-            "description": "Cortado, deshuesado o pieza entera"
+            "description": "Cortado, deshuesado o pieza entera",
+            "icon": "formato.svg"
           }
         }
       },
@@ -116,8 +122,7 @@
         "service_label": "Consumo ideal",
         "info_service_temp": "20-24",
         "opened_label": "Una vez abierto",
-        "info_conservation_days": "",
-        "card2_additional_text": ""
+        "info_conservation_days": ""
       }
     },
     "product_details_accordion_Dtwtwz": {
