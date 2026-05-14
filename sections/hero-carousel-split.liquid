@@ -24,32 +24,51 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    padding: 24px 64px;
+    padding: 32px 64px;
     font-family: var(--cm-font-sans);
-    font-size: 9px;
-    letter-spacing: 0.15em;
+    font-size: 11px;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--cm-text);
     height: auto;
     z-index: 10;
-    border-bottom: 1px solid var(--cm-gold);
   }
 
   .cm-hero-split__header-text {
     display: flex;
     align-items: center;
-    gap: 24px;
+    gap: 0;
   }
 
   .cm-hero-split__header-text span {
     position: relative;
-    padding: 0 12px;
+    padding: 0 16px;
   }
 
-  .cm-hero-split__header-text span:not(:last-child)::after {
+  .cm-hero-split__header-text span:first-child {
+    padding-right: 0;
+    font-weight: 600;
+  }
+
+  .cm-hero-split__header-text span:nth-child(2)::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1px;
+    height: 16px;
+    background: var(--cm-gold);
+  }
+
+  .cm-hero-split__header-text span:nth-child(2) {
+    padding-left: 24px;
+  }
+
+  .cm-hero-split__header-text span:not(:last-child):not(:nth-child(2))::after {
     content: '·';
     position: absolute;
-    right: 0;
+    right: -8px;
     color: var(--cm-gold);
   }
 
@@ -88,7 +107,8 @@
   .cm-hero-split__img-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to right, transparent 45%, rgba(244, 237, 224, 0.12) 100%);
+    background: linear-gradient(to right, transparent 50%, rgba(244, 237, 224, 0.08) 100%);
+    mix-blend-mode: overlay;
     pointer-events: none;
     z-index: 3;
   }
@@ -111,11 +131,11 @@
 
   .cm-hero-split__eyebrow {
     font-family: var(--cm-font-sans);
-    font-size: 8px;
+    font-size: 10px;
     letter-spacing: 0.15em;
     text-transform: uppercase;
     color: var(--cm-gold);
-    margin-bottom: 16px;
+    margin-bottom: 24px;
     font-weight: 400;
     text-align: right;
   }
@@ -132,6 +152,8 @@
     text-align: right;
     padding-bottom: 20px;
     border-bottom: 2px solid var(--cm-gold);
+    white-space: nowrap;
+    overflow: visible;
   }
 
   .cm-hero-split__year {
@@ -156,6 +178,7 @@
     letter-spacing: 0.005em;
     font-weight: 400;
     text-align: right;
+    align-self: flex-end;
   }
 
   /* ── CTA + Navigation ── */
@@ -163,18 +186,19 @@
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    gap: 24px;
+    gap: 48px;
+    margin-top: 80px;
   }
 
   .cm-hero-split__cta {
     display: inline-flex;
     align-items: center;
-    gap: 14px;
-    padding: 14px 32px;
+    gap: 16px;
+    padding: 18px 48px;
     border: 1.5px solid var(--cm-navy);
     color: var(--cm-navy);
     font-family: var(--cm-font-sans);
-    font-size: 10px;
+    font-size: 12px;
     letter-spacing: 0.15em;
     font-weight: 400;
     text-transform: uppercase;
@@ -194,17 +218,17 @@
   /* ── Navigation controls ── */
   .cm-hero-split__nav {
     display: flex;
-    gap: 8px;
+    gap: 12px;
     align-items: center;
   }
 
   .cm-hero-split__nav-btn {
-    width: 40px;
-    height: 40px;
+    width: 48px;
+    height: 48px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid var(--cm-navy);
+    border: 1.5px solid var(--cm-navy);
     background: transparent;
     color: var(--cm-navy);
     cursor: pointer;
@@ -220,8 +244,8 @@
   }
 
   .cm-hero-split__nav-btn svg {
-    width: 16px;
-    height: 16px;
+    width: 18px;
+    height: 18px;
     stroke: currentColor;
     fill: none;
     stroke-width: 1.5;
