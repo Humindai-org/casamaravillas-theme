@@ -54,7 +54,7 @@
     height: 700px;
     background-position: center;
     background-repeat: no-repeat;
-    background-size: 120%;
+    background-size: 250%;
   }
 
   .jh__img-secondary-{{ section.id }} {
@@ -93,17 +93,17 @@
 
   .jh__heading-{{ section.id }} {
     font-family: var(--cm-font-serif);
-    font-size: clamp(120px, 18vw, 280px);
+    font-size: clamp(80px, 13vw, 180px);
     font-weight: 400;
     color: #fff;
-    line-height: 0.95;
+    line-height: 1;
     letter-spacing: -0.015em;
     margin-bottom: 24px;
     margin-top: 0;
     opacity: 0;
     transform: translateY(22px);
     transition: opacity 0.85s 0.3s ease, transform 0.85s 0.3s ease;
-    max-width: 90vw;
+    white-space: nowrap;
   }
 
   .jh__heading-{{ section.id }} em {
