@@ -16,9 +16,9 @@
         "image_secondary": "shopify://shop_images/Jamones.png",
         "eyebrow": "Alicante, España",
         "heading": "Jamones Ibéricos",
-        "subheading": "Iberian Cured Hams",
+        "subheading": "",
         "body": "De la dehesa extremeña a tu mesa. Seleccionamos cada pieza por su crianza, su raza y su curación.",
-        "overlay_opacity": 45
+        "overlay_opacity": 60
       }
     },
     "quality_tiers": {
