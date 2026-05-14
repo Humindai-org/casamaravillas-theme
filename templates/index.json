@@ -29,8 +29,8 @@
           "settings": {
             "image": "shopify://shop_images/hero2.3.png",
             "eyebrow": "SELECTA IBÉRICA",
-            "heading": "Pata negra de bellota",
-            "year": "Premium Selection",
+            "heading": "La esencia del embutido",
+            "year": "",
             "tagline": "Selección de las mejores piezas ibéricas de la dehesa española",
             "cta_label": "DESCUBRIR JAMONES",
             "cta_url": "/collections/jamones-pata-negra"
@@ -40,10 +40,10 @@
           "type": "slide",
           "settings": {
             "eyebrow": "REGALOS GOURMET",
-            "heading": "Packs especiales",
-            "year": "Gift Collections",
+            "heading": "El regalo perfecto existe",
+            "year": "",
             "tagline": "El regalo perfecto para quien aprecia lo auténtico",
-            "cta_label": "VER PACKS REGALO",
+            "cta_label": "DESCUBRIR PACKS",
             "cta_url": "/collections/packs-y-regalos"
           }
         }
