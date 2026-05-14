@@ -18,7 +18,7 @@
             "image": "shopify://shop_images/hero.2.png",
             "eyebrow": "CASA MARAVILLAS · TRADICIÓN ARTESANAL",
             "heading": "El arte del jamón",
-            "year": "Founded co. 1919",
+            "year": "",
             "tagline": "Tres generaciones dedicadas al sector ibérico",
             "cta_label": "COLECCIÓN DE JAMONES",
             "cta_url": "/collections/jamones"
@@ -62,28 +62,32 @@
           "type": "trust_item",
           "settings": {
             "title": "Envío gratis",
-            "description": "A partir de €80 en Península"
+            "description": "A partir de €80 en Península",
+            "icon": "icon-envio.svg"
           }
         },
         "trust-2": {
           "type": "trust_item",
           "settings": {
             "title": "Calidad garantizada",
-            "description": "Tres generaciones de artesanía ibérica"
+            "description": "Tres generaciones de artesanía ibérica",
+            "icon": "icon-envio.svg"
           }
         },
         "trust-3": {
           "type": "trust_item",
           "settings": {
             "title": "Embalaje especial",
-            "description": "Conservación en frío garantizada"
+            "description": "Conservación en frío garantizada",
+            "icon": "icon-envio.svg"
           }
         },
         "trust-4": {
           "type": "trust_item",
           "settings": {
             "title": "Packaging regalo",
-            "description": "Presentación premium para regalar"
+            "description": "Presentación premium para regalar",
+            "icon": "icon-envio.svg"
           }
         }
       },
