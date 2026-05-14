@@ -155,6 +155,11 @@
     padding-bottom: 18px;
   }
 
+  .jc__fg-{{ section.id }}.always-open .jc__fg-toggle-{{ section.id }} {
+    pointer-events: none;
+    opacity: 0.7;
+  }
+
   /* ── Price slider ── */
   .jc__price-slider-vals-{{ section.id }} {
     display: flex;
@@ -778,7 +783,9 @@
         <div class="jc__grid-{{ section.id }}">
           {%- if collection.products.size > 0 -%}
             {%- for product in collection.products -%}
-              {% render 'product-card', card_product: product, card_collection: collection.handle %}
+              <div data-product-tags="{{ product.tags | join: ',' }}">
+                {% render 'product-card', card_product: product, card_collection: collection.handle %}
+              </div>
             {%- endfor -%}
           {%- else -%}
             <p class="jc__empty-{{ section.id }}">{{ section.settings.empty_label }}</p>
@@ -897,13 +904,14 @@
   var toggles = section.querySelectorAll('.jc__fg-toggle-' + sid);
   toggles.forEach(function (btn) {
     btn.addEventListener('click', function () {
-      var group  = btn.closest('.jc__fg-' + sid);
+      var group = btn.closest('.jc__fg-' + sid);
+      if (group.classList.contains('always-open')) return; /* Don't close always-open filters */
       var isOpen = group.classList.toggle('is-open');
       btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
     });
   });
 
-  /* ── Tag checkboxes → navigate ── */
+  /* ── Tag checkboxes → filter products instantly ── */
   function collectChecked() {
     var cbs = section.querySelectorAll('input[data-filter-tag]:checked');
     var tags = [];
@@ -914,24 +922,43 @@
     return tags;
   }
 
-  function navigateToTags(tags) {
-    var base = '{{ collection.url }}';
-    if (tags.length > 0) {
-      /* Preserve price params if set */
-      var url     = new URL(window.location.href);
-      var priceGte = url.searchParams.get('filter.v.price.gte');
-      var priceLte = url.searchParams.get('filter.v.price.lte');
-      var dest     = base + '/' + tags.join('+');
-      if (priceGte || priceLte) {
-        var params = new URLSearchParams();
-        if (priceGte) params.set('filter.v.price.gte', priceGte);
-        if (priceLte) params.set('filter.v.price.lte', priceLte);
-        dest += '?' + params.toString();
+  function filterProducts() {
+    var selectedTags = collectChecked();
+    var products = section.querySelectorAll('[data-product-tags]');
+    var visibleCount = 0;
+
+    products.forEach(function (product) {
+      var productTags = product.getAttribute('data-product-tags').split(',');
+      var matches = true;
+
+      if (selectedTags.length > 0) {
+        matches = selectedTags.some(function (tag) {
+          return productTags.indexOf(tag) !== -1;
+        });
       }
-      window.location.href = dest;
-    } else {
-      window.location.href = base;
+
+      if (matches) {
+        product.style.display = '';
+        visibleCount++;
+      } else {
+        product.style.display = 'none';
+      }
+    });
+
+    /* Update product count */
+    var countEl = section.querySelector('.jc__count-' + sid);
+    if (countEl) {
+      countEl.textContent = visibleCount + (visibleCount === 1 ? ' producto' : ' productos');
     }
+
+    /* Update URL without reload */
+    var url = new URL(window.location.href);
+    if (selectedTags.length > 0) {
+      url.hash = selectedTags.join('+');
+    } else {
+      url.hash = '';
+    }
+    window.history.replaceState({}, '', url.toString());
   }
 
   var checkboxes = section.querySelectorAll('input[data-filter-tag]');
@@ -942,9 +969,23 @@
       section.querySelectorAll('input[data-filter-tag="' + tag + '"]').forEach(function (other) {
         other.checked = cb.checked;
       });
-      navigateToTags(collectChecked());
+      filterProducts();
     });
   });
+
+  /* Check URL hash on load to restore filters */
+  function restoreFiltersFromHash() {
+    var hash = window.location.hash.substring(1);
+    if (hash) {
+      var tags = hash.split('+');
+      tags.forEach(function (tag) {
+        var checkboxes = section.querySelectorAll('input[data-filter-tag="' + tag + '"]');
+        checkboxes.forEach(function (cb) { cb.checked = true; });
+      });
+      filterProducts();
+    }
+  }
+  restoreFiltersFromHash();
 
   /* ── Price slider ── */
   var sliderGroups = section.querySelectorAll('.jc-price-slider-group-' + sid);
