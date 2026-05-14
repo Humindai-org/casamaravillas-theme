@@ -1,0 +1,21 @@
+<svg viewBox="0 0 140 160" xmlns="http://www.w3.org/2000/svg">
+  <!-- Shield background with rounded bottom -->
+  <defs>
+    <style>
+      .shield-border { fill: none; stroke: #A07040; stroke-width: 2; }
+      .shield-fill { fill: white; }
+      .title-text { font-family: Georgia, serif; font-size: 8px; font-style: italic; letter-spacing: 0.12em; text-transform: uppercase; fill: #999; }
+      .numeral-text { font-family: Georgia, serif; font-size: 36px; font-weight: 400; fill: #A07040; }
+      .detail-text { font-size: 14px; fill: #A07040; }
+    </style>
+  </defs>
+
+  <!-- Shield shape with rounded bottom -->
+  <path class="shield-fill shield-border" d="M 20 20 L 120 20 L 120 100 Q 120 130 70 150 Q 20 130 20 100 Z" />
+
+  <!-- Text content -->
+  <text class="title-text" x="70" y="50" text-anchor="middle" dominant-baseline="middle">Jamón Ibérico</text>
+  <text class="numeral-text" x="70" y="85" text-anchor="middle" dominant-baseline="middle">III</text>
+  <!-- Detail: wheat/espiga -->
+  <text class="detail-text" x="70" y="110" text-anchor="middle" dominant-baseline="middle">🌾</text>
+</svg>

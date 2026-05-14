@@ -63,55 +63,21 @@
     outline-offset: 8px;
   }
 
-  /* ── Escudo redondeado ── */
-  .qt__shield-{{ section.id }} {
+  /* ── Medallón SVG escudo ── */
+  .qt__shield-icon-{{ section.id }} {
     position: relative;
     width: 140px;
     height: 160px;
-    border-radius: 16px 16px 24px 24px;
-    background: var(--cm-white);
     margin-bottom: 20px;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    border: 2px solid;
   }
 
-  /* Colores de borde según tier */
-  .qt__shield-gold-{{ section.id }} { border-color: #C4973A; }
-  .qt__shield-silver-{{ section.id }} { border-color: #A8A8A8; }
-  .qt__shield-bronze-{{ section.id }} { border-color: #A07040; }
-
-  /* ── Título "JAMÓN IBÉRICO" dentro del escudo ── */
-  .qt__shield-title-{{ section.id }} {
-    font-family: var(--cm-font-serif);
-    font-size: 8px;
-    font-style: italic;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--cm-text-light);
-    margin-bottom: 12px;
-    line-height: 1;
-  }
-
-  /* ── Número romano dentro del escudo ── */
-  .qt__shield-numeral-{{ section.id }} {
-    font-family: var(--cm-font-serif);
-    font-size: 36px;
-    font-weight: 400;
-    line-height: 1;
-    margin-bottom: 8px;
-  }
-
-  .qt__shield-gold-{{ section.id }} .qt__shield-numeral-{{ section.id }} { color: #C4973A; }
-  .qt__shield-silver-{{ section.id }} .qt__shield-numeral-{{ section.id }} { color: #A8A8A8; }
-  .qt__shield-bronze-{{ section.id }} .qt__shield-numeral-{{ section.id }} { color: #A07040; }
-
-  /* ── Detalle inferior (punto o espiga) ── */
-  .qt__shield-detail-{{ section.id }} {
-    font-size: 12px;
-    height: 12px;
+  .qt__shield-img-{{ section.id }} {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
   }
 
   /* ── Contenedor de textos bajo el escudo ── */
@@ -156,12 +122,9 @@
       grid-template-columns: repeat(2, 1fr);
       gap: 24px;
     }
-    .qt__shield-{{ section.id }} {
+    .qt__shield-icon-{{ section.id }} {
       width: 120px;
       height: 140px;
-    }
-    .qt__shield-numeral-{{ section.id }} {
-      font-size: 28px;
     }
     .qt__category-name-{{ section.id }} {
       font-size: 18px;
@@ -186,12 +149,9 @@
     .qt__medallion-{{ section.id }} {
       margin: 0 auto;
     }
-    .qt__shield-{{ section.id }} {
+    .qt__shield-icon-{{ section.id }} {
       width: 100px;
       height: 120px;
-    }
-    .qt__shield-numeral-{{ section.id }} {
-      font-size: 24px;
     }
     .qt__category-name-{{ section.id }} {
       font-size: 16px;
@@ -213,16 +173,12 @@
   </div>
 
   <div class="qt__grid-{{ section.id }}">
-    {%- assign tier_colors = 'gold,silver,bronze,bronze' | split: ',' -%}
-    {%- assign numerals = 'I,II,III,III' | split: ',' -%}
+    {%- assign medal_icons = 'icon-medallion-oro.svg,icon-medallion-plata.svg,icon-medallion-bronce-a.svg,icon-medallion-bronce-b.svg' | split: ',' -%}
     {%- assign level_suffixes = '','','·a','·b' | split: ',' -%}
-    {%- assign details = '','','•','🌾' | split: ',' -%}
 
     {%- for i in (0..3) -%}
-      {%- assign color_class = tier_colors[i] -%}
-      {%- assign numeral = numerals[i] -%}
+      {%- assign icon = medal_icons[i] -%}
       {%- assign suffix = level_suffixes[i] -%}
-      {%- assign detail = details[i] -%}
       {%- assign settings_key = 'cat' | append: i | append: '_name' -%}
       {%- assign settings_desc = 'cat' | append: i | append: '_desc' -%}
 
@@ -231,12 +187,8 @@
         href="#cat-{{ i }}"
         aria-label="Ver detalles de {{ section.settings[settings_key] }}"
       >
-        <div class="qt__shield-{{ section.id }} qt__shield-{{ color_class }}-{{ section.id }}">
-          <div class="qt__shield-title-{{ section.id }}">Jamón Ibérico</div>
-          <div class="qt__shield-numeral-{{ section.id }}">{{ numeral }}</div>
-          {%- if detail != '' -%}
-            <div class="qt__shield-detail-{{ section.id }}">{{ detail }}</div>
-          {%- endif -%}
+        <div class="qt__shield-icon-{{ section.id }}">
+          <img src="{{ icon | asset_url }}" alt="{{ section.settings[settings_key] }}" class="qt__shield-img-{{ section.id }}" loading="lazy" />
         </div>
 
         <div class="qt__content-{{ section.id }}">
