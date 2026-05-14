@@ -52,11 +52,13 @@
     transform: translate(-50%, -50%) scale(0.4);
     width: 600px;
     height: 700px;
-    border: 2px solid yellow;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 120%;
   }
 
   .jh__img-secondary-{{ section.id }} {
-    border: 2px solid red;
+    display: none;
   }
 
   .jh__img-secondary-{{ section.id }} {
@@ -205,17 +207,12 @@
     {%- endif -%}
 
     {%- if section.settings.image_secondary != blank -%}
-      <div class="jh__frame-{{ section.id }}" id="jh-frame-{{ section.id }}">
-        {%- assign jh_src_secondary = section.settings.image_secondary | image_url: width: 2400 -%}
-        <img
-          class="jh__img-secondary-{{ section.id }}"
-          src="{{ jh_src_secondary }}"
-          alt="{{ jh_heading | escape }}"
-          width="2400"
-          height="1400"
-          loading="eager"
-        >
-      </div>
+      {%- assign jh_src_secondary = section.settings.image_secondary | image_url: width: 2400 -%}
+      <div
+        class="jh__frame-{{ section.id }}"
+        id="jh-frame-{{ section.id }}"
+        style="background-image: url('{{ jh_src_secondary }}');"
+      ></div>
     {%- endif -%}
 
     <div class="jh__content-{{ section.id }}" id="jh-content-{{ section.id }}">
