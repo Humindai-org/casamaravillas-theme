@@ -79,7 +79,7 @@
           "settings": {
             "title": "Embalaje especial",
             "description": "Conservación en frío garantizada",
-            "icon": "icon-envio.svg"
+            "icon": "icon-refrigerado.svg"
           }
         },
         "trust-4": {
@@ -87,7 +87,7 @@
           "settings": {
             "title": "Packaging regalo",
             "description": "Presentación premium para regalar",
-            "icon": "icon-envio.svg"
+            "icon": "icon-info.svg"
           }
         }
       },
