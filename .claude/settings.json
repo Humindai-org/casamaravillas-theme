@@ -62,7 +62,10 @@
       "Bash(git -C /Users/kiag/Desktop/HumindIA/web/casamaravillas-theme show origin/main -- sections/main-product.liquid)",
       "Bash(grep -n \"^  p {\\\\|^  p,\\\\|font-family\" /Users/kiag/Desktop/HumindIA/web/casamaravillas-theme/sections/main-product.liquid)",
       "Bash(git commit *)",
-      "Read(//Users/kiag/Downloads/**)"
+      "Read(//Users/kiag/Downloads/**)",
+      "Bash(bun dev *)",
+      "Bash(curl -s http://localhost:3000)",
+      "Bash(grep -E \"\\\\.\\(liquid|json|js\\)$\")"
     ],
     "additionalDirectories": [
       "/tmp"
