@@ -13,15 +13,14 @@
     overflow: hidden;
     background: var(--cm-light);
     position: relative;
-    aspect-ratio: 16 / 9;
   }
 
   .cm-hero-split__header {
     position: absolute;
     top: 0;
+    left: 0;
     right: 0;
-    left: auto;
-    width: 44%;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: flex-end;
@@ -30,7 +29,7 @@
     font-size: 9px;
     letter-spacing: 0.15em;
     text-transform: uppercase;
-    color: var(--cm-text-dark);
+    color: var(--cm-text);
     height: auto;
     z-index: 10;
     border-bottom: 1px solid var(--cm-gold);
@@ -60,6 +59,7 @@
     inset: 0;
     overflow: hidden;
     background: var(--cm-light);
+    width: 56%;
   }
 
   .cm-hero-split__img-track {
@@ -88,7 +88,7 @@
   .cm-hero-split__img-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to right, transparent 50%, rgba(250, 250, 247, 0.25) 100%);
+    background: linear-gradient(to right, transparent 45%, rgba(244, 237, 224, 0.12) 100%);
     pointer-events: none;
     z-index: 3;
   }
@@ -100,7 +100,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: flex-end;
-    padding: 80px 88px 80px 64px;
+    padding: 100px 88px 80px 64px;
     position: absolute;
     right: 0;
     top: 0;
