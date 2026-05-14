@@ -1,4 +1,11 @@
 <style>
+  @keyframes announcement-ticker {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  .announcement-bar__ticker { display: contents; }
+
   .announcement-bar {
     background: var(--cm-navy);
     display: flex;
@@ -57,25 +64,34 @@
   }
 
   @media (max-width: 767px) {
-    .announcement-bar {
-      padding: 0 20px;
-      justify-content: center;
-    }
+    .announcement-bar { padding: 0; justify-content: center; overflow: hidden; }
     .announcement-bar__message {
-      position: static;
-      transform: none;
-      font-size: 10px;
-      letter-spacing: 0.12em;
-      text-align: center;
+      position: static; transform: none;
+      font-size: 10px; letter-spacing: 0.12em;
+      white-space: nowrap; overflow: hidden; width: 100%;
+    }
+    .announcement-bar__ticker {
+      display: inline-block;
+      white-space: nowrap;
+      padding-left: 20px;
+      animation: announcement-ticker 18s linear infinite;
     }
     .announcement-bar__lang { display: none; }
+  }
+
+  @media (max-width: 767px) and (prefers-reduced-motion: reduce) {
+    .announcement-bar__ticker { animation: none; padding-left: 0; }
+    .announcement-bar__message { text-align: center; overflow: visible; }
   }
 </style>
 
 {%- if section.settings.show_announcement -%}
 <div class="announcement-bar" role="complementary" aria-label="{{ 'general.announcement_bar.label' | t }}">
   <p class="announcement-bar__message">
-    {{ section.settings.announcement_text }}
+    <span class="announcement-bar__ticker">
+      <span>{{ section.settings.announcement_text }}</span>
+      <span aria-hidden="true">&nbsp;&nbsp;·&nbsp;&nbsp;{{ section.settings.announcement_text }}</span>
+    </span>
   </p>
 
   <div class="announcement-bar__lang hide-mobile" aria-label="Seleccionar idioma">

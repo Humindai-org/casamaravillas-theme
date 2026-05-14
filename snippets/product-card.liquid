@@ -170,6 +170,48 @@
     outline: 2px solid var(--cm-gold);
     outline-offset: 2px;
   }
+
+  .product-card__add-btn {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px;
+    background: var(--cm-navy);
+    color: var(--cm-white);
+    font-family: var(--cm-font-sans);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.3s ease, opacity 0.3s ease;
+    transform: translateY(100%);
+    opacity: 0;
+  }
+
+  .product-card:hover .product-card__add-btn,
+  .product-card__add-btn:focus-visible {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  .product-card__add-btn:hover { background: var(--cm-gold); }
+
+  .product-card__add-btn.is-added { background: #2a7a4b; }
+
+  @media (max-width: 767px) {
+    .product-card__add-btn {
+      transform: translateY(0);
+      opacity: 1;
+      padding: 10px;
+      font-size: 9px;
+    }
+  }
 </style>
 
 {%- assign product = card_product -%}
@@ -215,6 +257,34 @@
             </span>
           </div>
         {%- endif -%}
+        {%- if product.variants.size == 1 -%}
+          <button
+            class="product-card__add-btn"
+            data-variant-id="{{ product.selected_or_first_available_variant.id }}"
+            aria-label="Añadir {{ product.title | escape }} a la cesta"
+            type="button"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+              <line x1="3" y1="6" x2="21" y2="6"/>
+              <path d="M16 10a4 4 0 01-8 0"/>
+            </svg>
+            <span>Añadir</span>
+          </button>
+        {%- else -%}
+          <a
+            class="product-card__add-btn"
+            href="{{ product.url }}"
+            aria-label="Ver opciones de {{ product.title | escape }}"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+              <line x1="3" y1="6" x2="21" y2="6"/>
+              <path d="M16 10a4 4 0 01-8 0"/>
+            </svg>
+            <span>Opciones</span>
+          </a>
+        {%- endif -%}
       </div>
     </a>
 
@@ -241,6 +311,41 @@
       </div>
     </div>
   </article>
+
+  <script>
+  if (!window.cmCardAddInit) {
+    window.cmCardAddInit = true;
+    document.addEventListener('click', function(e) {
+      var btn = e.target.closest('.product-card__add-btn[data-variant-id]');
+      if (!btn) return;
+      e.preventDefault();
+      var variantId = btn.dataset.variantId;
+      var originalHTML = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = '<span>...</span>';
+      fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: parseInt(variantId), quantity: 1 })
+      })
+      .then(function(r) { return r.json(); })
+      .then(function() {
+        btn.innerHTML = '<span>Añadido ✓</span>';
+        btn.classList.add('is-added');
+        if (typeof openCart !== 'undefined') openCart();
+        setTimeout(function() {
+          btn.innerHTML = originalHTML;
+          btn.classList.remove('is-added');
+          btn.disabled = false;
+        }, 2000);
+      })
+      .catch(function() {
+        btn.innerHTML = originalHTML;
+        btn.disabled = false;
+      });
+    });
+  }
+  </script>
 {%- else -%}
   <!-- Placeholder card -->
   <article class="product-card">
