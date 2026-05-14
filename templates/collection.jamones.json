@@ -24,11 +24,16 @@
     "quality_tiers": {
       "type": "jamones-quality-tiers",
       "settings": {
-        "eyebrow": "Nuestra calidad",
-        "heading": "Tres niveles de excelencia",
-        "tier1_name": "Bellota 100% Ibérico",
-        "tier2_name": "Cebo de Campo Ibérico",
-        "tier3_name": "Cebo Ibérico"
+        "eyebrow": "Sistema de Categorías",
+        "heading": "Cuatro piezas, tres niveles",
+        "cat0_name": "Oro",
+        "cat0_desc": "Máxima calidad. Bellota, curación extendida.",
+        "cat1_name": "Plata",
+        "cat1_desc": "Calidad media-alta. Cebo de campo selecto.",
+        "cat2_name": "Bronce III·a",
+        "cat2_desc": "Calidad base, expresión sobria.",
+        "cat3_name": "Bronce III·b",
+        "cat3_desc": "Misma calidad. Cebo de cereal selecto."
       }
     },
     "collection": {
