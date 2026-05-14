@@ -1,17 +1,53 @@
 <style>
   /* ──────────────────────────────────────────────
      HERO CAROUSEL SPLIT — Casa Maravillas
-     Split layout: image left, content right,
-     with carousel functionality
+     Editorial luxury layout with Cormorant Italic
   ────────────────────────────────────────────── */
+
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant:ital@0;1&display=swap');
 
   .cm-hero-split {
     display: grid;
+    grid-template-rows: auto 1fr;
     grid-template-columns: 1fr 1fr;
-    height: calc(100svh - 136px);
+    height: 100svh;
     min-height: 560px;
     overflow: hidden;
     background: var(--cm-cream);
+  }
+
+  .cm-hero-split__header {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 88px;
+    background: var(--cm-cream);
+    border-bottom: 1px solid var(--cm-gold);
+    font-family: var(--cm-font-sans);
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--cm-text-dark);
+    height: auto;
+  }
+
+  .cm-hero-split__header-text {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .cm-hero-split__header-text span {
+    position: relative;
+    padding: 0 12px;
+  }
+
+  .cm-hero-split__header-text span:not(:last-child)::after {
+    content: '·';
+    position: absolute;
+    right: 0;
+    color: var(--cm-gold);
   }
 
   /* ── Left column (image carousel) ── */
@@ -66,41 +102,44 @@
   .cm-hero-split__eyebrow {
     font-family: var(--cm-font-sans);
     font-size: 9px;
-    letter-spacing: 0.5em;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--cm-gold);
+    margin-bottom: 28px;
+    font-weight: 400;
+  }
+
+  .cm-hero-split__h1 {
+    font-family: 'Cormorant', var(--cm-font-serif);
+    font-size: clamp(56px, 6.5vw, 92px);
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--cm-navy);
+    margin-bottom: 16px;
+  }
+
+  .cm-hero-split__year {
+    font-family: var(--cm-font-sans);
+    font-size: 9px;
+    letter-spacing: 0.15em;
     text-transform: uppercase;
     color: var(--cm-gold);
     margin-bottom: 32px;
     font-weight: 400;
   }
 
-  .cm-hero-split__h1 {
-    font-family: var(--cm-font-serif);
-    font-size: clamp(46px, 5vw, 88px);
-    font-weight: 400;
-    line-height: 1.1;
-    letter-spacing: -0.015em;
-    color: var(--cm-navy);
-    margin-bottom: 12px;
-  }
-
-  .cm-hero-split__year {
-    font-family: var(--cm-font-serif);
-    font-size: 15px;
-    font-style: italic;
-    color: var(--cm-gold);
-    margin-bottom: 28px;
-    letter-spacing: 0.02em;
-  }
-
   .cm-hero-split__tagline {
-    font-family: var(--cm-font-serif);
+    font-family: 'Cormorant', var(--cm-font-serif);
     font-style: italic;
-    font-size: 16px;
+    font-size: 18px;
     color: var(--cm-text-mid);
     max-width: 520px;
-    line-height: 1.6;
-    margin-bottom: 48px;
-    letter-spacing: 0.01em;
+    line-height: 1.7;
+    margin-bottom: 56px;
+    letter-spacing: 0.005em;
+    font-weight: 400;
   }
 
   /* ── CTA + Navigation ── */
@@ -175,12 +214,27 @@
   /* ── Responsive ── */
   @media (max-width: 1023px) {
     .cm-hero-split__content-col { padding: 64px 48px; }
+    .cm-hero-split__header { padding: 20px 48px; }
   }
 
   @media (max-width: 767px) {
     .cm-hero-split {
       grid-template-columns: 1fr;
       height: auto;
+    }
+
+    .cm-hero-split__header {
+      padding: 16px 24px;
+      font-size: 8px;
+      letter-spacing: 0.1em;
+    }
+
+    .cm-hero-split__header-text {
+      gap: 16px;
+    }
+
+    .cm-hero-split__header-text span {
+      padding: 0 8px;
     }
 
     .cm-hero-split__img-col {
@@ -194,7 +248,12 @@
     }
 
     .cm-hero-split__h1 {
-      font-size: clamp(36px, 10vw, 56px);
+      font-size: clamp(42px, 12vw, 64px);
+    }
+
+    .cm-hero-split__tagline {
+      font-size: 16px;
+      margin-bottom: 40px;
     }
   }
 </style>
@@ -205,6 +264,15 @@
   aria-label="Hero — {{ shop.name }}"
   aria-roledescription="carousel"
 >
+
+  <!-- Header with brand and establishment year -->
+  <div class="cm-hero-split__header">
+    <div class="cm-hero-split__header-text">
+      <span>Casa Maravillas</span>
+      <span>Gourmet Co.</span>
+      <span>Est. 1919</span>
+    </div>
+  </div>
 
   <!-- Left: Image carousel -->
   <div class="cm-hero-split__img-col">
