@@ -39,6 +39,7 @@
         "slide-3": {
           "type": "slide",
           "settings": {
+            "image": "shopify://shop_images/packs_ejemplo.png",
             "eyebrow": "REGALOS GOURMET",
             "heading": "El regalo perfecto existe",
             "year": "",
