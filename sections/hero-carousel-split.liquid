@@ -121,14 +121,16 @@
 
   .cm-hero-split__h1 {
     font-family: 'Cormorant', var(--cm-font-serif);
-    font-size: clamp(64px, 8vw, 120px);
+    font-size: clamp(56px, 8.5vw, 124px);
     font-weight: 400;
     font-style: italic;
     line-height: 1.05;
     letter-spacing: -0.02em;
     color: var(--cm-navy);
-    margin-bottom: 20px;
+    margin-bottom: 0;
     text-align: right;
+    padding-bottom: 20px;
+    border-bottom: 2px solid var(--cm-gold);
   }
 
   .cm-hero-split__year {
@@ -148,6 +150,7 @@
     color: var(--cm-text-mid);
     max-width: 400px;
     line-height: 1.6;
+    margin-top: 20px;
     margin-bottom: 56px;
     letter-spacing: 0.005em;
     font-weight: 400;
@@ -231,18 +234,23 @@
 
   @media (max-width: 767px) {
     .cm-hero-split {
-      grid-template-columns: 1fr;
       height: auto;
+      flex-direction: column;
     }
 
     .cm-hero-split__header {
+      position: relative;
+      width: 100%;
       padding: 16px 24px;
       font-size: 8px;
       letter-spacing: 0.1em;
+      border-bottom: 1px solid var(--cm-gold);
+      order: -2;
     }
 
     .cm-hero-split__header-text {
       gap: 16px;
+      justify-content: center;
     }
 
     .cm-hero-split__header-text span {
@@ -250,22 +258,61 @@
     }
 
     .cm-hero-split__img-col {
+      position: relative;
       height: 50vh;
       min-height: 280px;
+      width: 100%;
       order: -1;
     }
 
+    .cm-hero-split__img-overlay {
+      background: linear-gradient(to bottom, transparent 40%, rgba(250, 250, 247, 0.35) 100%);
+    }
+
     .cm-hero-split__content-col {
+      position: relative;
+      width: 100%;
       padding: 48px 24px;
+      right: auto;
+      top: auto;
+      bottom: auto;
+      align-items: center;
+      justify-content: flex-start;
+      text-align: center;
+    }
+
+    .cm-hero-split__eyebrow {
+      text-align: center;
     }
 
     .cm-hero-split__h1 {
       font-size: clamp(42px, 12vw, 64px);
+      text-align: center;
+    }
+
+    .cm-hero-split__year {
+      text-align: center;
     }
 
     .cm-hero-split__tagline {
       font-size: 16px;
       margin-bottom: 40px;
+      text-align: center;
+      max-width: 100%;
+    }
+
+    .cm-hero-split__cta-group {
+      align-items: center;
+      width: 100%;
+    }
+
+    .cm-hero-split__cta {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .cm-hero-split__nav {
+      justify-content: center;
     }
   }
 </style>
