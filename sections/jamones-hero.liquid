@@ -6,7 +6,7 @@
 <style>
   .jh-{{ section.id }} {
     position: relative;
-    height: 160svh;
+    height: 200svh;
     background: var(--cm-navy);
   }
 
@@ -17,40 +17,54 @@
     overflow: hidden;
   }
 
-  .jh__frame-{{ section.id }} {
+  .jh__bg-{{ section.id }} {
     position: absolute;
     inset: 0;
-    transform: scale(0.85);
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .jh__bg-img-{{ section.id }} {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .jh__bg-overlay-{{ section.id }} {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 15, 30, 0.4);
+    will-change: opacity;
+  }
+
+  .jh__frame-{{ section.id }} {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 2;
     border-radius: 16px;
     box-shadow: 0 40px 120px rgba(0, 15, 30, 0.55);
     overflow: hidden;
     will-change: transform;
+    transform: translate(-50%, -50%) scale(0.5);
+    width: 320px;
+    height: 480px;
   }
 
-  .jh__img-{{ section.id }} {
+  .jh__img-secondary-{{ section.id }} {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    filter: saturate(0.75) brightness(0.72);
     display: block;
-  }
-
-  .jh__overlay-{{ section.id }} {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      to top,
-      rgba(0, 20, 40, 0.78) 0%,
-      rgba(0, 20, 40, 0.30) 45%,
-      transparent 100%
-    );
-    pointer-events: none;
   }
 
   .jh__content-{{ section.id }} {
     position: absolute;
     inset: 0;
-    z-index: 4;
+    z-index: 3;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -145,12 +159,11 @@
   }
 
   @media (max-width: 767px) {
-    .jh-{{ section.id }} { height: 100svh; }
+    .jh-{{ section.id }} { height: 150svh; }
     .jh__sticky-{{ section.id }} { position: relative; }
     .jh__frame-{{ section.id }} {
-      transform: scale(1) !important;
-      border-radius: 0 !important;
-      box-shadow: none !important;
+      width: 280px;
+      height: 420px;
     }
     .jh__heading-{{ section.id }} { font-size: clamp(44px, 12vw, 72px); }
   }
@@ -169,22 +182,34 @@
 >
   <div class="jh__sticky-{{ section.id }}">
 
-    <div class="jh__frame-{{ section.id }}" id="jh-frame-{{ section.id }}">
-      {%- if section.settings.image != blank -%}
+    {%- if section.settings.image != blank -%}
+      <div class="jh__bg-{{ section.id }}">
         {%- assign jh_src = section.settings.image | image_url: width: 2400 -%}
         <img
-          class="jh__img-{{ section.id }}"
+          class="jh__bg-img-{{ section.id }}"
           src="{{ jh_src }}"
           alt="{{ jh_heading | escape }}"
           width="2400"
           height="1400"
           loading="eager"
         >
-      {%- else -%}
-        <div class="jh__img-{{ section.id }}" style="background: var(--cm-navy); width:100%; height:100%;"></div>
-      {%- endif -%}
-      <div class="jh__overlay-{{ section.id }}" aria-hidden="true"></div>
-    </div>
+        <div class="jh__bg-overlay-{{ section.id }}" id="jh-overlay-{{ section.id }}" aria-hidden="true"></div>
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.image_secondary != blank -%}
+      <div class="jh__frame-{{ section.id }}" id="jh-frame-{{ section.id }}">
+        {%- assign jh_src_secondary = section.settings.image_secondary | image_url: width: 2400 -%}
+        <img
+          class="jh__img-secondary-{{ section.id }}"
+          src="{{ jh_src_secondary }}"
+          alt="{{ jh_heading | escape }}"
+          width="2400"
+          height="1400"
+          loading="eager"
+        >
+      </div>
+    {%- endif -%}
 
     <div class="jh__content-{{ section.id }}" id="jh-content-{{ section.id }}">
       {%- if section.settings.eyebrow != blank -%}
@@ -219,10 +244,10 @@
   var sid     = '{{ section.id }}';
   var el      = document.getElementById('jh-section-' + sid);
   var frame   = document.getElementById('jh-frame-' + sid);
+  var overlay = document.getElementById('jh-overlay-' + sid);
   var content = document.getElementById('jh-content-' + sid);
-  var hint    = document.getElementById('jh-hint-' + sid);
 
-  if (!el || !frame) return;
+  if (!el) return;
 
   setTimeout(function () {
     if (content) content.classList.add('jh-visible');
@@ -230,13 +255,6 @@
 
   var isMobile = window.matchMedia('(max-width: 767px)').matches;
   var reduced  = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  if (isMobile || reduced) {
-    frame.style.transform    = 'scale(1)';
-    frame.style.borderRadius = '0px';
-    frame.style.boxShadow    = 'none';
-    return;
-  }
 
   var ticking = false;
 
@@ -250,26 +268,30 @@
     var travel = el.offsetHeight - window.innerHeight;
 
     if (travel <= 0) {
-      frame.style.transform    = 'scale(1)';
-      frame.style.borderRadius = '0px';
-      frame.style.boxShadow    = 'none';
+      if (frame) {
+        frame.style.transform = 'translate(-50%, -50%) scale(1)';
+        frame.style.borderRadius = '0px';
+        frame.style.boxShadow = 'none';
+      }
       return;
     }
 
     var raw      = Math.min(Math.max((window.scrollY - sTop) / travel, 0), 1);
     var progress = easeOut(raw);
-    var scale    = lerp(0.85, 1, progress);
+    var scale    = lerp(0.5, 1, progress);
     var radius   = lerp(16, 0, progress);
-    var alpha    = lerp(0.55, 0, progress);
-    var blur     = Math.round(lerp(120, 0, progress));
+    var alpha    = lerp(0.4, 0, progress);
+    var blur     = Math.round(lerp(0, 0, progress));
 
-    frame.style.transform    = 'scale(' + scale + ')';
-    frame.style.borderRadius = radius + 'px';
-    frame.style.boxShadow    = alpha > 0.02
-      ? '0 40px ' + blur + 'px rgba(0,15,30,' + alpha.toFixed(2) + ')'
-      : 'none';
+    if (frame) {
+      frame.style.transform    = 'translate(-50%, -50%) scale(' + scale + ')';
+      frame.style.borderRadius = radius + 'px';
+      frame.style.boxShadow    = '0 40px 120px rgba(0,15,30,' + alpha.toFixed(2) + ')';
+    }
 
-    if (hint) hint.style.opacity = String(Math.max(0, 1 - raw * 5));
+    if (overlay) {
+      overlay.style.opacity = String(alpha * 1.1);
+    }
   }
 
   window.addEventListener('scroll', function () {
@@ -288,7 +310,12 @@
     {
       "type": "image_picker",
       "id": "image",
-      "label": "Imagen de fondo"
+      "label": "Imagen de fondo principal"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_secondary",
+      "label": "Imagen de fondo secundaria (opcional)"
     },
     {
       "type": "text",
