@@ -12,6 +12,8 @@
     "hero": {
       "type": "jamones-hero",
       "settings": {
+        "image": "shopify://shop_images/2.png",
+        "image_secondary": "shopify://shop_images/Jamones.png",
         "eyebrow": "Alicante, España",
         "heading": "Jamones Ibéricos",
         "subheading": "Iberian Cured Hams",
