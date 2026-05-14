@@ -293,6 +293,7 @@
     var radius   = lerp(16, 0, progress);
     var alpha    = lerp(0.4, 0, progress);
     var bgSize   = lerp(250, 100, progress);
+    var overlayWhite = Math.round(lerp(0, 255, progress));
 
     if (frame) {
       frame.style.transform      = 'translate(-50%, -50%) scale(' + scale + ')';
@@ -302,7 +303,7 @@
     }
 
     if (overlay) {
-      overlay.style.opacity = String(alpha * 1.1);
+      overlay.style.background = 'rgba(' + overlayWhite + ',' + overlayWhite + ',' + overlayWhite + ',' + (alpha * 1.1).toFixed(2) + ')';
     }
   }
 
