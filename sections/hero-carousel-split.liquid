@@ -56,12 +56,12 @@
     position: absolute;
     inset: 0;
     background: linear-gradient(
-      90deg,
-      rgba(244, 237, 224, 0.02) 0%,
-      rgba(244, 237, 224, 0.08) 20%,
-      rgba(244, 237, 224, 0.15) 40%,
-      rgba(244, 237, 224, 0.20) 60%,
-      rgba(244, 237, 224, 0.24) 100%
+      270deg,
+      rgba(244, 237, 224, 0.95) 0%,
+      rgba(244, 237, 224, 0.70) 25%,
+      rgba(244, 237, 224, 0.30) 50%,
+      rgba(244, 237, 224, 0.10) 75%,
+      rgba(244, 237, 224, 0.05) 100%
     );
     pointer-events: none;
     z-index: 3;
@@ -179,6 +179,7 @@
     margin: 22px 0 0 0;
     line-height: 1.35;
     text-align: right;
+    align-self: flex-end;
   }
 
   .cm-hero-split__cta-group {
@@ -205,6 +206,7 @@
     cursor: pointer;
     margin-top: 40px;
     transition: background 0.2s, color 0.2s, border-color 0.2s;
+    white-space: nowrap;
   }
 
   .cm-hero-split__cta:hover {
