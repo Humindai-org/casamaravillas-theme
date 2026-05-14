@@ -8,28 +8,31 @@
 
   .cm-hero-split {
     display: grid;
-    grid-template-rows: auto 1fr;
-    grid-template-columns: 1.35fr 0.65fr;
+    grid-template-columns: 1.45fr 0.55fr;
     height: 100svh;
     min-height: 560px;
     overflow: hidden;
     background: var(--cm-cream);
+    position: relative;
   }
 
   .cm-hero-split__header {
-    grid-column: 1 / -1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 24px 88px;
-    background: var(--cm-cream);
-    border-bottom: 1px solid var(--cm-gold);
     font-family: var(--cm-font-sans);
     font-size: 9px;
     letter-spacing: 0.15em;
     text-transform: uppercase;
     color: var(--cm-text-dark);
     height: auto;
+    z-index: 10;
+    border-bottom: 1px solid var(--cm-gold);
   }
 
   .cm-hero-split__header-text {
@@ -84,10 +87,11 @@
     position: absolute;
     inset: 0;
     background:
-      radial-gradient(ellipse 120% 100% at 30% 50%, transparent 0%, rgba(250, 250, 247, 0.15) 35%),
-      linear-gradient(to right, transparent 40%, rgba(250, 250, 247, 0.25) 100%);
+      radial-gradient(ellipse 110% 120% at 20% 40%, transparent 0%, rgba(250, 250, 247, 0.08) 40%),
+      linear-gradient(to right, transparent 35%, rgba(250, 250, 247, 0.35) 100%);
     pointer-events: none;
     z-index: 2;
+    mix-blend-mode: lighten;
   }
 
   /* ── Right column (content) ── */
