@@ -180,7 +180,7 @@
     font-weight: 400;
     font-size: clamp(16px, 1.5vw, 22px);
     color: var(--cm-muted);
-    max-width: 520px;
+    width: 100%;
     margin: 22px 0 0 0;
     line-height: 1.35;
     text-align: right;
@@ -216,12 +216,13 @@
   }
 
   .cm-hero-split__cta:hover {
-    background: rgba(27, 37, 64, 0.04);
-    border-color: rgba(48, 38, 30, 0.55);
+    background: var(--cm-navy);
+    color: var(--cm-cream-3);
+    border-color: var(--cm-navy);
   }
 
   .cm-hero-split__cta:hover .cm-hero-split__cta-arrow path {
-    stroke: var(--cm-navy);
+    stroke: var(--cm-cream-3);
   }
 
   .cm-hero-split__cta-arrow {
