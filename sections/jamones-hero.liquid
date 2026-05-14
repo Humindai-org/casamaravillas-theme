@@ -291,12 +291,13 @@
     var scale    = lerp(0.4, 1, progress);
     var radius   = lerp(16, 0, progress);
     var alpha    = lerp(0.4, 0, progress);
-    var blur     = Math.round(lerp(0, 0, progress));
+    var bgSize   = lerp(250, 100, progress);
 
     if (frame) {
-      frame.style.transform    = 'translate(-50%, -50%) scale(' + scale + ')';
-      frame.style.borderRadius = radius + 'px';
-      frame.style.boxShadow    = '0 40px 120px rgba(0,15,30,' + alpha.toFixed(2) + ')';
+      frame.style.transform      = 'translate(-50%, -50%) scale(' + scale + ')';
+      frame.style.borderRadius   = radius + 'px';
+      frame.style.boxShadow      = '0 40px 120px rgba(0,15,30,' + alpha.toFixed(2) + ')';
+      frame.style.backgroundSize = bgSize + '%';
     }
 
     if (overlay) {
