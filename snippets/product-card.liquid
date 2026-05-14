@@ -236,9 +236,12 @@
         {%- assign quality_dots = 0 -%}
         {%- assign quality_label = '' -%}
         {%- for tag in product.tags -%}
-          {%- if tag == 'calidad_bellota' -%}
+          {%- if tag == 'calidad_bellota_100' -%}
             {%- assign quality_dots = 5 -%}
-            {%- assign quality_label = 'Bellota' -%}
+            {%- assign quality_label = 'Bellota 100%' -%}
+          {%- elsif tag == 'calidad_bellota_75' -%}
+            {%- assign quality_dots = 4 -%}
+            {%- assign quality_label = 'Bellota 75%' -%}
           {%- elsif tag == 'calidad_cebo-de-campo' -%}
             {%- assign quality_dots = 4 -%}
             {%- assign quality_label = 'Cebo de Campo' -%}

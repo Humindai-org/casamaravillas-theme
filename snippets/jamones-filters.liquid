@@ -15,12 +15,12 @@
   assign slider_min_val = price_min | default: 0
   assign slider_max_val = price_max | default: 400
 
-  assign calidad_tags   = 'calidad_bellota,calidad_cebo-de-campo,calidad_cebo' | split: ','
-  assign calidad_labels = 'Bellota 100% Ibérico,Cebo de Campo Ibérico,Cebo Ibérico' | split: ','
-  assign calidad_dots   = '5,4,3' | split: ','
+  assign calidad_tags   = 'calidad_bellota_100,calidad_bellota_75,calidad_cebo-de-campo,calidad_cebo' | split: ','
+  assign calidad_labels = 'Bellota 100% Ibérico,Bellota 75% Ibérico,Cebo de Campo Ibérico,Cebo Ibérico' | split: ','
+  assign calidad_dots   = '5,4,4,3' | split: ','
 
-  assign formato_tags   = 'formato_entero,formato_deshuesado,formato_loncheado' | split: ','
-  assign formato_labels = 'Jamón Entero,Deshuesado,Loncheado' | split: ','
+  assign formato_tags   = 'formato_pieza-entera,formato_deshuesado,formato_cortado-a-mano' | split: ','
+  assign formato_labels = 'Pieza Entera,Deshuesado,Cortado a Mano' | split: ','
 -%}
 
 <!-- ── PRECIO ── -->
@@ -82,7 +82,7 @@
     </svg>
   </button>
   <div class="jc__fg-body-{{ section_id }}" id="jcfg-calidad-body-{{ section_id }}{% if drawer %}-drawer{% endif %}">
-    {%- for i in (0..2) -%}
+    {%- for i in (0..3) -%}
       {%- assign tag   = calidad_tags[i] -%}
       {%- assign label = calidad_labels[i] -%}
       {%- assign dots  = calidad_dots[i] | plus: 0 -%}
