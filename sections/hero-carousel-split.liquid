@@ -1,91 +1,40 @@
 <style>
-  /* ──────────────────────────────────────────────
-     HERO CAROUSEL SPLIT — Casa Maravillas
-     Editorial luxury layout with Cormorant Italic
-  ────────────────────────────────────────────── */
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@400;500;600&display=swap');
 
-  @import url('https://fonts.googleapis.com/css2?family=Cormorant:ital@0;1&display=swap');
+  :root {
+    --cm-navy:     #1b2540;
+    --cm-cream:    #f4ede0;
+    --cm-cream-3:  #faf6ec;
+    --cm-gold:     #b89149;
+    --cm-muted:    #6a6655;
+    --serif:   'Cormorant Garamond', 'EB Garamond', Georgia, serif;
+    --sans:    'Jost', system-ui, sans-serif;
+  }
 
   .cm-hero-split {
-    display: flex;
-    height: 100svh;
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
     min-height: 560px;
     overflow: hidden;
-    background: var(--cm-light);
-    position: relative;
+    background: var(--cm-cream);
   }
 
-  .cm-hero-split__header {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    padding: 32px 64px;
-    font-family: var(--cm-font-sans);
-    font-size: 11px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--cm-text);
-    height: auto;
-    z-index: 10;
-  }
-
-  .cm-hero-split__header-text {
-    display: flex;
-    align-items: center;
-    gap: 0;
-  }
-
-  .cm-hero-split__header-text span {
-    position: relative;
-    padding: 0 16px;
-  }
-
-  .cm-hero-split__header-text span:first-child {
-    padding-right: 0;
-    font-weight: 600;
-  }
-
-  .cm-hero-split__header-text span:nth-child(2)::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 1px;
-    height: 16px;
-    background: var(--cm-gold);
-  }
-
-  .cm-hero-split__header-text span:nth-child(2) {
-    padding-left: 24px;
-  }
-
-  .cm-hero-split__header-text span:not(:last-child):not(:nth-child(2))::after {
-    content: '·';
-    position: absolute;
-    right: -8px;
-    color: var(--cm-gold);
-  }
-
-  /* ── Left column (image carousel) ── */
   .cm-hero-split__img-col {
     position: absolute;
     inset: 0;
-    overflow: hidden;
-    background: var(--cm-light);
-    width: 56%;
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect fill="%23e8dec7" width="100" height="100"/></svg>');
+    background-size: cover;
+    background-position: left center;
+    background-repeat: no-repeat;
+    background-color: #e8dec7;
   }
 
   .cm-hero-split__img-track {
     display: flex;
     height: 100%;
+    width: 100%;
     transition: transform 0.9s cubic-bezier(0.77, 0, 0.18, 1);
-    will-change: transform;
   }
 
   .cm-hero-split__img-slide {
@@ -99,241 +48,282 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: left center;
     display: block;
-    filter: none;
-    transform: scale(1.0);
   }
 
   .cm-hero-split__img-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to right, transparent 50%, rgba(244, 237, 224, 0.08) 100%);
-    mix-blend-mode: overlay;
+    background: linear-gradient(
+      90deg,
+      rgba(244, 237, 224, 0.02) 0%,
+      rgba(244, 237, 224, 0.08) 20%,
+      rgba(244, 237, 224, 0.15) 40%,
+      rgba(244, 237, 224, 0.20) 60%,
+      rgba(244, 237, 224, 0.24) 100%
+    );
     pointer-events: none;
     z-index: 3;
   }
 
-  /* ── Right column (content) ── */
+  .cm-hero-split__header {
+    position: absolute;
+    top: 40px;
+    left: 96px;
+    right: 96px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    z-index: 10;
+  }
+
+  .cm-hero-split__header-rule {
+    flex: 1;
+    height: 1px;
+    background: var(--cm-gold);
+    opacity: 0.55;
+  }
+
+  .cm-hero-split__wordmark {
+    font-family: var(--sans);
+    font-size: 11px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--cm-navy);
+    white-space: nowrap;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+  }
+
+  .cm-hero-split__wordmark-casa {
+    opacity: 0.6;
+    font-weight: 400;
+  }
+
+  .cm-hero-split__wordmark-brand {
+    font-weight: 600;
+    letter-spacing: 0.42em;
+    margin-left: 0.42em;
+  }
+
+  .cm-hero-split__wordmark-dot {
+    opacity: 0.35;
+    margin: 0 14px;
+  }
+
+  .cm-hero-split__wordmark-meta {
+    opacity: 0.55;
+    margin-left: 14px;
+  }
+
   .cm-hero-split__content-col {
-    background: transparent;
+    position: absolute;
+    inset: 0;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: flex-end;
-    padding: 100px 88px 80px 64px;
-    position: absolute;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    width: 44%;
+    padding: 0 96px;
+    color: var(--cm-navy);
+    text-align: right;
     z-index: 5;
   }
 
   .cm-hero-split__eyebrow {
-    font-family: var(--cm-font-sans);
-    font-size: 10px;
-    letter-spacing: 0.15em;
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: 12px;
+    letter-spacing: 0.32em;
     text-transform: uppercase;
     color: var(--cm-gold);
-    margin-bottom: 24px;
-    font-weight: 400;
-    text-align: right;
+    margin: 0 0 22px 0;
   }
 
   .cm-hero-split__h1 {
-    font-family: 'Cormorant', var(--cm-font-serif);
-    font-size: clamp(56px, 8.5vw, 124px);
-    font-weight: 400;
+    margin: 0;
+    font-family: var(--serif);
     font-style: italic;
-    line-height: 1.05;
-    letter-spacing: -0.02em;
-    color: var(--cm-navy);
-    margin-bottom: 0;
-    text-align: right;
-    padding-bottom: 20px;
-    border-bottom: 2px solid var(--cm-gold);
-    white-space: nowrap;
-    overflow: visible;
+    font-weight: 400;
+    letter-spacing: -0.005em;
+    font-size: clamp(56px, 8.5vw, 124px);
+    line-height: 0.92;
+    max-width: 820px;
   }
 
   .cm-hero-split__year {
-    font-family: var(--cm-font-sans);
-    font-size: 9px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--cm-gold);
-    margin-bottom: 32px;
+    font-family: var(--serif);
+    font-style: italic;
     font-weight: 400;
+    font-size: 14px;
+    color: var(--cm-gold);
+    margin: 12px 0 0 0;
+  }
+
+  .cm-hero-split__divider {
+    width: 56px;
+    height: 1px;
+    background: var(--cm-gold);
+    margin-top: 28px;
+    margin-bottom: 0;
   }
 
   .cm-hero-split__tagline {
-    font-family: 'Cormorant', var(--cm-font-serif);
+    font-family: var(--serif);
     font-style: italic;
-    font-size: 16px;
-    color: var(--cm-text-mid);
-    max-width: 400px;
-    line-height: 1.6;
-    margin-top: 20px;
-    margin-bottom: 56px;
-    letter-spacing: 0.005em;
     font-weight: 400;
+    font-size: clamp(16px, 1.5vw, 22px);
+    color: var(--cm-muted);
+    max-width: 520px;
+    margin: 22px 0 0 0;
+    line-height: 1.35;
     text-align: right;
-    align-self: flex-end;
   }
 
-  /* ── CTA + Navigation ── */
   .cm-hero-split__cta-group {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    gap: 48px;
-    margin-top: 80px;
+    gap: 0;
   }
 
   .cm-hero-split__cta {
     display: inline-flex;
     align-items: center;
-    gap: 16px;
-    padding: 18px 48px;
-    border: 1.5px solid var(--cm-navy);
-    color: var(--cm-navy);
-    font-family: var(--cm-font-sans);
+    gap: 12px;
+    font-family: var(--sans);
+    font-weight: 500;
     font-size: 12px;
-    letter-spacing: 0.15em;
-    font-weight: 400;
+    letter-spacing: 0.24em;
     text-transform: uppercase;
-    text-decoration: none;
+    padding: 16px 26px;
+    border: 1px solid var(--cm-navy);
+    color: var(--cm-navy);
     background: transparent;
-    transition: background 0.25s ease, border-color 0.25s ease;
-  }
-  .cm-hero-split__cta:hover {
-    background: rgba(27, 37, 64, 0.05);
-    border-color: var(--cm-navy);
-  }
-  .cm-hero-split__cta:focus-visible {
-    outline: 2px solid var(--cm-navy);
-    outline-offset: 3px;
+    text-decoration: none;
+    cursor: pointer;
+    margin-top: 40px;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
   }
 
-  /* ── Navigation controls ── */
+  .cm-hero-split__cta:hover {
+    background: var(--cm-navy);
+    color: var(--cm-cream-3);
+  }
+
+  .cm-hero-split__cta:hover .cm-hero-split__cta-arrow path {
+    stroke: var(--cm-cream-3);
+  }
+
+  .cm-hero-split__cta-arrow {
+    width: 18px;
+    height: 10px;
+  }
+
   .cm-hero-split__nav {
     display: flex;
-    gap: 12px;
+    gap: 8px;
     align-items: center;
+    margin-top: 32px;
   }
 
   .cm-hero-split__nav-btn {
-    width: 48px;
-    height: 48px;
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1.5px solid var(--cm-navy);
+    border: 1px solid var(--cm-navy);
     background: transparent;
     color: var(--cm-navy);
     cursor: pointer;
     transition: background 0.25s ease, border-color 0.25s ease;
     padding: 0;
+    flex-shrink: 0;
   }
+
   .cm-hero-split__nav-btn:hover {
     background: rgba(27, 37, 64, 0.05);
   }
-  .cm-hero-split__nav-btn:focus-visible {
-    outline: 2px solid var(--cm-navy);
-    outline-offset: 2px;
-  }
 
   .cm-hero-split__nav-btn svg {
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
     stroke: currentColor;
     fill: none;
     stroke-width: 1.5;
   }
 
-  /* ── Responsive ── */
-  @media (max-width: 1023px) {
-    .cm-hero-split__content-col { padding: 64px 48px; }
-    .cm-hero-split__header { padding: 20px 48px; }
+  .cm-hero-split__nav-dots {
+    display: flex;
+    gap: 8px;
+    margin-left: 16px;
+    align-items: center;
   }
 
-  @media (max-width: 767px) {
-    .cm-hero-split {
-      height: auto;
-      flex-direction: column;
-    }
+  .cm-hero-split__nav-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--cm-navy);
+    opacity: 0.25;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+  }
 
+  .cm-hero-split__nav-dot.is-active {
+    opacity: 1;
+  }
+
+  .cm-hero-split__nav-dot:hover {
+    opacity: 0.6;
+  }
+
+  @media (max-width: 900px) {
     .cm-hero-split__header {
-      position: relative;
-      width: 100%;
-      padding: 16px 24px;
-      font-size: 8px;
-      letter-spacing: 0.1em;
-      border-bottom: 1px solid var(--cm-gold);
-      order: -2;
+      top: 24px;
+      left: 32px;
+      right: 32px;
     }
-
-    .cm-hero-split__header-text {
-      gap: 16px;
-      justify-content: center;
+    .cm-hero-split__content-col {
+      padding: 0 32px;
     }
+  }
 
-    .cm-hero-split__header-text span {
-      padding: 0 8px;
-    }
-
-    .cm-hero-split__img-col {
-      position: relative;
-      height: 50vh;
-      min-height: 280px;
-      width: 100%;
-      order: -1;
+  @media (max-width: 640px) {
+    .cm-hero-split {
+      aspect-ratio: auto;
+      height: 100vh;
+      min-height: 520px;
     }
 
     .cm-hero-split__img-overlay {
-      background: linear-gradient(to bottom, transparent 40%, rgba(250, 250, 247, 0.35) 100%);
+      background: linear-gradient(
+        180deg,
+        rgba(244, 237, 224, 0) 0%,
+        rgba(244, 237, 224, 0.55) 40%,
+        rgba(244, 237, 224, 0.94) 70%,
+        rgba(244, 237, 224, 0.97) 100%
+      );
     }
 
     .cm-hero-split__content-col {
-      position: relative;
-      width: 100%;
-      padding: 48px 24px;
-      right: auto;
-      top: auto;
-      bottom: auto;
       align-items: center;
-      justify-content: flex-start;
       text-align: center;
-    }
-
-    .cm-hero-split__eyebrow {
-      text-align: center;
+      padding: 0 28px;
     }
 
     .cm-hero-split__h1 {
-      font-size: clamp(42px, 12vw, 64px);
-      text-align: center;
-    }
-
-    .cm-hero-split__year {
-      text-align: center;
+      max-width: 100%;
     }
 
     .cm-hero-split__tagline {
-      font-size: 16px;
-      margin-bottom: 40px;
       text-align: center;
-      max-width: 100%;
     }
 
     .cm-hero-split__cta-group {
       align-items: center;
-      width: 100%;
-    }
-
-    .cm-hero-split__cta {
-      width: 100%;
-      justify-content: center;
     }
 
     .cm-hero-split__nav {
@@ -351,10 +341,12 @@
 
   <!-- Header with brand and establishment year -->
   <div class="cm-hero-split__header">
-    <div class="cm-hero-split__header-text">
-      <span>Casa Maravillas</span>
-      <span>Gourmet Co.</span>
-      <span>Est. 1919</span>
+    <div class="cm-hero-split__header-rule"></div>
+    <div class="cm-hero-split__wordmark">
+      <span class="cm-hero-split__wordmark-casa">Casa</span>
+      <span class="cm-hero-split__wordmark-brand">Maravillas</span>
+      <span class="cm-hero-split__wordmark-dot">·</span>
+      <span class="cm-hero-split__wordmark-meta">Est. 1919</span>
     </div>
   </div>
 
@@ -397,62 +389,7 @@
   <!-- Right: Content -->
   <div class="cm-hero-split__content-col">
     <div id="cm-hero-split-content-{{ section.id }}">
-      {%- for block in section.blocks -%}
-        {%- if forloop.first -%}
-          <div class="{% if forloop.first %}is-active{% endif %}" data-slide-index="{{ forloop.index0 }}">
-            {%- if block.settings.eyebrow != blank -%}
-              <p class="cm-hero-split__eyebrow">{{ block.settings.eyebrow }}</p>
-            {%- endif -%}
-
-            <h1 class="cm-hero-split__h1">{{ block.settings.heading | default: 'El arte del jamón' }}</h1>
-
-            {%- if block.settings.year != blank -%}
-              <p class="cm-hero-split__year">{{ block.settings.year }}</p>
-            {%- endif -%}
-
-            {%- if block.settings.tagline != blank -%}
-              <p class="cm-hero-split__tagline">{{ block.settings.tagline }}</p>
-            {%- endif -%}
-
-            <div class="cm-hero-split__cta-group">
-              {%- if block.settings.cta_label != blank -%}
-                <a
-                  href="{{ block.settings.cta_url | default: '/collections/jamones' }}"
-                  class="cm-hero-split__cta"
-                >
-                  {{ block.settings.cta_label }}
-                  <svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M5 12h14M12 5l7 7-7 7"/>
-                  </svg>
-                </a>
-              {%- endif -%}
-
-              <div class="cm-hero-split__nav">
-                <button
-                  class="cm-hero-split__nav-btn"
-                  id="cm-hero-split-prev-{{ section.id }}"
-                  aria-label="Slide anterior"
-                  type="button"
-                >
-                  <svg viewBox="0 0 24 24">
-                    <path d="M19 12H5M12 19l-7-7 7-7"/>
-                  </svg>
-                </button>
-                <button
-                  class="cm-hero-split__nav-btn"
-                  id="cm-hero-split-next-{{ section.id }}"
-                  aria-label="Siguiente slide"
-                  type="button"
-                >
-                  <svg viewBox="0 0 24 24">
-                    <path d="M5 12h14M12 5l7 7-7 7"/>
-                  </svg>
-                </button>
-              </div>
-            </div>
-          </div>
-        {%- endif -%}
-      {%- endfor -%}
+      <!-- Slide content will be populated by JS -->
     </div>
   </div>
 
@@ -467,8 +404,6 @@
   var track = document.getElementById('cm-hero-split-track-' + sectionId);
   var contentContainer = document.getElementById('cm-hero-split-content-' + sectionId);
   var imgSlides = hero.querySelectorAll('.cm-hero-split__img-slide');
-  var prevBtn = document.getElementById('cm-hero-split-prev-' + sectionId);
-  var nextBtn = document.getElementById('cm-hero-split-next-' + sectionId);
   var current = 0;
   var autoTimer;
   var DURATION = 5000;
@@ -486,12 +421,52 @@
     {%- endfor -%}
   ];
 
+  function renderContent(index) {
+    var slide = slides[index];
+    if (!slide) return;
+
+    var dotsHTML = '';
+    for (var i = 0; i < slides.length; i++) {
+      dotsHTML += '<button class="cm-hero-split__nav-dot' + (i === index ? ' is-active' : '') + '" data-slide="' + i + '" aria-label="Ir a slide ' + (i + 1) + '"></button>';
+    }
+
+    contentContainer.innerHTML =
+      '<div class="is-active" data-slide-index="' + index + '">' +
+      (slide.eyebrow ? '<p class="cm-hero-split__eyebrow">' + slide.eyebrow + '</p>' : '') +
+      '<h1 class="cm-hero-split__h1">' + slide.heading + '</h1>' +
+      (slide.year ? '<p class="cm-hero-split__year">' + slide.year + '</p>' : '') +
+      (slide.tagline ? '<p class="cm-hero-split__tagline">' + slide.tagline + '</p>' : '') +
+      '<div class="cm-hero-split__cta-group">' +
+      (slide.cta_label ? '<a href="' + (slide.cta_url || '/collections/jamones') + '" class="cm-hero-split__cta">' + slide.cta_label + ' <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" fill="none" stroke-width="1.5"/></svg></a>' : '') +
+      '<div class="cm-hero-split__nav">' +
+      '<button class="cm-hero-split__nav-btn" id="cm-hero-split-prev-' + sectionId + '" aria-label="Slide anterior" type="button"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" fill="none" stroke-width="1.5"/></svg></button>' +
+      '<button class="cm-hero-split__nav-btn" id="cm-hero-split-next-' + sectionId + '" aria-label="Siguiente slide" type="button"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" fill="none" stroke-width="1.5"/></svg></button>' +
+      '<div class="cm-hero-split__nav-dots">' + dotsHTML + '</div>' +
+      '</div>' +
+      '</div>' +
+      '</div>';
+
+    // Rebind button listeners
+    var prevBtn = document.getElementById('cm-hero-split-prev-' + sectionId);
+    var nextBtn = document.getElementById('cm-hero-split-next-' + sectionId);
+    if (prevBtn) prevBtn.addEventListener('click', function() { goTo(current - 1); });
+    if (nextBtn) nextBtn.addEventListener('click', function() { goTo(current + 1); });
+
+    // Rebind dot listeners
+    var dots = contentContainer.querySelectorAll('.cm-hero-split__nav-dot');
+    dots.forEach(function(dot) {
+      dot.addEventListener('click', function() {
+        goTo(parseInt(dot.dataset.slide));
+      });
+    });
+  }
+
   function goTo(index) {
     if (imgSlides.length === 0) return;
 
     current = (index + imgSlides.length) % imgSlides.length;
 
-    // Update image slide
+    // Update image slides
     Array.from(imgSlides).forEach(function(slide) {
       slide.classList.remove('is-active');
     });
@@ -499,29 +474,7 @@
     track.style.transform = 'translateX(-' + (current * 100) + '%)';
 
     // Update content
-    var slide = slides[current];
-    if (slide) {
-      contentContainer.innerHTML =
-        '<div class="is-active" data-slide-index="' + current + '">' +
-        (slide.eyebrow ? '<p class="cm-hero-split__eyebrow">' + slide.eyebrow + '</p>' : '') +
-        '<h1 class="cm-hero-split__h1">' + slide.heading + '</h1>' +
-        (slide.year ? '<p class="cm-hero-split__year">' + slide.year + '</p>' : '') +
-        (slide.tagline ? '<p class="cm-hero-split__tagline">' + slide.tagline + '</p>' : '') +
-        '<div class="cm-hero-split__cta-group">' +
-        (slide.cta_label ? '<a href="' + (slide.cta_url || '/collections/jamones') + '" class="cm-hero-split__cta">' + slide.cta_label + ' <svg width="12" height="12" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>' : '') +
-        '<div class="cm-hero-split__nav">' +
-        '<button class="cm-hero-split__nav-btn" aria-label="Slide anterior"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>' +
-        '<button class="cm-hero-split__nav-btn" aria-label="Siguiente slide"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>' +
-        '</div>' +
-        '</div>' +
-        '</div>';
-
-      // Rebind navigation buttons
-      var newPrevBtn = contentContainer.querySelector('.cm-hero-split__nav-btn:first-child');
-      var newNextBtn = contentContainer.querySelector('.cm-hero-split__nav-btn:last-child');
-      if (newPrevBtn) newPrevBtn.addEventListener('click', function() { goTo(current - 1); startAuto(); });
-      if (newNextBtn) newNextBtn.addEventListener('click', function() { goTo(current + 1); startAuto(); });
-    }
+    renderContent(current);
 
     startAuto();
   }
@@ -531,10 +484,6 @@
     autoTimer = setInterval(function() { goTo(current + 1); }, DURATION);
   }
 
-  // Event listeners
-  prevBtn.addEventListener('click', function() { goTo(current - 1); startAuto(); });
-  nextBtn.addEventListener('click', function() { goTo(current + 1); startAuto(); });
-
   // Touch swipe
   var touchStartX = 0;
   hero.addEventListener('touchstart', function(e) {
@@ -542,14 +491,14 @@
   }, { passive: true });
   hero.addEventListener('touchend', function(e) {
     var diff = touchStartX - e.changedTouches[0].clientX;
-    if (Math.abs(diff) > 50) { goTo(diff > 0 ? current + 1 : current - 1); startAuto(); }
+    if (Math.abs(diff) > 50) { goTo(diff > 0 ? current + 1 : current - 1); }
   }, { passive: true });
 
   // Keyboard
   hero.setAttribute('tabindex', '0');
   hero.addEventListener('keydown', function(e) {
-    if (e.key === 'ArrowRight') { goTo(current + 1); startAuto(); }
-    if (e.key === 'ArrowLeft') { goTo(current - 1); startAuto(); }
+    if (e.key === 'ArrowRight') { goTo(current + 1); }
+    if (e.key === 'ArrowLeft') { goTo(current - 1); }
   });
 
   // Init
