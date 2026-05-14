@@ -12,7 +12,7 @@
     height: 100svh;
     min-height: 560px;
     overflow: hidden;
-    background: red;
+    background: var(--cm-cream);
     position: relative;
   }
 
@@ -86,9 +86,10 @@
   .cm-hero-split__img-overlay {
     position: absolute;
     inset: 0;
-    background: none;
+    background: linear-gradient(to right, transparent 50%, rgba(250, 250, 247, 0.08) 100%);
     pointer-events: none;
     z-index: 2;
+    mix-blend-mode: soft-light;
   }
 
   /* ── Right column (content) ── */
