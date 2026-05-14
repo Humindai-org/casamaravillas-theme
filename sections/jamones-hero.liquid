@@ -38,6 +38,16 @@
     inset: 0;
     background: rgba(0, 15, 30, 0.4);
     will-change: opacity;
+    z-index: 1;
+  }
+
+  .jh__bg-wash-{{ section.id }} {
+    position: absolute;
+    inset: 0;
+    z-index: 1.5;
+    background: linear-gradient(to top, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.6) 30%, rgba(255, 255, 255, 0) 70%);
+    will-change: opacity;
+    pointer-events: none;
   }
 
   .jh__frame-{{ section.id }} {
@@ -210,6 +220,7 @@
           loading="eager"
         >
         <div class="jh__bg-overlay-{{ section.id }}" id="jh-overlay-{{ section.id }}" aria-hidden="true"></div>
+        <div class="jh__bg-wash-{{ section.id }}" aria-hidden="true"></div>
       </div>
     {%- endif -%}
 
