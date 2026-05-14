@@ -8,7 +8,7 @@
 
   .cm-hero-split {
     display: grid;
-    grid-template-columns: 1.45fr 0.55fr;
+    grid-template-columns: 1.27fr 1fr;
     height: 100svh;
     min-height: 560px;
     overflow: hidden;
@@ -23,7 +23,7 @@
     right: 0;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
     padding: 24px 88px;
     font-family: var(--cm-font-sans);
     font-size: 9px;
@@ -86,12 +86,10 @@
   .cm-hero-split__img-overlay {
     position: absolute;
     inset: 0;
-    background:
-      radial-gradient(ellipse 110% 120% at 20% 40%, transparent 0%, rgba(250, 250, 247, 0.08) 40%),
-      linear-gradient(to right, transparent 35%, rgba(250, 250, 247, 0.35) 100%);
+    background: linear-gradient(to right, transparent 45%, rgba(250, 250, 247, 0.12) 100%);
     pointer-events: none;
     z-index: 2;
-    mix-blend-mode: lighten;
+    mix-blend-mode: overlay;
   }
 
   /* ── Right column (content) ── */
