@@ -2186,20 +2186,6 @@ document.addEventListener('DOMContentLoaded', function() {
     qtyInput.addEventListener('change', () => setQty(parseInt(qtyInput.value, 10)));
   }
 
-  /* ── Pack selector ── */
-  const packSelectEl = document.querySelector('[data-pack-select]');
-  if (packSelectEl) {
-    packSelectEl.addEventListener('change', () => {
-      const packVal = packSelectEl.value;
-      const qtyNum = parseInt(packVal, 10);
-      if (!isNaN(qtyNum)) {
-        setQty(qtyNum);
-      }
-    });
-  }
-
-  updateVolumDiscount();
-
   /* ── Qty sticky sincronizada ── */
   const stickyQtyMinus = $('cm-sticky-qty-minus-' + SID);
   const stickyQtyPlus  = $('cm-sticky-qty-plus-' + SID);
