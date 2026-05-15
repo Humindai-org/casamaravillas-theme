@@ -2157,6 +2157,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const origEl = $('cm-volume-discount-original-' + SID);
     const priceEl = $('cm-volume-discount-price-' + SID);
     const badgeEl = $('cm-volume-discount-badge-' + SID);
+    const priceWrapEl = $('cm-price-wrap-' + SID);
 
     if (discount > 0) {
       const totalPrice = qty * basePrice;
@@ -2168,8 +2169,10 @@ document.addEventListener('DOMContentLoaded', function() {
       if (priceEl) priceEl.textContent = discPrice;
       if (badgeEl) badgeEl.textContent = '-' + discount + '%';
       if (volDiscEl) volDiscEl.style.display = '';
+      if (priceWrapEl) priceWrapEl.style.display = 'none';
     } else {
       if (volDiscEl) volDiscEl.style.display = 'none';
+      if (priceWrapEl) priceWrapEl.style.display = '';
     }
   }
 
