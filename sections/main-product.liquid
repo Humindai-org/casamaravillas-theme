@@ -2218,6 +2218,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function findVariant() {
     if (!data) return null;
+    const hasSelectors = Object.keys(selectedOptions).length > 0;
+    if (!hasSelectors) {
+      return data.variants[0];
+    }
     return data.variants.find(v => {
       const m1 = !v.option1 || v.option1 === selectedOptions[1];
       const m2 = !v.option2 || v.option2 === selectedOptions[2];
