@@ -236,8 +236,7 @@ function initCartDrawer() {
         }
         return res.json();
       })
-      .then(function (cartData) {
-        console.log('[cart-drawer] product added, cart items:', cartData.items.length);
+      .then(function () {
         return fetchAndRenderCart().then(function () {
           openCart(true);
         });

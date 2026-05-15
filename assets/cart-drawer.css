@@ -115,8 +115,7 @@
 
 /* ITEMS CONTAINER */
 .cart-items {
-  flex: 1;
-  overflow-y: auto;
+  overflow-y: visible;
   margin-bottom: 16px;
 }
 

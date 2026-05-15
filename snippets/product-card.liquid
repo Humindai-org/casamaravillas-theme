@@ -335,7 +335,14 @@
       .then(function() {
         btn.innerHTML = '<span>Añadido ✓</span>';
         btn.classList.add('is-added');
-        if (typeof openCart !== 'undefined') openCart();
+        var doOpen = function() {
+          if (typeof window.openCart === 'function') window.openCart(true);
+        };
+        if (typeof window.fetchAndRenderCart === 'function') {
+          window.fetchAndRenderCart().then(doOpen).catch(doOpen);
+        } else {
+          doOpen();
+        }
         setTimeout(function() {
           btn.innerHTML = originalHTML;
           btn.classList.remove('is-added');
