@@ -1,7 +1,7 @@
 {% comment %}
   jamones-quality-tiers.liquid
-  Sistema de categorías con 4 medallones: Oro, Plata, Bronce III·a, Bronce III·b
-  Inspirado en sellos editoriales y medallones gastronómicos clásicos.
+  Sistema de categorías con 3 medallones: Oro, Plata, Bronce
+  Iconos editables desde Shopify Admin
 {% endcomment %}
 
 <style>
@@ -34,12 +34,12 @@
     line-height: 1.2;
   }
 
-  /* ── Grid de 4 columnas ── */
+  /* ── Grid de 3 columnas ── */
   .qt__grid-{{ section.id }} {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 32px;
-    max-width: 1400px;
+    max-width: 1200px;
     margin: 0 auto;
   }
 
@@ -63,8 +63,8 @@
     outline-offset: 8px;
   }
 
-  /* ── Medallón SVG escudo ── */
-  .qt__shield-icon-{{ section.id }} {
+  /* ── Icono medallón ── */
+  .qt__icon-{{ section.id }} {
     position: relative;
     width: 140px;
     height: 160px;
@@ -72,15 +72,16 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
   }
 
-  .qt__shield-img-{{ section.id }} {
+  .qt__icon-img-{{ section.id }} {
     width: 100%;
     height: 100%;
     object-fit: contain;
   }
 
-  /* ── Contenedor de textos bajo el escudo ── */
+  /* ── Contenedor de textos bajo el icono ── */
   .qt__content-{{ section.id }} {
     flex: 1;
   }
@@ -119,10 +120,10 @@
       margin-bottom: 36px;
     }
     .qt__grid-{{ section.id }} {
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(3, 1fr);
       gap: 24px;
     }
-    .qt__shield-icon-{{ section.id }} {
+    .qt__icon-{{ section.id }} {
       width: 120px;
       height: 140px;
     }
@@ -143,13 +144,13 @@
       font-size: 24px;
     }
     .qt__grid-{{ section.id }} {
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(1, 1fr);
       gap: 20px;
     }
     .qt__medallion-{{ section.id }} {
       margin: 0 auto;
     }
-    .qt__shield-icon-{{ section.id }} {
+    .qt__icon-{{ section.id }} {
       width: 100px;
       height: 120px;
     }
@@ -173,30 +174,36 @@
   </div>
 
   <div class="qt__grid-{{ section.id }}">
-    {%- assign medal_icons = 'i1.svg,i2.svg,i3.svg,i4.svg' | split: ',' -%}
-    {%- assign level_suffixes = '','','·a','·b' | split: ',' -%}
-
-    {%- for i in (0..3) -%}
-      {%- assign icon = medal_icons[i] -%}
-      {%- assign suffix = level_suffixes[i] -%}
-      {%- assign settings_key = 'cat' | append: i | append: '_name' -%}
+    {%- for i in (0..2) -%}
+      {%- assign settings_icon = 'cat' | append: i | append: '_icon' -%}
+      {%- assign settings_name = 'cat' | append: i | append: '_name' -%}
       {%- assign settings_desc = 'cat' | append: i | append: '_desc' -%}
+      {%- assign icon_url = section.settings[settings_icon] | image_url -%}
 
       <a
         class="qt__medallion-{{ section.id }}"
         href="#cat-{{ i }}"
-        aria-label="Ver detalles de {{ section.settings[settings_key] }}"
+        aria-label="Ver detalles de {{ section.settings[settings_name] }}"
       >
-        <div class="qt__shield-icon-{{ section.id }}">
-          <img src="{{ icon | asset_url }}" alt="{{ section.settings[settings_key] }}" class="qt__shield-img-{{ section.id }}" loading="lazy" />
-        </div>
+        {%- if section.settings[settings_icon] != blank -%}
+          <div class="qt__icon-{{ section.id }}">
+            <img
+              src="{{ icon_url }}"
+              alt="{{ section.settings[settings_name] }}"
+              class="qt__icon-img-{{ section.id }}"
+              loading="lazy"
+              width="140"
+              height="160"
+            />
+          </div>
+        {%- endif -%}
 
         <div class="qt__content-{{ section.id }}">
           <div class="qt__category-label-{{ section.id }}">Categoría</div>
-          <h3 class="qt__category-name-{{ section.id }}">
-            {{ section.settings[settings_key] }}{%- if suffix != '' -%} {{ suffix }}{%- endif -%}
-          </h3>
-          <p class="qt__category-desc-{{ section.id }}">{{ section.settings[settings_desc] }}</p>
+          <h3 class="qt__category-name-{{ section.id }}">{{ section.settings[settings_name] }}</h3>
+          {%- if section.settings[settings_desc] != blank -%}
+            <p class="qt__category-desc-{{ section.id }}">{{ section.settings[settings_desc] }}</p>
+          {%- endif -%}
         </div>
       </a>
     {%- endfor -%}
@@ -225,64 +232,63 @@
       "content": "🥇 Categoría I — Oro"
     },
     {
+      "type": "image_picker",
+      "id": "cat0_icon",
+      "label": "Icono"
+    },
+    {
       "type": "text",
       "id": "cat0_name",
       "label": "Nombre",
-      "default": "Oro"
+      "default": "Bellota 100% Ibérico"
     },
     {
       "type": "textarea",
       "id": "cat0_desc",
-      "label": "Descripción",
-      "default": "Máxima calidad. Bellota, curación extendida."
+      "label": "Descripción (opcional)",
+      "default": ""
     },
     {
       "type": "header",
       "content": "🥈 Categoría II — Plata"
     },
     {
+      "type": "image_picker",
+      "id": "cat1_icon",
+      "label": "Icono"
+    },
+    {
       "type": "text",
       "id": "cat1_name",
       "label": "Nombre",
-      "default": "Plata"
+      "default": "Cebo de Campo Ibérico"
     },
     {
       "type": "textarea",
       "id": "cat1_desc",
-      "label": "Descripción",
-      "default": "Calidad media-alta. Cebo de campo selecto."
+      "label": "Descripción (opcional)",
+      "default": ""
     },
     {
       "type": "header",
-      "content": "🥉 Categoría III·a — Bronce (Expresión sobria)"
+      "content": "🥉 Categoría III — Bronce"
+    },
+    {
+      "type": "image_picker",
+      "id": "cat2_icon",
+      "label": "Icono"
     },
     {
       "type": "text",
       "id": "cat2_name",
       "label": "Nombre",
-      "default": "Bronce III·a"
+      "default": "Cebo Ibérico"
     },
     {
       "type": "textarea",
       "id": "cat2_desc",
-      "label": "Descripción",
-      "default": "Calidad base, expresión sobria."
-    },
-    {
-      "type": "header",
-      "content": "🥉 Categoría III·b — Bronce (Cebo de cereal)"
-    },
-    {
-      "type": "text",
-      "id": "cat3_name",
-      "label": "Nombre",
-      "default": "Bronce III·b"
-    },
-    {
-      "type": "textarea",
-      "id": "cat3_desc",
-      "label": "Descripción",
-      "default": "Misma calidad. Cebo de cereal selecto."
+      "label": "Descripción (opcional)",
+      "default": ""
     }
   ],
   "presets": [

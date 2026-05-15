@@ -65,10 +65,12 @@
       "Read(//Users/kiag/Downloads/**)",
       "Bash(bun dev *)",
       "Bash(curl -s http://localhost:3000)",
-      "Bash(grep -E \"\\\\.\\(liquid|json|js\\)$\")"
+      "Bash(grep -E \"\\\\.\\(liquid|json|js\\)$\")",
+      "Bash(rm /Users/kiag/Desktop/HumindIA/web/casamaravillas-theme/assets/icon-medallion-*.svg && git add -A && git status)"
     ],
     "additionalDirectories": [
-      "/tmp"
+      "/tmp",
+      "/Users/kiag/Desktop/HumindIA/web/casamaravillas-theme/assets"
     ]
   }
 }
