@@ -85,7 +85,7 @@ function initCartDrawer() {
             ) +
           '</a>' +
           '<div class="cart-item-info">' +
-            '<a href="' + item.url + '" class="cart-title">' + escapeHtml(item.product_title) + '</a>' +
+            '<a href="' + item.url + '" class="cart-title">' + escapeHtml(item.title) + '</a>' +
             variantHtml +
             '<div class="cart-qty">' +
               '<button class="cart-qty-btn" onclick="updateQty(\'' + item.key + '\',' + (item.quantity - 1) + ')" aria-label="Reducir cantidad">−</button>' +
@@ -94,7 +94,7 @@ function initCartDrawer() {
             '</div>' +
           '</div>' +
           '<div class="cart-item-right">' +
-            '<span class="cart-price">' + formatMoney(item.final_line_price) + '</span>' +
+            '<span class="cart-price">' + formatMoney(item.line_price) + '</span>' +
             '<button class="cart-remove" onclick="removeItem(\'' + item.key + '\')" aria-label="Eliminar">' +
               '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">' +
                 '<path d="M2 4h12M6 4V2h4v2M5 4l.5 9h5L11 4" stroke="#6B6050" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>' +
