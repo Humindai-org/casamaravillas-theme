@@ -89,8 +89,19 @@
     pointer-events: none;
   }
 
+  .jh__eyebrow-wrapper-{{ section.id }} {
+    position: absolute;
+    top: 60px;
+    left: 0;
+    right: 0;
+    z-index: 3;
+    display: flex;
+    justify-content: center;
+    pointer-events: none;
+  }
+
   .jh__eyebrow-{{ section.id }} {
-    margin-bottom: 12px;
+    margin-bottom: 0;
     margin-top: 0;
     opacity: 0;
     transform: translateY(14px);
@@ -167,7 +178,7 @@
     background: linear-gradient(to bottom, var(--cm-gold), transparent);
   }
 
-  .jh__content-{{ section.id }}.jh-visible .jh__eyebrow-{{ section.id }},
+  .jh__eyebrow-wrapper-{{ section.id }}.jh-visible .jh__eyebrow-{{ section.id }},
   .jh__content-{{ section.id }}.jh-visible .jh__heading-{{ section.id }},
   .jh__content-{{ section.id }}.jh-visible .jh__subheading-{{ section.id }},
   .jh__content-{{ section.id }}.jh-visible .jh__body-{{ section.id }},
@@ -229,11 +240,13 @@
       ></div>
     {%- endif -%}
 
-    <div class="jh__content-{{ section.id }}" id="jh-content-{{ section.id }}">
-      {%- if section.settings.eyebrow != blank -%}
+    {%- if section.settings.eyebrow != blank -%}
+      <div class="jh__eyebrow-wrapper-{{ section.id }}">
         <p class="cm-eyebrow jh__eyebrow-{{ section.id }}">{{ section.settings.eyebrow }}</p>
-      {%- endif -%}
+      </div>
+    {%- endif -%}
 
+    <div class="jh__content-{{ section.id }}" id="jh-content-{{ section.id }}">
       <h1 class="jh__heading-{{ section.id }}">
         {{ jh_first }} <em>{{ jh_rest }}</em>
       </h1>
@@ -259,11 +272,13 @@
   var frame   = document.getElementById('jh-frame-' + sid);
   var overlay = document.getElementById('jh-overlay-' + sid);
   var content = document.getElementById('jh-content-' + sid);
+  var eyebrowWrapper = el ? el.querySelector('.jh__eyebrow-wrapper-' + sid) : null;
 
   if (!el) return;
 
   setTimeout(function () {
     if (content) content.classList.add('jh-visible');
+    if (eyebrowWrapper) eyebrowWrapper.classList.add('jh-visible');
   }, 150);
 
   var isMobile = window.matchMedia('(max-width: 767px)').matches;
