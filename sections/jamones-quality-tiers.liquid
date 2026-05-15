@@ -198,7 +198,7 @@
       {%- if is_active -%}
         {%- assign filter_href = collection.url -%}
       {%- else -%}
-        {%- assign filter_href = collection.url | append: '/' | append: filter_tag -%}
+        {%- assign filter_href = collection.url | append: '#' | append: filter_tag -%}
       {%- endif -%}
 
       <a
