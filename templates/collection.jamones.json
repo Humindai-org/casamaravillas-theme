@@ -12,8 +12,7 @@
     "hero": {
       "type": "jamones-hero",
       "settings": {
-        "image": "shopify://shop_images/2.png",
-        "image_secondary": "shopify://shop_images/Jamones.png",
+        "image": "shopify://shop_images/Jamones.png",
         "eyebrow": "Ibéricos Premium",
         "heading": "Jamones Ibéricos",
         "subheading": "",
@@ -26,14 +25,9 @@
       "settings": {
         "eyebrow": "Sistema de Categorías",
         "heading": "Cuatro piezas, tres niveles",
-        "cat0_name": "Oro",
-        "cat0_desc": "Máxima calidad. Bellota, curación extendida.",
-        "cat1_name": "Plata",
-        "cat1_desc": "Calidad media-alta. Cebo de campo selecto.",
-        "cat2_name": "Bronce III·a",
-        "cat2_desc": "Calidad base, expresión sobria.",
-        "cat3_name": "Bronce III·b",
-        "cat3_desc": "Misma calidad. Cebo de cereal selecto."
+        "tier1_name": "Bellota 100% Ibérico",
+        "tier2_name": "Cebo de Campo Ibérico",
+        "tier3_name": "Cebo Ibérico"
       }
     },
     "collection": {
