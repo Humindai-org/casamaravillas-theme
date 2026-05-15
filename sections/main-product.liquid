@@ -2159,12 +2159,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const badgeEl = $('cm-volume-discount-badge-' + SID);
 
     if (discount > 0) {
-      const discountedPrice = Math.round(basePrice * (100 - discount) / 100);
-      const origPriceUnit = formatMoney(basePrice);
-      const discPriceUnit = formatMoney(discountedPrice);
+      const totalPrice = qty * basePrice;
+      const discountedTotal = Math.round(totalPrice * (100 - discount) / 100);
+      const origPrice = formatMoney(totalPrice);
+      const discPrice = formatMoney(discountedTotal);
 
-      if (origEl) origEl.textContent = origPriceUnit + '/ud.';
-      if (priceEl) priceEl.textContent = discPriceUnit + '/ud.';
+      if (origEl) origEl.textContent = origPrice;
+      if (priceEl) priceEl.textContent = discPrice;
       if (badgeEl) badgeEl.textContent = '-' + discount + '%';
       if (volDiscEl) volDiscEl.style.display = '';
     } else {
