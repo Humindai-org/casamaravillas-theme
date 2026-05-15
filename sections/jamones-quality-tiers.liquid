@@ -1,6 +1,6 @@
 {% comment %}
   jamones-quality-tiers.liquid
-  Sistema de categorías con 3 medallones: Oro, Plata, Bronce
+  Sistema de categorías con 4 medallones: Bellota, Peyote, Cebo de Campo, Cebo
   Iconos editables desde Shopify Admin
 {% endcomment %}
 
@@ -34,12 +34,12 @@
     line-height: 1.2;
   }
 
-  /* ── Grid de 3 columnas ── */
+  /* ── Grid de 4 columnas ── */
   .qt__grid-{{ section.id }} {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 32px;
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
   }
 
@@ -120,7 +120,7 @@
       margin-bottom: 36px;
     }
     .qt__grid-{{ section.id }} {
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(2, 1fr);
       gap: 24px;
     }
     .qt__icon-{{ section.id }} {
@@ -144,7 +144,7 @@
       font-size: 24px;
     }
     .qt__grid-{{ section.id }} {
-      grid-template-columns: repeat(1, 1fr);
+      grid-template-columns: repeat(2, 1fr);
       gap: 20px;
     }
     .qt__medallion-{{ section.id }} {
@@ -174,7 +174,7 @@
   </div>
 
   <div class="qt__grid-{{ section.id }}">
-    {%- for i in (0..2) -%}
+    {%- for i in (0..3) -%}
       {%- assign settings_icon = 'cat' | append: i | append: '_icon' -%}
       {%- assign settings_name = 'cat' | append: i | append: '_name' -%}
       {%- assign settings_desc = 'cat' | append: i | append: '_desc' -%}
@@ -229,7 +229,7 @@
     },
     {
       "type": "header",
-      "content": "🥇 Categoría I — Oro"
+      "content": "🥇 Categoría I — Bellota 100%"
     },
     {
       "type": "image_picker",
@@ -250,7 +250,7 @@
     },
     {
       "type": "header",
-      "content": "🥈 Categoría II — Plata"
+      "content": "Categoría II — Peyote 75%"
     },
     {
       "type": "image_picker",
@@ -261,7 +261,7 @@
       "type": "text",
       "id": "cat1_name",
       "label": "Nombre",
-      "default": "Cebo de Campo Ibérico"
+      "default": "Peyote 75% Ibérico"
     },
     {
       "type": "textarea",
@@ -271,7 +271,7 @@
     },
     {
       "type": "header",
-      "content": "🥉 Categoría III — Bronce"
+      "content": "🥈 Categoría III — Cebo de Campo"
     },
     {
       "type": "image_picker",
@@ -282,11 +282,32 @@
       "type": "text",
       "id": "cat2_name",
       "label": "Nombre",
-      "default": "Cebo Ibérico"
+      "default": "Cebo de Campo Ibérico"
     },
     {
       "type": "textarea",
       "id": "cat2_desc",
+      "label": "Descripción (opcional)",
+      "default": ""
+    },
+    {
+      "type": "header",
+      "content": "🥉 Categoría IV — Cebo"
+    },
+    {
+      "type": "image_picker",
+      "id": "cat3_icon",
+      "label": "Icono"
+    },
+    {
+      "type": "text",
+      "id": "cat3_name",
+      "label": "Nombre",
+      "default": "Cebo Ibérico"
+    },
+    {
+      "type": "textarea",
+      "id": "cat3_desc",
       "label": "Descripción (opcional)",
       "default": ""
     }
