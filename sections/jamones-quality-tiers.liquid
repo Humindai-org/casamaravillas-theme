@@ -63,6 +63,14 @@
     outline-offset: 8px;
   }
 
+  .qt__medallion-{{ section.id }}.is-active {
+    opacity: 1;
+  }
+
+  .qt__medallion-{{ section.id }}.is-active .qt__icon-img-{{ section.id }} {
+    filter: brightness(0.9);
+  }
+
   /* ── Icono medallón ── */
   .qt__icon-{{ section.id }} {
     position: relative;
@@ -180,10 +188,23 @@
       {%- assign settings_desc = 'cat' | append: i | append: '_desc' -%}
       {%- assign icon_url = section.settings[settings_icon] | image_url -%}
 
+      {%- assign filter_tags = 'precinto_negro,precinto_rojo,precinto_verde,precinto_blanco' | split: ',' -%}
+      {%- assign filter_tag = filter_tags[forloop.index0] -%}
+      {%- assign is_active = false -%}
+      {%- for t in current_tags -%}
+        {%- if t == filter_tag -%}{%- assign is_active = true -%}{%- endif -%}
+      {%- endfor -%}
+
+      {%- if is_active -%}
+        {%- assign filter_href = collection.url -%}
+      {%- else -%}
+        {%- assign filter_href = collection.url | append: '/' | append: filter_tag -%}
+      {%- endif -%}
+
       <a
-        class="qt__medallion-{{ section.id }}"
-        href="#cat-{{ i }}"
-        aria-label="Ver detalles de {{ section.settings[settings_name] }}"
+        class="qt__medallion-{{ section.id }}{% if is_active %} is-active{% endif %}"
+        href="{{ filter_href }}"
+        aria-label="Ver detalles de {{ section.settings[settings_name] }}{% if is_active %} — clic para quitar filtro{% endif %}"
       >
         {%- if section.settings[settings_icon] != blank -%}
           <div class="qt__icon-{{ section.id }}">
