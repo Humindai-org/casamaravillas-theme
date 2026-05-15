@@ -240,6 +240,37 @@
     margin-bottom: 24px;
   }
 
+  /* ── VOLUMEN DISCOUNT ── */
+  .cm-volume-discount {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-top: 4px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+
+  .cm-volume-discount__original {
+    font-size: 14px;
+    color: var(--text-secondary);
+    text-decoration: line-through;
+    font-family: var(--cm-font-sans);
+  }
+
+  .cm-volume-discount__price {
+    font-size: 22px;
+    font-weight: 500;
+    color: #8B1A1A;
+    font-family: var(--cm-font-sans);
+  }
+
+  .cm-volume-discount__badge {
+    font-size: 12px;
+    font-weight: 500;
+    color: #8B1A1A;
+    font-family: var(--cm-font-sans);
+  }
+
   /* ── VARIANTES (select dropdown) ── */
   .cm-pdp__variants { margin-bottom: 24px; }
 
@@ -1752,6 +1783,13 @@
         {%- endif -%}
       </div>
 
+      {%- comment -%} ── VOLUMEN DISCOUNT (solo para cortado a mano) ── {%- endcomment -%}
+      <div id="cm-volume-discount-{{ section.id }}" class="cm-volume-discount" style="display: none;">
+        <span class="cm-volume-discount__original" id="cm-volume-discount-original-{{ section.id }}"></span>
+        <span class="cm-volume-discount__price" id="cm-volume-discount-price-{{ section.id }}"></span>
+        <span class="cm-volume-discount__badge" id="cm-volume-discount-badge-{{ section.id }}"></span>
+      </div>
+
       <p class="cm-pdp__tax-note">Impuestos incluidos</p>
 
       {%- if product.metafields.custom.price_per_kg.value != blank -%}
@@ -2098,11 +2136,48 @@ document.addEventListener('DOMContentLoaded', function() {
   const qtyPlus  = $('cm-qty-plus-' + SID);
 
   function getQty() { return qtyInput ? parseInt(qtyInput.value, 10) || 1 : 1; }
+
+  function updateVolumDiscount() {
+    const tags = (data && data.tags) ? data.tags.map(t => String(t).trim().toLowerCase()) : [];
+    const isCortado = tags.some(t => t.includes('cortado'));
+    if (!isCortado) return;
+
+    const qty = getQty();
+    const variant = findVariant();
+    if (!variant) return;
+
+    const basePrice = variant.price;
+    let discount = 0;
+
+    if (qty >= 30) discount = 10;
+    else if (qty >= 20) discount = 7;
+    else if (qty >= 10) discount = 5;
+
+    const volDiscEl = $('cm-volume-discount-' + SID);
+    const origEl = $('cm-volume-discount-original-' + SID);
+    const priceEl = $('cm-volume-discount-price-' + SID);
+    const badgeEl = $('cm-volume-discount-badge-' + SID);
+
+    if (discount > 0) {
+      const discountedPrice = Math.round(basePrice * (100 - discount) / 100);
+      const origPriceUnit = formatMoney(basePrice);
+      const discPriceUnit = formatMoney(discountedPrice);
+
+      if (origEl) origEl.textContent = origPriceUnit + '/ud.';
+      if (priceEl) priceEl.textContent = discPriceUnit + '/ud.';
+      if (badgeEl) badgeEl.textContent = '-' + discount + '%';
+      if (volDiscEl) volDiscEl.style.display = '';
+    } else {
+      if (volDiscEl) volDiscEl.style.display = 'none';
+    }
+  }
+
   function setQty(v) {
     v = Math.max(1, v);
     if (qtyInput) qtyInput.value = v;
     const stickyVal = $('cm-sticky-qty-val-' + SID);
     if (stickyVal) stickyVal.textContent = v;
+    updateVolumDiscount();
   }
 
   if (qtyInput) {
@@ -2257,6 +2332,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     /* Actualizar selectores de peso/pack según tipo de variante */
     updateWeightPackSelector();
+
+    /* Actualizar descuento por volumen */
+    updateVolumDiscount();
   }
 
   /* ── AJAX añadir al carrito ── */
