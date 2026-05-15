@@ -203,15 +203,21 @@
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: params.toString()
     })
-      .then(function (res) { return res.json(); })
-      .then(function () {
+      .then(function (res) {
+        console.log('[cart-drawer] add response status:', res.status);
+        if (!res.ok) {
+          throw new Error('HTTP ' + res.status);
+        }
+        return res.json();
+      })
+      .then(function (cartData) {
+        console.log('[cart-drawer] product added, cart items:', cartData.items.length);
         return fetchAndRenderCart().then(function () {
           openCart(true);
         });
       })
       .catch(function (err) {
         console.error('[cart-drawer] add-to-cart error:', err);
-        form.submit();
       })
       .finally(function () {
         if (submitBtn) {
