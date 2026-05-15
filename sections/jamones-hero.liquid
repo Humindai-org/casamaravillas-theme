@@ -34,11 +34,7 @@
   }
 
   .jh__bg-overlay-{{ section.id }} {
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 15, 30, 0.4);
-    will-change: opacity;
-    z-index: 1;
+    display: none;
   }
 
   .jh__bg-wash-{{ section.id }} {
@@ -55,8 +51,8 @@
     top: 65%;
     left: 50%;
     z-index: 2;
-    border-radius: 16px;
-    box-shadow: 0 40px 120px rgba(0, 15, 30, 0.55);
+    border-radius: 0;
+    box-shadow: none;
     overflow: hidden;
     will-change: transform;
     transform: translate(-50%, -50%) scale(0.3);
@@ -296,20 +292,11 @@
     var raw      = Math.min(Math.max((window.scrollY - sTop) / travel, 0), 1);
     var progress = easeOut(raw);
     var scale    = lerp(0.4, 1, progress);
-    var radius   = lerp(16, 0, progress);
-    var alpha    = lerp(0.4, 0, progress);
     var bgSize   = lerp(250, 100, progress);
-    var overlayWhite = Math.round(lerp(0, 255, progress));
 
     if (frame) {
       frame.style.transform      = 'translate(-50%, -50%) scale(' + scale + ')';
-      frame.style.borderRadius   = radius + 'px';
-      frame.style.boxShadow      = '0 40px 120px rgba(0,15,30,' + alpha.toFixed(2) + ')';
       frame.style.backgroundSize = bgSize + '%';
-    }
-
-    if (overlay) {
-      overlay.style.background = 'rgba(' + overlayWhite + ',' + overlayWhite + ',' + overlayWhite + ',' + (alpha * 1.1).toFixed(2) + ')';
     }
   }
 
