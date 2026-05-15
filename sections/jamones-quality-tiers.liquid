@@ -188,7 +188,7 @@
       {%- assign settings_desc = 'cat' | append: i | append: '_desc' -%}
       {%- assign icon_url = section.settings[settings_icon] | image_url -%}
 
-      {%- assign filter_tags = 'precinto_negro,precinto_rojo,precinto_verde,precinto_blanco' | split: ',' -%}
+      {%- assign filter_tags = 'precinto negro,precinto rojo,precinto verde,precinto blanco' | split: ',' -%}
       {%- assign filter_tag = filter_tags[forloop.index0] -%}
       {%- assign is_active = false -%}
       {%- for t in current_tags -%}
