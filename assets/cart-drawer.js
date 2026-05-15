@@ -104,8 +104,11 @@ function initCartDrawer() {
         '</div>';
     });
 
-    console.log('[renderCartItems] HTML built, length:', html.length, 'Assigning to container...');
+    console.log('[renderCartItems] HTML built, length:', html.length);
+    console.log('[renderCartItems] First 300 chars:', html.substring(0, 300));
+    console.log('[renderCartItems] Container before:', container.innerHTML.substring(0, 100));
     container.innerHTML = html;
+    console.log('[renderCartItems] Container after:', container.innerHTML.substring(0, 100));
     console.log('[renderCartItems] HTML assigned successfully');
   }
 
