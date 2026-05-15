@@ -22,9 +22,12 @@ function initCartDrawer() {
   /* ---- FETCH & RENDER CART ---- */
 
   function fetchAndRenderCart() {
+    console.log('[cart-drawer] fetchAndRenderCart() called');
     return fetch('/cart.js')
       .then(function (res) { return res.json(); })
       .then(function (cart) {
+        console.log('[cart-drawer] /cart.js response:', cart);
+        console.log('[cart-drawer] cart.items.length:', cart.items.length);
         renderCartItems(cart);
         updateCartCount(cart.item_count);
         updateCartTotals(cart);
