@@ -491,6 +491,16 @@
     border: 1px solid var(--cm-border);
   }
 
+  .jc__grid-{{ section.id }} > div {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .jc__grid-{{ section.id }} > div .product-card {
+    height: 100%;
+  }
+
   /* Empty state */
   .jc__empty-{{ section.id }} {
     grid-column: 1 / -1;
