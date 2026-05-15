@@ -67,7 +67,8 @@
       "Bash(curl -s http://localhost:3000)",
       "Bash(grep -E \"\\\\.\\(liquid|json|js\\)$\")",
       "Bash(rm /Users/kiag/Desktop/HumindIA/web/casamaravillas-theme/assets/icon-medallion-*.svg && git add -A && git status)",
-      "Bash(node -c sections/main-product.liquid)"
+      "Bash(node -c sections/main-product.liquid)",
+      "Bash(node -c /Users/kiag/Desktop/HumindIA/web/casamaravillas-theme/assets/cart-drawer.js)"
     ],
     "additionalDirectories": [
       "/tmp",

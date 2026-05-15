@@ -1,4 +1,4 @@
-(function () {
+function initCartDrawer() {
   'use strict';
 
   /* ---- OPEN / CLOSE ---- */
@@ -308,5 +308,11 @@
   window.applyDiscount       = applyDiscount;
   window.goToCheckout        = goToCheckout;
   window.fetchAndRenderCart  = fetchAndRenderCart;
+}
 
-})();
+// Initialize when DOM is ready or immediately if already loaded
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initCartDrawer);
+} else {
+  initCartDrawer();
+}
