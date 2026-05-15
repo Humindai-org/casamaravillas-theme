@@ -371,6 +371,7 @@
     padding: 20px 0;
     margin-bottom: 24px;
     border-bottom: 1px solid var(--cm-border);
+    gap: 16px;
   }
 
   .jc__count-{{ section.id }} {
@@ -379,6 +380,12 @@
     color: var(--cm-text-light);
     letter-spacing: 0.08em;
     white-space: nowrap;
+  }
+
+  .jc__toolbar-controls-{{ section.id }} {
+    display: flex;
+    align-items: center;
+    gap: 12px;
   }
 
   /* ── Search bar ── */
@@ -736,56 +743,58 @@
           </p>
         {%- endif -%}
 
-        <div class="jc__search-wrap-{{ section.id }}">
-          <svg class="jc__search-icon-{{ section.id }}" viewBox="0 0 24 24" fill="none"
-               stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-            <circle cx="11" cy="11" r="7"/>
-            <path stroke-linecap="round" d="M16.5 16.5l4 4"/>
-          </svg>
-          <input
-            type="search"
-            class="jc__search-{{ section.id }}"
-            id="jc-search-{{ section.id }}"
-            placeholder="Buscar jamón..."
-            aria-label="Buscar producto"
-            autocomplete="off"
-          >
-        </div>
-
-        {%- if section.settings.show_sort -%}
-          <div class="jc__sort-wrap-{{ section.id }}">
-            <select
-              class="jc__sort-{{ section.id }}"
-              id="jc-sort-{{ section.id }}"
-              aria-label="Ordenar productos"
+        <div class="jc__toolbar-controls-{{ section.id }}">
+          <div class="jc__search-wrap-{{ section.id }}">
+            <svg class="jc__search-icon-{{ section.id }}" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <circle cx="11" cy="11" r="7"/>
+              <path stroke-linecap="round" d="M16.5 16.5l4 4"/>
+            </svg>
+            <input
+              type="search"
+              class="jc__search-{{ section.id }}"
+              id="jc-search-{{ section.id }}"
+              placeholder="Buscar jamón..."
+              aria-label="Buscar producto"
+              autocomplete="off"
             >
-              <option value="manual" {% if collection.sort_by == 'manual' %}selected{% endif %}>
-                Más relevantes
-              </option>
-              <option value="best-selling" {% if collection.sort_by == 'best-selling' %}selected{% endif %}>
-                Más vendidos
-              </option>
-              <option value="price-ascending" {% if collection.sort_by == 'price-ascending' %}selected{% endif %}>
-                Precio ↑
-              </option>
-              <option value="price-descending" {% if collection.sort_by == 'price-descending' %}selected{% endif %}>
-                Precio ↓
-              </option>
-              <option value="created-descending" {% if collection.sort_by == 'created-descending' %}selected{% endif %}>
-                Fecha, más reciente
-              </option>
-              <option value="created-ascending" {% if collection.sort_by == 'created-ascending' %}selected{% endif %}>
-                Fecha, más antiguo
-              </option>
-              <option value="title-ascending" {% if collection.sort_by == 'title-ascending' %}selected{% endif %}>
-                Nombre A–Z
-              </option>
-              <option value="title-descending" {% if collection.sort_by == 'title-descending' %}selected{% endif %}>
-                Nombre Z–A
-              </option>
-            </select>
           </div>
-        {%- endif -%}
+
+          {%- if section.settings.show_sort -%}
+            <div class="jc__sort-wrap-{{ section.id }}">
+              <select
+                class="jc__sort-{{ section.id }}"
+                id="jc-sort-{{ section.id }}"
+                aria-label="Ordenar productos"
+              >
+                <option value="manual" {% if collection.sort_by == 'manual' %}selected{% endif %}>
+                  Más relevantes
+                </option>
+                <option value="best-selling" {% if collection.sort_by == 'best-selling' %}selected{% endif %}>
+                  Más vendidos
+                </option>
+                <option value="price-ascending" {% if collection.sort_by == 'price-ascending' %}selected{% endif %}>
+                  Precio ↑
+                </option>
+                <option value="price-descending" {% if collection.sort_by == 'price-descending' %}selected{% endif %}>
+                  Precio ↓
+                </option>
+                <option value="created-descending" {% if collection.sort_by == 'created-descending' %}selected{% endif %}>
+                  Fecha, más reciente
+                </option>
+                <option value="created-ascending" {% if collection.sort_by == 'created-ascending' %}selected{% endif %}>
+                  Fecha, más antiguo
+                </option>
+                <option value="title-ascending" {% if collection.sort_by == 'title-ascending' %}selected{% endif %}>
+                  Nombre A–Z
+                </option>
+                <option value="title-descending" {% if collection.sort_by == 'title-descending' %}selected{% endif %}>
+                  Nombre Z–A
+                </option>
+              </select>
+            </div>
+          {%- endif -%}
+        </div>
       </div>
 
       <!-- Product grid + Pagination -->
