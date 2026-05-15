@@ -55,6 +55,9 @@ function initCartDrawer() {
     }
 
     console.log('[renderCartItems] cart.items.length:', cart.items.length);
+    if (cart.items.length > 0) {
+      console.log('[renderCartItems] First item structure:', JSON.stringify(cart.items[0], null, 2));
+    }
     if (cart.items.length === 0) {
       container.innerHTML =
         '<div class="cart-empty">' +
