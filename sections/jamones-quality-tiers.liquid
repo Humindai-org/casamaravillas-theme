@@ -195,15 +195,10 @@
         {%- if t == filter_tag -%}{%- assign is_active = true -%}{%- endif -%}
       {%- endfor -%}
 
-      {%- if is_active -%}
-        {%- assign filter_href = collection.url -%}
-      {%- else -%}
-        {%- assign filter_href = collection.url | append: '#' | append: filter_tag -%}
-      {%- endif -%}
-
-      <a
+      <button
+        type="button"
         class="qt__medallion-{{ section.id }}{% if is_active %} is-active{% endif %}"
-        href="{{ filter_href }}"
+        data-filter-tag-btn="{{ filter_tag }}"
         aria-label="Ver detalles de {{ section.settings[settings_name] }}{% if is_active %} — clic para quitar filtro{% endif %}"
       >
         {%- if section.settings[settings_icon] != blank -%}
@@ -225,10 +220,36 @@
             <p class="qt__category-desc-{{ section.id }}">{{ section.settings[settings_desc] }}</p>
           {%- endif -%}
         </div>
-      </a>
+      </button>
     {%- endfor -%}
   </div>
 </section>
+
+<script>
+  (function() {
+    var section = document.getElementById('qt-section-{{ section.id }}');
+    if (!section) return;
+
+    section.querySelectorAll('[data-filter-tag-btn]').forEach(function(btn) {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        var tag = btn.getAttribute('data-filter-tag-btn');
+
+        // Find the jamones-collection section (it should be on the same page)
+        var collectionSection = document.querySelector('[data-jamones-collection]');
+        if (!collectionSection) return;
+
+        // Find the checkbox for this tag
+        var checkbox = collectionSection.querySelector('input[data-filter-tag="' + tag + '"]');
+        if (!checkbox) return;
+
+        // Toggle the checkbox (this will trigger the change event)
+        checkbox.checked = !checkbox.checked;
+        checkbox.dispatchEvent(new Event('change', { bubbles: true }));
+      });
+    });
+  })();
+</script>
 
 {% schema %}
 {
