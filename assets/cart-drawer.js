@@ -41,9 +41,20 @@ function initCartDrawer() {
   }
 
   function renderCartItems(cart) {
+    console.log('[renderCartItems] Called with cart:', cart);
     var container = document.getElementById('cart-items-container');
-    if (!container) return;
+    console.log('[renderCartItems] Container found:', !!container);
+    if (!container) {
+      console.error('[renderCartItems] cart-items-container not found!');
+      return;
+    }
 
+    if (!cart || !cart.items) {
+      console.error('[renderCartItems] cart or cart.items is undefined!');
+      return;
+    }
+
+    console.log('[renderCartItems] cart.items.length:', cart.items.length);
     if (cart.items.length === 0) {
       container.innerHTML =
         '<div class="cart-empty">' +
