@@ -74,7 +74,7 @@
         "show_weight_selector": true,
         "weight_options": "6-7 kg, 8-9 kg",
         "weight_options_deshuesado": "500 g, 1 kg, 1.5 kg",
-        "pack_options": "Pack 1 ud., Pack 3 ud., Pack 10 ud.",
+        "pack_options": "1 ud., 10 ud., 20 ud., 30 ud.",
         "show_complementary_products": false,
         "complementary_title": "Complementa tu pedido con",
         "complementary_collection": "",
