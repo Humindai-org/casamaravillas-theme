@@ -2510,17 +2510,28 @@ document.addEventListener('DOMContentLoaded', function() {
       setAddBtnState('done');
       updateCartCount();
       revealCombina();
-      console.log('[main-product] About to call fetchAndRenderCart, type:', typeof window.fetchAndRenderCart);
-      if (typeof window.fetchAndRenderCart === 'function') {
-        console.log('[main-product] Calling fetchAndRenderCart...');
-        await window.fetchAndRenderCart();
-        console.log('[main-product] fetchAndRenderCart completed');
+
+      // Wait for cart to be fetched and rendered before opening drawer
+      try {
+        if (typeof window.fetchAndRenderCart === 'function') {
+          console.log('[main-product] Fetching and rendering cart...');
+          await window.fetchAndRenderCart();
+          console.log('[main-product] Cart data loaded, opening drawer');
+        } else {
+          console.warn('[main-product] fetchAndRenderCart not available');
+        }
+      } catch (e) {
+        console.error('[main-product] Error fetching cart:', e);
       }
-      console.log('[main-product] About to open cart, type:', typeof window.openCart);
+
+      // Always open cart to show the drawer
       if (typeof window.openCart === 'function') {
-        console.log('[main-product] Calling openCart(true)...');
         window.openCart(true);
+        console.log('[main-product] Drawer opened');
+      } else {
+        console.warn('[main-product] openCart not available');
       }
+
       setTimeout(() => setAddBtnState('idle'), 2500);
     } catch(err) {
       console.warn('[CM] Cart add failed:', err && err.message);

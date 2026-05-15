@@ -314,8 +314,18 @@ function initCartDrawer() {
 }
 
 // Initialize when DOM is ready or immediately if already loaded
+console.log('[cart-drawer] Script loaded, document.readyState:', document.readyState);
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initCartDrawer);
+  document.addEventListener('DOMContentLoaded', function() {
+    console.log('[cart-drawer] DOMContentLoaded firing, initializing...');
+    initCartDrawer();
+  });
 } else {
+  console.log('[cart-drawer] DOM already loaded, initializing immediately...');
   initCartDrawer();
 }
+console.log('[cart-drawer] Global functions exposed:', {
+  openCart: typeof window.openCart,
+  closeCart: typeof window.closeCart,
+  fetchAndRenderCart: typeof window.fetchAndRenderCart
+});
