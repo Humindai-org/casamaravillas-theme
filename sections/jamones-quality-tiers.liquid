@@ -227,25 +227,76 @@
 
 <script>
   (function() {
-    var section = document.getElementById('qt-section-{{ section.id }}');
-    if (!section) return;
+    var qtSection = document.getElementById('qt-section-{{ section.id }}');
+    if (!qtSection) return;
 
-    section.querySelectorAll('[data-filter-tag-btn]').forEach(function(btn) {
+    function filterProductsByTag(tag) {
+      var collectionSection = document.querySelector('[data-jamones-collection]');
+      if (!collectionSection) {
+        console.warn('No se encontró jamones-collection');
+        return;
+      }
+
+      // Find and toggle the checkbox
+      var checkbox = collectionSection.querySelector('input[data-filter-tag="' + tag + '"]');
+      if (!checkbox) {
+        console.warn('No se encontró checkbox para tag: ' + tag);
+        return;
+      }
+
+      // Toggle checkbox
+      checkbox.checked = !checkbox.checked;
+
+      // Find all products and apply filtering
+      var selectedTags = [];
+      collectionSection.querySelectorAll('input[data-filter-tag]:checked').forEach(function(cb) {
+        var t = cb.getAttribute('data-filter-tag');
+        if (selectedTags.indexOf(t) === -1) selectedTags.push(t);
+      });
+
+      // Filter products
+      var products = collectionSection.querySelectorAll('[data-product-tags]');
+      var visibleCount = 0;
+
+      products.forEach(function(product) {
+        var productTags = product.getAttribute('data-product-tags').split(',').map(function(t) { return t.trim(); });
+        var matches = true;
+
+        if (selectedTags.length > 0) {
+          matches = selectedTags.every(function(tag) {
+            return productTags.indexOf(tag) !== -1;
+          });
+        }
+
+        if (matches) {
+          product.style.display = '';
+          visibleCount++;
+        } else {
+          product.style.display = 'none';
+        }
+      });
+
+      // Update product count
+      var countEl = collectionSection.querySelector('.jc__count-' + collectionSection.id.replace('jc-section-', ''));
+      if (countEl) {
+        countEl.textContent = visibleCount + (visibleCount === 1 ? ' producto' : ' productos');
+      }
+
+      // Update URL hash
+      var url = new URL(window.location.href);
+      if (selectedTags.length > 0) {
+        url.hash = selectedTags.join('+');
+      } else {
+        url.hash = '';
+      }
+      window.history.replaceState({}, '', url.toString());
+    }
+
+    qtSection.querySelectorAll('[data-filter-tag-btn]').forEach(function(btn) {
       btn.addEventListener('click', function(e) {
         e.preventDefault();
         var tag = btn.getAttribute('data-filter-tag-btn');
-
-        // Find the jamones-collection section (it should be on the same page)
-        var collectionSection = document.querySelector('[data-jamones-collection]');
-        if (!collectionSection) return;
-
-        // Find the checkbox for this tag
-        var checkbox = collectionSection.querySelector('input[data-filter-tag="' + tag + '"]');
-        if (!checkbox) return;
-
-        // Toggle the checkbox (this will trigger the change event)
-        checkbox.checked = !checkbox.checked;
-        checkbox.dispatchEvent(new Event('change', { bubbles: true }));
+        filterProductsByTag(tag);
       });
     });
   })();
