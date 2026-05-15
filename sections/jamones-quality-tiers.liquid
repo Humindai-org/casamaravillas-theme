@@ -66,8 +66,8 @@
   /* ── Icono medallón ── */
   .qt__icon-{{ section.id }} {
     position: relative;
-    width: 140px;
-    height: 160px;
+    width: 160px;
+    height: 180px;
     margin-bottom: 20px;
     display: flex;
     align-items: center;
@@ -124,8 +124,8 @@
       gap: 24px;
     }
     .qt__icon-{{ section.id }} {
-      width: 120px;
-      height: 140px;
+      width: 140px;
+      height: 160px;
     }
     .qt__category-name-{{ section.id }} {
       font-size: 18px;
@@ -151,8 +151,8 @@
       margin: 0 auto;
     }
     .qt__icon-{{ section.id }} {
-      width: 100px;
-      height: 120px;
+      width: 120px;
+      height: 140px;
     }
     .qt__category-name-{{ section.id }} {
       font-size: 16px;
@@ -192,14 +192,13 @@
               alt="{{ section.settings[settings_name] }}"
               class="qt__icon-img-{{ section.id }}"
               loading="lazy"
-              width="140"
-              height="160"
+              width="160"
+              height="180"
             />
           </div>
         {%- endif -%}
 
         <div class="qt__content-{{ section.id }}">
-          <div class="qt__category-label-{{ section.id }}">Categoría</div>
           <h3 class="qt__category-name-{{ section.id }}">{{ section.settings[settings_name] }}</h3>
           {%- if section.settings[settings_desc] != blank -%}
             <p class="qt__category-desc-{{ section.id }}">{{ section.settings[settings_desc] }}</p>
