@@ -178,10 +178,16 @@
 
   /* ---- ADD TO CART INTERCEPT ---- */
 
+  console.log('[cart-drawer] initializing submit listener');
+
   document.addEventListener('submit', function (e) {
     var form = e.target;
+    console.log('[cart-drawer] form submit detected:', form.tagName);
     /* Detect product forms by [name="add"] button — works regardless of action query params */
-    if (!form || !form.querySelector('[name="add"]')) return;
+    var addBtn = form.querySelector('[name="add"]');
+    console.log('[cart-drawer] has add button:', !!addBtn);
+    if (!form || !addBtn) return;
+    console.log('[cart-drawer] intercepting add-to-cart');
     e.preventDefault();
 
     var submitBtn = form.querySelector('[name="add"]');
