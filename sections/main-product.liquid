@@ -2186,6 +2186,19 @@ document.addEventListener('DOMContentLoaded', function() {
     qtyInput.addEventListener('change', () => setQty(parseInt(qtyInput.value, 10)));
   }
 
+  /* ── Pack selector (cortado a mano) ── */
+  const packSelect = document.querySelector('[data-pack-select]');
+  if (packSelect) {
+    packSelect.addEventListener('change', () => {
+      const packVal = packSelect.value.trim();
+      const qtyMatch = packVal.match(/^(\d+)/);
+      if (qtyMatch) {
+        const qty = parseInt(qtyMatch[1], 10);
+        setQty(qty);
+      }
+    });
+  }
+
   /* ── Qty sticky sincronizada ── */
   const stickyQtyMinus = $('cm-sticky-qty-minus-' + SID);
   const stickyQtyPlus  = $('cm-sticky-qty-plus-' + SID);
@@ -2268,6 +2281,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   /* Inicializar selector al cargar */
   updateWeightPackSelector();
+  updateVolumDiscount();
 
   function updateVariant() {
     const variant = findVariant();
