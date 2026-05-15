@@ -932,7 +932,7 @@
       var matches = true;
 
       if (selectedTags.length > 0) {
-        matches = selectedTags.some(function (tag) {
+        matches = selectedTags.every(function (tag) {
           return productTags.indexOf(tag) !== -1;
         });
       }
