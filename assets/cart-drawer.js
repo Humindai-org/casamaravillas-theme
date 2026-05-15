@@ -22,7 +22,7 @@
   /* ---- FETCH & RENDER CART ---- */
 
   function fetchAndRenderCart() {
-    fetch('/cart.js')
+    return fetch('/cart.js')
       .then(function (res) { return res.json(); })
       .then(function (cart) {
         renderCartItems(cart);
@@ -205,8 +205,9 @@
     })
       .then(function (res) { return res.json(); })
       .then(function () {
-        openCart(true);
-        fetchAndRenderCart();
+        return fetchAndRenderCart().then(function () {
+          openCart(true);
+        });
       })
       .catch(function (err) {
         console.error('[cart-drawer] add-to-cart error:', err);
