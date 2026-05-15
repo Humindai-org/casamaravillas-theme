@@ -65,6 +65,7 @@ function initCartDrawer() {
     }
 
     var html = '';
+    console.log('[renderCartItems] Starting to build HTML for items');
     cart.items.forEach(function (item) {
       /* Resize Shopify CDN image to 160×160 crop center */
       var imageUrl = item.image
@@ -103,7 +104,9 @@ function initCartDrawer() {
         '</div>';
     });
 
+    console.log('[renderCartItems] HTML built, length:', html.length, 'Assigning to container...');
     container.innerHTML = html;
+    console.log('[renderCartItems] HTML assigned successfully');
   }
 
   function updateCartCount(count) {
