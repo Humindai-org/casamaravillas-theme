@@ -1,0 +1,32 @@
+<svg width="500" height="550" viewBox="0 0 500 550" xmlns="http://www.w3.org/2000/svg">
+  <rect width="500" height="550" fill="#F7F2E9" />
+  
+  <path d="M60,30 L440,30 L440,300 C440,430 350,510 250,530 C150,510 60,430 60,300 Z" 
+        fill="none" stroke="#63432C" stroke-width="2.5" />
+  
+  <path d="M75,45 L425,45 L425,300 C425,415 340,490 250,510 C160,490 75,415 75,300 Z" 
+        fill="none" stroke="#63432C" stroke-width="1" />
+
+  <text x="250" y="110" font-family="serif" font-size="22" fill="#63432C" text-anchor="middle" letter-spacing="8">
+    JAMÓN IBÉRICO
+  </text>
+
+  <line x1="205" y1="210" x2="240" y2="210" stroke="#63432C" stroke-width="1.5" />
+  <circle cx="250" cy="210" r="2" fill="#63432C" />
+  <line x1="260" y1="210" x2="295" y2="210" stroke="#63432C" stroke-width="1.5" />
+
+  <text x="250" y="305" font-family="serif" font-weight="bold" font-size="95" fill="#63432C" text-anchor="middle">
+    III
+  </text>
+
+  <text x="250" y="360" font-family="serif" font-size="22" fill="#63432C" text-anchor="middle" letter-spacing="10">
+    BRONCE
+  </text>
+
+  <g transform="translate(250, 410)">
+    <line x1="0" y1="0" x2="0" y2="40" stroke="#63432C" stroke-width="1.5" />
+    <path d="M-6,5 Q0,0 6,5 Q0,10 -6,5" fill="#63432C" />
+    <path d="M-6,12 Q0,7 6,12 Q0,17 -6,12" fill="#63432C" />
+    <path d="M-6,19 Q0,14 6,19 Q0,24 -6,19" fill="#63432C" />
+  </g>
+</svg>

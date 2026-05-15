@@ -927,11 +927,8 @@
     var products = section.querySelectorAll('[data-product-tags]');
     var visibleCount = 0;
 
-    console.log('Selected tags:', selectedTags);
-
-    products.forEach(function (product, index) {
+    products.forEach(function (product) {
       var productTags = product.getAttribute('data-product-tags').split(',').map(function(tag) { return tag.trim(); });
-      if (index === 0) console.log('First product tags:', productTags);
       var matches = true;
 
       if (selectedTags.length > 0) {

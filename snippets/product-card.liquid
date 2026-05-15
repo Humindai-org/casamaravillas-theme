@@ -232,20 +232,20 @@
           <span class="product-card__badge">Oferta</span>
         {%- endif -%}
 
-        {%- comment -%}Quality tier badge — visible only on products with calidad_* tags{%- endcomment -%}
+        {%- comment -%}Quality tier badge — visible only on products with precinto tags{%- endcomment -%}
         {%- assign quality_dots = 0 -%}
         {%- assign quality_label = '' -%}
         {%- for tag in product.tags -%}
-          {%- if tag == 'calidad_bellota_100' -%}
+          {%- if tag == 'precinto negro' -%}
             {%- assign quality_dots = 5 -%}
             {%- assign quality_label = 'Bellota 100%' -%}
-          {%- elsif tag == 'calidad_bellota_75' -%}
+          {%- elsif tag == 'precinto rojo' -%}
             {%- assign quality_dots = 4 -%}
             {%- assign quality_label = 'Bellota 75%' -%}
-          {%- elsif tag == 'calidad_cebo-de-campo' -%}
+          {%- elsif tag == 'precinto verde' -%}
             {%- assign quality_dots = 4 -%}
             {%- assign quality_label = 'Cebo de Campo' -%}
-          {%- elsif tag == 'calidad_cebo' -%}
+          {%- elsif tag == 'precinto blanco' -%}
             {%- assign quality_dots = 3 -%}
             {%- assign quality_label = 'Cebo' -%}
           {%- endif -%}
