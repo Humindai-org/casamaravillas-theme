@@ -191,14 +191,22 @@
       submitBtn.textContent = 'Añadiendo…';
     }
 
+    /* Convert form data to URL-encoded string for Shopify cart API */
+    var formData = new FormData(form);
+    var params = new URLSearchParams();
+    for (var pair of formData.entries()) {
+      params.append(pair[0], pair[1]);
+    }
+
     fetch('/cart/add.js', {
       method: 'POST',
-      body: new FormData(form)
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: params.toString()
     })
       .then(function (res) { return res.json(); })
       .then(function () {
-        fetchAndRenderCart();
         openCart(true);
+        fetchAndRenderCart();
       })
       .catch(function (err) {
         console.error('[cart-drawer] add-to-cart error:', err);
