@@ -29,6 +29,12 @@
     object-fit: contain;
   }
 
+  .cm-product-card__icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
   .cm-product-card__label {
     font-size: 0.75rem;
     font-weight: 700;
@@ -238,7 +244,7 @@
             {%- endif -%}
           {%- endif -%}
 
-          {%- render 'icon-selector', icon: icon_name, width: 28, height: 28, alt: block.settings.label -%}
+          {%- render 'icon-selector', icon: icon_name, width: 80, height: 80, alt: block.settings.label -%}
         </div>
 
         <div class="cm-product-card__label">{{ block.settings.label }}</div>

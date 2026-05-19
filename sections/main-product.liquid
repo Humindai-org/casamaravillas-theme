@@ -1735,11 +1735,7 @@
               {%- if card_value != blank -%}
                 <div class="cm-product-card">
                   <div class="cm-product-card__icon"{% if field_type == 'alimentacion' %} data-icon-type="alimentacion"{% endif %}>
-                    {%- if field_type == 'alimentacion' -%}
-                      {%- render 'icon-selector', icon: icon_name, width: 56, height: 56, css_class: 'cm-product-card__icon-img' -%}
-                    {%- else -%}
-                      {%- render 'icon-selector', icon: icon_name, width: 68, height: 68, css_class: 'cm-product-card__icon-img' -%}
-                    {%- endif -%}
+                    {%- render 'icon-selector', icon: icon_name, width: 80, height: 80, css_class: 'cm-product-card__icon-img' -%}
                   </div>
                   <div class="cm-product-card__label">{{ block.settings.label }}</div>
                   <div class="cm-product-card__value">{{ card_value }}</div>
