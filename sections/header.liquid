@@ -443,11 +443,19 @@
           <li>
             <a href="{{ link.url }}">
               {{ link.title }}
-              {%- if link.links.size > 0 -%}
+              {%- if link.links.size > 0 or link.title == 'Jamones' -%}
                 <svg class="nav-chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2 3.5l3 3 3-3"/></svg>
               {%- endif -%}
             </a>
-            {%- if link.links.size > 0 -%}
+            {%- if link.title == 'Jamones' -%}
+              {%- comment -%} Dropdown especial para Jamones con opciones de calidad {%- endcomment -%}
+              <ul class="site-header__dropdown">
+                <li><a href="/collections/jamones/precinto+negro">Bellota 100% Ibérico</a></li>
+                <li><a href="/collections/jamones/precinto+rojo">Bellota 75% Ibérico</a></li>
+                <li><a href="/collections/jamones/precinto+verde">Cebo de Campo Ibérico</a></li>
+                <li><a href="/collections/jamones/precinto+blanco">Cebo Ibérico</a></li>
+              </ul>
+            {%- elsif link.links.size > 0 -%}
               <ul class="site-header__dropdown">
                 {%- for child in link.links -%}
                   {%- if forloop.last and link.links.size > 1 -%}
