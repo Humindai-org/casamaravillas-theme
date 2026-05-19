@@ -2272,6 +2272,18 @@ document.addEventListener('DOMContentLoaded', function() {
       formatCell.setAttribute('data-format-type', selectorType);
       console.log('[Weight Selector] Updated trust-formato cell data attribute to:', selectorType);
     }
+
+    // Mostrar/ocultar selector de curación según el tipo de producto
+    const curingSelector = sectionEl.querySelector('.cm-curing-selector');
+    if (curingSelector) {
+      if (selectorType === 'entero') {
+        curingSelector.style.display = '';
+        console.log('[Curing Selector] Showing curing selector for whole piece');
+      } else {
+        curingSelector.style.display = 'none';
+        console.log('[Curing Selector] Hiding curing selector for non-whole piece type');
+      }
+    }
   }
 
   /* Inicializar selector al cargar */
