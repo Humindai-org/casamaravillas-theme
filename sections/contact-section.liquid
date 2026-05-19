@@ -93,7 +93,8 @@
   }
 
   .contact-section__input,
-  .contact-section__textarea {
+  .contact-section__textarea,
+  .contact-section__select {
     width: 100%;
     padding: 14px 16px;
     border: 1px solid var(--cm-border);
@@ -105,9 +106,19 @@
   }
 
   .contact-section__input:focus,
-  .contact-section__textarea:focus {
+  .contact-section__textarea:focus,
+  .contact-section__select:focus {
     outline: none;
     border-color: var(--cm-gold);
+  }
+
+  .contact-section__select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23001f3f' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 36px;
+    cursor: pointer;
   }
 
   .contact-section__textarea {
@@ -139,6 +150,23 @@
   .contact-section__submit:focus-visible {
     outline: 2px solid var(--cm-gold);
     outline-offset: 3px;
+  }
+
+  .contact-section__required {
+    color: var(--cm-navy);
+    font-weight: 600;
+  }
+
+  .contact-section__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  @media (max-width: 600px) {
+    .contact-section__row {
+      grid-template-columns: 1fr;
+    }
   }
 
   .contact-section__success {
@@ -223,21 +251,45 @@
           </div>
         {%- endif -%}
 
-        <div>
-          <label class="contact-section__label" for="ContactForm-name">{{ section.settings.label_name | default: 'Nombre' }}</label>
-          <input
-            class="contact-section__input"
-            type="text"
-            id="ContactForm-name"
-            name="contact[name]"
-            value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
-            autocomplete="name"
-            required
-          >
+        <div class="contact-section__row">
+          <div>
+            <label class="contact-section__label" for="ContactForm-name">
+              {{ section.settings.label_name | default: 'Nombre' }}
+              <span class="contact-section__required">*</span>
+            </label>
+            <input
+              class="contact-section__input"
+              type="text"
+              id="ContactForm-name"
+              name="contact[name]"
+              value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
+              autocomplete="name"
+              required
+            >
+          </div>
+
+          <div>
+            <label class="contact-section__label" for="ContactForm-lastname">
+              {{ section.settings.label_lastname | default: 'Apellido' }}
+              <span class="contact-section__required">*</span>
+            </label>
+            <input
+              class="contact-section__input"
+              type="text"
+              id="ContactForm-lastname"
+              name="contact[lastname]"
+              value="{{ form.lastname }}"
+              autocomplete="family-name"
+              required
+            >
+          </div>
         </div>
 
         <div>
-          <label class="contact-section__label" for="ContactForm-email">{{ section.settings.label_email | default: 'Email' }}</label>
+          <label class="contact-section__label" for="ContactForm-email">
+            {{ section.settings.label_email | default: 'Email' }}
+            <span class="contact-section__required">*</span>
+          </label>
           <input
             class="contact-section__input"
             type="email"
@@ -261,8 +313,44 @@
           >
         </div>
 
+        <div class="contact-section__row">
+          <div>
+            <label class="contact-section__label" for="ContactForm-subject">
+              {{ section.settings.label_subject | default: 'Asunto' }}
+              <span class="contact-section__required">*</span>
+            </label>
+            <input
+              class="contact-section__input"
+              type="text"
+              id="ContactForm-subject"
+              name="contact[subject]"
+              value="{{ form.subject }}"
+              required
+            >
+          </div>
+
+          <div>
+            <label class="contact-section__label" for="ContactForm-reason">{{ section.settings.label_reason | default: 'Motivo' }}</label>
+            <select
+              class="contact-section__select"
+              id="ContactForm-reason"
+              name="contact[reason]"
+            >
+              <option value="">Selecciona un motivo</option>
+              <option value="consulta_general">Consulta general</option>
+              <option value="pedido_personalizado">Pedido personalizado</option>
+              <option value="regalo_corporativo">Regalo corporativo</option>
+              <option value="problema_pedido">Problema con pedido</option>
+              <option value="otros">Otros</option>
+            </select>
+          </div>
+        </div>
+
         <div>
-          <label class="contact-section__label" for="ContactForm-body">{{ section.settings.label_message | default: 'Mensaje' }}</label>
+          <label class="contact-section__label" for="ContactForm-body">
+            {{ section.settings.label_message | default: 'Descripción' }}
+            <span class="contact-section__required">*</span>
+          </label>
           <textarea
             class="contact-section__textarea"
             id="ContactForm-body"
@@ -326,6 +414,12 @@
     },
     {
       "type": "text",
+      "id": "label_lastname",
+      "label": "Etiqueta campo apellido",
+      "default": "Apellido"
+    },
+    {
+      "type": "text",
       "id": "label_email",
       "label": "Etiqueta campo email",
       "default": "Email"
@@ -338,9 +432,21 @@
     },
     {
       "type": "text",
+      "id": "label_subject",
+      "label": "Etiqueta campo asunto",
+      "default": "Asunto"
+    },
+    {
+      "type": "text",
+      "id": "label_reason",
+      "label": "Etiqueta campo motivo",
+      "default": "Motivo"
+    },
+    {
+      "type": "text",
       "id": "label_message",
-      "label": "Etiqueta campo mensaje",
-      "default": "Mensaje"
+      "label": "Etiqueta campo descripción",
+      "default": "Descripción"
     },
     {
       "type": "text",
