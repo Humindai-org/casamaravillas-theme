@@ -70,7 +70,7 @@
       "settings": {
         "show_sticky_atc": true,
         "product_type": "cortado a mano",
-        "show_curing_selector": false,
+        "show_curing_selector": true,
         "show_weight_selector": true,
         "weight_options": "6-7 kg, 8-9 kg",
         "weight_options_deshuesado": "5-6 kg",
