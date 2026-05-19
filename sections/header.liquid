@@ -566,6 +566,16 @@
       }
     });
   });
+
+  document.querySelectorAll('.site-header__dropdown a').forEach(link => {
+    link.addEventListener('click', () => {
+      const li = link.closest('li');
+      if (li) {
+        li.parentElement.style.opacity = '0';
+        li.parentElement.style.visibility = 'hidden';
+      }
+    });
+  });
 </script>
 
 {% schema %}
