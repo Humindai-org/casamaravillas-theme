@@ -126,8 +126,40 @@
     resize: vertical;
   }
 
+  .contact-section__privacy {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-top: 20px;
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--cm-text-mid);
+    font-family: var(--cm-font-sans);
+  }
+
+  .contact-section__privacy input[type="checkbox"] {
+    margin-top: 2px;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  .contact-section__privacy a {
+    color: var(--cm-navy);
+    text-decoration: underline;
+    transition: color 0.2s;
+  }
+
+  .contact-section__privacy a:hover {
+    color: var(--cm-gold);
+  }
+
+  .contact-section__privacy a:focus-visible {
+    outline: 2px solid var(--cm-gold);
+    outline-offset: 2px;
+  }
+
   .contact-section__submit {
-    margin-top: 8px;
+    margin-top: 24px;
     padding: 16px 40px;
     background: var(--cm-navy);
     color: var(--cm-white);
@@ -358,6 +390,16 @@
             required
           >{{ form.body }}</textarea>
         </div>
+
+        <label class="contact-section__privacy">
+          <input
+            type="checkbox"
+            id="ContactForm-privacy"
+            name="contact[privacy]"
+            required
+          >
+          <span>Al enviar este formulario aceptas nuestra <a href="/policies/privacy-policy">política de privacidad</a>.</span>
+        </label>
 
         <button type="submit" class="contact-section__submit">{{ section.settings.submit_label | default: 'Enviar' }}</button>
       {%- endform -%}
