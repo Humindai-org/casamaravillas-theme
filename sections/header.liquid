@@ -440,14 +440,18 @@
     <nav class="site-header__nav" aria-label="Navegación principal">
       <ul class="site-header__nav-list">
         {%- for link in main_nav.links -%}
+          {%- assign has_jamones_submenu = false -%}
+          {%- if link.url contains '/jamones' -%}
+            {%- assign has_jamones_submenu = true -%}
+          {%- endif -%}
           <li>
             <a href="{{ link.url }}">
               {{ link.title }}
-              {%- if link.links.size > 0 or link.title == 'Jamones' -%}
+              {%- if link.links.size > 0 or has_jamones_submenu -%}
                 <svg class="nav-chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2 3.5l3 3 3-3"/></svg>
               {%- endif -%}
             </a>
-            {%- if link.title == 'Jamones' -%}
+            {%- if has_jamones_submenu -%}
               {%- comment -%} Dropdown especial para Jamones con opciones de calidad {%- endcomment -%}
               <ul class="site-header__dropdown">
                 <li><a href="/collections/jamones#precinto+negro">Bellota 100% Ibérico</a></li>
