@@ -97,11 +97,6 @@
           {% if is_checked %}checked{% endif %}
           aria-label="{{ label }}"
         >
-        <span class="jc__qdots-{{ section_id }}" aria-hidden="true">
-          {%- for d in (1..5) -%}
-            <span class="jc__qdot-{{ section_id }}{% if d <= dots %} is-filled{% endif %}"></span>
-          {%- endfor -%}
-        </span>
         <span class="jc__qlabel-{{ section_id }}">{{ label }}</span>
       </label>
     {%- endfor -%}
