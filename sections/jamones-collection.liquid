@@ -1007,6 +1007,16 @@
   }
   restoreFiltersFromHash();
 
+  /* Listen for hash changes to update filters when navigating between qualities */
+  window.addEventListener('hashchange', function() {
+    /* Clear all checkboxes first */
+    section.querySelectorAll('input[data-filter-tag]').forEach(function(cb) {
+      cb.checked = false;
+    });
+    /* Then restore filters from new hash */
+    restoreFiltersFromHash();
+  });
+
   /* ── Price slider ── */
   var sliderGroups = section.querySelectorAll('.jc-price-slider-group-' + sid);
   sliderGroups.forEach(function (group) {
