@@ -441,13 +441,16 @@
       <ul class="site-header__nav-list">
         {%- for link in main_nav.links -%}
           {%- assign has_jamones_submenu = false -%}
+          {%- assign has_embutidos_submenu = false -%}
           {%- if link.url contains '/jamones' -%}
             {%- assign has_jamones_submenu = true -%}
+          {%- elsif link.url contains '/embutidos' -%}
+            {%- assign has_embutidos_submenu = true -%}
           {%- endif -%}
           <li>
             <a href="{{ link.url }}">
               {{ link.title }}
-              {%- if link.links.size > 0 or has_jamones_submenu -%}
+              {%- if link.links.size > 0 or has_jamones_submenu or has_embutidos_submenu -%}
                 <svg class="nav-chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2 3.5l3 3 3-3"/></svg>
               {%- endif -%}
             </a>
@@ -458,6 +461,13 @@
                 <li><a href="/collections/jamones#precinto%20rojo">Bellota 75% Ibérico</a></li>
                 <li><a href="/collections/jamones#precinto%20verde">Cebo de Campo Ibérico</a></li>
                 <li><a href="/collections/jamones#precinto%20blanco">Cebo Ibérico</a></li>
+              </ul>
+            {%- elsif has_embutidos_submenu -%}
+              {%- comment -%} Dropdown especial para Embutidos con opciones de calidad {%- endcomment -%}
+              <ul class="site-header__dropdown">
+                <li><a href="/collections/embutidos/calidad_bellota">Bellota 100% Ibérico</a></li>
+                <li><a href="/collections/embutidos/calidad_cebo-de-campo">Cebo de Campo Ibérico</a></li>
+                <li><a href="/collections/embutidos/calidad_cebo">Cebo Ibérico</a></li>
               </ul>
             {%- elsif link.links.size > 0 -%}
               <ul class="site-header__dropdown">
