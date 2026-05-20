@@ -24,17 +24,17 @@
       "settings": {
         "eyebrow": "Nuestra gama",
         "heading": "Tres familias de embutido",
-        "cat1_name": "Chorizos y Salchichón",
+        "cat1_name": "Chorizo",
         "cat1_label": "Curado",
-        "cat1_tag": "tipo_chorizo-salchichon",
+        "cat1_tag": "tipo_chorizo",
         "cat1_color": "terracotta",
         "cat2_name": "Lomo y Morcón",
         "cat2_label": "Premium",
-        "cat2_tag": "tipo_lomo-morcon",
+        "cat2_tag": "tipo_lomo",
         "cat2_color": "burgundy",
-        "cat3_name": "Morcillas y Especialidades",
-        "cat3_label": "Artesanal",
-        "cat3_tag": "tipo_especialidades",
+        "cat3_name": "Salchichón",
+        "cat3_label": "Clásico",
+        "cat3_tag": "tipo_salchichon",
         "cat3_color": "olive"
       }
     },
