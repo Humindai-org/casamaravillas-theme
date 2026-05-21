@@ -955,14 +955,26 @@
     var products = section.querySelectorAll('[data-product-tags]');
     var visibleCount = 0;
 
+    /* Category definitions */
+    var tipoTags = ['chorizo', 'lomo', 'salchichón'];
+    var formatoTags = ['loncheado', 'pieza'];
+
+    /* Separate selected tags by category */
+    var selectedTipoTags = selectedTags.filter(function(tag) { return tipoTags.indexOf(tag) !== -1; });
+    var selectedFormatoTags = selectedTags.filter(function(tag) { return formatoTags.indexOf(tag) !== -1; });
+
     products.forEach(function (product) {
       var productTags = product.getAttribute('data-product-tags').split(',').map(function(tag) { return tag.trim(); });
       var matches = true;
 
-      if (selectedTags.length > 0) {
-        matches = selectedTags.every(function (tag) {
-          return productTags.indexOf(tag) !== -1;
-        });
+      /* OR logic within Tipo category */
+      if (selectedTipoTags.length > 0) {
+        matches = matches && selectedTipoTags.some(function(tag) { return productTags.indexOf(tag) !== -1; });
+      }
+
+      /* OR logic within Formato category */
+      if (selectedFormatoTags.length > 0) {
+        matches = matches && selectedFormatoTags.some(function(tag) { return productTags.indexOf(tag) !== -1; });
       }
 
       if (matches) {
