@@ -802,7 +802,7 @@
         <div class="jc__grid-{{ section.id }}">
           {%- if collection.products.size > 0 -%}
             {%- for product in collection.products -%}
-              <div data-product-tags="{{ product.tags | join: ',' }}">
+              <div data-product-tags="{{ product.tags | join: ',' }}" data-product-price="{{ product.price | divided_by: 100 }}">
                 {% render 'product-card', card_product: product, card_collection: collection.handle %}
               </div>
             {%- endfor -%}
@@ -992,6 +992,33 @@
     });
   });
 
+  /* Check URL params on load to restore price filters */
+  function restorePriceFilterFromURL() {
+    var url = new URL(window.location.href);
+    var minPrice = url.searchParams.get('filter.v.price.gte');
+    var maxPrice = url.searchParams.get('filter.v.price.lte');
+    if (minPrice || maxPrice) {
+      var sliderGroups = section.querySelectorAll('.jc-price-slider-group-' + sid);
+      sliderGroups.forEach(function (group) {
+        var minRange = group.querySelector('[data-price-role="min"]');
+        var maxRange = group.querySelector('[data-price-role="max"]');
+        if (minPrice) minRange.value = parseInt(minPrice, 10);
+        if (maxPrice) maxRange.value = parseInt(maxPrice, 10);
+        var updateSliderFunc = null;
+        for (var key in updateSliderFunc) {
+          if (group.updateSliderFunc) {
+            group.updateSliderFunc();
+            break;
+          }
+        }
+        // Re-trigger the slider update by simulating input
+        var event = new Event('input', { bubbles: true });
+        minRange.dispatchEvent(event);
+        maxRange.dispatchEvent(event);
+      });
+    }
+  }
+
   /* Check URL hash on load to restore filters */
   function restoreFiltersFromHash() {
     var hash = window.location.hash.substring(1);
@@ -1005,6 +1032,7 @@
       filterProducts();
     }
   }
+  restorePriceFilterFromURL();
   restoreFiltersFromHash();
 
   /* Listen for hash changes to update filters when navigating between qualities */
@@ -1045,9 +1073,31 @@
       fill.style.right = ((PRICE_MAX - max) / PRICE_MAX * 100) + '%';
     }
 
-    function applyPriceFilter() {
+    function filterProductsByPrice() {
       var min = parseInt(minRange.value, 10);
       var max = parseInt(maxRange.value, 10);
+      var products = section.querySelectorAll('[data-product-price]');
+      var visibleCount = 0;
+
+      products.forEach(function (product) {
+        var price = parseInt(product.getAttribute('data-product-price'), 10);
+        var inRange = price >= min && price <= max;
+
+        if (inRange) {
+          product.style.display = '';
+          visibleCount++;
+        } else {
+          product.style.display = 'none';
+        }
+      });
+
+      /* Update product count */
+      var countEl = section.querySelector('.jc__count-' + sid);
+      if (countEl) {
+        countEl.textContent = visibleCount + (visibleCount === 1 ? ' producto' : ' productos');
+      }
+
+      /* Update URL without reload */
       var url = new URL(window.location.href);
       if (min > 0) {
         url.searchParams.set('filter.v.price.gte', min);
@@ -1059,15 +1109,15 @@
       } else {
         url.searchParams.delete('filter.v.price.lte');
       }
-      window.location.href = url.toString();
+      window.history.replaceState({}, '', url.toString());
     }
 
     minRange.addEventListener('mousedown', function () { minRange.style.zIndex = 3; maxRange.style.zIndex = 2; });
     maxRange.addEventListener('mousedown', function () { maxRange.style.zIndex = 3; minRange.style.zIndex = 2; });
     minRange.addEventListener('input', updateSlider);
     maxRange.addEventListener('input', updateSlider);
-    minRange.addEventListener('change', applyPriceFilter);
-    maxRange.addEventListener('change', applyPriceFilter);
+    minRange.addEventListener('change', filterProductsByPrice);
+    maxRange.addEventListener('change', filterProductsByPrice);
 
     updateSlider();
   });

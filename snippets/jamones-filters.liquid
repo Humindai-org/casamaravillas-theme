@@ -24,11 +24,11 @@
 -%}
 
 <!-- ── PRECIO ── -->
-<div class="jc__fg-{{ section_id }} is-open always-open" id="jcfg-precio-{{ section_id }}{% if drawer %}-drawer{% endif %}">
+<div class="jc__fg-{{ section_id }} is-open always-open" id="icfg-precio-{{ section_id }}{% if drawer %}-drawer{% endif %}">
   <button
     class="jc__fg-toggle-{{ section_id }}"
     aria-expanded="true"
-    aria-controls="jcfg-precio-body-{{ section_id }}{% if drawer %}-drawer{% endif %}"
+    aria-controls="icfg-precio-body-{{ section_id }}{% if drawer %}-drawer{% endif %}"
   >
     Precio
     <svg class="jc__fg-icon-{{ section_id }}" viewBox="0 0 24 24" fill="none"
@@ -36,7 +36,7 @@
       <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/>
     </svg>
   </button>
-  <div class="jc__fg-body-{{ section_id }}" id="jcfg-precio-body-{{ section_id }}{% if drawer %}-drawer{% endif %}">
+  <div class="jc__fg-body-{{ section_id }}" id="icfg-precio-body-{{ section_id }}{% if drawer %}-drawer{% endif %}">
     <div class="jc-price-slider-group-{{ section_id }}">
       <div class="jc__price-slider-vals-{{ section_id }}">
         <span>€<span class="jc__price-val-min-{{ section_id }}">{{ slider_min_val }}</span></span>
@@ -69,11 +69,11 @@
 </div>
 
 <!-- ── CALIDAD ── -->
-<div class="jc__fg-{{ section_id }} is-open always-open" id="jcfg-calidad-{{ section_id }}{% if drawer %}-drawer{% endif %}">
+<div class="jc__fg-{{ section_id }} is-open always-open" id="icfg-calidad-{{ section_id }}{% if drawer %}-drawer{% endif %}">
   <button
     class="jc__fg-toggle-{{ section_id }}"
     aria-expanded="true"
-    aria-controls="jcfg-calidad-body-{{ section_id }}{% if drawer %}-drawer{% endif %}"
+    aria-controls="icfg-calidad-body-{{ section_id }}{% if drawer %}-drawer{% endif %}"
   >
     Calidad
     <svg class="jc__fg-icon-{{ section_id }}" viewBox="0 0 24 24" fill="none"
@@ -81,7 +81,7 @@
       <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/>
     </svg>
   </button>
-  <div class="jc__fg-body-{{ section_id }}" id="jcfg-calidad-body-{{ section_id }}{% if drawer %}-drawer{% endif %}">
+  <div class="jc__fg-body-{{ section_id }}" id="icfg-calidad-body-{{ section_id }}{% if drawer %}-drawer{% endif %}">
     {%- for i in (0..3) -%}
       {%- assign tag   = calidad_tags[i] -%}
       {%- assign label = calidad_labels[i] -%}
@@ -104,11 +104,11 @@
 </div>
 
 <!-- ── FORMATO ── -->
-<div class="jc__fg-{{ section_id }} is-open always-open" id="jcfg-formato-{{ section_id }}{% if drawer %}-drawer{% endif %}">
+<div class="jc__fg-{{ section_id }} is-open always-open" id="icfg-formato-{{ section_id }}{% if drawer %}-drawer{% endif %}">
   <button
     class="jc__fg-toggle-{{ section_id }}"
     aria-expanded="false"
-    aria-controls="jcfg-formato-body-{{ section_id }}{% if drawer %}-drawer{% endif %}"
+    aria-controls="icfg-formato-body-{{ section_id }}{% if drawer %}-drawer{% endif %}"
   >
     Formato
     <svg class="jc__fg-icon-{{ section_id }}" viewBox="0 0 24 24" fill="none"
@@ -116,7 +116,7 @@
       <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/>
     </svg>
   </button>
-  <div class="jc__fg-body-{{ section_id }}" id="jcfg-formato-body-{{ section_id }}{% if drawer %}-drawer{% endif %}">
+  <div class="jc__fg-body-{{ section_id }}" id="icfg-formato-body-{{ section_id }}{% if drawer %}-drawer{% endif %}">
     {%- for i in (0..2) -%}
       {%- assign tag   = formato_tags[i] -%}
       {%- assign label = formato_labels[i] -%}

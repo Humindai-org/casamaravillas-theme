@@ -8,7 +8,7 @@
   assign price_min = request.parameters['filter.v.price.gte'] | default: ''
   assign price_max = request.parameters['filter.v.price.lte'] | default: ''
   assign slider_min_val = price_min | default: 0
-  assign slider_max_val = price_max | default: 250
+  assign slider_max_val = price_max | default: 50
 
   assign tipo_tags   = 'chorizo,lomo,salchichón' | split: ','
   assign tipo_labels = 'Chorizo,Lomo,Salchichón' | split: ','
@@ -42,9 +42,9 @@
           <div class="ic__price-slider-fill-{{ section_id }}"></div>
         </div>
         <input type="range" class="ic__price-range-{{ section_id }}" data-price-role="min"
-               min="0" max="250" step="5" value="{{ slider_min_val }}" aria-label="Precio mínimo">
+               min="0" max="50" step="5" value="{{ slider_min_val }}" aria-label="Precio mínimo">
         <input type="range" class="ic__price-range-{{ section_id }}" data-price-role="max"
-               min="0" max="250" step="5" value="{{ slider_max_val }}" aria-label="Precio máximo">
+               min="0" max="50" step="5" value="{{ slider_max_val }}" aria-label="Precio máximo">
       </div>
     </div>
   </div>

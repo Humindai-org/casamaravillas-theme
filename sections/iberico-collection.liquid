@@ -484,6 +484,12 @@
     gap: 1px;
     background: var(--cm-border);
     border: 1px solid var(--cm-border);
+    align-items: stretch;
+  }
+
+  .ic__grid-{{ section.id }} > div {
+    display: flex;
+    flex-direction: column;
   }
 
   /* Empty state */
@@ -800,7 +806,7 @@
         <div class="ic__grid-{{ section.id }}">
           {%- if collection.products.size > 0 -%}
             {%- for product in collection.products -%}
-              <div data-product-tags="{{ product.tags | join: ',' | downcase }}">
+              <div data-product-tags="{{ product.tags | join: ',' | downcase }}" data-product-price="{{ product.price | divided_by: 100 }}">
                 {% render 'product-card', card_product: product, card_collection: collection.handle %}
               </div>
             {%- endfor -%}
@@ -1062,6 +1068,33 @@
     });
   }
 
+  /* Restore price filter from URL on page load */
+  function restorePriceFilterFromURL() {
+    var url = new URL(window.location.href);
+    var priceMin = url.searchParams.get('filter.v.price.gte');
+    var priceMax = url.searchParams.get('filter.v.price.lte');
+
+    if (priceMin || priceMax) {
+      var sliderGroups = section.querySelectorAll('.ic-price-slider-group-' + sid);
+      sliderGroups.forEach(function (group) {
+        var minRange = group.querySelector('[data-price-role="min"]');
+        var maxRange = group.querySelector('[data-price-role="max"]');
+
+        if (priceMin) minRange.value = parseInt(priceMin, 10);
+        if (priceMax) maxRange.value = parseInt(priceMax, 10);
+
+        var updateEvent = new Event('input', { bubbles: true });
+        minRange.dispatchEvent(updateEvent);
+        maxRange.dispatchEvent(updateEvent);
+
+        var changeEvent = new Event('change', { bubbles: true });
+        minRange.dispatchEvent(changeEvent);
+      });
+    }
+  }
+
+  restorePriceFilterFromURL();
+
   /* ── Price slider ── */
   var sliderGroups = section.querySelectorAll('.ic-price-slider-group-' + sid);
   sliderGroups.forEach(function (group) {
@@ -1090,10 +1123,32 @@
       fill.style.right = ((PRICE_MAX - max) / PRICE_MAX * 100) + '%';
     }
 
+    function filterProductsByPrice() {
+      var min = parseInt(minRange.value, 10);
+      var max = parseInt(maxRange.value, 10);
+      var products = section.querySelectorAll('[data-product-tags]');
+      var visibleCount = 0;
+
+      products.forEach(function (product) {
+        var priceEl = product.querySelector('[data-product-price]');
+        var price = priceEl ? parseInt(priceEl.getAttribute('data-product-price'), 10) : null;
+
+        var show = price !== null && price >= min && price <= max;
+        product.style.display = show ? '' : 'none';
+        if (show) visibleCount++;
+      });
+
+      var countEl = section.querySelector('.ic__count-' + sid);
+      if (countEl) {
+        countEl.textContent = visibleCount + (visibleCount === 1 ? ' producto' : ' productos');
+      }
+    }
+
     function applyPriceFilter() {
       var min = parseInt(minRange.value, 10);
       var max = parseInt(maxRange.value, 10);
       var url = new URL(window.location.href);
+
       if (min > 0) {
         url.searchParams.set('filter.v.price.gte', min);
       } else {
@@ -1104,11 +1159,9 @@
       } else {
         url.searchParams.delete('filter.v.price.lte');
       }
-      if (isEmbutidos) {
-        window.history.replaceState({}, '', url.toString());
-      } else {
-        window.location.href = url.toString();
-      }
+
+      filterProductsByPrice();
+      window.history.replaceState({}, '', url.toString());
     }
 
     minRange.addEventListener('mousedown', function () { minRange.style.zIndex = 3; maxRange.style.zIndex = 2; });
