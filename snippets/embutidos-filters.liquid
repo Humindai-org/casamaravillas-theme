@@ -10,10 +10,10 @@
   assign slider_min_val = price_min | default: 0
   assign slider_max_val = price_max | default: 250
 
-  assign tipo_tags   = 'tipo_chorizo,tipo_lomo,tipo_salchichon' | split: ','
+  assign tipo_tags   = 'Chorizo,Lomo,Salchichón' | split: ','
   assign tipo_labels = 'Chorizo,Lomo,Salchichón' | split: ','
 
-  assign formato_tags   = 'formato_loncheados,formato_pieza' | split: ','
+  assign formato_tags   = 'Loncheado,Pieza' | split: ','
   assign formato_labels = 'Loncheados,Pieza' | split: ','
 -%}
 

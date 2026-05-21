@@ -217,7 +217,7 @@
 {%- assign product = card_product -%}
 {%- if product != blank -%}
   {%- assign product_tags = '' -%}
-  {%- assign filtering_tags = 'tipo_chorizo,tipo_lomo,tipo_salchichon,formato_loncheados,formato_pieza,precinto negro,precinto rojo,precinto verde,precinto blanco' | split: ',' -%}
+  {%- assign filtering_tags = 'Chorizo,Lomo,Salchichón,Loncheado,Pieza,precinto negro,precinto rojo,precinto verde,precinto blanco' | split: ',' -%}
   {%- for tag in product.tags -%}
     {%- if filtering_tags contains tag -%}
       {%- if product_tags == '' -%}
