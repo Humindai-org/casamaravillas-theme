@@ -730,6 +730,19 @@
           </p>
         {%- endif -%}
 
+        {%- liquid
+          assign search_placeholder = 'Buscar producto...'
+          if collection.handle == 'jamones'
+            assign search_placeholder = 'Buscar jamón...'
+          elsif collection.handle == 'embutidos' or collection.handle == 'embutidos-1'
+            assign search_placeholder = 'Buscar Embutido...'
+          elsif collection.handle == 'carnes-ibericas'
+            assign search_placeholder = 'Buscar carne...'
+          elsif collection.handle == 'packs-regalo'
+            assign search_placeholder = 'Buscar pack...'
+          endif
+        -%}
+
         <div class="ic__search-wrap-{{ section.id }}">
           <svg class="ic__search-icon-{{ section.id }}" viewBox="0 0 24 24" fill="none"
                stroke="currentColor" stroke-width="1.5" aria-hidden="true">
@@ -740,7 +753,7 @@
             type="search"
             class="ic__search-{{ section.id }}"
             id="ic-search-{{ section.id }}"
-            placeholder="Buscar jamón..."
+            placeholder="{{ search_placeholder }}"
             aria-label="Buscar producto"
             autocomplete="off"
           >
