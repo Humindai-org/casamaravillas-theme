@@ -12,11 +12,12 @@
     "hero": {
       "type": "iberico-hero",
       "settings": {
-        "eyebrow": "Alicante, España",
+        "image": "shopify://shop_images/embutidos.2.png",
+        "eyebrow": "Ibéricos Premium",
         "heading": "Embutidos Ibéricos",
-        "subheading": "Iberian Cured Meats",
-        "body": "Chorizos, lomos y salchichones de cerdo ibérico. Curación artesanal, sabor auténtico.",
-        "overlay_opacity": 0
+        "subheading": "",
+        "body": "",
+        "overlay_opacity": 40
       }
     },
     "tiers": {
