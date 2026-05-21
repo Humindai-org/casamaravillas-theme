@@ -709,7 +709,7 @@
       {%- case collection.handle -%}
         {%- when 'jamones' -%}
           {%- render 'jamones-filters', section_id: section.id, collection: collection, current_tags: current_tags -%}
-        {%- when 'embutidos' -%}
+        {%- when 'embutidos', 'embutidos-1' -%}
           {%- render 'embutidos-filters', section_id: section.id, collection: collection, current_tags: current_tags -%}
         {%- when 'carnes-ibericas' -%}
           {%- render 'carnes-ibericas-filters', section_id: section.id, collection: collection, current_tags: current_tags -%}
@@ -843,7 +843,7 @@
     {%- case collection.handle -%}
       {%- when 'jamones' -%}
         {%- render 'jamones-filters', section_id: section.id, collection: collection, current_tags: current_tags, drawer: true -%}
-      {%- when 'embutidos' -%}
+      {%- when 'embutidos', 'embutidos-1' -%}
         {%- render 'embutidos-filters', section_id: section.id, collection: collection, current_tags: current_tags, drawer: true -%}
       {%- when 'carnes-ibericas' -%}
         {%- render 'carnes-ibericas-filters', section_id: section.id, collection: collection, current_tags: current_tags, drawer: true -%}
