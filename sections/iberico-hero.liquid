@@ -41,28 +41,42 @@
     inset: 0;
     background: linear-gradient(
       to top,
-      rgba(0, 20, 40, 0.78) 0%,
-      rgba(0, 20, 40, 0.30) 45%,
+      rgba(0, 20, 40, var(--ih-overlay-opacity, 0.78)) 0%,
+      rgba(0, 20, 40, calc(var(--ih-overlay-opacity, 0.78) * 0.385)) 45%,
       transparent 100%
     );
     pointer-events: none;
   }
 
+  .ih__eyebrow-wrapper-{{ section.id }} {
+    position: absolute;
+    top: 60px;
+    left: 0;
+    right: 0;
+    z-index: 3;
+    display: flex;
+    justify-content: center;
+    pointer-events: none;
+  }
+
   .ih__content-{{ section.id }} {
     position: absolute;
-    inset: 0;
-    z-index: 4;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 3;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-end;
     text-align: center;
-    padding: 0 24px;
+    padding: 0 60px 20px 60px;
     pointer-events: none;
   }
 
   .ih__eyebrow-{{ section.id }} {
-    margin-bottom: 28px;
+    margin-bottom: 0;
+    margin-top: 0;
     opacity: 0;
     transform: translateY(14px);
     transition: opacity 0.7s 0.1s ease, transform 0.7s 0.1s ease;
@@ -110,37 +124,11 @@
     transition: opacity 0.7s 0.55s ease, transform 0.7s 0.55s ease;
   }
 
-  .ih__scroll-hint-{{ section.id }} {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    opacity: 0;
-    transform: translateY(10px);
-    transition: opacity 0.6s 0.9s ease, transform 0.6s 0.9s ease;
-    pointer-events: none;
-  }
 
-  .ih__scroll-label-{{ section.id }} {
-    font-size: 8.5px;
-    letter-spacing: 0.45em;
-    text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.4);
-    font-family: var(--cm-font-sans);
-    font-weight: 400;
-  }
-
-  .ih__scroll-line-{{ section.id }} {
-    width: 1px;
-    height: 48px;
-    background: linear-gradient(to bottom, var(--cm-gold), transparent);
-  }
-
-  .ih__content-{{ section.id }}.ih-visible .ih__eyebrow-{{ section.id }},
+  .ih__eyebrow-wrapper-{{ section.id }}.ih-visible .ih__eyebrow-{{ section.id }},
   .ih__content-{{ section.id }}.ih-visible .ih__heading-{{ section.id }},
   .ih__content-{{ section.id }}.ih-visible .ih__subheading-{{ section.id }},
-  .ih__content-{{ section.id }}.ih-visible .ih__body-{{ section.id }},
-  .ih__content-{{ section.id }}.ih-visible .ih__scroll-hint-{{ section.id }} {
+  .ih__content-{{ section.id }}.ih-visible .ih__body-{{ section.id }} {
     opacity: 1;
     transform: translateY(0);
   }
@@ -154,6 +142,7 @@
       box-shadow: none !important;
     }
     .ih__heading-{{ section.id }} { font-size: clamp(44px, 12vw, 72px); }
+    .ih__content-{{ section.id }} { padding: 40px 24px 0 24px; }
   }
 </style>
 
@@ -183,11 +172,13 @@
       <div class="ih__overlay-{{ section.id }}" aria-hidden="true"></div>
     </div>
 
-    <div class="ih__content-{{ section.id }}" id="ih-content-{{ section.id }}">
-      {%- if section.settings.eyebrow != blank -%}
+    {%- if section.settings.eyebrow != blank -%}
+      <div class="ih__eyebrow-wrapper-{{ section.id }}" id="ih-eyebrow-wrapper-{{ section.id }}">
         <p class="cm-eyebrow ih__eyebrow-{{ section.id }}">{{ section.settings.eyebrow }}</p>
-      {%- endif -%}
+      </div>
+    {%- endif -%}
 
+    <div class="ih__content-{{ section.id }}" id="ih-content-{{ section.id }}">
       <h1 class="ih__heading-{{ section.id }}">
         {{ ih_first }} <em>{{ ih_rest }}</em>
       </h1>
@@ -199,11 +190,6 @@
       {%- if section.settings.body != blank -%}
         <p class="ih__body-{{ section.id }}">{{ section.settings.body }}</p>
       {%- endif -%}
-
-      <div class="ih__scroll-hint-{{ section.id }}" id="ih-hint-{{ section.id }}" aria-hidden="true">
-        <span class="ih__scroll-label-{{ section.id }}">Descubrir</span>
-        <span class="ih__scroll-line-{{ section.id }}"></span>
-      </div>
     </div>
 
   </div>
@@ -213,16 +199,21 @@
 (function () {
   'use strict';
 
-  var sid     = '{{ section.id }}';
-  var el      = document.getElementById('ih-section-' + sid);
-  var frame   = document.getElementById('ih-frame-' + sid);
-  var content = document.getElementById('ih-content-' + sid);
-  var hint    = document.getElementById('ih-hint-' + sid);
+  var sid              = '{{ section.id }}';
+  var el               = document.getElementById('ih-section-' + sid);
+  var frame            = document.getElementById('ih-frame-' + sid);
+  var content          = document.getElementById('ih-content-' + sid);
+  var eyebrowWrapper   = el ? el.querySelector('.ih__eyebrow-wrapper-' + sid) : null;
+  var overlayOpacity   = parseFloat('{{ section.settings.overlay_opacity | default: 45 }}') / 100;
 
   if (!el || !frame) return;
 
+  /* Apply overlay opacity */
+  el.style.setProperty('--ih-overlay-opacity', overlayOpacity.toString());
+
   setTimeout(function () {
     if (content) content.classList.add('ih-visible');
+    if (eyebrowWrapper) eyebrowWrapper.classList.add('ih-visible');
   }, 150);
 
   var isMobile = window.matchMedia('(max-width: 767px)').matches;
