@@ -934,7 +934,7 @@
     });
   });
 
-  /* ── Tag checkboxes → navigate ── */
+  /* ── Tag checkboxes → filter or navigate ── */
   function collectChecked() {
     var cbs = section.querySelectorAll('input[data-filter-tag]:checked');
     var tags = [];
@@ -945,6 +945,49 @@
     return tags;
   }
 
+  var isEmbutidos = '{{ collection.handle }}'.indexOf('embutidos') !== -1;
+
+  /* Hash-based filtering for embutidos */
+  function filterProducts() {
+    var selectedTags = collectChecked();
+    var products = section.querySelectorAll('[data-product-tags]');
+    var visibleCount = 0;
+
+    products.forEach(function (product) {
+      var productTags = product.getAttribute('data-product-tags').split(',').map(function(tag) { return tag.trim(); });
+      var matches = true;
+
+      if (selectedTags.length > 0) {
+        matches = selectedTags.every(function (tag) {
+          return productTags.indexOf(tag) !== -1;
+        });
+      }
+
+      if (matches) {
+        product.style.display = '';
+        visibleCount++;
+      } else {
+        product.style.display = 'none';
+      }
+    });
+
+    /* Update product count */
+    var countEl = section.querySelector('.ic__count-' + sid);
+    if (countEl) {
+      countEl.textContent = visibleCount + (visibleCount === 1 ? ' producto' : ' productos');
+    }
+
+    /* Update URL without reload */
+    var url = new URL(window.location.href);
+    if (selectedTags.length > 0) {
+      url.hash = selectedTags.join('+');
+    } else {
+      url.hash = '';
+    }
+    window.history.replaceState({}, '', url.toString());
+  }
+
+  /* Path-based navigation for other collections */
   function navigateToTags(tags) {
     var base = '{{ collection.url }}';
     if (tags.length > 0) {
@@ -973,9 +1016,37 @@
       section.querySelectorAll('input[data-filter-tag="' + tag + '"]').forEach(function (other) {
         other.checked = cb.checked;
       });
-      navigateToTags(collectChecked());
+      if (isEmbutidos) {
+        filterProducts();
+      } else {
+        navigateToTags(collectChecked());
+      }
     });
   });
+
+  /* Restore filters from URL hash for embutidos */
+  function restoreFiltersFromHash() {
+    var hash = window.location.hash.substring(1);
+    if (hash) {
+      hash = decodeURIComponent(hash);
+      var tags = hash.split('+');
+      tags.forEach(function (tag) {
+        var cbs = section.querySelectorAll('input[data-filter-tag="' + tag + '"]');
+        cbs.forEach(function (cb) { cb.checked = true; });
+      });
+      filterProducts();
+    }
+  }
+
+  if (isEmbutidos) {
+    restoreFiltersFromHash();
+    window.addEventListener('hashchange', function() {
+      section.querySelectorAll('input[data-filter-tag]').forEach(function(cb) {
+        cb.checked = false;
+      });
+      restoreFiltersFromHash();
+    });
+  }
 
   /* ── Price slider ── */
   var sliderGroups = section.querySelectorAll('.ic-price-slider-group-' + sid);
@@ -1019,7 +1090,11 @@
       } else {
         url.searchParams.delete('filter.v.price.lte');
       }
-      window.location.href = url.toString();
+      if (isEmbutidos) {
+        window.history.replaceState({}, '', url.toString());
+      } else {
+        window.location.href = url.toString();
+      }
     }
 
     minRange.addEventListener('mousedown', function () { minRange.style.zIndex = 3; maxRange.style.zIndex = 2; });

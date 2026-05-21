@@ -216,7 +216,18 @@
 
 {%- assign product = card_product -%}
 {%- if product != blank -%}
-  <article class="product-card">
+  {%- assign product_tags = '' -%}
+  {%- assign filtering_tags = 'tipo_chorizo,tipo_lomo,tipo_salchichon,formato_loncheados,formato_pieza,precinto negro,precinto rojo,precinto verde,precinto blanco' | split: ',' -%}
+  {%- for tag in product.tags -%}
+    {%- if filtering_tags contains tag -%}
+      {%- if product_tags == '' -%}
+        {%- assign product_tags = tag -%}
+      {%- else -%}
+        {%- assign product_tags = product_tags | append: ',' | append: tag -%}
+      {%- endif -%}
+    {%- endif -%}
+  {%- endfor -%}
+  <article class="product-card" {% if product_tags != '' %}data-product-tags="{{ product_tags }}"{% endif %}>
     <a href="{{ product.url }}" aria-label="{{ product.title | escape }}">
       <div class="product-card__img-box">
         {%- if product.featured_image != blank -%}
