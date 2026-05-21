@@ -800,7 +800,9 @@
         <div class="ic__grid-{{ section.id }}">
           {%- if collection.products.size > 0 -%}
             {%- for product in collection.products -%}
-              {% render 'product-card', card_product: product, card_collection: collection.handle %}
+              <div data-product-tags="{{ product.tags | join: ',' | downcase }}">
+                {% render 'product-card', card_product: product, card_collection: collection.handle %}
+              </div>
             {%- endfor -%}
           {%- else -%}
             <p class="ic__empty-{{ section.id }}">{{ section.settings.empty_label }}</p>
