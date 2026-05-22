@@ -110,33 +110,77 @@
     display: flex;
     flex-direction: column;
     gap: 0;
+    perspective: 1000px;
+  }
+
+  .cm-info-right::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: -60px;
+    width: 400px;
+    height: 100%;
+    background: radial-gradient(circle at 80% 40%, rgba(201, 168, 76, 0.04) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 1;
   }
 
   .cm-info-image-container {
-    position: relative;
-    height: 520px;
-    margin-bottom: 40px;
+    position: absolute;
+    top: -40px;
+    right: -100px;
+    width: 620px;
+    height: auto;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: center;
+    z-index: 10;
+    pointer-events: none;
   }
 
   .cm-info-image-container img {
-    max-width: 100%;
-    max-height: 100%;
+    width: 100%;
+    height: auto;
     object-fit: contain;
-    filter: drop-shadow(0 30px 60px rgba(26, 20, 16, 0.12));
-    animation: fadeInUp 0.8s ease-out;
+    animation: slideInDiagonal 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    filter: drop-shadow(-25px 45px 80px rgba(26, 20, 16, 0.25))
+            drop-shadow(-12px 25px 50px rgba(26, 20, 16, 0.12))
+            drop-shadow(-6px 12px 25px rgba(201, 168, 76, 0.12))
+            brightness(1.05)
+            saturate(1.08);
   }
 
-  @keyframes fadeInUp {
+  @keyframes slideInDiagonal {
     from {
       opacity: 0;
-      transform: translateY(20px);
+      transform: translateX(180px) translateY(-60px) rotate(12deg) scale(0.95);
     }
     to {
       opacity: 1;
-      transform: translateY(0);
+      transform: translateX(0) translateY(0) rotate(0deg) scale(1);
+    }
+  }
+
+  @media (max-width: 1024px) {
+    .cm-info-image-container {
+      height: 520px;
+      margin-right: -40px;
+    }
+
+    .cm-info-image-container img {
+      max-width: 520px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .cm-info-image-container {
+      height: 420px;
+      margin-right: 0;
+      margin-bottom: 40px;
+    }
+
+    .cm-info-image-container img {
+      max-width: 100%;
     }
   }
 
@@ -472,16 +516,14 @@
     {%- comment -%} RIGHT COLUMN: Image & Information Cards {%- endcomment -%}
     <div class="cm-info-right">
 
-      {%- comment -%} Product Image {%- endcomment -%}
-      {%- if product.featured_image -%}
-        <div class="cm-info-image-container">
-          <img
-            src="{{ product.featured_image | image_url: width: 600 }}"
-            alt="{{ product.featured_image.alt | escape }}"
-            loading="lazy"
-          />
-        </div>
-      {%- endif -%}
+      {%- comment -%} Product Image: Jamón con mano {%- endcomment -%}
+      <div class="cm-info-image-container">
+        <img
+          src="{{ 'IMG_1752.jpg' | asset_url }}"
+          alt="Mano ofreciendo jamón ibérico"
+          loading="lazy"
+        />
+      </div>
 
       {%- comment -%} Information Cards {%- endcomment -%}
       <div class="cm-info-cards">
