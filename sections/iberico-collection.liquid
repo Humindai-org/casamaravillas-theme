@@ -1126,14 +1126,12 @@
     function filterProductsByPrice() {
       var min = parseInt(minRange.value, 10);
       var max = parseInt(maxRange.value, 10);
-      var products = section.querySelectorAll('[data-product-tags]');
+      var products = section.querySelectorAll('[data-product-price]');
       var visibleCount = 0;
 
       products.forEach(function (product) {
-        var priceEl = product.querySelector('[data-product-price]');
-        var price = priceEl ? parseInt(priceEl.getAttribute('data-product-price'), 10) : null;
-
-        var show = price !== null && price >= min && price <= max;
+        var price = parseInt(product.getAttribute('data-product-price'), 10);
+        var show = price >= min && price <= max;
         product.style.display = show ? '' : 'none';
         if (show) visibleCount++;
       });
