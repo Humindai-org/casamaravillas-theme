@@ -16,7 +16,7 @@
           "type": "detail_card",
           "name": "Tarjeta de Curación",
           "settings": {
-            "enabled": true,
+            "enabled": false,
             "label": "Curación",
             "field_type": "curacion",
             "static_value": "-",
@@ -28,7 +28,7 @@
           "type": "detail_card",
           "name": "Tarjeta de Origen",
           "settings": {
-            "enabled": true,
+            "enabled": false,
             "label": "Origen",
             "field_type": "origen",
             "static_value": "-",
@@ -40,7 +40,7 @@
           "type": "detail_card",
           "name": "Tarjeta de Raza",
           "settings": {
-            "enabled": true,
+            "enabled": false,
             "label": "Raza",
             "field_type": "raza",
             "static_value": "-",
