@@ -70,8 +70,8 @@
       "settings": {
         "show_sticky_atc": true,
         "product_type": "entero",
-        "show_curing_selector": true,
-        "show_weight_selector": true,
+        "show_curing_selector": false,
+        "show_weight_selector": false,
         "weight_options": "6-7 kg, 8-9 kg",
         "weight_options_deshuesado": "5-6 kg",
         "pack_options": "1 ud., 10 ud., 20 ud., 30 ud.",
