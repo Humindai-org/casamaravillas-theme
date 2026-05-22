@@ -103,12 +103,12 @@
     "products": {
       "type": "product-grid",
       "settings": {
-        "eyebrow": "Tienda",
+        "eyebrow": "",
         "title": "<p>Nuestra <em>selección</em></p>",
         "collection": "",
         "products_to_show": 4,
         "view_all_label": "Ver jamones",
-        "view_all_url": "/collections/jamones"
+        "view_all_url": "shopify://collections"
       }
     },
     "featured": {
