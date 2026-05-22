@@ -602,13 +602,15 @@
       </div>
 
       {%- comment -%} Product Image: Jamón con mano {%- endcomment -%}
+      {%- if section.settings.product_image != blank -%}
       <div class="cm-info-image-container">
         <img
-          src="{{ 'IMG_1752.png' | asset_url }}"
-          alt="Mano ofreciendo jamón ibérico"
+          src="{{ section.settings.product_image | image_url: width: 520 }}"
+          alt="{{ section.settings.product_image.alt | default: 'Mano ofreciendo jamón ibérico' }}"
           loading="lazy"
         />
       </div>
+      {%- endif -%}
 
     </div>
 
@@ -810,6 +812,11 @@
 {
   "name": "Información del Producto",
   "settings": [
+    {
+      "type": "image_picker",
+      "id": "product_image",
+      "label": "Imagen del producto"
+    },
     {
       "type": "text",
       "id": "eyebrow_text",
