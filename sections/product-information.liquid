@@ -106,35 +106,21 @@
 
   /* ── RIGHT COLUMN WITH IMAGE & CARDS ── */
   .cm-info-right {
-    position: relative;
     display: flex;
     flex-direction: column;
     gap: 0;
-    perspective: 1000px;
-  }
-
-  .cm-info-right::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: -60px;
-    width: 400px;
-    height: 100%;
-    background: radial-gradient(circle at 80% 40%, rgba(201, 168, 76, 0.04) 0%, transparent 70%);
-    pointer-events: none;
-    z-index: 1;
   }
 
   .cm-info-image-container {
     position: absolute;
-    top: -40px;
-    right: -100px;
-    width: 620px;
+    top: 80px;
+    right: 24px;
+    width: 520px;
     height: auto;
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 10;
+    z-index: 5;
     pointer-events: none;
   }
 
@@ -163,20 +149,28 @@
 
   @media (max-width: 1024px) {
     .cm-info-image-container {
-      height: 520px;
-      margin-right: -40px;
+      width: 420px;
+      top: 60px;
+      right: 0;
     }
 
     .cm-info-image-container img {
-      max-width: 520px;
+      max-width: 420px;
     }
   }
 
   @media (max-width: 768px) {
+    .cm-info-section__inner {
+      grid-template-columns: 1fr;
+    }
+
     .cm-info-image-container {
-      height: 420px;
-      margin-right: 0;
-      margin-bottom: 40px;
+      position: relative;
+      width: 100%;
+      top: 0;
+      right: auto;
+      margin-top: 60px;
+      margin-bottom: 0;
     }
 
     .cm-info-image-container img {
@@ -513,17 +507,8 @@
       </p>
     </div>
 
-    {%- comment -%} RIGHT COLUMN: Image & Information Cards {%- endcomment -%}
+    {%- comment -%} RIGHT COLUMN: Information Cards {%- endcomment -%}
     <div class="cm-info-right">
-
-      {%- comment -%} Product Image: Jamón con mano {%- endcomment -%}
-      <div class="cm-info-image-container">
-        <img
-          src="{{ 'IMG_1752.jpg' | asset_url }}"
-          alt="Mano ofreciendo jamón ibérico"
-          loading="lazy"
-        />
-      </div>
 
       {%- comment -%} Information Cards {%- endcomment -%}
       <div class="cm-info-cards">
@@ -628,6 +613,15 @@
 
       </div>
 
+    </div>
+
+    {%- comment -%} FLOATING IMAGE: Jamón con mano {%- endcomment -%}
+    <div class="cm-info-image-container">
+      <img
+        src="{{ 'IMG_1752.jpg' | asset_url }}"
+        alt="Mano ofreciendo jamón ibérico"
+        loading="lazy"
+      />
     </div>
 
   </div>
