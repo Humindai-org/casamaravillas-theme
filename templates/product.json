@@ -147,6 +147,7 @@
       "type": "product-information",
       "name": "Información del Producto",
       "settings": {
+        "product_image": "shopify://shop_images/IMG_1752.png",
         "eyebrow_text": "Información del producto",
         "title_text": "Transparencia con sabor a",
         "title_em_text": "TRADICIÓN",
