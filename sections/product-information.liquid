@@ -106,32 +106,28 @@
 
   /* ── RIGHT COLUMN WITH IMAGE & CARDS ── */
   .cm-info-right {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
+    display: grid;
+    grid-template-columns: 1fr 520px;
+    gap: 60px;
+    align-items: start;
   }
 
   .cm-info-image-container {
-    position: absolute;
-    top: 80px;
-    right: 24px;
-    width: 520px;
+    width: 100%;
     height: auto;
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 5;
-    pointer-events: none;
   }
 
   .cm-info-image-container img {
     width: 100%;
     height: auto;
     object-fit: contain;
-    animation: slideInDiagonal 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    filter: drop-shadow(-25px 45px 80px rgba(26, 20, 16, 0.25))
-            drop-shadow(-12px 25px 50px rgba(26, 20, 16, 0.12))
-            drop-shadow(-6px 12px 25px rgba(201, 168, 76, 0.12))
+    animation: slideInDiagonal 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    filter: drop-shadow(-15px 25px 50px rgba(26, 20, 16, 0.2))
+            drop-shadow(-8px 15px 30px rgba(26, 20, 16, 0.1))
+            drop-shadow(-4px 8px 15px rgba(201, 168, 76, 0.08))
             brightness(1.05)
             saturate(1.08);
   }
@@ -148,14 +144,9 @@
   }
 
   @media (max-width: 1024px) {
-    .cm-info-image-container {
-      width: 420px;
-      top: 60px;
-      right: 0;
-    }
-
-    .cm-info-image-container img {
-      max-width: 420px;
+    .cm-info-right {
+      grid-template-columns: 1fr 380px;
+      gap: 40px;
     }
   }
 
@@ -164,17 +155,9 @@
       grid-template-columns: 1fr;
     }
 
-    .cm-info-image-container {
-      position: relative;
-      width: 100%;
-      top: 0;
-      right: auto;
-      margin-top: 60px;
-      margin-bottom: 0;
-    }
-
-    .cm-info-image-container img {
-      max-width: 100%;
+    .cm-info-right {
+      grid-template-columns: 1fr;
+      gap: 40px;
     }
   }
 
@@ -613,15 +596,15 @@
 
       </div>
 
-    </div>
+      {%- comment -%} Product Image: Jamón con mano {%- endcomment -%}
+      <div class="cm-info-image-container">
+        <img
+          src="{{ 'IMG_1752.jpg' | asset_url }}"
+          alt="Mano ofreciendo jamón ibérico"
+          loading="lazy"
+        />
+      </div>
 
-    {%- comment -%} FLOATING IMAGE: Jamón con mano {%- endcomment -%}
-    <div class="cm-info-image-container">
-      <img
-        src="{{ 'IMG_1752.jpg' | asset_url }}"
-        alt="Mano ofreciendo jamón ibérico"
-        loading="lazy"
-      />
     </div>
 
   </div>
