@@ -11,8 +11,6 @@
   "sections": {
     "main": {
       "type": "main-product",
-      "blocks": {},
-      "block_order": [],
       "settings": {
         "show_sticky_atc": true,
         "product_type": "deshuesado",
@@ -66,7 +64,7 @@
           "type": "trust_item",
           "settings": {
             "title": "Formato",
-            "description": "Cortado, deshuesado o pieza entera",
+            "description": "Loncheado",
             "icon": "formato.svg"
           }
         }
