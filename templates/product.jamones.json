@@ -1,0 +1,321 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "detail_card_rBmAY6": {
+          "type": "detail_card",
+          "name": "Tarjeta de Curación",
+          "settings": {
+            "enabled": true,
+            "label": "Curación",
+            "field_type": "curacion",
+            "static_value": "-",
+            "card_icon": "icon-curacion.svg",
+            "icon_type": "static"
+          }
+        },
+        "detail_card_3AdTN7": {
+          "type": "detail_card",
+          "name": "Tarjeta de Origen",
+          "settings": {
+            "enabled": true,
+            "label": "Origen",
+            "field_type": "origen",
+            "static_value": "-",
+            "card_icon": "icon-origen.svg",
+            "icon_type": "static"
+          }
+        },
+        "detail_card_edJprB": {
+          "type": "detail_card",
+          "name": "Tarjeta de Raza",
+          "settings": {
+            "enabled": true,
+            "label": "Raza",
+            "field_type": "raza",
+            "static_value": "-",
+            "card_icon": "icon-raza.svg",
+            "icon_type": "static"
+          }
+        },
+        "detail_card_6dy9me": {
+          "type": "detail_card",
+          "name": "Tarjeta de Alimentación",
+          "settings": {
+            "enabled": true,
+            "label": "ALIMENTACIÓN",
+            "field_type": "alimentacion",
+            "static_value": "{{ product.metafields.custom.feeding_type.value }}",
+            "card_icon": "icon-cereales.svg",
+            "icon_type": "dynamic"
+          }
+        }
+      },
+      "block_order": [
+        "detail_card_rBmAY6",
+        "detail_card_3AdTN7",
+        "detail_card_edJprB",
+        "detail_card_6dy9me"
+      ],
+      "settings": {
+        "show_sticky_atc": true,
+        "product_type": "deshuesado",
+        "show_curing_selector": true,
+        "show_weight_selector": true,
+        "weight_options": "6-7 kg, 8-9 kg",
+        "weight_options_deshuesado": "5-6 kg",
+        "pack_options": "1 ud., 10 ud., 20 ud., 30 ud.",
+        "show_complementary_products": false,
+        "complementary_title": "Complementa tu pedido con",
+        "complementary_collection": "",
+        "complementary_max": 3
+      }
+    },
+    "trust_band_YfPnnW": {
+      "type": "trust-band",
+      "blocks": {
+        "trust_item_diRE88": {
+          "type": "trust_item",
+          "settings": {
+            "title": "Envío gratis",
+            "description": "A partir de €80 en Península",
+            "icon": "icon-envio.svg"
+          }
+        },
+        "trust_item_LQKy7Q": {
+          "type": "trust_item",
+          "settings": {
+            "title": "Calidad garantizada",
+            "description": "Tres generaciones de artesanía ibérica",
+            "icon": "icon-garantia.svg"
+          }
+        },
+        "trust_item_pGzHrd": {
+          "type": "trust_item",
+          "settings": {
+            "title": "Embalaje especial",
+            "description": "Conservación en frío garantizada",
+            "icon": "icon-refrigerado.svg"
+          }
+        },
+        "trust_item_hhUz6U": {
+          "type": "trust_item",
+          "settings": {
+            "title": "Packaging regalo",
+            "description": "Presentación premium para regalar",
+            "icon": "icon-info.svg"
+          }
+        },
+        "trust_item_formato": {
+          "type": "trust_item",
+          "settings": {
+            "title": "Formato",
+            "description": "Cortado, deshuesado o pieza entera",
+            "icon": "formato.svg"
+          }
+        }
+      },
+      "block_order": [
+        "trust_item_diRE88",
+        "trust_item_LQKy7Q",
+        "trust_item_pGzHrd",
+        "trust_item_hhUz6U",
+        "trust_item_formato"
+      ],
+      "name": "Banda de confianza",
+      "settings": {}
+    },
+    "combina": {
+      "type": "combina-tu-compra",
+      "settings": {
+        "title": "Combina tu compra con",
+        "collection": "",
+        "products_to_show": 5
+      }
+    },
+    "product_information_zDBpen": {
+      "type": "product-information",
+      "name": "Información del Producto",
+      "settings": {
+        "eyebrow_text": "Información del producto",
+        "title_text": "Transparencia con sabor a",
+        "title_em_text": "TRADICIÓN",
+        "description_text": "Detrás de cada pieza hay un proceso que merece ser conocido. Por eso te lo contamos todo: su composición nutricional, cómo conservarlo y cómo disfrutarlo al máximo. Porque saber lo que comes es parte del placer.",
+        "card1_title": "Información nutricional",
+        "card1_icon": "info_nutricional.svg",
+        "kcal_label": "Valor energético",
+        "info_kcal": "{{ product.metafields.custom.energy.value }}",
+        "protein_label": "Proteínas",
+        "info_protein": "{{ product.metafields.custom.protein.value }}",
+        "fats_label": "Grasas",
+        "info_fats": "{{ product.metafields.custom.fat.value }}",
+        "saturated_fats_label": "— de las cuales saturadas",
+        "info_saturated_fats": "{{ product.metafields.custom.saturated_fat.value }}",
+        "carbs_label": "Hidratos de carbono",
+        "info_carbs": "{{ product.metafields.custom.carbohydrates.value }}",
+        "sugars_label": "Azúcares",
+        "info_sugars": "{{ product.metafields.custom.sugars.value }}",
+        "salt_label": "Sal",
+        "info_salt": "{{ product.metafields.custom.salt.value }}",
+        "card2_title": "Conservación y consumo",
+        "card2_icon": "icon-consumo.svg",
+        "conservation_label": "Conservación",
+        "info_conservation_temp": "20-25",
+        "service_label": "Consumo ideal",
+        "info_service_temp": "20-24",
+        "opened_label": "Una vez abierto",
+        "info_conservation_days": "",
+        "card2_additional_text": ""
+      }
+    },
+    "product_details_accordion_Dtwtwz": {
+      "type": "product-details-accordion",
+      "blocks": {
+        "accordion_dA6gdX": {
+          "type": "accordion",
+          "settings": {
+            "icon": "cata",
+            "title": "Cata",
+            "summary": "",
+            "metafield_key": "",
+            "content_fallback": "",
+            "kv_1_label": "Aroma",
+            "kv_1_value": "{{ product.metafields.custom.aroma_notes.value }}",
+            "kv_2_label": "Sabor",
+            "kv_2_value": "{{ product.metafields.custom.flavor_notes.value }}",
+            "kv_3_label": "Textura",
+            "kv_3_value": "{{ product.metafields.custom.texture_notes.value }}",
+            "kv_4_label": "",
+            "kv_4_value": "",
+            "kv_5_label": "",
+            "kv_5_value": ""
+          }
+        },
+        "accordion_z7nhkT": {
+          "type": "accordion",
+          "settings": {
+            "icon": "raza",
+            "title": "Raza y Alimentación",
+            "summary": "",
+            "metafield_key": "",
+            "content_fallback": "",
+            "kv_1_label": "Raza",
+            "kv_1_value": "{{ product.metafields.custom.breed.value }}",
+            "kv_2_label": "Alimentación",
+            "kv_2_value": "{{ product.metafields.custom.feeding_type.value }}",
+            "kv_3_label": "",
+            "kv_3_value": "",
+            "kv_4_label": "",
+            "kv_4_value": "",
+            "kv_5_label": "",
+            "kv_5_value": ""
+          }
+        },
+        "accordion_eNJyBz": {
+          "type": "accordion",
+          "settings": {
+            "icon": "info",
+            "title": "Maridaje",
+            "summary": "",
+            "metafield_key": "pairing_ideas",
+            "content_fallback": "",
+            "kv_1_label": "",
+            "kv_1_value": "",
+            "kv_2_label": "",
+            "kv_2_value": "",
+            "kv_3_label": "",
+            "kv_3_value": "",
+            "kv_4_label": "",
+            "kv_4_value": "",
+            "kv_5_label": "",
+            "kv_5_value": ""
+          }
+        },
+        "accordion_UqXNXn": {
+          "type": "accordion",
+          "settings": {
+            "icon": "fork",
+            "title": "Consejos de corte",
+            "summary": "",
+            "metafield_key": "cutting_tips",
+            "content_fallback": "",
+            "kv_1_label": "",
+            "kv_1_value": "",
+            "kv_2_label": "",
+            "kv_2_value": "",
+            "kv_3_label": "",
+            "kv_3_value": "",
+            "kv_4_label": "",
+            "kv_4_value": "",
+            "kv_5_label": "",
+            "kv_5_value": ""
+          }
+        },
+        "accordion_pNab39": {
+          "type": "accordion",
+          "settings": {
+            "icon": "garantia",
+            "title": "Alérgenos e ingredientes",
+            "summary": "",
+            "metafield_key": "allergens",
+            "content_fallback": "",
+            "kv_1_label": "",
+            "kv_1_value": "",
+            "kv_2_label": "",
+            "kv_2_value": "",
+            "kv_3_label": "",
+            "kv_3_value": "",
+            "kv_4_label": "",
+            "kv_4_value": "",
+            "kv_5_label": "",
+            "kv_5_value": ""
+          }
+        }
+      },
+      "block_order": [
+        "accordion_dA6gdX",
+        "accordion_z7nhkT",
+        "accordion_eNJyBz",
+        "accordion_UqXNXn",
+        "accordion_pNab39"
+      ],
+      "name": "Detalles de la Pieza",
+      "settings": {
+        "header_eyebrow": "Detalles de la pieza",
+        "header_title": "Todo lo que debes saber",
+        "header_title_em": "",
+        "sections_label": "",
+        "empty_message": "Información no añadida todavía para este producto."
+      }
+    },
+    "related": {
+      "type": "product-grid",
+      "settings": {
+        "eyebrow": "También te puede gustar",
+        "title": "<p>Productos <em>relacionados</em></p>",
+        "collection": "",
+        "products_to_show": 4,
+        "view_all_label": "Ver toda la colección",
+        "view_all_url": "/collections/all"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "trust_band_YfPnnW",
+    "combina",
+    "product_information_zDBpen",
+    "product_details_accordion_Dtwtwz",
+    "related"
+  ]
+}

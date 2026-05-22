@@ -1,0 +1,159 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {},
+      "block_order": [],
+      "settings": {
+        "show_sticky_atc": true,
+        "product_type": "pieza entera",
+        "show_curing_selector": false,
+        "show_weight_selector": false,
+        "weight_options": "",
+        "weight_options_deshuesado": "",
+        "pack_options": "",
+        "show_complementary_products": false,
+        "complementary_title": "Complementa tu pedido con",
+        "complementary_collection": "",
+        "complementary_max": 3
+      }
+    },
+    "trust_band_YfPnnW": {
+      "type": "trust-band",
+      "blocks": {
+        "trust_item_diRE88": {
+          "type": "trust_item",
+          "settings": {
+            "title": "Envío gratis",
+            "description": "A partir de €80 en Península",
+            "icon": "icon-envio.svg"
+          }
+        },
+        "trust_item_LQKy7Q": {
+          "type": "trust_item",
+          "settings": {
+            "title": "Calidad garantizada",
+            "description": "Tres generaciones de artesanía ibérica",
+            "icon": "icon-garantia.svg"
+          }
+        },
+        "trust_item_pGzHrd": {
+          "type": "trust_item",
+          "settings": {
+            "title": "Embalaje especial",
+            "description": "Conservación en frío garantizada",
+            "icon": "icon-refrigerado.svg"
+          }
+        },
+        "trust_item_hhUz6U": {
+          "type": "trust_item",
+          "settings": {
+            "title": "Packaging regalo",
+            "description": "Presentación premium para regalar",
+            "icon": "icon-info.svg"
+          }
+        }
+      },
+      "block_order": [
+        "trust_item_diRE88",
+        "trust_item_LQKy7Q",
+        "trust_item_pGzHrd",
+        "trust_item_hhUz6U"
+      ],
+      "name": "Banda de confianza",
+      "settings": {}
+    },
+    "combina": {
+      "type": "combina-tu-compra",
+      "settings": {
+        "title": "Combina tu compra con",
+        "collection": "",
+        "products_to_show": 5
+      }
+    },
+    "product_details_accordion_Dtwtwz": {
+      "type": "product-details-accordion",
+      "blocks": {
+        "accordion_eNJyBz": {
+          "type": "accordion",
+          "settings": {
+            "icon": "info",
+            "title": "Contenido del pack",
+            "summary": "",
+            "metafield_key": "pack_contents",
+            "content_fallback": "",
+            "kv_1_label": "",
+            "kv_1_value": "",
+            "kv_2_label": "",
+            "kv_2_value": "",
+            "kv_3_label": "",
+            "kv_3_value": "",
+            "kv_4_label": "",
+            "kv_4_value": "",
+            "kv_5_label": "",
+            "kv_5_value": ""
+          }
+        },
+        "accordion_pNab39": {
+          "type": "accordion",
+          "settings": {
+            "icon": "garantia",
+            "title": "Alérgenos e ingredientes",
+            "summary": "",
+            "metafield_key": "allergens",
+            "content_fallback": "",
+            "kv_1_label": "",
+            "kv_1_value": "",
+            "kv_2_label": "",
+            "kv_2_value": "",
+            "kv_3_label": "",
+            "kv_3_value": "",
+            "kv_4_label": "",
+            "kv_4_value": "",
+            "kv_5_label": "",
+            "kv_5_value": ""
+          }
+        }
+      },
+      "block_order": [
+        "accordion_eNJyBz",
+        "accordion_pNab39"
+      ],
+      "name": "Detalles de la Pieza",
+      "settings": {
+        "header_eyebrow": "Detalles del pack",
+        "header_title": "Todo lo que debes saber",
+        "header_title_em": "",
+        "sections_label": "",
+        "empty_message": "Información no añadida todavía para este producto."
+      }
+    },
+    "related": {
+      "type": "product-grid",
+      "settings": {
+        "eyebrow": "También te puede gustar",
+        "title": "<p>Productos <em>relacionados</em></p>",
+        "collection": "",
+        "products_to_show": 4,
+        "view_all_label": "Ver toda la colección",
+        "view_all_url": "/collections/all"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "trust_band_YfPnnW",
+    "combina",
+    "product_details_accordion_Dtwtwz",
+    "related"
+  ]
+}
