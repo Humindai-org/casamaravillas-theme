@@ -611,8 +611,13 @@
             {%- assign image_src = 'IMG_1752.png' | asset_url -%}
             {%- assign image_alt = 'Mano ofreciendo jamón ibérico' -%}
           {%- when 'embutidos' -%}
-            {%- assign image_src = 'embutidos-default.png' | asset_url -%}
-            {%- assign image_alt = 'Embutido ibérico' -%}
+            {%- if section.settings.embutidos_image != blank -%}
+              {%- assign image_src = section.settings.embutidos_image | image_url: width: 520 -%}
+              {%- assign image_alt = section.settings.embutidos_image.alt | default: 'Embutido ibérico' -%}
+            {%- else -%}
+              {%- assign image_src = 'embutidos-default.png' | asset_url -%}
+              {%- assign image_alt = 'Embutido ibérico' -%}
+            {%- endif -%}
         {%- endcase -%}
       {%- endif -%}
 
@@ -830,6 +835,11 @@
       "type": "image_picker",
       "id": "product_image",
       "label": "Imagen del producto"
+    },
+    {
+      "type": "image_picker",
+      "id": "embutidos_image",
+      "label": "Imagen para colección Embutidos"
     },
     {
       "type": "text",
