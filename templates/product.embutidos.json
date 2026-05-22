@@ -13,12 +13,12 @@
       "type": "main-product",
       "settings": {
         "show_sticky_atc": true,
-        "product_type": "deshuesado",
-        "show_curing_selector": true,
-        "show_weight_selector": true,
-        "weight_options": "6-7 kg, 8-9 kg",
-        "weight_options_deshuesado": "5-6 kg",
-        "pack_options": "1 ud., 10 ud., 20 ud., 30 ud.",
+        "product_type": "pieza entera",
+        "show_curing_selector": false,
+        "show_weight_selector": false,
+        "weight_options": "",
+        "weight_options_deshuesado": "",
+        "pack_options": "",
         "show_complementary_products": false,
         "complementary_title": "Complementa tu pedido con",
         "complementary_collection": "",
@@ -64,7 +64,7 @@
           "type": "trust_item",
           "settings": {
             "title": "Formato",
-            "description": "Loncheado",
+            "description": "{% if product.tags contains 'loncheado' %}Loncheado{% elsif product.tags contains 'pieza' %}Pieza entera{% else %}Cortado, deshuesado o pieza entera{% endif %}",
             "icon": "formato.svg"
           }
         }
