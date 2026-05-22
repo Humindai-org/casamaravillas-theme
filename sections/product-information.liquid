@@ -106,18 +106,21 @@
 
   /* ── RIGHT COLUMN WITH IMAGE & CARDS ── */
   .cm-info-right {
-    display: grid;
-    grid-template-columns: 1fr 520px;
-    gap: 60px;
-    align-items: start;
+    position: relative;
+    display: flex;
+    flex-direction: column;
   }
 
   .cm-info-image-container {
-    width: 100%;
+    position: absolute;
+    top: 0;
+    right: -580px;
+    width: 520px;
     height: auto;
     display: flex;
     align-items: center;
     justify-content: center;
+    pointer-events: none;
   }
 
   .cm-info-image-container img {
@@ -144,9 +147,9 @@
   }
 
   @media (max-width: 1024px) {
-    .cm-info-right {
-      grid-template-columns: 1fr 380px;
-      gap: 40px;
+    .cm-info-image-container {
+      width: 380px;
+      right: -420px;
     }
   }
 
@@ -155,9 +158,11 @@
       grid-template-columns: 1fr;
     }
 
-    .cm-info-right {
-      grid-template-columns: 1fr;
-      gap: 40px;
+    .cm-info-image-container {
+      position: relative;
+      right: auto;
+      width: 100%;
+      margin-top: 40px;
     }
   }
 
