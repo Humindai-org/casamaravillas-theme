@@ -601,12 +601,26 @@
 
       </div>
 
-      {%- comment -%} Product Image: Jamón con mano {%- endcomment -%}
+      {%- comment -%} Product Image: Determine image based on product's image setting or collection {%- endcomment -%}
       {%- if section.settings.product_image != blank -%}
+        {%- assign image_to_use = section.settings.product_image -%}
+        {%- assign image_alt = section.settings.product_image.alt | default: 'Mano ofreciendo jamón ibérico' -%}
+      {%- else -%}
+        {%- case product.collections.first.handle -%}
+          {%- when 'jamones' -%}
+            {%- assign image_to_use = 'IMG_1752.png' -%}
+            {%- assign image_alt = 'Mano ofreciendo jamón ibérico' -%}
+          {%- when 'embutidos' -%}
+            {%- assign image_to_use = 'embutidos-default.png' -%}
+            {%- assign image_alt = 'Embutido ibérico' -%}
+        {%- endcase -%}
+      {%- endif -%}
+
+      {%- if image_to_use != blank -%}
       <div class="cm-info-image-container">
         <img
-          src="{{ section.settings.product_image | image_url: width: 520 }}"
-          alt="{{ section.settings.product_image.alt | default: 'Mano ofreciendo jamón ibérico' }}"
+          src="{% if section.settings.product_image != blank %}{{ image_to_use | image_url: width: 520 }}{% else %}{{ image_to_use | asset_url }}{% endif %}"
+          alt="{{ image_alt }}"
           loading="lazy"
         />
       </div>
