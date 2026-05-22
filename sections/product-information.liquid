@@ -608,15 +608,14 @@
       {%- else -%}
         {%- case product.collections.first.handle -%}
           {%- when 'jamones' -%}
-            {%- assign image_src = 'IMG_1752.png' | asset_url -%}
-            {%- assign image_alt = 'Mano ofreciendo jamón ibérico' -%}
+            {%- if section.settings.jamones_image != blank -%}
+              {%- assign image_src = section.settings.jamones_image | image_url: width: 520 -%}
+              {%- assign image_alt = section.settings.jamones_image.alt | default: 'Mano ofreciendo jamón ibérico' -%}
+            {%- endif -%}
           {%- when 'embutidos' -%}
             {%- if section.settings.embutidos_image != blank -%}
               {%- assign image_src = section.settings.embutidos_image | image_url: width: 520 -%}
               {%- assign image_alt = section.settings.embutidos_image.alt | default: 'Embutido ibérico' -%}
-            {%- else -%}
-              {%- assign image_src = 'embutidos-default.png' | asset_url -%}
-              {%- assign image_alt = 'Embutido ibérico' -%}
             {%- endif -%}
         {%- endcase -%}
       {%- endif -%}
@@ -835,6 +834,11 @@
       "type": "image_picker",
       "id": "product_image",
       "label": "Imagen del producto"
+    },
+    {
+      "type": "image_picker",
+      "id": "jamones_image",
+      "label": "Imagen para colección Jamones"
     },
     {
       "type": "image_picker",
