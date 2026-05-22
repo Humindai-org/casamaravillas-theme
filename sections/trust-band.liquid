@@ -74,7 +74,19 @@
       </div>
       <div>
         <p class="trust-band__title" {%- if icon_name == 'formato.svg' %} id="cm-trust-formato-title"{% endif %}>{{ block.settings.title }}</p>
-        <p class="trust-band__desc" {%- if icon_name == 'formato.svg' %} id="cm-trust-formato-desc"{% endif %}>{{ block.settings.description }}</p>
+        <p class="trust-band__desc" {%- if icon_name == 'formato.svg' %} id="cm-trust-formato-desc"{% endif %}>
+          {%- if icon_name == 'formato.svg' -%}
+            {%- if product.tags contains 'loncheado' -%}
+              Loncheado
+            {%- elsif product.tags contains 'pieza' -%}
+              Pieza entera
+            {%- else -%}
+              {{ block.settings.description }}
+            {%- endif -%}
+          {%- else -%}
+            {{ block.settings.description }}
+          {%- endif -%}
+        </p>
       </div>
     </div>
   {%- endfor -%}

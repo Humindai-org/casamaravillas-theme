@@ -458,7 +458,10 @@
   }
 
   /* ── DESCRIPCIÓN CORTA ── */
-  .cm-pdp__desc { margin-bottom: 24px; }
+  .cm-pdp__desc {
+    margin-top: 40px;
+    margin-bottom: 24px;
+  }
 
   .cm-pdp__desc-preview {
     font-size: 16px;
@@ -466,6 +469,9 @@
     line-height: 1.6;
     transition: opacity 0.3s;
     overflow: visible;
+    padding: 24px;
+    background: var(--bg-card);
+    border-radius: 4px;
   }
 
   .cm-pdp__desc-preview strong,
@@ -1285,6 +1291,7 @@
 
   /* ── DESCRIPCIÓN EDITORIAL ── */
   .cm-pdp__desc {
+    margin-top: 48px;
     margin-bottom: 24px;
     padding-left: 16px;
     border-left: 1.5px solid var(--accent-gold);
