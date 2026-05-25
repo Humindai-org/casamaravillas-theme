@@ -4,6 +4,23 @@
     background: var(--cm-off);
   }
 
+  .product-grid-section.bg-gold-pale {
+    background: #F5EFE0;
+  }
+
+  .product-grid-section.bg-navy {
+    background: var(--cm-navy);
+    color: var(--cm-white);
+  }
+
+  .product-grid-section.bg-navy .product-grid-section__eyebrow {
+    color: var(--cm-gold);
+  }
+
+  .product-grid-section.bg-navy .product-grid-section__title {
+    color: var(--cm-white);
+  }
+
   .product-grid-section__header {
     display: flex;
     justify-content: space-between;
@@ -59,7 +76,7 @@
   }
 </style>
 
-<section class="product-grid-section">
+<section class="product-grid-section{% if section.settings.section_bg == 'gold_pale' %} bg-gold-pale{% elsif section.settings.section_bg == 'navy' %} bg-navy{% endif %}">
 
   <div class="product-grid-section__header">
     <div class="product-grid-section__header-left">
@@ -137,6 +154,26 @@
       "type": "url",
       "id": "view_all_url",
       "label": "Enlace 'Ver todo'"
+    },
+    {
+      "type": "select",
+      "id": "section_bg",
+      "label": "Fondo de la sección",
+      "options": [
+        {
+          "value": "off",
+          "label": "Off-white (default)"
+        },
+        {
+          "value": "gold_pale",
+          "label": "Dorado pálido"
+        },
+        {
+          "value": "navy",
+          "label": "Navy (oscuro)"
+        }
+      ],
+      "default": "off"
     }
   ],
   "presets": [

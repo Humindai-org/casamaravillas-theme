@@ -56,6 +56,65 @@
       ],
       "settings": {}
     },
+    "home_quality_tiers": {
+      "type": "home-quality-tiers",
+      "blocks": {
+        "tier-1": {
+          "type": "panel",
+          "settings": {
+            "bg_color": "#1C1A18",
+            "numeral": "I",
+            "tier": "ORO",
+            "product_name": "Jamón Ibérico de Béllota 100%",
+            "url": "/collections/jamones#precinto-negro",
+            "light_text": true
+          }
+        },
+        "tier-2": {
+          "type": "panel",
+          "settings": {
+            "bg_color": "#4A1628",
+            "numeral": "II",
+            "tier": "PLATA SUPERIOR",
+            "product_name": "Jamón Ibérico de Bellota 75%",
+            "url": "/collections/jamones#precinto-rojo",
+            "light_text": true
+          }
+        },
+        "tier-3": {
+          "type": "panel",
+          "settings": {
+            "bg_color": "#1E3028",
+            "numeral": "III",
+            "tier": "BRONCE SUPERIOR",
+            "product_name": "Jamón Ibérico Cebo de Campo",
+            "url": "/collections/jamones#precinto-verde",
+            "light_text": true
+          }
+        },
+        "tier-4": {
+          "type": "panel",
+          "settings": {
+            "bg_color": "#F0E8D8",
+            "numeral": "III",
+            "tier": "BRONCE",
+            "product_name": "Jamón Ibérico de Cebo",
+            "url": "/collections/jamones#precinto-blanco",
+            "light_text": false
+          }
+        }
+      },
+      "block_order": [
+        "tier-1",
+        "tier-2",
+        "tier-3",
+        "tier-4"
+      ],
+      "settings": {
+        "eyebrow": "NUESTRAS CATEGORÍAS",
+        "heading": "Encuentra el jamón que buscas"
+      }
+    },
     "trust": {
       "type": "trust-band",
       "blocks": {
@@ -103,12 +162,12 @@
     "products": {
       "type": "product-grid",
       "settings": {
-        "eyebrow": "",
+        "eyebrow": "LOS MÁS VALORADOS",
         "title": "<p>Nuestra <em>selección</em></p>",
-        "collection": "",
+        "collection": "jamones",
         "products_to_show": 4,
-        "view_all_label": "Ver todo",
-        "view_all_url": "shopify://collections"
+        "view_all_label": "Ver toda la selección",
+        "view_all_url": "/collections/jamones"
       }
     },
     "featured": {
@@ -163,14 +222,15 @@
     },
     "product_grid_VxPcmf": {
       "type": "product-grid",
-      "name": "Grid de productos",
+      "name": "Grid de packs y regalos",
       "settings": {
-        "eyebrow": "Tienda",
-        "title": "<p>Nuestra <em>selección</em></p>",
-        "collection": "",
+        "eyebrow": "PARA REGALAR O PARA TI",
+        "title": "<p>Packs y <em>Regalos</em></p>",
+        "collection": "packs-y-regalos",
         "products_to_show": 4,
-        "view_all_label": "Ver toda la colección",
-        "view_all_url": ""
+        "view_all_label": "Ver todos los packs",
+        "view_all_url": "/collections/packs-y-regalos",
+        "section_bg": "gold_pale"
       }
     },
     "iberico_guide": {
@@ -250,6 +310,57 @@
         "cta_url": "/pages/sobre-nosotros"
       }
     },
+    "faq_home": {
+      "type": "faq",
+      "blocks": {
+        "faq-1": {
+          "type": "faq_item",
+          "settings": {
+            "question": "¿Cómo llega el jamón a casa?",
+            "answer": "<p>Todos los pedidos se envían con embalaje isotérmico especializado y placas de gel refrigerante. La temperatura se mantiene controlada durante todo el trayecto para que el producto llegue en perfectas condiciones a tu mesa.</p>"
+          }
+        },
+        "faq-2": {
+          "type": "faq_item",
+          "settings": {
+            "question": "¿Cuánto tarda en llegar mi pedido?",
+            "answer": "<p>Los pedidos realizados antes de las 12:00 h se preparan y envían el mismo día. La entrega es en 24-48 h en Península. Islas y zonas remotas pueden requerir 2-3 días adicionales.</p>"
+          }
+        },
+        "faq-3": {
+          "type": "faq_item",
+          "settings": {
+            "question": "¿Con hueso o sin hueso? ¿Qué recomiendas?",
+            "answer": "<p>El jamón con hueso ofrece el sabor más auténtico y es ideal si tienes jamonero. El jamón deshuesado es más cómodo de cortar y conservar. Si es un regalo, el deshuesado suele ser la opción más práctica. Si tienes dudas, escríbenos y te asesoramos.</p>"
+          }
+        },
+        "faq-4": {
+          "type": "faq_item",
+          "settings": {
+            "question": "¿Qué diferencia hay entre ibérico de bellota y el resto?",
+            "answer": "<p>El jamón de bellota viene de cerdos 100% ibéricos criados en libertad en la dehesa y alimentados con bellotas durante la montanera. Esto le da el veteado de grasa infiltrada, el aroma intenso y el sabor incomparable que lo define. Es la cima de la gastronomía española.</p>"
+          }
+        },
+        "faq-5": {
+          "type": "faq_item",
+          "settings": {
+            "question": "¿Hacéis envíos a toda España?",
+            "answer": "<p>Sí, enviamos a toda la Península e Islas. Para consultas sobre envíos especiales o entregas en zonas remotas, contáctanos antes de hacer el pedido.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq-1",
+        "faq-2",
+        "faq-3",
+        "faq-4",
+        "faq-5"
+      ],
+      "settings": {
+        "eyebrow": "PREGUNTAS FRECUENTES",
+        "title": "<p>Todo lo que necesitas saber antes de <em>comprar</em></p>"
+      }
+    },
     "marquee": {
       "type": "marquee-strip",
       "settings": {
@@ -270,11 +381,13 @@
   "order": [
     "hero",
     "trust",
+    "home_quality_tiers",
     "products",
     "featured",
     "product_grid_VxPcmf",
-    "iberico_guide",
     "story_teaser",
+    "iberico_guide",
+    "faq_home",
     "marquee",
     "newsletter"
   ]

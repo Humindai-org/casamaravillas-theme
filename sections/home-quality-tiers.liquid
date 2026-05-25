@@ -1,0 +1,453 @@
+<style>
+  .hqt-{{ section.id }} {
+    padding: 72px 0;
+    background: var(--cm-white);
+  }
+
+  .hqt__header-{{ section.id }} {
+    text-align: center;
+    margin-bottom: 56px;
+    padding: 0 24px;
+  }
+
+  .hqt__eyebrow-{{ section.id }} {
+    font-family: var(--cm-font-sans);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--cm-text-light);
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .hqt__heading-{{ section.id }} {
+    font-family: var(--cm-font-serif);
+    font-size: clamp(28px, 3.5vw, 42px);
+    font-weight: 400;
+    color: var(--cm-navy);
+    line-height: 1.2;
+    margin: 0;
+  }
+
+  /* ────────────────────────────────────── */
+  /* Panels Container */
+  /* ────────────────────────────────────── */
+
+  .hqt__panels-{{ section.id }} {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+    max-width: 1600px;
+    margin: 0 auto;
+    height: 620px;
+    overflow: hidden;
+  }
+
+  /* ────────────────────────────────────── */
+  /* Individual Panel */
+  /* ────────────────────────────────────── */
+
+  .hqt__panel-{{ section.id }} {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    text-decoration: none;
+    cursor: pointer;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    transition: all 0.4s ease;
+  }
+
+  .hqt__panel-{{ section.id }}:hover {
+    transform: scale(1.02);
+  }
+
+  .hqt__panel-{{ section.id }}:focus-visible {
+    outline: 2px solid var(--cm-gold);
+    outline-offset: -4px;
+  }
+
+  /* Optional overlay gradient */
+  .hqt__panel-{{ section.id }}::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.08) 100%);
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  /* ────────────────────────────────────── */
+  /* Shield / Category Label */
+  /* ────────────────────────────────────── */
+
+  .hqt__shield-{{ section.id }} {
+    position: relative;
+    z-index: 10;
+    margin-top: 40px;
+    padding: 16px 28px;
+    text-align: center;
+    border: 1.5px solid currentColor;
+    border-radius: 16px 16px 24px 24px;
+    background: transparent;
+  }
+
+  .hqt__shield-label-{{ section.id }} {
+    display: block;
+    font-family: var(--cm-font-sans);
+    font-size: 8px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .hqt__shield-numeral-{{ section.id }} {
+    display: block;
+    font-family: var(--cm-font-serif);
+    font-style: italic;
+    font-size: 32px;
+    font-weight: 400;
+    margin-bottom: 4px;
+  }
+
+  .hqt__shield-tier-{{ section.id }} {
+    display: block;
+    font-family: var(--cm-font-sans);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  /* ────────────────────────────────────── */
+  /* Product Name */
+  /* ────────────────────────────────────── */
+
+  .hqt__name-{{ section.id }} {
+    position: relative;
+    z-index: 10;
+    margin-top: 24px;
+    margin-bottom: 40px;
+    font-family: var(--cm-font-serif);
+    font-size: clamp(18px, 2vw, 24px);
+    font-weight: 400;
+    line-height: 1.3;
+    text-align: center;
+    padding: 0 16px;
+  }
+
+  /* ────────────────────────────────────── */
+  /* Food Image (bottom) */
+  /* ────────────────────────────────────── */
+
+  .hqt__food-{{ section.id }} {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 110%;
+    height: 280px;
+    z-index: 1;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .hqt__food-img-{{ section.id }} {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+  }
+
+  /* ────────────────────────────────────── */
+  /* Text Colors per Category */
+  /* ────────────────────────────────────── */
+
+  .hqt__panel-{{ section.id }}.is-light-text {
+    color: var(--cm-white);
+  }
+
+  .hqt__panel-{{ section.id }}.is-dark-text {
+    color: var(--cm-navy);
+  }
+
+  /* ────────────────────────────────────── */
+  /* Tablet (2 columns) */
+  /* ────────────────────────────────────── */
+
+  @media (max-width: 1023px) {
+    .hqt-{{ section.id }} {
+      padding: 56px 0;
+    }
+
+    .hqt__header-{{ section.id }} {
+      margin-bottom: 40px;
+    }
+
+    .hqt__panels-{{ section.id }} {
+      grid-template-columns: repeat(2, 1fr);
+      height: 500px;
+    }
+
+    .hqt__shield-{{ section.id }} {
+      margin-top: 28px;
+      padding: 12px 20px;
+    }
+
+    .hqt__name-{{ section.id }} {
+      margin-top: 16px;
+      margin-bottom: 32px;
+      font-size: 18px;
+    }
+
+    .hqt__food-{{ section.id }} {
+      height: 220px;
+    }
+  }
+
+  /* ────────────────────────────────────── */
+  /* Mobile (horizontal scroll) */
+  /* ────────────────────────────────────── */
+
+  @media (max-width: 767px) {
+    .hqt-{{ section.id }} {
+      padding: 40px 0;
+    }
+
+    .hqt__header-{{ section.id }} {
+      margin-bottom: 32px;
+      padding: 0 16px;
+    }
+
+    .hqt__heading-{{ section.id }} {
+      font-size: 22px;
+    }
+
+    .hqt__panels-{{ section.id }} {
+      grid-template-columns: repeat(4, 80vw);
+      height: 380px;
+      gap: 12px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-snap-type: x mandatory;
+      padding: 0 16px;
+      margin: 0 -16px;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .hqt__panels-{{ section.id }}::-webkit-scrollbar {
+      display: none;
+    }
+
+    .hqt__panel-{{ section.id }} {
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+      border-radius: 12px;
+    }
+
+    .hqt__shield-{{ section.id }} {
+      margin-top: 20px;
+      padding: 10px 16px;
+    }
+
+    .hqt__shield-numeral-{{ section.id }} {
+      font-size: 24px;
+    }
+
+    .hqt__name-{{ section.id }} {
+      margin-top: 12px;
+      margin-bottom: 24px;
+      font-size: 14px;
+    }
+
+    .hqt__food-{{ section.id }} {
+      height: 160px;
+    }
+  }
+</style>
+
+<section class="hqt-{{ section.id }}" id="hqt-{{ section.id }}">
+  <div class="hqt__header-{{ section.id }}">
+    {%- if section.settings.eyebrow != blank -%}
+      <span class="hqt__eyebrow-{{ section.id }}">{{ section.settings.eyebrow }}</span>
+    {%- endif -%}
+    {%- if section.settings.heading != blank -%}
+      <h2 class="hqt__heading-{{ section.id }}">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+  </div>
+
+  <div class="hqt__panels-{{ section.id }}">
+    {%- for block in section.blocks -%}
+      {%- assign bg_url = block.settings.bg_image | image_url: width: 600 -%}
+      {%- assign food_url = block.settings.food_image | image_url: width: 600 -%}
+      {%- assign text_class = 'is-light-text' -%}
+      {%- if block.settings.light_text == false -%}
+        {%- assign text_class = 'is-dark-text' -%}
+      {%- endif -%}
+
+      <a
+        href="{{ block.settings.url | default: '#' }}"
+        class="hqt__panel-{{ section.id }} {{ text_class }}"
+        {{ block.shopify_attributes }}
+        {%- if bg_url != blank -%}
+          style="background-image: url('{{ bg_url }}')"
+        {%- elsif block.settings.bg_color != blank -%}
+          style="background-color: {{ block.settings.bg_color }}"
+        {%- endif -%}
+      >
+        <!-- Shield with numeral and tier -->
+        <div class="hqt__shield-{{ section.id }}">
+          <span class="hqt__shield-label-{{ section.id }}">JAMÓN IBÉRICO</span>
+          <span class="hqt__shield-numeral-{{ section.id }}">{{ block.settings.numeral }}</span>
+          <span class="hqt__shield-tier-{{ section.id }}">{{ block.settings.tier }}</span>
+        </div>
+
+        <!-- Product name -->
+        <p class="hqt__name-{{ section.id }}">{{ block.settings.product_name }}</p>
+
+        <!-- Food image at bottom -->
+        {%- if food_url != blank -%}
+          <div class="hqt__food-{{ section.id }}">
+            <img
+              src="{{ food_url }}"
+              alt="{{ block.settings.product_name }}"
+              class="hqt__food-img-{{ section.id }}"
+              loading="lazy"
+            >
+          </div>
+        {%- endif -%}
+      </a>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Home — Categorías de Jamones",
+  "tag": "section",
+  "max_blocks": 4,
+  "blocks": [
+    {
+      "type": "panel",
+      "name": "Panel de Categoría",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "bg_image",
+          "label": "Imagen de fondo (panel)"
+        },
+        {
+          "type": "color",
+          "id": "bg_color",
+          "label": "Color de fondo (fallback)",
+          "default": "#1C1A18"
+        },
+        {
+          "type": "text",
+          "id": "numeral",
+          "label": "Número romano",
+          "default": "I"
+        },
+        {
+          "type": "text",
+          "id": "tier",
+          "label": "Nombre de categoría",
+          "default": "ORO"
+        },
+        {
+          "type": "textarea",
+          "id": "product_name",
+          "label": "Nombre de producto",
+          "default": "Jamón Ibérico de Béllota 100%"
+        },
+        {
+          "type": "image_picker",
+          "id": "food_image",
+          "label": "Imagen del plato (abajo)"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Enlace"
+        },
+        {
+          "type": "checkbox",
+          "id": "light_text",
+          "label": "Texto blanco (para fondos oscuros)",
+          "default": true
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Etiqueta superior",
+      "default": "NUESTRAS CATEGORÍAS"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Título",
+      "default": "Encuentra el jamón que buscas"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Home — Categorías de Jamones",
+      "blocks": [
+        {
+          "type": "panel",
+          "settings": {
+            "bg_color": "#1C1A18",
+            "numeral": "I",
+            "tier": "ORO",
+            "product_name": "Jamón Ibérico de Béllota 100%",
+            "url": "/collections/jamones#precinto-negro",
+            "light_text": true
+          }
+        },
+        {
+          "type": "panel",
+          "settings": {
+            "bg_color": "#4A1628",
+            "numeral": "II",
+            "tier": "PLATA SUPERIOR",
+            "product_name": "Jamón Ibérico de Bellota 75%",
+            "url": "/collections/jamones#precinto-rojo",
+            "light_text": true
+          }
+        },
+        {
+          "type": "panel",
+          "settings": {
+            "bg_color": "#1E3028",
+            "numeral": "III",
+            "tier": "BRONCE SUPERIOR",
+            "product_name": "Jamón Ibérico Cebo de Campo",
+            "url": "/collections/jamones#precinto-verde",
+            "light_text": true
+          }
+        },
+        {
+          "type": "panel",
+          "settings": {
+            "bg_color": "#F0E8D8",
+            "numeral": "III",
+            "tier": "BRONCE",
+            "product_name": "Jamón Ibérico de Cebo",
+            "url": "/collections/jamones#precinto-blanco",
+            "light_text": false
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
