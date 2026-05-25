@@ -22,14 +22,6 @@
     display: block;
   }
 
-  .featured-product__img-overlay {
-    position: absolute;
-    inset: 0;
-    background: rgba(13,27,42,0.25);
-    z-index: 1;
-    pointer-events: none;
-  }
-
   .featured-product__img-text {
     position: absolute;
     inset: 0;
@@ -186,7 +178,6 @@
       {% # theme-check-disable-next-line RemoteAsset %}
       <img src="https://placehold.co/900x700/0B1420/1A1814?text=Jamón+Bellota" alt="Jamón ibérico de bellota" width="900" height="700" loading="lazy">
     {%- endif -%}
-    <div class="featured-product__img-overlay"></div>
     <div class="featured-product__img-text">
       <p class="featured-product__img-label">{{ section.settings.img_label | default: 'Producto destacado' }}</p>
       <h3 class="featured-product__img-title">{{ section.settings.img_title | default: 'Jamón Ibérico de Bellota' }}</h3>
