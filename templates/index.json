@@ -100,6 +100,27 @@
       ],
       "settings": {}
     },
+    "products": {
+      "type": "product-grid",
+      "blocks": {
+        "product_V47iCf": {
+          "type": "product",
+          "settings": {
+            "product": ""
+          }
+        }
+      },
+      "block_order": [
+        "product_V47iCf"
+      ],
+      "settings": {
+        "eyebrow": "",
+        "title": "<p>Los favoritos</p>",
+        "view_all_label": "Ver todo",
+        "view_all_url": "shopify://collections",
+        "section_bg": "off"
+      }
+    },
     "nuestras_colecciones": {
       "type": "collection-main",
       "blocks": {
@@ -147,16 +168,6 @@
         "empty_label": "No hay productos en esta colección todavía."
       }
     },
-    "products": {
-      "type": "product-grid",
-      "settings": {
-        "eyebrow": "",
-        "title": "<p>Los favoritos</p>",
-        "view_all_label": "Ver todo",
-        "view_all_url": "shopify://collections",
-        "section_bg": "off"
-      }
-    },
     "featured": {
       "type": "featured-product",
       "blocks": {
@@ -196,6 +207,7 @@
         "attr-4"
       ],
       "settings": {
+        "image": "shopify://shop_images/generated_image_041201ff-ae05-4ce5-8710-0a47084de114.png",
         "img_label": "Producto destacado",
         "img_title": "Jamón Ibérico de Bellota",
         "eyebrow": "Selección especial",
@@ -375,8 +387,8 @@
   "order": [
     "hero",
     "trust",
-    "nuestras_colecciones",
     "products",
+    "nuestras_colecciones",
     "featured",
     "product_grid_VxPcmf",
     "iberico_guide",
