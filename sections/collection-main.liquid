@@ -112,23 +112,42 @@
       {%- endif -%}
     </header>
 
-    {% paginate collection.products by section.settings.products_per_page %}
-      {%- if collection.products_count > 0 -%}
-        <div class="collection-main__grid">
-          {%- for product in collection.products -%}
-            {% render 'product-card', card_product: product, card_collection: collection.title %}
-          {%- endfor -%}
-        </div>
+    {%- assign products_per_page = section.settings.products_per_page -%}
+    {%- assign current_page = request.page | default: 1 | plus: 0 -%}
+    {%- assign offset = products_per_page | times: current_page | minus: products_per_page -%}
 
-        {%- if paginate.pages > 1 -%}
-          <nav class="collection-main__pagination" aria-label="Paginación">
-            {{ paginate | default_pagination }}
-          </nav>
-        {%- endif -%}
-      {%- else -%}
-        <p class="collection-main__empty">{{ section.settings.empty_label | default: 'No hay productos en esta colección todavía.' }}</p>
+    {%- if collection.products_count > 0 -%}
+      <div class="collection-main__grid">
+        {%- for product in collection.products limit: products_per_page offset: offset -%}
+          {% render 'product-card', card_product: product, card_collection: collection.title %}
+        {%- endfor -%}
+      </div>
+
+      {%- assign total_pages = collection.products_count | divided_by: products_per_page | ceil -%}
+      {%- if total_pages > 1 -%}
+        <nav class="collection-main__pagination" aria-label="Paginación">
+          {%- if current_page > 1 -%}
+            <a href="{{ collection.url }}?page=1">« Primera</a>
+            <a href="{{ collection.url }}?page={{ current_page | minus: 1 }}">‹ Anterior</a>
+          {%- endif -%}
+
+          {%- for i in (1..total_pages) -%}
+            {%- if i == current_page -%}
+              <span class="current">{{ i }}</span>
+            {%- else -%}
+              <a href="{{ collection.url }}?page={{ i }}">{{ i }}</a>
+            {%- endif -%}
+          {%- endfor -%}
+
+          {%- if current_page < total_pages -%}
+            <a href="{{ collection.url }}?page={{ current_page | plus: 1 }}">Siguiente ›</a>
+            <a href="{{ collection.url }}?page={{ total_pages }}">Última »</a>
+          {%- endif -%}
+        </nav>
       {%- endif -%}
-    {% endpaginate %}
+    {%- else -%}
+      <p class="collection-main__empty">{{ section.settings.empty_label | default: 'No hay productos en esta colección todavía.' }}</p>
+    {%- endif -%}
   </div>
 </section>
 

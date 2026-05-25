@@ -93,18 +93,18 @@
   </div>
 
   <div class="product-grid-section__grid">
-    {%- assign collection_handle = section.settings.collection -%}
-    {%- if collection_handle != blank -%}
-      {%- assign col = collections[collection_handle] -%}
-      {%- assign limit = section.settings.products_to_show | default: 4 -%}
-      {%- for product in col.products limit: limit -%}
-        {% render 'product-card', card_product: product, card_collection: col.title %}
-      {%- else -%}
-        {%- for i in (1..4) -%}
-          {% render 'product-card' %}
-        {%- endfor -%}
-      {%- endfor -%}
-    {%- else -%}
+    {%- assign product_count = 0 -%}
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'product' -%}
+        {%- assign product_handle = block.settings.product -%}
+        {%- if product_handle != blank -%}
+          {%- assign product = all_products[product_handle] -%}
+          {% render 'product-card', card_product: product %}
+          {%- assign product_count = product_count | plus: 1 -%}
+        {%- endif -%}
+      {%- endif -%}
+    {%- endfor -%}
+    {%- if product_count == 0 -%}
       {%- for i in (1..4) -%}
         {% render 'product-card' %}
       {%- endfor -%}
@@ -117,6 +117,19 @@
 {
   "name": "Grid de productos",
   "tag": "section",
+  "blocks": [
+    {
+      "type": "product",
+      "name": "Producto",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Producto"
+        }
+      ]
+    }
+  ],
   "settings": [
     {
       "type": "text",
@@ -129,20 +142,6 @@
       "id": "title",
       "label": "Título",
       "default": "<p>Nuestra <em>selección</em></p>"
-    },
-    {
-      "type": "collection",
-      "id": "collection",
-      "label": "Colección"
-    },
-    {
-      "type": "range",
-      "id": "products_to_show",
-      "label": "Número de productos",
-      "min": 2,
-      "max": 12,
-      "step": 2,
-      "default": 4
     },
     {
       "type": "text",
@@ -178,7 +177,13 @@
   ],
   "presets": [
     {
-      "name": "Grid de productos"
+      "name": "Grid de productos",
+      "blocks": [
+        { "type": "product" },
+        { "type": "product" },
+        { "type": "product" },
+        { "type": "product" }
+      ]
     }
   ]
 }
