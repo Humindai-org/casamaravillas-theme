@@ -230,27 +230,27 @@
 
         {%- comment -%}Quality tier badge — visible only on products with precinto tags{%- endcomment -%}
         {%- assign quality_label = '' -%}
-        {%- assign quality_icon_url = product.metafields.custom.quality_icon -%}
+        {%- assign quality_icon_url = '' -%}
         {%- for tag in product.tags -%}
           {%- if tag == 'precinto negro' -%}
             {%- assign quality_label = 'Bellota 100%' -%}
-            {%- if quality_icon_url == blank -%}
-              {%- assign quality_icon_url = 'https://cdn.shopify.com/s/files/1/0754/5041/5763/files/medal-oro.svg' -%}
+            {%- if tier_icons and tier_icons.tier_icons_bellota_100 != blank -%}
+              {%- assign quality_icon_url = tier_icons.tier_icons_bellota_100 | image_url: width: 64 -%}
             {%- endif -%}
           {%- elsif tag == 'precinto rojo' -%}
             {%- assign quality_label = 'Bellota 75%' -%}
-            {%- if quality_icon_url == blank -%}
-              {%- assign quality_icon_url = 'https://cdn.shopify.com/s/files/1/0754/5041/5763/files/medal-plata.svg' -%}
+            {%- if tier_icons and tier_icons.tier_icons_bellota_75 != blank -%}
+              {%- assign quality_icon_url = tier_icons.tier_icons_bellota_75 | image_url: width: 64 -%}
             {%- endif -%}
           {%- elsif tag == 'precinto verde' -%}
             {%- assign quality_label = 'Cebo de Campo' -%}
-            {%- if quality_icon_url == blank -%}
-              {%- assign quality_icon_url = 'https://cdn.shopify.com/s/files/1/0754/5041/5763/files/medal-bronce.svg' -%}
+            {%- if tier_icons and tier_icons.tier_icons_cebo_campo != blank -%}
+              {%- assign quality_icon_url = tier_icons.tier_icons_cebo_campo | image_url: width: 64 -%}
             {%- endif -%}
           {%- elsif tag == 'precinto blanco' -%}
             {%- assign quality_label = 'Cebo' -%}
-            {%- if quality_icon_url == blank -%}
-              {%- assign quality_icon_url = 'https://cdn.shopify.com/s/files/1/0754/5041/5763/files/medal-bronce.svg' -%}
+            {%- if tier_icons and tier_icons.tier_icons_cebo != blank -%}
+              {%- assign quality_icon_url = tier_icons.tier_icons_cebo | image_url: width: 64 -%}
             {%- endif -%}
           {%- endif -%}
         {%- endfor -%}
@@ -258,7 +258,7 @@
           <div class="product-card__quality" aria-label="Calidad: {{ quality_label }}">
             <span class="product-card__quality-label">{{ quality_label }}</span>
             <div class="product-card__quality-icon">
-              <img src="{{ quality_icon_url }}" alt="{{ quality_label }}" loading="lazy">
+              <img src="{{ quality_icon_url }}" alt="{{ quality_label }}" loading="lazy" width="64" height="64">
             </div>
           </div>
         {%- endif -%}

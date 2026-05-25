@@ -99,14 +99,14 @@
         {%- assign product_handle = block.settings.product -%}
         {%- if product_handle != blank -%}
           {%- assign product = all_products[product_handle] -%}
-          {% render 'product-card', card_product: product %}
+          {% render 'product-card', card_product: product, tier_icons: section.settings.tier_icons %}
           {%- assign product_count = product_count | plus: 1 -%}
         {%- endif -%}
       {%- endif -%}
     {%- endfor -%}
     {%- if product_count == 0 -%}
       {%- for i in (1..4) -%}
-        {% render 'product-card' %}
+        {% render 'product-card', tier_icons: section.settings.tier_icons %}
       {%- endfor -%}
     {%- endif -%}
   </div>
@@ -173,6 +173,30 @@
         }
       ],
       "default": "off"
+    },
+    {
+      "type": "header",
+      "content": "Iconos de clasificación"
+    },
+    {
+      "type": "image_picker",
+      "id": "tier_icons_bellota_100",
+      "label": "Icono - Bellota 100% (precinto negro)"
+    },
+    {
+      "type": "image_picker",
+      "id": "tier_icons_bellota_75",
+      "label": "Icono - Bellota 75% (precinto rojo)"
+    },
+    {
+      "type": "image_picker",
+      "id": "tier_icons_cebo_campo",
+      "label": "Icono - Cebo de Campo (precinto verde)"
+    },
+    {
+      "type": "image_picker",
+      "id": "tier_icons_cebo",
+      "label": "Icono - Cebo (precinto blanco)"
     }
   ],
   "presets": [
