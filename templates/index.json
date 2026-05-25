@@ -100,66 +100,6 @@
       ],
       "settings": {}
     },
-    "home_quality_tiers_QhaKQT": {
-      "type": "home-quality-tiers",
-      "blocks": {
-        "panel_Y8jder": {
-          "type": "panel",
-          "settings": {
-            "bg_color": "#1c1a18",
-            "numeral": "I",
-            "tier": "ORO",
-            "product_name": "Jamón Ibérico de Béllota 100%",
-            "url": "/collections/jamones#precinto-negro",
-            "light_text": true
-          }
-        },
-        "panel_Ujczgd": {
-          "type": "panel",
-          "settings": {
-            "bg_color": "#4a1628",
-            "numeral": "II",
-            "tier": "PLATA SUPERIOR",
-            "product_name": "Jamón Ibérico de Bellota 75%",
-            "url": "/collections/jamones#precinto-rojo",
-            "light_text": true
-          }
-        },
-        "panel_HzWNPY": {
-          "type": "panel",
-          "settings": {
-            "bg_color": "#1e3028",
-            "numeral": "III",
-            "tier": "BRONCE SUPERIOR",
-            "product_name": "Jamón Ibérico Cebo de Campo",
-            "url": "/collections/jamones#precinto-verde",
-            "light_text": true
-          }
-        },
-        "panel_FEfgTX": {
-          "type": "panel",
-          "settings": {
-            "bg_color": "#f0e8d8",
-            "numeral": "III",
-            "tier": "BRONCE",
-            "product_name": "Jamón Ibérico de Cebo",
-            "url": "/collections/jamones#precinto-blanco",
-            "light_text": false
-          }
-        }
-      },
-      "block_order": [
-        "panel_Y8jder",
-        "panel_Ujczgd",
-        "panel_HzWNPY",
-        "panel_FEfgTX"
-      ],
-      "name": "Home — Categorías de Jamones",
-      "settings": {
-        "eyebrow": "NUESTRAS CATEGORÍAS",
-        "heading": "Encuentra el jamón que buscas"
-      }
-    },
     "products": {
       "type": "product-grid",
       "settings": {
@@ -327,18 +267,78 @@
         "cta_label": "Quiero suscribirme",
         "cta_url": "/pages/suscripcion"
       }
+    },
+    "faq_n8WEzd": {
+      "type": "faq",
+      "blocks": {
+        "faq_item_69jJEf": {
+          "type": "faq_item",
+          "settings": {
+            "question": "¿Cómo se envían los productos?",
+            "answer": "<p>Todos nuestros productos ibéricos se envían con embalaje especializado en frío para garantizar su perfecta conservación durante el transporte. Utilizamos cajas isotérmicas con elementos refrigerantes que mantienen la temperatura adecuada hasta la entrega en tu domicilio.</p>"
+          }
+        },
+        "faq_item_gLmL3f": {
+          "type": "faq_item",
+          "settings": {
+            "question": "¿Cuánto tarda en llegar mi pedido?",
+            "answer": "<p>Los pedidos realizados antes de las 12:00 h se preparan y envían el mismo día, con entrega en 24-48 horas en Península. Las islas y zonas remotas pueden requerir 2-3 días hábiles adicionales. En periodos de alta demanda (Navidades, Semana Santa) el plazo puede extenderse ligeramente.</p>"
+          }
+        },
+        "faq_item_WxYXfM": {
+          "type": "faq_item",
+          "settings": {
+            "question": "¿Cómo se garantiza la frescura durante el envío?",
+            "answer": "<p>Utilizamos embalaje isotérmico de alta densidad combinado con placas de gel refrigerante que mantienen una temperatura controlada durante todo el trayecto. Cada pieza va precintada al vacío cuando es necesario. Nuestro sistema de conservación en frío está diseñado específicamente para ibéricos y embutidos, garantizando que llegue en perfectas condiciones a tu mesa.</p>"
+          }
+        },
+        "faq_item_Ath4dk": {
+          "type": "faq_item",
+          "settings": {
+            "question": "¿Puedo devolver un producto?",
+            "answer": "<p>Aceptamos devoluciones de productos no perecederos en su embalaje original dentro de los 14 días siguientes a la recepción. Para productos refrigerados o al vacío, solo gestionamos devoluciones en caso de que el producto llegue en mal estado o no corresponda al pedido. Si tienes cualquier problema con tu compra, escríbenos a hola@casamaravillas.com y lo resolvemos de inmediato.</p>"
+          }
+        },
+        "faq_item_HJabxz": {
+          "type": "faq_item",
+          "settings": {
+            "question": "¿Puedo cancelar mi pedido?",
+            "answer": "<p>Puedes cancelar tu pedido siempre que no haya salido todavía de nuestras instalaciones. Contacta con nosotros lo antes posible en hola@casamaravillas.com o por teléfono y gestionaremos la cancelación y el reembolso completo. Una vez enviado, no es posible cancelar el pedido pero puedes tramitar una devolución según nuestra política.</p>"
+          }
+        },
+        "faq_item_iakV8y": {
+          "type": "faq_item",
+          "settings": {
+            "question": "¿Qué diferencia hay entre el jamón ibérico y el jamón ibérico de bellota?",
+            "answer": "<p>La diferencia está en la alimentación del cerdo durante la montanera, la fase final de su cría. El jamón ibérico puede proceder de cerdos alimentados con piensos y pastos. El jamón ibérico de bellota, en cambio, proviene de cerdos 100% ibéricos criados en libertad en la dehesa y alimentados exclusivamente con bellotas y hierbas naturales durante los meses de otoño e invierno. Esto le otorga un veteado de grasa infiltrada característico, un aroma más intenso y un sabor incomparable que lo sitúa en la cima de la gastronomía española.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq_item_69jJEf",
+        "faq_item_gLmL3f",
+        "faq_item_WxYXfM",
+        "faq_item_Ath4dk",
+        "faq_item_HJabxz",
+        "faq_item_iakV8y"
+      ],
+      "name": "FAQ",
+      "settings": {
+        "eyebrow": "Preguntas frecuentes",
+        "title": "<p>Todo lo que <em>necesitas</em> saber</p>"
+      }
     }
   },
   "order": [
     "hero",
     "trust",
-    "home_quality_tiers_QhaKQT",
     "products",
     "featured",
     "product_grid_VxPcmf",
     "iberico_guide",
     "story_teaser",
     "marquee",
+    "faq_n8WEzd",
     "newsletter"
   ]
 }
