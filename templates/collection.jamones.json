@@ -45,7 +45,7 @@
         "eyebrow": "Nuestra selección",
         "products_per_page": 50,
         "show_sort": true,
-        "show_count": true,
+        "show_count": false,
         "empty_label": "No hay jamones disponibles en este momento."
       }
     }
