@@ -127,7 +127,8 @@
         "coll-3": {
           "type": "collection",
           "settings": {
-            "collection": "paquetes-de-regalo"
+            "collection": "paquetes-de-regalo",
+            "image": "shopify://shop_images/pack.2.png"
           }
         }
       },
