@@ -100,53 +100,6 @@
       ],
       "settings": {}
     },
-    "home_quality_tiers": {
-      "type": "home-quality-tiers",
-      "blocks": {
-        "tier_1": {
-          "type": "item",
-          "settings": {
-            "front_image": "",
-            "back_image": "",
-            "alt_text": "Jamón Ibérico de Bellota - Categoría Oro"
-          }
-        },
-        "tier_2": {
-          "type": "item",
-          "settings": {
-            "front_image": "",
-            "back_image": "",
-            "alt_text": "Jamón Ibérico - Categoría Plata"
-          }
-        },
-        "tier_3": {
-          "type": "item",
-          "settings": {
-            "front_image": "",
-            "back_image": "",
-            "alt_text": "Jamón Ibérico - Categoría Bronce Superior"
-          }
-        },
-        "tier_4": {
-          "type": "item",
-          "settings": {
-            "front_image": "",
-            "back_image": "",
-            "alt_text": "Jamón Ibérico - Categoría Bronce"
-          }
-        }
-      },
-      "block_order": [
-        "tier_1",
-        "tier_2",
-        "tier_3",
-        "tier_4"
-      ],
-      "settings": {
-        "eyebrow": "NUESTRAS CATEGORÍAS",
-        "heading": "Encuentra el jamón que buscas"
-      }
-    },
     "nuestras_colecciones": {
       "type": "collection-main",
       "blocks": {
@@ -167,7 +120,8 @@
         "coll-4": {
           "type": "collection",
           "settings": {
-            "collection": "carnes-ibericas"
+            "collection": "carnes-ibericas",
+            "image": "shopify://shop_images/Got_into_the_kitchen_with_Matt_at_peartreeatgreenlandplace_to_capture_some_serious_steak_action___From_seasoning_to_grilling_to_serving_every_moment_had_a_touch_of_theatre___Love_shoo.jpg"
           }
         },
         "coll-3": {
@@ -195,12 +149,10 @@
     "products": {
       "type": "product-grid",
       "settings": {
-        "eyebrow": "LOS MÁS VALORADOS",
-        "title": "<p>Nuestra <em>selección</em></p>",
-        "collection": "jamones",
-        "products_to_show": 4,
-        "view_all_label": "Ver toda la selección",
-        "view_all_url": "/collections/jamones",
+        "eyebrow": "",
+        "title": "<p>Los favoritos</p>",
+        "view_all_label": "Ver todo",
+        "view_all_url": "shopify://collections",
         "section_bg": "off"
       }
     },
@@ -258,13 +210,11 @@
       "type": "product-grid",
       "name": "Grid de productos",
       "settings": {
-        "eyebrow": "PARA REGALAR O PARA TI",
-        "title": "<p>Packs y <em>Regalos</em></p>",
-        "collection": "packs-y-regalos",
-        "products_to_show": 4,
-        "view_all_label": "Ver todos los packs",
-        "view_all_url": "/collections/packs-y-regalos",
-        "section_bg": "gold_pale"
+        "eyebrow": "Tienda",
+        "title": "<p>Nuestra <em>selección</em></p>",
+        "view_all_label": "Ver toda la colección",
+        "view_all_url": "",
+        "section_bg": "off"
       }
     },
     "iberico_guide": {
@@ -406,8 +356,8 @@
       ],
       "name": "FAQ",
       "settings": {
-        "eyebrow": "PREGUNTAS FRECUENTES",
-        "title": "<p>Todo lo que necesitas saber antes de <em>comprar</em></p>"
+        "eyebrow": "Preguntas frecuentes",
+        "title": "<p>Todo lo que <em>necesitas</em> saber</p>"
       }
     },
     "newsletter": {
@@ -424,15 +374,14 @@
   "order": [
     "hero",
     "trust",
-    "home_quality_tiers",
+    "nuestras_colecciones",
     "products",
     "featured",
     "product_grid_VxPcmf",
-    "story_teaser",
     "iberico_guide",
-    "nuestras_colecciones",
-    "faq_n8WEzd",
+    "story_teaser",
     "marquee",
+    "faq_n8WEzd",
     "newsletter"
   ]
 }
