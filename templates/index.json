@@ -117,26 +117,26 @@
             "image": "shopify://shop_images/dce189eac47ae14c7e35d2aa3b29f58c.jpg"
           }
         },
-        "coll-4": {
-          "type": "collection",
-          "settings": {
-            "collection": "carnes-ibericas",
-            "image": "shopify://shop_images/Got_into_the_kitchen_with_Matt_at_peartreeatgreenlandplace_to_capture_some_serious_steak_action___From_seasoning_to_grilling_to_serving_every_moment_had_a_touch_of_theatre___Love_shoo.jpg"
-          }
-        },
         "coll-3": {
           "type": "collection",
           "settings": {
             "collection": "paquetes-de-regalo",
             "image": "shopify://shop_images/pack.2.png"
           }
+        },
+        "coll-4": {
+          "type": "collection",
+          "settings": {
+            "collection": "carnes-ibericas",
+            "image": "shopify://shop_images/Got_into_the_kitchen_with_Matt_at_peartreeatgreenlandplace_to_capture_some_serious_steak_action___From_seasoning_to_grilling_to_serving_every_moment_had_a_touch_of_theatre___Love_shoo.jpg"
+          }
         }
       },
       "block_order": [
         "coll-1",
         "coll-2",
-        "coll-4",
-        "coll-3"
+        "coll-3",
+        "coll-4"
       ],
       "name": "Nuestras Colecciones",
       "settings": {
