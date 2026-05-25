@@ -51,6 +51,61 @@
     border: 1px solid var(--cm-border);
   }
 
+  .collection-card {
+    background: var(--cm-white);
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: box-shadow 0.4s ease, transform 0.3s ease;
+  }
+
+  .collection-card:hover {
+    box-shadow: 0 16px 48px rgba(26,24,20,0.1), 0 2px 8px rgba(26,24,20,0.05);
+    transform: translateY(-2px);
+  }
+
+  .collection-card__img {
+    aspect-ratio: 1;
+    overflow: hidden;
+    background: var(--cm-off);
+  }
+
+  .collection-card__img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  .collection-card:hover .collection-card__img img {
+    transform: scale(1.05);
+  }
+
+  .collection-card__body {
+    padding: 28px 24px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    justify-content: flex-end;
+  }
+
+  .collection-card__title {
+    font-family: var(--cm-font-serif);
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--cm-navy);
+    line-height: 1.3;
+    margin: 0 0 12px 0;
+  }
+
+  .collection-card__count {
+    font-size: 13px;
+    color: var(--cm-text-light);
+    font-family: var(--cm-font-sans);
+    margin: 0;
+  }
+
   .collection-main__empty {
     padding: 48px 24px;
     text-align: center;
@@ -102,51 +157,98 @@
 
 <section class="collection-main">
   <div class="collection-main__inner">
-    <header class="collection-main__head">
-      {%- if section.settings.eyebrow != blank -%}
-        <p class="collection-main__eyebrow">{{ section.settings.eyebrow }}</p>
-      {%- endif -%}
-      <h1 class="collection-main__title">{{ collection.title }}</h1>
-      {%- if collection.description != blank -%}
-        <div class="collection-main__desc rte">{{ collection.description }}</div>
-      {%- endif -%}
-    </header>
+    {%- if section.blocks.size > 0 -%}
+      {%- comment -%}Collections display mode — for home page{%- endcomment -%}
+      <header class="collection-main__head">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="collection-main__eyebrow">{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+        {%- if section.settings.title != blank -%}
+          <h2 class="collection-main__title">{{ section.settings.title }}</h2>
+        {%- endif -%}
+        {%- if section.settings.description != blank -%}
+          <div class="collection-main__desc">{{ section.settings.description }}</div>
+        {%- endif -%}
+      </header>
 
-    {%- assign products_per_page = section.settings.products_per_page -%}
-    {%- assign current_page = request.page | default: 1 | plus: 0 -%}
-    {%- assign offset = products_per_page | times: current_page | minus: products_per_page -%}
-
-    {%- if collection.products_count > 0 -%}
       <div class="collection-main__grid">
-        {%- for product in collection.products limit: products_per_page offset: offset -%}
-          {% render 'product-card', card_product: product, card_collection: collection.title %}
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'collection' -%}
+            {%- assign coll_handle = block.settings.collection -%}
+            {%- if coll_handle != blank -%}
+              {%- assign coll = collections[coll_handle] -%}
+              {%- if coll != blank -%}
+                <a href="{{ coll.url }}" class="collection-card" {{ block.shopify_attributes }}>
+                  <div class="collection-card__img">
+                    {%- if block.settings.image != blank -%}
+                      {%- assign img_url = block.settings.image | image_url: width: 600 -%}
+                      <img src="{{ img_url }}" alt="{{ coll.title }}" loading="lazy" width="600" height="600">
+                    {%- elsif coll.image != blank -%}
+                      {%- assign img_url = coll.image | image_url: width: 600 -%}
+                      <img src="{{ img_url }}" alt="{{ coll.title }}" loading="lazy" width="600" height="600">
+                    {%- else -%}
+                      {% # theme-check-disable-next-line RemoteAsset %}
+                      <img src="https://placehold.co/600x600/F4F2EE/A09890?text={{ coll.title | url_encode }}" alt="{{ coll.title }}" loading="lazy" width="600" height="600">
+                    {%- endif -%}
+                  </div>
+                  <div class="collection-card__body">
+                    <h3 class="collection-card__title">{{ coll.title }}</h3>
+                    <p class="collection-card__count">{{ coll.products_count }} producto{{ coll.products_count | append: 's' | remove: 's1' }}</p>
+                  </div>
+                </a>
+              {%- endif -%}
+            {%- endif -%}
+          {%- endif -%}
         {%- endfor -%}
       </div>
-
-      {%- assign total_pages = collection.products_count | divided_by: products_per_page | ceil -%}
-      {%- if total_pages > 1 -%}
-        <nav class="collection-main__pagination" aria-label="Paginación">
-          {%- if current_page > 1 -%}
-            <a href="{{ collection.url }}?page=1">« Primera</a>
-            <a href="{{ collection.url }}?page={{ current_page | minus: 1 }}">‹ Anterior</a>
-          {%- endif -%}
-
-          {%- for i in (1..total_pages) -%}
-            {%- if i == current_page -%}
-              <span class="current">{{ i }}</span>
-            {%- else -%}
-              <a href="{{ collection.url }}?page={{ i }}">{{ i }}</a>
-            {%- endif -%}
-          {%- endfor -%}
-
-          {%- if current_page < total_pages -%}
-            <a href="{{ collection.url }}?page={{ current_page | plus: 1 }}">Siguiente ›</a>
-            <a href="{{ collection.url }}?page={{ total_pages }}">Última »</a>
-          {%- endif -%}
-        </nav>
-      {%- endif -%}
     {%- else -%}
-      <p class="collection-main__empty">{{ section.settings.empty_label | default: 'No hay productos en esta colección todavía.' }}</p>
+      {%- comment -%}Products display mode — for collection pages{%- endcomment -%}
+      <header class="collection-main__head">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="collection-main__eyebrow">{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+        <h1 class="collection-main__title">{{ collection.title }}</h1>
+        {%- if collection.description != blank -%}
+          <div class="collection-main__desc rte">{{ collection.description }}</div>
+        {%- endif -%}
+      </header>
+
+      {%- assign products_per_page = section.settings.products_per_page -%}
+      {%- assign current_page = request.page | default: 1 | plus: 0 -%}
+      {%- assign offset = products_per_page | times: current_page | minus: products_per_page -%}
+
+      {%- if collection.products_count > 0 -%}
+        <div class="collection-main__grid">
+          {%- for product in collection.products limit: products_per_page offset: offset -%}
+            {% render 'product-card', card_product: product, card_collection: collection.title %}
+          {%- endfor -%}
+        </div>
+
+        {%- assign total_pages = collection.products_count | divided_by: products_per_page | ceil -%}
+        {%- if total_pages > 1 -%}
+          <nav class="collection-main__pagination" aria-label="Paginación">
+            {%- if current_page > 1 -%}
+              <a href="{{ collection.url }}?page=1">« Primera</a>
+              <a href="{{ collection.url }}?page={{ current_page | minus: 1 }}">‹ Anterior</a>
+            {%- endif -%}
+
+            {%- for i in (1..total_pages) -%}
+              {%- if i == current_page -%}
+                <span class="current">{{ i }}</span>
+              {%- else -%}
+                <a href="{{ collection.url }}?page={{ i }}">{{ i }}</a>
+              {%- endif -%}
+            {%- endfor -%}
+
+            {%- if current_page < total_pages -%}
+              <a href="{{ collection.url }}?page={{ current_page | plus: 1 }}">Siguiente ›</a>
+              <a href="{{ collection.url }}?page={{ total_pages }}">Última »</a>
+            {%- endif -%}
+          </nav>
+        {%- endif -%}
+      {%- else -%}
+        <p class="collection-main__empty">{{ section.settings.empty_label | default: 'No hay productos en esta colección todavía.' }}</p>
+      {%- endif -%}
     {%- endif -%}
   </div>
 </section>
@@ -155,12 +257,41 @@
 {
   "name": "Colección — grid",
   "tag": "section",
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "Colección",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Colección"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Imagen personalizada (opcional)"
+        }
+      ]
+    }
+  ],
   "settings": [
     {
       "type": "text",
       "id": "eyebrow",
       "label": "Etiqueta superior",
       "default": "Tienda"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Título (solo para modo colecciones)",
+      "default": "Nuestras Colecciones"
+    },
+    {
+      "type": "text",
+      "id": "description",
+      "label": "Descripción (solo para modo colecciones)"
     },
     {
       "type": "range",

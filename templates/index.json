@@ -252,6 +252,47 @@
         "cta_url": "/pages/sobre-nosotros"
       }
     },
+    "nuestras_colecciones": {
+      "type": "collection-main",
+      "name": "Nuestras Colecciones",
+      "blocks": {
+        "coll-1": {
+          "type": "collection",
+          "settings": {
+            "collection": "jamones"
+          }
+        },
+        "coll-2": {
+          "type": "collection",
+          "settings": {
+            "collection": "embutidos"
+          }
+        },
+        "coll-3": {
+          "type": "collection",
+          "settings": {
+            "collection": "packs-y-regalos"
+          }
+        },
+        "coll-4": {
+          "type": "collection",
+          "settings": {
+            "collection": "accesorios"
+          }
+        }
+      },
+      "block_order": [
+        "coll-1",
+        "coll-2",
+        "coll-3",
+        "coll-4"
+      ],
+      "settings": {
+        "eyebrow": "CATEGORÍAS",
+        "title": "Nuestras Colecciones",
+        "description": ""
+      }
+    },
     "marquee": {
       "type": "marquee-strip",
       "settings": {
@@ -337,6 +378,7 @@
     "product_grid_VxPcmf",
     "iberico_guide",
     "story_teaser",
+    "nuestras_colecciones",
     "marquee",
     "faq_n8WEzd",
     "newsletter"
