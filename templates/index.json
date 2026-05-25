@@ -195,10 +195,12 @@
     "products": {
       "type": "product-grid",
       "settings": {
-        "eyebrow": "",
-        "title": "<p>Los favoritos</p>",
-        "view_all_label": "Ver todo",
-        "view_all_url": "shopify://collections",
+        "eyebrow": "LOS MÁS VALORADOS",
+        "title": "<p>Nuestra <em>selección</em></p>",
+        "collection": "jamones",
+        "products_to_show": 4,
+        "view_all_label": "Ver toda la selección",
+        "view_all_url": "/collections/jamones",
         "section_bg": "off"
       }
     },
@@ -256,11 +258,13 @@
       "type": "product-grid",
       "name": "Grid de productos",
       "settings": {
-        "eyebrow": "Tienda",
-        "title": "<p>Nuestra <em>selección</em></p>",
-        "view_all_label": "Ver toda la colección",
-        "view_all_url": "",
-        "section_bg": "off"
+        "eyebrow": "PARA REGALAR O PARA TI",
+        "title": "<p>Packs y <em>Regalos</em></p>",
+        "collection": "packs-y-regalos",
+        "products_to_show": 4,
+        "view_all_label": "Ver todos los packs",
+        "view_all_url": "/collections/packs-y-regalos",
+        "section_bg": "gold_pale"
       }
     },
     "iberico_guide": {
@@ -402,8 +406,8 @@
       ],
       "name": "FAQ",
       "settings": {
-        "eyebrow": "Preguntas frecuentes",
-        "title": "<p>Todo lo que <em>necesitas</em> saber</p>"
+        "eyebrow": "PREGUNTAS FRECUENTES",
+        "title": "<p>Todo lo que necesitas saber antes de <em>comprar</em></p>"
       }
     },
     "newsletter": {
