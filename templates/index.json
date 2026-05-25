@@ -100,6 +100,53 @@
       ],
       "settings": {}
     },
+    "home_quality_tiers": {
+      "type": "home-quality-tiers",
+      "blocks": {
+        "tier_1": {
+          "type": "item",
+          "settings": {
+            "front_image": "",
+            "back_image": "",
+            "alt_text": "Jamón Ibérico de Bellota - Categoría Oro"
+          }
+        },
+        "tier_2": {
+          "type": "item",
+          "settings": {
+            "front_image": "",
+            "back_image": "",
+            "alt_text": "Jamón Ibérico - Categoría Plata"
+          }
+        },
+        "tier_3": {
+          "type": "item",
+          "settings": {
+            "front_image": "",
+            "back_image": "",
+            "alt_text": "Jamón Ibérico - Categoría Bronce Superior"
+          }
+        },
+        "tier_4": {
+          "type": "item",
+          "settings": {
+            "front_image": "",
+            "back_image": "",
+            "alt_text": "Jamón Ibérico - Categoría Bronce"
+          }
+        }
+      },
+      "block_order": [
+        "tier_1",
+        "tier_2",
+        "tier_3",
+        "tier_4"
+      ],
+      "settings": {
+        "eyebrow": "NUESTRAS CATEGORÍAS",
+        "heading": "Encuentra el jamón que buscas"
+      }
+    },
     "nuestras_colecciones": {
       "type": "collection-main",
       "blocks": {
@@ -373,14 +420,15 @@
   "order": [
     "hero",
     "trust",
-    "nuestras_colecciones",
+    "home_quality_tiers",
     "products",
     "featured",
     "product_grid_VxPcmf",
-    "iberico_guide",
     "story_teaser",
-    "marquee",
+    "iberico_guide",
+    "nuestras_colecciones",
     "faq_n8WEzd",
+    "marquee",
     "newsletter"
   ]
 }
