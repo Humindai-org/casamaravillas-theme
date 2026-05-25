@@ -100,13 +100,54 @@
       ],
       "settings": {}
     },
+    "nuestras_colecciones": {
+      "type": "collection-main",
+      "blocks": {
+        "coll-1": {
+          "type": "collection",
+          "settings": {
+            "collection": "jamones"
+          }
+        },
+        "coll-2": {
+          "type": "collection",
+          "settings": {
+            "collection": "embutidos"
+          }
+        },
+        "coll-3": {
+          "type": "collection",
+          "settings": {
+            "collection": "packs-y-regalos"
+          }
+        },
+        "coll-4": {
+          "type": "collection",
+          "settings": {
+            "collection": "accesorios"
+          }
+        }
+      },
+      "block_order": [
+        "coll-1",
+        "coll-2",
+        "coll-3",
+        "coll-4"
+      ],
+      "name": "Nuestras Colecciones",
+      "settings": {
+        "eyebrow": "Nuestras Colecciones",
+        "title": "",
+        "description": "",
+        "products_per_page": 12,
+        "empty_label": "No hay productos en esta colección todavía."
+      }
+    },
     "products": {
       "type": "product-grid",
       "settings": {
         "eyebrow": "",
-        "title": "<p>Nuestras colecciones</p>",
-        "collection": "jamones",
-        "products_to_show": 4,
+        "title": "<p>Los favoritos</p>",
         "view_all_label": "Ver todo",
         "view_all_url": "shopify://collections",
         "section_bg": "off"
@@ -168,8 +209,6 @@
       "settings": {
         "eyebrow": "Tienda",
         "title": "<p>Nuestra <em>selección</em></p>",
-        "collection": "",
-        "products_to_show": 4,
         "view_all_label": "Ver toda la colección",
         "view_all_url": "",
         "section_bg": "off"
@@ -252,47 +291,6 @@
         "cta_url": "/pages/sobre-nosotros"
       }
     },
-    "nuestras_colecciones": {
-      "type": "collection-main",
-      "name": "Nuestras Colecciones",
-      "blocks": {
-        "coll-1": {
-          "type": "collection",
-          "settings": {
-            "collection": "jamones"
-          }
-        },
-        "coll-2": {
-          "type": "collection",
-          "settings": {
-            "collection": "embutidos"
-          }
-        },
-        "coll-3": {
-          "type": "collection",
-          "settings": {
-            "collection": "packs-y-regalos"
-          }
-        },
-        "coll-4": {
-          "type": "collection",
-          "settings": {
-            "collection": "accesorios"
-          }
-        }
-      },
-      "block_order": [
-        "coll-1",
-        "coll-2",
-        "coll-3",
-        "coll-4"
-      ],
-      "settings": {
-        "eyebrow": "CATEGORÍAS",
-        "title": "Nuestras Colecciones",
-        "description": ""
-      }
-    },
     "marquee": {
       "type": "marquee-strip",
       "settings": {
@@ -373,12 +371,12 @@
   "order": [
     "hero",
     "trust",
+    "nuestras_colecciones",
     "products",
     "featured",
     "product_grid_VxPcmf",
     "iberico_guide",
     "story_teaser",
-    "nuestras_colecciones",
     "marquee",
     "faq_n8WEzd",
     "newsletter"
