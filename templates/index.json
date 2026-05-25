@@ -221,6 +221,38 @@
     },
     "product_grid_VxPcmf": {
       "type": "product-grid",
+      "blocks": {
+        "product_X3aKJT": {
+          "type": "product",
+          "settings": {
+            "product": "jamon-bellota-100-iberico-pieza-entera"
+          }
+        },
+        "product_YCJWKa": {
+          "type": "product",
+          "settings": {
+            "product": "jamon-bellota-75-iberico-pieza-entera"
+          }
+        },
+        "product_GE8BEX": {
+          "type": "product",
+          "settings": {
+            "product": "jamon-cebo-de-campo-50-iberico-pieza-entera"
+          }
+        },
+        "product_rzr8jj": {
+          "type": "product",
+          "settings": {
+            "product": "jamon-cebo-50-iberico-pieza-entera"
+          }
+        }
+      },
+      "block_order": [
+        "product_X3aKJT",
+        "product_YCJWKa",
+        "product_GE8BEX",
+        "product_rzr8jj"
+      ],
       "name": "Grid de productos",
       "settings": {
         "eyebrow": "Tienda",
