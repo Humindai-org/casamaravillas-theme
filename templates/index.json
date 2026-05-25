@@ -105,7 +105,7 @@
       "settings": {
         "eyebrow": "",
         "title": "<p>Nuestra <em>selección</em></p>",
-        "collection": "",
+        "collection": "jamones",
         "products_to_show": 4,
         "view_all_label": "Ver todo",
         "view_all_url": "shopify://collections",
@@ -258,16 +258,6 @@
         "text": "Jamón Ibérico de Bellota | Embutidos Artesanales | Packs Regalo | Envío en 24h | Tres Generaciones | Calidad Garantizada | Productos de Alicante | Dehesa Española"
       }
     },
-    "newsletter": {
-      "type": "newsletter",
-      "settings": {
-        "eyebrow": "Club Casa Maravillas",
-        "title": "<p>Suscríbete al placer de lo <em>auténtico.</em></p>",
-        "body": "En Casa Maravillas seleccionamos por ti solo lo mejor. Recíbelo en casa, en el momento justo, con la calidad que nos define.",
-        "cta_label": "Quiero suscribirme",
-        "cta_url": "/pages/suscripcion"
-      }
-    },
     "faq_n8WEzd": {
       "type": "faq",
       "blocks": {
@@ -326,6 +316,16 @@
       "settings": {
         "eyebrow": "Preguntas frecuentes",
         "title": "<p>Todo lo que <em>necesitas</em> saber</p>"
+      }
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {
+        "eyebrow": "Club Casa Maravillas",
+        "title": "<p>Suscríbete al placer de lo <em>auténtico.</em></p>",
+        "body": "En Casa Maravillas seleccionamos por ti solo lo mejor. Recíbelo en casa, en el momento justo, con la calidad que nos define.",
+        "cta_label": "Quiero suscribirme",
+        "cta_url": "/pages/suscripcion"
       }
     }
   },
