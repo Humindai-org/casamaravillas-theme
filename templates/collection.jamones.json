@@ -25,16 +25,16 @@
       "settings": {
         "eyebrow": "Sistema de Categorías",
         "heading": "Cuatro piezas, tres niveles",
-        "cat0_icon": "shopify://shop_images/i1.svg",
+        "cat0_icon": "shopify://shop_images/9.svg",
         "cat0_name": "Bellota 100% Ibérico",
         "cat0_desc": "",
-        "cat1_icon": "shopify://shop_images/i2.svg",
+        "cat1_icon": "shopify://shop_images/4.svg",
         "cat1_name": "Bellota 75% Ibérico",
         "cat1_desc": "",
-        "cat2_icon": "shopify://shop_images/i3.svg",
+        "cat2_icon": "shopify://shop_images/11.svg",
         "cat2_name": "Cebo de Campo Ibérico",
         "cat2_desc": "",
-        "cat3_icon": "shopify://shop_images/i4_3db786ee-6b86-4f4f-9966-ba3a7a978627.svg",
+        "cat3_icon": "shopify://shop_images/12.svg",
         "cat3_name": "Cebo Ibérico",
         "cat3_desc": ""
       }
