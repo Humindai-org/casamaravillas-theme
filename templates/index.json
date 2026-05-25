@@ -113,7 +113,8 @@
         "coll-2": {
           "type": "collection",
           "settings": {
-            "collection": "embutidos"
+            "collection": "embutidos",
+            "image": "shopify://shop_images/dce189eac47ae14c7e35d2aa3b29f58c.jpg"
           }
         },
         "coll-4": {
