@@ -104,7 +104,7 @@
       "type": "product-grid",
       "settings": {
         "eyebrow": "",
-        "title": "<p>Nuestra <em>selección</em></p>",
+        "title": "<p>Nuestras colecciones</p>",
         "collection": "jamones",
         "products_to_show": 4,
         "view_all_label": "Ver todo",
