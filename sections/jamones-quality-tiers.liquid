@@ -80,51 +80,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: visible;
-  }
-
-  .qt__icon-{{ section.id }}::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 280px;
-    height: 280px;
-    border-radius: 50%;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    pointer-events: none;
-    z-index: -1;
-    filter: blur(40px);
-  }
-
-  .qt__medallion-{{ section.id }}:nth-child(1) .qt__icon-{{ section.id }}::before {
-    background: radial-gradient(circle, rgba(218, 165, 32, 0.6) 0%, rgba(218, 165, 32, 0.2) 50%, rgba(218, 165, 32, 0) 100%);
-  }
-
-  .qt__medallion-{{ section.id }}:nth-child(2) .qt__icon-{{ section.id }}::before {
-    background: radial-gradient(circle, rgba(220, 20, 60, 0.6) 0%, rgba(220, 20, 60, 0.2) 50%, rgba(220, 20, 60, 0) 100%);
-  }
-
-  .qt__medallion-{{ section.id }}:nth-child(3) .qt__icon-{{ section.id }}::before {
-    background: radial-gradient(circle, rgba(34, 139, 34, 0.6) 0%, rgba(34, 139, 34, 0.2) 50%, rgba(34, 139, 34, 0) 100%);
-  }
-
-  .qt__medallion-{{ section.id }}:nth-child(4) .qt__icon-{{ section.id }}::before {
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0) 100%);
-  }
-
-  .qt__medallion-{{ section.id }}:hover .qt__icon-{{ section.id }}::before {
-    opacity: 1;
+    overflow: hidden;
   }
 
   .qt__icon-img-{{ section.id }} {
     width: 100%;
     height: 100%;
     object-fit: contain;
-    position: relative;
-    z-index: 1;
   }
 
   /* ── Contenedor de textos bajo el icono ── */
