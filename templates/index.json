@@ -106,7 +106,8 @@
         "coll-1": {
           "type": "collection",
           "settings": {
-            "collection": "jamones"
+            "collection": "jamones",
+            "image": "shopify://shop_images/generated_image_041201ff-ae05-4ce5-8710-0a47084de114.png"
           }
         },
         "coll-2": {
@@ -115,24 +116,24 @@
             "collection": "embutidos"
           }
         },
-        "coll-3": {
-          "type": "collection",
-          "settings": {
-            "collection": "packs-y-regalos"
-          }
-        },
         "coll-4": {
           "type": "collection",
           "settings": {
-            "collection": "accesorios"
+            "collection": "carnes-ibericas"
+          }
+        },
+        "coll-3": {
+          "type": "collection",
+          "settings": {
+            "collection": "paquetes-de-regalo"
           }
         }
       },
       "block_order": [
         "coll-1",
         "coll-2",
-        "coll-3",
-        "coll-4"
+        "coll-4",
+        "coll-3"
       ],
       "name": "Nuestras Colecciones",
       "settings": {
