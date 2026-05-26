@@ -797,61 +797,71 @@
         </div>
       </div>
 
-      <!-- Product grid + Pagination (Custom order or collection) -->
-      {%- comment -%}
-        Si hay productos seleccionados en el editor, usar ese orden.
-        Si no, mostrar todos los productos de la colección.
-      {%- endcomment -%}
+      <!-- Product grid + Pagination -->
       {%- if section.blocks.size > 0 -%}
-        {%- assign products_to_display = "" | split: "," -%}
-        {%- for block in section.blocks -%}
-          {%- if block.settings.product -%}
-            {%- assign products_to_display = products_to_display | push: block.settings.product -%}
-          {%- endif -%}
-        {%- endfor -%}
-      {%- else -%}
-        {%- assign products_to_display = collection.products -%}
-      {%- endif -%}
-
-      {%- paginate products_to_display by section.settings.products_per_page -%}
+        <!-- Modo bloques: sin paginación -->
         <div class="jc__grid-{{ section.id }}">
-          {%- if products_to_display.size > 0 -%}
-            {%- for product in products_to_display -%}
-              <div data-product-tags="{{ product.tags | join: ',' }}" data-product-price="{{ product.price | divided_by: 100 }}">
-                {% render 'product-card', card_product: product, card_collection: collection.handle %}
-              </div>
+          {%- if section.blocks.size > 0 -%}
+            {%- for block in section.blocks -%}
+              {%- if block.settings.product -%}
+                {%- assign product = all_products[block.settings.product.handle] -%}
+                {%- if product == blank -%}
+                  {%- assign product = block.settings.product -%}
+                {%- endif -%}
+                <div data-product-tags="{{ product.tags | join: ',' }}" data-product-price="{{ product.price | divided_by: 100 }}">
+                  {% render 'product-card', card_product: product, card_collection: collection.handle %}
+                </div>
+              {%- endif -%}
             {%- endfor -%}
           {%- else -%}
             <p class="jc__empty-{{ section.id }}">{{ section.settings.empty_label }}</p>
           {%- endif -%}
         </div>
-
         <p class="jc__search-empty-{{ section.id }}" hidden>
           Sin resultados para &ldquo;<span class="jc__search-term-{{ section.id }}"></span>&rdquo;
         </p>
+      {%- else -%}
+        <!-- Modo colección: con paginación -->
+        {%- paginate collection.products by section.settings.products_per_page -%}
+          <div class="jc__grid-{{ section.id }}">
+            {%- if collection.products.size > 0 -%}
+              {%- for product in collection.products -%}
+                <div data-product-tags="{{ product.tags | join: ',' }}" data-product-price="{{ product.price | divided_by: 100 }}">
+                  {% render 'product-card', card_product: product, card_collection: collection.handle %}
+                </div>
+              {%- endfor -%}
+            {%- else -%}
+              <p class="jc__empty-{{ section.id }}">{{ section.settings.empty_label }}</p>
+            {%- endif -%}
+          </div>
 
-        {%- if paginate.pages > 1 -%}
-          <nav class="jc__pagination-{{ section.id }}" aria-label="Paginación">
-            {%- if paginate.previous -%}
-              <a class="jc__page-link-{{ section.id }}" href="{{ paginate.previous.url }}" aria-label="Página anterior">‹</a>
-            {%- endif -%}
-            {%- for part in paginate.parts -%}
-              {%- if part.is_link -%}
-                <a class="jc__page-link-{{ section.id }}" href="{{ part.url }}">{{ part.title }}</a>
-              {%- else -%}
-                {%- if part.title == paginate.current_page -%}
-                  <span class="jc__page-link-{{ section.id }} is-current" aria-current="page">{{ part.title }}</span>
-                {%- else -%}
-                  <span class="jc__page-link-{{ section.id }}">{{ part.title }}</span>
-                {%- endif -%}
+          <p class="jc__search-empty-{{ section.id }}" hidden>
+            Sin resultados para &ldquo;<span class="jc__search-term-{{ section.id }}"></span>&rdquo;
+          </p>
+
+          {%- if paginate.pages > 1 -%}
+            <nav class="jc__pagination-{{ section.id }}" aria-label="Paginación">
+              {%- if paginate.previous -%}
+                <a class="jc__page-link-{{ section.id }}" href="{{ paginate.previous.url }}" aria-label="Página anterior">‹</a>
               {%- endif -%}
-            {%- endfor -%}
-            {%- if paginate.next -%}
-              <a class="jc__page-link-{{ section.id }}" href="{{ paginate.next.url }}" aria-label="Página siguiente">›</a>
-            {%- endif -%}
-          </nav>
-        {%- endif -%}
-      {%- endpaginate -%}
+              {%- for part in paginate.parts -%}
+                {%- if part.is_link -%}
+                  <a class="jc__page-link-{{ section.id }}" href="{{ part.url }}">{{ part.title }}</a>
+                {%- else -%}
+                  {%- if part.title == paginate.current_page -%}
+                    <span class="jc__page-link-{{ section.id }} is-current" aria-current="page">{{ part.title }}</span>
+                  {%- else -%}
+                    <span class="jc__page-link-{{ section.id }}">{{ part.title }}</span>
+                  {%- endif -%}
+                {%- endif -%}
+              {%- endfor -%}
+              {%- if paginate.next -%}
+                <a class="jc__page-link-{{ section.id }}" href="{{ paginate.next.url }}" aria-label="Página siguiente">›</a>
+              {%- endif -%}
+            </nav>
+          {%- endif -%}
+        {%- endpaginate -%}
+      {%- endif -%}
 
     </div><!-- /main -->
   </div><!-- /inner -->
