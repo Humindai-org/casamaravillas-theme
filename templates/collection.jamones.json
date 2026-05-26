@@ -41,6 +41,66 @@
     },
     "collection": {
       "type": "jamones-collection",
+      "blocks": {
+        "product_etVNrB": {
+          "type": "product",
+          "settings": {
+            "product": "jamon-cebo-50-iberico-cortado-a-mano"
+          }
+        },
+        "product_jYNXjH": {
+          "type": "product",
+          "settings": {
+            "product": "jamon-cebo-de-campo-50-iberico-cortado-a-mano"
+          }
+        },
+        "product_7F4fii": {
+          "type": "product",
+          "settings": {
+            "product": "jamon-bellota-75-iberico-cortado-a-mano"
+          }
+        },
+        "product_YgFWai": {
+          "type": "product",
+          "settings": {
+            "product": "jamon-bellota-100-iberico-cortado-a-mano"
+          }
+        },
+        "product_fwaeeV": {
+          "type": "product",
+          "settings": {
+            "product": "jamon-cebo-50-iberico-pieza-entera"
+          }
+        },
+        "product_mfpG3P": {
+          "type": "product",
+          "settings": {
+            "product": "jamon-cebo-de-campo-50-iberico-pieza-entera"
+          }
+        },
+        "product_QxpcEm": {
+          "type": "product",
+          "settings": {
+            "product": "jamon-bellota-75-iberico-pieza-entera"
+          }
+        },
+        "product_WFUzPt": {
+          "type": "product",
+          "settings": {
+            "product": "jamon-bellota-100-iberico-pieza-entera"
+          }
+        }
+      },
+      "block_order": [
+        "product_etVNrB",
+        "product_jYNXjH",
+        "product_7F4fii",
+        "product_YgFWai",
+        "product_fwaeeV",
+        "product_mfpG3P",
+        "product_QxpcEm",
+        "product_WFUzPt"
+      ],
       "settings": {
         "eyebrow": "Nuestra selección",
         "products_per_page": 50,
