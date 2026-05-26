@@ -89,6 +89,30 @@
           "settings": {
             "product": "jamon-bellota-100-iberico-pieza-entera"
           }
+        },
+        "product_yrdibH": {
+          "type": "product",
+          "settings": {
+            "product": "jamon-cebo-50-iberico-deshuesado"
+          }
+        },
+        "product_KdKfGU": {
+          "type": "product",
+          "settings": {
+            "product": "jamon-cebo-de-campo-50-iberico-deshuesado"
+          }
+        },
+        "product_GbNNnp": {
+          "type": "product",
+          "settings": {
+            "product": "jamon-bellota-75-iberico-deshuesado"
+          }
+        },
+        "product_eamcjV": {
+          "type": "product",
+          "settings": {
+            "product": "jamon-bellota-100-iberico-deshuesado"
+          }
         }
       },
       "block_order": [
@@ -99,7 +123,11 @@
         "product_fwaeeV",
         "product_mfpG3P",
         "product_QxpcEm",
-        "product_WFUzPt"
+        "product_WFUzPt",
+        "product_yrdibH",
+        "product_KdKfGU",
+        "product_GbNNnp",
+        "product_eamcjV"
       ],
       "settings": {
         "eyebrow": "Nuestra selección",
