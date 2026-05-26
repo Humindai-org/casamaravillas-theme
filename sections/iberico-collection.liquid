@@ -803,55 +803,63 @@
 
       <!-- Product grid + Pagination (Custom order or collection) -->
       {%- if section.blocks.size > 0 -%}
-        {%- assign products_to_display = "" | split: "," -%}
-        {%- for block in section.blocks -%}
-          {%- if block.settings.product -%}
-            {%- assign products_to_display = products_to_display | push: block.settings.product -%}
-          {%- endif -%}
-        {%- endfor -%}
-      {%- else -%}
-        {%- assign products_to_display = collection.products -%}
-      {%- endif -%}
-
-      {%- paginate products_to_display by section.settings.products_per_page -%}
+        {%- comment -%}Mode: producto blocks — render directly without pagination{%- endcomment -%}
         <div class="ic__grid-{{ section.id }}">
-          {%- if products_to_display.size > 0 -%}
-            {%- for product in products_to_display -%}
+          {%- for block in section.blocks -%}
+            {%- if block.settings.product -%}
+              {%- assign product = block.settings.product -%}
               <div data-product-tags="{{ product.tags | join: ',' | downcase }}" data-product-price="{{ product.price | divided_by: 100 }}">
                 {% render 'product-card', card_product: product, card_collection: collection.handle %}
               </div>
-            {%- endfor -%}
-          {%- else -%}
-            <p class="ic__empty-{{ section.id }}">{{ section.settings.empty_label }}</p>
-          {%- endif -%}
+            {%- endif -%}
+          {%- endfor -%}
         </div>
 
         <p class="ic__search-empty-{{ section.id }}" hidden>
           Sin resultados para &ldquo;<span class="ic__search-term-{{ section.id }}"></span>&rdquo;
         </p>
+      {%- else -%}
+        {%- comment -%}Mode: collection.products — render with pagination{%- endcomment -%}
+        {%- paginate collection.products by section.settings.products_per_page -%}
+          <div class="ic__grid-{{ section.id }}">
+            {%- if collection.products.size > 0 -%}
+              {%- for product in collection.products -%}
+                <div data-product-tags="{{ product.tags | join: ',' | downcase }}" data-product-price="{{ product.price | divided_by: 100 }}">
+                  {% render 'product-card', card_product: product, card_collection: collection.handle %}
+                </div>
+              {%- endfor -%}
+            {%- else -%}
+              <p class="ic__empty-{{ section.id }}">{{ section.settings.empty_label }}</p>
+            {%- endif -%}
+          </div>
 
-        {%- if paginate.pages > 1 -%}
-          <nav class="ic__pagination-{{ section.id }}" aria-label="Paginación">
-            {%- if paginate.previous -%}
-              <a class="ic__page-link-{{ section.id }}" href="{{ paginate.previous.url }}" aria-label="Página anterior">‹</a>
-            {%- endif -%}
-            {%- for part in paginate.parts -%}
-              {%- if part.is_link -%}
-                <a class="ic__page-link-{{ section.id }}" href="{{ part.url }}">{{ part.title }}</a>
-              {%- else -%}
-                {%- if part.title == paginate.current_page -%}
-                  <span class="ic__page-link-{{ section.id }} is-current" aria-current="page">{{ part.title }}</span>
-                {%- else -%}
-                  <span class="ic__page-link-{{ section.id }}">{{ part.title }}</span>
-                {%- endif -%}
+          <p class="ic__search-empty-{{ section.id }}" hidden>
+            Sin resultados para &ldquo;<span class="ic__search-term-{{ section.id }}"></span>&rdquo;
+          </p>
+
+          {%- if paginate.pages > 1 -%}
+            <nav class="ic__pagination-{{ section.id }}" aria-label="Paginación">
+              {%- if paginate.previous -%}
+                <a class="ic__page-link-{{ section.id }}" href="{{ paginate.previous.url }}" aria-label="Página anterior">‹</a>
               {%- endif -%}
-            {%- endfor -%}
-            {%- if paginate.next -%}
-              <a class="ic__page-link-{{ section.id }}" href="{{ paginate.next.url }}" aria-label="Página siguiente">›</a>
-            {%- endif -%}
-          </nav>
-        {%- endif -%}
-      {%- endpaginate -%}
+              {%- for part in paginate.parts -%}
+                {%- if part.is_link -%}
+                  <a class="ic__page-link-{{ section.id }}" href="{{ part.url }}">{{ part.title }}</a>
+                {%- else -%}
+                  {%- if part.title == paginate.current_page -%}
+                    <span class="ic__page-link-{{ section.id }} is-current" aria-current="page">{{ part.title }}</span>
+                  {%- else -%}
+                    <span class="ic__page-link-{{ section.id }}">{{ part.title }}</span>
+                  {%- endif -%}
+                {%- endif -%}
+              {%- endfor -%}
+              {%- if paginate.next -%}
+                <a class="ic__page-link-{{ section.id }}" href="{{ paginate.next.url }}" aria-label="Página siguiente">›</a>
+              {%- endif -%}
+            </nav>
+          {%- endif -%}
+        {%- endpaginate -%}
+      {%- endif -%}
 
     </div><!-- /main -->
   </div><!-- /inner -->
