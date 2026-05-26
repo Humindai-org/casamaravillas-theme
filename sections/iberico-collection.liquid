@@ -801,11 +801,22 @@
         {%- endif -%}
       </div>
 
-      <!-- Product grid + Pagination -->
-      {%- paginate collection.products by section.settings.products_per_page -%}
+      <!-- Product grid + Pagination (Custom order or collection) -->
+      {%- if section.blocks.size > 0 -%}
+        {%- assign products_to_display = "" | split: "," -%}
+        {%- for block in section.blocks -%}
+          {%- if block.settings.product -%}
+            {%- assign products_to_display = products_to_display | push: block.settings.product -%}
+          {%- endif -%}
+        {%- endfor -%}
+      {%- else -%}
+        {%- assign products_to_display = collection.products -%}
+      {%- endif -%}
+
+      {%- paginate products_to_display by section.settings.products_per_page -%}
         <div class="ic__grid-{{ section.id }}">
-          {%- if collection.products.size > 0 -%}
-            {%- for product in collection.products -%}
+          {%- if products_to_display.size > 0 -%}
+            {%- for product in products_to_display -%}
               <div data-product-tags="{{ product.tags | join: ',' | downcase }}" data-product-price="{{ product.price | divided_by: 100 }}">
                 {% render 'product-card', card_product: product, card_collection: collection.handle %}
               </div>
@@ -1246,6 +1257,19 @@
       "id": "empty_label",
       "label": "Texto si no hay productos",
       "default": "No hay jamones disponibles en este momento."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "Producto",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Producto"
+        }
+      ]
     }
   ],
   "presets": [
