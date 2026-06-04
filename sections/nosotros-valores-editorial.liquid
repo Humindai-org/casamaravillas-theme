@@ -56,16 +56,29 @@
      Full editorial text. Headline left / body right.
      ───────────────────────────────────────────────── */
   .nve__text-full {
+    position: relative;
     background: var(--cm-navy);
     min-height: 100vh;
     display: flex;
     align-items: center;
     padding: clamp(100px, 12vw, 160px) clamp(48px, 10vw, 140px);
+    overflow: hidden;
+  }
+
+  .nve__text-full__bg-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
   }
 
   .nve__text-full-inner {
     width: 100%;
     max-width: 1200px;
+    position: relative;
+    z-index: 1;
   }
 
   .nve__text-full .nve__tf-grid {
@@ -350,6 +363,15 @@
     {%- if block.type == 'text-full' -%}
     {%- comment -%} ── Layout: editorial text full width ── {%- endcomment -%}
     <div class="nve__text-full" data-sr-block {{ block.shopify_attributes }}>
+      {%- if block.settings.background_image != blank -%}
+        {{ block.settings.background_image
+          | image_url: width: 2000
+          | image_tag:
+              class: 'nve__text-full__bg-img',
+              loading: 'lazy',
+              alt: block.settings.background_image.alt | escape
+        }}
+      {%- endif -%}
       <div class="nve__text-full-inner">
         {%- if block.settings.value_name != blank -%}
           <p class="nve__eyebrow">{{ block.settings.value_name }}</p>
@@ -537,6 +559,7 @@
       "type": "text-full",
       "name": "Texto editorial completo",
       "settings": [
+        { "type": "image_picker", "id": "background_image", "label": "Imagen de fondo" },
         { "type": "text",         "id": "value_name", "label": "Eyebrow",   "default": "Autenticidad" },
         { "type": "text",         "id": "headline",   "label": "Titular",   "default": "Solo ponemos lo que creemos" },
         { "type": "richtext",     "id": "body",       "label": "Texto",
