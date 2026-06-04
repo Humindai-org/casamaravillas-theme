@@ -83,7 +83,7 @@
 
   .nve__text-full .nve__tf-grid {
     display: grid;
-    grid-template-columns: 1fr 0.75fr;
+    grid-template-columns: 1fr;
     gap: clamp(48px, 6vw, 100px);
     align-items: start;
   }
@@ -94,9 +94,21 @@
     margin-bottom: 0;
   }
 
+  .nve__text-full__panel {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: clamp(300px, 35%, 500px);
+    background: var(--cm-navy);
+    padding: clamp(40px, 5vw, 64px) clamp(36px, 4vw, 56px);
+    z-index: 2;
+  }
+
   .nve__text-full .nve__body {
     color: rgba(250,246,239,0.72);
-    padding-top: 12px;
+    padding-top: 0;
+    font-size: clamp(13px, 1.3vw, 15px);
   }
 
   /* ─────────────────────────────────────────────────
@@ -289,6 +301,16 @@
       font-size: clamp(40px, 9vw, 56px);
     }
 
+    .nve__text-full__panel {
+      position: relative;
+      width: 100%;
+      padding: 48px 24px;
+      transform: none;
+      right: auto;
+      top: auto;
+      margin-top: 48px;
+    }
+
     .nve__split {
       grid-template-columns: 1fr;
       min-height: auto;
@@ -380,11 +402,13 @@
           {%- if block.settings.headline != blank -%}
             <h2 class="nve__headline" data-sr-h>{{ block.settings.headline }}</h2>
           {%- endif -%}
-          {%- if block.settings.body != blank -%}
-            <div class="nve__body">{{ block.settings.body }}</div>
-          {%- endif -%}
         </div>
       </div>
+      {%- if block.settings.body != blank -%}
+        <div class="nve__text-full__panel">
+          <div class="nve__body">{{ block.settings.body }}</div>
+        </div>
+      {%- endif -%}
     </div>
 
     {%- elsif block.type == 'split' -%}
