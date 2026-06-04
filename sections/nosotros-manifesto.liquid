@@ -118,6 +118,13 @@
   .nsm .cm-reveal--d3 { transition-delay: 0.45s; }
   .nsm .cm-reveal--d4 { transition-delay: 0.6s; }
 
+  @media (max-width: 767px) {
+    .nsm {
+      min-height: 50vh;
+      padding: 60px 24px;
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .nsm .cm-reveal { opacity: 1; transform: none; transition: none; }
   }
