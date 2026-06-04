@@ -237,13 +237,6 @@
     z-index: 0;
   }
 
-  .nve__centered__bg-overlay {
-    position: absolute;
-    inset: 0;
-    background: rgba(250,246,239,0.85);
-    z-index: 1;
-  }
-
   .nve__centered__inner {
     max-width: 840px;
     position: relative;
@@ -438,7 +431,6 @@
               loading: 'lazy',
               alt: block.settings.background_image.alt | escape
         }}
-        <div class="nve__centered__bg-overlay" aria-hidden="true"></div>
       {%- endif -%}
       <div class="nve__centered__inner">
         {%- if block.settings.value_name != blank -%}
