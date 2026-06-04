@@ -110,6 +110,18 @@
   .nsv__body p { margin-bottom: 20px; }
   .nsv__body p:last-child { margin-bottom: 0; }
 
+  .nsv__content-img {
+    margin-top: 48px;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .nsv__content-img img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
   /* Scroll reveal */
   .nsv .cm-reveal {
     opacity: 0;
@@ -174,6 +186,17 @@
       {%- if section.settings.body != blank -%}
         <div class="nsv__body cm-reveal cm-reveal--d2">{{ section.settings.body }}</div>
       {%- endif -%}
+
+      {%- if section.settings.content_image != blank -%}
+        <div class="nsv__content-img cm-reveal cm-reveal--d3">
+          {{ section.settings.content_image
+            | image_url: width: 600
+            | image_tag:
+                loading: 'lazy',
+                alt: section.settings.content_image.alt | escape
+          }}
+        </div>
+      {%- endif -%}
     </div>
   </div>
 
@@ -224,6 +247,11 @@
       "id": "body",
       "label": "Texto narrativo",
       "default": "<p>Trabajamos únicamente con lo que creemos. Si un producto no nos convence en la primera prueba, no llega a nuestra tienda. Así de simple y así de exigente.</p><p>La autenticidad no es un valor que se declara, es una práctica que se ejerce cada vez que decimos no a algo que no da la talla. Y decimos no con mucha más frecuencia de lo que decimos sí.</p>"
+    },
+    {
+      "type": "image_picker",
+      "id": "content_image",
+      "label": "Imagen dentro del contenido (debajo del texto)"
     }
   ],
   "presets": [
