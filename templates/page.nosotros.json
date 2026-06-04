@@ -118,6 +118,7 @@
         "valor-autenticidad": {
           "type": "text-full",
           "settings": {
+            "background_image": "shopify://shop_images/ChatGPT_Image_Jun_4_2026_12_25_36_PM.png",
             "value_name": "Autenticidad",
             "headline": "Solo ponemos lo que creemos",
             "body": "<p>Trabajamos únicamente con lo que creemos. Si un producto no nos convence en la primera prueba, no llega a nuestra tienda. Así de simple y así de exigente.</p><p>La autenticidad no es un valor que se declara, es una práctica que se ejerce cada vez que decimos no a algo que no da la talla. Y decimos no con mucha más frecuencia de lo que decimos sí.</p>"
