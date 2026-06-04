@@ -103,14 +103,35 @@
     "products": {
       "type": "product-grid",
       "blocks": {
+        "product_b7WHtL": {
+          "type": "product",
+          "settings": {
+            "product": "jamon-cebo-de-campo-50-iberico-cortado-a-mano"
+          }
+        },
+        "product_nHrVcT": {
+          "type": "product",
+          "settings": {
+            "product": "jamon-cebo-de-campo-50-iberico-pieza-entera"
+          }
+        },
+        "product_KitQ6t": {
+          "type": "product",
+          "settings": {
+            "product": "jamon-bellota-75-iberico-pieza-entera"
+          }
+        },
         "product_V47iCf": {
           "type": "product",
           "settings": {
-            "product": ""
+            "product": "jamon-bellota-75-iberico-cortado-a-mano"
           }
         }
       },
       "block_order": [
+        "product_b7WHtL",
+        "product_nHrVcT",
+        "product_KitQ6t",
         "product_V47iCf"
       ],
       "settings": {
