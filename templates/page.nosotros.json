@@ -126,6 +126,7 @@
         "valor-respeto": {
           "type": "split",
           "settings": {
+            "image": "shopify://shop_images/generated_image_6578f43c-d59b-470b-84d5-532b31e5be4c.png",
             "value_name": "Respeto",
             "headline": "Un equilibrio que no se puede romper",
             "body": "<p>El ibérico nace de un equilibrio: entre el animal y su entorno, entre el productor y su tierra, entre nosotros y el cliente. Cualquier paso en falso rompe ese equilibrio.</p><p>Por eso el respeto no es solo una palabra en nuestro vocabulario — es la razón de que trabajemos con los productores que trabajamos, de que cuidemos el envío como cuidamos la selección, de que tratemos cada pedido como si fuera el primero.</p>"
