@@ -123,72 +123,14 @@
         "card2_additional_text": ""
       }
     },
-    "product_details_accordion_Dtwtwz": {
-      "type": "product-details-accordion",
-      "blocks": {
-        "accordion_eNJyBz": {
-          "type": "accordion",
-          "settings": {
-            "icon": "info",
-            "title": "Maridaje",
-            "summary": "",
-            "metafield_key": "pairing_ideas",
-            "content_fallback": "",
-            "kv_1_label": "",
-            "kv_1_value": "",
-            "kv_2_label": "",
-            "kv_2_value": "",
-            "kv_3_label": "",
-            "kv_3_value": "",
-            "kv_4_label": "",
-            "kv_4_value": "",
-            "kv_5_label": "",
-            "kv_5_value": ""
-          }
-        },
-        "accordion_pNab39": {
-          "type": "accordion",
-          "settings": {
-            "icon": "garantia",
-            "title": "Alérgenos e ingredientes",
-            "summary": "",
-            "metafield_key": "allergens",
-            "content_fallback": "",
-            "kv_1_label": "",
-            "kv_1_value": "",
-            "kv_2_label": "",
-            "kv_2_value": "",
-            "kv_3_label": "",
-            "kv_3_value": "",
-            "kv_4_label": "",
-            "kv_4_value": "",
-            "kv_5_label": "",
-            "kv_5_value": ""
-          }
-        }
-      },
-      "block_order": [
-        "accordion_eNJyBz",
-        "accordion_pNab39"
-      ],
-      "name": "Detalles de la Pieza",
-      "settings": {
-        "header_eyebrow": "Detalles de la pieza",
-        "header_title": "Todo lo que debes saber",
-        "header_title_em": "",
-        "sections_label": "",
-        "empty_message": "Información no añadida todavía para este producto."
-      }
-    },
     "related": {
       "type": "product-grid",
       "settings": {
         "eyebrow": "También te puede gustar",
         "title": "<p>Productos <em>relacionados</em></p>",
-        "collection": "",
-        "products_to_show": 4,
         "view_all_label": "Ver toda la colección",
-        "view_all_url": "/collections/all"
+        "view_all_url": "/collections/all",
+        "section_bg": "off"
       }
     }
   },
@@ -197,7 +139,6 @@
     "trust_band_YfPnnW",
     "combina",
     "product_information_zDBpen",
-    "product_details_accordion_Dtwtwz",
     "related"
   ]
 }
