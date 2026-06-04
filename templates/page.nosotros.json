@@ -12,6 +12,7 @@
     "hero": {
       "type": "nosotros-hero",
       "settings": {
+        "image": "shopify://shop_images/generated_image_2d79e279-ac6e-441c-b958-befd97a9d389.png",
         "eyebrow": "Nuestra historia",
         "title": "Tres generaciones eligiendo lo mejor del campo ibérico",
         "subtitle": "Una convicción que se hereda, un estándar que no se negocia"
@@ -40,6 +41,7 @@
         "stat-iberico"
       ],
       "settings": {
+        "image": "shopify://shop_images/generated_image_5a0a578b-6d60-4490-95a7-3513e4a247bf.png",
         "eyebrow": "Nuestra historia",
         "title": "Todo empezó con una convicción",
         "body": "<p>Somos una familia que lleva tres generaciones viviendo los ibéricos desde dentro. No desde la teoría, sino desde el campo, desde las bodegas, desde el conocimiento acumulado de quien ha pasado décadas aprendiendo a distinguir lo bueno de lo excepcional.</p><p>Cuando decidimos llevar ese conocimiento a una tienda online, nos hicimos una sola pregunta: ¿venderíamos esto a un amigo? Si la respuesta es sí, entra al catálogo. Si hay alguna duda, no entra. Así de simple. Así de exigente.</p>"
