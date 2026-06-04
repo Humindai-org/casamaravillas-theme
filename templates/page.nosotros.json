@@ -144,7 +144,7 @@
         "valor-imaginacion": {
           "type": "centered",
           "settings": {
-            "background_image": "shopify://shop_images/generated_image_ebc62b64-925c-451e-90f6-f24321dadfcc.png",
+            "background_image": "shopify://shop_images/generated_image.jpg",
             "value_name": "Imaginación",
             "headline": "La tradición y la innovación no son opuestos",
             "body": "<p>Son los dos extremos del mismo hilo. Llevamos generaciones aprendiendo de los productores y su saber hacer; al mismo tiempo, reinventamos cómo ese conocimiento llega a ti.</p><p>La imaginación es lo que transforma un legado en algo vivo. Lo que hace que una tienda de ibéricos no sea simplemente otra tienda de ibéricos, sino un lugar donde cada detalle tiene una razón de ser.</p>"
