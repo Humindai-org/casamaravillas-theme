@@ -217,6 +217,7 @@
      Centered editorial text, cream background.
      ───────────────────────────────────────────────── */
   .nve__centered {
+    position: relative;
     background: var(--cm-off);
     min-height: 80vh;
     display: flex;
@@ -224,10 +225,29 @@
     justify-content: center;
     text-align: center;
     padding: clamp(100px, 12vw, 160px) clamp(24px, 8vw, 120px);
+    overflow: hidden;
+  }
+
+  .nve__centered__bg-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+  }
+
+  .nve__centered__bg-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(250,246,239,0.85);
+    z-index: 1;
   }
 
   .nve__centered__inner {
     max-width: 840px;
+    position: relative;
+    z-index: 2;
   }
 
   .nve__centered .nve__eyebrow {
@@ -410,6 +430,16 @@
     {%- elsif block.type == 'centered' -%}
     {%- comment -%} ── Layout: centered editorial text ── {%- endcomment -%}
     <div class="nve__centered" data-sr-block {{ block.shopify_attributes }}>
+      {%- if block.settings.background_image != blank -%}
+        {{ block.settings.background_image
+          | image_url: width: 2000
+          | image_tag:
+              class: 'nve__centered__bg-img',
+              loading: 'lazy',
+              alt: block.settings.background_image.alt | escape
+        }}
+        <div class="nve__centered__bg-overlay" aria-hidden="true"></div>
+      {%- endif -%}
       <div class="nve__centered__inner">
         {%- if block.settings.value_name != blank -%}
           <p class="nve__eyebrow">{{ block.settings.value_name }}</p>
@@ -550,6 +580,7 @@
       "type": "centered",
       "name": "Texto centrado",
       "settings": [
+        { "type": "image_picker", "id": "background_image", "label": "Imagen de fondo" },
         { "type": "text",         "id": "value_name", "label": "Eyebrow",   "default": "Imaginación" },
         { "type": "text",         "id": "headline",   "label": "Titular",   "default": "La tradición y la innovación no son opuestos" },
         { "type": "richtext",     "id": "body",       "label": "Texto",
