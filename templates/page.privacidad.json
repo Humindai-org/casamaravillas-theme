@@ -1,0 +1,11 @@
+{
+  "sections": {
+    "main": {
+      "type": "page-body",
+      "settings": {
+        "show_title": true
+      }
+    }
+  },
+  "order": ["main"]
+}
