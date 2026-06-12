@@ -1,24 +1,25 @@
 <style>
   .page-body-section {
-    padding: 72px 72px 96px;
-    max-width: 760px;
+    padding: 80px 72px 96px;
+    max-width: 780px;
     margin: 0 auto;
     background: var(--cm-white);
   }
 
   .page-body-section__title {
     font-family: var(--cm-font-serif);
-    font-size: clamp(28px, 3vw, 40px);
+    font-size: clamp(30px, 3.5vw, 44px);
     font-weight: 400;
     color: var(--cm-navy);
-    margin-bottom: 28px;
-    line-height: 1.2;
+    margin-bottom: 36px;
+    line-height: 1.15;
+    text-align: left;
   }
 
   .page-body-section__content {
     font-family: var(--cm-font-sans);
     font-size: 15px;
-    line-height: 1.8;
+    line-height: 1.85;
     color: var(--cm-text-mid);
   }
 
@@ -26,11 +27,19 @@
   .page-body-section__content h3 {
     font-family: var(--cm-font-serif);
     color: var(--cm-navy);
-    margin: 1.5em 0 0.6em;
-    font-size: 1.35em;
+    margin: 2em 0 0.65em;
+    font-size: 1.45em;
+    font-weight: 400;
+    line-height: 1.2;
+    text-align: left;
   }
 
-  .page-body-section__content p { margin-bottom: 1em; }
+  .page-body-section__content h2:first-child,
+  .page-body-section__content h3:first-child {
+    margin-top: 0;
+  }
+
+  .page-body-section__content p { margin-bottom: 1.1em; }
 
   .page-body-section__content a {
     color: var(--cm-gold);
@@ -42,12 +51,32 @@
 
   .page-body-section__content ul,
   .page-body-section__content ol {
-    margin: 0 0 1em 1.25em;
-    list-style: disc;
+    margin: 0 0 1.2em 1.5em;
+    list-style: disc !important;
+    padding-left: 0.25em;
+  }
+
+  .page-body-section__content ol {
+    list-style: decimal !important;
+  }
+
+  .page-body-section__content li {
+    margin-bottom: 0.5em;
+    list-style: inherit !important;
+  }
+
+  .page-body-section__content strong {
+    color: var(--cm-navy);
+    font-weight: 600;
+  }
+
+  @media (max-width: 1023px) {
+    .page-body-section { padding: 64px 48px 80px; }
   }
 
   @media (max-width: 767px) {
     .page-body-section { padding: 48px 24px 72px; }
+    .page-body-section__title { margin-bottom: 24px; }
   }
 </style>
 
