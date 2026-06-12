@@ -236,6 +236,85 @@ main { min-height: 50vh; }
   .hide-desktop { display: none !important; }
 }
 
+/* ── PÁGINAS LEGALES (/policies/*) ──────────────────────────────────────── */
+/* Shopify inyecta CSS propio que centra el título y quita margen.
+   Estos estilos lo sobreescriben completamente. */
+
+.template-policy #main-content {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 80px 72px 96px;
+  background: var(--cm-white);
+}
+
+.template-policy h1 {
+  text-align: left !important;
+  font-family: var(--cm-font-serif);
+  font-size: clamp(30px, 3.5vw, 44px);
+  font-weight: 400;
+  color: var(--cm-navy);
+  margin-bottom: 36px;
+  line-height: 1.15;
+}
+
+.template-policy h2,
+.template-policy h3 {
+  font-family: var(--cm-font-serif);
+  color: var(--cm-navy);
+  font-size: 1.45em;
+  font-weight: 400;
+  line-height: 1.2;
+  text-align: left;
+  margin: 2em 0 0.65em;
+}
+
+.template-policy p {
+  font-family: var(--cm-font-sans);
+  font-size: 15px;
+  line-height: 1.85;
+  color: var(--cm-text-mid);
+  margin-bottom: 1.1em;
+}
+
+.template-policy ul,
+.template-policy ol {
+  font-family: var(--cm-font-sans);
+  font-size: 15px;
+  line-height: 1.85;
+  color: var(--cm-text-mid);
+  margin: 0 0 1.2em 1.5em;
+  list-style: disc !important;
+  padding-left: 0.25em;
+}
+
+.template-policy ol { list-style: decimal !important; }
+
+.template-policy li {
+  margin-bottom: 0.5em;
+  list-style: inherit !important;
+}
+
+.template-policy strong {
+  color: var(--cm-navy);
+  font-weight: 600;
+}
+
+.template-policy a {
+  color: var(--cm-gold);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.template-policy a:hover { color: var(--cm-gold-h); }
+
+@media (max-width: 1023px) {
+  .template-policy #main-content { padding: 64px 48px 80px; }
+}
+@media (max-width: 767px) {
+  .template-policy #main-content { padding: 48px 24px 72px; }
+  .template-policy h1 { margin-bottom: 24px; }
+}
+
 /* Color de fondo del footer */
 #shopify-section-sections--29787200815442__footer {
   background-color: #101D36 !important;
