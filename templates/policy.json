@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "main": {
+      "type": "policy-body",
+      "settings": {}
+    }
+  },
+  "order": ["main"]
+}

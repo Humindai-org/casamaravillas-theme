@@ -1,0 +1,76 @@
+<style>
+  .policy-body-section {
+    padding: 72px 72px 96px;
+    max-width: 760px;
+    margin: 0 auto;
+    background: var(--cm-white);
+  }
+
+  .policy-body-section__title {
+    font-family: var(--cm-font-serif);
+    font-size: clamp(28px, 3vw, 40px);
+    font-weight: 400;
+    color: var(--cm-navy);
+    margin-bottom: 28px;
+    line-height: 1.2;
+  }
+
+  .policy-body-section__content {
+    font-family: var(--cm-font-sans);
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--cm-text-mid);
+  }
+
+  .policy-body-section__content h2,
+  .policy-body-section__content h3 {
+    font-family: var(--cm-font-serif);
+    color: var(--cm-navy);
+    margin: 1.5em 0 0.6em;
+    font-size: 1.35em;
+  }
+
+  .policy-body-section__content p { margin-bottom: 1em; }
+
+  .policy-body-section__content a {
+    color: var(--cm-gold);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .policy-body-section__content a:hover { color: var(--cm-gold-h); }
+
+  .policy-body-section__content ul,
+  .policy-body-section__content ol {
+    margin: 0 0 1em 1.25em;
+    list-style: disc;
+  }
+
+  .policy-body-section__content li { margin-bottom: 0.4em; }
+
+  .policy-body-section__content strong { color: var(--cm-navy); }
+
+  .policy-body-section__content em {
+    font-style: italic;
+    color: rgba(0,0,0,0.45);
+    font-size: 0.9em;
+  }
+
+  @media (max-width: 767px) {
+    .policy-body-section { padding: 48px 24px 72px; }
+  }
+</style>
+
+<section class="policy-body-section">
+  <h1 class="policy-body-section__title">{{ policy.title }}</h1>
+  <div class="policy-body-section__content rte">
+    {{ policy.body }}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Contenido de política",
+  "tag": "section"
+}
+{% endschema %}
