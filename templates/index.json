@@ -348,7 +348,7 @@
         "image_slide_6AfTeD": {
           "type": "image_slide",
           "settings": {
-            "image": "shopify://shop_images/imagen_3.png",
+            "image": "shopify://shop_images/denominaciones.png",
             "caption": "",
             "alt": "Imagen de la guía del ibérico",
             "slot_bg": "cream",
