@@ -182,7 +182,7 @@
         {%- assign product_handle = block.settings.product -%}
         {%- if product_handle != blank -%}
           {%- assign product = all_products[product_handle] -%}
-          {% render 'product-card', card_product: product, tier_icons: section.settings.tier_icons %}
+          {% render 'product-card', card_product: product, tier_icons: section.settings.tier_icons, card_image: block.settings.image, card_hover_image: block.settings.hover_image %}
           {%- assign product_count = product_count | plus: 1 -%}
         {%- endif -%}
       {%- endif -%}
@@ -217,6 +217,18 @@
           "type": "product",
           "id": "product",
           "label": "Producto"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Imagen principal (opcional)",
+          "info": "Si la dejas vacía, se usa la imagen destacada del producto."
+        },
+        {
+          "type": "image_picker",
+          "id": "hover_image",
+          "label": "Imagen hover (opcional)",
+          "info": "Se muestra al pasar el mouse. Si la dejas vacía, no hay hover (salvo que el producto tenga una 2ª imagen o el metafield)."
         }
       ]
     }

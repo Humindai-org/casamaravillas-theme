@@ -274,14 +274,19 @@
       {%- assign card_zoom = product.metafields.custom.card_zoom | default: 1 -%}
       {%- assign card_offset = product.metafields.custom.card_offset | default: 50 -%}
       <div class="product-card__img-box" style="--card-zoom: {{ card_zoom }}; --card-pos: {{ card_offset }}%;">
-        {%- if product.featured_image != blank -%}
-          {{ product.featured_image | image_url: width: 600 | image_tag:
+        {%- comment -%}Imagen principal: 1º la del bloque del editor, si no la destacada del producto{%- endcomment -%}
+        {%- assign primary_image = card_image | default: product.featured_image -%}
+        {%- if primary_image != blank -%}
+          {{ primary_image | image_url: width: 600 | image_tag:
               loading: 'lazy',
               class: 'product-card__img product-card__img--primary',
-              alt: product.featured_image.alt | default: product.title | escape
+              alt: primary_image.alt | default: product.title | escape
           }}
-          {%- comment -%}Imagen de hover: 1º el metafield dedicado, si no la 2ª imagen de la galería{%- endcomment -%}
-          {%- assign hover_image = product.metafields.custom.card_hover_image.value -%}
+          {%- comment -%}Imagen de hover: bloque del editor > metafield > 2ª imagen de la galería{%- endcomment -%}
+          {%- assign hover_image = card_hover_image -%}
+          {%- if hover_image == blank -%}
+            {%- assign hover_image = product.metafields.custom.card_hover_image.value -%}
+          {%- endif -%}
           {%- if hover_image == blank and product.images.size > 1 -%}
             {%- assign hover_image = product.images[1] -%}
           {%- endif -%}
