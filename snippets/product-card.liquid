@@ -172,6 +172,45 @@
     outline-offset: 2px;
   }
 
+  /* Circular add-to-cart button in the footer */
+  .product-card__plus {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid var(--cm-gold);
+    background: transparent;
+    color: var(--cm-gold);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    padding: 0;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease, transform 0.2s ease;
+  }
+
+  .product-card__plus svg {
+    width: 16px;
+    height: 16px;
+    display: block;
+  }
+
+  .product-card__plus:hover { background: var(--cm-gold); color: var(--cm-white); }
+  .product-card__plus:active { transform: scale(0.9); }
+  .product-card__plus:focus-visible {
+    outline: 2px solid var(--cm-gold);
+    outline-offset: 2px;
+  }
+
+  .product-card__plus[disabled] { opacity: 0.55; cursor: default; }
+
+  .product-card__plus.is-added {
+    background: #2a7a4b;
+    border-color: #2a7a4b;
+    color: var(--cm-white);
+  }
+
   .product-card__add-btn {
     position: absolute;
     bottom: 0; left: 0; right: 0;
@@ -320,7 +359,30 @@
             <span class="product-card__price-compare">{{ product.compare_at_price | money }}</span>
           {%- endif -%}
         </div>
-        <a class="product-card__cta" href="{{ product.url }}">Ver</a>
+        {%- if product.variants.size == 1 -%}
+          <button
+            class="product-card__plus"
+            data-variant-id="{{ product.selected_or_first_available_variant.id }}"
+            aria-label="Añadir {{ product.title | escape }} a la cesta"
+            type="button"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <line x1="12" y1="5" x2="12" y2="19"/>
+              <line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+          </button>
+        {%- else -%}
+          <a
+            class="product-card__plus"
+            href="{{ product.url }}"
+            aria-label="Ver opciones de {{ product.title | escape }}"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <line x1="12" y1="5" x2="12" y2="19"/>
+              <line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+          </a>
+        {%- endif -%}
       </div>
     </div>
   </article>
@@ -328,14 +390,16 @@
   <script>
   if (!window.cmCardAddInit) {
     window.cmCardAddInit = true;
+    var CHECK_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg>';
     document.addEventListener('click', function(e) {
-      var btn = e.target.closest('.product-card__add-btn[data-variant-id]');
+      var btn = e.target.closest('.product-card__add-btn[data-variant-id], .product-card__plus[data-variant-id]');
       if (!btn) return;
       e.preventDefault();
+      var isPlus = btn.classList.contains('product-card__plus');
       var variantId = btn.dataset.variantId;
       var originalHTML = btn.innerHTML;
       btn.disabled = true;
-      btn.innerHTML = '<span>...</span>';
+      btn.innerHTML = isPlus ? '<span>·</span>' : '<span>...</span>';
       fetch('/cart/add.js', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -343,7 +407,7 @@
       })
       .then(function(r) { return r.json(); })
       .then(function() {
-        btn.innerHTML = '<span>Añadido ✓</span>';
+        btn.innerHTML = isPlus ? CHECK_SVG : '<span>Añadido ✓</span>';
         btn.classList.add('is-added');
         var doOpen = function() {
           if (typeof window.openCart === 'function') window.openCart(true);
@@ -379,7 +443,12 @@
       <p class="product-card__name-sub">Iberian Acorn-Fed Ham</p>
       <div class="product-card__foot">
         <span class="product-card__price">€89,00</span>
-        <a class="product-card__cta" href="#">Ver</a>
+        <a class="product-card__plus" href="#" aria-label="Ver producto">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <line x1="12" y1="5" x2="12" y2="19"/>
+            <line x1="5" y1="12" x2="19" y2="12"/>
+          </svg>
+        </a>
       </div>
     </div>
   </article>
