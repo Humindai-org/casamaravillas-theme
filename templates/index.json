@@ -135,8 +135,9 @@
         "product_V47iCf"
       ],
       "settings": {
-        "eyebrow": "Los favoritos",
-        "title": "<p>Lo más elegido de Casa Maravillas</p>",
+        "eyebrow": "Nuestros favoritos",
+        "title": "<p>Una selección única<br>de <em>Casa Maravillas</em></p>",
+        "description": "<p>Piezas y loncheados elegidos por su calidad, curación y sabor inconfundible.</p>",
         "view_all_label": "Ver todos los productos",
         "view_all_url": "shopify://collections",
         "section_bg": "off",

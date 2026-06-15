@@ -23,14 +23,12 @@
 
   .product-grid-section__header {
     display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    margin-bottom: 56px;
-    padding-bottom: 24px;
-    border-bottom: 1px solid var(--cm-border);
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 720px;
+    margin: 0 auto 56px;
   }
-
-  .product-grid-section__header-left {}
 
   .product-grid-section__eyebrow {
     font-size: 9px;
@@ -38,37 +36,103 @@
     text-transform: uppercase;
     color: var(--cm-gold);
     font-weight: 500;
-    margin-bottom: 14px;
+    margin-bottom: 18px;
     font-family: var(--cm-font-sans);
+  }
+
+  .product-grid-section__rule {
+    width: 54px;
+    height: 1px;
+    background: var(--cm-gold);
+    opacity: 0.6;
+    margin-bottom: 26px;
   }
 
   .product-grid-section__title {
     font-family: var(--cm-font-serif);
-    font-size: clamp(26px, 2.8vw, 42px);
+    font-size: clamp(30px, 3.4vw, 50px);
     font-weight: 400;
     color: var(--cm-navy);
-    line-height: 1.2;
+    line-height: 1.12;
   }
 
   .product-grid-section__title em { font-style: italic; }
 
+  .product-grid-section__subtitle {
+    font-family: var(--cm-font-serif);
+    font-size: clamp(16px, 1.5vw, 20px);
+    color: var(--cm-text-light);
+    line-height: 1.5;
+    margin-top: 20px;
+  }
+
   .product-grid-section__grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 1px;
-    background: var(--cm-border);
-    border: 1px solid var(--cm-border);
+    gap: 28px;
+  }
+
+  /* Floating-card look scoped to this section (keeps collection grids untouched) */
+  .product-grid-section .product-card {
+    background: transparent;
+  }
+
+  .product-grid-section .product-card:hover {
+    box-shadow: none;
+  }
+
+  .product-grid-section .product-card__img-box {
+    background: linear-gradient(165deg, #f1f0ed 0%, #e6e4df 100%);
+  }
+
+  .product-grid-section__footer {
+    display: flex;
+    justify-content: center;
+    margin-top: 56px;
+  }
+
+  .product-grid-section__view-all {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    font-family: var(--cm-font-sans);
+    font-size: 11px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: var(--cm-navy);
+    text-decoration: none;
+    padding: 20px 56px;
+    border: 1px solid var(--cm-gold);
+    background: transparent;
+    transition: background 0.25s ease, color 0.25s ease;
+  }
+
+  .product-grid-section__view-all::after { content: '→'; font-size: 14px; }
+  .product-grid-section__view-all:hover { background: var(--cm-navy); color: var(--cm-white); border-color: var(--cm-navy); }
+  .product-grid-section__view-all:focus-visible {
+    outline: 2px solid var(--cm-gold);
+    outline-offset: 3px;
+  }
+
+  .product-grid-section.bg-navy .product-grid-section__view-all {
+    color: var(--cm-white);
+  }
+  .product-grid-section.bg-navy .product-grid-section__view-all:hover {
+    background: var(--cm-white);
+    color: var(--cm-navy);
+    border-color: var(--cm-white);
   }
 
   @media (max-width: 1023px) {
     .product-grid-section { padding: 64px 32px; }
-    .product-grid-section__grid { grid-template-columns: repeat(2, 1fr); }
+    .product-grid-section__grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
   }
 
   @media (max-width: 767px) {
     .product-grid-section { padding: 48px 20px; }
-    .product-grid-section__header { flex-direction: column; align-items: flex-start; gap: 20px; }
-    .product-grid-section__grid { grid-template-columns: repeat(2, 1fr); }
+    .product-grid-section__grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .product-grid-section__view-all { padding: 18px 40px; }
   }
 
   @media (max-width: 480px) {
@@ -78,19 +142,20 @@
 
 <section class="product-grid-section{% if section.settings.section_bg == 'gold_pale' %} bg-gold-pale{% elsif section.settings.section_bg == 'navy' %} bg-navy{% endif %}">
 
-  <div class="product-grid-section__header">
-    <div class="product-grid-section__header-left">
+  {%- if section.settings.eyebrow != blank or section.settings.title != blank or section.settings.description != blank -%}
+    <div class="product-grid-section__header">
       {%- if section.settings.eyebrow != blank -%}
         <p class="product-grid-section__eyebrow">{{ section.settings.eyebrow }}</p>
+        <div class="product-grid-section__rule"></div>
       {%- endif -%}
-      <h2 class="product-grid-section__title">{{ section.settings.title | default: 'Nuestra <em>selección</em>' }}</h2>
+      {%- if section.settings.title != blank -%}
+        <h2 class="product-grid-section__title">{{ section.settings.title }}</h2>
+      {%- endif -%}
+      {%- if section.settings.description != blank -%}
+        <div class="product-grid-section__subtitle">{{ section.settings.description }}</div>
+      {%- endif -%}
     </div>
-    {%- if section.settings.view_all_label != blank -%}
-      <a href="{{ section.settings.view_all_url | default: '/collections/all' }}" class="cm-link-arrow hide-mobile">
-        {{ section.settings.view_all_label }}
-      </a>
-    {%- endif -%}
-  </div>
+  {%- endif -%}
 
   <div class="product-grid-section__grid">
     {%- assign product_count = 0 -%}
@@ -110,6 +175,14 @@
       {%- endfor -%}
     {%- endif -%}
   </div>
+
+  {%- if section.settings.view_all_label != blank -%}
+    <div class="product-grid-section__footer">
+      <a href="{{ section.settings.view_all_url | default: '/collections/all' }}" class="product-grid-section__view-all">
+        {{ section.settings.view_all_label }}
+      </a>
+    </div>
+  {%- endif -%}
 
 </section>
 
@@ -142,6 +215,11 @@
       "id": "title",
       "label": "Título",
       "default": "<p>Nuestra <em>selección</em></p>"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Subtítulo"
     },
     {
       "type": "text",
