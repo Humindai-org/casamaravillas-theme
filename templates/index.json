@@ -106,25 +106,33 @@
         "product_b7WHtL": {
           "type": "product",
           "settings": {
-            "product": "jamon-cebo-de-campo-50-iberico-cortado-a-mano"
+            "product": "jamon-cebo-de-campo-50-iberico-cortado-a-mano",
+            "image_zoom": 100,
+            "image_offset": 50
           }
         },
         "product_nHrVcT": {
           "type": "product",
           "settings": {
-            "product": "jamon-cebo-de-campo-50-iberico-pieza-entera"
+            "product": "jamon-cebo-de-campo-50-iberico-pieza-entera",
+            "image_zoom": 100,
+            "image_offset": 50
           }
         },
         "product_KitQ6t": {
           "type": "product",
           "settings": {
-            "product": "jamon-bellota-75-iberico-pieza-entera"
+            "product": "jamon-bellota-75-iberico-pieza-entera",
+            "image_zoom": 100,
+            "image_offset": 50
           }
         },
         "product_V47iCf": {
           "type": "product",
           "settings": {
-            "product": "jamon-bellota-75-iberico-cortado-a-mano"
+            "product": "jamon-bellota-75-iberico-cortado-a-mano",
+            "image_zoom": 100,
+            "image_offset": 50
           }
         }
       },
@@ -247,12 +255,22 @@
     "product_grid_VxPcmf": {
       "type": "product-grid",
       "blocks": {
+        "product_kbHYwL": {
+          "type": "product",
+          "settings": {
+            "product": "",
+            "image_zoom": 100,
+            "image_offset": 50
+          }
+        },
         "product_X3aKJT": {
           "type": "product",
           "settings": {
             "product": "jamon-bellota-100-iberico-pieza-entera",
             "image": "shopify://shop_images/1_d82f286f-f4d5-4fb3-9a3e-21e2b617f262.png",
-            "hover_image": "shopify://shop_images/1_94ced989-5181-45e3-ade1-82b3f566f80a.png"
+            "hover_image": "shopify://shop_images/1_94ced989-5181-45e3-ade1-82b3f566f80a.png",
+            "image_zoom": 100,
+            "image_offset": 57
           }
         },
         "product_YCJWKa": {
@@ -260,7 +278,9 @@
           "settings": {
             "product": "jamon-bellota-75-iberico-pieza-entera",
             "image": "shopify://shop_images/2_a6f397e5-9144-4f5c-b2ce-7fddb2f6cc40.png",
-            "hover_image": "shopify://shop_images/CASAMARAVILLAS__2_827a25c3-cb47-4991-a357-4682feaa62d6.jpg"
+            "hover_image": "shopify://shop_images/CASAMARAVILLAS__2_827a25c3-cb47-4991-a357-4682feaa62d6.jpg",
+            "image_zoom": 100,
+            "image_offset": 100
           }
         },
         "product_GE8BEX": {
@@ -268,7 +288,9 @@
           "settings": {
             "product": "jamon-cebo-de-campo-50-iberico-pieza-entera",
             "image": "shopify://shop_images/3_43f9001d-88b9-4b7b-8840-f82900e6f38a.png",
-            "hover_image": "shopify://shop_images/CASAMARAVILLAS__3.jpg"
+            "hover_image": "shopify://shop_images/CASAMARAVILLAS__3.jpg",
+            "image_zoom": 100,
+            "image_offset": 0
           }
         },
         "product_rzr8jj": {
@@ -276,11 +298,14 @@
           "settings": {
             "product": "jamon-cebo-50-iberico-pieza-entera",
             "image": "shopify://shop_images/4_070b4195-0605-4cf3-a389-14083266e9f4.png",
-            "hover_image": "shopify://shop_images/generated_image_041201ff-ae05-4ce5-8710-0a47084de114.png"
+            "hover_image": "shopify://shop_images/generated_image_041201ff-ae05-4ce5-8710-0a47084de114.png",
+            "image_zoom": 100,
+            "image_offset": 73
           }
         }
       },
       "block_order": [
+        "product_kbHYwL",
         "product_X3aKJT",
         "product_YCJWKa",
         "product_GE8BEX",
