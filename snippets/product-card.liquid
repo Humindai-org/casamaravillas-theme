@@ -44,6 +44,18 @@
     transform: scale(calc(var(--card-zoom, 1) * 1.05));
   }
 
+  /* Hover image swap — shows the product's 2nd image on hover */
+  .product-card__img-box .product-card__img--secondary {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.6s ease, transform 0.5s ease;
+  }
+
+  .product-card:hover .product-card__img-box .product-card__img--secondary {
+    opacity: 1;
+  }
+
   .product-card__badge {
     position: absolute;
     top: 16px;
@@ -265,11 +277,20 @@
         {%- if product.featured_image != blank -%}
           {{ product.featured_image | image_url: width: 600 | image_tag:
               loading: 'lazy',
+              class: 'product-card__img product-card__img--primary',
               alt: product.featured_image.alt | default: product.title | escape
           }}
+          {%- if product.images.size > 1 -%}
+            {%- assign hover_image = product.images[1] -%}
+            {{ hover_image | image_url: width: 600 | image_tag:
+                loading: 'lazy',
+                class: 'product-card__img product-card__img--secondary',
+                alt: hover_image.alt | default: product.title | escape
+            }}
+          {%- endif -%}
         {%- else -%}
           {% # theme-check-disable-next-line RemoteAsset %}
-          <img src="https://placehold.co/450x600/F4F2EE/A09890?text={{ product.title | url_encode }}" alt="{{ product.title | escape }}" width="450" height="600" loading="lazy">
+          <img src="https://placehold.co/450x600/F4F2EE/A09890?text={{ product.title | url_encode }}" alt="{{ product.title | escape }}" width="450" height="600" loading="lazy" class="product-card__img product-card__img--primary">
         {%- endif -%}
         {%- if product.compare_at_price > product.price -%}
           <span class="product-card__badge">Oferta</span>

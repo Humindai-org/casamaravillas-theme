@@ -21,6 +21,24 @@
     color: var(--cm-white);
   }
 
+  /* On navy background, product card text stays white (not navy/gold) */
+  .product-grid-section.bg-navy .product-card__name,
+  .product-grid-section.bg-navy .product-card__name:hover {
+    color: var(--cm-white);
+  }
+
+  .product-grid-section.bg-navy .product-card__price {
+    color: var(--cm-white);
+  }
+
+  .product-grid-section.bg-navy .product-card__name-sub {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .product-grid-section.bg-navy .product-card__foot {
+    border-top-color: rgba(255, 255, 255, 0.2);
+  }
+
   .product-grid-section__header {
     display: flex;
     flex-direction: column;
