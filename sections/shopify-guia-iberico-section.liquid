@@ -135,12 +135,12 @@
   }
   .iberico-guide-{{ section.id }} .iberico-guide__grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    border-top: 0.5px solid var(--ink-light);
+    grid-template-columns: 1fr 1.1fr;
+    gap: 2.5rem;
+    align-items: center;
   }
   .iberico-guide-{{ section.id }} .iberico-guide__left {
-    padding: 3.5rem 4rem 3.5rem 0;
-    border-right: 0.5px solid var(--ink-light);
+    padding: 3.5rem 2rem 3.5rem 0;
   }
   .iberico-guide-{{ section.id }} .iberico-guide__heading {
     font-family: var(--serif);
@@ -238,8 +238,8 @@
   .iberico-guide-{{ section.id }} .iberico-guide__right {
     position: relative;
     overflow: hidden;
-    min-height: 520px;
-    background: var(--cream-mid);
+    min-height: 600px;
+    background: transparent;
   }
   .iberico-guide-{{ section.id }} .iberico-guide__slot {
     position: absolute;
@@ -251,7 +251,7 @@
     align-items: center;
     justify-content: center;
     pointer-events: none;
-    background: var(--cream-mid);
+    background: transparent;
   }
   .iberico-guide-{{ section.id }} .iberico-guide__slot.is-visible {
     opacity: 1;
@@ -321,7 +321,7 @@
   }
   .iberico-guide-{{ section.id }} .iberico-guide__photo--block {
     object-fit: contain;
-    padding: 1.5rem;
+    padding: 0;
   }
   .iberico-guide-{{ section.id }} .iberico-guide__slot--dark {
     background: #120F0D !important;
