@@ -135,9 +135,8 @@
         "product_V47iCf"
       ],
       "settings": {
-        "eyebrow": "Nuestros favoritos",
-        "title": "<p>Una selección única<br>de <em>Casa Maravillas</em></p>",
-        "description": "<p>Piezas y loncheados elegidos por su calidad, curación y sabor inconfundible.</p>",
+        "eyebrow": "Los favoritos",
+        "title": "<p>Lo más elegido de Casa Maravillas</p>",
         "view_all_label": "Ver todos los productos",
         "view_all_url": "shopify://collections",
         "section_bg": "off",
@@ -234,7 +233,7 @@
       "settings": {
         "image": "shopify://shop_images/CASAMARAVILLAS__1_2.jpg",
         "img_label": "Producto destacado",
-        "img_title": "Jamón Ibérico de Bellota 100%",
+        "img_title": "",
         "eyebrow": "Selección especial",
         "product_name": "Jamón Ibérico de Bellota",
         "product_name_en": "Iberian Acorn-Fed Ham",
@@ -284,7 +283,8 @@
         "title": "<p>Nuestra <em>selección</em></p>",
         "view_all_label": "Ver toda la colección",
         "view_all_url": "",
-        "section_bg": "off"
+        "section_bg": "navy",
+        "tier_icons_bellota_100": "shopify://shop_images/CASAMARAVILLAS__1_2.jpg"
       }
     },
     "iberico_guide": {
