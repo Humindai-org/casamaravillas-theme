@@ -270,8 +270,12 @@
 {%- if product != blank -%}
   <article class="product-card">
     <a href="{{ product.url }}" aria-label="{{ product.title | escape }}">
-      {%- comment -%}Ajuste fino: 1º el control del editor (bloque), si no el metafield del producto{%- endcomment -%}
-      {%- assign card_zoom = block_zoom | default: product.metafields.custom.card_zoom | default: 1 -%}
+      {%- comment -%}Ajuste fino: 1º el control del editor (bloque, en %), si no el metafield del producto{%- endcomment -%}
+      {%- if block_zoom != blank -%}
+        {%- assign card_zoom = block_zoom | divided_by: 100.0 -%}
+      {%- else -%}
+        {%- assign card_zoom = product.metafields.custom.card_zoom | default: 1 -%}
+      {%- endif -%}
       {%- assign card_offset = block_offset | default: product.metafields.custom.card_offset | default: 50 -%}
       <div class="product-card__img-box" style="--card-zoom: {{ card_zoom }}; --card-pos: {{ card_offset }}%;">
         {%- comment -%}Imagen principal: 1º la del bloque del editor, si no la destacada del producto{%- endcomment -%}
