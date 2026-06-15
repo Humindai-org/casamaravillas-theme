@@ -270,9 +270,9 @@
 {%- if product != blank -%}
   <article class="product-card">
     <a href="{{ product.url }}" aria-label="{{ product.title | escape }}">
-      {%- comment -%}Ajuste fino por producto: zoom y posición vertical (editable desde admin){%- endcomment -%}
-      {%- assign card_zoom = product.metafields.custom.card_zoom | default: 1 -%}
-      {%- assign card_offset = product.metafields.custom.card_offset | default: 50 -%}
+      {%- comment -%}Ajuste fino: 1º el control del editor (bloque), si no el metafield del producto{%- endcomment -%}
+      {%- assign card_zoom = block_zoom | default: product.metafields.custom.card_zoom | default: 1 -%}
+      {%- assign card_offset = block_offset | default: product.metafields.custom.card_offset | default: 50 -%}
       <div class="product-card__img-box" style="--card-zoom: {{ card_zoom }}; --card-pos: {{ card_offset }}%;">
         {%- comment -%}Imagen principal: 1º la del bloque del editor, si no la destacada del producto{%- endcomment -%}
         {%- assign primary_image = card_image | default: product.featured_image -%}
