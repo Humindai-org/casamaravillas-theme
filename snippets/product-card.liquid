@@ -280,12 +280,16 @@
               class: 'product-card__img product-card__img--primary',
               alt: product.featured_image.alt | default: product.title | escape
           }}
-          {%- if product.images.size > 1 -%}
+          {%- comment -%}Imagen de hover: 1º el metafield dedicado, si no la 2ª imagen de la galería{%- endcomment -%}
+          {%- assign hover_image = product.metafields.custom.card_hover_image.value -%}
+          {%- if hover_image == blank and product.images.size > 1 -%}
             {%- assign hover_image = product.images[1] -%}
+          {%- endif -%}
+          {%- if hover_image != blank -%}
             {{ hover_image | image_url: width: 600 | image_tag:
                 loading: 'lazy',
                 class: 'product-card__img product-card__img--secondary',
-                alt: hover_image.alt | default: product.title | escape
+                alt: product.title | escape
             }}
           {%- endif -%}
         {%- else -%}
