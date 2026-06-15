@@ -182,7 +182,7 @@
         {%- assign product_handle = block.settings.product -%}
         {%- if product_handle != blank -%}
           {%- assign product = all_products[product_handle] -%}
-          {% render 'product-card', card_product: product, tier_icons: section.settings.tier_icons, card_image: block.settings.image, card_hover_image: block.settings.hover_image, block_zoom: block.settings.image_zoom, block_offset: block.settings.image_offset %}
+          {% render 'product-card', card_product: product, tier_icons: section.settings.tier_icons, card_image: block.settings.image, card_hover_image: block.settings.hover_image %}
           {%- assign product_count = product_count | plus: 1 -%}
         {%- endif -%}
       {%- endif -%}
@@ -229,30 +229,6 @@
           "id": "hover_image",
           "label": "Imagen hover (opcional)",
           "info": "Se muestra al pasar el mouse. Si la dejas vacía, no hay hover (salvo que el producto tenga una 2ª imagen o el metafield)."
-        },
-        {
-          "type": "header",
-          "content": "Ajuste de imagen"
-        },
-        {
-          "type": "range",
-          "id": "image_zoom",
-          "label": "Zoom",
-          "min": 0.5,
-          "max": 2,
-          "step": 0.05,
-          "default": 1,
-          "unit": "x"
-        },
-        {
-          "type": "range",
-          "id": "image_offset",
-          "label": "Posición vertical",
-          "min": 0,
-          "max": 100,
-          "step": 1,
-          "default": 50,
-          "unit": "%"
         }
       ]
     }
