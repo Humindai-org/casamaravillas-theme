@@ -32,12 +32,17 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center var(--card-pos, 50%);
     filter: saturate(0.8) brightness(0.85);
+    transform: scale(var(--card-zoom, 1));
+    transform-origin: center var(--card-pos, 50%);
     transition: transform 0.5s ease;
     display: block;
   }
 
-  .product-card:hover .product-card__img-box img { transform: scale(1.05); }
+  .product-card:hover .product-card__img-box img {
+    transform: scale(calc(var(--card-zoom, 1) * 1.05));
+  }
 
   .product-card__badge {
     position: absolute;
@@ -214,7 +219,10 @@
 {%- if product != blank -%}
   <article class="product-card">
     <a href="{{ product.url }}" aria-label="{{ product.title | escape }}">
-      <div class="product-card__img-box">
+      {%- comment -%}Ajuste fino por producto: zoom y posición vertical (editable desde admin){%- endcomment -%}
+      {%- assign card_zoom = product.metafields.custom.card_zoom | default: 1 -%}
+      {%- assign card_offset = product.metafields.custom.card_offset | default: 50 -%}
+      <div class="product-card__img-box" style="--card-zoom: {{ card_zoom }}; --card-pos: {{ card_offset }}%;">
         {%- if product.featured_image != blank -%}
           {{ product.featured_image | image_url: width: 600 | image_tag:
               loading: 'lazy',
