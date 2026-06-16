@@ -39,7 +39,7 @@
         "slide-3": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/packs_ejemplo.png",
+            "image": "shopify://shop_images/image.png",
             "eyebrow": "REGALOS GOURMET",
             "heading": "El regalo perfecto existe",
             "year": "",
@@ -358,7 +358,7 @@
         "image_slide_9aGLtA": {
           "type": "image_slide",
           "settings": {
-            "image": "shopify://shop_images/imagen_4.png",
+            "image": "shopify://shop_images/k.png",
             "caption": "",
             "alt": "Imagen de la guía del ibérico",
             "slot_bg": "dark",
