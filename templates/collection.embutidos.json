@@ -41,6 +41,80 @@
     },
     "collection": {
       "type": "iberico-collection",
+      "blocks": {
+        "product_8FUQ6W": {
+          "type": "product",
+          "settings": {
+            "product": "lomo-bellota-iberico-loncheado-1"
+          }
+        },
+        "product_K6mLXn": {
+          "type": "product",
+          "settings": {
+            "product": "lomo-bellota-iberico-loncheado-2"
+          }
+        },
+        "product_dXNTYX": {
+          "type": "product",
+          "settings": {
+            "product": "lomo-cebo-campo-50-iberico-loncheado"
+          }
+        },
+        "product_X6mtnC": {
+          "type": "product",
+          "settings": {
+            "product": "chorizo-bellota-iberico-loncheado"
+          }
+        },
+        "product_7gPbUy": {
+          "type": "product",
+          "settings": {
+            "product": "salchichon-bellota-iberico-loncheado"
+          }
+        },
+        "product_LFPBaX": {
+          "type": "product",
+          "settings": {
+            "product": "lomito-presa-bellota"
+          }
+        },
+        "product_zpk8g8": {
+          "type": "product",
+          "settings": {
+            "product": "lomo-bellota-iberico"
+          }
+        },
+        "product_TRVmQK": {
+          "type": "product",
+          "settings": {
+            "product": "lomo-cebo-campo-50-iberico"
+          }
+        },
+        "product_BCkTph": {
+          "type": "product",
+          "settings": {
+            "product": "chorizo-bellota-iberico"
+          }
+        },
+        "product_RjtXfK": {
+          "type": "product",
+          "settings": {
+            "product": "salchichon-bellota-iberico"
+          }
+        }
+      },
+      "block_order": [
+        "product_8FUQ6W",
+        "product_K6mLXn",
+        "product_dXNTYX",
+        "product_X6mtnC",
+        "product_7gPbUy",
+        "product_LFPBaX",
+        "product_zpk8g8",
+        "product_TRVmQK",
+        "product_BCkTph",
+        "product_RjtXfK"
+      ],
       "settings": {
         "eyebrow": "Nuestra selección",
         "products_per_page": 50,
