@@ -118,6 +118,7 @@
       "settings": {
         "eyebrow": "Nuestra selección",
         "products_per_page": 50,
+        "products_per_row": 5,
         "show_sort": true,
         "show_count": true,
         "empty_label": "No hay embutidos disponibles en este momento."

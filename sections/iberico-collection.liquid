@@ -480,7 +480,7 @@
   /* Product grid */
   .ic__grid-{{ section.id }} {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat({{ section.settings.products_per_row | default: 4 }}, 1fr);
     gap: 1px;
     background: transparent;
     border: none;
@@ -1247,6 +1247,15 @@
       "max": 50,
       "step": 1,
       "default": 50
+    },
+    {
+      "type": "range",
+      "id": "products_per_row",
+      "label": "Productos por fila (escritorio)",
+      "min": 3,
+      "max": 5,
+      "step": 1,
+      "default": 4
     },
     {
       "type": "checkbox",
