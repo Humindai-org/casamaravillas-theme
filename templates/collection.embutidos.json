@@ -10,7 +10,7 @@
 {
   "sections": {
     "hero": {
-      "type": "iberico-hero",
+      "type": "jamones-hero",
       "settings": {
         "image": "shopify://shop_images/embutidos.2.png",
         "eyebrow": "Ibéricos Premium",

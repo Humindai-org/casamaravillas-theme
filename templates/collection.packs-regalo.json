@@ -10,12 +10,12 @@
 {
   "sections": {
     "hero": {
-      "type": "iberico-hero",
+      "type": "jamones-hero",
       "settings": {
-        "eyebrow": "Alicante, España",
+        "eyebrow": "Ibéricos Premium",
         "heading": "Packs de Regalo",
-        "subheading": "Iberian Gift Sets",
-        "body": "Selecciones cuidadas para regalar. Desde el pack más íntimo hasta la cesta gourmet más completa.",
+        "subheading": "",
+        "body": "",
         "overlay_opacity": 45
       }
     },

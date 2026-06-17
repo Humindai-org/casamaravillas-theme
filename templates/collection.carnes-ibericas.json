@@ -10,12 +10,12 @@
 {
   "sections": {
     "hero": {
-      "type": "iberico-hero",
+      "type": "jamones-hero",
       "settings": {
-        "eyebrow": "Alicante, España",
+        "eyebrow": "Ibéricos Premium",
         "heading": "Carnes Ibéricas",
-        "subheading": "Iberian Fresh Cuts",
-        "body": "Secreto, presa y pluma de cerdo ibérico de bellota. La nobleza del ibérico en cada corte.",
+        "subheading": "",
+        "body": "",
         "overlay_opacity": 45
       }
     },
