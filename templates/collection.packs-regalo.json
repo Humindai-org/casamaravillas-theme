@@ -12,6 +12,7 @@
     "hero": {
       "type": "jamones-hero",
       "settings": {
+        "image": "shopify://shop_images/image.png",
         "eyebrow": "Ibéricos Premium",
         "heading": "Packs de Regalo",
         "subheading": "",
@@ -43,6 +44,7 @@
       "settings": {
         "eyebrow": "Nuestra selección",
         "products_per_page": 50,
+        "products_per_row": 4,
         "show_sort": true,
         "show_count": true,
         "empty_label": "No hay packs disponibles en este momento."
