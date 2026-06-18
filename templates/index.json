@@ -21,7 +21,9 @@
             "year": "",
             "tagline": "Tres generaciones dedicadas al sector ibérico",
             "cta_label": "COLECCIÓN DE JAMONES",
-            "cta_url": "/collections/jamones"
+            "cta_url": "/collections/jamones",
+            "image_pos_x": 50,
+            "image_pos_y": 50
           }
         },
         "slide-2": {
@@ -33,7 +35,9 @@
             "year": "",
             "tagline": "Selección de las mejores piezas ibéricas de la dehesa española",
             "cta_label": "DESCUBRIR JAMONES",
-            "cta_url": "/collections/jamones-pata-negra"
+            "cta_url": "/collections/jamones-pata-negra",
+            "image_pos_x": 10,
+            "image_pos_y": 50
           }
         },
         "slide-3": {
@@ -45,7 +49,9 @@
             "year": "",
             "tagline": "El regalo perfecto para quien aprecia lo auténtico",
             "cta_label": "VER PACKS Y REGALOS",
-            "cta_url": "/collections/packs-y-regalos"
+            "cta_url": "/collections/packs-y-regalos",
+            "image_pos_x": 50,
+            "image_pos_y": 50
           }
         }
       },
