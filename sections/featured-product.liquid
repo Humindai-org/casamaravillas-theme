@@ -20,34 +20,6 @@
     display: block;
   }
 
-  .featured-product__img-text {
-    position: absolute;
-    inset: 0;
-    z-index: 2;
-    padding: 72px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-  }
-
-  .featured-product__img-label {
-    font-size: 9px;
-    letter-spacing: 0.5em;
-    text-transform: uppercase;
-    color: var(--cm-navy);
-    font-family: var(--cm-font-sans);
-    font-weight: 700;
-    margin-bottom: 12px;
-  }
-
-  .featured-product__img-title {
-    font-family: var(--cm-font-serif);
-    font-size: clamp(28px, 3vw, 44px);
-    font-weight: 400;
-    color: var(--cm-navy);
-    line-height: 1.2;
-  }
-
   /* Columna ficha */
   .featured-product__info-col {
     padding: 72px 64px;
@@ -177,10 +149,6 @@
       {% # theme-check-disable-next-line RemoteAsset %}
       <img src="https://placehold.co/900x700/0B1420/1A1814?text=Jamón+Bellota" alt="Jamón ibérico de bellota" width="900" height="700" loading="lazy">
     {%- endif -%}
-    <div class="featured-product__img-text">
-      <p class="featured-product__img-label">{{ section.settings.img_label | default: 'Producto destacado' }}</p>
-      <h3 class="featured-product__img-title">{{ section.settings.img_title | default: 'Jamón Ibérico de Bellota' }}</h3>
-    </div>
   </div>
 
   <!-- Columna ficha -->
