@@ -47,19 +47,9 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: left bottom;
+    object-position: center center;
     display: block;
     transform: scale(1.06);
-  }
-
-  /* Position for embutidos/ibéricos slide (2nd slide) - show products and garden */
-  .cm-hero-split__img-slide:nth-child(2) .cm-hero-split__img {
-    object-position: center 65%;
-  }
-
-  /* Position for packs slide (3rd slide) - show full basket */
-  .cm-hero-split__img-slide:nth-child(3) .cm-hero-split__img {
-    object-position: center 55%;
   }
 
   .cm-hero-split__img-overlay {
@@ -410,8 +400,14 @@
   <div class="cm-hero-split__img-col">
     <div class="cm-hero-split__img-track" id="cm-hero-split-track-{{ section.id }}">
       {%- for block in section.blocks -%}
+        <style>
+          #cm-slide-{{ block.id }} .cm-hero-split__img {
+            object-position: {{ block.settings.image_pos_x | default: 50 }}% {{ block.settings.image_pos_y | default: 50 }}%;
+          }
+        </style>
         <div
           class="cm-hero-split__img-slide{% if forloop.first %} is-active{% endif %}"
+          id="cm-slide-{{ block.id }}"
           role="group"
           aria-label="Slide {{ forloop.index }} de {{ section.blocks.size }}"
           {{ block.shopify_attributes }}
@@ -611,6 +607,28 @@
           "type": "url",
           "id": "cta_url",
           "label": "Enlace del botón"
+        },
+        {
+          "type": "range",
+          "id": "image_pos_x",
+          "label": "Posición horizontal imagen",
+          "info": "0% = izquierda · 50% = centro · 100% = derecha",
+          "min": 0,
+          "max": 100,
+          "step": 5,
+          "default": 50,
+          "unit": "%"
+        },
+        {
+          "type": "range",
+          "id": "image_pos_y",
+          "label": "Posición vertical imagen",
+          "info": "0% = arriba · 50% = centro · 100% = abajo",
+          "min": 0,
+          "max": 100,
+          "step": 5,
+          "default": 50,
+          "unit": "%"
         }
       ]
     }
