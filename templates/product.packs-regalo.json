@@ -152,6 +152,37 @@
     },
     "related": {
       "type": "product-grid",
+      "blocks": {
+        "product_R7gdT4": {
+          "type": "product",
+          "settings": {
+            "product": "pack-iberico-cebo",
+            "image_zoom": 100,
+            "image_offset": 50
+          }
+        },
+        "product_iHKn88": {
+          "type": "product",
+          "settings": {
+            "product": "pack-iberico-campo",
+            "image_zoom": 100,
+            "image_offset": 50
+          }
+        },
+        "product_4YxXqT": {
+          "type": "product",
+          "settings": {
+            "product": "pack-iberico-bellota-100",
+            "image_zoom": 100,
+            "image_offset": 50
+          }
+        }
+      },
+      "block_order": [
+        "product_R7gdT4",
+        "product_iHKn88",
+        "product_4YxXqT"
+      ],
       "settings": {
         "eyebrow": "Otros packs",
         "title": "<p>Más cestas <em>para regalar</em></p>",
