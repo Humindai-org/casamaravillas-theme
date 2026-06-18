@@ -41,6 +41,38 @@
     },
     "collection": {
       "type": "iberico-collection",
+      "blocks": {
+        "product_P6FPDe": {
+          "type": "product",
+          "settings": {
+            "product": "pack-iberico-cebo"
+          }
+        },
+        "product_EyLQBR": {
+          "type": "product",
+          "settings": {
+            "product": "pack-iberico-campo"
+          }
+        },
+        "product_ik6HT9": {
+          "type": "product",
+          "settings": {
+            "product": "pack-iberico-bellota-75"
+          }
+        },
+        "product_FWtXWc": {
+          "type": "product",
+          "settings": {
+            "product": "pack-iberico-bellota-100"
+          }
+        }
+      },
+      "block_order": [
+        "product_P6FPDe",
+        "product_EyLQBR",
+        "product_ik6HT9",
+        "product_FWtXWc"
+      ],
       "settings": {
         "eyebrow": "Nuestra selección",
         "products_per_page": 50,
