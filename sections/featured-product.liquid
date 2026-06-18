@@ -34,7 +34,7 @@
     font-size: 9px;
     letter-spacing: 0.5em;
     text-transform: uppercase;
-    color: rgba(255,255,255,0.4);
+    color: var(--cm-navy);
     font-family: var(--cm-font-sans);
     font-weight: 700;
     margin-bottom: 12px;
@@ -185,8 +185,6 @@
 
   <!-- Columna ficha -->
   <div class="featured-product__info-col">
-
-    <p class="featured-product__eyebrow">{{ section.settings.eyebrow | default: 'Selección especial' }}</p>
 
     <h2 class="featured-product__name">{{ section.settings.product_name | default: 'Jamón Ibérico de Bellota' }}</h2>
     {%- if section.settings.product_name_en != blank -%}
