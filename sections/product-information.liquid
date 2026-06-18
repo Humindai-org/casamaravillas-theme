@@ -335,6 +335,11 @@
     font-weight: 600;
     color: var(--text-primary);
   }
+  .cm-info-card__additional-text--no-sep {
+    border-top: none;
+    margin-top: 12px;
+    padding-top: 0;
+  }
 
   /* ── MODAL STYLES — LUXURY ── */
   .cm-modal {
@@ -620,7 +625,11 @@
             {%- endif -%}
           </div>
           {%- if section.settings.card2_additional_text != blank -%}
-            <div class="cm-info-card__additional-text">
+            {%- assign _has_cons_rows = false -%}
+            {%- if _cons_t != blank or _serv_t != blank or _cons_d != blank -%}
+              {%- assign _has_cons_rows = true -%}
+            {%- endif -%}
+            <div class="cm-info-card__additional-text{% unless _has_cons_rows %} cm-info-card__additional-text--no-sep{% endunless %}">
               {{ section.settings.card2_additional_text }}
             </div>
           {%- endif -%}
