@@ -257,22 +257,48 @@
 
   var cards = section.querySelectorAll('[data-filter-tag-btn]');
 
-  function checkboxFor(tag) {
-    return document.querySelector('input[data-filter-tag="' + tag + '"]');
+  function norm(s) { return (s || '').toLowerCase().trim(); }
+
+  /* Resuelve el checkbox del menú izquierdo que corresponde a la card.
+     Tolera tags desfasados (p.ej. "tipo_lomo") y empareja por nombre,
+     para que filtre como el sidebar aunque el tag del tema sea antiguo. */
+  function resolveCheckbox(card) {
+    var tag = card.getAttribute('data-filter-tag-btn') || '';
+    var all = document.querySelectorAll('input[data-filter-tag]');
+
+    /* 1. coincidencia exacta de tag */
+    for (var i = 0; i < all.length; i++) {
+      if (all[i].getAttribute('data-filter-tag') === tag) return all[i];
+    }
+    /* 2. tag sin prefijo (tipo_lomo -> lomo) */
+    var stripped = tag.indexOf('_') !== -1 ? tag.substring(tag.indexOf('_') + 1) : '';
+    if (stripped) {
+      for (var j = 0; j < all.length; j++) {
+        if (norm(all[j].getAttribute('data-filter-tag')) === norm(stripped)) return all[j];
+      }
+    }
+    /* 3. por nombre visible de la card (Chorizo -> chorizo) */
+    var nameEl = card.querySelector('.it__name-' + sid);
+    var name = norm(nameEl ? nameEl.textContent : '');
+    if (name) {
+      for (var k = 0; k < all.length; k++) {
+        if (norm(all[k].getAttribute('data-filter-tag')) === name) return all[k];
+      }
+    }
+    return null;
   }
 
   /* Reflejar en la card el estado actual del checkbox correspondiente */
   function syncActiveState() {
     cards.forEach(function (card) {
-      var cb = checkboxFor(card.getAttribute('data-filter-tag-btn'));
+      var cb = resolveCheckbox(card);
       card.classList.toggle('is-active', !!(cb && cb.checked));
     });
   }
 
   cards.forEach(function (card) {
     card.addEventListener('click', function (e) {
-      var tag = card.getAttribute('data-filter-tag-btn');
-      var cb  = checkboxFor(tag);
+      var cb = resolveCheckbox(card);
       /* Sin checkbox correspondiente → dejar que el enlace navegue */
       if (!cb) return;
       e.preventDefault();
