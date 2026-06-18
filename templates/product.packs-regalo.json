@@ -111,7 +111,7 @@
         "info_service_temp": "",
         "opened_label": "",
         "info_conservation_days": "",
-        "card2_additional_text": "<ul>\n<li>\n<strong>Embutidos loncheados:</strong> conservar en refrigerador entre 2-8°C</li>\n<li>\n<strong>Quesos:</strong> lugar fresco, por debajo de 8°C</li>\n<li>\n<strong>Vino y AOVE:</strong> lugar fresco y seco, alejado de la luz directa</li>\n<li>\n<strong>Embutidos abiertos:</strong> consumir el mismo día</li>\n<li>\n<strong>Quesos abiertos:</strong> envolver en papel film y consumir antes de 7 días</li>\n</ul>"
+        "card2_additional_text": "<ul><li><strong>Embutidos loncheados:</strong> conservar en refrigerador entre 2-8°C</li><li><strong>Quesos:</strong> lugar fresco, por debajo de 8°C</li><li><strong>Vino y AOVE:</strong> lugar fresco y seco, alejado de la luz directa</li></ul>"
       }
     },
     "product_details_accordion_packs": {
