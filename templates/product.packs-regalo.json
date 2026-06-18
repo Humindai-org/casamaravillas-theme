@@ -99,18 +99,38 @@
     "product_details_accordion_packs": {
       "type": "product-details-accordion",
       "blocks": {
-        "accordion_conservacion": {
+        "accordion_antes_abrir": {
           "type": "accordion",
           "settings": {
             "icon": "refrigerado",
-            "title": "Conservación detallada",
-            "summary": "Sin abrir y una vez abierto",
-            "metafield_key": "",
+            "title": "Conservación antes de abrir",
+            "summary": "Embutidos, quesos, vino y AOVE",
+            "metafield_key": "storage_before",
             "content_fallback": "",
-            "kv_1_label": "Sin abrir",
-            "kv_1_value": "{{ product.metafields.custom.storage_before.value }}",
-            "kv_2_label": "Una vez abierto",
-            "kv_2_value": "{{ product.metafields.custom.storage_after.value }}",
+            "kv_1_label": "",
+            "kv_1_value": "",
+            "kv_2_label": "",
+            "kv_2_value": "",
+            "kv_3_label": "",
+            "kv_3_value": "",
+            "kv_4_label": "",
+            "kv_4_value": "",
+            "kv_5_label": "",
+            "kv_5_value": ""
+          }
+        },
+        "accordion_despues_abrir": {
+          "type": "accordion",
+          "settings": {
+            "icon": "fork",
+            "title": "Una vez abierto",
+            "summary": "Consumo y conservación tras abrir",
+            "metafield_key": "storage_after",
+            "content_fallback": "",
+            "kv_1_label": "",
+            "kv_1_value": "",
+            "kv_2_label": "",
+            "kv_2_value": "",
             "kv_3_label": "",
             "kv_3_value": "",
             "kv_4_label": "",
@@ -141,7 +161,8 @@
         }
       },
       "block_order": [
-        "accordion_conservacion",
+        "accordion_antes_abrir",
+        "accordion_despues_abrir",
         "accordion_alergenos"
       ],
       "name": "Detalles del pack",
