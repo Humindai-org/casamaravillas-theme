@@ -195,6 +195,9 @@
     .jh-{{ section.id }} { height: 64svh; min-height: 360px; background: transparent; }
     .jh__sticky-{{ section.id }} { position: relative; height: 64svh; min-height: 360px; }
     .jh__eyebrow-{{ section.id }} { color: rgba(255, 255, 255, 0.9); }
+    .jh__bg-img-{{ section.id }} {
+      object-position: {{ section.settings.image_pos_x | default: 50 }}% {{ section.settings.image_pos_y_mobile | default: 70 }}%;
+    }
     .jh__frame-{{ section.id }} {
       top: 68%;
       width: 90vw;
@@ -397,6 +400,17 @@
       "max": 100,
       "step": 5,
       "default": 50,
+      "unit": "%"
+    },
+    {
+      "type": "range",
+      "id": "image_pos_y_mobile",
+      "label": "Posición vertical imagen (móvil)",
+      "info": "Ajuste independiente para móvil — 0% = arriba · 100% = abajo",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 70,
       "unit": "%"
     }
   ],
