@@ -26,7 +26,7 @@
       }
     },
     "trust_band_YfPnnW": {
-      "type": "trust-band-embutidos",
+      "type": "trust-band",
       "blocks": {
         "trust_item_diRE88": {
           "type": "trust_item",
@@ -128,9 +128,11 @@
       "settings": {
         "eyebrow": "También te puede gustar",
         "title": "<p>Productos <em>relacionados</em></p>",
+        "description": "",
         "view_all_label": "Ver toda la colección",
         "view_all_url": "/collections/all",
-        "section_bg": "off"
+        "section_bg": "off",
+        "tier_icons_bellota_100": "shopify://shop_images/1_94ced989-5181-45e3-ade1-82b3f566f80a.png"
       }
     }
   },
