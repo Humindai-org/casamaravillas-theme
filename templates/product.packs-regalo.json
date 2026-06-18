@@ -1,12 +1,3 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
     "main": {
@@ -70,29 +61,56 @@
       "name": "Banda de confianza",
       "settings": {}
     },
-    "combina": {
-      "type": "combina-tu-compra",
+    "product_information_packs": {
+      "type": "product-information",
+      "name": "Información del Producto",
       "settings": {
-        "title": "Combina tu compra con",
-        "collection": "",
-        "products_to_show": 5
+        "eyebrow_text": "Información del producto",
+        "title_text": "El jamón ibérico que hay",
+        "title_em_text": "dentro.",
+        "description_text": "Los valores nutricionales corresponden al jamón ibérico incluido en el pack, el producto protagonista de cada cesta. El resto de productos llevan su propia información nutricional en el etiquetado.",
+        "card1_title": "Información nutricional del jamón",
+        "card1_icon": "info_nutricional.svg",
+        "kcal_label": "Valor energético",
+        "info_kcal": "{{ product.metafields.custom.energy.value }}",
+        "protein_label": "Proteínas",
+        "info_protein": "{{ product.metafields.custom.protein.value }}",
+        "fats_label": "Grasas",
+        "info_fats": "{{ product.metafields.custom.fat.value }}",
+        "saturated_fats_label": "— de las cuales saturadas",
+        "info_saturated_fats": "{{ product.metafields.custom.saturated_fat.value }}",
+        "carbs_label": "Hidratos de carbono",
+        "info_carbs": "{{ product.metafields.custom.carbohydrates.value }}",
+        "sugars_label": "Azúcares",
+        "info_sugars": "{{ product.metafields.custom.sugars.value }}",
+        "salt_label": "Sal",
+        "info_salt": "{{ product.metafields.custom.salt.value }}",
+        "card2_title": "Conservación",
+        "card2_icon": "icon-refrigerado.svg",
+        "conservation_label": "",
+        "info_conservation_temp": "",
+        "service_label": "",
+        "info_service_temp": "",
+        "opened_label": "",
+        "info_conservation_days": "",
+        "card2_additional_text": "Embutidos loncheados: refrigerador 2-8°C. Quesos: lugar fresco por debajo de 8°C. Vino y AOVE: lugar fresco y seco, alejado de la luz directa. Una vez abiertos los embutidos, consumir el mismo día. Los quesos, envueltos en papel film, aguantan hasta 7 días."
       }
     },
-    "product_details_accordion_Dtwtwz": {
+    "product_details_accordion_packs": {
       "type": "product-details-accordion",
       "blocks": {
-        "accordion_eNJyBz": {
+        "accordion_conservacion": {
           "type": "accordion",
           "settings": {
-            "icon": "info",
-            "title": "Contenido del pack",
-            "summary": "",
-            "metafield_key": "pack_contents",
+            "icon": "refrigerado",
+            "title": "Conservación detallada",
+            "summary": "Sin abrir y una vez abierto",
+            "metafield_key": "",
             "content_fallback": "",
-            "kv_1_label": "",
-            "kv_1_value": "",
-            "kv_2_label": "",
-            "kv_2_value": "",
+            "kv_1_label": "Sin abrir",
+            "kv_1_value": "{{ product.metafields.custom.storage_before.value }}",
+            "kv_2_label": "Una vez abierto",
+            "kv_2_value": "{{ product.metafields.custom.storage_after.value }}",
             "kv_3_label": "",
             "kv_3_value": "",
             "kv_4_label": "",
@@ -101,12 +119,12 @@
             "kv_5_value": ""
           }
         },
-        "accordion_pNab39": {
+        "accordion_alergenos": {
           "type": "accordion",
           "settings": {
             "icon": "garantia",
-            "title": "Alérgenos e ingredientes",
-            "summary": "",
+            "title": "Alérgenos",
+            "summary": "Leche, gluten, sulfitos y trazas",
             "metafield_key": "allergens",
             "content_fallback": "",
             "kv_1_label": "",
@@ -123,35 +141,35 @@
         }
       },
       "block_order": [
-        "accordion_eNJyBz",
-        "accordion_pNab39"
+        "accordion_conservacion",
+        "accordion_alergenos"
       ],
-      "name": "Detalles de la Pieza",
+      "name": "Detalles del pack",
       "settings": {
         "header_eyebrow": "Detalles del pack",
-        "header_title": "Todo lo que debes saber",
-        "header_title_em": "",
-        "sections_label": "",
+        "header_title": "Todo lo que debes",
+        "header_title_em": "saber.",
+        "sections_label": "secciones",
         "empty_message": "Información no añadida todavía para este producto."
       }
     },
     "related": {
       "type": "product-grid",
       "settings": {
-        "eyebrow": "También te puede gustar",
-        "title": "<p>Productos <em>relacionados</em></p>",
-        "collection": "",
+        "eyebrow": "Otros packs",
+        "title": "<p>Más cestas <em>para regalar</em></p>",
+        "collection": "packs-regalo",
         "products_to_show": 4,
-        "view_all_label": "Ver toda la colección",
-        "view_all_url": "/collections/all"
+        "view_all_label": "Ver todos los packs",
+        "view_all_url": "/collections/packs-regalo"
       }
     }
   },
   "order": [
     "main",
     "trust_band_YfPnnW",
-    "combina",
-    "product_details_accordion_Dtwtwz",
+    "product_information_packs",
+    "product_details_accordion_packs",
     "related"
   ]
 }
