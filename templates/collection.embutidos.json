@@ -17,7 +17,9 @@
         "heading": "Embutidos Ibéricos",
         "subheading": "",
         "body": "",
-        "overlay_opacity": 35
+        "overlay_opacity": 35,
+        "image_pos_x": 50,
+        "image_pos_y": 70
       }
     },
     "tiers": {
