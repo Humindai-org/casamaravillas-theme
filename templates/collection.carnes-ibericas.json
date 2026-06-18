@@ -12,6 +12,7 @@
     "hero": {
       "type": "jamones-hero",
       "settings": {
+        "image": "shopify://shop_images/Got_into_the_kitchen_with_Matt_at_peartreeatgreenlandplace_to_capture_some_serious_steak_action___From_seasoning_to_grilling_to_serving_every_moment_had_a_touch_of_theatre___Love_shoo.jpg",
         "eyebrow": "Ibéricos Premium",
         "heading": "Carnes Ibéricas",
         "subheading": "",
@@ -43,6 +44,7 @@
       "settings": {
         "eyebrow": "Nuestra selección",
         "products_per_page": 50,
+        "products_per_row": 4,
         "show_sort": true,
         "show_count": true,
         "empty_label": "No hay carnes ibéricas disponibles en este momento."
