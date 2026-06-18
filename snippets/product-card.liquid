@@ -440,7 +440,10 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id: parseInt(variantId), quantity: 1 })
       })
-      .then(function(r) { return r.json(); })
+      .then(function(r) {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.json();
+      })
       .then(function() {
         btn.innerHTML = isPlus ? CHECK_SVG : '<span>Añadido ✓</span>';
         btn.classList.add('is-added');
