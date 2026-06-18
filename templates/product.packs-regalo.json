@@ -108,54 +108,14 @@
     "product_details_accordion_packs": {
       "type": "product-details-accordion",
       "blocks": {
-        "accordion_antes_abrir": {
-          "type": "accordion",
-          "settings": {
-            "icon": "refrigerado",
-            "title": "Conservación antes de abrir",
-            "summary": "Embutidos, quesos, vino y AOVE",
-            "metafield_key": "storage_before",
-            "content_fallback": "",
-            "kv_1_label": "",
-            "kv_1_value": "",
-            "kv_2_label": "",
-            "kv_2_value": "",
-            "kv_3_label": "",
-            "kv_3_value": "",
-            "kv_4_label": "",
-            "kv_4_value": "",
-            "kv_5_label": "",
-            "kv_5_value": ""
-          }
-        },
-        "accordion_despues_abrir": {
-          "type": "accordion",
-          "settings": {
-            "icon": "fork",
-            "title": "Una vez abierto",
-            "summary": "Consumo y conservación tras abrir",
-            "metafield_key": "storage_after",
-            "content_fallback": "",
-            "kv_1_label": "",
-            "kv_1_value": "",
-            "kv_2_label": "",
-            "kv_2_value": "",
-            "kv_3_label": "",
-            "kv_3_value": "",
-            "kv_4_label": "",
-            "kv_4_value": "",
-            "kv_5_label": "",
-            "kv_5_value": ""
-          }
-        },
         "accordion_alergenos": {
           "type": "accordion",
           "settings": {
             "icon": "garantia",
             "title": "Alérgenos",
-            "summary": "Leche, gluten, sulfitos y trazas",
+            "summary": "",
             "metafield_key": "allergens",
-            "content_fallback": "",
+            "content_fallback": "<p>Leche, gluten, sulfitos y trazas</p>",
             "kv_1_label": "",
             "kv_1_value": "",
             "kv_2_label": "",
@@ -170,8 +130,6 @@
         }
       },
       "block_order": [
-        "accordion_antes_abrir",
-        "accordion_despues_abrir",
         "accordion_alergenos"
       ],
       "name": "Detalles del pack",
@@ -188,8 +146,10 @@
       "settings": {
         "eyebrow": "Otros packs",
         "title": "<p>Más cestas <em>para regalar</em></p>",
+        "description": "",
         "view_all_label": "Ver todos los packs",
-        "view_all_url": "/collections/packs-regalo"
+        "view_all_url": "/collections/packs-regalo",
+        "section_bg": "off"
       }
     }
   },
