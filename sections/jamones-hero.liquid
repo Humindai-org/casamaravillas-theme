@@ -197,6 +197,7 @@
     .jh__eyebrow-{{ section.id }} { color: rgba(255, 255, 255, 0.9); }
     .jh__bg-img-{{ section.id }} {
       object-position: {{ section.settings.image_pos_x | default: 50 }}% {{ section.settings.image_pos_y_mobile | default: 70 }}%;
+      transform: scale(1.25) translateY(-10%);
     }
     .jh__frame-{{ section.id }} {
       top: 68%;
