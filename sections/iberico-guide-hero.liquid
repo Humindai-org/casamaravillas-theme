@@ -154,6 +154,44 @@
   font-size:14px;
   color:rgba(255,255,255,0.6);
 }
+
+@media (max-width: 767px) {
+  .igh-{{ section.id }} {
+    min-height: 64vh;
+    height: auto;
+    align-items: center;
+  }
+
+  .igh__overlay-{{ section.id }} {
+    background: rgba(0,26,48,0.45);
+  }
+
+  .igh__inner-{{ section.id }} {
+    padding: 48px 24px;
+    text-align: center;
+  }
+
+  .igh__t1-{{ section.id }} { font-size: 44px; }
+  .igh__t2-{{ section.id }} { font-size: 22px; margin-left: 0; }
+  .igh__t3-{{ section.id }} { font-size: 52px; }
+
+  .igh__sub-{{ section.id }} { font-size: 16px; }
+
+  .igh__bar-{{ section.id }} { padding: 48px 24px; }
+
+  .igh__bar-inner-{{ section.id }} {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    text-align: center;
+  }
+
+  .igh__bar-title-{{ section.id }} { font-size: 36px; }
+
+  .igh__feats-{{ section.id }} {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px 16px;
+  }
+}
 </style>
 
 <section class="igh-{{ section.id }}">
