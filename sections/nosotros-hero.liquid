@@ -109,6 +109,10 @@
   .nsh.is-loaded .nsh__subtitle { opacity: 1; transform: translateY(0); }
   .nsh.is-loaded .nsh__rule { opacity: 1; width: 48px; }
 
+  .nsh__bg {
+    object-position: {{ section.settings.image_pos_x | default: 50 }}% {{ section.settings.image_pos_y | default: 50 }}%;
+  }
+
   @media (max-width: 767px) {
     .nsh { height: auto; min-height: 64vh; }
   }
@@ -206,6 +210,28 @@
       "id": "subtitle",
       "label": "Subtítulo",
       "default": "Una convicción que se hereda, un estándar que no se negocia"
+    },
+    {
+      "type": "range",
+      "id": "image_pos_x",
+      "label": "Posición horizontal imagen",
+      "info": "0% = izquierda · 50% = centro · 100% = derecha",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 50,
+      "unit": "%"
+    },
+    {
+      "type": "range",
+      "id": "image_pos_y",
+      "label": "Posición vertical imagen",
+      "info": "0% = arriba · 50% = centro · 100% = abajo",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 50,
+      "unit": "%"
     }
   ],
   "presets": [

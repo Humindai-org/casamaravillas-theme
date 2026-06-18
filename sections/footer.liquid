@@ -156,19 +156,20 @@
 
   @media (max-width: 767px) {
     .site-footer__main {
-      grid-template-columns: 1fr;
-      gap: 32px;
-      padding: 48px 24px 32px;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px 20px;
+      padding: 40px 20px 28px;
     }
     .site-footer__brand-col {
+      grid-column: 1 / -1;
       text-align: center;
     }
     .site-footer__logo {
       display: flex;
       justify-content: center;
-      margin-bottom: 24px;
+      margin-bottom: 16px;
     }
-    .site-footer__logo img { height: clamp(280px, 85vw, 420px); }
+    .site-footer__logo img { height: 80px; }
     .site-footer__tagline {
       margin-left: auto;
       margin-right: auto;
