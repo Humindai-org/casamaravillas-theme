@@ -84,7 +84,7 @@
               {{ block.settings.description }}
             {%- endif -%}
           {%- elsif icon_name == 'icon-curacion.svg' -%}
-            {{- product.metafields.custom.curing_time.value | default: block.settings.description -}}
+            {{- product.metafields.custom.tiempo_de_curacion.value | default: product.metafields.custom.curing_time.value | default: block.settings.description -}}
           {%- else -%}
             {{ block.settings.description }}
           {%- endif -%}
