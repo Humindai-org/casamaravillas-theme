@@ -86,7 +86,7 @@
 
   .product-grid-section__grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(var(--grid-cols, 4), 1fr);
     gap: 28px;
   }
 
@@ -175,7 +175,15 @@
     </div>
   {%- endif -%}
 
-  <div class="product-grid-section__grid">
+  {%- assign product_count = 0 -%}
+  {%- for block in section.blocks -%}
+    {%- if block.type == 'product' and block.settings.product != blank -%}
+      {%- assign product_count = product_count | plus: 1 -%}
+    {%- endif -%}
+  {%- endfor -%}
+  {%- assign grid_cols = product_count | at_least: 1 | at_most: 4 -%}
+  {%- if product_count == 0 -%}{%- assign grid_cols = 4 -%}{%- endif -%}
+  <div class="product-grid-section__grid" style="--grid-cols: {{ grid_cols }};">
     {%- assign product_count = 0 -%}
     {%- for block in section.blocks -%}
       {%- if block.type == 'product' -%}
