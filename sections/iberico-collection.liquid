@@ -721,6 +721,10 @@
           {%- render 'carnes-ibericas-filters', section_id: section.id, collection: collection, current_tags: current_tags -%}
         {%- when 'packs-regalo' -%}
           {%- render 'packs-regalo-filters', section_id: section.id, collection: collection, current_tags: current_tags -%}
+        {%- else -%}
+          {%- if collection.template_suffix == 'packs-regalo' -%}
+            {%- render 'packs-regalo-filters', section_id: section.id, collection: collection, current_tags: current_tags -%}
+          {%- endif -%}
       {%- endcase -%}
     </aside>
 
@@ -744,7 +748,7 @@
             assign search_placeholder = 'Buscar Embutido...'
           elsif collection.handle == 'carnes-ibericas'
             assign search_placeholder = 'Buscar carne...'
-          elsif collection.handle == 'packs-regalo'
+          elsif collection.handle == 'packs-regalo' or collection.template_suffix == 'packs-regalo'
             assign search_placeholder = 'Buscar pack...'
           endif
         -%}
@@ -889,6 +893,10 @@
         {%- render 'carnes-ibericas-filters', section_id: section.id, collection: collection, current_tags: current_tags, drawer: true -%}
       {%- when 'packs-regalo' -%}
         {%- render 'packs-regalo-filters', section_id: section.id, collection: collection, current_tags: current_tags, drawer: true -%}
+      {%- else -%}
+        {%- if collection.template_suffix == 'packs-regalo' -%}
+          {%- render 'packs-regalo-filters', section_id: section.id, collection: collection, current_tags: current_tags, drawer: true -%}
+        {%- endif -%}
     {%- endcase -%}
   </div>
 
@@ -973,7 +981,7 @@
   }
 
   var isEmbutidos = '{{ collection.handle }}'.indexOf('embutidos') !== -1;
-  var isPacks = '{{ collection.handle }}' === 'packs-regalo';
+  var isPacks = '{{ collection.handle }}' === 'packs-regalo' || '{{ collection.template_suffix }}' === 'packs-regalo';
 
   /* Hash-based filtering for embutidos and packs */
   function filterProducts() {
