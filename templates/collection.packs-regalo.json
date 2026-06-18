@@ -17,7 +17,9 @@
         "heading": "Packs de Regalo",
         "subheading": "",
         "body": "",
-        "overlay_opacity": 45
+        "overlay_opacity": 45,
+        "image_pos_x": 20,
+        "image_pos_y": 50
       }
     },
     "tiers": {
