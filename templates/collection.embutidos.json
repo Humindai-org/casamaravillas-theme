@@ -27,15 +27,15 @@
         "heading": "Tres familias de embutido",
         "cat1_name": "Chorizo",
         "cat1_label": "Curado",
-        "cat1_tag": "tipo_chorizo",
+        "cat1_tag": "chorizo",
         "cat1_color": "terracotta",
         "cat2_name": "Lomo",
         "cat2_label": "Premium",
-        "cat2_tag": "tipo_lomo",
+        "cat2_tag": "lomo",
         "cat2_color": "burgundy",
         "cat3_name": "Salchichón",
         "cat3_label": "Clásico",
-        "cat3_tag": "tipo_salchichon",
+        "cat3_tag": "salchichón",
         "cat3_color": "olive"
       }
     },

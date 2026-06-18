@@ -222,6 +222,7 @@
       <a
         class="it__card-{{ section.id }} it__card--{{ cat_color }}-{{ section.id }}{% if is_active %} is-active{% endif %}"
         href="{{ card_href }}"
+        data-filter-tag-btn="{{ cat_tag }}"
         aria-pressed="{{ is_active }}"
         aria-label="{{ cat_name }}{% if is_active %} — clic para quitar filtro{% endif %}"
       >
@@ -240,6 +241,53 @@
     {%- endfor -%}
   </div>
 </section>
+
+<script>
+(function () {
+  'use strict';
+
+  var sid     = '{{ section.id }}';
+  var section = document.getElementById('it-section-' + sid);
+  if (!section) return;
+
+  /* Solo embutidos filtra en cliente (sin recarga). Carnes/packs usan
+     navegación por ruta nativa del <a href> server-side. */
+  var clientSide = '{{ collection.handle }}'.indexOf('embutidos') !== -1;
+  if (!clientSide) return;
+
+  var cards = section.querySelectorAll('[data-filter-tag-btn]');
+
+  function checkboxFor(tag) {
+    return document.querySelector('input[data-filter-tag="' + tag + '"]');
+  }
+
+  /* Reflejar en la card el estado actual del checkbox correspondiente */
+  function syncActiveState() {
+    cards.forEach(function (card) {
+      var cb = checkboxFor(card.getAttribute('data-filter-tag-btn'));
+      card.classList.toggle('is-active', !!(cb && cb.checked));
+    });
+  }
+
+  cards.forEach(function (card) {
+    card.addEventListener('click', function (e) {
+      var tag = card.getAttribute('data-filter-tag-btn');
+      var cb  = checkboxFor(tag);
+      /* Sin checkbox correspondiente → dejar que el enlace navegue */
+      if (!cb) return;
+      e.preventDefault();
+      cb.checked = !cb.checked;
+      cb.dispatchEvent(new Event('change', { bubbles: true }));
+      syncActiveState();
+    });
+  });
+
+  /* La colección restaura filtros desde el hash tras este script;
+     sincronizamos el estado activo una vez ya se haya aplicado. */
+  setTimeout(syncActiveState, 0);
+  window.addEventListener('hashchange', syncActiveState);
+})();
+</script>
 
 {% schema %}
 {
