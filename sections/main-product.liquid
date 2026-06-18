@@ -2234,13 +2234,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
     console.log('[Weight Selector] Product tags:', tags, 'Tags lowercase:', tagsLower);
 
-    if (tagsLower.some(t => t.includes('cortado'))) {
+    if (tagsLower.some(t => t.includes('loncheado'))) {
+      selectorType = 'lonchado';
+      formatLabel = 'Loncheado';
+    } else if (tagsLower.some(t => t.includes('cortado'))) {
       selectorType = 'lonchado';
       formatLabel = 'Cortado a Mano';
     } else if (tagsLower.some(t => t.includes('deshuesado'))) {
       selectorType = 'deshuesado';
       formatLabel = 'Deshuesado';
-    } else if (tagsLower.some(t => t.includes('pieza') && t.includes('entera'))) {
+    } else if (tagsLower.some(t => t.includes('pieza'))) {
       selectorType = 'entero';
       formatLabel = 'Pieza Entera';
     }
