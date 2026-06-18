@@ -34,8 +34,8 @@
             "heading": "La esencia del embutido",
             "year": "",
             "tagline": "Selección de las mejores piezas ibéricas de la dehesa española",
-            "cta_label": "DESCUBRIR JAMONES",
-            "cta_url": "/collections/jamones-pata-negra",
+            "cta_label": "DESCUBRIR EMBUTIDOS",
+            "cta_url": "/collections/embutidos",
             "image_pos_x": 10,
             "image_pos_y": 50
           }
@@ -49,7 +49,7 @@
             "year": "",
             "tagline": "El regalo perfecto para quien aprecia lo auténtico",
             "cta_label": "VER PACKS Y REGALOS",
-            "cta_url": "/collections/packs-y-regalos",
+            "cta_url": "/collections/packs-regalo",
             "image_pos_x": 50,
             "image_pos_y": 50
           }
