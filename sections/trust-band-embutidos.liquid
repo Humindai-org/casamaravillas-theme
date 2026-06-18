@@ -1,0 +1,249 @@
+{% comment %}
+  trust-band-embutidos.liquid
+  Banda de confianza EXCLUSIVA de la página de producto Embutidos.
+  Es una copia independiente de trust-band.liquid con clases CSS propias
+  (.tbe*) para que cualquier cambio aquí NO afecte a las demás bandas.
+  Mantiene los IDs cm-trust-formato* porque main-product.liquid los usa
+  para actualizar el formato al cambiar de variante.
+{% endcomment %}
+
+<style>
+  .tbe {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    border-top: 2px solid var(--cm-gold);
+    border-bottom: 1px solid var(--cm-border);
+    background: var(--cm-off);
+  }
+
+  .tbe__cell {
+    padding: 40px 28px;
+    border-right: 1px solid var(--cm-border);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 14px;
+  }
+
+  .tbe__cell:last-child { border-right: none; }
+
+  .tbe__icon {
+    width: 48px;
+    height: 48px;
+    color: var(--cm-gold);
+    flex-shrink: 0;
+  }
+
+  .tbe__title {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--cm-text);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-family: var(--cm-font-sans);
+    line-height: 1.3;
+  }
+
+  .tbe__desc {
+    font-size: 12px;
+    color: var(--cm-text-mid);
+    line-height: 1.55;
+    font-family: var(--cm-font-sans);
+  }
+
+  @media (max-width: 767px) {
+    .tbe {
+      grid-template-columns: 1fr 1fr;
+    }
+    .tbe__cell:nth-child(2) { border-right: none; }
+    .tbe__cell:nth-child(3) {
+      border-right: 1px solid var(--cm-border);
+      border-top: 1px solid var(--cm-border);
+    }
+    .tbe__cell:nth-child(4) {
+      border-top: 1px solid var(--cm-border);
+    }
+    .tbe__cell:nth-child(5) {
+      border-right: none;
+      border-top: 1px solid var(--cm-border);
+    }
+    .tbe__cell { padding: 20px 14px; gap: 8px; }
+    .tbe__icon { width: 36px; height: 36px; }
+    .tbe__desc { font-size: 11px; }
+  }
+</style>
+
+<div class="tbe" id="cm-trust-band">
+  {%- for block in section.blocks -%}
+    {%- assign icon_name = block.settings.icon -%}
+    <div class="tbe__cell" {{ block.shopify_attributes }} {%- if icon_name == 'formato.svg' %} id="cm-trust-formato" data-is-formato="true"{% endif %}>
+      <div class="tbe__icon">
+        {%- render 'icon-selector', icon: icon_name, width: 48, height: 48, css_class: 'tbe__icon-img' -%}
+      </div>
+      <div>
+        <p class="tbe__title" {%- if icon_name == 'formato.svg' %} id="cm-trust-formato-title"{% endif %}>{{ block.settings.title }}</p>
+        <p class="tbe__desc" {%- if icon_name == 'formato.svg' %} id="cm-trust-formato-desc"{% endif %}>
+          {%- if icon_name == 'formato.svg' -%}
+            {%- if product.tags contains 'loncheado' -%}
+              Loncheado
+            {%- elsif product.tags contains 'pieza' -%}
+              Pieza entera
+            {%- else -%}
+              {{ block.settings.description }}
+            {%- endif -%}
+          {%- else -%}
+            {{ block.settings.description }}
+          {%- endif -%}
+        </p>
+      </div>
+    </div>
+  {%- endfor -%}
+</div>
+
+{% schema %}
+{
+  "name": "Banda de confianza (Embutidos)",
+  "tag": "section",
+  "max_blocks": 5,
+  "blocks": [
+    {
+      "type": "trust_item",
+      "name": "Elemento",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Título",
+          "default": "Envío gratis"
+        },
+        {
+          "type": "text",
+          "id": "description",
+          "label": "Descripción",
+          "default": "A partir de €80 en Peninsula"
+        },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icono",
+          "default": "icon-envio.svg",
+          "options": [
+            {
+              "value": "icon-envio.svg",
+              "label": "Envío"
+            },
+            {
+              "value": "icon-garantia.svg",
+              "label": "Garantía"
+            },
+            {
+              "value": "icon-conservacion.svg",
+              "label": "Conservación"
+            },
+            {
+              "value": "icon-peso.svg",
+              "label": "Peso"
+            },
+            {
+              "value": "formato.svg",
+              "label": "Formato"
+            },
+            {
+              "value": "icon-info.svg",
+              "label": "Información"
+            },
+            {
+              "value": "icon-origen.svg",
+              "label": "Origen"
+            },
+            {
+              "value": "icon-raza.svg",
+              "label": "Raza"
+            },
+            {
+              "value": "icon-bellota.svg",
+              "label": "Bellota"
+            },
+            {
+              "value": "icon-pasto.svg",
+              "label": "Pasto"
+            },
+            {
+              "value": "icon-cereales.svg",
+              "label": "Cereales"
+            },
+            {
+              "value": "icon-cata.svg",
+              "label": "Cata"
+            },
+            {
+              "value": "icon-curacion.svg",
+              "label": "Curación"
+            },
+            {
+              "value": "icon-refrigerado.svg",
+              "label": "Refrigerado"
+            },
+            {
+              "value": "icon-consumo.svg",
+              "label": "Consumo"
+            },
+            {
+              "value": "info_nutricional.svg",
+              "label": "Información Nutricional"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Banda de confianza (Embutidos)",
+      "blocks": [
+        {
+          "type": "trust_item",
+          "settings": {
+            "title": "Envío gratis",
+            "description": "A partir de €80 en Península",
+            "icon": "icon-envio.svg"
+          }
+        },
+        {
+          "type": "trust_item",
+          "settings": {
+            "title": "Calidad garantizada",
+            "description": "Tres generaciones de artesanía ibérica",
+            "icon": "icon-garantia.svg"
+          }
+        },
+        {
+          "type": "trust_item",
+          "settings": {
+            "title": "Embalaje especial",
+            "description": "Conservación en frío garantizada",
+            "icon": "icon-conservacion.svg"
+          }
+        },
+        {
+          "type": "trust_item",
+          "settings": {
+            "title": "Packaging regalo",
+            "description": "Presentación premium para regalar",
+            "icon": "icon-peso.svg"
+          }
+        },
+        {
+          "type": "trust_item",
+          "settings": {
+            "title": "Múltiples formatos",
+            "description": "Cortado, deshuesado o pieza entera",
+            "icon": "formato.svg"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
