@@ -78,6 +78,44 @@
     font-size: 0.9em;
   }
 
+  .policy-body-section__content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.4em 0 1.8em;
+    font-size: 0.88em;
+  }
+
+  .policy-body-section__content th {
+    background: var(--cm-navy);
+    color: var(--cm-white);
+    font-family: var(--cm-font-sans);
+    font-weight: 600;
+    text-align: left;
+    padding: 10px 14px;
+    font-size: 0.82em;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .policy-body-section__content td {
+    padding: 9px 14px;
+    border-bottom: 1px solid rgba(0,0,0,0.07);
+    color: var(--cm-text-mid);
+    vertical-align: middle;
+  }
+
+  .policy-body-section__content tr:last-child td { border-bottom: none; }
+
+  .policy-body-section__content tbody tr:nth-child(even) td {
+    background: rgba(0,0,0,0.025);
+  }
+
+  @media (max-width: 767px) {
+    .policy-body-section__content table { font-size: 0.78em; }
+    .policy-body-section__content th,
+    .policy-body-section__content td { padding: 7px 8px; }
+  }
+
   @media (max-width: 1023px) {
     .policy-body-section { padding: 64px 48px 80px; }
   }
@@ -91,7 +129,96 @@
 <section class="policy-body-section">
   <h1 class="policy-body-section__title">{{ policy.title }}</h1>
   <div class="policy-body-section__content rte">
-    {{ policy.body }}
+    {%- if policy.handle == 'shipping-policy' -%}
+      <h2>Procesamiento de pedidos</h2>
+      <p>Los pedidos se procesan de lunes a viernes en días laborables. Los pedidos realizados antes de las 12:00 h se procesan el mismo día; los realizados después de esa hora o en fin de semana o festivos se procesan el siguiente día laborable.</p>
+      <p>Una vez enviado tu pedido, recibirás un correo de confirmación con el número de seguimiento para que puedas rastrear tu entrega en todo momento.</p>
+
+      <h2>Envíos a España Peninsular y Portugal</h2>
+      <p><strong>Plazo de entrega:</strong> 24–48 horas laborables desde la confirmación del envío.</p>
+      <p><strong>Gastos de envío (IVA incluido):</strong></p>
+      <ul>
+        <li>Jamón entero (~10 kg): <strong>11,20 €</strong></li>
+        <li>Jamón deshuesado (~6 kg): <strong>11,20 €</strong></li>
+        <li>Jamón cortado a mano (0,3–5 kg): <strong>8,94 €</strong></li>
+        <li>Embutidos enteros (0,6–0,8 kg): <strong>8,94 €</strong></li>
+        <li>Embutidos loncheados (80 g): <strong>8,94 €</strong></li>
+        <li>Carnes frescas ibéricas: <strong>26,75 €</strong></li>
+      </ul>
+      <p><strong>ENVÍO GRATIS</strong> para pedidos superiores a <strong>80 €</strong> en España peninsular y Portugal.</p>
+      <p><em>Nota sobre carnes frescas: La Presa Ibérica, Pluma Ibérica, Secreto Ibérico y Lomo Ibérico se envían exclusivamente mediante transporte en frío. Por la naturaleza perecedera de estos productos, solo están disponibles para España peninsular y Francia.</em></p>
+
+      <h2>Envíos a Islas Baleares</h2>
+      <p><strong>Plazo de entrega:</strong> 48–72 horas laborables.</p>
+      <p><strong>ENVÍO GRATIS</strong> para pedidos superiores a <strong>150 €</strong>.<br>Para pedidos inferiores a 150 €, el coste se mostrará en el proceso de compra.</p>
+      <p>Por el momento no realizamos envíos a <strong>Islas Canarias, Ceuta ni Melilla</strong>.</p>
+
+      <h2>Envíos Internacionales</h2>
+      <p>Enviamos a toda Europa. Los precios se muestran en el checkout e incluyen IVA.</p>
+      <p><strong>Plazos de entrega:</strong> 3–5 días laborables según destino.</p>
+      <p>
+        <strong>Zona 1</strong> — Alemania · Italia · Mónaco<br>
+        <strong>Zona 2</strong> — Bélgica · Luxemburgo · Países Bajos · Polonia · República Checa<br>
+        <strong>Zona 3</strong> — Austria · Bulgaria · Croacia · Dinamarca · Eslovaquia · Eslovenia · Estonia · Finlandia · Grecia · Hungría · Irlanda · Letonia · Lituania · Rumanía · Suecia<br>
+        <strong>Zona 4</strong> — Reino Unido<br>
+        <strong>Zona 5</strong> — Francia
+      </p>
+      <table>
+        <thead>
+          <tr>
+            <th>Producto</th>
+            <th>Zona 1</th>
+            <th>Zona 2</th>
+            <th>Zona 3</th>
+            <th>Zona 4</th>
+            <th>Zona 5</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Jamón entero (~10 kg)</td>
+            <td>40,27 €</td><td>45,01 €</td><td>54,44 €</td><td>47,68 €</td><td>40,27 €</td>
+          </tr>
+          <tr>
+            <td>Jamón deshuesado (~6 kg)</td>
+            <td>33,67 €</td><td>39,14 €</td><td>42,64 €</td><td>39,61 €</td><td>33,67 €</td>
+          </tr>
+          <tr>
+            <td>Jamón cortado a mano (0,3–5 kg)</td>
+            <td>30,95 €</td><td>32,67 €</td><td>39,38 €</td><td>35,53 €</td><td>30,95 €</td>
+          </tr>
+          <tr>
+            <td>Embutidos / Loncheados</td>
+            <td>26,75 €</td><td>28,32 €</td><td>33,86 €</td><td>33,06 €</td><td>26,75 €</td>
+          </tr>
+          <tr>
+            <td>Carnes frescas ibéricas</td>
+            <td>—</td><td>—</td><td>—</td><td>—</td><td>26,75 €</td>
+          </tr>
+        </tbody>
+      </table>
+      <p><em>Las carnes frescas ibéricas solo están disponibles para España peninsular y Francia (Zona 5).</em></p>
+      <p><em>Para envíos al Reino Unido (Zona 4): los pedidos pueden estar sujetos a aranceles e impuestos de importación a cargo del destinatario según la normativa aduanera vigente tras el Brexit.</em></p>
+      <p><strong>Países bajo consulta:</strong> Bosnia y Herzegovina, Noruega, San Marino, Serbia, Suiza y Turquía. Escríbenos a <a href="mailto:adminweb@casamaravillas.com">adminweb@casamaravillas.com</a> y te facilitamos disponibilidad y precio.</p>
+
+      <h2>Embalaje y Conservación</h2>
+      <p>Todos nuestros productos se envían con embalaje especializado que garantiza la integridad del producto durante el transporte. Los productos en frío viajan con aislante térmico y acumuladores de frío.</p>
+
+      <h2>Incidencias en el Envío</h2>
+      <p>Si recibes tu pedido con daños visibles en el embalaje o en el producto, tienes un plazo de <strong>7 días naturales</strong> desde la recepción para notificárnoslo a través de <a href="mailto:adminweb@casamaravillas.com">adminweb@casamaravillas.com</a> o el formulario de contacto de nuestra web, adjuntando fotografías del estado del paquete y el producto.</p>
+
+      <h2>Periodos de Alta Demanda</h2>
+      <p>En temporadas de alta demanda como Navidad y Semana Santa, los plazos de entrega pueden verse incrementados. Te informaremos con antelación de cualquier variación.</p>
+
+      <h2>¿Tienes dudas?</h2>
+      <p>
+        Email: <a href="mailto:adminweb@casamaravillas.com">adminweb@casamaravillas.com</a><br>
+        Teléfono: <a href="tel:966113446">966 11 34 46</a><br>
+        Horario de atención: lunes a viernes, 9:00 – 18:00 h.
+      </p>
+    {%- else -%}
+      {{ policy.body }}
+    {%- endif -%}
   </div>
 </section>
 
