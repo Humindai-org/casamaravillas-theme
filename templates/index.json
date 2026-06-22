@@ -473,6 +473,7 @@
     },
     "newsletter": {
       "type": "newsletter",
+      "disabled": true,
       "settings": {
         "eyebrow": "Club Casa Maravillas",
         "title": "<p>Suscríbete al placer de lo <em>auténtico.</em></p>",
