@@ -386,8 +386,295 @@
         },
         "pickup_unavailable_banner_title_with_country": {
           "many": "There are no branches in %{country} with your items available"
+        },
+        "location_information_far_away_one_item": {
+          "many": "There are %{count} branches with your item"
+        },
+        "location_information_far_away_other_items": {
+          "many": "There are %{count} branches with your items"
+        },
+        "location_nearby_one_item": {
+          "many": "There are %{count} nearby stores with your item"
+        },
+        "location_nearby_other_items": {
+          "many": "There are %{count} nearby branches with your items"
+        },
+        "location_nearby_short_one_item": {
+          "many": "%{count} nearby stores with your item"
+        },
+        "location_nearby_short_other_items": {
+          "many": "%{count} nearby branches with your items"
+        },
+        "location_far_away_one_item": {
+          "many": "%{count} branches with your item"
+        },
+        "location_far_away_other_items": {
+          "many": "%{count} branches with your items"
+        }
+      },
+      "split_delivery": {
+        "inventory_issue_banner": {
+          "heading": {
+            "cannot_be_picked_up": {
+              "many": "%{count} items cannot be removed"
+            },
+            "cannot_be_shipped": {
+              "many": "%{count} items can't be shipped"
+            }
+          },
+          "remove_item": {
+            "many": "delete articles"
+          },
+          "ship_separately": {
+            "many": "Send them separately"
+          },
+          "pick_them_up_in_store": {
+            "many": "Pick up in store"
+          },
+          "remove_item_only": {
+            "many": "Delete items"
+          }
+        },
+        "pickup_items_count": {
+          "many": "Remove %{count} items"
+        },
+        "ship_items_count": {
+          "many": "Send %{count} items"
+        },
+        "items_count": {
+          "many": "%{count} items"
+        }
+      },
+      "merchandise_unavailable_in_buyer_location": {
+        "remove_items_action": {
+          "many": "remove unavailable items"
+        }
+      },
+      "remote_merchandise_only": {
+        "detail_item_label": {
+          "many": "{{count}} items"
+        }
+      }
+    },
+    "notices": {
+      "order": {
+        "cancel_reason": {
+          "many": "Other"
+        }
+      }
+    },
+    "page_titles": {
+      "search_results": {
+        "many": "Search: %{count} results found for \"%{terms}\""
+      }
+    }
+  },
+  "customer_accounts": {
+    "orders": {
+      "order_list": {
+        "items": {
+          "many": "{{count}} items"
+        }
+      },
+      "order_status": {
+        "delivered_description_gift_card": {
+          "many": "The gift cards were sent by email."
+        },
+        "gift_card_label": {
+          "many": "Gift cards"
+        },
+        "confirmed_gift_card_additional_description": {
+          "many": "Each gift card will be sent in a separate email."
+        },
+        "delivered_description_gift_card_text": {
+          "many": "The gift cards were sent by text message."
+        },
+        "confirmed_gift_card_additional_description_text": {
+          "many": "Each gift card will be sent in a separate text message."
+        },
+        "gift_resend_success": {
+          "many": "Gift cards forwarded"
+        },
+        "gift_resend_failure": {
+          "many": "There was a problem resending your gift cards. Please try again or contact us."
+        },
+        "tracking_number": {
+          "many": "Tracking Numbers"
+        },
+        "gift_card_resend_button": {
+          "many": "Resend gift cards"
+        }
+      }
+    },
+    "order_details": {
+      "image_gallery": {
+        "load_more_items": {
+          "many": "Load {{count}} more items"
+        }
+      },
+      "subtotal_label_with_quantity": {
+        "many": "Subtotal · {{count}} items"
+      },
+      "discount_order_stacking": {
+        "many": "Order Discounts"
+      }
+    },
+    "B2B": {
+      "orders": {
+        "draft_order_list": {
+          "pending_tab_accessibility_label": {
+            "pending_orders": {
+              "many": "You have {{count}} pending orders"
+            }
+          }
+        }
+      },
+      "draft_order_details": {
+        "payment_status": {
+          "pending": {
+            "banner_overdue": {
+              "many": "The payment was due {{count}} days ago."
+            },
+            "banner_due": {
+              "many": "Payment is due in {{count}} days."
+            },
+            "banner_overdue_for_single_fulfillment": {
+              "many": "Payment of {{amount}} was due {{count}} days ago. {{link}}"
+            }
+          }
+        }
+      }
+    },
+    "errors": {
+      "banner_title": {
+        "many": "There are {{count}} errors."
+      }
+    },
+    "payment_methods": {
+      "add_payment_method": {
+        "subscription_contracts": {
+          "more_items": {
+            "many": "{{count}} more products"
+          },
+          "product_count": {
+            "many": "{{count}} products"
+          }
+        },
+        "updating_contracts": {
+          "many": "Updating {{count}} subscription contracts..."
+        },
+        "contracts_updated": {
+          "many": "Successfully updated {{count}} subscription contracts"
+        }
+      }
+    },
+    "ui_components": {
+      "autocompleteOptionsAvailable": {
+        "many": "{{count}} items available"
+      },
+      "month": {
+        "many": "months"
+      },
+      "mapClusterTitle": {
+        "many": "Group of {{number}} bookmarks"
+      }
+    },
+    "date": {
+      "humanize": {
+        "lessThanOneHourAgo": {
+          "many": "{{count}} minutes ago"
         }
       }
     }
+  },
+  "general": {
+    "announcement_bar": {
+      "label": "Announcement bar"
+    },
+    "search": {
+      "search": "Search",
+      "placeholder": "Search products..."
+    },
+    "pagination": {
+      "previous": "Previous",
+      "next": "Next",
+      "current_page": "Page {{ page }} of {{ total }}"
+    },
+    "password_page": {
+      "opening_soon": "Coming soon"
+    }
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "Add to cart",
+      "sold_out": "Sold out",
+      "unavailable": "Not available",
+      "on_sale": "Offer",
+      "quantity": "Quantity",
+      "description": "Description",
+      "sku": "Reference",
+      "vendor": "Producer",
+      "from_price_html": "From {{ price }}"
+    },
+    "general": {
+      "title": "All products"
+    }
+  },
+  "collections": {
+    "general": {
+      "title": "Collections"
+    }
+  },
+  "cart": {
+    "general": {
+      "title": "Your cart",
+      "empty": "Your cart is empty",
+      "checkout": "Checkout",
+      "continue_shopping": "Continue shopping",
+      "item_count": {
+        "one": "{{ count }} item",
+        "other": "{{ count }} articles"
+      },
+      "shipping_at_checkout": "Shipping calculated at checkout",
+      "update": "Update",
+      "remove": "Delete"
+    }
+  },
+  "blogs": {
+    "general": {
+      "read_more": "Read more"
+    },
+    "article": {
+      "by_author": "By {{ author }}",
+      "posted_in": "In",
+      "related_articles": "Related Articles"
+    }
+  },
+  "customer": {
+    "login": {
+      "title": "Log in",
+      "password": "Password",
+      "submit": "Log in",
+      "create_account": "Create account",
+      "forgot_password": "Forgot your password?"
+    },
+    "register": {
+      "title": "Create account",
+      "first_name": "Name",
+      "last_name": "Last Name",
+      "password": "Password",
+      "submit": "Create account",
+      "login": "Already have an account? Log in"
+    },
+    "account": {
+      "title": "My Account",
+      "orders": "Orders",
+      "details": "Personal data",
+      "logout": "Log out"
+    }
+  },
+  "newsletter": {
+    "label": "Subscribe to the newsletter",
+    "success": "Thank you! You have successfully subscribed."
   }
 }
