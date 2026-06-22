@@ -81,11 +81,6 @@
     outline-offset: 2px;
   }
 
-  .site-header__account-label {
-    font-size: 12px;
-    letter-spacing: 0.04em;
-    font-family: var(--cm-font-sans);
-  }
 
   /* Cart */
   .site-header__top-right a.site-header__cart {
@@ -444,12 +439,11 @@
           <path d="m21 21-4.35-4.35"/>
         </svg>
       </a>
-      <a href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}" class="site-header__account" aria-label="{%- if customer -%}Mi cuenta{%- else -%}Iniciar sesión{%- endif -%}">
+      <a href="/account" class="site-header__account" aria-label="{%- if customer -%}Mi cuenta{%- else -%}Iniciar sesión{%- endif -%}">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
           <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
           <circle cx="12" cy="7" r="4"/>
         </svg>
-        <span class="site-header__account-label">Cuenta</span>
       </a>
       <a href="{{ routes.cart_url }}" class="site-header__cart" aria-label="Carrito de compra" onclick="if(typeof openCart!=='undefined'){openCart();return false;}">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
