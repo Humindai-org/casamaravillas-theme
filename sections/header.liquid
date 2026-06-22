@@ -439,12 +439,6 @@
           <path d="m21 21-4.35-4.35"/>
         </svg>
       </a>
-      <a href="/account" class="site-header__account" aria-label="{%- if customer -%}Mi cuenta{%- else -%}Iniciar sesión{%- endif -%}">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-          <circle cx="12" cy="7" r="4"/>
-        </svg>
-      </a>
       <a href="{{ routes.cart_url }}" class="site-header__cart" aria-label="Carrito de compra" onclick="if(typeof openCart!=='undefined'){openCart();return false;}">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
           <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
@@ -455,6 +449,12 @@
         {%- if cart.item_count > 0 -%}
           <span class="site-header__cart-count" aria-label="{{ cart.item_count }} artículos">{{ cart.item_count }}</span>
         {%- endif -%}
+      </a>
+      <a href="https://shopify.com/106438000978/account" class="site-header__account" aria-label="{%- if customer -%}Mi cuenta{%- else -%}Iniciar sesión{%- endif -%}" target="_blank" rel="noopener">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
       </a>
     </div>
 
