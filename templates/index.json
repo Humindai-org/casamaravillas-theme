@@ -402,7 +402,7 @@
         "title": "<p>Una historia de <em>tradición</em></p>",
         "body": "Tres generaciones dedicadas al ibérico. Descubre quiénes somos y cómo seleccionamos cada pieza para mantener la calidad de siempre.",
         "cta_label": "Conoce nuestra historia",
-        "cta_url": "/pages/sobre-nosotros"
+        "cta_url": "/pages/nosotros"
       }
     },
     "marquee": {
@@ -478,7 +478,7 @@
         "title": "<p>Suscríbete al placer de lo <em>auténtico.</em></p>",
         "body": "En Casa Maravillas seleccionamos por ti solo lo mejor. Recíbelo en casa, en el momento justo, con la calidad que nos define.",
         "cta_label": "Quiero suscribirme",
-        "cta_url": "/pages/suscripcion"
+        "cta_url": "/account/register"
       }
     }
   },
