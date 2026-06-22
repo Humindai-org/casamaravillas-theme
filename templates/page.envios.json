@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "main": {
+      "type": "envios-content",
+      "settings": {}
+    }
+  },
+  "order": ["main"]
+}

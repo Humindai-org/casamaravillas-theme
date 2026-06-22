@@ -1,0 +1,309 @@
+<style>
+  .envios-section {
+    padding: 80px 72px 96px;
+    max-width: 780px;
+    margin: 0 auto;
+    background: var(--cm-white);
+  }
+
+  .envios-section__title {
+    font-family: var(--cm-font-serif);
+    font-size: clamp(30px, 3.5vw, 44px);
+    font-weight: 400;
+    color: var(--cm-navy);
+    margin-bottom: 36px;
+    line-height: 1.15;
+  }
+
+  .envios-section__content {
+    font-family: var(--cm-font-sans);
+    font-size: 15px;
+    line-height: 1.85;
+    color: var(--cm-text-mid);
+  }
+
+  .envios-section__content h2 {
+    font-family: var(--cm-font-serif);
+    color: var(--cm-navy);
+    margin: 2.2em 0 0.65em;
+    font-size: 1.45em;
+    font-weight: 400;
+    line-height: 1.2;
+  }
+
+  .envios-section__content h2:first-child { margin-top: 0; }
+
+  .envios-section__content p { margin-bottom: 1.1em; }
+
+  .envios-section__content a {
+    color: var(--cm-gold);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .envios-section__content a:hover { color: var(--cm-gold-h); }
+
+  .envios-section__content ul {
+    list-style: disc;
+    margin: 0 0 1.2em 1.5em;
+    padding-left: 0.25em;
+  }
+
+  .envios-section__content li { margin-bottom: 0.45em; }
+
+  .envios-section__content strong {
+    color: var(--cm-navy);
+    font-weight: 600;
+  }
+
+  .envios-section__content em {
+    font-style: italic;
+    color: rgba(0,0,0,0.45);
+    font-size: 0.9em;
+  }
+
+  /* Tariff table */
+  .envios-table-wrap {
+    overflow-x: auto;
+    margin: 1.4em 0 2em;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .envios-table {
+    width: 100%;
+    min-width: 520px;
+    border-collapse: collapse;
+    font-size: 0.875em;
+  }
+
+  .envios-table thead tr {
+    background: var(--cm-navy);
+  }
+
+  .envios-table th {
+    color: var(--cm-white);
+    font-family: var(--cm-font-sans);
+    font-weight: 600;
+    font-size: 0.78em;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    text-align: left;
+    padding: 11px 14px;
+    white-space: nowrap;
+  }
+
+  .envios-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    color: var(--cm-text-mid);
+    vertical-align: middle;
+  }
+
+  .envios-table tbody tr:last-child td { border-bottom: none; }
+
+  .envios-table tbody tr:nth-child(even) td {
+    background: rgba(0,0,0,0.022);
+  }
+
+  .envios-table td:first-child {
+    font-weight: 500;
+    color: var(--cm-navy);
+  }
+
+  /* Zone cards */
+  .envios-zones {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 12px;
+    margin: 1.2em 0 1.8em;
+  }
+
+  .envios-zone-card {
+    border: 1px solid rgba(0,0,0,0.08);
+    border-radius: 6px;
+    padding: 14px 16px;
+  }
+
+  .envios-zone-card__label {
+    font-family: var(--cm-font-sans);
+    font-size: 0.72em;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--cm-gold);
+    margin-bottom: 6px;
+  }
+
+  .envios-zone-card__countries {
+    font-family: var(--cm-font-sans);
+    font-size: 0.85em;
+    line-height: 1.6;
+    color: var(--cm-text-mid);
+  }
+
+  /* Notice / highlight block */
+  .envios-notice {
+    border-left: 3px solid var(--cm-gold);
+    background: rgba(0,0,0,0.025);
+    padding: 14px 18px;
+    margin: 1.4em 0;
+    border-radius: 0 4px 4px 0;
+  }
+
+  .envios-notice p { margin-bottom: 0; }
+
+  /* Free shipping badge */
+  .envios-badge {
+    display: inline-block;
+    background: var(--cm-navy);
+    color: var(--cm-white);
+    font-family: var(--cm-font-sans);
+    font-size: 0.78em;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 3px;
+    margin-bottom: 10px;
+  }
+
+  @media (max-width: 1023px) {
+    .envios-section { padding: 64px 48px 80px; }
+  }
+
+  @media (max-width: 767px) {
+    .envios-section { padding: 48px 24px 72px; }
+    .envios-section__title { margin-bottom: 24px; }
+    .envios-zones { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (max-width: 479px) {
+    .envios-zones { grid-template-columns: 1fr; }
+  }
+</style>
+
+<section class="envios-section">
+  <h1 class="envios-section__title">Información de Envíos</h1>
+  <div class="envios-section__content">
+
+    <h2>Procesamiento de pedidos</h2>
+    <p>Los pedidos se procesan de lunes a viernes en días laborables. Los pedidos realizados antes de las <strong>12:00 h</strong> se procesan el mismo día; los realizados después de esa hora o en fin de semana o festivos se procesan el siguiente día laborable.</p>
+    <p>Una vez enviado tu pedido, recibirás un correo de confirmación con el número de seguimiento para que puedas rastrear tu entrega en todo momento.</p>
+
+    <h2>España Peninsular y Portugal</h2>
+    <p><strong>Plazo de entrega:</strong> 24–48 horas laborables desde la confirmación del envío.</p>
+    <span class="envios-badge">Envío gratis desde 80 €</span>
+    <p>Para pedidos inferiores a 80 €, el coste de envío según tipo de producto (IVA incluido):</p>
+    <ul>
+      <li>Jamón entero (~10 kg): <strong>11,20 €</strong></li>
+      <li>Jamón deshuesado (~6 kg): <strong>11,20 €</strong></li>
+      <li>Jamón cortado a mano (0,3–5 kg): <strong>8,94 €</strong></li>
+      <li>Embutidos enteros (0,6–0,8 kg): <strong>8,94 €</strong></li>
+      <li>Embutidos loncheados (80 g): <strong>8,94 €</strong></li>
+      <li>Carnes frescas ibéricas: <strong>26,75 €</strong></li>
+    </ul>
+    <div class="envios-notice">
+      <p><em>Las carnes frescas ibéricas (Presa, Pluma, Secreto y Lomo) se envían en frío y solo están disponibles para España peninsular y Francia. No es posible enviarlas a Baleares ni al resto de destinos internacionales.</em></p>
+    </div>
+
+    <h2>Islas Baleares</h2>
+    <p><strong>Plazo de entrega:</strong> 48–72 horas laborables.</p>
+    <span class="envios-badge">Envío gratis desde 150 €</span>
+    <p>Para pedidos inferiores a 150 €, el coste de envío se calculará y mostrará en el proceso de compra.</p>
+    <p>Por el momento <strong>no realizamos envíos a Islas Canarias, Ceuta ni Melilla</strong>.</p>
+
+    <h2>Envíos Internacionales</h2>
+    <p>Enviamos a toda Europa. Los precios incluyen IVA y se muestran en el checkout. El plazo de entrega es de <strong>3–5 días laborables</strong> según destino.</p>
+
+    <div class="envios-zones">
+      <div class="envios-zone-card">
+        <div class="envios-zone-card__label">Zona 1</div>
+        <div class="envios-zone-card__countries">Alemania · Italia · Mónaco</div>
+      </div>
+      <div class="envios-zone-card">
+        <div class="envios-zone-card__label">Zona 2</div>
+        <div class="envios-zone-card__countries">Bélgica · Luxemburgo · Países Bajos · Polonia · República Checa</div>
+      </div>
+      <div class="envios-zone-card">
+        <div class="envios-zone-card__label">Zona 3</div>
+        <div class="envios-zone-card__countries">Austria · Bulgaria · Croacia · Dinamarca · Eslovaquia · Eslovenia · Estonia · Finlandia · Grecia · Hungría · Irlanda · Letonia · Lituania · Rumanía · Suecia</div>
+      </div>
+      <div class="envios-zone-card">
+        <div class="envios-zone-card__label">Zona 4</div>
+        <div class="envios-zone-card__countries">Reino Unido</div>
+      </div>
+      <div class="envios-zone-card">
+        <div class="envios-zone-card__label">Zona 5</div>
+        <div class="envios-zone-card__countries">Francia</div>
+      </div>
+    </div>
+
+    <p><strong>Tarifas por producto y zona (IVA incluido):</strong></p>
+    <div class="envios-table-wrap">
+      <table class="envios-table">
+        <thead>
+          <tr>
+            <th>Producto</th>
+            <th>Zona 1</th>
+            <th>Zona 2</th>
+            <th>Zona 3</th>
+            <th>Zona 4</th>
+            <th>Zona 5</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Jamón entero (~10 kg)</td>
+            <td>40,27 €</td><td>45,01 €</td><td>54,44 €</td><td>47,68 €</td><td>40,27 €</td>
+          </tr>
+          <tr>
+            <td>Jamón deshuesado (~6 kg)</td>
+            <td>33,67 €</td><td>39,14 €</td><td>42,64 €</td><td>39,61 €</td><td>33,67 €</td>
+          </tr>
+          <tr>
+            <td>Jamón cortado a mano (0,3–5 kg)</td>
+            <td>30,95 €</td><td>32,67 €</td><td>39,38 €</td><td>35,53 €</td><td>30,95 €</td>
+          </tr>
+          <tr>
+            <td>Embutidos / Loncheados</td>
+            <td>26,75 €</td><td>28,32 €</td><td>33,86 €</td><td>33,06 €</td><td>26,75 €</td>
+          </tr>
+          <tr>
+            <td>Carnes frescas ibéricas</td>
+            <td>—</td><td>—</td><td>—</td><td>—</td><td>26,75 €</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="envios-notice">
+      <p><em>Para envíos al Reino Unido (Zona 4): los pedidos pueden estar sujetos a aranceles e impuestos de importación a cargo del destinatario según la normativa aduanera vigente tras el Brexit.</em></p>
+    </div>
+
+    <p><strong>Países bajo consulta:</strong> Bosnia y Herzegovina, Noruega, San Marino, Serbia, Suiza y Turquía. Escríbenos a <a href="mailto:adminweb@casamaravillas.com">adminweb@casamaravillas.com</a> y te facilitamos disponibilidad y precio.</p>
+
+    <h2>Embalaje y Conservación</h2>
+    <p>Todos nuestros productos se envían con embalaje especializado que garantiza la integridad del producto durante el transporte. Los productos en frío viajan con aislante térmico y acumuladores de frío.</p>
+
+    <h2>Incidencias en el Envío</h2>
+    <p>Si recibes tu pedido con daños visibles en el embalaje o en el producto, tienes un plazo de <strong>7 días naturales</strong> desde la recepción para notificárnoslo adjuntando fotografías del estado del paquete y el producto.</p>
+
+    <h2>Periodos de Alta Demanda</h2>
+    <p>En temporadas de alta demanda como Navidad y Semana Santa, los plazos de entrega pueden verse incrementados. Te informaremos con antelación de cualquier variación.</p>
+
+    <h2>¿Tienes dudas?</h2>
+    <p>
+      Email: <a href="mailto:adminweb@casamaravillas.com">adminweb@casamaravillas.com</a><br>
+      Teléfono: <a href="tel:966113446">966 11 34 46</a><br>
+      Horario de atención: lunes a viernes, 9:00 – 18:00 h.
+    </p>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Información de Envíos",
+  "tag": "section"
+}
+{% endschema %}
