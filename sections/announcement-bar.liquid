@@ -34,35 +34,6 @@
     font-weight: 400;
   }
 
-  .announcement-bar__lang {
-    display: flex;
-    align-items: center;
-    gap: 0;
-    margin-left: auto;
-  }
-
-  .announcement-bar__lang-btn {
-    font-size: 10px;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: rgba(255,255,255,0.4);
-    background: none;
-    border: none;
-    padding: 0 12px;
-    cursor: pointer;
-    font-family: var(--cm-font-sans);
-    font-weight: 400;
-    transition: color 0.3s;
-    height: 38px;
-  }
-
-  .announcement-bar__lang-btn.is-active { color: var(--cm-gold-h); }
-  .announcement-bar__lang-sep {
-    width: 1px;
-    height: 12px;
-    background: rgba(255,255,255,0.15);
-  }
-
   @media (max-width: 767px) {
     .announcement-bar { padding: 0; justify-content: center; overflow: hidden; }
     .announcement-bar__message {
@@ -76,7 +47,6 @@
       padding-left: 20px;
       animation: announcement-ticker 18s linear infinite;
     }
-    .announcement-bar__lang { display: none; }
   }
 
   @media (max-width: 767px) and (prefers-reduced-motion: reduce) {
@@ -94,11 +64,6 @@
     </span>
   </p>
 
-  <div class="announcement-bar__lang hide-mobile" aria-label="Seleccionar idioma">
-    <button class="announcement-bar__lang-btn is-active" aria-label="Español" data-lang="es">ES</button>
-    <span class="announcement-bar__lang-sep"></span>
-    <button class="announcement-bar__lang-btn" aria-label="English" data-lang="en">EN</button>
-  </div>
 </div>
 {%- endif -%}
 
