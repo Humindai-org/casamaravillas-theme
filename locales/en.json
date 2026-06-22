@@ -676,5 +676,18 @@
   "newsletter": {
     "label": "Subscribe to the newsletter",
     "success": "Thank you! You have successfully subscribed."
+  },
+  "404": {
+    "title": "Page not found",
+    "subtext": "The page you are looking for does not exist or has been moved.",
+    "link": "Back to top"
+  },
+  "accessibility": {
+    "skip_to_content": "Skip to main content",
+    "close": "Close",
+    "open_nav": "Open navigation",
+    "close_nav": "Close navigation",
+    "cart": "View cart",
+    "cart_count": "{{ count }} items in cart"
   }
 }
