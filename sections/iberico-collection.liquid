@@ -813,7 +813,7 @@
             {%- if block.settings.product -%}
               {%- assign product = block.settings.product -%}
               <div data-product-tags="{{ product.tags | join: ',' | downcase }}" data-product-price="{{ product.price | divided_by: 100 }}">
-                {% render 'product-card', card_product: product, card_collection: collection.handle, block_zoom: block.settings.zoom, block_offset: block.settings.offset %}
+                {% render 'product-card', card_product: product, card_collection: collection.handle, block_zoom: block.settings.zoom, block_offset_x: block.settings.offset_x, block_offset: block.settings.offset %}
               </div>
             {%- endif -%}
           {%- endfor -%}
@@ -1315,11 +1315,21 @@
           "type": "range",
           "id": "zoom",
           "label": "Zoom imagen (%)",
-          "min": 100,
+          "min": 50,
           "max": 200,
           "step": 5,
           "default": 100,
-          "info": "Amplía la imagen dentro del recuadro"
+          "info": "< 100 aleja · 100 normal · > 100 acerca"
+        },
+        {
+          "type": "range",
+          "id": "offset_x",
+          "label": "Posición horizontal (%)",
+          "min": 0,
+          "max": 100,
+          "step": 5,
+          "default": 50,
+          "info": "0 = izquierda · 50 = centro · 100 = derecha"
         },
         {
           "type": "range",

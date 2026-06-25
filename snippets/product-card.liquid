@@ -24,7 +24,7 @@
   .product-card__img-box {
     aspect-ratio: 3 / 4;
     overflow: hidden;
-    background: transparent;
+    background: var(--cm-off);
     position: relative;
     border-radius: 10px;
   }
@@ -33,10 +33,10 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center var(--card-pos, 50%);
+    object-position: var(--card-pos-x, 50%) var(--card-pos-y, 50%);
     filter: saturate(0.8) brightness(0.85);
     transform: scale(var(--card-zoom, 1));
-    transform-origin: center var(--card-pos, 50%);
+    transform-origin: var(--card-pos-x, 50%) var(--card-pos-y, 50%);
     transition: transform 0.5s ease;
     display: block;
   }
@@ -277,14 +277,21 @@
       {%- else -%}
         {%- assign card_zoom = product.metafields.custom.card_zoom | default: 1 -%}
       {%- endif -%}
-      {%- if block_offset != blank -%}
-        {%- assign card_offset = block_offset -%}
-      {%- elsif product.metafields.custom.card_offset != blank -%}
-        {%- assign card_offset = product.metafields.custom.card_offset -%}
+      {%- if block_offset_x != blank -%}
+        {%- assign card_offset_x = block_offset_x -%}
+      {%- elsif product.metafields.custom.card_offset_x != blank -%}
+        {%- assign card_offset_x = product.metafields.custom.card_offset_x -%}
       {%- else -%}
-        {%- assign card_offset = 50 -%}
+        {%- assign card_offset_x = 50 -%}
       {%- endif -%}
-      <div class="product-card__img-box" style="--card-zoom: {{ card_zoom }}; --card-pos: {{ card_offset }}%;">
+      {%- if block_offset != blank -%}
+        {%- assign card_offset_y = block_offset -%}
+      {%- elsif product.metafields.custom.card_offset != blank -%}
+        {%- assign card_offset_y = product.metafields.custom.card_offset -%}
+      {%- else -%}
+        {%- assign card_offset_y = 50 -%}
+      {%- endif -%}
+      <div class="product-card__img-box" style="--card-zoom: {{ card_zoom }}; --card-pos-x: {{ card_offset_x }}%; --card-pos-y: {{ card_offset_y }}%;">
         {%- comment -%}Imagen principal: 1º la del bloque del editor, si no la destacada del producto{%- endcomment -%}
         {%- assign primary_image = card_image | default: product.featured_image -%}
         {%- if primary_image != blank -%}
