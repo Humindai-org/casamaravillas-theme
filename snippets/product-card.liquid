@@ -277,7 +277,13 @@
       {%- else -%}
         {%- assign card_zoom = product.metafields.custom.card_zoom | default: 1 -%}
       {%- endif -%}
-      {%- assign card_offset = block_offset | default: product.metafields.custom.card_offset | default: 50 -%}
+      {%- if block_offset != blank -%}
+        {%- assign card_offset = block_offset -%}
+      {%- elsif product.metafields.custom.card_offset != blank -%}
+        {%- assign card_offset = product.metafields.custom.card_offset -%}
+      {%- else -%}
+        {%- assign card_offset = 50 -%}
+      {%- endif -%}
       <div class="product-card__img-box" style="--card-zoom: {{ card_zoom }}; --card-pos: {{ card_offset }}%;">
         {%- comment -%}Imagen principal: 1º la del bloque del editor, si no la destacada del producto{%- endcomment -%}
         {%- assign primary_image = card_image | default: product.featured_image -%}
