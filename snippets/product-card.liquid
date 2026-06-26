@@ -29,42 +29,41 @@
     border-radius: 10px;
   }
 
-  /* Ambas imágenes: posición absoluta, tamaño = zoom × contenedor */
+  /* Ambas imágenes llenan el contenedor exactamente */
   .product-card__img-box img {
     position: absolute;
-    object-fit: cover;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
     filter: saturate(0.8) brightness(0.85);
-    transition: transform 0.5s ease;
     display: block;
   }
 
-  /* Imagen principal — left/top calculados para que pos X e Y funcionen siempre */
+  /* Imagen principal */
   .product-card__img-box .product-card__img--primary {
-    width: calc(100% * var(--card-zoom, 1));
-    height: calc(100% * var(--card-zoom, 1));
-    left: calc((1 - var(--card-zoom, 1)) * var(--card-pos-x, 50) * 1%);
-    top: calc((1 - var(--card-zoom, 1)) * var(--card-pos-y, 50) * 1%);
     object-position: calc(var(--card-pos-x, 50) * 1%) calc(var(--card-pos-y, 50) * 1%);
+    transform: scale(var(--card-zoom, 1));
+    transform-origin: calc(var(--card-pos-x, 50) * 1%) calc(var(--card-pos-y, 50) * 1%);
+    transition: transform 0.5s ease;
   }
 
   .product-card:hover .product-card__img-box .product-card__img--primary {
-    transform: scale(1.05);
+    transform: scale(calc(var(--card-zoom, 1) * 1.05));
   }
 
-  /* Imagen secundaria (hover swap) */
+  /* Imagen secundaria — cubre la principal al hacer hover */
   .product-card__img-box .product-card__img--secondary {
+    object-position: calc(var(--card-pos-x-2, var(--card-pos-x, 50)) * 1%) calc(var(--card-pos-y-2, var(--card-pos-y, 50)) * 1%);
+    transform: scale(var(--card-zoom-2, var(--card-zoom, 1)));
+    transform-origin: calc(var(--card-pos-x-2, var(--card-pos-x, 50)) * 1%) calc(var(--card-pos-y-2, var(--card-pos-y, 50)) * 1%);
     opacity: 0;
     transition: opacity 0.6s ease, transform 0.5s ease;
-    width: calc(100% * var(--card-zoom-2, var(--card-zoom, 1)));
-    height: calc(100% * var(--card-zoom-2, var(--card-zoom, 1)));
-    left: calc((1 - var(--card-zoom-2, var(--card-zoom, 1))) * var(--card-pos-x-2, var(--card-pos-x, 50)) * 1%);
-    top: calc((1 - var(--card-zoom-2, var(--card-zoom, 1))) * var(--card-pos-y-2, var(--card-pos-y, 50)) * 1%);
-    object-position: calc(var(--card-pos-x-2, var(--card-pos-x, 50)) * 1%) calc(var(--card-pos-y-2, var(--card-pos-y, 50)) * 1%);
   }
 
   .product-card:hover .product-card__img-box .product-card__img--secondary {
     opacity: 1;
-    transform: scale(1.05);
+    transform: scale(calc(var(--card-zoom-2, var(--card-zoom, 1)) * 1.05));
   }
 
   .product-card__badge {
