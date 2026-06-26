@@ -268,6 +268,40 @@
 
   .product-card__add-btn.is-added { background: #2a7a4b; }
 
+  /* ── Variante light (blanca) ── */
+  .product-card--light .product-card__body {
+    background: var(--cm-white);
+  }
+  .product-card--light .product-card__name {
+    color: var(--cm-navy);
+  }
+  .product-card--light .product-card__name:hover {
+    color: var(--cm-gold);
+  }
+  .product-card--light .product-card__name-sub {
+    color: var(--cm-text-light);
+  }
+  .product-card--light .product-card__foot {
+    border-top-color: var(--cm-border);
+  }
+  .product-card--light .product-card__price {
+    color: var(--cm-text);
+  }
+  .product-card--light .product-card__price-compare {
+    color: var(--cm-text-light);
+  }
+  .product-card--light .product-card__cta {
+    color: var(--cm-navy);
+  }
+  .product-card--light .product-card__plus {
+    border-color: var(--cm-gold);
+    color: var(--cm-gold);
+  }
+  .product-card--light .product-card__plus:hover {
+    background: var(--cm-gold);
+    color: var(--cm-white);
+  }
+
   @media (max-width: 767px) {
     .product-card__add-btn {
       transform: translateY(0);
@@ -279,8 +313,12 @@
 </style>
 
 {%- assign product = card_product -%}
+{%- assign card_theme_class = '' -%}
+{%- if card_style == 'light' -%}
+  {%- assign card_theme_class = ' product-card--light' -%}
+{%- endif -%}
 {%- if product != blank -%}
-  <article class="product-card">
+  <article class="product-card{{ card_theme_class }}">
     <a href="{{ product.url }}" aria-label="{{ product.title | escape }}">
       {%- comment -%}Ajuste fino: 1º el control del editor (bloque, en %), si no el metafield del producto{%- endcomment -%}
       {%- if block_zoom != blank -%}

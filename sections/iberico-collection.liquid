@@ -18,8 +18,6 @@
   }
 
   .ic__inner-{{ section.id }} {
-    max-width: 1320px;
-    margin: 0 auto;
     display: grid;
     grid-template-columns: 272px 1fr;
     gap: 52px;
@@ -818,7 +816,7 @@
             {%- if block.settings.product -%}
               {%- assign product = block.settings.product -%}
               <div data-product-tags="{{ product.tags | join: ',' | downcase }}" data-product-price="{{ product.price | divided_by: 100 }}">
-                {% render 'product-card', card_product: product, card_collection: collection.handle, block_zoom: block.settings.zoom, block_offset_x: block.settings.offset_x, block_offset: block.settings.offset, block_zoom_2: block.settings.zoom_2, block_offset_x_2: block.settings.offset_x_2, block_offset_2: block.settings.offset_2 %}
+                {% render 'product-card', card_product: product, card_collection: collection.handle, block_zoom: block.settings.zoom, block_offset_x: block.settings.offset_x, block_offset: block.settings.offset, block_zoom_2: block.settings.zoom_2, block_offset_x_2: block.settings.offset_x_2, block_offset_2: block.settings.offset_2, card_style: section.settings.card_style %}
               </div>
             {%- endif -%}
           {%- endfor -%}
@@ -834,7 +832,7 @@
             {%- if collection.products.size > 0 -%}
               {%- for product in collection.products -%}
                 <div data-product-tags="{{ product.tags | join: ',' | downcase }}" data-product-price="{{ product.price | divided_by: 100 }}">
-                  {% render 'product-card', card_product: product, card_collection: collection.handle %}
+                  {% render 'product-card', card_product: product, card_collection: collection.handle, card_style: section.settings.card_style %}
                 </div>
               {%- endfor -%}
             {%- else -%}
@@ -1304,6 +1302,16 @@
       "id": "empty_label",
       "label": "Texto si no hay productos",
       "default": "No hay jamones disponibles en este momento."
+    },
+    {
+      "type": "select",
+      "id": "card_style",
+      "label": "Estilo de tarjeta",
+      "options": [
+        { "value": "dark", "label": "Azul oscuro" },
+        { "value": "light", "label": "Blanco" }
+      ],
+      "default": "dark"
     }
   ],
   "blocks": [
