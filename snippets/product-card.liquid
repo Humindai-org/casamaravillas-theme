@@ -12,12 +12,13 @@
     flex-direction: column;
     overflow: hidden;
     cursor: pointer;
-    transition: box-shadow 0.4s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     border-radius: 12px;
   }
 
   .product-card:hover {
-    box-shadow: 0 20px 56px rgba(26,24,20,0.12), 0 4px 12px rgba(26,24,20,0.06);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(26,24,20,0.14), 0 2px 8px rgba(26,24,20,0.06);
     position: relative;
     z-index: 2;
   }
@@ -116,7 +117,8 @@
     display: flex;
     flex-direction: column;
     flex: 1;
-    min-height: 160px;
+    min-height: 140px;
+    background: var(--cm-navy);
   }
 
   .product-card__cat {
@@ -133,7 +135,7 @@
     font-family: var(--cm-font-serif);
     font-size: 17px;
     font-weight: 400;
-    color: var(--cm-navy);
+    color: var(--cm-white);
     line-height: 1.35;
     margin-bottom: 4px;
     text-decoration: none;
@@ -144,7 +146,7 @@
   .product-card__name-sub {
     font-size: 12px;
     font-style: italic;
-    color: var(--cm-text-light);
+    color: rgba(255,255,255,0.55);
     margin-bottom: 16px;
     line-height: 1.4;
     font-family: var(--cm-font-sans);
@@ -156,19 +158,19 @@
     align-items: center;
     margin-top: auto;
     padding-top: 16px;
-    border-top: 1px solid var(--cm-border);
+    border-top: 1px solid rgba(255,255,255,0.1);
   }
 
   .product-card__price {
     font-size: 18px;
     font-weight: 500;
-    color: var(--cm-text);
+    color: var(--cm-white);
     font-family: var(--cm-font-sans);
   }
 
   .product-card__price-compare {
     font-size: 13px;
-    color: var(--cm-text-light);
+    color: rgba(255,255,255,0.45);
     text-decoration: line-through;
     margin-left: 6px;
   }
@@ -180,7 +182,7 @@
     font-size: 10px;
     letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: var(--cm-navy);
+    color: var(--cm-white);
     font-weight: 500;
     font-family: var(--cm-font-sans);
     transition: color 0.3s;
@@ -218,7 +220,7 @@
     display: block;
   }
 
-  .product-card__plus:hover { background: var(--cm-gold); color: var(--cm-white); }
+  .product-card__plus:hover { background: var(--cm-gold); color: var(--cm-navy); }
   .product-card__plus:active { transform: scale(0.9); }
   .product-card__plus:focus-visible {
     outline: 2px solid var(--cm-gold);
