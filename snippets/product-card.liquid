@@ -29,37 +29,42 @@
     border-radius: 10px;
   }
 
+  /* Ambas imágenes: posición absoluta, tamaño = zoom × contenedor */
   .product-card__img-box img {
-    width: 100%;
-    height: 100%;
+    position: absolute;
     object-fit: cover;
     filter: saturate(0.8) brightness(0.85);
     transition: transform 0.5s ease;
     display: block;
   }
 
+  /* Imagen principal — left/top calculados para que pos X e Y funcionen siempre */
   .product-card__img-box .product-card__img--primary {
-    transform: scale(var(--card-zoom, 1));
-    transform-origin: var(--card-pos-x, 50%) var(--card-pos-y, 50%);
+    width: calc(100% * var(--card-zoom, 1));
+    height: calc(100% * var(--card-zoom, 1));
+    left: calc((1 - var(--card-zoom, 1)) * var(--card-pos-x, 50) * 1%);
+    top: calc((1 - var(--card-zoom, 1)) * var(--card-pos-y, 50) * 1%);
+    object-position: calc(var(--card-pos-x, 50) * 1%) calc(var(--card-pos-y, 50) * 1%);
   }
 
   .product-card:hover .product-card__img-box .product-card__img--primary {
-    transform: scale(calc(var(--card-zoom, 1) * 1.05));
+    transform: scale(1.05);
   }
 
-  /* Hover image swap — shows the product's 2nd image on hover */
+  /* Imagen secundaria (hover swap) */
   .product-card__img-box .product-card__img--secondary {
-    position: absolute;
-    inset: 0;
     opacity: 0;
     transition: opacity 0.6s ease, transform 0.5s ease;
-    transform: scale(var(--card-zoom-2, var(--card-zoom, 1)));
-    transform-origin: var(--card-pos-x-2, var(--card-pos-x, 50%)) var(--card-pos-y-2, var(--card-pos-y, 50%));
+    width: calc(100% * var(--card-zoom-2, var(--card-zoom, 1)));
+    height: calc(100% * var(--card-zoom-2, var(--card-zoom, 1)));
+    left: calc((1 - var(--card-zoom-2, var(--card-zoom, 1))) * var(--card-pos-x-2, var(--card-pos-x, 50)) * 1%);
+    top: calc((1 - var(--card-zoom-2, var(--card-zoom, 1))) * var(--card-pos-y-2, var(--card-pos-y, 50)) * 1%);
+    object-position: calc(var(--card-pos-x-2, var(--card-pos-x, 50)) * 1%) calc(var(--card-pos-y-2, var(--card-pos-y, 50)) * 1%);
   }
 
   .product-card:hover .product-card__img-box .product-card__img--secondary {
     opacity: 1;
-    transform: scale(calc(var(--card-zoom-2, var(--card-zoom, 1)) * 1.05));
+    transform: scale(1.05);
   }
 
   .product-card__badge {
@@ -310,12 +315,12 @@
         {%- assign img2_style = img2_style | append: '--card-zoom-2:' | append: card_zoom_2 | append: ';' -%}
       {%- endif -%}
       {%- if card_offset_x_2 != blank -%}
-        {%- assign img2_style = img2_style | append: '--card-pos-x-2:' | append: card_offset_x_2 | append: '%;' -%}
+        {%- assign img2_style = img2_style | append: '--card-pos-x-2:' | append: card_offset_x_2 | append: ';' -%}
       {%- endif -%}
       {%- if card_offset_y_2 != blank -%}
-        {%- assign img2_style = img2_style | append: '--card-pos-y-2:' | append: card_offset_y_2 | append: '%;' -%}
+        {%- assign img2_style = img2_style | append: '--card-pos-y-2:' | append: card_offset_y_2 | append: ';' -%}
       {%- endif -%}
-      <div class="product-card__img-box" style="--card-zoom: {{ card_zoom }}; --card-pos-x: {{ card_offset_x }}%; --card-pos-y: {{ card_offset_y }}%; {{ img2_style }}">
+      <div class="product-card__img-box" style="--card-zoom: {{ card_zoom }}; --card-pos-x: {{ card_offset_x }}; --card-pos-y: {{ card_offset_y }}; {{ img2_style }}">
         {%- comment -%}Imagen principal: 1º la del bloque del editor, si no la destacada del producto{%- endcomment -%}
         {%- assign primary_image = card_image | default: product.featured_image -%}
         {%- if primary_image != blank -%}
