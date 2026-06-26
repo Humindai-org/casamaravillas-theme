@@ -59,7 +59,7 @@
           "settings": {
             "product": "lomo-bellota-iberico-loncheado-2",
             "zoom": 100,
-            "offset_x": 50,
+            "offset_x": 55,
             "offset": 50
           }
         },
@@ -68,7 +68,7 @@
           "settings": {
             "product": "lomo-cebo-campo-50-iberico-loncheado",
             "zoom": 100,
-            "offset_x": 50,
+            "offset_x": 55,
             "offset": 50
           }
         },
@@ -77,7 +77,7 @@
           "settings": {
             "product": "chorizo-bellota-iberico-loncheado",
             "zoom": 100,
-            "offset_x": 50,
+            "offset_x": 70,
             "offset": 50
           }
         },
@@ -86,7 +86,7 @@
           "settings": {
             "product": "salchichon-bellota-iberico-loncheado",
             "zoom": 100,
-            "offset_x": 50,
+            "offset_x": 55,
             "offset": 50
           }
         },
@@ -95,8 +95,8 @@
           "settings": {
             "product": "lomito-presa-bellota",
             "zoom": 100,
-            "offset_x": 50,
-            "offset": 50
+            "offset_x": 45,
+            "offset": 95
           }
         },
         "product_zpk8g8": {
@@ -113,7 +113,7 @@
           "settings": {
             "product": "lomo-cebo-campo-50-iberico",
             "zoom": 100,
-            "offset_x": 50,
+            "offset_x": 95,
             "offset": 50
           }
         },
@@ -122,7 +122,7 @@
           "settings": {
             "product": "chorizo-bellota-iberico",
             "zoom": 100,
-            "offset_x": 50,
+            "offset_x": 95,
             "offset": 50
           }
         },
@@ -131,7 +131,7 @@
           "settings": {
             "product": "salchichon-bellota-iberico",
             "zoom": 100,
-            "offset_x": 50,
+            "offset_x": 85,
             "offset": 50
           }
         }
