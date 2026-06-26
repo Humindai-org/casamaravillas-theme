@@ -33,15 +33,17 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: var(--card-pos-x, 50%) var(--card-pos-y, 50%);
     filter: saturate(0.8) brightness(0.85);
-    transform: scale(var(--card-zoom, 1));
-    transform-origin: var(--card-pos-x, 50%) var(--card-pos-y, 50%);
     transition: transform 0.5s ease;
     display: block;
   }
 
-  .product-card:hover .product-card__img-box img {
+  .product-card__img-box .product-card__img--primary {
+    transform: scale(var(--card-zoom, 1));
+    transform-origin: var(--card-pos-x, 50%) var(--card-pos-y, 50%);
+  }
+
+  .product-card:hover .product-card__img-box .product-card__img--primary {
     transform: scale(calc(var(--card-zoom, 1) * 1.05));
   }
 
@@ -51,10 +53,13 @@
     inset: 0;
     opacity: 0;
     transition: opacity 0.6s ease, transform 0.5s ease;
+    transform: scale(var(--card-zoom-2, var(--card-zoom, 1)));
+    transform-origin: var(--card-pos-x-2, var(--card-pos-x, 50%)) var(--card-pos-y-2, var(--card-pos-y, 50%));
   }
 
   .product-card:hover .product-card__img-box .product-card__img--secondary {
     opacity: 1;
+    transform: scale(calc(var(--card-zoom-2, var(--card-zoom, 1)) * 1.05));
   }
 
   .product-card__badge {
@@ -291,7 +296,26 @@
       {%- else -%}
         {%- assign card_offset_y = 50 -%}
       {%- endif -%}
-      <div class="product-card__img-box" style="--card-zoom: {{ card_zoom }}; --card-pos-x: {{ card_offset_x }}%; --card-pos-y: {{ card_offset_y }}%;">
+      {%- if block_zoom_2 != blank -%}
+        {%- assign card_zoom_2 = block_zoom_2 | divided_by: 100.0 -%}
+      {%- endif -%}
+      {%- if block_offset_x_2 != blank -%}
+        {%- assign card_offset_x_2 = block_offset_x_2 -%}
+      {%- endif -%}
+      {%- if block_offset_2 != blank -%}
+        {%- assign card_offset_y_2 = block_offset_2 -%}
+      {%- endif -%}
+      {%- assign img2_style = '' -%}
+      {%- if card_zoom_2 != blank -%}
+        {%- assign img2_style = img2_style | append: '--card-zoom-2:' | append: card_zoom_2 | append: ';' -%}
+      {%- endif -%}
+      {%- if card_offset_x_2 != blank -%}
+        {%- assign img2_style = img2_style | append: '--card-pos-x-2:' | append: card_offset_x_2 | append: '%;' -%}
+      {%- endif -%}
+      {%- if card_offset_y_2 != blank -%}
+        {%- assign img2_style = img2_style | append: '--card-pos-y-2:' | append: card_offset_y_2 | append: '%;' -%}
+      {%- endif -%}
+      <div class="product-card__img-box" style="--card-zoom: {{ card_zoom }}; --card-pos-x: {{ card_offset_x }}%; --card-pos-y: {{ card_offset_y }}%; {{ img2_style }}">
         {%- comment -%}Imagen principal: 1º la del bloque del editor, si no la destacada del producto{%- endcomment -%}
         {%- assign primary_image = card_image | default: product.featured_image -%}
         {%- if primary_image != blank -%}

@@ -813,7 +813,7 @@
             {%- if block.settings.product -%}
               {%- assign product = block.settings.product -%}
               <div data-product-tags="{{ product.tags | join: ',' | downcase }}" data-product-price="{{ product.price | divided_by: 100 }}">
-                {% render 'product-card', card_product: product, card_collection: collection.handle, block_zoom: block.settings.zoom, block_offset_x: block.settings.offset_x, block_offset: block.settings.offset %}
+                {% render 'product-card', card_product: product, card_collection: collection.handle, block_zoom: block.settings.zoom, block_offset_x: block.settings.offset_x, block_offset: block.settings.offset, block_zoom_2: block.settings.zoom_2, block_offset_x_2: block.settings.offset_x_2, block_offset_2: block.settings.offset_2 %}
               </div>
             {%- endif -%}
           {%- endfor -%}
@@ -1315,11 +1315,11 @@
           "type": "range",
           "id": "zoom",
           "label": "Zoom imagen (%)",
-          "min": 50,
+          "min": 100,
           "max": 200,
           "step": 5,
           "default": 100,
-          "info": "< 100 aleja · 100 normal · > 100 acerca"
+          "info": "100 = sin zoom · > 100 acerca (posición X/Y activa con zoom > 100)"
         },
         {
           "type": "range",
@@ -1335,6 +1335,40 @@
           "type": "range",
           "id": "offset",
           "label": "Posición vertical (%)",
+          "min": 0,
+          "max": 100,
+          "step": 5,
+          "default": 50,
+          "info": "0 = arriba · 50 = centro · 100 = abajo"
+        },
+        {
+          "type": "header",
+          "content": "Foto secundaria (hover)"
+        },
+        {
+          "type": "range",
+          "id": "zoom_2",
+          "label": "Zoom foto secundaria (%)",
+          "min": 100,
+          "max": 200,
+          "step": 5,
+          "default": 100,
+          "info": "100 = sin zoom · > 100 acerca (posición X/Y activa con zoom > 100)"
+        },
+        {
+          "type": "range",
+          "id": "offset_x_2",
+          "label": "Horizontal foto secundaria (%)",
+          "min": 0,
+          "max": 100,
+          "step": 5,
+          "default": 50,
+          "info": "0 = izquierda · 50 = centro · 100 = derecha"
+        },
+        {
+          "type": "range",
+          "id": "offset_2",
+          "label": "Vertical foto secundaria (%)",
           "min": 0,
           "max": 100,
           "step": 5,
