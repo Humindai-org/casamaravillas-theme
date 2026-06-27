@@ -17,7 +17,10 @@
         "heading": "Jamones Ibéricos",
         "subheading": "",
         "body": "",
-        "overlay_opacity": 60
+        "overlay_opacity": 60,
+        "image_pos_x": 50,
+        "image_pos_y": 50,
+        "image_pos_y_mobile": 70
       }
     },
     "quality_tiers": {
@@ -134,7 +137,8 @@
         "products_per_page": 50,
         "show_sort": true,
         "show_count": false,
-        "empty_label": "No hay jamones disponibles en este momento."
+        "empty_label": "No hay jamones disponibles en este momento.",
+        "card_style": "light"
       }
     }
   },
