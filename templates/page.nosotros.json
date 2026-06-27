@@ -119,6 +119,7 @@
       "blocks": {
         "valor-autenticidad": {
           "type": "text-full",
+          "name": "Autenticidad",
           "settings": {
             "background_image": "shopify://shop_images/ChatGPT_Image_Jun_4_2026_12_25_36_PM.png",
             "value_name": "Autenticidad",
@@ -128,6 +129,7 @@
         },
         "valor-respeto": {
           "type": "split",
+          "name": "Respeto",
           "settings": {
             "image": "shopify://shop_images/generated_image_6578f43c-d59b-470b-84d5-532b31e5be4c.png",
             "value_name": "Respeto",
@@ -137,6 +139,7 @@
         },
         "valor-exigencia": {
           "type": "cinematic",
+          "name": "Exigencia",
           "settings": {
             "image": "shopify://shop_images/generated_image_2bbb6d13-9e22-4c61-95bc-9a0cbf08f6c4.png",
             "value_name": "Exigencia",
@@ -146,8 +149,9 @@
         },
         "valor-imaginacion": {
           "type": "centered",
+          "name": "Imaginación",
           "settings": {
-            "background_image": "shopify://shop_images/generated_image.jpg",
+            "background_image": "shopify://shop_images/Imaginacion.png",
             "value_name": "Imaginación",
             "headline": "La tradición y la innovación no son opuestos",
             "body": "<p>Son los dos extremos del mismo hilo. Honramos el conocimiento de quienes llevan generaciones perfeccionando el arte del ibérico, mientras imaginamos nuevas formas de acercarlo a las personas.</p><p>La imaginación es nuestro motor de evolución. Es lo que nos permite transformar la tradición en experiencia, el producto en descubrimiento y la compra en un momento memorable. Porque creemos que el futuro del ibérico no consiste en cambiar su esencia, sino en encontrar nuevas maneras de hacerla relevante, cercana y extraordinaria.</p>"
