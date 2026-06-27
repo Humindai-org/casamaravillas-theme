@@ -300,13 +300,11 @@
       }
     },
     "related": {
-      "type": "product-grid",
+      "type": "related-products-cross",
       "settings": {
         "eyebrow": "También te puede gustar",
-        "title": "<p>Productos <em>relacionados</em></p>",
-        "collection": "",
-        "products_to_show": 4,
-        "view_all_label": "Ver toda la colección",
+        "title": "<p>Descubre el resto de <em>nuestra selección</em></p>",
+        "view_all_label": "Ver toda la tienda",
         "view_all_url": "/collections/all"
       }
     }

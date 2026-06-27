@@ -69,39 +69,84 @@
   .cm-combina__card-img-wrap {
     aspect-ratio: 1;
     overflow: hidden;
-    background: var(--cm-light);
-    margin-bottom: 12px;
+    background: linear-gradient(165deg, #f1f0ed 0%, #e6e4df 100%);
+    margin-bottom: 14px;
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    box-sizing: border-box;
   }
 
   .cm-combina__card-img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     display: block;
     transition: transform 0.4s ease;
   }
 
   .cm-combina__card-link:hover .cm-combina__card-img { transform: scale(1.05); }
 
+  .cm-combina__card-info {
+    padding: 0 4px;
+  }
+
+  .cm-combina__card-category {
+    font-size: 9px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    font-family: var(--cm-font-sans);
+    font-weight: 500;
+    color: var(--cm-gold);
+    margin-bottom: 6px;
+  }
+
   .cm-combina__card-name {
     font-family: var(--cm-font-serif);
-    font-size: 15px;
+    font-size: 14px;
     color: var(--cm-navy);
     font-weight: 400;
-    line-height: 1.3;
-    margin-bottom: 6px;
+    line-height: 1.35;
+    margin-bottom: 8px;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
 
+  .cm-combina__card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
   .cm-combina__card-price {
-    font-size: 13px;
+    font-size: 14px;
     font-family: var(--cm-font-sans);
-    color: var(--cm-text-mid);
+    color: var(--cm-navy);
+    font-weight: 600;
+  }
+
+  .cm-combina__card-cta {
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-family: var(--cm-font-sans);
     font-weight: 500;
+    color: var(--cm-navy);
+    border: 1px solid var(--cm-gold);
+    padding: 6px 12px;
+    white-space: nowrap;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  .cm-combina__card-link:hover .cm-combina__card-cta {
+    background: var(--cm-navy);
+    color: var(--cm-white);
+    border-color: var(--cm-navy);
   }
 
   /* ── Flechas ── */
@@ -172,24 +217,33 @@
           <div class="cm-combina__track-wrap">
             <div class="cm-combina__track" id="cm-combina-track">
               {%- for prod in combina_col.products limit: show_count -%}
+                {%- assign prod_collection = prod.collections | first -%}
                 <div class="cm-combina__card">
                   <a href="{{ prod.url }}" class="cm-combina__card-link">
                     <div class="cm-combina__card-img-wrap">
                       {%- if prod.featured_image -%}
                         <img
                           class="cm-combina__card-img"
-                          src="{{ prod.featured_image | image_url: width: 400 }}"
+                          src="{{ prod.featured_image | image_url: width: 500 }}"
                           alt="{{ prod.featured_image.alt | escape | default: prod.title }}"
-                          width="400"
-                          height="400"
+                          width="500"
+                          height="500"
                           loading="lazy"
                         >
                       {%- else -%}
                         <div class="cm-combina__card-img" style="background:var(--cm-light);"></div>
                       {%- endif -%}
                     </div>
-                    <h3 class="cm-combina__card-name">{{ prod.title }}</h3>
-                    <p class="cm-combina__card-price">{{ prod.price | money }}</p>
+                    <div class="cm-combina__card-info">
+                      {%- if prod_collection != blank -%}
+                        <p class="cm-combina__card-category">{{ prod_collection.title }}</p>
+                      {%- endif -%}
+                      <h3 class="cm-combina__card-name">{{ prod.title }}</h3>
+                      <div class="cm-combina__card-footer">
+                        <p class="cm-combina__card-price">{{ prod.price | money }}</p>
+                        <span class="cm-combina__card-cta">Ver →</span>
+                      </div>
+                    </div>
                   </a>
                 </div>
               {%- endfor -%}

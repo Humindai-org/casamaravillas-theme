@@ -1,0 +1,179 @@
+<style>
+  .rpc-section {
+    padding: 96px 72px;
+    background: var(--cm-off);
+  }
+
+  .rpc-section__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 720px;
+    margin: 0 auto 56px;
+  }
+
+  .rpc-section__eyebrow {
+    font-size: 9px;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--cm-gold);
+    font-weight: 500;
+    margin-bottom: 18px;
+    font-family: var(--cm-font-sans);
+  }
+
+  .rpc-section__rule {
+    width: 54px;
+    height: 1px;
+    background: var(--cm-gold);
+    opacity: 0.6;
+    margin-bottom: 26px;
+  }
+
+  .rpc-section__title {
+    font-family: var(--cm-font-serif);
+    font-size: clamp(30px, 3.4vw, 50px);
+    font-weight: 400;
+    color: var(--cm-navy);
+    line-height: 1.12;
+  }
+
+  .rpc-section__title em { font-style: italic; }
+
+  .rpc-section__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+  }
+
+  .rpc-section .product-card {
+    background: transparent;
+  }
+
+  .rpc-section .product-card:hover {
+    box-shadow: none;
+  }
+
+  .rpc-section .product-card__img-box {
+    background: linear-gradient(165deg, #f1f0ed 0%, #e6e4df 100%);
+  }
+
+  .rpc-section__footer {
+    display: flex;
+    justify-content: center;
+    margin-top: 56px;
+  }
+
+  .rpc-section__view-all {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    font-family: var(--cm-font-sans);
+    font-size: 11px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: var(--cm-navy);
+    text-decoration: none;
+    padding: 20px 56px;
+    border: 1px solid var(--cm-gold);
+    background: transparent;
+    transition: background 0.25s ease, color 0.25s ease;
+  }
+
+  .rpc-section__view-all::after { content: '→'; font-size: 14px; }
+  .rpc-section__view-all:hover { background: var(--cm-navy); color: var(--cm-white); border-color: var(--cm-navy); }
+  .rpc-section__view-all:focus-visible {
+    outline: 2px solid var(--cm-gold);
+    outline-offset: 3px;
+  }
+
+  @media (max-width: 1023px) {
+    .rpc-section { padding: 64px 32px; }
+    .rpc-section__grid { gap: 24px; }
+  }
+
+  @media (max-width: 767px) {
+    .rpc-section { padding: 48px 20px; }
+    .rpc-section__grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .rpc-section__view-all { padding: 18px 40px; }
+  }
+</style>
+
+{%- liquid
+  assign current_family = template.suffix
+
+  assign all_families = 'jamones,embutidos,carnes-ibericas,packs-regalo' | split: ','
+-%}
+
+<section class="rpc-section">
+
+  <div class="rpc-section__header">
+    {%- if section.settings.eyebrow != blank -%}
+      <p class="rpc-section__eyebrow">{{ section.settings.eyebrow }}</p>
+      <div class="rpc-section__rule"></div>
+    {%- endif -%}
+    {%- if section.settings.title != blank -%}
+      <h2 class="rpc-section__title">{{ section.settings.title }}</h2>
+    {%- endif -%}
+  </div>
+
+  <div class="rpc-section__grid">
+    {%- for family in all_families -%}
+      {%- if family != current_family -%}
+        {%- assign col = collections[family] -%}
+        {%- if col != blank and col.products.first != blank -%}
+          {%- assign related_product = col.products.first -%}
+          {% render 'product-card', card_product: related_product, card_collection: family %}
+        {%- endif -%}
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+
+  {%- if section.settings.view_all_label != blank -%}
+    <div class="rpc-section__footer">
+      <a href="{{ section.settings.view_all_url | default: '/collections/all' }}" class="rpc-section__view-all">
+        {{ section.settings.view_all_label }}
+      </a>
+    </div>
+  {%- endif -%}
+
+</section>
+
+{% schema %}
+{
+  "name": "Relacionados cross-familia",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Etiqueta superior",
+      "default": "También te puede gustar"
+    },
+    {
+      "type": "richtext",
+      "id": "title",
+      "label": "Título",
+      "default": "<p>Descubre el resto de <em>nuestra selección</em></p>"
+    },
+    {
+      "type": "text",
+      "id": "view_all_label",
+      "label": "Texto del enlace 'Ver todo'",
+      "default": "Ver toda la tienda"
+    },
+    {
+      "type": "url",
+      "id": "view_all_url",
+      "label": "Enlace 'Ver todo'"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Relacionados cross-familia"
+    }
+  ]
+}
+{% endschema %}
