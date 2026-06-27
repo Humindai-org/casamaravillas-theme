@@ -60,20 +60,20 @@
     transform: scale(calc(var(--card-zoom, 1) * 1.05));
   }
 
-  /* Imagen secundaria — contain para no distorsionar el jamón */
+  /* Imagen secundaria — contain centrado; no hereda posición/zoom de la primaria */
   .product-card__img-box .product-card__img--secondary {
     object-fit: contain;
     background: var(--cm-off);
-    object-position: calc(var(--card-pos-x-2, var(--card-pos-x, 50)) * 1%) calc(var(--card-pos-y-2, var(--card-pos-y, 50)) * 1%);
-    transform: scale(var(--card-zoom-2, var(--card-zoom, 1)));
-    transform-origin: calc(var(--card-pos-x-2, var(--card-pos-x, 50)) * 1%) calc(var(--card-pos-y-2, var(--card-pos-y, 50)) * 1%);
+    object-position: calc(var(--card-pos-x-2, 50) * 1%) calc(var(--card-pos-y-2, 50) * 1%);
+    transform: scale(var(--card-zoom-2, 1));
+    transform-origin: 50% 50%;
     opacity: 0;
     transition: opacity 0.6s ease, transform 0.5s ease;
   }
 
   .product-card:hover .product-card__img-box .product-card__img--secondary {
     opacity: 1;
-    transform: scale(calc(var(--card-zoom-2, var(--card-zoom, 1)) * 1.05));
+    transform: scale(calc(var(--card-zoom-2, 1) * 1.05));
   }
 
   .product-card__badge {
