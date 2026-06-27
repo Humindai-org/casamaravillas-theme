@@ -47,16 +47,23 @@
     object-position: calc(var(--card-pos-x, 50) * 1%) calc(var(--card-pos-y, 50) * 1%);
     transform: scale(var(--card-zoom, 1));
     transform-origin: calc(var(--card-pos-x, 50) * 1%) calc(var(--card-pos-y, 50) * 1%);
-    transition: transform 0.5s ease;
+    transition: opacity 0.6s ease, transform 0.5s ease;
   }
 
-  .product-card:hover .product-card__img-box .product-card__img--primary {
+  /* Cuando hay imagen secundaria, la primaria se desvanece en hover */
+  .product-card:hover .product-card__img-box.has-secondary .product-card__img--primary {
+    opacity: 0;
+    transform: scale(calc(var(--card-zoom, 1) * 1.05));
+  }
+
+  .product-card:hover .product-card__img-box:not(.has-secondary) .product-card__img--primary {
     transform: scale(calc(var(--card-zoom, 1) * 1.05));
   }
 
   /* Imagen secundaria — contain para no distorsionar el jamón */
   .product-card__img-box .product-card__img--secondary {
     object-fit: contain;
+    background: var(--cm-off);
     object-position: calc(var(--card-pos-x-2, var(--card-pos-x, 50)) * 1%) calc(var(--card-pos-y-2, var(--card-pos-y, 50)) * 1%);
     transform: scale(var(--card-zoom-2, var(--card-zoom, 1)));
     transform-origin: calc(var(--card-pos-x-2, var(--card-pos-x, 50)) * 1%) calc(var(--card-pos-y-2, var(--card-pos-y, 50)) * 1%);
@@ -360,7 +367,19 @@
       {%- if card_offset_y_2 != blank -%}
         {%- assign img2_style = img2_style | append: '--card-pos-y-2:' | append: card_offset_y_2 | append: ';' -%}
       {%- endif -%}
-      <div class="product-card__img-box" style="--card-zoom: {{ card_zoom }}; --card-pos-x: {{ card_offset_x }}; --card-pos-y: {{ card_offset_y }}; {{ img2_style }}">
+      {%- comment -%}Pre-calcular hover image para saber si añadir clase has-secondary{%- endcomment -%}
+      {%- assign hover_image = card_hover_image -%}
+      {%- if hover_image == blank -%}
+        {%- assign hover_image = product.metafields.custom.card_hover_image.value -%}
+      {%- endif -%}
+      {%- if hover_image == blank and product.images.size > 1 -%}
+        {%- assign hover_image = product.images[1] -%}
+      {%- endif -%}
+      {%- assign img_box_class = 'product-card__img-box' -%}
+      {%- if hover_image != blank -%}
+        {%- assign img_box_class = 'product-card__img-box has-secondary' -%}
+      {%- endif -%}
+      <div class="{{ img_box_class }}" style="--card-zoom: {{ card_zoom }}; --card-pos-x: {{ card_offset_x }}; --card-pos-y: {{ card_offset_y }}; {{ img2_style }}">
         {%- comment -%}Imagen principal: 1º la del bloque del editor, si no la destacada del producto{%- endcomment -%}
         {%- assign primary_image = card_image | default: product.featured_image -%}
         {%- if primary_image != blank -%}
@@ -369,14 +388,6 @@
               class: 'product-card__img product-card__img--primary',
               alt: primary_image.alt | default: product.title | escape
           }}
-          {%- comment -%}Imagen de hover: bloque del editor > metafield > 2ª imagen de la galería{%- endcomment -%}
-          {%- assign hover_image = card_hover_image -%}
-          {%- if hover_image == blank -%}
-            {%- assign hover_image = product.metafields.custom.card_hover_image.value -%}
-          {%- endif -%}
-          {%- if hover_image == blank and product.images.size > 1 -%}
-            {%- assign hover_image = product.images[1] -%}
-          {%- endif -%}
           {%- if hover_image != blank -%}
             {{ hover_image | image_url: width: 600 | image_tag:
                 loading: 'lazy',
