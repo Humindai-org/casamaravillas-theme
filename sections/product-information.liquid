@@ -154,15 +154,29 @@
   }
 
   @media (max-width: 768px) {
+    .cm-info-section {
+      padding-bottom: 40px;
+    }
+
     .cm-info-section__inner {
       grid-template-columns: 1fr;
     }
 
     .cm-info-image-container {
       position: relative;
+      top: auto;
       right: auto;
+      width: 80%;
+      max-width: 300px;
+      margin: 60px auto 0;
+      transform: none !important;
+    }
+
+    .cm-info-image-container img {
+      animation: none;
       width: 100%;
-      margin-top: 40px;
+      height: auto;
+      display: block;
     }
   }
 
@@ -824,8 +838,9 @@
     }
   });
 
-  // Subtle parallax effect on scroll
+  // Subtle parallax effect on scroll — desktop only
   document.addEventListener('scroll', function() {
+    if (window.innerWidth <= 768) return;
     const imageContainer = document.querySelector('.cm-info-image-container');
     if (imageContainer) {
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
@@ -836,6 +851,14 @@
         const parallaxValue = (scrollTop - elementTop) * 0.3;
         imageContainer.style.transform = 'translateY(' + parallaxValue + 'px)';
       }
+    }
+  });
+
+  // Reset parallax transform on mobile resize
+  window.addEventListener('resize', function() {
+    if (window.innerWidth <= 768) {
+      const imageContainer = document.querySelector('.cm-info-image-container');
+      if (imageContainer) imageContainer.style.transform = '';
     }
   });
 

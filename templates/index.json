@@ -153,7 +153,7 @@
         "title": "<p>Lo más elegido de Casa Maravillas</p>",
         "description": "",
         "view_all_label": "Ver todos los productos",
-        "view_all_url": "shopify://collections",
+        "view_all_url": "shopify://collections/jamones",
         "section_bg": "off",
         "tier_icons_bellota_100": "shopify://shop_images/1_94ced989-5181-45e3-ade1-82b3f566f80a.png",
         "tier_icons_bellota_75": "shopify://shop_images/CASAMARAVILLAS__2.jpg",
@@ -262,7 +262,7 @@
         "description": "Criado en libertad en la dehesa, alimentado con bellotas durante la montanera. Una pieza excepcional con el característico veteado de la grasa infiltrada.",
         "price": "89",
         "cta_label": "Comprar ahora",
-        "cta_url": ""
+        "cta_url": "/collections/jamones/precinto-negro"
       }
     },
     "product_grid_VxPcmf": {
