@@ -1647,6 +1647,7 @@
               class="cm-pdp__thumb-btn{% if forloop.first %} is-active{% endif %}"
               data-image-src="{{ image | image_url: width: 900 }}"
               data-image-alt="{{ image.alt | escape | default: product.title }}"
+              data-image-index="{{ forloop.index }}"
               aria-label="Ver imagen {{ forloop.index }}"
               role="listitem"
               type="button"
@@ -2095,9 +2096,51 @@ document.addEventListener('DOMContentLoaded', function() {
 
   /* ── Galería — thumbnails ── */
   const mainImg = $('cm-main-img-' + SID);
+  const imgWrap = mainImg ? mainImg.closest('.cm-pdp__main-img-wrap') : null;
+
+  /* Ajustes por imagen definidos en los bloques del Editor */
+  const imgAdjust = {
+    {%- assign first_block = true -%}
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'image_adjust' -%}
+        {%- unless first_block -%},{%- endunless -%}
+        {%- assign first_block = false -%}
+        "{{ block.settings.image_index }}": {
+          "fit": "{{ block.settings.fit | default: 'contain' }}",
+          "zoom": {{ block.settings.zoom | default: 100 }},
+          "posX": {{ block.settings.pos_x | default: 50 }},
+          "posY": {{ block.settings.pos_y | default: 50 }}
+        }
+      {%- endif -%}
+    {%- endfor -%}
+  };
+
+  /* Valores por defecto del editor (sección) */
+  const galDefaults = {
+    fit: '{{ gal_fit }}',
+    zoom: {{ section.settings.gallery_zoom | default: 100 }},
+    posX: {{ section.settings.gallery_pos_x | default: 50 }},
+    posY: {{ section.settings.gallery_pos_y | default: 50 }}
+  };
+
+  function applyImageAdjust(index) {
+    if (!imgWrap) return;
+    const adj = imgAdjust[String(index)];
+    const fit  = adj ? adj.fit  : galDefaults.fit;
+    const zoom = (adj ? adj.zoom : galDefaults.zoom) / 100;
+    const posX = (adj ? adj.posX : galDefaults.posX) + '%';
+    const posY = (adj ? adj.posY : galDefaults.posY) + '%';
+    imgWrap.style.setProperty('--gal-fit', fit);
+    imgWrap.style.setProperty('--gal-zoom', zoom);
+    imgWrap.style.setProperty('--gal-pos-x', posX);
+    imgWrap.style.setProperty('--gal-pos-y', posY);
+  }
+
   if (mainImg) {
     document.querySelectorAll('.cm-pdp__thumb-btn').forEach(btn => {
       btn.addEventListener('click', () => {
+        const idx = parseInt(btn.dataset.imageIndex, 10) || 1;
+        applyImageAdjust(idx);
         mainImg.classList.add('is-loading');
         const newSrc = btn.dataset.imageSrc;
         const tempImg = new Image();
@@ -2904,6 +2947,68 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   ],
   "blocks": [
+    {
+      "type": "image_adjust",
+      "name": "Ajuste por imagen",
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Configura zoom y posición para una imagen específica. Usa el número de orden de la imagen (1 = principal)."
+        },
+        {
+          "type": "range",
+          "id": "image_index",
+          "label": "Número de imagen",
+          "min": 1,
+          "max": 20,
+          "step": 1,
+          "default": 1,
+          "info": "1 = imagen principal · 2 = segunda imagen · etc."
+        },
+        {
+          "type": "select",
+          "id": "fit",
+          "label": "Modo",
+          "options": [
+            { "value": "contain", "label": "Contener (imagen completa)" },
+            { "value": "cover", "label": "Cubrir (rellena el marco)" }
+          ],
+          "default": "contain"
+        },
+        {
+          "type": "range",
+          "id": "zoom",
+          "label": "Zoom",
+          "min": 50,
+          "max": 200,
+          "step": 5,
+          "default": 100,
+          "unit": "%"
+        },
+        {
+          "type": "range",
+          "id": "pos_x",
+          "label": "Posición horizontal",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "default": 50,
+          "unit": "%",
+          "info": "0% izquierda · 50% centro · 100% derecha"
+        },
+        {
+          "type": "range",
+          "id": "pos_y",
+          "label": "Posición vertical",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "default": 50,
+          "unit": "%",
+          "info": "0% arriba · 50% centro · 100% abajo"
+        }
+      ]
+    },
     {
       "type": "detail_card",
       "name": "Tarjeta de Detalle",
