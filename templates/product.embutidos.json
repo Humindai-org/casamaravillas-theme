@@ -11,6 +11,40 @@
   "sections": {
     "main": {
       "type": "main-product",
+      "blocks": {
+        "image_adjust_jiyJnJ": {
+          "type": "image_adjust",
+          "settings": {
+            "fit": "cover",
+            "zoom": 115,
+            "pos_x": 50,
+            "pos_y": 50
+          }
+        },
+        "image_adjust_qb9GNW": {
+          "type": "image_adjust",
+          "settings": {
+            "fit": "cover",
+            "zoom": 100,
+            "pos_x": 50,
+            "pos_y": 50
+          }
+        },
+        "image_adjust_WyjPFL": {
+          "type": "image_adjust",
+          "settings": {
+            "fit": "contain",
+            "zoom": 100,
+            "pos_x": 50,
+            "pos_y": 50
+          }
+        }
+      },
+      "block_order": [
+        "image_adjust_jiyJnJ",
+        "image_adjust_qb9GNW",
+        "image_adjust_WyjPFL"
+      ],
       "settings": {
         "gallery_fit": "cover",
         "gallery_zoom": 100,
