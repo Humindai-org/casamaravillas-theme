@@ -23,9 +23,9 @@
         "weight_options": "6-7 kg, 8-9 kg",
         "weight_options_deshuesado": "5-6 kg",
         "pack_options": "1 ud., 10 ud., 20 ud., 30 ud.",
-        "show_complementary_products": false,
+        "show_complementary_products": true,
         "complementary_title": "Complementa tu pedido con",
-        "complementary_collection": "",
+        "complementary_collection": "jamones",
         "complementary_max": 3
       }
     },
@@ -86,9 +86,7 @@
     "combina": {
       "type": "combina-tu-compra",
       "settings": {
-        "title": "Combina tu compra con",
-        "collection": "",
-        "products_to_show": 5
+        "title": "Combina tu compra con"
       }
     },
     "product_information_zDBpen": {
