@@ -330,7 +330,7 @@
         "title": "<p>Nuestra <em>selección</em></p>",
         "description": "",
         "view_all_label": "Ver toda la colección",
-        "view_all_url": "",
+        "view_all_url": "shopify://collections/jamones",
         "section_bg": "navy",
         "tier_icons_bellota_100": "shopify://shop_images/CASAMARAVILLAS__1_2.jpg"
       }
