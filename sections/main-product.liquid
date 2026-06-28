@@ -2079,64 +2079,51 @@
 {%- comment -%} ════════════════════════════════════ COMBINA (oculta por defecto) ══ {%- endcomment -%}
 {%- liquid
   assign current_family = template.suffix
-  case current_family
-    when 'jamones'
-      assign combina_families = 'embutidos,packs-regalo,carnes-ibericas' | split: ','
-    when 'embutidos'
-      assign combina_families = 'jamones,packs-regalo,carnes-ibericas' | split: ','
-    when 'carnes-ibericas'
-      assign combina_families = 'jamones,embutidos,packs-regalo' | split: ','
-    when 'packs-regalo'
-      assign combina_families = 'jamones,embutidos,carnes-ibericas' | split: ','
-    else
-      assign combina_families = 'jamones,embutidos,packs-regalo' | split: ','
-  endcase
+  assign all_families   = 'jamones,embutidos,carnes-ibericas,packs-regalo' | split: ','
+  assign shown_handles  = product.handle | append: ','
+  assign shown_count    = 0
 -%}
 <div class="cm-combina-section" id="cm-combina-section">
   <p class="cm-combina__title">Combina tu compra con</p>
   <div class="cm-combina__grid">
-    {%- for family in combina_families -%}
-      {%- assign combina_col = collections[family] -%}
-      {%- if combina_col != blank and combina_col.products.first != blank -%}
-        {%- assign cp = combina_col.products.first -%}
-        {%- assign cp_variant = cp.first_available_variant | default: cp.variants.first -%}
-        <div class="cm-combina__card">
-          <a href="{{ cp.url }}" class="cm-combina__card-link">
-            <div class="cm-combina__card-img-wrap">
-              {%- if cp.featured_image -%}
-                <img
-                  src="{{ cp.featured_image | image_url: width: 400 }}"
-                  alt="{{ cp.title | escape }}"
-                  class="cm-combina__card-img"
-                  loading="lazy"
-                  width="400"
-                  height="400"
-                >
-              {%- endif -%}
-            </div>
-          </a>
-          <div class="cm-combina__card-body">
-            <a href="{{ cp.url }}" class="cm-combina__card-title">{{ cp.title | truncate: 50 }}</a>
-            <div class="cm-combina__card-foot">
-              <p class="cm-combina__card-price">{{ cp.price | money }}</p>
-              {%- if cp_variant -%}
-                <button
-                  class="cm-combina__card-plus"
-                  data-variant-id="{{ cp_variant.id }}"
-                  aria-label="Añadir {{ cp.title | escape }} a la cesta"
-                  type="button"
-                >
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-                    <line x1="12" y1="5" x2="12" y2="19"/>
-                    <line x1="5" y1="12" x2="19" y2="12"/>
-                  </svg>
-                </button>
-              {%- endif -%}
-            </div>
-          </div>
-        </div>
+
+    {%- comment -%} PASADA 1: 1 producto de cada familia complementaria {%- endcomment -%}
+    {%- for family in all_families -%}
+      {%- if family != current_family and shown_count < 3 -%}
+        {%- assign fam_col = collections[family] -%}
+        {%- if fam_col != blank -%}
+          {%- for cp in fam_col.products limit: 1 -%}
+            {%- unless shown_handles contains cp.handle -%}
+              {%- assign cp_variant = cp.first_available_variant | default: cp.variants.first -%}
+              {% render 'combina-card', cp: cp, cp_variant: cp_variant %}
+              {%- assign shown_count = shown_count | plus: 1 -%}
+              {%- assign shown_handles = shown_handles | append: cp.handle | append: ',' -%}
+            {%- endunless -%}
+          {%- endfor -%}
+        {%- endif -%}
       {%- endif -%}
     {%- endfor -%}
+
+    {%- comment -%} PASADA 2: si quedan huecos, rellenar con más productos de familias disponibles {%- endcomment -%}
+    {%- if shown_count < 3 -%}
+      {%- for family in all_families -%}
+        {%- if family != current_family -%}
+          {%- assign fam_col = collections[family] -%}
+          {%- if fam_col != blank -%}
+            {%- for cp in fam_col.products limit: 5 -%}
+              {%- if shown_count >= 3 -%}{%- break -%}{%- endif -%}
+              {%- unless shown_handles contains cp.handle -%}
+                {%- assign cp_variant = cp.first_available_variant | default: cp.variants.first -%}
+                {% render 'combina-card', cp: cp, cp_variant: cp_variant %}
+                {%- assign shown_count = shown_count | plus: 1 -%}
+                {%- assign shown_handles = shown_handles | append: cp.handle | append: ',' -%}
+              {%- endunless -%}
+            {%- endfor -%}
+          {%- endif -%}
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endif -%}
+
   </div>
 </div>
 
