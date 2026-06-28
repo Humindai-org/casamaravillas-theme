@@ -12,6 +12,24 @@
     "main": {
       "type": "main-product",
       "blocks": {
+        "image_adjust_GhGba8": {
+          "type": "image_adjust",
+          "settings": {
+            "fit": "contain",
+            "zoom": 100,
+            "pos_x": 50,
+            "pos_y": 50
+          }
+        },
+        "image_adjust_8UmC6A": {
+          "type": "image_adjust",
+          "settings": {
+            "fit": "contain",
+            "zoom": 100,
+            "pos_x": 50,
+            "pos_y": 50
+          }
+        },
         "detail_card_rBmAY6": {
           "type": "detail_card",
           "name": "Tarjeta de Curación",
@@ -62,12 +80,18 @@
         }
       },
       "block_order": [
+        "image_adjust_GhGba8",
+        "image_adjust_8UmC6A",
         "detail_card_rBmAY6",
         "detail_card_3AdTN7",
         "detail_card_edJprB",
         "detail_card_6dy9me"
       ],
       "settings": {
+        "gallery_fit": "cover",
+        "gallery_zoom": 100,
+        "gallery_pos_x": 50,
+        "gallery_pos_y": 50,
         "show_sticky_atc": true,
         "product_type": "deshuesado",
         "show_curing_selector": true,
@@ -138,9 +162,7 @@
     "combina": {
       "type": "combina-tu-compra",
       "settings": {
-        "title": "Combina tu compra con",
-        "collection": "",
-        "products_to_show": 5
+        "title": "Combina tu compra con"
       }
     },
     "product_information_zDBpen": {
@@ -300,19 +322,21 @@
       }
     },
     "related": {
-      "type": "related-products-cross",
+      "type": "product-grid",
       "settings": {
         "eyebrow": "También te puede gustar",
-        "title": "<p>Descubre el resto de <em>nuestra selección</em></p>",
-        "view_all_label": "Ver toda la tienda",
-        "view_all_url": "/collections/all"
+        "title": "<p>Productos <em>relacionados</em></p>",
+        "description": "",
+        "view_all_label": "Ver toda la colección",
+        "view_all_url": "/collections/all",
+        "section_bg": "off"
       }
     }
   },
   "order": [
     "main",
-    "combina",
     "trust_band_YfPnnW",
+    "combina",
     "product_information_zDBpen",
     "product_details_accordion_Dtwtwz",
     "related"
