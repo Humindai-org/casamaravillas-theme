@@ -1619,11 +1619,31 @@
     {%- comment -%} ── COLUMNA IZQUIERDA: GALERÍA ── {%- endcomment -%}
     <div class="cm-pdp__gallery">
 
-      {%- assign gal_zoom = section.settings.gallery_zoom | default: 100 | divided_by: 100.0 -%}
-      {%- assign gal_pos_x = section.settings.gallery_pos_x | default: 50 -%}
-      {%- assign gal_pos_y = section.settings.gallery_pos_y | default: 50 -%}
-      {%- assign gal_fit = section.settings.gallery_fit | default: 'contain' -%}
-      <div class="cm-pdp__main-img-wrap" style="--gal-fit:{{ gal_fit }};--gal-zoom:{{ gal_zoom }};--gal-pos-x:{{ gal_pos_x }}%;--gal-pos-y:{{ gal_pos_y }}%;">
+      {%- comment -%} Defaults de sección {%- endcomment -%}
+      {%- assign gal_fit     = section.settings.gallery_fit   | default: 'contain' -%}
+      {%- assign gal_zoom_raw = section.settings.gallery_zoom | default: 100 -%}
+      {%- assign gal_pos_x   = section.settings.gallery_pos_x | default: 50 -%}
+      {%- assign gal_pos_y   = section.settings.gallery_pos_y | default: 50 -%}
+
+      {%- comment -%} Ajuste de imagen 1 desde el bloque 1 (si existe) {%- endcomment -%}
+      {%- assign img1_fit   = gal_fit -%}
+      {%- assign img1_zoom  = gal_zoom_raw | divided_by: 100.0 -%}
+      {%- assign img1_pos_x = gal_pos_x -%}
+      {%- assign img1_pos_y = gal_pos_y -%}
+      {%- assign _adj_i = 0 -%}
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'image_adjust' -%}
+          {%- assign _adj_i = _adj_i | plus: 1 -%}
+          {%- if _adj_i == 1 -%}
+            {%- assign img1_fit   = block.settings.fit   | default: gal_fit -%}
+            {%- assign img1_zoom  = block.settings.zoom  | default: gal_zoom_raw | divided_by: 100.0 -%}
+            {%- assign img1_pos_x = block.settings.pos_x | default: gal_pos_x -%}
+            {%- assign img1_pos_y = block.settings.pos_y | default: gal_pos_y -%}
+          {%- endif -%}
+        {%- endif -%}
+      {%- endfor -%}
+
+      <div class="cm-pdp__main-img-wrap" style="--gal-fit:{{ img1_fit }};--gal-zoom:{{ img1_zoom }};--gal-pos-x:{{ img1_pos_x }}%;--gal-pos-y:{{ img1_pos_y }}%;">
         {%- if featured_image -%}
           <img
             id="cm-main-img-{{ section.id }}"
@@ -1643,11 +1663,36 @@
       {%- if product.images.size > 1 -%}
         <div class="cm-pdp__thumbnails" role="list" aria-label="Miniaturas del producto">
           {%- for image in product.images limit: 8 -%}
+            {%- comment -%} Buscar el bloque image_adjust correspondiente a esta imagen {%- endcomment -%}
+            {%- assign _img_idx   = forloop.index -%}
+            {%- assign _tbn_fit   = gal_fit -%}
+            {%- assign _tbn_zoom  = gal_zoom_raw -%}
+            {%- assign _tbn_pos_x = gal_pos_x -%}
+            {%- assign _tbn_pos_y = gal_pos_y -%}
+            {%- assign _tbn_block_id = '' -%}
+            {%- assign _adj_j = 0 -%}
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'image_adjust' -%}
+                {%- assign _adj_j = _adj_j | plus: 1 -%}
+                {%- if _adj_j == _img_idx -%}
+                  {%- assign _tbn_fit      = block.settings.fit   | default: gal_fit -%}
+                  {%- assign _tbn_zoom     = block.settings.zoom  | default: gal_zoom_raw -%}
+                  {%- assign _tbn_pos_x    = block.settings.pos_x | default: gal_pos_x -%}
+                  {%- assign _tbn_pos_y    = block.settings.pos_y | default: gal_pos_y -%}
+                  {%- assign _tbn_block_id = block.id -%}
+                {%- endif -%}
+              {%- endif -%}
+            {%- endfor -%}
             <button
               class="cm-pdp__thumb-btn{% if forloop.first %} is-active{% endif %}"
               data-image-src="{{ image | image_url: width: 900 }}"
               data-image-alt="{{ image.alt | escape | default: product.title }}"
               data-image-index="{{ forloop.index }}"
+              data-block-id="{{ _tbn_block_id }}"
+              data-img-fit="{{ _tbn_fit }}"
+              data-img-zoom="{{ _tbn_zoom }}"
+              data-img-pos-x="{{ _tbn_pos_x }}"
+              data-img-pos-y="{{ _tbn_pos_y }}"
               aria-label="Ver imagen {{ forloop.index }}"
               role="listitem"
               type="button"
@@ -2098,38 +2143,15 @@ document.addEventListener('DOMContentLoaded', function() {
   const mainImg = $('cm-main-img-' + SID);
   const imgWrap = mainImg ? mainImg.closest('.cm-pdp__main-img-wrap') : null;
 
-  /* Ajustes por imagen — el orden de los bloques coincide con el orden de imágenes (1-based) */
-  const imgAdjust = [
-    null,
-    {%- for block in section.blocks -%}
-      {%- if block.type == 'image_adjust' -%}
-      {
-        "fit": "{{ block.settings.fit | default: 'contain' }}",
-        "zoom": {{ block.settings.zoom | default: 100 }},
-        "posX": {{ block.settings.pos_x | default: 50 }},
-        "posY": {{ block.settings.pos_y | default: 50 }}
-      },
-      {%- endif -%}
-    {%- endfor -%}
-  ];
-
-  /* Valores por defecto del editor (sección) — se aplican cuando no hay bloque para esa imagen */
-  const galDefaults = {
-    fit: '{{ gal_fit }}',
-    zoom: {{ section.settings.gallery_zoom | default: 100 }},
-    posX: {{ section.settings.gallery_pos_x | default: 50 }},
-    posY: {{ section.settings.gallery_pos_y | default: 50 }}
-  };
-
-  function applyImageAdjust(index) {
-    if (!imgWrap) return;
-    const adj = imgAdjust[index] || null;
-    const fit  = adj ? adj.fit  : galDefaults.fit;
-    const zoom = (adj ? adj.zoom : galDefaults.zoom) / 100;
-    const posX = (adj ? adj.posX : galDefaults.posX) + '%';
-    const posY = (adj ? adj.posY : galDefaults.posY) + '%';
-    imgWrap.style.setProperty('--gal-fit', fit);
-    imgWrap.style.setProperty('--gal-zoom', zoom);
+  function applyThumbAdjust(btn) {
+    if (!imgWrap || !btn) return;
+    /* Los ajustes vienen del HTML (data-*), sobreviven re-renders del Editor */
+    const fit  = btn.dataset.imgFit  || '{{ gal_fit }}';
+    const zoom = (parseFloat(btn.dataset.imgZoom)  || {{ gal_zoom_raw }}) / 100;
+    const posX = (parseFloat(btn.dataset.imgPosX)  || {{ gal_pos_x }}) + '%';
+    const posY = (parseFloat(btn.dataset.imgPosY)  || {{ gal_pos_y }}) + '%';
+    imgWrap.style.setProperty('--gal-fit',   fit);
+    imgWrap.style.setProperty('--gal-zoom',  zoom);
     imgWrap.style.setProperty('--gal-pos-x', posX);
     imgWrap.style.setProperty('--gal-pos-y', posY);
   }
@@ -2137,8 +2159,7 @@ document.addEventListener('DOMContentLoaded', function() {
   if (mainImg) {
     document.querySelectorAll('.cm-pdp__thumb-btn').forEach(btn => {
       btn.addEventListener('click', () => {
-        const idx = parseInt(btn.dataset.imageIndex, 10) || 1;
-        applyImageAdjust(idx);
+        applyThumbAdjust(btn);
         mainImg.classList.add('is-loading');
         const newSrc = btn.dataset.imageSrc;
         const tempImg = new Image();
@@ -2153,6 +2174,14 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     });
   }
+
+  /* Shopify Editor: al seleccionar un bloque image_adjust, saltar a su imagen automáticamente */
+  document.addEventListener('shopify:block:select', function(evt) {
+    var blockId = evt.detail && evt.detail.blockId;
+    if (!blockId) return;
+    var thumb = document.querySelector('.cm-pdp__thumb-btn[data-block-id="' + blockId + '"]');
+    if (thumb) thumb.click();
+  });
 
   /* ── Selector de curación (dropdown) ── */
   const curingSelect = document.querySelector('#cm-curing-' + SID + ' [data-curing-select]');
