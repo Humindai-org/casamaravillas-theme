@@ -11,6 +11,7 @@
     opacity: 0;
     transform: translateY(20px);
     transition: opacity 0.5s ease, transform 0.5s ease;
+    margin-bottom: 0;
   }
 
   #cm-combina-section.is-animating {
@@ -21,7 +22,8 @@
   .cm-combina {
     background: var(--cm-off);
     border-top: 3px solid var(--pdp-accent, var(--cm-gold));
-    padding: 56px 24px 64px;
+    padding: 48px 48px 64px;
+    margin-bottom: 0;
   }
 
   .cm-combina__inner {
@@ -36,12 +38,13 @@
     font-family: var(--cm-font-sans);
     font-weight: 500;
     color: var(--pdp-accent, var(--cm-gold));
-    margin-bottom: 32px;
+    margin-bottom: 28px;
   }
 
   /* ── Carrusel ── */
   .cm-combina__slider {
     position: relative;
+    padding: 0 28px;
   }
 
   .cm-combina__track-wrap {
@@ -52,90 +55,103 @@
     display: flex;
     gap: 16px;
     transition: transform 0.4s ease;
+    align-items: stretch;
   }
 
   /* ── Tarjeta ── */
   .cm-combina__card {
     flex: 0 0 calc(20% - 13px);
     min-width: 180px;
-  }
-
-  .cm-combina__card-link {
     display: flex;
     flex-direction: column;
-    text-decoration: none;
-    color: inherit;
+  }
+
+  .cm-combina__card-inner {
     background: var(--cm-white);
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 2px 12px rgba(10, 30, 60, 0.07), 0 1px 3px rgba(10, 30, 60, 0.05);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
   }
 
-  .cm-combina__card-link:hover {
+  .cm-combina__card-inner:hover {
     transform: translateY(-4px);
     box-shadow: 0 8px 28px rgba(10, 30, 60, 0.12), 0 2px 6px rgba(10, 30, 60, 0.07);
   }
 
+  /* Imagen */
+  .cm-combina__card-img-link {
+    display: block;
+    text-decoration: none;
+  }
+
   .cm-combina__card-img-wrap {
-    aspect-ratio: 1;
+    position: relative;
+    width: 100%;
+    padding-bottom: 100%;
     background: linear-gradient(165deg, #f1f0ed 0%, #e6e4df 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 16px;
-    box-sizing: border-box;
-    flex-shrink: 0;
+    overflow: hidden;
   }
 
   .cm-combina__card-img {
-    width: 100%;
-    height: 100%;
+    position: absolute;
+    inset: 12px;
+    width: calc(100% - 24px);
+    height: calc(100% - 24px);
     object-fit: contain;
     display: block;
     transition: transform 0.4s ease;
   }
 
-  .cm-combina__card-link:hover .cm-combina__card-img { transform: scale(1.05); }
+  .cm-combina__card-inner:hover .cm-combina__card-img { transform: scale(1.05); }
 
+  /* Info */
   .cm-combina__card-info {
-    padding: 14px 16px 16px;
-    display: flex;
-    flex-direction: column;
+    padding: 12px 14px 0;
     flex: 1;
   }
 
   .cm-combina__card-category {
-    font-size: 9px;
+    font-size: 8px;
     letter-spacing: 0.28em;
     text-transform: uppercase;
     font-family: var(--cm-font-sans);
     font-weight: 500;
     color: var(--cm-gold);
-    margin-bottom: 6px;
+    margin-bottom: 5px;
+    display: block;
   }
 
   .cm-combina__card-name {
     font-family: var(--cm-font-serif);
-    font-size: 14px;
+    font-size: 13px;
     color: var(--cm-navy);
     font-weight: 400;
     line-height: 1.35;
-    margin-bottom: auto;
-    padding-bottom: 12px;
+    margin: 0 0 10px;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    text-decoration: none;
   }
 
-  .cm-combina__card-footer {
+  .cm-combina__card-name-link {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  /* Footer con precio + botón ATC */
+  .cm-combina__card-foot {
+    padding: 10px 14px 14px;
+    border-top: 1px solid rgba(10, 30, 60, 0.07);
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 8px;
-    border-top: 1px solid rgba(10, 30, 60, 0.08);
-    padding-top: 12px;
   }
 
   .cm-combina__card-price {
@@ -145,29 +161,42 @@
     font-weight: 600;
   }
 
-  .cm-combina__card-cta {
-    font-size: 9px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    font-family: var(--cm-font-sans);
-    font-weight: 500;
-    color: var(--cm-navy);
-    border: 1px solid var(--cm-gold);
-    padding: 6px 12px;
-    white-space: nowrap;
-    transition: background 0.2s ease, color 0.2s ease;
-  }
-
-  .cm-combina__card-link:hover .cm-combina__card-cta {
+  .cm-combina__card-atc {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
     background: var(--cm-navy);
+    border: none;
+    cursor: pointer;
     color: var(--cm-white);
-    border-color: var(--cm-navy);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.2s ease, transform 0.2s ease;
+    font-size: 20px;
+    line-height: 1;
+    font-weight: 300;
   }
 
-  /* ── Flechas ── */
+  .cm-combina__card-atc:hover {
+    background: var(--cm-gold);
+    transform: scale(1.1);
+  }
+
+  .cm-combina__card-atc:focus-visible {
+    outline: 2px solid var(--cm-gold);
+    outline-offset: 2px;
+  }
+
+  .cm-combina__card-atc[data-added="true"] {
+    background: #2e7d32;
+  }
+
+  /* Flechas */
   .cm-combina__arrow {
     position: absolute;
-    top: 50%;
+    top: 38%;
     transform: translateY(-50%);
     width: 40px;
     height: 40px;
@@ -179,6 +208,8 @@
     justify-content: center;
     color: var(--cm-navy);
     z-index: 2;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(10,30,60,0.1);
     transition: background 0.2s, border-color 0.2s;
   }
 
@@ -193,20 +224,19 @@
     outline-offset: 2px;
   }
 
-  .cm-combina__arrow--prev { left: -20px; top: 40%; }
-  .cm-combina__arrow--next { right: -20px; top: 40%; }
+  .cm-combina__arrow--prev { left: -4px; }
+  .cm-combina__arrow--next { right: -4px; }
 
   .cm-combina__arrow[disabled] { opacity: 0.3; cursor: default; pointer-events: none; }
 
-  /* ── Responsive ── */
+  /* Responsive */
   @media (max-width: 900px) {
+    .cm-combina { padding: 40px 24px 48px; }
+    .cm-combina__slider { padding: 0 20px; }
     .cm-combina__card { flex: 0 0 calc(33.333% - 11px); }
-    .cm-combina__arrow--prev { left: 0; }
-    .cm-combina__arrow--next { right: 0; }
   }
 
   @media (max-width: 600px) {
-    .cm-combina { padding: 40px 20px 48px; }
     .cm-combina__card { flex: 0 0 calc(50% - 8px); min-width: 140px; }
   }
 </style>
@@ -218,13 +248,8 @@
 
       {%- if combina_col != blank and combina_col.products.size > 0 -%}
         <div class="cm-combina__slider">
-          <button
-            class="cm-combina__arrow cm-combina__arrow--prev"
-            id="cm-combina-prev"
-            aria-label="Productos anteriores"
-            disabled
-          >
-            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <button class="cm-combina__arrow cm-combina__arrow--prev" id="cm-combina-prev" aria-label="Productos anteriores" disabled>
+            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M15 19l-7-7 7-7"/>
             </svg>
           </button>
@@ -233,51 +258,61 @@
             <div class="cm-combina__track" id="cm-combina-track">
               {%- for prod in combina_col.products limit: show_count -%}
                 {%- assign prod_collection = prod.collections | first -%}
+                {%- assign variant = prod.first_available_variant | default: prod.variants.first -%}
                 <div class="cm-combina__card">
-                  <a href="{{ prod.url }}" class="cm-combina__card-link">
-                    <div class="cm-combina__card-img-wrap">
-                      {%- if prod.featured_image -%}
-                        <img
-                          class="cm-combina__card-img"
-                          src="{{ prod.featured_image | image_url: width: 500 }}"
-                          alt="{{ prod.featured_image.alt | escape | default: prod.title }}"
-                          width="500"
-                          height="500"
-                          loading="lazy"
-                        >
-                      {%- else -%}
-                        <div class="cm-combina__card-img" style="background:var(--cm-light);"></div>
-                      {%- endif -%}
-                    </div>
+                  <div class="cm-combina__card-inner">
+
+                    <a href="{{ prod.url }}" class="cm-combina__card-img-link">
+                      <div class="cm-combina__card-img-wrap">
+                        {%- if prod.featured_image -%}
+                          <img
+                            class="cm-combina__card-img"
+                            src="{{ prod.featured_image | image_url: width: 500 }}"
+                            alt="{{ prod.featured_image.alt | escape | default: prod.title }}"
+                            width="500"
+                            height="500"
+                            loading="lazy"
+                          >
+                        {%- endif -%}
+                      </div>
+                    </a>
+
                     <div class="cm-combina__card-info">
                       {%- if prod_collection != blank -%}
-                        <p class="cm-combina__card-category">{{ prod_collection.title }}</p>
+                        <span class="cm-combina__card-category">{{ prod_collection.title }}</span>
                       {%- endif -%}
-                      <h3 class="cm-combina__card-name">{{ prod.title }}</h3>
-                      <div class="cm-combina__card-footer">
-                        <p class="cm-combina__card-price">{{ prod.price | money }}</p>
-                        <span class="cm-combina__card-cta">Ver →</span>
-                      </div>
+                      <a href="{{ prod.url }}" class="cm-combina__card-name-link">
+                        <p class="cm-combina__card-name">{{ prod.title }}</p>
+                      </a>
                     </div>
-                  </a>
+
+                    <div class="cm-combina__card-foot">
+                      <p class="cm-combina__card-price">{{ prod.price | money }}</p>
+                      {%- if variant -%}
+                        <button
+                          class="cm-combina__card-atc"
+                          data-variant-id="{{ variant.id }}"
+                          aria-label="Añadir {{ prod.title }} a la cesta"
+                          title="Añadir a la cesta"
+                        >+</button>
+                      {%- endif -%}
+                    </div>
+
+                  </div>
                 </div>
               {%- endfor -%}
             </div>
           </div>
 
-          <button
-            class="cm-combina__arrow cm-combina__arrow--next"
-            id="cm-combina-next"
-            aria-label="Productos siguientes"
-          >
-            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <button class="cm-combina__arrow cm-combina__arrow--next" id="cm-combina-next" aria-label="Productos siguientes">
+            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M9 5l7 7-7 7"/>
             </svg>
           </button>
         </div>
       {%- else -%}
         <p style="font-size:14px;color:var(--cm-text-light);font-family:var(--cm-font-sans);">
-          Selecciona una colección para mostrar los productos.
+          Selecciona una colección en el editor para mostrar los productos.
         </p>
       {%- endif -%}
     </div>
@@ -286,6 +321,7 @@
 
 <script>
 (function() {
+  /* ── Carrusel ── */
   const track   = document.getElementById('cm-combina-track');
   const btnPrev = document.getElementById('cm-combina-prev');
   const btnNext = document.getElementById('cm-combina-next');
@@ -316,6 +352,41 @@
   btnNext.addEventListener('click', () => go(current + 1));
   window.addEventListener('resize', () => go(current));
   go(0);
+
+  /* ── Botones ATC ── */
+  track.addEventListener('click', function(e) {
+    const btn = e.target.closest('.cm-combina__card-atc');
+    if (!btn) return;
+    e.preventDefault();
+
+    const variantId = btn.dataset.variantId;
+    if (!variantId) return;
+
+    btn.disabled = true;
+    btn.textContent = '…';
+
+    fetch('/cart/add.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: variantId, quantity: 1 })
+    })
+    .then(r => r.json())
+    .then(() => {
+      btn.textContent = '✓';
+      btn.dataset.added = 'true';
+      /* Refresca el contador del icono de carrito si existe */
+      document.dispatchEvent(new CustomEvent('cart:refresh'));
+      setTimeout(() => {
+        btn.textContent = '+';
+        btn.disabled = false;
+        delete btn.dataset.added;
+      }, 2000);
+    })
+    .catch(() => {
+      btn.textContent = '+';
+      btn.disabled = false;
+    });
+  });
 })();
 </script>
 
