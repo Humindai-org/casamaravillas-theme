@@ -60,10 +60,9 @@
     transform: scale(calc(var(--card-zoom, 1) * 1.05));
   }
 
-  /* Imagen secundaria — contain centrado; no hereda posición/zoom de la primaria */
+  /* Imagen secundaria — cover para llenar el contenedor igual que la primaria */
   .product-card__img-box .product-card__img--secondary {
-    object-fit: contain;
-    background: var(--cm-off);
+    object-fit: cover;
     object-position: calc(var(--card-pos-x-2, 50) * 1%) calc(var(--card-pos-y-2, 50) * 1%);
     transform: scale(var(--card-zoom-2, 1));
     transform-origin: 50% 50%;

@@ -70,7 +70,10 @@
   .cm-pdp__main-img {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: var(--gal-fit, contain);
+    object-position: var(--gal-pos-x, 50%) var(--gal-pos-y, 50%);
+    transform: scale(var(--gal-zoom, 1));
+    transform-origin: var(--gal-pos-x, 50%) var(--gal-pos-y, 50%);
     display: block;
     transition: opacity 0.25s ease;
   }
@@ -1616,7 +1619,11 @@
     {%- comment -%} ── COLUMNA IZQUIERDA: GALERÍA ── {%- endcomment -%}
     <div class="cm-pdp__gallery">
 
-      <div class="cm-pdp__main-img-wrap">
+      {%- assign gal_zoom = section.settings.gallery_zoom | default: 100 | divided_by: 100.0 -%}
+      {%- assign gal_pos_x = section.settings.gallery_pos_x | default: 50 -%}
+      {%- assign gal_pos_y = section.settings.gallery_pos_y | default: 50 -%}
+      {%- assign gal_fit = section.settings.gallery_fit | default: 'contain' -%}
+      <div class="cm-pdp__main-img-wrap" style="--gal-fit:{{ gal_fit }};--gal-zoom:{{ gal_zoom }};--gal-pos-x:{{ gal_pos_x }}%;--gal-pos-y:{{ gal_pos_y }}%;">
         {%- if featured_image -%}
           <img
             id="cm-main-img-{{ section.id }}"
@@ -2741,6 +2748,54 @@ document.addEventListener('DOMContentLoaded', function() {
   "name": "Producto Gourmet",
   "tag": "section",
   "settings": [
+    {
+      "type": "header",
+      "content": "Imagen principal — Ajuste"
+    },
+    {
+      "type": "select",
+      "id": "gallery_fit",
+      "label": "Modo de imagen",
+      "options": [
+        { "value": "contain", "label": "Contener (imagen completa, sin recorte)" },
+        { "value": "cover", "label": "Cubrir (rellena el espacio, puede recortar)" }
+      ],
+      "default": "contain",
+      "info": "Usa 'Contener' para ver el producto completo. Usa 'Cubrir' para llenar el marco."
+    },
+    {
+      "type": "range",
+      "id": "gallery_zoom",
+      "label": "Zoom",
+      "min": 50,
+      "max": 200,
+      "step": 5,
+      "default": 100,
+      "unit": "%",
+      "info": "100% = tamaño original. Aumenta para acercar."
+    },
+    {
+      "type": "range",
+      "id": "gallery_pos_x",
+      "label": "Posición horizontal",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 50,
+      "unit": "%",
+      "info": "0% = izquierda · 50% = centro · 100% = derecha"
+    },
+    {
+      "type": "range",
+      "id": "gallery_pos_y",
+      "label": "Posición vertical",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 50,
+      "unit": "%",
+      "info": "0% = arriba · 50% = centro · 100% = abajo"
+    },
     {
       "type": "header",
       "content": "Funcionalidades"
