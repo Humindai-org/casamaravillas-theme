@@ -12,6 +12,33 @@
     "main": {
       "type": "main-product",
       "blocks": {
+        "image_adjust_ca3MJC": {
+          "type": "image_adjust",
+          "settings": {
+            "fit": "contain",
+            "zoom": 100,
+            "pos_x": 50,
+            "pos_y": 50
+          }
+        },
+        "image_adjust_qtkHAk": {
+          "type": "image_adjust",
+          "settings": {
+            "fit": "cover",
+            "zoom": 100,
+            "pos_x": 50,
+            "pos_y": 50
+          }
+        },
+        "image_adjust_LtpTtk": {
+          "type": "image_adjust",
+          "settings": {
+            "fit": "cover",
+            "zoom": 100,
+            "pos_x": 50,
+            "pos_y": 50
+          }
+        },
         "detail_card_rBmAY6": {
           "type": "detail_card",
           "name": "Tarjeta de Curación",
@@ -62,12 +89,19 @@
         }
       },
       "block_order": [
+        "image_adjust_ca3MJC",
+        "image_adjust_qtkHAk",
+        "image_adjust_LtpTtk",
         "detail_card_rBmAY6",
         "detail_card_3AdTN7",
         "detail_card_edJprB",
         "detail_card_6dy9me"
       ],
       "settings": {
+        "gallery_fit": "contain",
+        "gallery_zoom": 100,
+        "gallery_pos_x": 50,
+        "gallery_pos_y": 50,
         "show_sticky_atc": true,
         "product_type": "deshuesado",
         "show_curing_selector": true,
@@ -138,9 +172,7 @@
     "combina": {
       "type": "combina-tu-compra",
       "settings": {
-        "title": "Combina tu compra con",
-        "collection": "",
-        "products_to_show": 5
+        "title": "Combina tu compra con"
       }
     },
     "product_information_zDBpen": {
@@ -304,10 +336,10 @@
       "settings": {
         "eyebrow": "También te puede gustar",
         "title": "<p>Productos <em>relacionados</em></p>",
-        "collection": "",
-        "products_to_show": 4,
+        "description": "",
         "view_all_label": "Ver toda la colección",
-        "view_all_url": "/collections/all"
+        "view_all_url": "/collections/all",
+        "section_bg": "off"
       }
     }
   },
