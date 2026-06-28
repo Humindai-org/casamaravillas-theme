@@ -985,8 +985,9 @@
 
   var isEmbutidos = '{{ collection.handle }}'.indexOf('embutidos') !== -1;
   var isPacks = '{{ collection.handle }}' === 'packs-regalo' || '{{ collection.template_suffix }}' === 'packs-regalo';
+  var isJamones = '{{ collection.handle }}' === 'jamones';
 
-  /* Hash-based filtering for embutidos and packs */
+  /* Client-side filtering for embutidos, packs, and jamones (blocks mode bypasses Shopify server-side tag filtering) */
   function filterProducts() {
     var selectedTags = collectChecked();
     var products = section.querySelectorAll('[data-product-tags]');
@@ -1000,11 +1001,17 @@
     var calidadPacksTags = ['cebo', 'cebo-de-campo', 'bellota-75', 'bellota-100'];
     var vinoTags = ['vino-tinto', 'cava'];
 
+    /* Category definitions — jamones */
+    var jCalidadTags = ['precinto negro', 'precinto rojo', 'precinto verde', 'precinto blanco'];
+    var jFormatoTags = ['pieza entera', 'deshuesado', 'cortado a mano'];
+
     /* Separate selected tags by category */
     var selectedTipoTags = selectedTags.filter(function(tag) { return tipoTags.indexOf(tag) !== -1; });
     var selectedFormatoTags = selectedTags.filter(function(tag) { return formatoTags.indexOf(tag) !== -1; });
     var selectedCalidadPacksTags = selectedTags.filter(function(tag) { return calidadPacksTags.indexOf(tag) !== -1; });
     var selectedVinoTags = selectedTags.filter(function(tag) { return vinoTags.indexOf(tag) !== -1; });
+    var selectedJCalidadTags = selectedTags.filter(function(tag) { return jCalidadTags.indexOf(tag) !== -1; });
+    var selectedJFormatoTags = selectedTags.filter(function(tag) { return jFormatoTags.indexOf(tag) !== -1; });
 
     products.forEach(function (product) {
       var productTags = product.getAttribute('data-product-tags').split(',').map(function(tag) { return tag.trim(); });
@@ -1030,6 +1037,16 @@
         matches = matches && selectedVinoTags.some(function(tag) { return productTags.indexOf(tag) !== -1; });
       }
 
+      /* OR logic within Calidad category (jamones) */
+      if (selectedJCalidadTags.length > 0) {
+        matches = matches && selectedJCalidadTags.some(function(tag) { return productTags.indexOf(tag) !== -1; });
+      }
+
+      /* OR logic within Formato category (jamones) */
+      if (selectedJFormatoTags.length > 0) {
+        matches = matches && selectedJFormatoTags.some(function(tag) { return productTags.indexOf(tag) !== -1; });
+      }
+
       if (matches) {
         product.style.display = '';
         visibleCount++;
@@ -1044,14 +1061,16 @@
       countEl.textContent = visibleCount + (visibleCount === 1 ? ' producto' : ' productos');
     }
 
-    /* Update URL without reload */
-    var url = new URL(window.location.href);
-    if (selectedTags.length > 0) {
-      url.hash = selectedTags.join('+');
-    } else {
-      url.hash = '';
+    /* Update URL hash (embutidos/packs only — jamones uses path-based URLs) */
+    if (!isJamones) {
+      var url = new URL(window.location.href);
+      if (selectedTags.length > 0) {
+        url.hash = selectedTags.join('+');
+      } else {
+        url.hash = '';
+      }
+      window.history.replaceState({}, '', url.toString());
     }
-    window.history.replaceState({}, '', url.toString());
   }
 
   /* Path-based navigation for other collections */
@@ -1113,6 +1132,14 @@
       });
       restoreFiltersFromHash();
     });
+  }
+
+  /* Restore filters for jamones on page load (Liquid pre-checks boxes from path tag, JS must hide non-matching products) */
+  if (isJamones) {
+    var preChecked = section.querySelectorAll('input[data-filter-tag]:checked');
+    if (preChecked.length > 0) {
+      filterProducts();
+    }
   }
 
   /* Restore price filter from URL on page load */
