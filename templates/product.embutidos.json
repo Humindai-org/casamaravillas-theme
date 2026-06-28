@@ -26,7 +26,7 @@
           "settings": {
             "fit": "cover",
             "zoom": 100,
-            "pos_x": 70,
+            "pos_x": 84,
             "pos_y": 50
           }
         },
@@ -34,7 +34,7 @@
           "type": "image_adjust",
           "settings": {
             "fit": "contain",
-            "zoom": 100,
+            "zoom": 165,
             "pos_x": 50,
             "pos_y": 50
           }
