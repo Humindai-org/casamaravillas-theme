@@ -1,0 +1,223 @@
+<style>
+  .rsf-section {
+    padding: 96px 72px;
+    background: var(--cm-off);
+  }
+
+  .rsf-section__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 720px;
+    margin: 0 auto 56px;
+  }
+
+  .rsf-section__eyebrow {
+    font-size: 9px;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--cm-gold);
+    font-weight: 500;
+    margin-bottom: 18px;
+    font-family: var(--cm-font-sans);
+  }
+
+  .rsf-section__rule {
+    width: 54px;
+    height: 1px;
+    background: var(--cm-gold);
+    opacity: 0.6;
+    margin-bottom: 26px;
+  }
+
+  .rsf-section__title {
+    font-family: var(--cm-font-serif);
+    font-size: clamp(30px, 3.4vw, 50px);
+    font-weight: 400;
+    color: var(--cm-navy);
+    line-height: 1.12;
+  }
+
+  .rsf-section__title em { font-style: italic; }
+
+  .rsf-section__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+  }
+
+  .rsf-section .product-card__img-box {
+    background: linear-gradient(165deg, #f1f0ed 0%, #e6e4df 100%);
+  }
+
+  .rsf-section__footer {
+    display: flex;
+    justify-content: center;
+    margin-top: 56px;
+  }
+
+  .rsf-section__view-all {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    font-family: var(--cm-font-sans);
+    font-size: 11px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: var(--cm-navy);
+    text-decoration: none;
+    padding: 20px 56px;
+    border: 1px solid var(--cm-gold);
+    background: transparent;
+    transition: background 0.25s ease, color 0.25s ease;
+  }
+
+  .rsf-section__view-all::after { content: '→'; font-size: 14px; }
+  .rsf-section__view-all:hover { background: var(--cm-navy); color: var(--cm-white); border-color: var(--cm-navy); }
+  .rsf-section__view-all:focus-visible { outline: 2px solid var(--cm-gold); outline-offset: 3px; }
+
+  @media (max-width: 1023px) {
+    .rsf-section { padding: 64px 32px; }
+    .rsf-section__grid { gap: 20px; }
+  }
+
+  @media (max-width: 767px) {
+    .rsf-section { padding: 48px 20px; }
+    .rsf-section__grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    .rsf-section__view-all { padding: 18px 40px; }
+  }
+</style>
+
+{%- liquid
+  assign current_family = template.suffix
+
+  case current_family
+    when 'jamones'
+      assign family_collection = collections['jamones']
+      assign family_url        = '/collections/jamones'
+    when 'embutidos'
+      assign family_collection = collections['embutidos']
+      assign family_url        = '/collections/embutidos'
+    when 'carnes-ibericas'
+      assign family_collection = collections['carnes-ibericas']
+      assign family_url        = '/collections/carnes-ibericas'
+    when 'packs-regalo'
+      assign family_collection = collections['packs-regalo']
+      assign family_url        = '/collections/packs-regalo'
+    else
+      assign family_collection = blank
+      assign family_url        = '/collections/all'
+  endcase
+
+  assign eyebrow      = section.settings.eyebrow | default: 'También te puede gustar'
+  assign title        = section.settings.title
+  assign view_label   = section.settings.view_all_label
+  assign view_url     = section.settings.view_all_url | default: family_url
+
+  assign shown_handles = product.handle | append: ','
+  assign shown_count   = 0
+-%}
+
+<section class="rsf-section">
+
+  <div class="rsf-section__header">
+    <p class="rsf-section__eyebrow">{{ eyebrow }}</p>
+    <div class="rsf-section__rule"></div>
+    {%- if title != blank -%}
+      <h2 class="rsf-section__title">{{ title }}</h2>
+    {%- else -%}
+      {%- case current_family -%}
+        {%- when 'jamones' -%}
+          <h2 class="rsf-section__title">El jamón ibérico en <em>todos los formatos</em></h2>
+        {%- when 'embutidos' -%}
+          <h2 class="rsf-section__title">Descubre todos nuestros <em>embutidos ibéricos</em></h2>
+        {%- when 'carnes-ibericas' -%}
+          <h2 class="rsf-section__title">Más <em>carnes ibéricas</em> para tu mesa</h2>
+        {%- when 'packs-regalo' -%}
+          <h2 class="rsf-section__title">Otros packs <em>para regalar</em></h2>
+        {%- else -%}
+          <h2 class="rsf-section__title">También te puede <em>gustar</em></h2>
+      {%- endcase -%}
+    {%- endif -%}
+  </div>
+
+  <div class="rsf-section__grid">
+
+    {%- comment -%} Pasada 1: primer producto de cada tipo distinto dentro de la familia {%- endcomment -%}
+    {%- if family_collection != blank -%}
+      {%- assign seen_types = '' -%}
+      {%- for p in family_collection.products -%}
+        {%- if shown_count >= 3 -%}{%- break -%}{%- endif -%}
+        {%- unless shown_handles contains p.handle -%}
+          {%- unless seen_types contains p.type and p.type != blank -%}
+            {% render 'product-card', card_product: p %}
+            {%- assign shown_count    = shown_count | plus: 1 -%}
+            {%- assign shown_handles  = shown_handles | append: p.handle | append: ',' -%}
+            {%- if p.type != blank -%}
+              {%- assign seen_types = seen_types | append: p.type | append: '|' -%}
+            {%- endif -%}
+          {%- endunless -%}
+        {%- endunless -%}
+      {%- endfor -%}
+
+      {%- comment -%} Pasada 2: si quedan huecos, completar con cualquier producto de la familia {%- endcomment -%}
+      {%- if shown_count < 3 -%}
+        {%- for p in family_collection.products -%}
+          {%- if shown_count >= 3 -%}{%- break -%}{%- endif -%}
+          {%- unless shown_handles contains p.handle -%}
+            {% render 'product-card', card_product: p %}
+            {%- assign shown_count   = shown_count | plus: 1 -%}
+            {%- assign shown_handles = shown_handles | append: p.handle | append: ',' -%}
+          {%- endunless -%}
+        {%- endfor -%}
+      {%- endif -%}
+    {%- endif -%}
+
+  </div>
+
+  {%- if view_label != blank -%}
+    <div class="rsf-section__footer">
+      <a href="{{ view_url }}" class="rsf-section__view-all">{{ view_label }}</a>
+    </div>
+  {%- endif -%}
+
+</section>
+
+{% schema %}
+{
+  "name": "Relacionados — misma familia",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Etiqueta superior",
+      "default": "También te puede gustar"
+    },
+    {
+      "type": "richtext",
+      "id": "title",
+      "label": "Título (dejar vacío para auto)",
+      "info": "Si se deja vacío se usa el título automático según la familia del producto."
+    },
+    {
+      "type": "text",
+      "id": "view_all_label",
+      "label": "Texto del enlace 'Ver todo'",
+      "default": "Ver toda la colección"
+    },
+    {
+      "type": "url",
+      "id": "view_all_url",
+      "label": "URL del enlace 'Ver todo' (opcional)"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Relacionados — misma familia"
+    }
+  ]
+}
+{% endschema %}

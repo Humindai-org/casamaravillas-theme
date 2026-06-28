@@ -151,12 +151,10 @@
       }
     },
     "related": {
-      "type": "related-products-cross",
+      "type": "related-same-family",
       "settings": {
         "eyebrow": "También te puede gustar",
-        "title": "<p>Descubre el resto de <em>nuestra selección</em></p>",
-        "view_all_label": "Ver toda la tienda",
-        "view_all_url": "/collections/all"
+        "view_all_label": "Ver todos los packs"
       }
     }
   },

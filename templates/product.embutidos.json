@@ -160,55 +160,10 @@
       }
     },
     "related": {
-      "type": "product-grid",
-      "blocks": {
-        "product_CiDqNt": {
-          "type": "product",
-          "settings": {
-            "product": "lomo-cebo-campo-50-iberico-loncheado",
-            "image_zoom": 100,
-            "image_offset": 50
-          }
-        },
-        "product_TVzaFm": {
-          "type": "product",
-          "settings": {
-            "product": "lomo-bellota-iberico-loncheado-1",
-            "image_zoom": 100,
-            "image_offset": 50
-          }
-        },
-        "product_Bzphai": {
-          "type": "product",
-          "settings": {
-            "product": "jamon-cebo-50-iberico-cortado-a-mano",
-            "image": "shopify://shop_images/4.png",
-            "image_zoom": 100,
-            "image_offset": 50
-          }
-        },
-        "product_LW37t7": {
-          "type": "product",
-          "settings": {
-            "product": "jamon-bellota-100-iberico-pieza-entera",
-            "image_zoom": 100,
-            "image_offset": 50
-          }
-        }
-      },
-      "block_order": [
-        "product_CiDqNt",
-        "product_TVzaFm",
-        "product_Bzphai",
-        "product_LW37t7"
-      ],
+      "type": "related-same-family",
       "settings": {
         "eyebrow": "También te puede gustar",
-        "title": "<p>Productos <em>relacionados</em></p>",
-        "description": "",
-        "view_all_label": "Ver toda la colección",
-        "view_all_url": "/collections/all",
-        "section_bg": "off"
+        "view_all_label": "Ver todos los embutidos"
       }
     }
   },
