@@ -123,7 +123,7 @@
             "product": "lomo-bellota-iberico",
             "zoom": 170,
             "offset_x": 90,
-            "offset": 55,
+            "offset": 65,
             "zoom_2": 100,
             "offset_x_2": 95,
             "offset_2": 50
@@ -149,7 +149,7 @@
             "offset_x": 100,
             "offset": 55,
             "zoom_2": 100,
-            "offset_x_2": 50,
+            "offset_x_2": 100,
             "offset_2": 50
           }
         },
