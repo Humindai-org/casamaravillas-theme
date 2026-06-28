@@ -324,10 +324,10 @@
     "related": {
       "type": "product-grid",
       "blocks": {
-        "product_bttckx": {
+        "product_gdKgzR": {
           "type": "product",
           "settings": {
-            "product": "jamon-bellota-100-iberico-pieza-entera",
+            "product": "jamon-bellota-100-iberico-cortado-a-mano",
             "image_zoom": 100,
             "image_offset": 50
           }
@@ -358,7 +358,7 @@
         }
       },
       "block_order": [
-        "product_bttckx",
+        "product_gdKgzR",
         "product_kDx39C",
         "product_bkMDid",
         "product_t6MeYD"
