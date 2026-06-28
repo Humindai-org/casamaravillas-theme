@@ -157,11 +157,11 @@
           "type": "product",
           "settings": {
             "product": "salchichon-bellota-iberico",
-            "zoom": 100,
-            "offset_x": 85,
+            "zoom": 150,
+            "offset_x": 90,
             "offset": 50,
             "zoom_2": 100,
-            "offset_x_2": 50,
+            "offset_x_2": 80,
             "offset_2": 50
           }
         }
