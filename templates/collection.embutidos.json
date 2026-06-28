@@ -51,7 +51,10 @@
             "product": "lomo-bellota-iberico-loncheado-1",
             "zoom": 100,
             "offset_x": 50,
-            "offset": 50
+            "offset": 50,
+            "zoom_2": 100,
+            "offset_x_2": 50,
+            "offset_2": 50
           }
         },
         "product_K6mLXn": {
@@ -60,7 +63,10 @@
             "product": "lomo-bellota-iberico-loncheado-2",
             "zoom": 100,
             "offset_x": 55,
-            "offset": 50
+            "offset": 50,
+            "zoom_2": 100,
+            "offset_x_2": 50,
+            "offset_2": 50
           }
         },
         "product_dXNTYX": {
@@ -69,7 +75,10 @@
             "product": "lomo-cebo-campo-50-iberico-loncheado",
             "zoom": 100,
             "offset_x": 55,
-            "offset": 50
+            "offset": 50,
+            "zoom_2": 100,
+            "offset_x_2": 50,
+            "offset_2": 50
           }
         },
         "product_X6mtnC": {
@@ -78,7 +87,10 @@
             "product": "chorizo-bellota-iberico-loncheado",
             "zoom": 100,
             "offset_x": 70,
-            "offset": 50
+            "offset": 50,
+            "zoom_2": 100,
+            "offset_x_2": 50,
+            "offset_2": 50
           }
         },
         "product_7gPbUy": {
@@ -87,7 +99,10 @@
             "product": "salchichon-bellota-iberico-loncheado",
             "zoom": 100,
             "offset_x": 55,
-            "offset": 50
+            "offset": 50,
+            "zoom_2": 100,
+            "offset_x_2": 50,
+            "offset_2": 50
           }
         },
         "product_LFPBaX": {
@@ -96,25 +111,34 @@
             "product": "lomito-presa-bellota",
             "zoom": 100,
             "offset_x": 45,
-            "offset": 95
+            "offset": 95,
+            "zoom_2": 100,
+            "offset_x_2": 50,
+            "offset_2": 50
           }
         },
         "product_zpk8g8": {
           "type": "product",
           "settings": {
             "product": "lomo-bellota-iberico",
-            "zoom": 100,
-            "offset_x": 80,
-            "offset": 55
+            "zoom": 170,
+            "offset_x": 90,
+            "offset": 55,
+            "zoom_2": 100,
+            "offset_x_2": 95,
+            "offset_2": 50
           }
         },
         "product_TRVmQK": {
           "type": "product",
           "settings": {
             "product": "lomo-cebo-campo-50-iberico",
-            "zoom": 100,
-            "offset_x": 95,
-            "offset": 50
+            "zoom": 160,
+            "offset_x": 85,
+            "offset": 50,
+            "zoom_2": 100,
+            "offset_x_2": 50,
+            "offset_2": 50
           }
         },
         "product_BCkTph": {
@@ -123,7 +147,10 @@
             "product": "chorizo-bellota-iberico",
             "zoom": 100,
             "offset_x": 95,
-            "offset": 50
+            "offset": 50,
+            "zoom_2": 100,
+            "offset_x_2": 50,
+            "offset_2": 50
           }
         },
         "product_RjtXfK": {
@@ -132,7 +159,10 @@
             "product": "salchichon-bellota-iberico",
             "zoom": 100,
             "offset_x": 85,
-            "offset": 50
+            "offset": 50,
+            "zoom_2": 100,
+            "offset_x_2": 50,
+            "offset_2": 50
           }
         }
       },
@@ -154,7 +184,8 @@
         "products_per_row": 5,
         "show_sort": true,
         "show_count": true,
-        "empty_label": "No hay embutidos disponibles en este momento."
+        "empty_label": "No hay embutidos disponibles en este momento.",
+        "card_style": "dark"
       }
     }
   },
