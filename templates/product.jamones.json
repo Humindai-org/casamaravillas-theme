@@ -328,7 +328,7 @@
         "title": "<p>Productos <em>relacionados</em></p>",
         "description": "",
         "view_all_label": "Ver toda la colección",
-        "view_all_url": "/collections/all",
+        "view_all_url": "shopify://collections/jamones",
         "section_bg": "off"
       }
     }
