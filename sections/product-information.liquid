@@ -113,13 +113,13 @@
 
   .cm-info-image-container {
     position: absolute;
-    top: -150px;
-    right: -580px;
-    width: 520px;
-    height: auto;
+    right: 0;
+    top: 60px;
+    width: 32%;
+    max-width: 440px;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    align-items: flex-start;
+    justify-content: flex-end;
     pointer-events: none;
   }
 
@@ -148,14 +148,14 @@
 
   @media (max-width: 1024px) {
     .cm-info-image-container {
-      width: 380px;
-      right: -420px;
+      width: 36%;
+      top: 40px;
     }
   }
 
   @media (max-width: 768px) {
     .cm-info-section {
-      padding-bottom: 40px;
+      padding-bottom: 300px;
     }
 
     .cm-info-section__inner {
@@ -163,12 +163,13 @@
     }
 
     .cm-info-image-container {
-      position: relative;
+      position: absolute;
+      right: 0;
+      bottom: 0;
       top: auto;
-      right: auto;
-      width: 80%;
+      width: 72%;
       max-width: 300px;
-      margin: 60px auto 0;
+      margin: 0;
       transform: none !important;
     }
 
@@ -651,38 +652,39 @@
 
       </div>
 
-      {%- comment -%} Product Image: Determine image based on product's image setting or collection {%- endcomment -%}
-      {%- if section.settings.product_image != blank -%}
-        {%- assign image_src = section.settings.product_image | image_url: width: 520 -%}
-        {%- assign image_alt = section.settings.product_image.alt | default: 'Mano ofreciendo jamón ibérico' -%}
-      {%- else -%}
-        {%- case product.collections.first.handle -%}
-          {%- when 'jamones' -%}
-            {%- if section.settings.jamones_image != blank -%}
-              {%- assign image_src = section.settings.jamones_image | image_url: width: 520 -%}
-              {%- assign image_alt = section.settings.jamones_image.alt | default: 'Mano ofreciendo jamón ibérico' -%}
-            {%- endif -%}
-          {%- when 'embutidos' -%}
-            {%- if section.settings.embutidos_image != blank -%}
-              {%- assign image_src = section.settings.embutidos_image | image_url: width: 520 -%}
-              {%- assign image_alt = section.settings.embutidos_image.alt | default: 'Embutido ibérico' -%}
-            {%- endif -%}
-        {%- endcase -%}
-      {%- endif -%}
-
-      {%- if image_src != blank -%}
-      <div class="cm-info-image-container">
-        <img
-          src="{{ image_src }}"
-          alt="{{ image_alt }}"
-          loading="lazy"
-        />
-      </div>
-      {%- endif -%}
-
     </div>
 
   </div>
+
+  {%- comment -%} Imagen pegada al borde derecho — se posiciona relativa a cm-info-section {%- endcomment -%}
+  {%- if section.settings.product_image != blank -%}
+    {%- assign image_src = section.settings.product_image | image_url: width: 520 -%}
+    {%- assign image_alt = section.settings.product_image.alt | default: 'Mano ofreciendo jamón ibérico' -%}
+  {%- else -%}
+    {%- case product.collections.first.handle -%}
+      {%- when 'jamones' -%}
+        {%- if section.settings.jamones_image != blank -%}
+          {%- assign image_src = section.settings.jamones_image | image_url: width: 520 -%}
+          {%- assign image_alt = section.settings.jamones_image.alt | default: 'Mano ofreciendo jamón ibérico' -%}
+        {%- endif -%}
+      {%- when 'embutidos' -%}
+        {%- if section.settings.embutidos_image != blank -%}
+          {%- assign image_src = section.settings.embutidos_image | image_url: width: 520 -%}
+          {%- assign image_alt = section.settings.embutidos_image.alt | default: 'Embutido ibérico' -%}
+        {%- endif -%}
+    {%- endcase -%}
+  {%- endif -%}
+
+  {%- if image_src != blank -%}
+  <div class="cm-info-image-container">
+    <img
+      src="{{ image_src }}"
+      alt="{{ image_alt }}"
+      loading="lazy"
+    />
+  </div>
+  {%- endif -%}
+
 </div>
 
 <!-- MODAL: Información Nutricional -->
