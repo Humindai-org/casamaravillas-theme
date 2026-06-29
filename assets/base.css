@@ -350,7 +350,7 @@ main { min-height: 50vh; }
 
 .jdgm-widget,
 .jdgm-review-widget {
-  background: var(--cm-off);
+  background: transparent;
   font-family: var(--cm-font-sans);
   font-weight: 300;
   color: var(--cm-text);
