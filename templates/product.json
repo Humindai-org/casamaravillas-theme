@@ -356,7 +356,7 @@
           "type": "shopify://apps/judge-me-reviews/blocks/cards_carousel/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
           "settings": {
             "show_sample_reviews": true,
-            "reviews_selection": "product_reviews",
+            "reviews_selection": "current_product",
             "products": [],
             "star_rating": "4_to_5_star",
             "show_review_media": true,
@@ -376,12 +376,12 @@
             "header_text_color": "#000000",
             "text_color": "#000000",
             "card_color": "#F9F9F9",
-            "stars_color": "",
+            "stars_color": "#EAC808",
             "arrows_color": "#000000",
             "transition_speed": 5,
-            "header_text": "Customers are saying",
+            "header_text": "Lo que dicen nuestros clientes",
             "show_average_rating": true,
-            "rating_display": "default"
+            "rating_display": "show_nothing"
           }
         }
       },
