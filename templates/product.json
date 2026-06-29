@@ -352,42 +352,23 @@
     "1782731083a61708e0": {
       "type": "apps",
       "blocks": {
-        "judge_me_reviews_cards_carousel_WmtHTF": {
-          "type": "shopify://apps/judge-me-reviews/blocks/cards_carousel/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+        "judge_me_reviews_review_widget_aDzyEx": {
+          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
           "settings": {
-            "show_sample_reviews": true,
-            "reviews_selection": "current_product",
-            "products": [],
-            "star_rating": "4_to_5_star",
-            "show_review_media": true,
-            "display_order": "most_recent",
-            "no_image_fallback": "review_text_only",
-            "max_reviews": 20,
-            "review_length": "small",
-            "text_size": "small",
-            "image_ratio": "0.75",
-            "reviews_shown": 4,
-            "show_reviewer_name": true,
-            "show_product_name": true,
-            "hide_arrows_mobile": true,
-            "arrows_position": "sides",
-            "max_width": 800,
-            "corner_styling": "soft",
-            "header_text_color": "#000000",
-            "text_color": "#000000",
-            "card_color": "#F9F9F9",
-            "stars_color": "#EAC808",
-            "arrows_color": "#000000",
-            "transition_speed": 5,
-            "header_text": "Lo que dicen nuestros clientes",
-            "show_average_rating": true,
-            "rating_display": "show_nothing"
+            "review_data": "sample_data",
+            "max_width": 1150,
+            "show_shop_reviews": false,
+            "empty_state": "empty_widget"
           }
         }
       },
       "block_order": [
-        "judge_me_reviews_cards_carousel_WmtHTF"
+        "judge_me_reviews_review_widget_aDzyEx"
       ],
+      "settings": {}
+    },
+    "178273109793c95982": {
+      "type": "apps",
       "settings": {}
     }
   },
@@ -399,6 +380,7 @@
     "product_information_zDBpen",
     "product_details_accordion_Dtwtwz",
     "related",
-    "1782731083a61708e0"
+    "1782731083a61708e0",
+    "178273109793c95982"
   ]
 }
