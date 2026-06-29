@@ -446,14 +446,14 @@
           "type": "faq_item",
           "settings": {
             "question": "¿Puedo devolver un producto?",
-            "answer": "<p>Aceptamos devoluciones de productos no perecederos en su embalaje original dentro de los 14 días siguientes a la recepción. Para productos refrigerados o al vacío, solo gestionamos devoluciones en caso de que el producto llegue en mal estado o no corresponda al pedido. Si tienes cualquier problema con tu compra, escríbenos a hola@casamaravillas.com y lo resolvemos de inmediato.</p>"
+            "answer": "<p>Aceptamos devoluciones de productos no perecederos en su embalaje original dentro de los 14 días siguientes a la recepción. Para productos refrigerados o al vacío, solo gestionamos devoluciones en caso de que el producto llegue en mal estado o no corresponda al pedido. Si tienes cualquier problema con tu compra, consulta nuestra <a href=\"/pages/devoluciones\">política de devoluciones</a> y lo resolvemos de inmediato.</p>"
           }
         },
         "faq_item_HJabxz": {
           "type": "faq_item",
           "settings": {
             "question": "¿Puedo cancelar mi pedido?",
-            "answer": "<p>Puedes cancelar tu pedido siempre que no haya salido todavía de nuestras instalaciones. Contacta con nosotros lo antes posible en <a href=\"/pages/contact\" title=\"Contact\">Contacto</a> o por teléfono y gestionaremos la cancelación y el reembolso completo. Una vez enviado, no es posible cancelar el pedido pero puedes tramitar una devolución según nuestra política.</p>"
+            "answer": "<p>Puedes cancelar tu pedido siempre que no haya salido todavía de nuestras instalaciones. Contacta con nosotros lo antes posible o por teléfono y gestionaremos la cancelación y el reembolso completo. Una vez enviado, no es posible cancelar el pedido pero puedes consultar nuestra <a href=\"/pages/devoluciones\">política de devoluciones</a>.</p>"
           }
         },
         "faq_item_iakV8y": {
