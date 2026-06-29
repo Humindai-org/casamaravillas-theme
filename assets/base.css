@@ -326,3 +326,236 @@ main { min-height: 50vh; }
   width: 300px !important;
   height: auto !important;
 }
+
+/* ============================================
+   Judge.me — CasaMaravillas custom styles
+   ============================================ */
+
+.cm-reviews-section {
+  background: var(--cm-off);
+  border-top: 1px solid var(--cm-border);
+  padding: 64px 0;
+}
+
+.cm-reviews-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+@media (max-width: 767px) {
+  .cm-reviews-section { padding: 48px 0; }
+  .cm-reviews-inner { padding: 0 20px; }
+}
+
+.jdgm-widget,
+.jdgm-review-widget {
+  background: var(--cm-off);
+  font-family: var(--cm-font-sans);
+  font-weight: 300;
+  color: var(--cm-text);
+}
+
+.jdgm-rev-widg__header {
+  border-bottom: 1px solid var(--cm-border2);
+  padding-bottom: 20px;
+  margin-bottom: 28px;
+}
+
+.jdgm-rev-widg__summary-score {
+  font-family: var(--cm-font-serif);
+  font-size: 48px;
+  font-weight: 600;
+  color: var(--cm-navy);
+  letter-spacing: -1px;
+}
+
+.jdgm-rev-widg__summary-text,
+.jdgm-summary-text {
+  font-family: var(--cm-font-sans);
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--cm-text-light);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.jdgm-rev-widg__title,
+.jdgm-widget-title {
+  font-family: var(--cm-font-serif) !important;
+  font-size: 28px !important;
+  font-weight: 500 !important;
+  color: var(--cm-navy) !important;
+  letter-spacing: 0.01em !important;
+}
+
+/* Estrellas */
+.jdgm-star.jdgm--on,
+.jdgm-star.jdgm--half {
+  color: var(--cm-gold) !important;
+}
+.jdgm-star.jdgm--off {
+  color: var(--cm-border2) !important;
+}
+
+/* Badge verificado */
+.jdgm-verified-badge,
+.jdgm-badge-container {
+  background: transparent !important;
+  border: 1px solid var(--cm-gold) !important;
+  color: var(--cm-gold) !important;
+  font-family: var(--cm-font-sans) !important;
+  font-size: 10px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase !important;
+  border-radius: 0 !important;
+  padding: 2px 8px !important;
+}
+
+/* Botón escribir reseña */
+.jdgm-rev-widg__write-rev,
+.jdgm-write-rev-link,
+button.jdgm-write-rev-link {
+  background: var(--cm-navy) !important;
+  color: var(--cm-off) !important;
+  font-family: var(--cm-font-sans) !important;
+  font-size: 11px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+  border: none !important;
+  border-radius: 0 !important;
+  padding: 12px 24px !important;
+  transition: background 0.25s ease !important;
+}
+.jdgm-rev-widg__write-rev:hover,
+.jdgm-write-rev-link:hover {
+  background: var(--cm-navy2) !important;
+  outline: 2px solid var(--cm-gold) !important;
+  outline-offset: 2px !important;
+}
+
+/* Tarjetas de reseña */
+.jdgm-rev {
+  background: var(--cm-white) !important;
+  border: 1px solid var(--cm-border) !important;
+  border-radius: 0 !important;
+  padding: 24px !important;
+  box-shadow: 0 2px 12px rgba(0,41,75,0.04), 0 1px 3px rgba(196,151,58,0.06) !important;
+  transition: box-shadow 0.25s ease !important;
+}
+.jdgm-rev:hover {
+  box-shadow: 0 4px 20px rgba(0,41,75,0.08), 0 2px 6px rgba(196,151,58,0.10) !important;
+}
+.jdgm-rev + .jdgm-rev {
+  margin-top: 16px !important;
+}
+
+/* Autor */
+.jdgm-rev__author,
+.jdgm-rev__author a {
+  font-family: var(--cm-font-sans) !important;
+  font-weight: 500 !important;
+  font-size: 13px !important;
+  color: var(--cm-navy) !important;
+  letter-spacing: 0.04em !important;
+}
+
+/* Fecha */
+.jdgm-rev__timestamp {
+  font-family: var(--cm-font-sans) !important;
+  font-size: 11px !important;
+  font-weight: 300 !important;
+  color: var(--cm-text-light) !important;
+}
+
+/* Título reseña */
+.jdgm-rev__title {
+  font-family: var(--cm-font-serif) !important;
+  font-size: 20px !important;
+  font-weight: 600 !important;
+  color: var(--cm-navy) !important;
+  margin: 8px 0 6px !important;
+  line-height: 1.3 !important;
+}
+
+/* Cuerpo reseña */
+.jdgm-rev__body,
+.jdgm-rev__body p {
+  font-family: var(--cm-font-sans) !important;
+  font-size: 13px !important;
+  font-weight: 300 !important;
+  color: var(--cm-text-mid) !important;
+  line-height: 1.7 !important;
+}
+
+/* Leer más */
+.jdgm-rev__read-more,
+.jdgm-rev__read-more a {
+  color: var(--cm-gold) !important;
+  font-weight: 500 !important;
+  font-size: 12px !important;
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase !important;
+  text-decoration: none !important;
+  border-bottom: 1px solid transparent !important;
+  transition: border-color 0.2s !important;
+}
+.jdgm-rev__read-more:hover {
+  border-bottom-color: var(--cm-gold) !important;
+}
+
+/* Fotos */
+.jdgm-rev__pics img,
+.jdgm-rev-pic {
+  border-radius: 0 !important;
+  border: 1px solid var(--cm-border) !important;
+  object-fit: cover !important;
+}
+.jdgm-rev__pics-count-badge {
+  background: rgba(0,41,75,0.75) !important;
+  font-family: var(--cm-font-sans) !important;
+  font-size: 13px !important;
+  border-radius: 0 !important;
+}
+
+/* Flechas carrusel */
+.jdgm-carousel-arrow,
+.jdgm-rev-widg__prev,
+.jdgm-rev-widg__next {
+  background: var(--cm-white) !important;
+  border: 1px solid var(--cm-border2) !important;
+  border-radius: 0 !important;
+  color: var(--cm-navy) !important;
+  width: 36px !important;
+  height: 36px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: background 0.2s, border-color 0.2s !important;
+}
+.jdgm-carousel-arrow:hover,
+.jdgm-rev-widg__prev:hover,
+.jdgm-rev-widg__next:hover {
+  background: var(--cm-navy) !important;
+  border-color: var(--cm-navy) !important;
+  color: var(--cm-off) !important;
+}
+
+/* Botones filtro */
+.jdgm-rev-widg__filter-btn,
+.jdgm-filter-btn {
+  background: transparent !important;
+  border: 1px solid var(--cm-border2) !important;
+  border-radius: 0 !important;
+  color: var(--cm-text-mid) !important;
+  width: 36px !important;
+  height: 36px !important;
+  transition: border-color 0.2s, color 0.2s !important;
+}
+.jdgm-rev-widg__filter-btn:hover,
+.jdgm-filter-btn:hover {
+  border-color: var(--cm-gold) !important;
+  color: var(--cm-gold) !important;
+}
