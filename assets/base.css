@@ -587,19 +587,37 @@ button.jdgm-write-rev-link {
   color: var(--cm-gold) !important;
 }
 
-/* Ocultar preguntas personalizadas en las reseñas */
-.jdgm-rev__custom-fields,
-.jdgm-rev__custom-field,
-.jdgm-rev__question,
-.jdgm-rev__answer,
-.jdgm-custom-fields-wrapper,
-.jdgm-rev__score-wrapper,
-.jdgm-rev__score,
-.jdgm-rev__score-label,
-.jdgm-cf-row,
-.jdgm-cf-label,
-.jdgm-cf-value,
-.jdgm-cf-slider,
-.jdgm-cf-radio {
+/* Ocultar preguntas personalizadas — todos los selectores posibles */
+[class*="jdgm-cf-"],
+[class*="jdgm-rev__cf"],
+[class*="jdgm-rev__custom"],
+[class*="jdgm-rev__question"],
+[class*="jdgm-rev__answer"],
+[class*="jdgm-rev__additional"],
+[class*="jdgm-rev__extra"],
+[class*="jdgm-rev__score"],
+[class*="jdgm-custom-field"],
+[class*="jdgm-extra-question"],
+[class*="jdgm-review-question"],
+.jdgm-rev input[type="range"],
+.jdgm-rev label {
   display: none !important;
+}
+
+/* Forzar layout lista independientemente del JS de Judge.me */
+.jdgm-rev-widg__reviews,
+.jdgm-carousel,
+.jdgm-carousel__inner {
+  display: block !important;
+  overflow: visible !important;
+  white-space: normal !important;
+  transform: none !important;
+}
+.jdgm-rev-widg__reviews > *,
+.jdgm-carousel > *,
+.jdgm-carousel__inner > * {
+  display: block !important;
+  width: 100% !important;
+  float: none !important;
+  flex: none !important;
 }
