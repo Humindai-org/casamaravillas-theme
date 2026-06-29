@@ -215,16 +215,16 @@
                     {%- unless item.variant.title == 'Default Title' -%}
                       <p class="cm-cart__variant">{{ item.variant.title }}</p>
                     {%- endunless -%}
-                    <button class="cm-cart__remove" type="submit" name="updates[{{ item.key }}]" value="0">Eliminar</button>
+                    <button class="cm-cart__remove" type="button" data-key="{{ item.key }}">Eliminar</button>
                   </div>
                 </div>
               </td>
               <td>{{ item.original_price | money }}</td>
               <td>
                 <div class="cm-cart__qty">
-                  <button class="cm-cart__qty-btn" type="button" aria-label="Reducir cantidad" onclick="this.closest('tr').querySelector('input').stepDown(); this.form.submit();">−</button>
-                  <input type="number" name="updates[{{ item.key }}]" value="{{ item.quantity }}" min="0" style="width:36px;text-align:center;border:1px solid var(--cm-border);padding:4px;font-size:14px;">
-                  <button class="cm-cart__qty-btn" type="button" aria-label="Aumentar cantidad" onclick="this.closest('tr').querySelector('input').stepUp(); this.form.submit();">+</button>
+                  <button class="cm-cart__qty-btn" type="button" aria-label="Reducir cantidad" data-action="decrease" data-key="{{ item.key }}">−</button>
+                  <input class="cm-cart__qty-input" type="number" value="{{ item.quantity }}" min="0" data-key="{{ item.key }}" style="width:36px;text-align:center;border:1px solid var(--cm-border);padding:4px;font-size:14px;">
+                  <button class="cm-cart__qty-btn" type="button" aria-label="Aumentar cantidad" data-action="increase" data-key="{{ item.key }}">+</button>
                 </div>
               </td>
               <td class="cm-cart__price">{{ item.final_line_price | money }}</td>
@@ -254,6 +254,40 @@
     </form>
   {%- endif -%}
 </section>
+
+<script>
+(function () {
+  function cartChange(key, quantity) {
+    fetch('/cart/change.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: key, quantity: quantity })
+    }).then(function () {
+      window.location.reload();
+    });
+  }
+
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-action="decrease"], [data-action="increase"], .cm-cart__remove');
+    if (!btn) return;
+
+    var key = btn.dataset.key;
+    var action = btn.dataset.action;
+
+    if (btn.classList.contains('cm-cart__remove')) {
+      cartChange(key, 0);
+      return;
+    }
+
+    var input = btn.closest('.cm-cart__qty').querySelector('.cm-cart__qty-input');
+    var qty = parseInt(input.value, 10) || 0;
+    if (action === 'decrease') qty = Math.max(0, qty - 1);
+    if (action === 'increase') qty = qty + 1;
+    input.value = qty;
+    cartChange(key, qty);
+  });
+})();
+</script>
 
 {% schema %}
 {
