@@ -34,6 +34,12 @@
 
   {{ content_for_header }}
 
+  {% # theme-check-disable RemoteAsset %}
+  {%- if template.name == 'product' -%}
+    <script data-cfasync="false" type="text/javascript" src="//cdn.judge.me/assets/all.js" async></script>
+  {%- endif -%}
+  {% # theme-check-enable RemoteAsset %}
+
   {%- if template.name == 'product' -%}
   <style>
     #main-content {

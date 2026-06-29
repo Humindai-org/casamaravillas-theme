@@ -9,36 +9,7 @@
   style="padding-top: {{ pt }}px; padding-bottom: {{ pb }}px;"
 >
   <div class="cm-reviews-inner">
-    {%- assign has_legacy = false -%}
-    {%- if product.metafields.judgeme.widget.size > 20 -%}
-      {%- assign has_legacy = true -%}
-    {%- endif -%}
-    <div style="clear:both"></div>
-    <div
-      id="judgeme_product_reviews"
-      class="jdgm-widget jdgm-review-widget"
-      data-product-title="{{ product.title | escape }}"
-      data-id="{{ product.id }}"
-      data-product-id="{{ product.id }}"
-      data-widget="review"
-      data-auto-install="false"
-      data-shop-reviews-count="{{ shop.metafields.judgeme.shop_reviews_count | default: 0 | escape }}"
-      data-entry-point="review_widget.js"
-      data-entry-key="review-widget/main.js"
-    >
-      {%- if has_legacy -%}
-        <div class="jdgm-legacy-widget-content" style="display:none;">
-          {{ product.metafields.judgeme.widget }}
-        </div>
-      {%- endif -%}
-    </div>
-    {%- if product.metafields.judgeme.review_widget_data -%}
-      <script>
-        jdgm.data ||= {};
-        jdgm.data.reviewWidget ||= {};
-        jdgm.data.reviewWidget[{{ product.id }}] = {{ product.metafields.judgeme.review_widget_data }};
-      </script>
-    {%- endif -%}
+    <!-- Start of Judge.me code -->{% assign has_legacy = false %}{% if product.metafields.judgeme.widget.size > 20 %}{% assign has_legacy = true %}{% endif %}<div style='clear:both'></div><div id='judgeme_product_reviews' class='jdgm-widget jdgm-review-widget' data-product-title='{{ product.title | escape }}' data-id='{{ product.id }}' data-product-id='{{ product.id }}' data-widget='review' data-auto-install='false' data-shop-reviews-count='{{ shop.metafields.judgeme.shop_reviews_count | default: 0 | escape }}' data-entry-point='review_widget.js' data-entry-key='review-widget/main.js'>{% if has_legacy %}<div class='jdgm-legacy-widget-content' style='display: none;'>{{ product.metafields.judgeme.widget }}</div>{% endif %}</div>{% if product.metafields.judgeme.review_widget_data %}<script>jdgm.data ||= {}; jdgm.data.reviewWidget ||= {}; jdgm.data.reviewWidget[{{ product.id }}] = {{ product.metafields.judgeme.review_widget_data }}</script>{% endif %}<!-- End of Judge.me code -->
   </div>
 </section>
 
