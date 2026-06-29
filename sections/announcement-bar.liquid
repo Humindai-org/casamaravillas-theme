@@ -56,14 +56,25 @@
 </style>
 
 {%- if section.settings.show_announcement -%}
+  {%- assign country = localization.country.iso_code -%}
+  {%- assign is_peninsula = false -%}
+  {%- if country == 'ES' or country == 'PT' -%}
+    {%- assign is_peninsula = true -%}
+  {%- endif -%}
+
+  {%- if is_peninsula -%}
+    {%- assign bar_text = section.settings.announcement_text_peninsula -%}
+  {%- else -%}
+    {%- assign bar_text = section.settings.announcement_text_exterior -%}
+  {%- endif -%}
+
 <div class="announcement-bar" role="complementary" aria-label="{{ 'general.announcement_bar.label' | t }}">
   <p class="announcement-bar__message">
     <span class="announcement-bar__ticker">
-      <span>{{ section.settings.announcement_text }}</span>
-      <span aria-hidden="true">&nbsp;&nbsp;·&nbsp;&nbsp;{{ section.settings.announcement_text }}</span>
+      <span>{{ bar_text }}</span>
+      <span aria-hidden="true">&nbsp;&nbsp;·&nbsp;&nbsp;{{ bar_text }}</span>
     </span>
   </p>
-
 </div>
 {%- endif -%}
 
@@ -80,9 +91,15 @@
     },
     {
       "type": "html",
-      "id": "announcement_text",
-      "label": "Texto del anuncio",
-      "default": "Envío gratis a partir de <em>€80</em> &nbsp;·&nbsp; Entrega en 24–48h &nbsp;·&nbsp; Productos ibéricos de Alicante"
+      "id": "announcement_text_peninsula",
+      "label": "Texto — Península (España y Portugal)",
+      "default": "Envío gratis a partir de <em>€80</em> &nbsp;·&nbsp; Entrega en 24–72h &nbsp;·&nbsp; Ibéricos de Alta Gama"
+    },
+    {
+      "type": "html",
+      "id": "announcement_text_exterior",
+      "label": "Texto — Exterior (resto del mundo)",
+      "default": "Envío internacional disponible &nbsp;·&nbsp; Entrega en 3–5 días &nbsp;·&nbsp; Ibéricos de Alta Gama"
     }
   ],
   "presets": [

@@ -1882,7 +1882,7 @@
         <p class="cm-pdp__price-kg">{{ product.metafields.custom.price_per_kg.value }}/kg</p>
       {%- endif -%}
 
-      {%- comment -%} ── VARIANTES ── {%- endcomment -%}
+      {%- comment -%} ── VARIANTES (Peso vinculado a Shopify) ── {%- endcomment -%}
       {%- unless product.has_only_default_variant -%}
         <div class="cm-pdp__variants">
           {%- for option in product.options_with_values -%}
@@ -1910,8 +1910,7 @@
         </div>
       {%- endunless -%}
 
-      {%- comment -%} ── SELECTOR DE PESO/PACK (renderizados ocultos, JS muestra según tipo de variante) ── {%- endcomment -%}
-
+      {%- comment -%} ── SELECTOR DE PACK (Lonchado/Cortado a Mano) ── {%- endcomment -%}
       {%- if section.settings.pack_options != blank -%}
         <div class="cm-pdp__select-wrap" data-selector-type="lonchado" style="display: none;">
           <label class="cm-pdp__select-label" for="cm-pack-sel-{{ section.id }}">Cortado a Mano - Pack</label>
@@ -1934,23 +1933,6 @@
           {%- assign weight_value = section.settings.weight_options_deshuesado | strip -%}
           <label class="cm-pdp__select-label">Deshuesado - Peso Aproximado {{ weight_value }}</label>
           <input type="hidden" data-weight-select data-weight-type="deshuesado" value="{{ weight_value }}" />
-        </div>
-      {%- endif -%}
-
-      {%- if section.settings.show_weight_selector and section.settings.weight_options != blank -%}
-        <div class="cm-pdp__select-wrap" data-selector-type="entero" style="display: none;">
-          <label class="cm-pdp__select-label" for="cm-weight-ent-{{ section.id }}">Pieza Entera - Peso Aproximado</label>
-          <select id="cm-weight-ent-{{ section.id }}" class="cm-pdp__select" data-weight-select data-weight-type="entero">
-            {%- assign weight_opts = section.settings.weight_options | split: ',' -%}
-            {%- for opt in weight_opts -%}
-              <option value="{{ opt | strip | escape }}">{{ opt | strip }}</option>
-            {%- endfor -%}
-          </select>
-          <span class="cm-pdp__select-arrow" aria-hidden="true">
-            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
-              <path d="M19 9l-7 7-7-7"/>
-            </svg>
-          </span>
         </div>
       {%- endif -%}
 

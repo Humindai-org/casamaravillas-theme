@@ -45,10 +45,21 @@
   }
 </style>
 
+{%- assign country = localization.country.iso_code -%}
+{%- assign is_peninsula = false -%}
+{%- if country == 'ES' or country == 'PT' -%}
+  {%- assign is_peninsula = true -%}
+{%- endif -%}
+
+{%- if is_peninsula -%}
+  {%- assign marquee_text = section.settings.text_peninsula -%}
+{%- else -%}
+  {%- assign marquee_text = section.settings.text_exterior -%}
+{%- endif -%}
+
 <div class="marquee-strip" aria-hidden="true">
   <div class="marquee-strip__track">
-    {%- assign items = section.settings.text | split: '|' -%}
-    {%- comment %} Duplicar para loop infinito {%- endcomment -%}
+    {%- assign items = marquee_text | split: '|' -%}
     {%- for i in (1..2) -%}
       {%- for item in items -%}
         <span class="marquee-strip__item">
@@ -67,9 +78,15 @@
   "settings": [
     {
       "type": "textarea",
-      "id": "text",
-      "label": "Elementos (separados por |)",
-      "default": "Jamón Ibérico de Bellota | Embutidos Artesanales | Packs Regalo | Envío en 24h | Tres Generaciones | Calidad Garantizada | Productos de Alicante | Dehesa Española"
+      "id": "text_peninsula",
+      "label": "Elementos — Península (separados por |)",
+      "default": "Jamón Ibérico de Bellota | Embutidos Artesanales | Packs Regalo | Envío en 24–72h | Tres Generaciones | Calidad Garantizada | Dehesa Española"
+    },
+    {
+      "type": "textarea",
+      "id": "text_exterior",
+      "label": "Elementos — Exterior (separados por |)",
+      "default": "Jamón Ibérico de Bellota | Embutidos Artesanales | Packs Regalo | Envío Internacional | Tres Generaciones | Calidad Garantizada | Dehesa Española"
     }
   ],
   "presets": [
