@@ -1760,6 +1760,10 @@
       {%- comment -%} ── VALORACIONES ── {%- endcomment -%}
       {%- assign rev_rating = product.metafields.reviews.rating.value -%}
       {%- assign rev_count  = product.metafields.reviews.rating_count.value -%}
+      {%- if rev_rating == blank -%}
+        {%- assign rev_rating = product.metafields.judgeme.avg_rating -%}
+        {%- assign rev_count  = product.metafields.judgeme.review_count -%}
+      {%- endif -%}
       {%- if rev_rating != blank -%}
         {%- assign rating_rounded = rev_rating | round -%}
         <div class="cm-pdp__rating" itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating">
@@ -1872,7 +1876,7 @@
         <span class="cm-volume-discount__badge" id="cm-volume-discount-badge-{{ section.id }}"></span>
       </div>
 
-      <p class="cm-pdp__tax-note">IVA incluido &middot; <a href="/policies/shipping" class="cm-pdp__shipping-link">Consulta nuestra política de envíos</a></p>
+      <p class="cm-pdp__tax-note">Impuestos añadidos &middot; <a href="/pages/envios" class="cm-pdp__shipping-link">Consulta nuestra política de envíos</a></p>
 
       {%- if product.metafields.custom.price_per_kg.value != blank -%}
         <p class="cm-pdp__price-kg">{{ product.metafields.custom.price_per_kg.value }}/kg</p>
