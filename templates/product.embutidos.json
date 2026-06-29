@@ -165,10 +165,18 @@
         "eyebrow": "También te puede gustar",
         "view_all_label": "Ver todos los embutidos"
       }
+    },
+    "judgeme_reviews": {
+      "type": "judgeme-reviews",
+      "settings": {
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
     }
   },
   "order": [
     "main",
+    "judgeme_reviews",
     "trust_band_YfPnnW",
     "combina",
     "product_information_zDBpen",

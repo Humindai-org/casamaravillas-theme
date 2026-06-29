@@ -156,10 +156,18 @@
         "eyebrow": "También te puede gustar",
         "view_all_label": "Ver todos los packs"
       }
+    },
+    "judgeme_reviews": {
+      "type": "judgeme-reviews",
+      "settings": {
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
     }
   },
   "order": [
     "main",
+    "judgeme_reviews",
     "trust_band_YfPnnW",
     "product_information_packs",
     "product_details_accordion_packs",

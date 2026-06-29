@@ -304,10 +304,18 @@
         "eyebrow": "También te puede gustar",
         "view_all_label": "Ver todas las carnes ibéricas"
       }
+    },
+    "judgeme_reviews": {
+      "type": "judgeme-reviews",
+      "settings": {
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
     }
   },
   "order": [
     "main",
+    "judgeme_reviews",
     "combina",
     "trust_band_YfPnnW",
     "product_information_zDBpen",
