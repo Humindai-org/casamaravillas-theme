@@ -321,10 +321,17 @@
   /* Nota de impuestos */
   .cm-pdp__tax-note {
     font-size: 12px;
-    color: var(--text-secondary);
+    color: var(--cm-text-light);
     font-family: var(--cm-font-sans);
     margin-bottom: 20px;
   }
+  .cm-pdp__shipping-link {
+    color: var(--cm-text-light);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: color 0.2s;
+  }
+  .cm-pdp__shipping-link:hover { color: var(--cm-navy); }
 
   /* ── SELECTOR DE CURACIÓN ── */
   .cm-curing-selector { margin-bottom: 24px; }
@@ -1768,7 +1775,7 @@
             {%- endfor -%}
           </span>
           {%- if rev_count != blank -%}
-            <a href="#reviews" class="cm-pdp__rating-count">({{ rev_count }} valoraciones)</a>
+            <a href="#judgeme_product_reviews" class="cm-pdp__rating-count">{{ rev_count }} reseñas</a>
           {%- endif -%}
         </div>
       {%- endif -%}
@@ -1865,7 +1872,7 @@
         <span class="cm-volume-discount__badge" id="cm-volume-discount-badge-{{ section.id }}"></span>
       </div>
 
-      <p class="cm-pdp__tax-note">Impuestos incluidos</p>
+      <p class="cm-pdp__tax-note">IVA incluido &middot; <a href="/policies/shipping" class="cm-pdp__shipping-link">Consulta nuestra política de envíos</a></p>
 
       {%- if product.metafields.custom.price_per_kg.value != blank -%}
         <p class="cm-pdp__price-kg">{{ product.metafields.custom.price_per_kg.value }}/kg</p>
