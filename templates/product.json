@@ -115,13 +115,6 @@
         "complementary_max": 3
       }
     },
-    "judgeme_reviews": {
-      "type": "judgeme-reviews",
-      "settings": {
-        "padding_top": 64,
-        "padding_bottom": 64
-      }
-    },
     "trust_band_YfPnnW": {
       "type": "trust-band",
       "blocks": {
@@ -348,39 +341,14 @@
         "view_all_url": "/collections/all",
         "section_bg": "off"
       }
-    },
-    "1782731083a61708e0": {
-      "type": "apps",
-      "blocks": {
-        "judge_me_reviews_review_widget_aDzyEx": {
-          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
-          "settings": {
-            "review_data": "sample_data",
-            "max_width": 1150,
-            "show_shop_reviews": false,
-            "empty_state": "empty_widget"
-          }
-        }
-      },
-      "block_order": [
-        "judge_me_reviews_review_widget_aDzyEx"
-      ],
-      "settings": {}
-    },
-    "178273109793c95982": {
-      "type": "apps",
-      "settings": {}
     }
   },
   "order": [
     "main",
-    "judgeme_reviews",
     "trust_band_YfPnnW",
     "combina",
     "product_information_zDBpen",
     "product_details_accordion_Dtwtwz",
-    "related",
-    "1782731083a61708e0",
-    "178273109793c95982"
+    "related"
   ]
 }
