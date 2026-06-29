@@ -36,6 +36,11 @@
 
   {% # theme-check-disable RemoteAsset %}
   {%- if template.name == 'product' -%}
+    <script type="text/javascript">
+      window.jdgm = window.jdgm || {};
+      jdgm.SHOP_DOMAIN = '{{ shop.permanent_domain }}';
+      jdgm.PLATFORM = 'shopify';
+    </script>
     <script data-cfasync="false" type="text/javascript" src="//cdn.judge.me/assets/all.js" async></script>
   {%- endif -%}
   {% # theme-check-enable RemoteAsset %}
