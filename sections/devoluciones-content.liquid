@@ -78,6 +78,32 @@
 
   .devoluciones-section__notice p { margin-bottom: 0; }
 
+  .devoluciones-section__cta {
+    display: inline-block;
+    margin: 1.25em 0 0.5em;
+    padding: 14px 32px;
+    background: var(--cm-navy);
+    color: var(--cm-white) !important;
+    font-family: var(--cm-font-sans);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none !important;
+    border-radius: 2px;
+    transition: background 0.2s, transform 0.15s;
+  }
+
+  .devoluciones-section__cta:hover {
+    background: var(--cm-gold);
+    color: var(--cm-white) !important;
+    transform: translateY(-1px);
+  }
+
+  .devoluciones-section__cta:active {
+    transform: translateY(0);
+  }
+
   @media (max-width: 1023px) {
     .devoluciones-section { padding: 64px 48px 80px; }
   }
@@ -104,13 +130,9 @@
     <p>Para los productos curados no perecederos (jamones enteros, jamones deshuesados, embutidos) que se encuentren en su embalaje original sin abrir y en perfecto estado, podrás ejercer el derecho de desistimiento dentro del plazo indicado.</p>
 
     <h2>Cómo Ejercer el Desistimiento</h2>
-    <p>Notifícanoslo antes de que venza el plazo de 14 días naturales a través de:</p>
-    <ul>
-      <li>Email: <a href="mailto:adminweb@casamaravillas.com">adminweb@casamaravillas.com</a></li>
-      <li>Teléfono: <a href="tel:966113446">966 11 34 46</a></li>
-      <li>Formulario de contacto en nuestra web</li>
-    </ul>
-    <p>Deberás indicar tu nombre, dirección, número de pedido y la decisión de desistir.</p>
+    <p>Puedes iniciar tu solicitud de devolución directamente desde tu cuenta, sin necesidad de contactarnos. Shopify gestionará el proceso de forma automática.</p>
+    <a href="/account/orders" class="devoluciones-section__cta">Iniciar devolución en Mi Cuenta</a>
+    <p>Accede a tu pedido, selecciona el artículo que deseas devolver y sigue los pasos indicados. Deberás confirmar tu decisión de desistir antes de que venza el plazo de <strong>14 días naturales</strong> desde la recepción.</p>
     <p>Una vez recibida tu solicitud, coordinaremos la recogida del producto. Los gastos de devolución en caso de desistimiento (no imputable a un defecto del producto) corren a cargo del cliente.</p>
     <p>El reembolso se realizará en un plazo máximo de <strong>14 días hábiles</strong> desde que recibamos el producto devuelto y verifiquemos su estado, a través del mismo método de pago empleado en la compra.</p>
 
@@ -140,15 +162,9 @@
     <p>Los reembolsos se procesan en un plazo máximo de <strong>14 días hábiles</strong> desde la aprobación de la devolución, a través del mismo método de pago utilizado en la compra.</p>
 
     <h2>¿Necesitas ayuda?</h2>
-    <p>Para cualquier consulta relacionada con tu pedido, ponte en contacto con nosotros a través del <a href="/pages/contact">formulario de contacto</a> indicando:</p>
-    <ul>
-      <li>Nombre completo</li>
-      <li>Número de pedido</li>
-      <li>Producto y fecha de recepción</li>
-      <li>Descripción de la incidencia</li>
-    </ul>
-    <p>
-      También puedes escribirnos a <a href="mailto:adminweb@casamaravillas.com">adminweb@casamaravillas.com</a> o llamarnos al <a href="tel:966113446">966 11 34 46</a>.<br>
+    <p>Para gestionar una devolución o consultar el estado de tu pedido, accede directamente a tu cuenta:</p>
+    <a href="/account/orders" class="devoluciones-section__cta">Ver mis pedidos</a>
+    <p>Si tienes una incidencia que requiere atención personalizada (producto defectuoso, error en el pedido, etc.), puedes escribirnos a <a href="mailto:adminweb@casamaravillas.com">adminweb@casamaravillas.com</a> o llamarnos al <a href="tel:966113446">966 11 34 46</a>.<br>
       Horario de atención: lunes a viernes, 9:00 – 18:00 h.
     </p>
 
