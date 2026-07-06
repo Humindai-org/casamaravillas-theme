@@ -181,6 +181,35 @@
     }
   }
 
+  /* ── Jamones: la imagen va en flujo normal, debajo del texto, para que nunca
+     quede recortada por el overflow:hidden de la sección (independiente de la
+     página de embutidos, que mantiene el posicionamiento de arriba) ── */
+  .cm-info-image-container--jamones {
+    position: relative;
+    left: auto;
+    top: auto;
+    margin: 48px 0 0 -24px;
+    width: 60%;
+    max-width: 440px;
+  }
+
+  @media (max-width: 1024px) {
+    .cm-info-image-container--jamones {
+      width: 50%;
+      margin-top: 32px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .cm-info-image-container--jamones {
+      position: relative;
+      bottom: auto;
+      width: 70%;
+      max-width: 280px;
+      margin: 32px 0 0 -24px;
+    }
+  }
+
   /* ── CARDS LAYOUT ── */
   .cm-info-cards {
     display: grid;
@@ -656,7 +685,8 @@
 
   </div>
 
-  {%- comment -%} Imagen pegada al borde derecho — se posiciona relativa a cm-info-section {%- endcomment -%}
+  {%- comment -%} Imagen pegada al borde — se posiciona relativa a cm-info-section {%- endcomment -%}
+  {%- assign image_modifier = '' -%}
   {%- if section.settings.product_image != blank -%}
     {%- assign image_src = section.settings.product_image | image_url: width: 520 -%}
     {%- assign image_alt = section.settings.product_image.alt | default: 'Mano ofreciendo jamón ibérico' -%}
@@ -666,6 +696,7 @@
         {%- if section.settings.jamones_image != blank -%}
           {%- assign image_src = section.settings.jamones_image | image_url: width: 520 -%}
           {%- assign image_alt = section.settings.jamones_image.alt | default: 'Mano ofreciendo jamón ibérico' -%}
+          {%- assign image_modifier = 'cm-info-image-container--jamones' -%}
         {%- endif -%}
       {%- when 'embutidos' -%}
         {%- if section.settings.embutidos_image != blank -%}
@@ -676,7 +707,7 @@
   {%- endif -%}
 
   {%- if image_src != blank -%}
-  <div class="cm-info-image-container">
+  <div class="cm-info-image-container{% if image_modifier != blank %} {{ image_modifier }}{% endif %}">
     <img
       src="{{ image_src }}"
       alt="{{ image_alt }}"
