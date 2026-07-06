@@ -185,13 +185,13 @@
      volteada para que la mano "entre" por el borde izquierdo de la pantalla.
      Independiente de embutidos, que mantiene su posicionamiento original ── */
   .cm-info-image-container--jamones {
-    top: 260px;
-    transform: scaleX(-1);
+    top: 330px;
   }
 
   .cm-info-image-container--jamones img {
     animation: none;
     opacity: 1;
+    transform: scaleX(-1);
   }
 
   /* Solo en escritorio (layout de 2 columnas): pegada al borde izquierdo de la
@@ -218,6 +218,10 @@
       top: auto;
       bottom: 0;
       transform: scaleX(-1) !important;
+    }
+
+    .cm-info-image-container--jamones img {
+      transform: none;
     }
 
     .cm-info-section:has(.cm-info-image-container--jamones) {
