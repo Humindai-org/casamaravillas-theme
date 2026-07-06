@@ -1928,14 +1928,6 @@
         </div>
       {%- endif -%}
 
-      {%- if section.settings.show_weight_selector and section.settings.weight_options_deshuesado != blank -%}
-        <div class="cm-pdp__select-wrap" data-selector-type="deshuesado" style="display: none;">
-          {%- assign weight_value = section.settings.weight_options_deshuesado | strip -%}
-          <label class="cm-pdp__select-label">Deshuesado - Peso Aproximado {{ weight_value }}</label>
-          <input type="hidden" data-weight-select data-weight-type="deshuesado" value="{{ weight_value }}" />
-        </div>
-      {%- endif -%}
-
       {%- comment -%} ── SELECTOR DE CURACIÓN ── {%- endcomment -%}
       {%- if section.settings.show_curing_selector -%}
         <div class="cm-curing-selector" id="cm-curing-{{ section.id }}">
@@ -2630,8 +2622,6 @@ document.addEventListener('DOMContentLoaded', function() {
       const sectionEl = document.querySelector('#cm-pdp-' + SID);
       const curingSelectEl = sectionEl ? sectionEl.querySelector('[data-curing-select]') : null;
       const curingVal = curingSelectEl ? curingSelectEl.value : '';
-      const weightSelectEl = sectionEl ? sectionEl.querySelector('[data-weight-select]') : null;
-      const weightVal = weightSelectEl ? weightSelectEl.value : '';
       const packSelectEl = sectionEl ? sectionEl.querySelector('[data-pack-select]') : null;
       const packVal = packSelectEl ? packSelectEl.value : '';
       const cartBody = {
@@ -2640,7 +2630,6 @@ document.addEventListener('DOMContentLoaded', function() {
         properties: {}
       };
       if (curingVal) cartBody.properties['Punto de curación'] = curingVal;
-      if (weightVal) cartBody.properties['Peso aproximado'] = weightVal;
       if (packVal) cartBody.properties['Pack'] = packVal;
 
       const ctrl = new AbortController();
@@ -2983,34 +2972,6 @@ document.addEventListener('DOMContentLoaded', function() {
     },
     {
       "type": "header",
-      "content": "Selector de peso — Jamón entero"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_weight_selector",
-      "label": "Mostrar selector de peso aproximado",
-      "default": true
-    },
-    {
-      "type": "text",
-      "id": "weight_options",
-      "label": "Opciones de peso (separadas por comas)",
-      "default": "6-7 kg, 8-9 kg",
-      "info": "Ej: 6-7 kg, 8-9 kg, 10-11 kg. Cada opción separada por coma."
-    },
-    {
-      "type": "header",
-      "content": "Selector de peso — Deshuesado"
-    },
-    {
-      "type": "text",
-      "id": "weight_options_deshuesado",
-      "label": "Opciones de peso para deshuesado (separadas por comas)",
-      "default": "500 g, 1 kg, 1.5 kg",
-      "info": "Solo se muestra cuando el tipo de producto es Deshuesado."
-    },
-    {
-      "type": "header",
       "content": "Selector de pack — Lonchado"
     },
     {
@@ -3018,7 +2979,7 @@ document.addEventListener('DOMContentLoaded', function() {
       "id": "pack_options",
       "label": "Opciones de pack (separadas por comas)",
       "default": "1, 10, 20, 30",
-      "info": "Solo se muestra cuando el tipo de producto es Lonchado. Reemplaza al selector de peso."
+      "info": "Solo se muestra cuando el tipo de producto es Lonchado."
     },
     {
       "type": "header",
