@@ -111,13 +111,10 @@
       assign family_url        = '/collections/all'
   endcase
 
-  assign eyebrow      = section.settings.eyebrow | default: 'También te puede gustar'
-  assign title        = section.settings.title
-  assign view_label   = section.settings.view_all_label
-  assign view_url     = section.settings.view_all_url | default: family_url
-
-  assign shown_handles = product.handle | append: ','
-  assign shown_count   = 0
+  assign eyebrow    = section.settings.eyebrow | default: 'También te puede gustar'
+  assign title      = section.settings.title
+  assign view_label = section.settings.view_all_label
+  assign view_url   = section.settings.view_all_url | default: family_url
 -%}
 
 <section class="rsf-section">
@@ -145,34 +142,50 @@
 
   <div class="rsf-section__grid">
 
-    {%- comment -%} Pasada 1: primer producto de cada tipo distinto dentro de la familia {%- endcomment -%}
-    {%- if family_collection != blank -%}
-      {%- assign seen_types = '' -%}
-      {%- for p in family_collection.products -%}
-        {%- if shown_count >= 3 -%}{%- break -%}{%- endif -%}
-        {%- unless shown_handles contains p.handle -%}
-          {%- unless seen_types contains p.type and p.type != blank -%}
-            {% render 'product-card', card_product: p %}
-            {%- assign shown_count    = shown_count | plus: 1 -%}
-            {%- assign shown_handles  = shown_handles | append: p.handle | append: ',' -%}
-            {%- if p.type != blank -%}
-              {%- assign seen_types = seen_types | append: p.type | append: '|' -%}
-            {%- endif -%}
-          {%- endunless -%}
-        {%- endunless -%}
+    {%- if section.blocks.size > 0 -%}
+
+      {%- comment -%} Modo manual: el editor ha fijado productos concretos {%- endcomment -%}
+      {%- for block in section.blocks -%}
+        {%- assign ov = all_products[block.settings.product] -%}
+        {%- if ov != blank and ov.handle != product.handle -%}
+          {% render 'product-card', card_product: ov %}
+        {%- endif -%}
       {%- endfor -%}
 
-      {%- comment -%} Pasada 2: si quedan huecos, completar con cualquier producto de la familia {%- endcomment -%}
-      {%- if shown_count < 3 -%}
+    {%- else -%}
+
+      {%- comment -%} Modo automático: misma familia, tipos distintos primero {%- endcomment -%}
+      {%- assign shown_handles = product.handle | append: ',' -%}
+      {%- assign shown_count   = 0 -%}
+
+      {%- if family_collection != blank -%}
+        {%- assign seen_types = '' -%}
         {%- for p in family_collection.products -%}
           {%- if shown_count >= 3 -%}{%- break -%}{%- endif -%}
           {%- unless shown_handles contains p.handle -%}
-            {% render 'product-card', card_product: p %}
-            {%- assign shown_count   = shown_count | plus: 1 -%}
-            {%- assign shown_handles = shown_handles | append: p.handle | append: ',' -%}
+            {%- unless seen_types contains p.type and p.type != blank -%}
+              {% render 'product-card', card_product: p %}
+              {%- assign shown_count   = shown_count | plus: 1 -%}
+              {%- assign shown_handles = shown_handles | append: p.handle | append: ',' -%}
+              {%- if p.type != blank -%}
+                {%- assign seen_types = seen_types | append: p.type | append: '|' -%}
+              {%- endif -%}
+            {%- endunless -%}
           {%- endunless -%}
         {%- endfor -%}
+
+        {%- if shown_count < 3 -%}
+          {%- for p in family_collection.products -%}
+            {%- if shown_count >= 3 -%}{%- break -%}{%- endif -%}
+            {%- unless shown_handles contains p.handle -%}
+              {% render 'product-card', card_product: p %}
+              {%- assign shown_count   = shown_count | plus: 1 -%}
+              {%- assign shown_handles = shown_handles | append: p.handle | append: ',' -%}
+            {%- endunless -%}
+          {%- endfor -%}
+        {%- endif -%}
       {%- endif -%}
+
     {%- endif -%}
 
   </div>
@@ -189,7 +202,25 @@
 {
   "name": "Relacionados — misma familia",
   "tag": "section",
+  "blocks": [
+    {
+      "type": "product_override",
+      "name": "Producto fijo",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Producto"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 3,
   "settings": [
+    {
+      "type": "paragraph",
+      "content": "Sin bloques → selección automática de la misma familia. Añade hasta 3 bloques \"Producto fijo\" para elegir manualmente qué aparece aquí."
+    },
     {
       "type": "text",
       "id": "eyebrow",
