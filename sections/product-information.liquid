@@ -181,32 +181,39 @@
     }
   }
 
-  /* ── Jamones: la imagen va en flujo normal, debajo del texto, para que nunca
-     quede recortada por el overflow:hidden de la sección (independiente de la
-     página de embutidos, que mantiene el posicionamiento de arriba) ── */
+  /* ── Jamones: pegada a la altura del párrafo (no debajo de todo el bloque),
+     volteada para que la mano "entre" por el borde izquierdo de la pantalla.
+     Independiente de embutidos, que mantiene su posicionamiento original ── */
   .cm-info-image-container--jamones {
-    position: relative;
-    left: auto;
-    top: auto;
-    margin: 48px 0 0 -24px;
-    width: 60%;
-    max-width: 440px;
+    top: 260px;
+    transform: scaleX(-1);
+  }
+
+  .cm-info-image-container--jamones img {
+    animation: none;
+    opacity: 1;
+  }
+
+  /* Menos padding reservado abajo: la imagen ya no necesita ese espacio extra */
+  .cm-info-section:has(.cm-info-image-container--jamones) {
+    padding-bottom: 140px;
   }
 
   @media (max-width: 1024px) {
     .cm-info-image-container--jamones {
-      width: 50%;
-      margin-top: 32px;
+      top: 220px;
     }
   }
 
   @media (max-width: 768px) {
     .cm-info-image-container--jamones {
-      position: relative;
-      bottom: auto;
-      width: 70%;
-      max-width: 280px;
-      margin: 32px 0 0 -24px;
+      top: auto;
+      bottom: 0;
+      transform: scaleX(-1) !important;
+    }
+
+    .cm-info-section:has(.cm-info-image-container--jamones) {
+      padding-bottom: 300px;
     }
   }
 
