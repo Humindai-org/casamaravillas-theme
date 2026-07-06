@@ -28,7 +28,7 @@
   .cm-info-section {
     width: 100%;
     background: linear-gradient(135deg, var(--bg-primary) 0%, #FBF9F6) 100%;
-    padding: 80px 24px 120px;
+    padding: 80px 24px 260px;
     box-sizing: border-box;
     position: relative;
     overflow: hidden;
@@ -113,13 +113,13 @@
 
   .cm-info-image-container {
     position: absolute;
-    right: 0;
-    top: 60px;
+    left: 0;
+    top: 420px;
     width: 32%;
     max-width: 440px;
     display: flex;
     align-items: flex-start;
-    justify-content: flex-end;
+    justify-content: flex-start;
     pointer-events: none;
   }
 
@@ -128,9 +128,9 @@
     height: auto;
     object-fit: contain;
     animation: slideInDiagonal 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    filter: drop-shadow(-15px 25px 50px rgba(26, 20, 16, 0.2))
-            drop-shadow(-8px 15px 30px rgba(26, 20, 16, 0.1))
-            drop-shadow(-4px 8px 15px rgba(201, 168, 76, 0.08))
+    filter: drop-shadow(15px 25px 50px rgba(26, 20, 16, 0.2))
+            drop-shadow(8px 15px 30px rgba(26, 20, 16, 0.1))
+            drop-shadow(4px 8px 15px rgba(201, 168, 76, 0.08))
             brightness(1.05)
             saturate(1.08);
   }
@@ -138,7 +138,7 @@
   @keyframes slideInDiagonal {
     from {
       opacity: 0;
-      transform: translateX(180px) translateY(-60px) rotate(12deg) scale(0.95);
+      transform: translateX(-180px) translateY(-60px) rotate(-12deg) scale(0.95);
     }
     to {
       opacity: 1;
@@ -149,7 +149,7 @@
   @media (max-width: 1024px) {
     .cm-info-image-container {
       width: 36%;
-      top: 40px;
+      top: 460px;
     }
   }
 
@@ -164,7 +164,7 @@
 
     .cm-info-image-container {
       position: absolute;
-      right: 0;
+      left: 0;
       bottom: 0;
       top: auto;
       width: 72%;
