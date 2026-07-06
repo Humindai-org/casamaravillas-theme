@@ -374,6 +374,13 @@
     white-space: nowrap;
   }
 
+  .ic__toolbar-controls-{{ section.id }} {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-left: auto;
+  }
+
   /* ── Search bar ── */
   .ic__search-wrap-{{ section.id }} {
     position: relative;
@@ -743,69 +750,71 @@
           </p>
         {%- endif -%}
 
-        {%- liquid
-          assign search_placeholder = 'Buscar producto...'
-          if collection.handle == 'jamones'
-            assign search_placeholder = 'Buscar jamón...'
-          elsif collection.handle == 'embutidos' or collection.handle == 'embutidos-1'
-            assign search_placeholder = 'Buscar Embutido...'
-          elsif collection.handle == 'carnes-ibericas'
-            assign search_placeholder = 'Buscar carne...'
-          elsif collection.handle == 'packs-regalo' or collection.template_suffix == 'packs-regalo'
-            assign search_placeholder = 'Buscar pack...'
-          endif
-        -%}
+        <div class="ic__toolbar-controls-{{ section.id }}">
+          {%- liquid
+            assign search_placeholder = 'Buscar producto...'
+            if collection.handle == 'jamones'
+              assign search_placeholder = 'Buscar jamón...'
+            elsif collection.handle == 'embutidos' or collection.handle == 'embutidos-1'
+              assign search_placeholder = 'Buscar Embutido...'
+            elsif collection.handle == 'carnes-ibericas'
+              assign search_placeholder = 'Buscar carne...'
+            elsif collection.handle == 'packs-regalo' or collection.template_suffix == 'packs-regalo'
+              assign search_placeholder = 'Buscar pack...'
+            endif
+          -%}
 
-        <div class="ic__search-wrap-{{ section.id }}">
-          <svg class="ic__search-icon-{{ section.id }}" viewBox="0 0 24 24" fill="none"
-               stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-            <circle cx="11" cy="11" r="7"/>
-            <path stroke-linecap="round" d="M16.5 16.5l4 4"/>
-          </svg>
-          <input
-            type="search"
-            class="ic__search-{{ section.id }}"
-            id="ic-search-{{ section.id }}"
-            placeholder="{{ search_placeholder }}"
-            aria-label="Buscar producto"
-            autocomplete="off"
-          >
-        </div>
-
-        {%- if section.settings.show_sort -%}
-          <div class="ic__sort-wrap-{{ section.id }}">
-            <select
-              class="ic__sort-{{ section.id }}"
-              id="ic-sort-{{ section.id }}"
-              aria-label="Ordenar productos"
+          <div class="ic__search-wrap-{{ section.id }}">
+            <svg class="ic__search-icon-{{ section.id }}" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <circle cx="11" cy="11" r="7"/>
+              <path stroke-linecap="round" d="M16.5 16.5l4 4"/>
+            </svg>
+            <input
+              type="search"
+              class="ic__search-{{ section.id }}"
+              id="ic-search-{{ section.id }}"
+              placeholder="{{ search_placeholder }}"
+              aria-label="Buscar producto"
+              autocomplete="off"
             >
-              <option value="manual" {% if collection.sort_by == 'manual' %}selected{% endif %}>
-                Más relevantes
-              </option>
-              <option value="best-selling" {% if collection.sort_by == 'best-selling' %}selected{% endif %}>
-                Más vendidos
-              </option>
-              <option value="price-ascending" {% if collection.sort_by == 'price-ascending' %}selected{% endif %}>
-                Precio ↑
-              </option>
-              <option value="price-descending" {% if collection.sort_by == 'price-descending' %}selected{% endif %}>
-                Precio ↓
-              </option>
-              <option value="created-descending" {% if collection.sort_by == 'created-descending' %}selected{% endif %}>
-                Fecha, más reciente
-              </option>
-              <option value="created-ascending" {% if collection.sort_by == 'created-ascending' %}selected{% endif %}>
-                Fecha, más antiguo
-              </option>
-              <option value="title-ascending" {% if collection.sort_by == 'title-ascending' %}selected{% endif %}>
-                Nombre A–Z
-              </option>
-              <option value="title-descending" {% if collection.sort_by == 'title-descending' %}selected{% endif %}>
-                Nombre Z–A
-              </option>
-            </select>
           </div>
-        {%- endif -%}
+
+          {%- if section.settings.show_sort -%}
+            <div class="ic__sort-wrap-{{ section.id }}">
+              <select
+                class="ic__sort-{{ section.id }}"
+                id="ic-sort-{{ section.id }}"
+                aria-label="Ordenar productos"
+              >
+                <option value="manual" {% if collection.sort_by == 'manual' %}selected{% endif %}>
+                  Más relevantes
+                </option>
+                <option value="best-selling" {% if collection.sort_by == 'best-selling' %}selected{% endif %}>
+                  Más vendidos
+                </option>
+                <option value="price-ascending" {% if collection.sort_by == 'price-ascending' %}selected{% endif %}>
+                  Precio ↑
+                </option>
+                <option value="price-descending" {% if collection.sort_by == 'price-descending' %}selected{% endif %}>
+                  Precio ↓
+                </option>
+                <option value="created-descending" {% if collection.sort_by == 'created-descending' %}selected{% endif %}>
+                  Fecha, más reciente
+                </option>
+                <option value="created-ascending" {% if collection.sort_by == 'created-ascending' %}selected{% endif %}>
+                  Fecha, más antiguo
+                </option>
+                <option value="title-ascending" {% if collection.sort_by == 'title-ascending' %}selected{% endif %}>
+                  Nombre A–Z
+                </option>
+                <option value="title-descending" {% if collection.sort_by == 'title-descending' %}selected{% endif %}>
+                  Nombre Z–A
+                </option>
+              </select>
+            </div>
+          {%- endif -%}
+        </div>
       </div>
 
       <!-- Product grid + Pagination (Custom order or collection) -->
@@ -963,10 +972,11 @@
   }
 
   /* ── Accordion filter groups (sidebar + drawer) ── */
-  var toggles = section.querySelectorAll('.ic__fg-toggle-' + sid);
+  var toggles = section.querySelectorAll('.ic__fg-toggle-' + sid + ', .jc__fg-toggle-' + sid);
   toggles.forEach(function (btn) {
     btn.addEventListener('click', function () {
-      var group  = btn.closest('.ic__fg-' + sid);
+      var group = btn.closest('.ic__fg-' + sid) || btn.closest('.jc__fg-' + sid);
+      if (!group || group.classList.contains('always-open')) return;
       var isOpen = group.classList.toggle('is-open');
       btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
     });
