@@ -228,16 +228,17 @@
 
   /* ── Embutidos (solo móvil): brazo pegado al lado derecho y más espacio
      abajo para que no quede detrás de la tarjeta "Conservación y consumo".
+     Valores editables desde el editor de temas (ver ajustes de la sección).
      No se toca escritorio/tablet, que ya funcionan bien. ── */
   @media (max-width: 768px) {
     .cm-info-image-container--embutidos {
       left: auto;
-      right: -40px;
-      bottom: -120px;
+      right: {{ section.settings.embutidos_mobile_right }}px;
+      bottom: {{ section.settings.embutidos_mobile_bottom }}px;
     }
 
     .cm-info-section--embutidos {
-      padding-bottom: 580px;
+      padding-bottom: {{ section.settings.embutidos_mobile_section_padding }}px;
     }
   }
 
@@ -971,6 +972,43 @@
       "type": "image_picker",
       "id": "embutidos_image",
       "label": "Imagen para colección Embutidos"
+    },
+    {
+      "type": "header",
+      "content": "Posición de imagen — Embutidos (móvil)"
+    },
+    {
+      "type": "range",
+      "id": "embutidos_mobile_bottom",
+      "label": "Desplazamiento vertical",
+      "info": "Valores más negativos bajan la imagen más",
+      "min": -300,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "default": -120
+    },
+    {
+      "type": "range",
+      "id": "embutidos_mobile_right",
+      "label": "Desplazamiento horizontal (borde derecho)",
+      "info": "Valores negativos empujan la imagen hacia fuera de la pantalla",
+      "min": -100,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": -40
+    },
+    {
+      "type": "range",
+      "id": "embutidos_mobile_section_padding",
+      "label": "Espacio reservado abajo de la sección",
+      "info": "Aumenta esto si la imagen queda cortada",
+      "min": 200,
+      "max": 900,
+      "step": 20,
+      "unit": "px",
+      "default": 580
     },
     {
       "type": "text",
