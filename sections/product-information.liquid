@@ -226,6 +226,20 @@
     }
   }
 
+  /* ── Embutidos (solo móvil): brazo pegado al lado derecho y más espacio
+     abajo para que no quede detrás de la tarjeta "Conservación y consumo".
+     No se toca escritorio/tablet, que ya funcionan bien. ── */
+  @media (max-width: 768px) {
+    .cm-info-image-container--embutidos {
+      left: auto;
+      right: 0;
+    }
+
+    .cm-info-section:has(.cm-info-image-container--embutidos) {
+      padding-bottom: 460px;
+    }
+  }
+
   /* ── CARDS LAYOUT ── */
   .cm-info-cards {
     display: grid;
@@ -718,6 +732,7 @@
         {%- if section.settings.embutidos_image != blank -%}
           {%- assign image_src = section.settings.embutidos_image | image_url: width: 520 -%}
           {%- assign image_alt = section.settings.embutidos_image.alt | default: 'Embutido ibérico' -%}
+          {%- assign image_modifier = 'cm-info-image-container--embutidos' -%}
         {%- endif -%}
     {%- endcase -%}
   {%- endif -%}
