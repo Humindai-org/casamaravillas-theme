@@ -591,8 +591,18 @@
 {%- comment -%} Imagen pegada al borde — se posiciona relativa a cm-info-section {%- endcomment -%}
 {%- assign image_modifier = '' -%}
 {%- assign section_modifier = '' -%}
-{%- comment -%} El modificador depende de la colección, sin importar qué campo de imagen esté relleno (product_image tiene prioridad como fuente, pero no debe anular el posicionamiento específico) {%- endcomment -%}
-{%- case product.collections.first.handle -%}
+{%- comment -%}
+  La plantilla (template.suffix) es la señal fiable: los ajustes de imagen
+  (product_image, jamones_image, embutidos_image, sliders de posición) se
+  configuran por plantilla, no por colección — un producto puede usar la
+  plantilla "embutidos" sin que "embutidos" sea su primera colección.
+{%- endcomment -%}
+{%- assign _variant_handle = template.suffix -%}
+{%- if _variant_handle != 'jamones' and _variant_handle != 'embutidos' -%}
+  {%- assign _variant_handle = product.collections.first.handle -%}
+{%- endif -%}
+
+{%- case _variant_handle -%}
   {%- when 'jamones' -%}
     {%- assign image_modifier = 'cm-info-image-container--jamones' -%}
     {%- assign section_modifier = 'cm-info-section--jamones' -%}
@@ -604,10 +614,10 @@
 {%- if section.settings.product_image != blank -%}
   {%- assign image_src = section.settings.product_image | image_url: width: 520 -%}
   {%- assign image_alt = section.settings.product_image.alt | default: 'Mano ofreciendo jamón ibérico' -%}
-{%- elsif product.collections.first.handle == 'jamones' and section.settings.jamones_image != blank -%}
+{%- elsif _variant_handle == 'jamones' and section.settings.jamones_image != blank -%}
   {%- assign image_src = section.settings.jamones_image | image_url: width: 520 -%}
   {%- assign image_alt = section.settings.jamones_image.alt | default: 'Mano ofreciendo jamón ibérico' -%}
-{%- elsif product.collections.first.handle == 'embutidos' and section.settings.embutidos_image != blank -%}
+{%- elsif _variant_handle == 'embutidos' and section.settings.embutidos_image != blank -%}
   {%- assign image_src = section.settings.embutidos_image | image_url: width: 520 -%}
   {%- assign image_alt = section.settings.embutidos_image.alt | default: 'Embutido ibérico' -%}
 {%- endif -%}
