@@ -125,6 +125,9 @@
       "name": "Información del Producto",
       "settings": {
         "product_image": "shopify://shop_images/CASA_MARAVILLAS__37_04454059-3043-4046-a866-b98797d7ae85.png",
+        "embutidos_mobile_bottom": 200,
+        "embutidos_mobile_right": 100,
+        "embutidos_mobile_section_padding": 380,
         "eyebrow_text": "Información del producto",
         "title_text": "Transparencia con sabor a",
         "title_em_text": "TRADICIÓN",
@@ -157,23 +160,60 @@
       }
     },
     "related": {
-      "type": "related-same-family",
+      "type": "product-grid",
+      "blocks": {
+        "product_CiDqNt": {
+          "type": "product",
+          "settings": {
+            "product": "lomo-cebo-campo-50-iberico-loncheado",
+            "image_zoom": 100,
+            "image_offset": 50
+          }
+        },
+        "product_TVzaFm": {
+          "type": "product",
+          "settings": {
+            "product": "lomo-bellota-iberico-loncheado-1",
+            "image_zoom": 100,
+            "image_offset": 50
+          }
+        },
+        "product_Bzphai": {
+          "type": "product",
+          "settings": {
+            "product": "jamon-cebo-50-iberico-cortado-a-mano",
+            "image": "shopify://shop_images/4.png",
+            "image_zoom": 100,
+            "image_offset": 50
+          }
+        },
+        "product_LW37t7": {
+          "type": "product",
+          "settings": {
+            "product": "jamon-bellota-100-iberico-pieza-entera",
+            "image_zoom": 100,
+            "image_offset": 50
+          }
+        }
+      },
+      "block_order": [
+        "product_CiDqNt",
+        "product_TVzaFm",
+        "product_Bzphai",
+        "product_LW37t7"
+      ],
       "settings": {
         "eyebrow": "También te puede gustar",
-        "view_all_label": "Ver todos los embutidos"
-      }
-    },
-    "judgeme_reviews": {
-      "type": "judgeme-reviews",
-      "settings": {
-        "padding_top": 64,
-        "padding_bottom": 64
+        "title": "<p>Productos <em>relacionados</em></p>",
+        "description": "",
+        "view_all_label": "Ver toda la colección",
+        "view_all_url": "/collections/all",
+        "section_bg": "off"
       }
     }
   },
   "order": [
     "main",
-    "judgeme_reviews",
     "trust_band_YfPnnW",
     "combina",
     "product_information_zDBpen",
