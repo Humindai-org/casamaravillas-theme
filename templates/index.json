@@ -415,7 +415,8 @@
     "marquee": {
       "type": "marquee-strip",
       "settings": {
-        "text": "Jamón Ibérico de Bellota | Embutidos Artesanales | Packs Regalo | Envío en 24h-72h | Tres Generaciones | Calidad Garantizada | Productos de Alicante | Dehesa Española"
+        "text_peninsula": "Jamón Ibérico de Bellota | Embutidos Artesanales | Packs Regalo | Envío en 24–72h | Tres Generaciones | Calidad Garantizada | Dehesa Española",
+        "text_exterior": "Jamón Ibérico de Bellota | Embutidos Artesanales | Packs Regalo | Envío Internacional | Tres Generaciones | Calidad Garantizada | Dehesa Española"
       }
     },
     "faq_n8WEzd": {
@@ -432,7 +433,7 @@
           "type": "faq_item",
           "settings": {
             "question": "¿Cuánto tarda en llegar mi pedido?",
-            "answer": "<p>Los pedidos realizados antes de las 12:00 h se preparan y envían el mismo día, con entrega en 24-48 horas en Península. Las islas y zonas remotas pueden requerir 2-3 días hábiles adicionales. En periodos de alta demanda (Navidades, Semana Santa) el plazo puede extenderse ligeramente.</p>"
+            "answer": "<p>Los pedidos realizados antes de las 12:00 h se preparan y envían el mismo día, con entrega en 24-48 horas en Península. Las islas y zonas remotas pueden requerir 3-5 días hábiles adicionales. En periodos de alta demanda (Navidades, Semana Santa) el plazo puede extenderse ligeramente.</p>"
           }
         },
         "faq_item_WxYXfM": {
