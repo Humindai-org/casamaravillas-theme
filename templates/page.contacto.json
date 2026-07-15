@@ -15,9 +15,18 @@
         "eyebrow": "Casa Maravillas",
         "heading": "<p>Contacto</p>",
         "intro": "¿Dudas sobre envíos, regalos corporativos o nuestras piezas? Te respondemos lo antes posible.",
-        "email": "adminweb@casamaravillas.com",
+        "email": "",
         "phone": "966 11 34 46",
-        "address": "AV. DE SAN SEBASTIÁN Nº 10 L-1, 03540, Alicante, España"
+        "address": "AV. DE SAN SEBASTIÁN Nº 10 L-1, 03540, Alicante, España",
+        "label_name": "Nombre",
+        "label_lastname": "Apellido",
+        "label_email": "Email",
+        "label_phone": "Teléfono (opcional)",
+        "label_subject": "Asunto",
+        "label_reason": "Motivo",
+        "label_message": "Descripción",
+        "submit_label": "Enviar",
+        "success_message": "Gracias. Hemos recibido tu mensaje."
       }
     },
     "trust": {
@@ -27,28 +36,32 @@
           "type": "trust_item",
           "settings": {
             "title": "Envío gratis",
-            "description": "A partir de €80 en Península"
+            "description": "A partir de €80 en Península",
+            "icon": "icon-envio.svg"
           }
         },
         "trust-2": {
           "type": "trust_item",
           "settings": {
             "title": "Calidad garantizada",
-            "description": "Tres generaciones de artesanía ibérica"
+            "description": "Tres generaciones de artesanía ibérica",
+            "icon": "icon-envio.svg"
           }
         },
         "trust-3": {
           "type": "trust_item",
           "settings": {
             "title": "Embalaje especial",
-            "description": "Conservación en frío garantizada"
+            "description": "Conservación en frío garantizada",
+            "icon": "icon-envio.svg"
           }
         },
         "trust-4": {
           "type": "trust_item",
           "settings": {
             "title": "Packaging regalo",
-            "description": "Presentación premium para regalar"
+            "description": "Presentación premium para regalar",
+            "icon": "icon-envio.svg"
           }
         }
       },
