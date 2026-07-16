@@ -12,6 +12,10 @@
     "main": {
       "type": "main-product",
       "settings": {
+        "gallery_fit": "cover",
+        "gallery_zoom": 100,
+        "gallery_pos_x": 50,
+        "gallery_pos_y": 50,
         "show_sticky_atc": true,
         "product_type": "pieza entera",
         "show_curing_selector": false,
@@ -80,6 +84,9 @@
       "type": "product-information",
       "name": "Información del Producto",
       "settings": {
+        "embutidos_mobile_bottom": -120,
+        "embutidos_mobile_right": -40,
+        "embutidos_mobile_section_padding": 580,
         "eyebrow_text": "Información del producto",
         "title_text": "El jamón ibérico que hay",
         "title_em_text": "dentro.",
@@ -148,23 +155,50 @@
       }
     },
     "related": {
-      "type": "related-same-family",
+      "type": "product-grid",
+      "blocks": {
+        "product_R7gdT4": {
+          "type": "product",
+          "settings": {
+            "product": "pack-iberico-cebo",
+            "image_zoom": 100,
+            "image_offset": 50
+          }
+        },
+        "product_iHKn88": {
+          "type": "product",
+          "settings": {
+            "product": "pack-iberico-campo",
+            "image_zoom": 100,
+            "image_offset": 50
+          }
+        },
+        "product_4YxXqT": {
+          "type": "product",
+          "settings": {
+            "product": "pack-iberico-bellota-100",
+            "image_zoom": 100,
+            "image_offset": 50
+          }
+        }
+      },
+      "block_order": [
+        "product_R7gdT4",
+        "product_iHKn88",
+        "product_4YxXqT"
+      ],
       "settings": {
-        "eyebrow": "También te puede gustar",
-        "view_all_label": "Ver todos los packs"
-      }
-    },
-    "judgeme_reviews": {
-      "type": "judgeme-reviews",
-      "settings": {
-        "padding_top": 64,
-        "padding_bottom": 64
+        "eyebrow": "Otros packs",
+        "title": "<p>Más cestas <em>para regalar</em></p>",
+        "description": "",
+        "view_all_label": "Ver todos los packs",
+        "view_all_url": "/collections/packs-regalo",
+        "section_bg": "off"
       }
     }
   },
   "order": [
     "main",
-    "judgeme_reviews",
     "trust_band_YfPnnW",
     "product_information_packs",
     "product_details_accordion_packs",
