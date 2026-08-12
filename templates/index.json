@@ -192,6 +192,7 @@
         },
         "coll-4": {
           "type": "collection",
+          "disabled": true,
           "settings": {
             "collection": "carnes-ibericas",
             "image": "shopify://shop_images/Got_into_the_kitchen_with_Matt_at_peartreeatgreenlandplace_to_capture_some_serious_steak_action___From_seasoning_to_grilling_to_serving_every_moment_had_a_touch_of_theatre___Love_shoo.jpg"
