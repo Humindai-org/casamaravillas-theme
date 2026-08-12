@@ -17,6 +17,7 @@
   {% endif %}
 
   {% render 'meta-tags' %}
+  {% render 'json-ld-organization' %}
 
   <link rel="canonical" href="{{ canonical_url }}">
 
@@ -27,7 +28,7 @@
   {% # theme-check-disable RemoteAsset %}
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Outfit:wght@200;300;400;500;600&family=Jost:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   {% # theme-check-enable RemoteAsset %}
 
   {{ 'base.css' | asset_url | stylesheet_tag }}
@@ -58,6 +59,7 @@
   {%- sections 'footer-group' -%}
 
   {% section 'cart-drawer' %}
+  {% section 'wishlist-drawer' %}
 
   <script src="{{ 'theme.js' | asset_url }}" defer></script>
 

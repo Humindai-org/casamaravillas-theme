@@ -332,7 +332,7 @@
         "product_kDx39C": {
           "type": "product",
           "settings": {
-            "product": "jamon-bellota-75-iberico-pieza-entera",
+            "product": "chorizo-bellota-iberico-loncheado",
             "image_zoom": 100,
             "image_offset": 50
           }
@@ -340,7 +340,7 @@
         "product_bkMDid": {
           "type": "product",
           "settings": {
-            "product": "jamon-cebo-de-campo-50-iberico-pieza-entera",
+            "product": "lomo-bellota-iberico-loncheado-1",
             "image_zoom": 100,
             "image_offset": 50
           }
@@ -348,7 +348,7 @@
         "product_t6MeYD": {
           "type": "product",
           "settings": {
-            "product": "jamon-cebo-50-iberico-pieza-entera",
+            "product": "pack-iberico-bellota-100",
             "image_zoom": 100,
             "image_offset": 50
           }

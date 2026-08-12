@@ -1,0 +1,38 @@
+{% comment %}
+  json-ld-organization.liquid
+  Datos estructurados schema.org/Organization, sitewide. No produce salida visible.
+{% endcomment %}
+
+{%- assign org_name = settings.seo_org_name | default: shop.name -%}
+{%- assign org_logo = 'logo2-sin-bg.png' | asset_url -%}
+
+{%- assign same_as = '' -%}
+{%- if settings.social_instagram != blank -%}{%- assign same_as = same_as | append: settings.social_instagram | append: ',' -%}{%- endif -%}
+{%- if settings.social_facebook != blank -%}{%- assign same_as = same_as | append: settings.social_facebook | append: ',' -%}{%- endif -%}
+{%- if settings.social_tiktok != blank -%}{%- assign same_as = same_as | append: settings.social_tiktok | append: ',' -%}{%- endif -%}
+{%- assign same_as = same_as | split: ',' -%}
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": {{ org_name | json }},
+  "url": {{ request.origin | append: routes.root_url | json }},
+  "logo": {{ org_logo | prepend: 'https:' | json }}
+  {%- unless settings.seo_org_email == blank -%},
+  "email": {{ settings.seo_org_email | json }}
+  {%- endunless -%}
+  {%- unless settings.seo_org_phone == blank -%},
+  "telephone": {{ settings.seo_org_phone | json }}
+  {%- endunless -%}
+  {%- unless settings.seo_org_address == blank -%},
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": {{ settings.seo_org_address | json }}
+  }
+  {%- endunless -%}
+  {%- if same_as.size > 0 -%},
+  "sameAs": {{ same_as | json }}
+  {%- endif -%}
+}
+</script>

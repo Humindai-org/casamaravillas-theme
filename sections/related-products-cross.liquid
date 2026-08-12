@@ -104,7 +104,9 @@
 {%- liquid
   assign current_family = template.suffix
 
-  assign all_families = 'jamones,embutidos,carnes-ibericas,packs-regalo' | split: ','
+  # Carnes ibéricas oculta temporalmente — no se ofrece todavía. Para reactivar,
+  # volver a incluir 'carnes-ibericas' en la lista de abajo.
+  assign all_families = 'jamones,embutidos,packs-regalo' | split: ','
 -%}
 
 <section class="rpc-section">
@@ -143,7 +145,7 @@
 
 {% schema %}
 {
-  "name": "Relacionados cross-familia",
+  "name": "Relacionados cross-fam",
   "tag": "section",
   "settings": [
     {
@@ -172,7 +174,7 @@
   ],
   "presets": [
     {
-      "name": "Relacionados cross-familia"
+      "name": "Relacionados cross-fam"
     }
   ]
 }

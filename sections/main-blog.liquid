@@ -123,9 +123,9 @@
         <a class="cm-blog__card" href="{{ article.url }}">
           {%- if article.image -%}
             <img class="cm-blog__card-img"
-              src="{{ article.image | image_url: width: 600 }}"
+              src="{{ article.image | image_url: width: 600, format: 'webp' }}"
               alt="{{ article.image.alt | escape }}"
-              width="600" height="400">
+              width="600" height="400" loading="lazy">
           {%- else -%}
             <div class="cm-blog__card-img"></div>
           {%- endif -%}

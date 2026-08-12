@@ -129,7 +129,7 @@
 
   {%- if section.settings.image != blank -%}
     {{ section.settings.image
-      | image_url: width: 1800
+      | image_url: width: 1800, format: 'webp'
       | image_tag:
           class: 'nsh__bg',
           loading: 'eager',

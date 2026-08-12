@@ -93,17 +93,19 @@
 {%- liquid
   assign current_family = template.suffix
 
+  # Carnes ibéricas oculta temporalmente de las sugerencias — no se ofrece todavía.
+  # Para reactivar, volver a incluir 'carnes-ibericas' en las listas de abajo.
   case current_family
     when 'jamones'
-      assign other_families = 'embutidos,carnes-ibericas,packs-regalo' | split: ','
+      assign other_families = 'embutidos,packs-regalo' | split: ','
     when 'embutidos'
-      assign other_families = 'jamones,carnes-ibericas,packs-regalo' | split: ','
+      assign other_families = 'jamones,packs-regalo' | split: ','
     when 'carnes-ibericas'
       assign other_families = 'jamones,embutidos,packs-regalo' | split: ','
     when 'packs-regalo'
-      assign other_families = 'jamones,embutidos,carnes-ibericas' | split: ','
+      assign other_families = 'jamones,embutidos' | split: ','
     else
-      assign other_families = 'jamones,embutidos,carnes-ibericas,packs-regalo' | split: ','
+      assign other_families = 'jamones,embutidos,packs-regalo' | split: ','
   endcase
 
   assign eyebrow    = section.settings.eyebrow | default: 'También te puede gustar'
@@ -200,7 +202,7 @@
 
 {% schema %}
 {
-  "name": "Relacionados — misma familia",
+  "name": "Relacionados misma fam",
   "tag": "section",
   "blocks": [
     {
@@ -247,7 +249,7 @@
   ],
   "presets": [
     {
-      "name": "Relacionados — misma familia"
+      "name": "Relacionados misma fam"
     }
   ]
 }

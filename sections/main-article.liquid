@@ -71,9 +71,9 @@
 
   {%- if article.image -%}
     <img class="cm-article__img"
-      src="{{ article.image | image_url: width: 1200 }}"
+      src="{{ article.image | image_url: width: 1200, format: 'webp' }}"
       alt="{{ article.image.alt | escape }}"
-      width="1200" height="675">
+      width="1200" height="675" loading="eager" fetchpriority="high">
   {%- endif -%}
 
   <div class="cm-article__body">{{ article.content }}</div>

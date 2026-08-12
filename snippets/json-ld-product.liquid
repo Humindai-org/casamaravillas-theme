@@ -1,0 +1,63 @@
+{% comment %}
+  json-ld-product.liquid
+  Datos estructurados schema.org/Product. Render solo desde main-product.liquid,
+  reutiliza las variables (current_variant, featured_image, rev_rating...) que esa
+  sección ya calcula más arriba. No produce salida visible.
+{% endcomment %}
+
+{%- assign ld_breed = product.metafields.custom.breed.value -%}
+{%- assign ld_feeding = product.metafields.custom.feeding_type.value -%}
+{%- assign ld_origin = product.metafields.custom.origin.value -%}
+{%- assign ld_curing = product.metafields.custom.tiempo_de_curacion.value -%}
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": {{ product.title | json }},
+  "description": {{ product.description | strip_html | truncate: 500 | json }},
+  "sku": {{ current_variant.sku | json }},
+  "url": {{ request.origin | append: product.url | json }},
+  "image": [
+    {{- featured_image | image_url: width: 1200, format: 'webp' | prepend: 'https:' | json -}}
+    {%- assign ld_extra_count = 0 -%}
+    {%- for image in product.images -%}
+      {%- if ld_extra_count < 4 and image != featured_image -%}
+        ,{{ image | image_url: width: 1200, format: 'webp' | prepend: 'https:' | json }}
+        {%- assign ld_extra_count = ld_extra_count | plus: 1 -%}
+      {%- endif -%}
+    {%- endfor -%}
+  ]
+  {%- unless product.vendor == blank -%},
+  "brand": {
+    "@type": "Brand",
+    "name": {{ product.vendor | json }}
+  }
+  {%- endunless -%}
+  {%- if rev_rating != blank -%},
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": {{ rev_rating | json }},
+    "reviewCount": {{ rev_count | default: 1 | json }}
+  }
+  {%- endif -%}
+  {%- unless ld_breed == blank and ld_feeding == blank and ld_origin == blank and ld_curing == blank -%},
+  "additionalProperty": [
+    {%- capture ld_props -%}
+      {%- unless ld_breed == blank -%}{"@type":"PropertyValue","name":"Raza","value":{{ ld_breed | json }}},{%- endunless -%}
+      {%- unless ld_feeding == blank -%}{"@type":"PropertyValue","name":"Alimentación","value":{{ ld_feeding | json }}},{%- endunless -%}
+      {%- unless ld_origin == blank -%}{"@type":"PropertyValue","name":"Origen","value":{{ ld_origin | json }}},{%- endunless -%}
+      {%- unless ld_curing == blank -%}{"@type":"PropertyValue","name":"Curación","value":{{ ld_curing | json }}},{%- endunless -%}
+    {%- endcapture -%}
+    {{ ld_props | remove_last: ',' }}
+  ]
+  {%- endunless -%},
+  "offers": {
+    "@type": "Offer",
+    "url": {{ request.origin | append: product.url | json }},
+    "priceCurrency": {{ cart.currency.iso_code | json }},
+    "price": {{ current_variant.price | divided_by: 100.0 | json }},
+    "availability": "https://schema.org/{% if current_variant.available %}InStock{% else %}OutOfStock{% endif %}"
+  }
+}
+</script>

@@ -72,7 +72,7 @@
         <div class="filmstrip__item" {{ block.shopify_attributes }}>
           {%- if block.settings.image != blank -%}
             {{ block.settings.image
-              | image_url: width: 620
+              | image_url: width: 620, format: 'webp'
               | image_tag:
                   loading: 'lazy',
                   alt: block.settings.image.alt | escape
@@ -90,7 +90,7 @@
         <div class="filmstrip__item">
           {%- if block.settings.image != blank -%}
             {{ block.settings.image
-              | image_url: width: 620
+              | image_url: width: 620, format: 'webp'
               | image_tag:
                   loading: 'lazy',
                   alt: ''

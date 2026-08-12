@@ -161,7 +161,7 @@
   <div class="nsv__img-col">
     {%- if section.settings.image != blank -%}
       {{ section.settings.image
-        | image_url: width: 1400
+        | image_url: width: 1400, format: 'webp'
         | image_tag:
             loading: 'lazy',
             alt: section.settings.image.alt | escape
@@ -190,7 +190,7 @@
       {%- if section.settings.content_image != blank -%}
         <div class="nsv__content-img cm-reveal cm-reveal--d3">
           {{ section.settings.content_image
-            | image_url: width: 600
+            | image_url: width: 600, format: 'webp'
             | image_tag:
                 loading: 'lazy',
                 alt: section.settings.content_image.alt | escape

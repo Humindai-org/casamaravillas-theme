@@ -225,23 +225,25 @@
   <div class="jh__sticky-{{ section.id }}">
 
     {%- if section.settings.image != blank -%}
+      {%- assign jh_bg_class = 'jh__bg-img-' | append: section.id -%}
       <div class="jh__bg-{{ section.id }}">
-        {%- assign jh_src = section.settings.image | image_url: width: 2400 -%}
-        <img
-          class="jh__bg-img-{{ section.id }}"
-          src="{{ jh_src }}"
-          alt="{{ jh_heading | escape }}"
-          width="2400"
-          height="1400"
-          loading="eager"
-        >
+        {{ section.settings.image
+          | image_url: width: 2400, format: 'webp'
+          | image_tag:
+              class: jh_bg_class,
+              alt: jh_heading,
+              loading: 'eager',
+              fetchpriority: 'high',
+              sizes: '100vw',
+              widths: '480,768,1024,1440,1920,2400'
+        }}
         <div class="jh__bg-overlay-{{ section.id }}" id="jh-overlay-{{ section.id }}" aria-hidden="true"></div>
         <div class="jh__bg-wash-{{ section.id }}" aria-hidden="true"></div>
       </div>
     {%- endif -%}
 
     {%- if section.settings.image_secondary != blank -%}
-      {%- assign jh_src_secondary = section.settings.image_secondary | image_url: width: 2400 -%}
+      {%- assign jh_src_secondary = section.settings.image_secondary | image_url: width: 900, format: 'webp' -%}
       <div
         class="jh__frame-{{ section.id }}"
         id="jh-frame-{{ section.id }}"

@@ -45,7 +45,7 @@
 
   .collection-main__grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(var(--collection-columns, 4), 1fr);
     gap: 1px;
     background: var(--cm-border);
     border: 1px solid var(--cm-border);
@@ -169,7 +169,15 @@
         {%- endif -%}
       </header>
 
-      <div class="collection-main__grid">
+      {%- assign visible_collection_count = 0 -%}
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'collection' and block.settings.collection != blank and collections[block.settings.collection] != blank -%}
+          {%- assign visible_collection_count = visible_collection_count | plus: 1 -%}
+        {%- endif -%}
+      {%- endfor -%}
+      {%- assign grid_columns = visible_collection_count | at_most: 4 -%}
+
+      <div class="collection-main__grid" style="--collection-columns: {{ grid_columns }};">
         {%- for block in section.blocks -%}
           {%- if block.type == 'collection' -%}
             {%- assign coll_handle = block.settings.collection -%}
@@ -179,10 +187,10 @@
                 <a href="{{ coll.url }}" class="collection-card" {{ block.shopify_attributes }}>
                   <div class="collection-card__img">
                     {%- if block.settings.image != blank -%}
-                      {%- assign img_url = block.settings.image | image_url: width: 600 -%}
+                      {%- assign img_url = block.settings.image | image_url: width: 600, format: 'webp' -%}
                       <img src="{{ img_url }}" alt="{{ coll.title }}" loading="lazy" width="600" height="600">
                     {%- elsif coll.image != blank -%}
-                      {%- assign img_url = coll.image | image_url: width: 600 -%}
+                      {%- assign img_url = coll.image | image_url: width: 600, format: 'webp' -%}
                       <img src="{{ img_url }}" alt="{{ coll.title }}" loading="lazy" width="600" height="600">
                     {%- else -%}
                       {% # theme-check-disable-next-line RemoteAsset %}

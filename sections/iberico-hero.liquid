@@ -160,7 +160,7 @@
       {%- if section.settings.image != blank -%}
         <img
           class="ih__img-{{ section.id }}"
-          src="{{ section.settings.image | image_url: width: 2400 }}"
+          src="{{ section.settings.image | image_url: width: 2400, format: 'webp' }}"
           alt="{{ ih_heading | escape }}"
           width="2400"
           height="1400"

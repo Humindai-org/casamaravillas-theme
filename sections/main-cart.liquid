@@ -206,7 +206,7 @@
               <td>
                 <div class="cm-cart__product">
                   {%- if item.image -%}
-                    <img class="cm-cart__img" src="{{ item.image | image_url: width: 160 }}" alt="{{ item.title | escape }}" width="80" height="80">
+                    <img class="cm-cart__img" src="{{ item.image | image_url: width: 160, format: 'webp' }}" alt="{{ item.title | escape }}" width="80" height="80" loading="lazy">
                   {%- else -%}
                     <div class="cm-cart__img"></div>
                   {%- endif -%}

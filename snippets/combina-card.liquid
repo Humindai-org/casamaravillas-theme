@@ -9,7 +9,7 @@
     <div class="cm-combina__card-img-wrap">
       {%- if cp.featured_image -%}
         <img
-          src="{{ cp.featured_image | image_url: width: 400 }}"
+          src="{{ cp.featured_image | image_url: width: 400, format: 'webp' }}"
           alt="{{ cp.title | escape }}"
           class="cm-combina__card-img"
           loading="lazy"

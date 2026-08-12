@@ -22,12 +22,9 @@ function initCartDrawer() {
   /* ---- FETCH & RENDER CART ---- */
 
   function fetchAndRenderCart() {
-    console.log('[cart-drawer] fetchAndRenderCart() called');
     return fetch('/cart.js')
       .then(function (res) { return res.json(); })
       .then(function (cart) {
-        console.log('[cart-drawer] /cart.js response:', cart);
-        console.log('[cart-drawer] cart.items.length:', cart.items.length);
         renderCartItems(cart);
         updateCartCount(cart.item_count);
         updateCartTotals(cart);
@@ -41,9 +38,7 @@ function initCartDrawer() {
   }
 
   function renderCartItems(cart) {
-    console.log('[renderCartItems] Called with cart:', cart);
     var container = document.getElementById('cart-items-container');
-    console.log('[renderCartItems] Container found:', !!container);
     if (!container) {
       console.error('[renderCartItems] cart-items-container not found!');
       return;
@@ -54,10 +49,6 @@ function initCartDrawer() {
       return;
     }
 
-    console.log('[renderCartItems] cart.items.length:', cart.items.length);
-    if (cart.items.length > 0) {
-      console.log('[renderCartItems] First item structure:', JSON.stringify(cart.items[0], null, 2));
-    }
     if (cart.items.length === 0) {
       container.innerHTML =
         '<div class="cart-empty">' +
@@ -68,7 +59,6 @@ function initCartDrawer() {
     }
 
     var html = '';
-    console.log('[renderCartItems] Starting to build HTML for items');
     cart.items.forEach(function (item) {
       /* Resize Shopify CDN image to 160×160 crop center */
       var imageUrl = item.image
@@ -78,6 +68,19 @@ function initCartDrawer() {
       var variantHtml = (item.variant_title && item.variant_title !== 'Default Title')
         ? '<p class="cart-variant">' + escapeHtml(item.variant_title) + '</p>'
         : '';
+
+      var priceHtml;
+      if (item.original_line_price > item.line_price) {
+        var pct = Math.round((item.original_line_price - item.line_price) * 100 / item.original_line_price);
+        priceHtml =
+          '<div class="cart-price-wrap">' +
+            '<span class="cart-price-compare">' + formatMoney(item.original_line_price) + '</span>' +
+            '<span class="cart-price cart-price--sale">' + formatMoney(item.line_price) + '</span>' +
+            '<span class="cart-discount-badge">-' + pct + '%</span>' +
+          '</div>';
+      } else {
+        priceHtml = '<span class="cart-price">' + formatMoney(item.line_price) + '</span>';
+      }
 
       html +=
         '<div class="cart-item" data-key="' + item.key + '">' +
@@ -97,7 +100,7 @@ function initCartDrawer() {
             '</div>' +
           '</div>' +
           '<div class="cart-item-right">' +
-            '<span class="cart-price">' + formatMoney(item.line_price) + '</span>' +
+            priceHtml +
             '<button class="cart-remove" onclick="removeItem(\'' + item.key + '\')" aria-label="Eliminar">' +
               '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">' +
                 '<path d="M2 4h12M6 4V2h4v2M5 4l.5 9h5L11 4" stroke="#6B6050" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>' +
@@ -107,12 +110,7 @@ function initCartDrawer() {
         '</div>';
     });
 
-    console.log('[renderCartItems] HTML built, length:', html.length);
-    console.log('[renderCartItems] First 300 chars:', html.substring(0, 300));
-    console.log('[renderCartItems] Container before:', container.innerHTML.substring(0, 100));
     container.innerHTML = html;
-    console.log('[renderCartItems] Container after:', container.innerHTML.substring(0, 100));
-    console.log('[renderCartItems] HTML assigned successfully');
   }
 
   function updateCartCount(count) {
@@ -201,16 +199,11 @@ function initCartDrawer() {
 
   /* ---- ADD TO CART INTERCEPT ---- */
 
-  console.log('[cart-drawer] initializing submit listener');
-
   document.addEventListener('submit', function (e) {
     var form = e.target;
-    console.log('[cart-drawer] form submit detected:', form.tagName);
     /* Detect product forms by [name="add"] button — works regardless of action query params */
     var addBtn = form.querySelector('[name="add"]');
-    console.log('[cart-drawer] has add button:', !!addBtn);
     if (!form || !addBtn) return;
-    console.log('[cart-drawer] intercepting add-to-cart');
     e.preventDefault();
 
     var submitBtn = form.querySelector('[name="add"]');
@@ -233,7 +226,6 @@ function initCartDrawer() {
       body: params.toString()
     })
       .then(function (res) {
-        console.log('[cart-drawer] add response status:', res.status);
         if (!res.ok) {
           throw new Error('HTTP ' + res.status);
         }
@@ -333,18 +325,10 @@ function initCartDrawer() {
 }
 
 // Initialize when DOM is ready or immediately if already loaded
-console.log('[cart-drawer] Script loaded, document.readyState:', document.readyState);
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', function() {
-    console.log('[cart-drawer] DOMContentLoaded firing, initializing...');
     initCartDrawer();
   });
 } else {
-  console.log('[cart-drawer] DOM already loaded, initializing immediately...');
   initCartDrawer();
 }
-console.log('[cart-drawer] Global functions exposed:', {
-  openCart: typeof window.openCart,
-  closeCart: typeof window.closeCart,
-  fetchAndRenderCart: typeof window.fetchAndRenderCart
-});

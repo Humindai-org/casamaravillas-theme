@@ -163,7 +163,7 @@
   <div class="nso__image-col">
     {%- if section.settings.image != blank -%}
       {{ section.settings.image
-        | image_url: width: 1200
+        | image_url: width: 1200, format: 'webp'
         | image_tag:
             loading: 'lazy',
             alt: section.settings.image.alt | escape

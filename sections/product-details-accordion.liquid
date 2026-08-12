@@ -388,7 +388,7 @@
                   {%- if child_block.settings.image != blank -%}
                     <div class="cm-accordion-block cm-accordion-block--image" {{ child_block.shopify_attributes }}>
                       <img
-                        src="{{ child_block.settings.image | image_url: width: 800 }}"
+                        src="{{ child_block.settings.image | image_url: width: 800, format: 'webp' }}"
                         alt="{{ child_block.settings.image.alt | escape | default: child_block.settings.caption }}"
                         width="{{ child_block.settings.image.width }}"
                         height="{{ child_block.settings.image.height }}"

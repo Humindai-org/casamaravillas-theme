@@ -336,7 +336,7 @@
           {%- if block.settings.image != blank -%}
             <div class="nsp__card-image">
               {{ block.settings.image
-                | image_url: width: 800
+                | image_url: width: 800, format: 'webp'
                 | image_tag: loading: 'lazy', alt: block.settings.image.alt | escape
               }}
             </div>

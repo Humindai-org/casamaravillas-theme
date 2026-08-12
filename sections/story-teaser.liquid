@@ -128,7 +128,7 @@
 <section class="story-teaser">
   <div class="story-teaser__bg">
     {%- if section.settings.image != blank -%}
-      {{ section.settings.image | image_url: width: 1400 | image_tag:
+      {{ section.settings.image | image_url: width: 1400, format: 'webp' | image_tag:
         loading: 'lazy',
         alt: '',
         aria_hidden: 'true'

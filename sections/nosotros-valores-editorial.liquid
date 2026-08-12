@@ -395,7 +395,7 @@
     <div class="nve__text-full" data-sr-block {{ block.shopify_attributes }}>
       {%- if block.settings.background_image != blank -%}
         {{ block.settings.background_image
-          | image_url: width: 2000
+          | image_url: width: 2000, format: 'webp'
           | image_tag:
               class: 'nve__text-full__bg-img',
               loading: 'lazy',
@@ -425,7 +425,7 @@
       <div class="nve__split__img">
         {%- if block.settings.image != blank -%}
           {{ block.settings.image
-            | image_url: width: 1400
+            | image_url: width: 1400, format: 'webp'
             | image_tag: loading: 'lazy', alt: block.settings.image.alt | escape
           }}
         {%- else -%}
@@ -453,7 +453,7 @@
       <div class="nve__cinematic__img-wrap">
         {%- if block.settings.image != blank -%}
           {{ block.settings.image
-            | image_url: width: 2000
+            | image_url: width: 2000, format: 'webp'
             | image_tag: loading: 'lazy', alt: block.settings.image.alt | escape
           }}
         {%- else -%}
@@ -479,7 +479,7 @@
     <div class="nve__centered" data-sr-block {{ block.shopify_attributes }}>
       {%- if block.settings.background_image != blank -%}
         {{ block.settings.background_image
-          | image_url: width: 2000
+          | image_url: width: 2000, format: 'webp'
           | image_tag:
               class: 'nve__centered__bg-img',
               loading: 'lazy',

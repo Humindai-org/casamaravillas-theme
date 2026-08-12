@@ -44,7 +44,7 @@
                   {%- if item.image -%}
                     <img
                       class="co-cart-item__img"
-                      src="{{ item.image | image_url: width: 160 }}"
+                      src="{{ item.image | image_url: width: 160, format: 'webp' }}"
                       alt="{{ item.title | escape }}"
                       width="80" height="80" loading="lazy"
                     >
@@ -116,7 +116,7 @@
 
             <div class="co-form__group co-form__group--full">
               <label class="co-label" for="co-email">Correo electrónico</label>
-              <input class="co-input" type="email" id="co-email" name="email" placeholder="correo@ejemplo.com" autocomplete="email" required>
+              <input class="co-input" type="email" id="co-email" name="email" placeholder="tu@email.com" autocomplete="email" required>
               <span class="co-input-error" id="co-email-error"></span>
             </div>
 
@@ -202,7 +202,7 @@
 
             <div class="co-form__group co-form__group--full">
               <label class="co-label" for="co-telefono">Teléfono</label>
-              <input class="co-input" type="tel" id="co-telefono" name="phone" placeholder="+34 000 000 000" autocomplete="tel" required>
+              <input class="co-input" type="tel" id="co-telefono" name="phone" placeholder="+34 612 34 56 78" autocomplete="tel" required>
               <span class="co-input-error" id="co-telefono-error"></span>
             </div>
 
@@ -389,9 +389,9 @@
                 {%- if item.image -%}
                   <img
                     class="co-summary__item-img"
-                    src="{{ item.image | image_url: width: 80 }}"
+                    src="{{ item.image | image_url: width: 80, format: 'webp' }}"
                     alt="{{ item.title | escape }}"
-                    width="40" height="40"
+                    width="40" height="40" loading="lazy"
                   >
                 {%- endif -%}
                 <span class="co-summary__item-qty">{{ item.quantity }}</span>

@@ -134,8 +134,8 @@
 
   <div class="hqt__grid-{{ section.id }}">
     {%- for block in section.blocks -%}
-      {%- assign front_url = block.settings.front_image | image_url: width: 600 -%}
-      {%- assign back_url = block.settings.back_image | image_url: width: 600 -%}
+      {%- assign front_url = block.settings.front_image | image_url: width: 600, format: 'webp' -%}
+      {%- assign back_url = block.settings.back_image | image_url: width: 600, format: 'webp' -%}
 
       <div
         class="hqt__item-{{ section.id }}"

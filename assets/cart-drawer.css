@@ -230,6 +230,36 @@
   white-space: nowrap;
 }
 
+.cart-price-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.cart-price-compare {
+  font-family: "Montserrat", sans-serif;
+  font-size: 11px;
+  color: #6B6050;
+  text-decoration: line-through;
+  white-space: nowrap;
+}
+
+.cart-price--sale {
+  color: #8B1A1A;
+}
+
+.cart-discount-badge {
+  font-family: "Montserrat", sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  background: #8B1A1A;
+  color: #FAF6EF;
+  padding: 2px 6px;
+  white-space: nowrap;
+}
+
 .cart-remove {
   background: none;
   border: none;

@@ -193,7 +193,7 @@
     <div class="site-footer__brand-col">
       <a href="{{ routes.root_url }}" class="site-footer__logo">
         {%- if section.settings.logo != blank -%}
-          {{ section.settings.logo | image_url: width: 600 | image_tag:
+          {{ section.settings.logo | image_url: width: 600, format: 'webp' | image_tag:
               loading: 'lazy',
               alt: shop.name,
               style: 'height: 120px; width: auto;'
@@ -233,7 +233,8 @@
       <ul class="site-footer__nav-list">
         <li><a href="{{ routes.collections_url }}/jamones">Jamones</a></li>
         <li><a href="{{ routes.collections_url }}/embutidos">Embutidos</a></li>
-        <li><a href="{{ routes.collections_url }}/carnes-ibericas">Carnes ibéricas</a></li>
+        {%- comment -%} Carnes ibéricas oculto temporalmente — no se ofrece todavía. Para reactivar, descomentar la línea de abajo. {%- endcomment -%}
+        {%- comment -%} <li><a href="{{ routes.collections_url }}/carnes-ibericas">Carnes ibéricas</a></li> {%- endcomment -%}
         <li><a href="{{ routes.collections_url }}/paquetes-de-regalo">Packs & Regalos</a></li>
       </ul>
     </div>

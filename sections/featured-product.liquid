@@ -141,7 +141,7 @@
   <!-- Columna imagen -->
   <div class="featured-product__img-col">
     {%- if section.settings.image != blank -%}
-      {{ section.settings.image | image_url: width: 1200 | image_tag:
+      {{ section.settings.image | image_url: width: 1200, format: 'webp' | image_tag:
           loading: 'lazy',
           alt: section.settings.image.alt | escape
       }}

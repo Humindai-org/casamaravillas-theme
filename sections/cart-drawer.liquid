@@ -37,7 +37,7 @@
           <a href="{{ item.url }}" class="cart-item-image-link">
             {%- if item.image -%}
               <img
-                src="{{ item.image | image_url: width: 160, height: 160, crop: 'center' }}"
+                src="{{ item.image | image_url: width: 160, height: 160, crop: 'center', format: 'webp' }}"
                 alt="{{ item.title | escape }}"
                 class="cart-item-img"
                 width="80"
@@ -71,7 +71,16 @@
             </div>
           </div>
           <div class="cart-item-right">
-            <span class="cart-price">{{ item.final_line_price | money }}</span>
+            {%- if item.original_line_price > item.final_line_price -%}
+              {%- assign cart_item_pct = item.original_line_price | minus: item.final_line_price | times: 100 | divided_by: item.original_line_price -%}
+              <div class="cart-price-wrap">
+                <span class="cart-price-compare">{{ item.original_line_price | money }}</span>
+                <span class="cart-price cart-price--sale">{{ item.final_line_price | money }}</span>
+                <span class="cart-discount-badge">-{{ cart_item_pct }}%</span>
+              </div>
+            {%- else -%}
+              <span class="cart-price">{{ item.final_line_price | money }}</span>
+            {%- endif -%}
             <button
               class="cart-remove"
               onclick="removeItem('{{ item.key }}')"
@@ -121,13 +130,7 @@
             <circle cx="6" cy="3.5" r="0.6" fill="#6B6050"/>
           </svg>
         </span>
-        <span>
-          {%- if cart.total_price >= 8000 -%}
-            Gratis
-          {%- else -%}
-            Calculado al pagar
-          {%- endif -%}
-        </span>
+        <span id="cart-shipping">Calculado en el checkout</span>
       </div>
       <div class="cart-divider"></div>
       <div class="row total">
@@ -162,7 +165,7 @@
             <line x1="10.5" y1="27" x2="24.5" y2="27" stroke="#6B6050" stroke-width="1.4"/>
             <line x1="1" y1="27" x2="5.5" y2="27" stroke="#6B6050" stroke-width="1.4"/>
           </svg>
-          <span>Envío gratuito a partir de 80€</span>
+          <span>Envíos internacionales</span>
         </div>
 
         <!-- Conservación óptima -->
@@ -243,7 +246,7 @@
   </div>
 </div>
 
-<script src="{{ 'cart-drawer.js' | asset_url }}"></script>
+<script src="{{ 'cart-drawer.js' | asset_url }}" defer></script>
 
 {% schema %}
 {

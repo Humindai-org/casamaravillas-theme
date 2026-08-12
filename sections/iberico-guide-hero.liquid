@@ -1,6 +1,4 @@
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&display=swap');
-
 .igh-{{ section.id }} {
   position: relative;
   min-height: 90vh;
@@ -199,7 +197,7 @@
 {% if section.settings.image %}
 <style>
   .igh-{{ section.id }} {
-    background-image: url({{ section.settings.image | image_url: width: 2000 }});
+    background-image: url({{ section.settings.image | image_url: width: 2000, format: 'webp' }});
     background-size: cover;
     background-position: 70% center;
     background-repeat: no-repeat;

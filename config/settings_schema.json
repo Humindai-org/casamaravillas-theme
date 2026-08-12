@@ -110,5 +110,35 @@
         "label": "TikTok"
       }
     ]
+  },
+  {
+    "name": "SEO / Datos estructurados",
+    "settings": [
+      {
+        "type": "text",
+        "id": "seo_org_name",
+        "label": "Nombre de la organización",
+        "default": "Casa Maravillas"
+      },
+      {
+        "type": "text",
+        "id": "seo_org_email",
+        "label": "Email de contacto",
+        "default": "info@casamaravillas.com",
+        "info": "Usado en los datos estructurados (JSON-LD) que lee Google, no visible en la tienda."
+      },
+      {
+        "type": "text",
+        "id": "seo_org_phone",
+        "label": "Teléfono de contacto",
+        "default": "+34 966 11 34 46"
+      },
+      {
+        "type": "textarea",
+        "id": "seo_org_address",
+        "label": "Dirección",
+        "default": "Alicante, España"
+      }
+    ]
   }
 ]

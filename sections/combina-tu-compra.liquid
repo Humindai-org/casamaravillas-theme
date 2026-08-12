@@ -5,15 +5,17 @@
 
   assign current_family = template.suffix
 
+  # Carnes ibéricas oculta temporalmente de las sugerencias — no se ofrece todavía.
+  # Para reactivar, volver a incluir 'carnes-ibericas' en las listas de abajo.
   case current_family
     when 'jamones'
-      assign families_to_show = 'embutidos,packs-regalo,carnes-ibericas' | split: ','
+      assign families_to_show = 'embutidos,packs-regalo' | split: ','
     when 'embutidos'
-      assign families_to_show = 'jamones,packs-regalo,carnes-ibericas' | split: ','
+      assign families_to_show = 'jamones,packs-regalo' | split: ','
     when 'carnes-ibericas'
       assign families_to_show = 'jamones,embutidos,packs-regalo' | split: ','
     when 'packs-regalo'
-      assign families_to_show = 'jamones,embutidos,carnes-ibericas' | split: ','
+      assign families_to_show = 'jamones,embutidos' | split: ','
     else
       assign families_to_show = 'jamones,embutidos,packs-regalo' | split: ','
   endcase

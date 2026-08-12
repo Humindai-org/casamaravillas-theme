@@ -46,9 +46,9 @@
             {% if block.settings.image != blank %}
               {% assign img_alt = block.settings.alt | default: 'Imagen de la guía del ibérico' %}
               {% if forloop.first %}
-                {{ block.settings.image | image_url: width: 1400 | image_tag: class: 'iberico-guide__photo iberico-guide__photo--block', loading: 'eager', alt: img_alt }}
+                {{ block.settings.image | image_url: width: 1400, format: 'webp' | image_tag: class: 'iberico-guide__photo iberico-guide__photo--block', loading: 'eager', alt: img_alt }}
               {% else %}
-                {{ block.settings.image | image_url: width: 1400 | image_tag: class: 'iberico-guide__photo iberico-guide__photo--block', loading: 'lazy', alt: img_alt }}
+                {{ block.settings.image | image_url: width: 1400, format: 'webp' | image_tag: class: 'iberico-guide__photo iberico-guide__photo--block', loading: 'lazy', alt: img_alt }}
               {% endif %}
             {% else %}
               {% case slot_index %}
@@ -56,21 +56,27 @@
                   <div class="iberico-guide__pig-compare">
                     <div class="iberico-guide__pig-card">
                       <span class="iberico-guide__pig-label">Ibérico</span>
-                      <img class="iberico-guide__pig-art" src="{{ 'pig-iberico-red.png' | asset_url }}" alt="Cerdo iberico rojo">
+                      <img class="iberico-guide__pig-art" src="{{ 'pig_transparent.png' | asset_url }}" alt="Cerdo iberico rojo" width="260" height="263" loading="eager">
                       <span class="iberico-guide__pig-meta">bellota · dehesa · raza</span>
                     </div>
                     <div class="iberico-guide__pig-card">
                       <span class="iberico-guide__pig-label">Serrano</span>
-                      <img class="iberico-guide__pig-art" src="{{ 'pig-serrano-beige.png' | asset_url }}" alt="Cerdo serrano beige">
+                      <img class="iberico-guide__pig-art" src="{{ 'pig_transparent.png' | asset_url }}" alt="Cerdo serrano beige" width="260" height="263" loading="eager">
                       <span class="iberico-guide__pig-meta">curación · grano · tradición</span>
                     </div>
                   </div>
                 {% when 1 %}
-                  <img class="iberico-guide__photo iberico-guide__photo--dark" src="{{ 'precintos-premium.png' | asset_url }}" alt="Clasificacion por etiquetas del jamon iberico">
+                  <div class="iberico-guide__photo-fallback">
+                    {%- render 'icon-selector', icon: 'icon-garantia.svg', width: 40, height: 40, alt: 'Clasificación por etiquetas del jamón ibérico' -%}
+                  </div>
                 {% when 2 %}
-                  <img class="iberico-guide__photo iberico-guide__photo--light" src="{{ 'dop-map-premium.png' | asset_url }}" alt="Mapa de España con denominaciones de origen del jamon iberico">
+                  <div class="iberico-guide__photo-fallback">
+                    {%- render 'icon-selector', icon: 'icon-origen.svg', width: 40, height: 40, alt: 'Mapa de España con denominaciones de origen del jamón ibérico' -%}
+                  </div>
                 {% else %}
-                  <img class="iberico-guide__photo" src="{{ 'jamon-jamonera.png' | asset_url }}" alt="Jamon iberico en jamonera siendo cortado">
+                  <div class="iberico-guide__photo-fallback">
+                    {%- render 'icon-selector', icon: 'icon-consumo.svg', width: 40, height: 40, alt: 'Jamón ibérico en jamonera siendo cortado' -%}
+                  </div>
               {% endcase %}
             {% endif %}
           </div>
@@ -79,24 +85,30 @@
             <div class="iberico-guide__pig-compare">
               <div class="iberico-guide__pig-card">
                 <span class="iberico-guide__pig-label">Ibérico</span>
-                <img class="iberico-guide__pig-art" src="{{ 'pig-iberico-red.png' | asset_url }}" alt="Cerdo iberico rojo">
+                <img class="iberico-guide__pig-art" src="{{ 'pig_transparent.png' | asset_url }}" alt="Cerdo iberico rojo" width="260" height="263" loading="eager">
                 <span class="iberico-guide__pig-meta">bellota · dehesa · raza</span>
               </div>
               <div class="iberico-guide__pig-card">
                 <span class="iberico-guide__pig-label">Serrano</span>
-                <img class="iberico-guide__pig-art" src="{{ 'pig-serrano-beige.png' | asset_url }}" alt="Cerdo serrano beige">
+                <img class="iberico-guide__pig-art" src="{{ 'pig_transparent.png' | asset_url }}" alt="Cerdo serrano beige" width="260" height="263" loading="eager">
                 <span class="iberico-guide__pig-meta">curación · grano · tradición</span>
               </div>
             </div>
           </div>
           <div class="iberico-guide__slot iberico-guide__slot--dark" data-slot="1">
-            <img class="iberico-guide__photo iberico-guide__photo--dark" src="{{ 'precintos-premium.png' | asset_url }}" alt="Clasificacion por etiquetas del jamon iberico">
+            <div class="iberico-guide__photo-fallback">
+              {%- render 'icon-selector', icon: 'icon-garantia.svg', width: 40, height: 40, alt: 'Clasificación por etiquetas del jamón ibérico' -%}
+            </div>
           </div>
           <div class="iberico-guide__slot" data-slot="2">
-            <img class="iberico-guide__photo iberico-guide__photo--light" src="{{ 'dop-map-premium.png' | asset_url }}" alt="Mapa de España con denominaciones de origen del jamon iberico">
+            <div class="iberico-guide__photo-fallback">
+              {%- render 'icon-selector', icon: 'icon-origen.svg', width: 40, height: 40, alt: 'Mapa de España con denominaciones de origen del jamón ibérico' -%}
+            </div>
           </div>
           <div class="iberico-guide__slot iberico-guide__slot--dark" data-slot="3">
-            <img class="iberico-guide__photo" src="{{ 'jamon-jamonera.png' | asset_url }}" alt="Jamon iberico en jamonera siendo cortado">
+            <div class="iberico-guide__photo-fallback">
+              {%- render 'icon-selector', icon: 'icon-consumo.svg', width: 40, height: 40, alt: 'Jamón ibérico en jamonera siendo cortado' -%}
+            </div>
           </div>
         {% endfor %}
 
@@ -107,8 +119,6 @@
 </section>
 
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap');
-
   .iberico-guide-{{ section.id }} {
     --cream: #F5F0E8;
     --cream-mid: #EDE6D6;
