@@ -279,14 +279,14 @@
           "type": "faq_item",
           "settings": {
             "question": "¿Cuántas Denominaciones de Origen tiene el jamón ibérico en España?",
-            "answer": "<p>Existen cuatro zonas protegidas para el jamón ibérico en España: la DOP Jabugo (Huelva), la IGP Guijuelo (Salamanca), la DOP Dehesa de Extremadura y la DOP Los Pedroches (Córdoba). Cada denominación establece requisitos específicos de raza, alimentación, proceso de elaboración y zona geográfica. Fuera de estas denominaciones también se produce jamón ibérico, pero sin la garantía institucional de origen.</p>"
+            "answer": "<p>Existen cuatro zonas protegidas para el jamón ibérico en España: la DOP Jabugo (Huelva), la DOP Guijuelo (Salamanca), la DOP Dehesa de Extremadura y la DOP Los Pedroches (Córdoba). Cada denominación establece requisitos específicos de raza, alimentación, proceso de elaboración y zona geográfica. Fuera de estas denominaciones también se produce jamón ibérico, pero sin la garantía institucional de origen.</p>"
           }
         },
         "faq_4": {
           "type": "faq_item",
           "settings": {
             "question": "¿Cómo se conserva un jamón ibérico entero en casa?",
-            "answer": "<p>Una vez iniciado el jamón, cubre siempre la zona de corte con las primeras lonchas de grasa que retiraste o con un paño de algodón limpio. Guárdalo a temperatura ambiente (entre 15 y 25 °C), en un lugar fresco, seco y bien ventilado, alejado de la luz solar directa. No lo refrigeres: el frío endurece la grasa y altera el sabor. Un jamón bien conservado puede durar entre 2 y 3 semanas una vez iniciado sin perder calidad.</p>"
+            "answer": "<p>Una vez iniciado el jamón, cubre la superficie expuesta con papel film y después con un paño limpio para protegerla del aire. Da la vuelta a la pieza cuando hayas terminado la maza para aprovechar la contramaza y la babilla. Guárdalo a temperatura ambiente (entre 15 y 25 °C), en un lugar fresco, seco y bien ventilado, alejado de la luz solar directa. No lo refrigeres: el frío endurece la grasa y altera el sabor. Un jamón bien conservado puede durar entre 2 y 3 semanas una vez iniciado sin perder calidad.</p>"
           }
         },
         "faq_5": {
@@ -300,7 +300,7 @@
           "type": "faq_item",
           "settings": {
             "question": "¿Cuál es la diferencia entre jamón ibérico y paleta ibérica?",
-            "answer": "<p>Ambas piezas provienen del cerdo ibérico, pero de extremidades distintas: el jamón procede de las patas traseras y la paleta de las delanteras. El jamón es más grande (entre 6 y 9 kg), tiene mayor proporción de músculo noble y un proceso de curación más largo (entre 24 y 48 meses). La paleta es más pequeña (entre 3,5 y 5,5 kg), cura en menos tiempo y tiene un sabor ligeramente más intenso y graso. Para el mismo nivel de crianza, la paleta suele tener mejor relación calidad-precio.</p>"
+            "answer": "<p>Ambas piezas provienen del cerdo ibérico, pero de extremidades distintas: el jamón procede de las patas traseras y la paleta de las delanteras. El jamón es más grande, tiene mayor proporción de músculo noble y un proceso de curación más largo (entre 24 y 48 meses). La paleta es más pequeña, cura en menos tiempo y tiene un sabor ligeramente más intenso y graso.</p>"
           }
         }
       },

@@ -183,6 +183,14 @@
             "collection": "paquetes-de-regalo",
             "image": "shopify://shop_images/ChatGPT_Image_Jun_16_2026_05_56_09_PM.png"
           }
+        },
+        "coll-4": {
+          "type": "collection",
+          "disabled": true,
+          "settings": {
+            "collection": "carnes-ibericas",
+            "image": "shopify://shop_images/Got_into_the_kitchen_with_Matt_at_peartreeatgreenlandplace_to_capture_some_serious_steak_action___From_seasoning_to_grilling_to_serving_every_moment_had_a_touch_of_theatre___Love_shoo.jpg"
+          }
         }
       },
       "block_order": [
@@ -400,7 +408,8 @@
     "marquee": {
       "type": "marquee-strip",
       "settings": {
-        "text": "Jamón Ibérico de Bellota | Embutidos Artesanales | Packs Regalo | Envío en 24h-72h | Tres Generaciones | Calidad Garantizada | Productos de Alicante | Dehesa Española"
+        "text_peninsula": "Jamón Ibérico de Bellota | Embutidos Artesanales | Packs Regalo | Envío en 24–72h | Tres Generaciones | Calidad Garantizada | Dehesa Española",
+        "text_exterior": "Jamón Ibérico de Bellota | Embutidos Artesanales | Packs Regalo | Envío Internacional | Tres Generaciones | Calidad Garantizada | Dehesa Española"
       }
     },
     "faq_n8WEzd": {
@@ -417,7 +426,7 @@
           "type": "faq_item",
           "settings": {
             "question": "¿Cuánto tarda en llegar mi pedido?",
-            "answer": "<p>Los pedidos realizados antes de las 12:00 h se preparan y envían el mismo día, con entrega en 24-48 horas en Península. Las islas y zonas remotas pueden requerir 2-3 días hábiles adicionales. En periodos de alta demanda (Navidades, Semana Santa) el plazo puede extenderse ligeramente.</p>"
+            "answer": "<p>Los pedidos realizados antes de las 12:00 h se preparan y envían el mismo día, con entrega en 24-48 horas en Península. Las islas y zonas remotas pueden requerir 3-5 días hábiles adicionales. En periodos de alta demanda (Navidades, Semana Santa) el plazo puede extenderse ligeramente.</p>"
           }
         },
         "faq_item_WxYXfM": {
@@ -445,7 +454,7 @@
           "type": "faq_item",
           "settings": {
             "question": "¿Qué diferencia hay entre el jamón ibérico y el jamón ibérico de bellota?",
-            "answer": "<p>La diferencia está en la alimentación del cerdo durante la montanera, la fase final de su cría. El jamón ibérico puede proceder de cerdos alimentados con piensos y pastos. El jamón ibérico de bellota, en cambio, proviene de cerdos 100% ibéricos criados en libertad en la dehesa y alimentados exclusivamente con bellotas y hierbas naturales durante los meses de otoño e invierno. Esto le otorga un veteado de grasa infiltrada característico, un aroma más intenso y un sabor incomparable que lo sitúa en la cima de la gastronomía española.</p>"
+            "answer": "<p>La diferencia está en la alimentación del cerdo durante la montanera, la fase final de su cría. El jamón ibérico puede proceder de cerdos alimentados con piensos y pastos. El jamón ibérico de bellota, en cambio, proviene de cerdos criados en libertad en la dehesa y alimentados exclusivamente con bellotas y hierbas naturales durante los meses de la montanera, entre otoño invierno. Esto le otorga un veteado de grasa infiltrada característico, un aroma más intenso y un sabor incomparable que lo sitúa en la cima de la gastronomía española.</p>"
           }
         }
       },
