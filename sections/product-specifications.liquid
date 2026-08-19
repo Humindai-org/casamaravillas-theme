@@ -511,13 +511,13 @@
             <span class="cm-trust-item__icon" aria-hidden="true">
               {%- case block.settings.icon -%}
                 {%- when 'refrigerado' -%}
-                  {% render 'svg-icon' with icon: 'refrigerado', width: 48, height: 48 %}
+                  {% render 'svg-icon' with icon, icon: 'refrigerado', width: 48, height: 48 %}
                 {%- when 'envio' -%}
-                  {% render 'svg-icon' with icon: 'envio', width: 48, height: 48 %}
+                  {% render 'svg-icon' with icon, icon: 'envio', width: 48, height: 48 %}
                 {%- when 'garantia' -%}
-                  {% render 'svg-icon' with icon: 'garantia', width: 48, height: 48 %}
+                  {% render 'svg-icon' with icon, icon: 'garantia', width: 48, height: 48 %}
                 {%- else -%}
-                  {% render 'svg-icon' with icon: 'garantia', width: 48, height: 48 %}
+                  {% render 'svg-icon' with icon, icon: 'garantia', width: 48, height: 48 %}
               {%- endcase -%}
             </span>
             <span>{{ block.settings.text }}</span>
@@ -616,3 +616,23 @@
   ]
 }
 {% endschema %}
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: "{% render 'svg-icon' with icon: 'refrigerado', width: 48, height: 48 %}"
+  to: "{% render 'svg-icon' with icon, icon: 'refrigerado', width: 48, height: 48
+    %}"
+  position: 15344..15421
+- from: "{% render 'svg-icon' with icon: 'envio', width: 48, height: 48 %}"
+  to: "{% render 'svg-icon' with icon, icon: 'envio', width: 48, height: 48 %}"
+  position: 15477..15548
+- from: "{% render 'svg-icon' with icon: 'garantia', width: 48, height: 48 %}"
+  to: "{% render 'svg-icon' with icon, icon: 'garantia', width: 48, height: 48 %}"
+  position: 15607..15681
+- from: "{% render 'svg-icon' with icon: 'garantia', width: 48, height: 48 %}"
+  to: "{% render 'svg-icon' with icon, icon: 'garantia', width: 48, height: 48 %}"
+  position: 15729..15803
+{% endcomment %}
