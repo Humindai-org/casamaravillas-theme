@@ -19,12 +19,6 @@
     filter: saturate(0.6) brightness(0.8);
   }
 
-  .nsm__overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg, rgba(0,41,75,0.55) 0%, rgba(0,41,75,0.75) 100%);
-  }
-
   .nsm__grain {
     position: absolute;
     inset: 0;
@@ -51,6 +45,7 @@
     text-transform: uppercase;
     color: var(--cm-gold);
     margin-bottom: 40px;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.5);
   }
 
   .nsm__rule {
@@ -69,6 +64,7 @@
     line-height: 1.2;
     margin-bottom: 48px;
     letter-spacing: -0.02em;
+    text-shadow: 0 2px 16px rgba(0,0,0,0.55);
   }
 
   .nsm__attribution {
@@ -78,6 +74,7 @@
     text-transform: uppercase;
     color: var(--cm-gold);
     margin-bottom: 56px;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.5);
   }
 
   .nsm__cta {
@@ -141,8 +138,7 @@
     }}
   {%- endif -%}
 
-  <div class="nsm__overlay" aria-hidden="true"></div>
-  <div class="nsm__grain"   aria-hidden="true"></div>
+  <div class="nsm__grain" aria-hidden="true"></div>
 
   <div class="nsm__content">
     {%- if section.settings.eyebrow != blank -%}
