@@ -16,7 +16,7 @@
           "type": "image_adjust",
           "settings": {
             "fit": "contain",
-            "zoom": 145,
+            "zoom": 100,
             "pos_x": 50,
             "pos_y": 50
           }
@@ -24,8 +24,8 @@
         "image_adjust_8UmC6A": {
           "type": "image_adjust",
           "settings": {
-            "fit": "cover",
-            "zoom": 105,
+            "fit": "contain",
+            "zoom": 100,
             "pos_x": 50,
             "pos_y": 50
           }
