@@ -1,9 +1,9 @@
 <style>
   #nsm-{{ section.id }} {
-    --nsm-height: {{ section.settings.height | default: 70 }}vh;
-    --nsm-height-mobile: {{ section.settings.height_mobile | default: 50 }}vh;
+    --nsm-height: {{ section.settings.height | default: 55 }}vh;
+    --nsm-height-mobile: {{ section.settings.height_mobile | default: 45 }}vh;
     --nsm-pos-x: {{ section.settings.image_pos_x | default: 50 }}%;
-    --nsm-pos-y: {{ section.settings.image_pos_y | default: 50 }}%;
+    --nsm-pos-y: {{ section.settings.image_pos_y | default: 20 }}%;
     --nsm-zoom: {{ section.settings.image_zoom | default: 100 | divided_by: 100.0 }};
     --nsm-saturation: {{ section.settings.image_saturation | default: 75 | divided_by: 100.0 }};
     --nsm-brightness: {{ section.settings.image_brightness | default: 85 | divided_by: 100.0 }};
@@ -15,16 +15,20 @@
 
   /*
    * With an image: the section's height follows the photo's own
-   * proportions (aspect-ratio), so the full image is always shown —
-   * never cropped, on any screen width. Without an image, it falls
-   * back to the height sliders below.
+   * proportions (aspect-ratio) up to the max-height cap below, so it
+   * never looks stretched sideways-cropped — any excess is trimmed
+   * off the bottom instead (bias the vertical encuadre to control
+   * what stays visible). Without an image, the cap acts as the
+   * section's fixed height.
    */
   .nsm {
     position: relative;
     width: 100%;
     aspect-ratio: var(--nsm-ratio, auto);
     min-height: 260px;
-    {%- if section.settings.image == blank %}
+    {%- if section.settings.image != blank %}
+    max-height: var(--nsm-height);
+    {%- else %}
     min-height: var(--nsm-height);
     {%- endif %}
     display: flex;
@@ -161,7 +165,9 @@
   @media (max-width: 767px) {
     .nsm {
       min-height: 200px;
-      {%- if section.settings.image == blank %}
+      {%- if section.settings.image != blank %}
+      max-height: var(--nsm-height-mobile);
+      {%- else %}
       min-height: var(--nsm-height-mobile);
       {%- endif %}
     }
@@ -246,8 +252,8 @@
       "type": "range",
       "id": "image_pos_y",
       "label": "Encuadre vertical",
-      "info": "0% = arriba · 50% = centro · 100% = abajo",
-      "min": 0, "max": 100, "step": 5, "default": 50, "unit": "%"
+      "info": "0% = arriba · 50% = centro · 100% = abajo. Si la sección recorta la imagen, un valor bajo mantiene visible la parte de arriba y recorta por abajo.",
+      "min": 0, "max": 100, "step": 5, "default": 20, "unit": "%"
     },
     {
       "type": "range",
@@ -278,20 +284,20 @@
     { "type": "header",       "content": "Altura de la sección" },
     {
       "type": "paragraph",
-      "content": "Con una imagen seleccionada, la altura se ajusta sola a las proporciones reales de la foto para que nunca se vea cortada. Estos controles solo se usan si no hay imagen."
+      "content": "La sección respeta las proporciones de la foto hasta esta altura máxima; si la foto es más alta, se recorta por abajo (usa el encuadre vertical para elegir qué parte se conserva). Así no queda desproporcionada frente a otras secciones."
     },
     {
       "type": "range",
       "id": "height",
-      "label": "Altura en escritorio (sin imagen)",
+      "label": "Altura máxima en escritorio",
       "info": "Porcentaje de la altura de la pantalla.",
-      "min": 40, "max": 100, "step": 5, "default": 70, "unit": "%"
+      "min": 30, "max": 100, "step": 5, "default": 55, "unit": "%"
     },
     {
       "type": "range",
       "id": "height_mobile",
-      "label": "Altura en móvil (sin imagen)",
-      "min": 30, "max": 100, "step": 5, "default": 50, "unit": "%"
+      "label": "Altura máxima en móvil",
+      "min": 25, "max": 100, "step": 5, "default": 45, "unit": "%"
     },
     { "type": "header",       "content": "Textos" },
     { "type": "text",         "id": "eyebrow",     "label": "Etiqueta superior",  "default": "Nuestra convicción" },
