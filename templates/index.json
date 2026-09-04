@@ -298,24 +298,13 @@
             "image_zoom": 100,
             "image_offset": 0
           }
-        },
-        "product_rzr8jj": {
-          "type": "product",
-          "settings": {
-            "product": "jamon-cebo-50-iberico-pieza-entera",
-            "image": "shopify://shop_images/4_070b4195-0605-4cf3-a389-14083266e9f4.png",
-            "hover_image": "shopify://shop_images/generated_image_041201ff-ae05-4ce5-8710-0a47084de114.png",
-            "image_zoom": 100,
-            "image_offset": 73
-          }
         }
       },
       "block_order": [
         "product_kbHYwL",
         "product_X3aKJT",
         "product_YCJWKa",
-        "product_GE8BEX",
-        "product_rzr8jj"
+        "product_GE8BEX"
       ],
       "name": "Grid de productos",
       "settings": {

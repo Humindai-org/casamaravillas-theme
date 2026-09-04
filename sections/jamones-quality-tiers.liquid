@@ -1,6 +1,6 @@
 {% comment %}
   jamones-quality-tiers.liquid
-  Sistema de categorías con 4 medallones: Bellota, Peyote, Cebo de Campo, Cebo
+  Sistema de categorías con 3 medallones: Bellota 100%, Bellota 75%, Cebo de Campo
   Iconos editables desde Shopify Admin
 {% endcomment %}
 
@@ -34,10 +34,10 @@
     line-height: 1.2;
   }
 
-  /* ── Grid de 4 columnas ── */
+  /* ── Grid de 3 columnas ── */
   .qt__grid-{{ section.id }} {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 32px;
     max-width: 1400px;
     margin: 0 auto;
@@ -185,13 +185,13 @@
   </div>
 
   <div class="qt__grid-{{ section.id }}">
-    {%- for i in (0..3) -%}
+    {%- for i in (0..2) -%}
       {%- assign settings_icon = 'cat' | append: i | append: '_icon' -%}
       {%- assign settings_name = 'cat' | append: i | append: '_name' -%}
       {%- assign settings_desc = 'cat' | append: i | append: '_desc' -%}
       {%- assign icon_url = section.settings[settings_icon] | image_url -%}
 
-      {%- assign filter_tags = 'precinto negro,precinto rojo,precinto verde,precinto blanco' | split: ',' -%}
+      {%- assign filter_tags = 'precinto negro,precinto rojo,precinto verde' | split: ',' -%}
       {%- assign filter_tag = filter_tags[forloop.index0] -%}
       {%- assign is_active = false -%}
       {%- for t in current_tags -%}
@@ -233,7 +233,7 @@
     var qtSection = document.getElementById('qt-section-{{ section.id }}');
     if (!qtSection) return;
 
-    var qualityTags = ['precinto negro', 'precinto rojo', 'precinto verde', 'precinto blanco'];
+    var qualityTags = ['precinto negro', 'precinto rojo', 'precinto verde'];
 
     qtSection.querySelectorAll('[data-filter-tag-btn]').forEach(function(btn) {
       btn.addEventListener('click', function(e) {
@@ -346,26 +346,6 @@
     {
       "type": "textarea",
       "id": "cat2_desc",
-      "label": "Descripción (opcional)"
-    },
-    {
-      "type": "header",
-      "content": "🥉 Categoría IV — Cebo"
-    },
-    {
-      "type": "image_picker",
-      "id": "cat3_icon",
-      "label": "Icono"
-    },
-    {
-      "type": "text",
-      "id": "cat3_name",
-      "label": "Nombre",
-      "default": "Cebo Ibérico"
-    },
-    {
-      "type": "textarea",
-      "id": "cat3_desc",
       "label": "Descripción (opcional)"
     }
   ],

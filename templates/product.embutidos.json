@@ -177,15 +177,6 @@
             "image_offset": 50
           }
         },
-        "product_Bzphai": {
-          "type": "product",
-          "settings": {
-            "product": "jamon-cebo-50-iberico-cortado-a-mano",
-            "image": "shopify://shop_images/4.png",
-            "image_zoom": 100,
-            "image_offset": 50
-          }
-        },
         "product_LW37t7": {
           "type": "product",
           "settings": {
@@ -198,7 +189,6 @@
       "block_order": [
         "product_CiDqNt",
         "product_TVzaFm",
-        "product_Bzphai",
         "product_LW37t7"
       ],
       "settings": {

@@ -36,21 +36,12 @@
         "cat1_desc": "",
         "cat2_icon": "shopify://shop_images/3.svg",
         "cat2_name": "Cebo de Campo Ibérico",
-        "cat2_desc": "",
-        "cat3_icon": "shopify://shop_images/4_9caa9506-381a-4d50-bb45-5d2eaafeb088.svg",
-        "cat3_name": "Cebo Ibérico",
-        "cat3_desc": ""
+        "cat2_desc": ""
       }
     },
     "collection": {
       "type": "jamones-collection",
       "blocks": {
-        "product_etVNrB": {
-          "type": "product",
-          "settings": {
-            "product": "jamon-cebo-50-iberico-cortado-a-mano"
-          }
-        },
         "product_jYNXjH": {
           "type": "product",
           "settings": {
@@ -69,12 +60,6 @@
             "product": "jamon-bellota-100-iberico-cortado-a-mano"
           }
         },
-        "product_fwaeeV": {
-          "type": "product",
-          "settings": {
-            "product": "jamon-cebo-50-iberico-pieza-entera"
-          }
-        },
         "product_mfpG3P": {
           "type": "product",
           "settings": {
@@ -91,12 +76,6 @@
           "type": "product",
           "settings": {
             "product": "jamon-bellota-100-iberico-pieza-entera"
-          }
-        },
-        "product_yrdibH": {
-          "type": "product",
-          "settings": {
-            "product": "jamon-cebo-50-iberico-deshuesado"
           }
         },
         "product_KdKfGU": {
@@ -119,15 +98,12 @@
         }
       },
       "block_order": [
-        "product_etVNrB",
         "product_jYNXjH",
         "product_7F4fii",
         "product_YgFWai",
-        "product_fwaeeV",
         "product_mfpG3P",
         "product_QxpcEm",
         "product_WFUzPt",
-        "product_yrdibH",
         "product_KdKfGU",
         "product_GbNNnp",
         "product_eamcjV"
