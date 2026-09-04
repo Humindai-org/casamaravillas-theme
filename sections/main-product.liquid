@@ -79,12 +79,25 @@
         {%- endif -%}
       {%- endfor -%}
 
+      {%- comment -%}
+        'Contener' significa "imagen completa, sin recorte": si además queda un zoom/posición
+        heredado (la plantilla product.jamones.json es la misma para todos los jamones, así que
+        un ajuste pensado para una foto se aplicaba a todas), el transform: scale() volvía a
+        recortar la imagen aunque el modo dijera "Contener". Por eso se ignora el zoom/posición
+        en este modo: siempre debe verse la foto completa, sin tener que calibrar cada producto.
+      {%- endcomment -%}
+      {%- if img1_fit == 'contain' -%}
+        {%- assign img1_zoom  = 1 -%}
+        {%- assign img1_pos_x = 50 -%}
+        {%- assign img1_pos_y = 50 -%}
+      {%- endif -%}
+
       <div class="cm-pdp__main-img-wrap" style="--gal-fit:{{ img1_fit }};--gal-zoom:{{ img1_zoom }};--gal-pos-x:{{ img1_pos_x }}%;--gal-pos-y:{{ img1_pos_y }}%;">
         {%- if featured_image -%}
           <img
             id="cm-main-img-{{ section.id }}"
             class="cm-pdp__main-img"
-            src="{{ featured_image | image_url: width: 900, format: 'webp' }}"
+            src="{{ featured_image | image_url: width: 2000, format: 'webp' }}"
             alt="{{ featured_image.alt | escape | default: product.title }}"
             width="{{ featured_image.width }}"
             height="{{ featured_image.height }}"
@@ -121,7 +134,7 @@
             {%- endfor -%}
             <button
               class="cm-pdp__thumb-btn{% if forloop.first %} is-active{% endif %}"
-              data-image-src="{{ image | image_url: width: 900, format: 'webp' }}"
+              data-image-src="{{ image | image_url: width: 2000, format: 'webp' }}"
               data-image-alt="{{ image.alt | escape | default: product.title }}"
               data-image-index="{{ forloop.index }}"
               data-block-id="{{ _tbn_block_id }}"

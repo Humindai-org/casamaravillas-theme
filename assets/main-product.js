@@ -29,13 +29,132 @@ document.addEventListener('DOMContentLoaded', function() {
   const mainImg = $('cm-main-img-' + SID);
   const imgWrap = mainImg ? mainImg.closest('.cm-pdp__main-img-wrap') : null;
 
+  function numOrFallback(value, fallback) {
+    const n = parseFloat(value);
+    return isNaN(n) ? fallback : n;
+  }
+
+  /* ── Auto-encuadre en modo 'Contener' ──
+     Las fotos de producto traen margen en blanco/transparente de tamaño distinto
+     cada una, así que 'Contener' las deja con espacio vacío alrededor. En vez de
+     calibrar zoom/posición a mano por producto, se detecta por píxeles dónde
+     empieza el contenido real (recortando el margen) y se calcula el zoom exacto
+     para que ese contenido llene el recuadro, sin cortar nada. */
+  function detectContentBox(img) {
+    var w = img.naturalWidth, h = img.naturalHeight;
+    if (!w || !h) return null;
+    var MAX_SAMPLE = 400;
+    var scale = Math.min(1, MAX_SAMPLE / Math.max(w, h));
+    var sw = Math.max(1, Math.round(w * scale));
+    var sh = Math.max(1, Math.round(h * scale));
+    var canvas = document.createElement('canvas');
+    canvas.width = sw;
+    canvas.height = sh;
+    var ctx = canvas.getContext('2d', { willReadFrequently: true });
+    var data;
+    try {
+      ctx.drawImage(img, 0, 0, sw, sh);
+      data = ctx.getImageData(0, 0, sw, sh).data;
+    } catch (e) {
+      return null; /* imagen de otro origen (CORS) u otro fallo: se deja tal cual */
+    }
+    function px(x, y) {
+      var i = (y * sw + x) * 4;
+      return [data[i], data[i + 1], data[i + 2], data[i + 3]];
+    }
+    var corners = [px(0, 0), px(sw - 1, 0), px(0, sh - 1), px(sw - 1, sh - 1)];
+    var bg = [0, 1, 2].map(function(c) {
+      return (corners[0][c] + corners[1][c] + corners[2][c] + corners[3][c]) / 4;
+    });
+    var TOL = 18;
+    function isBackground(x, y) {
+      var p = px(x, y);
+      if (p[3] < 12) return true; /* transparente cuenta como fondo */
+      return Math.abs(p[0] - bg[0]) < TOL && Math.abs(p[1] - bg[1]) < TOL && Math.abs(p[2] - bg[2]) < TOL;
+    }
+    function rowHasContent(y) {
+      for (var x = 0; x < sw; x += 2) { if (!isBackground(x, y)) return true; }
+      return false;
+    }
+    function colHasContent(x) {
+      for (var y = 0; y < sh; y += 2) { if (!isBackground(x, y)) return true; }
+      return false;
+    }
+    var top = 0, bottom = sh - 1, left = 0, right = sw - 1;
+    while (top < bottom && !rowHasContent(top)) top++;
+    while (bottom > top && !rowHasContent(bottom)) bottom--;
+    while (left < right && !colHasContent(left)) left++;
+    while (right > left && !colHasContent(right)) right--;
+    if (bottom <= top || right <= left) return null;
+    return {
+      left: left / sw, right: (right + 1) / sw,
+      top: top / sh, bottom: (bottom + 1) / sh
+    };
+  }
+
+  function applyAutoFit(img, wrap) {
+    if (!img || !wrap) return;
+    var box = detectContentBox(img);
+    /* Sin detección fiable: se deja en 'Contener' neutro (zoom 100%, centrado) */
+    wrap.style.removeProperty('--gal-fit-origin-x');
+    wrap.style.removeProperty('--gal-fit-origin-y');
+    if (!box) { wrap.style.setProperty('--gal-zoom', 1); return; }
+
+    var rect = wrap.getBoundingClientRect();
+    var Bw = rect.width, Bh = rect.height;
+    var W = img.naturalWidth, H = img.naturalHeight;
+    if (!Bw || !Bh || !W || !H) { wrap.style.setProperty('--gal-zoom', 1); return; }
+
+    var f = Math.min(Bw / W, Bh / H); /* factor que aplica object-fit: contain */
+    var renderedW = W * f, renderedH = H * f;
+    var offsetX = (Bw - renderedW) / 2; /* object-position queda fijo en 50%/50% */
+    var offsetY = (Bh - renderedH) / 2;
+
+    var contentLeft   = offsetX + box.left   * renderedW;
+    var contentRight  = offsetX + box.right  * renderedW;
+    var contentTop    = offsetY + box.top    * renderedH;
+    var contentBottom = offsetY + box.bottom * renderedH;
+    var contentW = contentRight - contentLeft;
+    var contentH = contentBottom - contentTop;
+    if (contentW <= 0 || contentH <= 0) { wrap.style.setProperty('--gal-zoom', 1); return; }
+
+    var PAD = 0.94; /* ~6% de aire alrededor del contenido detectado */
+    var zoom = Math.min((Bw * PAD) / contentW, (Bh * PAD) / contentH);
+    zoom = Math.max(1, Math.min(zoom, 2.5));
+
+    var originX = ((contentLeft + contentRight) / 2 / Bw) * 100;
+    var originY = ((contentTop + contentBottom) / 2 / Bh) * 100;
+
+    wrap.style.setProperty('--gal-zoom', zoom);
+    wrap.style.setProperty('--gal-fit-origin-x', originX + '%');
+    wrap.style.setProperty('--gal-fit-origin-y', originY + '%');
+  }
+
+  function maybeAutoFit(img, wrap, fit) {
+    if (fit !== 'contain' || !img || !wrap) return;
+    if (img.complete && img.naturalWidth) {
+      applyAutoFit(img, wrap);
+    } else {
+      img.addEventListener('load', function() { applyAutoFit(img, wrap); }, { once: true });
+    }
+  }
+
   function applyThumbAdjust(btn) {
     if (!imgWrap || !btn) return;
     /* Los ajustes vienen del HTML (data-*), sobreviven re-renders del Editor */
-    const fit  = btn.dataset.imgFit  || data.galFit;
-    const zoom = (parseFloat(btn.dataset.imgZoom)  || data.galZoomRaw) / 100;
-    const posX = (parseFloat(btn.dataset.imgPosX)  || data.galPosX) + '%';
-    const posY = (parseFloat(btn.dataset.imgPosY)  || data.galPosY) + '%';
+    const fit = btn.dataset.imgFit || data.galFit;
+    let zoom, posX, posY;
+    if (fit === 'contain') {
+      /* 'Contener' = imagen completa, sin recorte: un zoom/posición heredado
+         (la misma plantilla se comparte entre productos) no debe recortarla. */
+      zoom = 1;
+      posX = '50%';
+      posY = '50%';
+    } else {
+      zoom = numOrFallback(btn.dataset.imgZoom, data.galZoomRaw) / 100;
+      posX = numOrFallback(btn.dataset.imgPosX, data.galPosX) + '%';
+      posY = numOrFallback(btn.dataset.imgPosY, data.galPosY) + '%';
+    }
     imgWrap.style.setProperty('--gal-fit',   fit);
     imgWrap.style.setProperty('--gal-zoom',  zoom);
     imgWrap.style.setProperty('--gal-pos-x', posX);
@@ -43,9 +162,13 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   if (mainImg) {
+    /* Imagen inicial (la que ya viene renderizada desde el servidor) */
+    maybeAutoFit(mainImg, imgWrap, imgWrap.style.getPropertyValue('--gal-fit').trim() || data.galFit);
+
     document.querySelectorAll('.cm-pdp__thumb-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         applyThumbAdjust(btn);
+        const fit = btn.dataset.imgFit || data.galFit;
         mainImg.classList.add('is-loading');
         const newSrc = btn.dataset.imageSrc;
         const tempImg = new Image();
@@ -53,6 +176,7 @@ document.addEventListener('DOMContentLoaded', function() {
           mainImg.src = newSrc;
           mainImg.alt = btn.dataset.imageAlt || '';
           mainImg.classList.remove('is-loading');
+          maybeAutoFit(tempImg, imgWrap, fit);
         };
         tempImg.src = newSrc;
         document.querySelectorAll('.cm-pdp__thumb-btn').forEach(t => t.classList.remove('is-active'));
