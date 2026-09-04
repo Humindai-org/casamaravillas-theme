@@ -1,0 +1,25 @@
+{%- comment -%}
+  Popup con el texto completo de un bloque de "Valores — Editorial".
+  Se abre desde el botón "Leer más" que aparece solo en móvil, cuando
+  el texto en la tarjeta queda recortado a 4 líneas.
+  Uso: {%- render 'nosotros-valor-modal', block: block -%}
+{%- endcomment -%}
+
+{%- if block.settings.body != blank -%}
+  <dialog class="nve__modal" id="nve-modal-{{ block.id }}" aria-labelledby="nve-modal-title-{{ block.id }}">
+    <div class="nve__modal-inner">
+      <button type="button" class="nve__modal-close" data-nve-close aria-label="Cerrar">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <path d="M6 6l12 12M18 6L6 18"/>
+        </svg>
+      </button>
+      {%- if block.settings.value_name != blank -%}
+        <p class="nve__eyebrow">{{ block.settings.value_name }}</p>
+      {%- endif -%}
+      {%- if block.settings.headline != blank -%}
+        <h2 class="nve__headline" id="nve-modal-title-{{ block.id }}">{{ block.settings.headline }}</h2>
+      {%- endif -%}
+      <div class="nve__body">{{ block.settings.body }}</div>
+    </div>
+  </dialog>
+{%- endif -%}

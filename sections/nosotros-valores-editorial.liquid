@@ -40,6 +40,89 @@
 
   .sr-w { display: inline-block; }
 
+  /* ── Read more (mobile only) + popup with the full text ── */
+  .nve__read-more {
+    display: none;
+    margin-top: 14px;
+    background: none;
+    border: none;
+    padding: 0;
+    font-family: var(--cm-font-sans);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+  }
+  .nve__read-more:hover { opacity: 0.65; }
+  .nve__read-more:focus-visible { outline: 2px solid var(--cm-gold); outline-offset: 3px; }
+  .nve__read-more { color: var(--cm-gold); }
+
+  .nve__modal {
+    border: none;
+    padding: 0;
+    width: calc(100% - 48px);
+    max-width: 480px;
+    max-height: 78vh;
+    background: var(--cm-off);
+    box-shadow: 0 28px 64px -16px rgba(0,0,0,0.4), 0 10px 28px -10px rgba(0,0,0,0.28);
+  }
+  .nve__modal::backdrop {
+    background: rgba(8,8,8,0.55);
+  }
+  .nve__modal[open] { animation: nveModalIn 0.25s cubic-bezier(0.22,1,0.36,1) both; }
+  .nve__modal[open]::backdrop { animation: nveModalFadeIn 0.25s ease both; }
+  @keyframes nveModalIn {
+    from { opacity: 0; transform: translateY(14px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  @keyframes nveModalFadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  .nve__modal-inner {
+    position: relative;
+    padding: clamp(32px, 8vw, 48px) clamp(24px, 6vw, 40px);
+    max-height: 78vh;
+    overflow-y: auto;
+  }
+
+  .nve__modal-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: 1px solid rgba(0,41,75,0.18);
+    border-radius: 999px;
+    color: var(--cm-navy);
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+  }
+  .nve__modal-close:hover { background: rgba(0,41,75,0.06); transform: rotate(90deg); }
+  .nve__modal-close:focus-visible { outline: 2px solid var(--cm-gold); outline-offset: 2px; }
+
+  .nve__modal .nve__eyebrow { margin-bottom: 18px; }
+  .nve__modal .nve__headline {
+    font-size: clamp(22px, 5vw, 30px);
+    color: var(--cm-navy);
+    margin-bottom: 20px;
+  }
+  .nve__modal .nve__body { color: var(--cm-text-mid); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nve__modal[open],
+    .nve__modal[open]::backdrop { animation: none; }
+  }
+
   /* ── Grain helper ── */
   .nve-grain::after {
     content: '';
@@ -294,9 +377,26 @@
 
   /* ── Mobile ── */
   @media (max-width: 900px) {
+    /* Clamp the on-card text to a few lines so a long value doesn't
+       turn the block into a wall of text; the full text opens in
+       the popup via "Leer más". */
+    .nve__text-full .nve__body,
+    .nve__split .nve__body,
+    .nve__cinematic .nve__body,
+    .nve__centered .nve__body {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 4;
+      overflow: hidden;
+    }
+
+    .nve__read-more {
+      display: inline-block;
+    }
+
     .nve__text-full {
       padding: 80px 24px;
-      min-height: 100vh;
+      min-height: auto;
     }
 
     .nve__text-full .nve__tf-grid {
@@ -320,8 +420,7 @@
 
     .nve__split {
       grid-template-columns: 1fr;
-      min-height: 100vh;
-      align-content: center;
+      min-height: auto;
     }
 
     .nve__split__img {
@@ -344,10 +443,7 @@
 
     .nve__cinematic {
       height: auto;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
+      min-height: auto;
     }
 
     .nve__cinematic__img-wrap {
@@ -372,7 +468,7 @@
 
     .nve__centered {
       padding: 80px 24px;
-      min-height: 100vh;
+      min-height: auto;
     }
 
     .nve__centered .nve__headline {
@@ -418,9 +514,11 @@
       {%- if block.settings.body != blank -%}
         <div class="nve__text-full__panel">
           <div class="nve__body">{{ block.settings.body }}</div>
+          <button type="button" class="nve__read-more" data-nve-open="nve-modal-{{ block.id }}">Leer más</button>
         </div>
       {%- endif -%}
     </div>
+    {%- render 'nosotros-valor-modal', block: block -%}
 
     {%- elsif block.type == 'split' -%}
     {%- comment -%} ── Layout: image 55% / text 45% ── {%- endcomment -%}
@@ -445,10 +543,12 @@
           {%- endif -%}
           {%- if block.settings.body != blank -%}
             <div class="nve__body">{{ block.settings.body }}</div>
+            <button type="button" class="nve__read-more" data-nve-open="nve-modal-{{ block.id }}">Leer más</button>
           {%- endif -%}
         </div>
       </div>
     </div>
+    {%- render 'nosotros-valor-modal', block: block -%}
 
     {%- elsif block.type == 'cinematic' -%}
     {%- comment -%} ── Layout: full-bleed image + floating panel ── {%- endcomment -%}
@@ -473,9 +573,11 @@
         {%- endif -%}
         {%- if block.settings.body != blank -%}
           <div class="nve__body">{{ block.settings.body }}</div>
+          <button type="button" class="nve__read-more" data-nve-open="nve-modal-{{ block.id }}">Leer más</button>
         {%- endif -%}
       </div>
     </div>
+    {%- render 'nosotros-valor-modal', block: block -%}
 
     {%- elsif block.type == 'centered' -%}
     {%- comment -%} ── Layout: centered editorial text ── {%- endcomment -%}
@@ -498,9 +600,11 @@
         {%- endif -%}
         {%- if block.settings.body != blank -%}
           <div class="nve__body">{{ block.settings.body }}</div>
+          <button type="button" class="nve__read-more" data-nve-open="nve-modal-{{ block.id }}">Leer más</button>
         {%- endif -%}
       </div>
     </div>
+    {%- render 'nosotros-valor-modal', block: block -%}
 
     {%- endif -%}
 
@@ -581,6 +685,47 @@
       loadScript(BASE + 'ScrollTrigger.min.js', initReveal);
     });
   }
+})();
+</script>
+
+<script>
+(function() {
+  var sec = document.getElementById('nve-{{ section.id }}');
+  if (!sec) return;
+
+  var supportsDialog = typeof HTMLDialogElement === 'function';
+
+  function openModal(dialog) {
+    if (!dialog) return;
+    if (supportsDialog && dialog.showModal) {
+      try { dialog.showModal(); return; } catch (e) {}
+    }
+    dialog.setAttribute('open', '');
+  }
+
+  function closeModal(dialog) {
+    if (!dialog) return;
+    if (supportsDialog && dialog.close) {
+      try { dialog.close(); return; } catch (e) {}
+    }
+    dialog.removeAttribute('open');
+  }
+
+  sec.querySelectorAll('[data-nve-open]').forEach(function(btn) {
+    var dialog = document.getElementById(btn.getAttribute('data-nve-open'));
+    if (!dialog) return;
+    btn.addEventListener('click', function() { openModal(dialog); });
+  });
+
+  sec.querySelectorAll('.nve__modal').forEach(function(dialog) {
+    dialog.querySelectorAll('[data-nve-close]').forEach(function(btn) {
+      btn.addEventListener('click', function() { closeModal(dialog); });
+    });
+    // Click on the backdrop (outside the inner panel) closes it too.
+    dialog.addEventListener('click', function(e) {
+      if (e.target === dialog) closeModal(dialog);
+    });
+  });
 })();
 </script>
 
