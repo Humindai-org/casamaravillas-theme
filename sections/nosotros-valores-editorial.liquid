@@ -296,7 +296,7 @@
   @media (max-width: 900px) {
     .nve__text-full {
       padding: 80px 24px;
-      min-height: auto;
+      min-height: 100vh;
     }
 
     .nve__text-full .nve__tf-grid {
@@ -320,7 +320,8 @@
 
     .nve__split {
       grid-template-columns: 1fr;
-      min-height: auto;
+      min-height: 100vh;
+      align-content: center;
     }
 
     .nve__split__img {
@@ -343,7 +344,10 @@
 
     .nve__cinematic {
       height: auto;
-      min-height: auto;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
 
     .nve__cinematic__img-wrap {
@@ -368,7 +372,7 @@
 
     .nve__centered {
       padding: 80px 24px;
-      min-height: auto;
+      min-height: 100vh;
     }
 
     .nve__centered .nve__headline {
