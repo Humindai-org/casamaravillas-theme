@@ -55,10 +55,7 @@
     object-fit: var(--gal-fit, contain);
     object-position: var(--gal-pos-x, 50%) var(--gal-pos-y, 50%);
     transform: scale(var(--gal-zoom, 1));
-    /* En modo 'contain', JS calcula --gal-fit-origin-* para centrar el zoom en el
-       contenido real de la foto (ignora el margen en blanco del archivo). Si no,
-       cae al mismo punto que --gal-pos-* de siempre (modo 'cover'). */
-    transform-origin: var(--gal-fit-origin-x, var(--gal-pos-x, 50%)) var(--gal-fit-origin-y, var(--gal-pos-y, 50%));
+    transform-origin: var(--gal-pos-x, 50%) var(--gal-pos-y, 50%);
     display: block;
     transition: opacity 0.25s ease;
   }

@@ -61,36 +61,29 @@
       {%- assign gal_pos_x   = section.settings.gallery_pos_x | default: 50 -%}
       {%- assign gal_pos_y   = section.settings.gallery_pos_y | default: 50 -%}
 
-      {%- comment -%} Ajuste de imagen 1 desde el bloque 1 (si existe) {%- endcomment -%}
+      {%- comment -%}
+        Ajuste de la imagen 1: manda el control de sección ("Imagen principal — Ajuste").
+        El bloque "Ajuste por imagen" solo pisa ese valor si se elige algo distinto de
+        'inherit'. Antes se leía block.settings.fit con `| default: gal_fit`, pero un select
+        SIEMPRE devuelve valor, así que el default nunca entraba y el bloque anulaba para
+        siempre el control de sección: cambiar Contener/Cubrir ahí no hacía nada.
+      {%- endcomment -%}
       {%- assign img1_fit   = gal_fit -%}
       {%- assign img1_zoom  = gal_zoom_raw | divided_by: 100.0 -%}
       {%- assign img1_pos_x = gal_pos_x -%}
       {%- assign img1_pos_y = gal_pos_y -%}
-      {%- assign _adj_i = 0 -%}
+      {%- assign adj_index = 0 -%}
       {%- for block in section.blocks -%}
         {%- if block.type == 'image_adjust' -%}
-          {%- assign _adj_i = _adj_i | plus: 1 -%}
-          {%- if _adj_i == 1 -%}
-            {%- assign img1_fit   = block.settings.fit   | default: gal_fit -%}
-            {%- assign img1_zoom  = block.settings.zoom  | default: gal_zoom_raw | divided_by: 100.0 -%}
-            {%- assign img1_pos_x = block.settings.pos_x | default: gal_pos_x -%}
-            {%- assign img1_pos_y = block.settings.pos_y | default: gal_pos_y -%}
+          {%- assign adj_index = adj_index | plus: 1 -%}
+          {%- if adj_index == 1 and block.settings.fit != 'inherit' -%}
+            {%- assign img1_fit   = block.settings.fit -%}
+            {%- assign img1_zoom  = block.settings.zoom | divided_by: 100.0 -%}
+            {%- assign img1_pos_x = block.settings.pos_x -%}
+            {%- assign img1_pos_y = block.settings.pos_y -%}
           {%- endif -%}
         {%- endif -%}
       {%- endfor -%}
-
-      {%- comment -%}
-        'Contener' significa "imagen completa, sin recorte": si además queda un zoom/posición
-        heredado (la plantilla product.jamones.json es la misma para todos los jamones, así que
-        un ajuste pensado para una foto se aplicaba a todas), el transform: scale() volvía a
-        recortar la imagen aunque el modo dijera "Contener". Por eso se ignora el zoom/posición
-        en este modo: siempre debe verse la foto completa, sin tener que calibrar cada producto.
-      {%- endcomment -%}
-      {%- if img1_fit == 'contain' -%}
-        {%- assign img1_zoom  = 1 -%}
-        {%- assign img1_pos_x = 50 -%}
-        {%- assign img1_pos_y = 50 -%}
-      {%- endif -%}
 
       <div class="cm-pdp__main-img-wrap" style="--gal-fit:{{ img1_fit }};--gal-zoom:{{ img1_zoom }};--gal-pos-x:{{ img1_pos_x }}%;--gal-pos-y:{{ img1_pos_y }}%;">
         {%- if featured_image -%}
@@ -124,11 +117,14 @@
               {%- if block.type == 'image_adjust' -%}
                 {%- assign _adj_j = _adj_j | plus: 1 -%}
                 {%- if _adj_j == _img_idx -%}
-                  {%- assign _tbn_fit      = block.settings.fit   | default: gal_fit -%}
-                  {%- assign _tbn_zoom     = block.settings.zoom  | default: gal_zoom_raw -%}
-                  {%- assign _tbn_pos_x    = block.settings.pos_x | default: gal_pos_x -%}
-                  {%- assign _tbn_pos_y    = block.settings.pos_y | default: gal_pos_y -%}
                   {%- assign _tbn_block_id = block.id -%}
+                  {%- comment -%}Igual que la imagen 1: solo pisa la sección si no es 'inherit'{%- endcomment -%}
+                  {%- if block.settings.fit != 'inherit' -%}
+                    {%- assign _tbn_fit   = block.settings.fit -%}
+                    {%- assign _tbn_zoom  = block.settings.zoom -%}
+                    {%- assign _tbn_pos_x = block.settings.pos_x -%}
+                    {%- assign _tbn_pos_y = block.settings.pos_y -%}
+                  {%- endif -%}
                 {%- endif -%}
               {%- endif -%}
             {%- endfor -%}
@@ -725,10 +721,12 @@
           "id": "fit",
           "label": "Modo",
           "options": [
+            { "value": "inherit", "label": "Usar el ajuste de la sección" },
             { "value": "contain", "label": "Contener (imagen completa)" },
             { "value": "cover", "label": "Cubrir (rellena el marco)" }
           ],
-          "default": "contain"
+          "default": "inherit",
+          "info": "Déjalo en 'Usar el ajuste de la sección' salvo que esta imagen concreta necesite un encuadre distinto. Al elegir otro modo, este bloque también toma el mando del zoom y la posición."
         },
         {
           "type": "range",

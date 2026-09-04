@@ -15,7 +15,7 @@
         "image_adjust_GhGba8": {
           "type": "image_adjust",
           "settings": {
-            "fit": "contain",
+            "fit": "inherit",
             "zoom": 100,
             "pos_x": 50,
             "pos_y": 50
@@ -24,7 +24,7 @@
         "image_adjust_8UmC6A": {
           "type": "image_adjust",
           "settings": {
-            "fit": "contain",
+            "fit": "inherit",
             "zoom": 100,
             "pos_x": 50,
             "pos_y": 50
