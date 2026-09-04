@@ -8,13 +8,27 @@
     --nsm-saturation: {{ section.settings.image_saturation | default: 75 | divided_by: 100.0 }};
     --nsm-brightness: {{ section.settings.image_brightness | default: 85 | divided_by: 100.0 }};
     --nsm-veil: {{ section.settings.overlay_opacity | default: 0 | divided_by: 100.0 }};
+    {%- if section.settings.image != blank and section.settings.image.aspect_ratio %}
+    --nsm-ratio: {{ section.settings.image.aspect_ratio }};
+    {%- endif %}
   }
 
+  /*
+   * With an image: the section's height follows the photo's own
+   * proportions (aspect-ratio), so the full image is always shown —
+   * never cropped, on any screen width. Without an image, it falls
+   * back to the height sliders below.
+   */
   .nsm {
     position: relative;
+    width: 100%;
+    aspect-ratio: var(--nsm-ratio, auto);
+    min-height: 260px;
+    {%- if section.settings.image == blank %}
     min-height: var(--nsm-height);
+    {%- endif %}
     display: flex;
-    align-items: flex-end;
+    align-items: flex-start;
     justify-content: center;
     overflow: hidden;
     background: #1a1a1a;
@@ -50,9 +64,9 @@
 
   .nsm__fade {
     position: absolute;
-    bottom: 0; left: 0; right: 0;
+    top: 0; left: 0; right: 0;
     height: 55%;
-    background: linear-gradient(to top, rgba(0,0,0,0.65), transparent);
+    background: linear-gradient(to bottom, rgba(0,0,0,0.65), transparent);
     pointer-events: none;
     z-index: 2;
   }
@@ -61,7 +75,7 @@
     position: relative;
     z-index: 3;
     text-align: center;
-    padding: 32px 24px clamp(40px, 6vw, 64px);
+    padding: clamp(28px, 5vw, 56px) 24px 32px;
     max-width: 640px;
     margin: 0 auto;
   }
@@ -146,10 +160,13 @@
 
   @media (max-width: 767px) {
     .nsm {
+      min-height: 200px;
+      {%- if section.settings.image == blank %}
       min-height: var(--nsm-height-mobile);
+      {%- endif %}
     }
     .nsm__content {
-      padding: 24px 20px 32px;
+      padding: 20px 20px 24px;
     }
   }
 
@@ -260,16 +277,20 @@
     },
     { "type": "header",       "content": "Altura de la sección" },
     {
+      "type": "paragraph",
+      "content": "Con una imagen seleccionada, la altura se ajusta sola a las proporciones reales de la foto para que nunca se vea cortada. Estos controles solo se usan si no hay imagen."
+    },
+    {
       "type": "range",
       "id": "height",
-      "label": "Altura en escritorio",
+      "label": "Altura en escritorio (sin imagen)",
       "info": "Porcentaje de la altura de la pantalla.",
       "min": 40, "max": 100, "step": 5, "default": 70, "unit": "%"
     },
     {
       "type": "range",
       "id": "height_mobile",
-      "label": "Altura en móvil",
+      "label": "Altura en móvil (sin imagen)",
       "min": 30, "max": 100, "step": 5, "default": 50, "unit": "%"
     },
     { "type": "header",       "content": "Textos" },
