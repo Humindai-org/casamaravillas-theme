@@ -381,16 +381,22 @@
       <div class="{{ img_box_class }}" style="--card-zoom: {{ card_zoom }}; --card-pos-x: {{ card_offset_x }}; --card-pos-y: {{ card_offset_y }}; {{ img2_style }}">
         {%- comment -%}Imagen principal: 1º la del bloque del editor, si no la destacada del producto{%- endcomment -%}
         {%- assign primary_image = card_image | default: product.featured_image -%}
+        {%- assign card_img_sizes = '(max-width: 767px) 50vw, (max-width: 1023px) 33vw, 25vw' -%}
+        {%- assign card_img_widths = '300, 450, 600, 750, 900, 1200' -%}
         {%- if primary_image != blank -%}
-          {{ primary_image | image_url: width: 600, format: 'webp' | image_tag:
+          {{ primary_image | image_url: width: 1200, format: 'webp' | image_tag:
               loading: 'lazy',
               class: 'product-card__img product-card__img--primary',
+              widths: card_img_widths,
+              sizes: card_img_sizes,
               alt: primary_image.alt | default: product.title | escape
           }}
           {%- if hover_image != blank -%}
-            {{ hover_image | image_url: width: 600, format: 'webp' | image_tag:
+            {{ hover_image | image_url: width: 1200, format: 'webp' | image_tag:
                 loading: 'lazy',
                 class: 'product-card__img product-card__img--secondary',
+                widths: card_img_widths,
+                sizes: card_img_sizes,
                 alt: product.title | escape
             }}
           {%- endif -%}
