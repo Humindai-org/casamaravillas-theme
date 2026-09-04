@@ -89,8 +89,8 @@
       ],
       "settings": {
         "gallery_fit": "cover",
-        "gallery_zoom": 100,
-        "gallery_pos_x": 50,
+        "gallery_zoom": 170,
+        "gallery_pos_x": 62,
         "gallery_pos_y": 50,
         "show_sticky_atc": true,
         "product_type": "entero",
