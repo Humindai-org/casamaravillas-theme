@@ -1,9 +1,20 @@
 <style>
+  #nsm-{{ section.id }} {
+    --nsm-height: {{ section.settings.height | default: 70 }}vh;
+    --nsm-height-mobile: {{ section.settings.height_mobile | default: 50 }}vh;
+    --nsm-pos-x: {{ section.settings.image_pos_x | default: 50 }}%;
+    --nsm-pos-y: {{ section.settings.image_pos_y | default: 50 }}%;
+    --nsm-zoom: {{ section.settings.image_zoom | default: 100 | divided_by: 100.0 }};
+    --nsm-saturation: {{ section.settings.image_saturation | default: 75 | divided_by: 100.0 }};
+    --nsm-brightness: {{ section.settings.image_brightness | default: 85 | divided_by: 100.0 }};
+    --nsm-veil: {{ section.settings.overlay_opacity | default: 0 | divided_by: 100.0 }};
+  }
+
   .nsm {
     position: relative;
-    min-height: 70vh;
+    min-height: var(--nsm-height);
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     justify-content: center;
     overflow: hidden;
     background: #1a1a1a;
@@ -15,7 +26,17 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    filter: saturate(0.75) brightness(0.85);
+    object-position: var(--nsm-pos-x) var(--nsm-pos-y);
+    transform: scale(var(--nsm-zoom));
+    filter: saturate(var(--nsm-saturation)) brightness(var(--nsm-brightness));
+  }
+
+  .nsm__veil {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,var(--nsm-veil));
+    pointer-events: none;
+    z-index: 1;
   }
 
   .nsm__grain {
@@ -27,12 +48,21 @@
     z-index: 2;
   }
 
+  .nsm__fade {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 55%;
+    background: linear-gradient(to top, rgba(0,0,0,0.65), transparent);
+    pointer-events: none;
+    z-index: 2;
+  }
+
   .nsm__content {
     position: relative;
     z-index: 3;
     text-align: center;
-    padding: clamp(96px, 12vw, 140px) 24px;
-    max-width: 880px;
+    padding: 32px 24px clamp(40px, 6vw, 64px);
+    max-width: 640px;
     margin: 0 auto;
   }
 
@@ -43,48 +73,48 @@
     letter-spacing: 0.5em;
     text-transform: uppercase;
     color: var(--cm-gold);
-    margin-bottom: 40px;
+    margin-bottom: 14px;
     text-shadow: 0 2px 12px rgba(0,0,0,0.5);
   }
 
   .nsm__rule {
-    width: 40px;
+    width: 32px;
     height: 1px;
     background: var(--cm-gold);
-    margin: 0 auto 48px;
+    margin: 0 auto 16px;
   }
 
   .nsm__quote {
     font-family: var(--cm-font-serif);
-    font-size: clamp(28px, 5vw, 64px);
+    font-size: clamp(15px, 1.7vw, 20px);
     font-weight: 400;
     font-style: normal;
     color: var(--cm-off);
-    line-height: 1.2;
-    margin-bottom: 48px;
-    letter-spacing: -0.02em;
+    line-height: 1.45;
+    margin-bottom: 16px;
+    letter-spacing: -0.01em;
     text-shadow: 0 2px 16px rgba(0,0,0,0.55);
   }
 
   .nsm__attribution {
     font-family: var(--cm-font-sans);
-    font-size: 10px;
-    letter-spacing: 0.4em;
+    font-size: 9px;
+    letter-spacing: 0.35em;
     text-transform: uppercase;
     color: var(--cm-gold);
-    margin-bottom: 56px;
+    margin-bottom: 20px;
     text-shadow: 0 2px 12px rgba(0,0,0,0.5);
   }
 
   .nsm__cta {
     display: inline-flex;
     align-items: center;
-    gap: 12px;
-    padding: 15px 40px;
+    gap: 10px;
+    padding: 12px 28px;
     border: 1.5px solid var(--cm-gold);
     color: var(--cm-navy);
     font-family: var(--cm-font-sans);
-    font-size: 10.5px;
+    font-size: 9.5px;
     font-weight: 500;
     letter-spacing: 0.18em;
     text-transform: uppercase;
@@ -116,8 +146,10 @@
 
   @media (max-width: 767px) {
     .nsm {
-      min-height: 50vh;
-      padding: 60px 24px;
+      min-height: var(--nsm-height-mobile);
+    }
+    .nsm__content {
+      padding: 24px 20px 32px;
     }
   }
 
@@ -138,7 +170,9 @@
     }}
   {%- endif -%}
 
+  <div class="nsm__veil"  aria-hidden="true"></div>
   <div class="nsm__grain" aria-hidden="true"></div>
+  <div class="nsm__fade"  aria-hidden="true"></div>
 
   <div class="nsm__content">
     {%- if section.settings.eyebrow != blank -%}
@@ -182,7 +216,63 @@
   "name": "Nosotros — Manifiesto",
   "tag": "section",
   "settings": [
-    { "type": "image_picker", "id": "image",       "label": "Imagen de fondo" },
+    { "type": "header",       "content": "Imagen de fondo" },
+    { "type": "image_picker", "id": "image",       "label": "Imagen" },
+    {
+      "type": "range",
+      "id": "image_pos_x",
+      "label": "Encuadre horizontal",
+      "info": "0% = izquierda · 50% = centro · 100% = derecha",
+      "min": 0, "max": 100, "step": 5, "default": 50, "unit": "%"
+    },
+    {
+      "type": "range",
+      "id": "image_pos_y",
+      "label": "Encuadre vertical",
+      "info": "0% = arriba · 50% = centro · 100% = abajo",
+      "min": 0, "max": 100, "step": 5, "default": 50, "unit": "%"
+    },
+    {
+      "type": "range",
+      "id": "image_zoom",
+      "label": "Zoom",
+      "info": "100% = imagen completa. Súbelo para acercar el encuadre.",
+      "min": 100, "max": 200, "step": 5, "default": 100, "unit": "%"
+    },
+    {
+      "type": "range",
+      "id": "image_saturation",
+      "label": "Saturación",
+      "min": 0, "max": 150, "step": 5, "default": 75, "unit": "%"
+    },
+    {
+      "type": "range",
+      "id": "image_brightness",
+      "label": "Brillo",
+      "min": 30, "max": 130, "step": 5, "default": 85, "unit": "%"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Capa oscura sobre la imagen",
+      "info": "Súbela si el texto no se lee bien.",
+      "min": 0, "max": 80, "step": 5, "default": 0, "unit": "%"
+    },
+    { "type": "header",       "content": "Altura de la sección" },
+    {
+      "type": "range",
+      "id": "height",
+      "label": "Altura en escritorio",
+      "info": "Porcentaje de la altura de la pantalla.",
+      "min": 40, "max": 100, "step": 5, "default": 70, "unit": "%"
+    },
+    {
+      "type": "range",
+      "id": "height_mobile",
+      "label": "Altura en móvil",
+      "min": 30, "max": 100, "step": 5, "default": 50, "unit": "%"
+    },
+    { "type": "header",       "content": "Textos" },
     { "type": "text",         "id": "eyebrow",     "label": "Etiqueta superior",  "default": "Nuestra convicción" },
     { "type": "text",         "id": "quote",       "label": "Frase principal",    "default": "Lo excepcional merece ser accesible" },
     { "type": "text",         "id": "attribution", "label": "Atribución",         "default": "Casa Maravillas — Tres generaciones de selección" },
