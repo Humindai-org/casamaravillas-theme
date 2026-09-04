@@ -62,22 +62,27 @@ document.addEventListener('DOMContentLoaded', function() {
       var i = (y * sw + x) * 4;
       return [data[i], data[i + 1], data[i + 2], data[i + 3]];
     }
-    var corners = [px(0, 0), px(sw - 1, 0), px(0, sh - 1), px(sw - 1, sh - 1)];
-    var bg = [0, 1, 2].map(function(c) {
-      return (corners[0][c] + corners[1][c] + corners[2][c] + corners[3][c]) / 4;
-    });
-    var TOL = 18;
-    function isBackground(x, y) {
+    /* El fondo de estas fotos (blanco liso o degradado gris de estudio) siempre es
+       acromático (R≈G≈B); el producto (caja azul marino, jamón rojizo) no lo es.
+       Comparar contra un color de fondo fijo falla con degradados: un pixel del
+       degradado que se aleja del promedio de las esquinas se contaba como
+       "contenido" y casi anulaba el zoom. La saturación de color no depende de
+       si el fondo es plano o degradado, así que es fiable para ambos casos. */
+    var SAT_TOL = 20;
+    var DARK_LUM = 60; /* además cubre negros/azul-marino muy oscuros y poco saturados */
+    function isContent(x, y) {
       var p = px(x, y);
-      if (p[3] < 12) return true; /* transparente cuenta como fondo */
-      return Math.abs(p[0] - bg[0]) < TOL && Math.abs(p[1] - bg[1]) < TOL && Math.abs(p[2] - bg[2]) < TOL;
+      if (p[3] < 12) return false; /* transparente: nunca es contenido */
+      var sat = Math.max(p[0], p[1], p[2]) - Math.min(p[0], p[1], p[2]);
+      var lum = (p[0] + p[1] + p[2]) / 3;
+      return sat > SAT_TOL || lum < DARK_LUM;
     }
     function rowHasContent(y) {
-      for (var x = 0; x < sw; x += 2) { if (!isBackground(x, y)) return true; }
+      for (var x = 0; x < sw; x += 2) { if (isContent(x, y)) return true; }
       return false;
     }
     function colHasContent(x) {
-      for (var y = 0; y < sh; y += 2) { if (!isBackground(x, y)) return true; }
+      for (var y = 0; y < sh; y += 2) { if (isContent(x, y)) return true; }
       return false;
     }
     var top = 0, bottom = sh - 1, left = 0, right = sw - 1;

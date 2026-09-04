@@ -382,19 +382,28 @@
         {%- comment -%}Imagen principal: 1º la del bloque del editor, si no la destacada del producto{%- endcomment -%}
         {%- assign primary_image = card_image | default: product.featured_image -%}
         {%- comment -%}
-          El sizes se escala por el --card-zoom de CADA imagen (transform: scale, hasta 200%
-          vía metafield/editor), que la caja no refleja: sin esto, un producto con zoom alto
-          pide la misma resolución que uno sin zoom y se ve borroso al ampliarse por CSS.
+          El sizes NO puede ser solo el ancho de la tarjeta: con object-fit: cover una foto
+          apaisada (2000x1414) dentro de una caja 4/5 se escala por ALTURA y se recorta a lo
+          ancho, así que solo se ve ~56% del ancho de la foto estirado sobre toda la tarjeta.
+          Hay que pedir aspect_ratio/0.8 veces más resolución. Sin este factor el navegador
+          elegía el candidato de 900w (73% de lo necesario) y se veía borroso hasta que la
+          caché de la ficha de producto le daba uno más grande — de ahí el "se arregla al
+          entrar al producto". Se multiplica también por --card-zoom (transform: scale).
         {%- endcomment -%}
-        {%- assign zoom_1 = card_zoom | default: 1 -%}
-        {%- assign zoom_2 = card_zoom_2 | default: 1 -%}
-        {%- assign mobile_vw_1 = 50 | times: zoom_1 | round -%}
-        {%- assign tablet_vw_1 = 33 | times: zoom_1 | round -%}
-        {%- assign desktop_vw_1 = 25 | times: zoom_1 | round -%}
+        {%- assign box_aspect = 0.8 -%}
+        {%- assign boost_1 = primary_image.aspect_ratio | default: box_aspect | divided_by: box_aspect -%}
+        {%- if boost_1 < 1 -%}{%- assign boost_1 = 1 -%}{%- endif -%}
+        {%- if card_zoom != blank -%}{%- assign boost_1 = boost_1 | times: card_zoom -%}{%- endif -%}
+        {%- assign boost_2 = hover_image.aspect_ratio | default: box_aspect | divided_by: box_aspect -%}
+        {%- if boost_2 < 1 -%}{%- assign boost_2 = 1 -%}{%- endif -%}
+        {%- if card_zoom_2 != blank -%}{%- assign boost_2 = boost_2 | times: card_zoom_2 -%}{%- endif -%}
+        {%- assign mobile_vw_1 = 50 | times: boost_1 | round -%}
+        {%- assign tablet_vw_1 = 33 | times: boost_1 | round -%}
+        {%- assign desktop_vw_1 = 25 | times: boost_1 | round -%}
         {%- assign card_img_sizes_1 = '(max-width: 767px) ' | append: mobile_vw_1 | append: 'vw, (max-width: 1023px) ' | append: tablet_vw_1 | append: 'vw, ' | append: desktop_vw_1 | append: 'vw' -%}
-        {%- assign mobile_vw_2 = 50 | times: zoom_2 | round -%}
-        {%- assign tablet_vw_2 = 33 | times: zoom_2 | round -%}
-        {%- assign desktop_vw_2 = 25 | times: zoom_2 | round -%}
+        {%- assign mobile_vw_2 = 50 | times: boost_2 | round -%}
+        {%- assign tablet_vw_2 = 33 | times: boost_2 | round -%}
+        {%- assign desktop_vw_2 = 25 | times: boost_2 | round -%}
         {%- assign card_img_sizes_2 = '(max-width: 767px) ' | append: mobile_vw_2 | append: 'vw, (max-width: 1023px) ' | append: tablet_vw_2 | append: 'vw, ' | append: desktop_vw_2 | append: 'vw' -%}
         {%- assign card_img_widths = '600, 900, 1200, 1600, 2000, 2600' -%}
         {%- if primary_image != blank -%}
