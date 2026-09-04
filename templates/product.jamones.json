@@ -16,7 +16,7 @@
           "type": "image_adjust",
           "settings": {
             "fit": "contain",
-            "zoom": 160,
+            "zoom": 145,
             "pos_x": 50,
             "pos_y": 50
           }
