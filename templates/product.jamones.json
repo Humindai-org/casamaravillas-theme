@@ -88,7 +88,7 @@
         "detail_card_6dy9me"
       ],
       "settings": {
-        "gallery_fit": "cover",
+        "gallery_fit": "contain",
         "gallery_zoom": 100,
         "gallery_pos_x": 50,
         "gallery_pos_y": 50,
