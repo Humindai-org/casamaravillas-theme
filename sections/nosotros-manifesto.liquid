@@ -165,14 +165,34 @@
   @media (max-width: 767px) {
     .nsm {
       min-height: 200px;
+      align-items: stretch;
       {%- if section.settings.image != blank %}
       max-height: var(--nsm-height-mobile);
       {%- else %}
       min-height: var(--nsm-height-mobile);
       {%- endif %}
     }
+    /* Content stretches full height; the button sticks to the
+       bottom (margin-top: auto) instead of following right under
+       the quote, so it never sits over the faces. */
     .nsm__content {
-      padding: 20px 20px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 18px 20px 14px;
+    }
+    .nsm__quote {
+      margin-bottom: 0;
+    }
+    .nsm__cta {
+      margin-top: auto;
+      padding: 8px 18px;
+      font-size: 8px;
+      gap: 6px;
+    }
+    .nsm__cta svg {
+      width: 10px;
+      height: 10px;
     }
   }
 
