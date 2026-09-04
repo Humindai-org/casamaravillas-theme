@@ -16,7 +16,7 @@
           "type": "image_adjust",
           "settings": {
             "fit": "contain",
-            "zoom": 100,
+            "zoom": 160,
             "pos_x": 50,
             "pos_y": 50
           }
@@ -167,6 +167,9 @@
       "name": "Información del Producto",
       "settings": {
         "jamones_image": "shopify://shop_images/IMG_1752.png",
+        "embutidos_mobile_bottom": -120,
+        "embutidos_mobile_right": -40,
+        "embutidos_mobile_section_padding": 580,
         "eyebrow_text": "Información del producto",
         "title_text": "Transparencia con sabor a",
         "title_em_text": "TRADICIÓN",
