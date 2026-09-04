@@ -390,24 +390,12 @@
           caché de la ficha de producto le daba uno más grande — de ahí el "se arregla al
           entrar al producto". Se multiplica también por --card-zoom (transform: scale).
         {%- endcomment -%}
-        {%- comment -%}
-          El ratio se calcula desde width/height (siempre presentes) y no desde aspect_ratio:
-          si esa propiedad viniera vacía el factor sería 1 y el sizes quedaría idéntico al
-          valor incorrecto de antes, sin forma de notarlo. El `times: 1.0` es obligatorio:
-          sin él Liquid hace división entera y 2000/1414 daría 1.
-        {%- endcomment -%}
         {%- assign box_aspect = 0.8 -%}
-        {%- assign boost_1 = 1 -%}
-        {%- if primary_image.height > 0 -%}
-          {%- assign boost_1 = primary_image.width | times: 1.0 | divided_by: primary_image.height | divided_by: box_aspect -%}
-          {%- if boost_1 < 1 -%}{%- assign boost_1 = 1 -%}{%- endif -%}
-        {%- endif -%}
+        {%- assign boost_1 = primary_image.aspect_ratio | default: box_aspect | divided_by: box_aspect -%}
+        {%- if boost_1 < 1 -%}{%- assign boost_1 = 1 -%}{%- endif -%}
         {%- if card_zoom != blank -%}{%- assign boost_1 = boost_1 | times: card_zoom -%}{%- endif -%}
-        {%- assign boost_2 = 1 -%}
-        {%- if hover_image.height > 0 -%}
-          {%- assign boost_2 = hover_image.width | times: 1.0 | divided_by: hover_image.height | divided_by: box_aspect -%}
-          {%- if boost_2 < 1 -%}{%- assign boost_2 = 1 -%}{%- endif -%}
-        {%- endif -%}
+        {%- assign boost_2 = hover_image.aspect_ratio | default: box_aspect | divided_by: box_aspect -%}
+        {%- if boost_2 < 1 -%}{%- assign boost_2 = 1 -%}{%- endif -%}
         {%- if card_zoom_2 != blank -%}{%- assign boost_2 = boost_2 | times: card_zoom_2 -%}{%- endif -%}
         {%- assign mobile_vw_1 = 50 | times: boost_1 | round -%}
         {%- assign tablet_vw_1 = 33 | times: boost_1 | round -%}
