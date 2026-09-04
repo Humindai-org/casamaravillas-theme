@@ -381,23 +381,36 @@
       <div class="{{ img_box_class }}" style="--card-zoom: {{ card_zoom }}; --card-pos-x: {{ card_offset_x }}; --card-pos-y: {{ card_offset_y }}; {{ img2_style }}">
         {%- comment -%}Imagen principal: 1º la del bloque del editor, si no la destacada del producto{%- endcomment -%}
         {%- assign primary_image = card_image | default: product.featured_image -%}
-        {%- comment -%}Sizes con margen extra: la tarjeta puede tener --card-zoom > 1 (transform: scale), que la caja no refleja, así que sobre-pedimos resolución para que siga nítido con el crop ampliado{%- endcomment -%}
-        {%- assign card_img_sizes = '(max-width: 767px) 60vw, (max-width: 1023px) 42vw, 32vw' -%}
-        {%- assign card_img_widths = '600, 900, 1200, 1600, 2000' -%}
+        {%- comment -%}
+          El sizes se escala por el --card-zoom de CADA imagen (transform: scale, hasta 200%
+          vía metafield/editor), que la caja no refleja: sin esto, un producto con zoom alto
+          pide la misma resolución que uno sin zoom y se ve borroso al ampliarse por CSS.
+        {%- endcomment -%}
+        {%- assign zoom_1 = card_zoom | default: 1 -%}
+        {%- assign zoom_2 = card_zoom_2 | default: 1 -%}
+        {%- assign mobile_vw_1 = 50 | times: zoom_1 | round -%}
+        {%- assign tablet_vw_1 = 33 | times: zoom_1 | round -%}
+        {%- assign desktop_vw_1 = 25 | times: zoom_1 | round -%}
+        {%- assign card_img_sizes_1 = '(max-width: 767px) ' | append: mobile_vw_1 | append: 'vw, (max-width: 1023px) ' | append: tablet_vw_1 | append: 'vw, ' | append: desktop_vw_1 | append: 'vw' -%}
+        {%- assign mobile_vw_2 = 50 | times: zoom_2 | round -%}
+        {%- assign tablet_vw_2 = 33 | times: zoom_2 | round -%}
+        {%- assign desktop_vw_2 = 25 | times: zoom_2 | round -%}
+        {%- assign card_img_sizes_2 = '(max-width: 767px) ' | append: mobile_vw_2 | append: 'vw, (max-width: 1023px) ' | append: tablet_vw_2 | append: 'vw, ' | append: desktop_vw_2 | append: 'vw' -%}
+        {%- assign card_img_widths = '600, 900, 1200, 1600, 2000, 2600' -%}
         {%- if primary_image != blank -%}
-          {{ primary_image | image_url: width: 2000, format: 'webp' | image_tag:
+          {{ primary_image | image_url: width: 2600, format: 'webp' | image_tag:
               loading: 'lazy',
               class: 'product-card__img product-card__img--primary',
               widths: card_img_widths,
-              sizes: card_img_sizes,
+              sizes: card_img_sizes_1,
               alt: primary_image.alt | default: product.title | escape
           }}
           {%- if hover_image != blank -%}
-            {{ hover_image | image_url: width: 2000, format: 'webp' | image_tag:
+            {{ hover_image | image_url: width: 2600, format: 'webp' | image_tag:
                 loading: 'lazy',
                 class: 'product-card__img product-card__img--secondary',
                 widths: card_img_widths,
-                sizes: card_img_sizes,
+                sizes: card_img_sizes_2,
                 alt: product.title | escape
             }}
           {%- endif -%}
