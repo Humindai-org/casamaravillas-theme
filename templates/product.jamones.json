@@ -25,7 +25,7 @@
           "type": "image_adjust",
           "settings": {
             "fit": "cover",
-            "zoom": 100,
+            "zoom": 105,
             "pos_x": 50,
             "pos_y": 50
           }
