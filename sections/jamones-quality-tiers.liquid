@@ -51,7 +51,7 @@
     text-align: center;
     text-decoration: none;
     cursor: pointer;
-    transition: transform 0.3s ease, filter 0.3s ease;
+    transition: transform 0.3s ease;
   }
 
   .qt__medallion-{{ section.id }}:hover {
@@ -67,10 +67,6 @@
     opacity: 1;
   }
 
-  .qt__medallion-{{ section.id }}.is-active .qt__icon-img-{{ section.id }} {
-    filter: brightness(0.9);
-  }
-
   /* ── Icono medallón ── */
   .qt__icon-{{ section.id }} {
     position: relative;
@@ -80,13 +76,62 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
   }
 
   .qt__icon-img-{{ section.id }} {
+    position: relative;
+    z-index: 1;
     width: 100%;
     height: 100%;
     object-fit: contain;
+  }
+
+  /* Halo: la silueta del propio escudo, teñida del color de su categoría y
+     desenfocada. Va detrás de la imagen, así que solo se ve lo que desborda.
+     Dos capas (cerca + amplia) para que la luz tenga caída, no un borde plano.
+     Solo se anima la opacidad; el blur se calcula una vez.
+     Sin soporte de máscara el halo no llega a existir: sin el recorte pintaría
+     un cuadrado de color, así que es mejor quedarse solo con el desplazamiento. */
+  @supports ((-webkit-mask-image: url('#m')) or (mask-image: url('#m'))) {
+    .qt__icon-{{ section.id }}::before,
+    .qt__icon-{{ section.id }}::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--qt-glow);
+      -webkit-mask: var(--qt-mask) center / contain no-repeat;
+      mask: var(--qt-mask) center / contain no-repeat;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+    }
+
+    .qt__icon-{{ section.id }}::before {
+      filter: blur(10px);
+    }
+
+    .qt__icon-{{ section.id }}::after {
+      filter: blur(32px);
+    }
+
+    /* ── Halo encendido: hover, foco de teclado y categoría seleccionada ── */
+    .qt__medallion-{{ section.id }}:hover .qt__icon-{{ section.id }}::before,
+    .qt__medallion-{{ section.id }}:focus-visible .qt__icon-{{ section.id }}::before {
+      opacity: 0.45;
+    }
+
+    .qt__medallion-{{ section.id }}:hover .qt__icon-{{ section.id }}::after,
+    .qt__medallion-{{ section.id }}:focus-visible .qt__icon-{{ section.id }}::after {
+      opacity: 0.55;
+    }
+
+    .qt__medallion-{{ section.id }}.is-active .qt__icon-{{ section.id }}::before {
+      opacity: 0.58;
+    }
+
+    .qt__medallion-{{ section.id }}.is-active .qt__icon-{{ section.id }}::after {
+      opacity: 0.72;
+    }
   }
 
   /* ── Contenedor de textos bajo el icono ── */
@@ -135,6 +180,12 @@
       width: 180px;
       height: 180px;
     }
+    .qt__icon-{{ section.id }}::before {
+      filter: blur(8px);
+    }
+    .qt__icon-{{ section.id }}::after {
+      filter: blur(26px);
+    }
     .qt__category-name-{{ section.id }} {
       font-size: 18px;
     }
@@ -163,6 +214,12 @@
       height: 140px;
       margin-bottom: 16px;
     }
+    .qt__icon-{{ section.id }}::before {
+      filter: blur(6px);
+    }
+    .qt__icon-{{ section.id }}::after {
+      filter: blur(20px);
+    }
     .qt__category-name-{{ section.id }} {
       font-size: 14px;
       margin-bottom: 4px;
@@ -170,6 +227,18 @@
     .qt__category-desc-{{ section.id }} {
       font-size: 11px;
       line-height: 1.4;
+    }
+  }
+
+  /* ── Movimiento reducido: el halo se mantiene, la animación no ── */
+  @media (prefers-reduced-motion: reduce) {
+    .qt__medallion-{{ section.id }},
+    .qt__icon-{{ section.id }}::before,
+    .qt__icon-{{ section.id }}::after {
+      transition: none;
+    }
+    .qt__medallion-{{ section.id }}:hover {
+      transform: none;
     }
   }
 </style>
@@ -189,7 +258,9 @@
       {%- assign settings_icon = 'cat' | append: i | append: '_icon' -%}
       {%- assign settings_name = 'cat' | append: i | append: '_name' -%}
       {%- assign settings_desc = 'cat' | append: i | append: '_desc' -%}
+      {%- assign settings_glow = 'cat' | append: i | append: '_glow' -%}
       {%- assign icon_url = section.settings[settings_icon] | image_url -%}
+      {%- assign glow_color = section.settings[settings_glow] | default: '#C4973A' -%}
 
       {%- assign filter_tags = 'precinto negro,precinto rojo,precinto verde' | split: ',' -%}
       {%- assign filter_tag = filter_tags[forloop.index0] -%}
@@ -205,7 +276,10 @@
         aria-label="Ver detalles de {{ section.settings[settings_name] }}{% if is_active %} — clic para quitar filtro{% endif %}"
       >
         {%- if section.settings[settings_icon] != blank -%}
-          <div class="qt__icon-{{ section.id }}">
+          <div
+            class="qt__icon-{{ section.id }}"
+            style="--qt-mask: url('{{ icon_url | escape }}'); --qt-glow: {{ glow_color | escape }};"
+          >
             <img
               src="{{ icon_url }}"
               alt="{{ section.settings[settings_name] }}"
@@ -309,6 +383,13 @@
       "label": "Descripción (opcional)"
     },
     {
+      "type": "color",
+      "id": "cat0_glow",
+      "label": "Color del halo",
+      "info": "Luz que rodea el escudo al pasar por encima o al seleccionarlo. Tomado del propio escudo.",
+      "default": "#e1b044"
+    },
+    {
       "type": "header",
       "content": "Categoría II — Bellota 75%"
     },
@@ -329,6 +410,13 @@
       "label": "Descripción (opcional)"
     },
     {
+      "type": "color",
+      "id": "cat1_glow",
+      "label": "Color del halo",
+      "info": "Luz que rodea el escudo al pasar por encima o al seleccionarlo. Tomado del propio escudo.",
+      "default": "#B9C2CC"
+    },
+    {
       "type": "header",
       "content": "🥈 Categoría III — Cebo de Campo"
     },
@@ -347,6 +435,13 @@
       "type": "textarea",
       "id": "cat2_desc",
       "label": "Descripción (opcional)"
+    },
+    {
+      "type": "color",
+      "id": "cat2_glow",
+      "label": "Color del halo",
+      "info": "Luz que rodea el escudo al pasar por encima o al seleccionarlo. Tomado del propio escudo.",
+      "default": "#c26537"
     }
   ],
   "presets": [
