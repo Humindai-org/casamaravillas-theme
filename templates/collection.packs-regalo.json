@@ -19,7 +19,8 @@
         "body": "",
         "overlay_opacity": 45,
         "image_pos_x": 20,
-        "image_pos_y": 50
+        "image_pos_y": 50,
+        "image_pos_y_mobile": 70
       }
     },
     "tiers": {
@@ -44,33 +45,44 @@
     "collection": {
       "type": "iberico-collection",
       "blocks": {
-        "product_P6FPDe": {
-          "type": "product",
-          "settings": {
-            "product": "pack-iberico-cebo"
-          }
-        },
         "product_EyLQBR": {
           "type": "product",
           "settings": {
-            "product": "pack-iberico-campo"
+            "product": "pack-iberico-campo",
+            "zoom": 100,
+            "offset_x": 50,
+            "offset": 50,
+            "zoom_2": 100,
+            "offset_x_2": 50,
+            "offset_2": 50
           }
         },
         "product_ik6HT9": {
           "type": "product",
           "settings": {
-            "product": "pack-iberico-bellota-75"
+            "product": "pack-iberico-bellota-75",
+            "zoom": 100,
+            "offset_x": 50,
+            "offset": 50,
+            "zoom_2": 100,
+            "offset_x_2": 50,
+            "offset_2": 50
           }
         },
         "product_FWtXWc": {
           "type": "product",
           "settings": {
-            "product": "pack-iberico-bellota-100"
+            "product": "pack-iberico-bellota-100",
+            "zoom": 100,
+            "offset_x": 50,
+            "offset": 50,
+            "zoom_2": 100,
+            "offset_x_2": 50,
+            "offset_2": 50
           }
         }
       },
       "block_order": [
-        "product_P6FPDe",
         "product_EyLQBR",
         "product_ik6HT9",
         "product_FWtXWc"
@@ -81,7 +93,8 @@
         "products_per_row": 4,
         "show_sort": true,
         "show_count": true,
-        "empty_label": "No hay packs disponibles en este momento."
+        "empty_label": "No hay packs disponibles en este momento.",
+        "card_style": "dark"
       }
     }
   },
