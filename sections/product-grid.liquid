@@ -109,6 +109,11 @@
     margin-top: 56px;
   }
 
+  /* Flechas de navegación del carrusel: solo existen en móvil */
+  .product-grid-section__nav {
+    display: none;
+  }
+
   .product-grid-section__view-all {
     display: inline-flex;
     align-items: center;
@@ -159,7 +164,7 @@
       -webkit-overflow-scrolling: touch;
       gap: 16px;
       margin: 0 -20px;
-      padding: 0 20px 8px;
+      padding-bottom: 8px;
       scrollbar-width: none;
     }
 
@@ -170,6 +175,40 @@
       max-width: 80%;
       scroll-snap-align: start;
     }
+
+    /* Margen visible antes de la primera tarjeta y después de la última */
+    .product-grid-section .product-card:first-child { margin-left: 20px; }
+    .product-grid-section .product-card:last-child { margin-right: 20px; }
+
+    /* Flechas de navegación del carrusel (solo móvil) */
+    .product-grid-section__nav {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .product-grid-section__arrow {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1px solid var(--cm-gold);
+      background: transparent;
+      color: var(--cm-gold);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      cursor: pointer;
+      transition: background 0.25s ease, color 0.25s ease, transform 0.2s ease, opacity 0.25s ease;
+    }
+
+    .product-grid-section__arrow svg { width: 16px; height: 16px; display: block; }
+    .product-grid-section__arrow:hover { background: var(--cm-gold); color: var(--cm-navy); }
+    .product-grid-section__arrow:active { transform: scale(0.92); }
+    .product-grid-section__arrow:focus-visible { outline: 2px solid var(--cm-gold); outline-offset: 2px; }
+    .product-grid-section__arrow[disabled] { opacity: 0.35; cursor: default; }
+    .product-grid-section__arrow[disabled]:hover { background: transparent; color: var(--cm-gold); }
 
     .product-grid-section__view-all { padding: 18px 40px; }
   }
@@ -223,6 +262,19 @@
     {%- endif -%}
   </div>
 
+  <div class="product-grid-section__nav">
+    <button type="button" class="product-grid-section__arrow" data-carousel-prev aria-label="Producto anterior">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+        <path d="M15 18l-6-6 6-6"/>
+      </svg>
+    </button>
+    <button type="button" class="product-grid-section__arrow" data-carousel-next aria-label="Producto siguiente">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+        <path d="M9 6l6 6-6 6"/>
+      </svg>
+    </button>
+  </div>
+
   {%- if section.settings.view_all_label != blank -%}
     <div class="product-grid-section__footer">
       <a href="{{ section.settings.view_all_url | default: '/collections/all' }}" class="product-grid-section__view-all">
@@ -232,6 +284,41 @@
   {%- endif -%}
 
 </section>
+
+<script>
+if (!window.cmGridCarouselInit) {
+  window.cmGridCarouselInit = true;
+  document.addEventListener('click', function(e) {
+    var btn = e.target.closest('.product-grid-section__arrow');
+    if (!btn) return;
+    var wrap = btn.closest('.product-grid-section');
+    var grid = wrap && wrap.querySelector('.product-grid-section__grid');
+    var card = grid && grid.querySelector('.product-card');
+    if (!grid || !card) return;
+    var gap = parseFloat(getComputedStyle(grid).columnGap) || 16;
+    var amount = card.getBoundingClientRect().width + gap;
+    grid.scrollBy({ left: btn.hasAttribute('data-carousel-prev') ? -amount : amount, behavior: 'smooth' });
+  });
+
+  var updateArrows = function(grid) {
+    var wrap = grid.closest('.product-grid-section');
+    var prevBtn = wrap.querySelector('[data-carousel-prev]');
+    var nextBtn = wrap.querySelector('[data-carousel-next]');
+    if (!prevBtn || !nextBtn) return;
+    var maxScroll = grid.scrollWidth - grid.clientWidth;
+    prevBtn.disabled = grid.scrollLeft <= 4;
+    nextBtn.disabled = grid.scrollLeft >= maxScroll - 4;
+  };
+
+  document.querySelectorAll('.product-grid-section__grid').forEach(function(grid) {
+    updateArrows(grid);
+    grid.addEventListener('scroll', function() { updateArrows(grid); }, { passive: true });
+  });
+  window.addEventListener('resize', function() {
+    document.querySelectorAll('.product-grid-section__grid').forEach(updateArrows);
+  });
+}
+</script>
 
 {% schema %}
 {
