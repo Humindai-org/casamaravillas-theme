@@ -293,11 +293,22 @@ if (!window.cmGridCarouselInit) {
     if (!btn) return;
     var wrap = btn.closest('.product-grid-section');
     var grid = wrap && wrap.querySelector('.product-grid-section__grid');
-    var card = grid && grid.querySelector('.product-card');
-    if (!grid || !card) return;
-    var gap = parseFloat(getComputedStyle(grid).columnGap) || 16;
-    var amount = card.getBoundingClientRect().width + gap;
-    grid.scrollBy({ left: btn.hasAttribute('data-carousel-prev') ? -amount : amount, behavior: 'smooth' });
+    var cards = grid && grid.querySelectorAll('.product-card');
+    if (!grid || !cards || !cards.length) return;
+    var current = grid.scrollLeft;
+    var target = null;
+    if (btn.hasAttribute('data-carousel-prev')) {
+      for (var i = cards.length - 1; i >= 0; i--) {
+        if (cards[i].offsetLeft < current - 4) { target = cards[i].offsetLeft; break; }
+      }
+      if (target === null) target = cards[0].offsetLeft;
+    } else {
+      for (var j = 0; j < cards.length; j++) {
+        if (cards[j].offsetLeft > current + 4) { target = cards[j].offsetLeft; break; }
+      }
+      if (target === null) target = cards[cards.length - 1].offsetLeft;
+    }
+    grid.scrollTo({ left: target, behavior: 'smooth' });
   });
 
   var updateArrows = function(grid) {
