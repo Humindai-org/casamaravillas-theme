@@ -12,7 +12,7 @@
     "hero": {
       "type": "jamones-hero",
       "settings": {
-        "image": "shopify://shop_images/JAMONES_b6dff521-4e53-4681-bd84-576b6d9e45eb.png",
+        "image": "shopify://shop_images/JAMONES_banner.png",
         "eyebrow": "Ibéricos Premium",
         "heading": "Jamones Ibéricos",
         "subheading": "",
@@ -32,7 +32,7 @@
         "cat0_name": "Bellota 100% Ibérico",
         "cat0_desc": "",
         "cat0_glow": "#e1b044",
-        "cat1_icon": "shopify://shop_images/i2-plata.svg",
+        "cat1_icon": "shopify://shop_images/i2-plata_a7f6fc60-4ff8-450b-9da8-2b4fe9aa9ec9.svg",
         "cat1_name": "Bellota 75% Ibérico",
         "cat1_desc": "",
         "cat1_glow": "#b9c2cc",
