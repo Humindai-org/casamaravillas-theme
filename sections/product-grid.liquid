@@ -149,12 +149,33 @@
 
   @media (max-width: 767px) {
     .product-grid-section { padding: 48px 20px; }
-    .product-grid-section__grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+
+    /* Carrusel horizontal: una tarjeta grande a la vez, con un asomo de la siguiente */
+    .product-grid-section__grid {
+      grid-template-columns: none;
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      gap: 16px;
+      margin: 0 -20px;
+      padding: 0 20px 8px;
+      scrollbar-width: none;
+    }
+
+    .product-grid-section__grid::-webkit-scrollbar { display: none; }
+
+    .product-grid-section .product-card {
+      flex: 0 0 80%;
+      max-width: 80%;
+      scroll-snap-align: start;
+    }
+
     .product-grid-section__view-all { padding: 18px 40px; }
   }
 
   @media (max-width: 480px) {
-    .product-grid-section__grid { grid-template-columns: repeat(2, 1fr); }
+    .product-grid-section .product-card { flex: 0 0 84%; max-width: 84%; }
   }
 </style>
 
