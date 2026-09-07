@@ -183,14 +183,6 @@
             "collection": "paquetes-de-regalo",
             "image": "shopify://shop_images/ChatGPT_Image_Jun_16_2026_05_56_09_PM.png"
           }
-        },
-        "coll-4": {
-          "type": "collection",
-          "disabled": true,
-          "settings": {
-            "collection": "carnes-ibericas",
-            "image": "shopify://shop_images/Got_into_the_kitchen_with_Matt_at_peartreeatgreenlandplace_to_capture_some_serious_steak_action___From_seasoning_to_grilling_to_serving_every_moment_had_a_touch_of_theatre___Love_shoo.jpg"
-          }
         }
       },
       "block_order": [
@@ -283,10 +275,10 @@
           "type": "product",
           "settings": {
             "product": "jamon-bellota-75-iberico-pieza-entera",
-            "image": "shopify://shop_images/2_a6f397e5-9144-4f5c-b2ce-7fddb2f6cc40.png",
+            "image": "shopify://shop_images/2_5da7ceb6-b34f-4710-9dd8-4e2f9a67f1c0.svg",
             "hover_image": "shopify://shop_images/CASAMARAVILLAS__2_827a25c3-cb47-4991-a357-4682feaa62d6.jpg",
             "image_zoom": 100,
-            "image_offset": 100
+            "image_offset": 49
           }
         },
         "product_GE8BEX": {
