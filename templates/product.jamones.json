@@ -12,7 +12,7 @@
     "main": {
       "type": "main-product",
       "blocks": {
-        "image_adjust_GhGba8": {
+        "image_adjust_Jtjpq7": {
           "type": "image_adjust",
           "settings": {
             "fit": "cover",
@@ -21,7 +21,7 @@
             "pos_y": 50
           }
         },
-        "image_adjust_8UmC6A": {
+        "image_adjust_GhGba8": {
           "type": "image_adjust",
           "settings": {
             "fit": "cover",
@@ -80,8 +80,8 @@
         }
       },
       "block_order": [
+        "image_adjust_Jtjpq7",
         "image_adjust_GhGba8",
-        "image_adjust_8UmC6A",
         "detail_card_rBmAY6",
         "detail_card_3AdTN7",
         "detail_card_edJprB",
