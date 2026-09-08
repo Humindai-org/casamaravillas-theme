@@ -30,15 +30,6 @@
             "pos_y": 50
           }
         },
-        "image_adjust_GhGba8": {
-          "type": "image_adjust",
-          "settings": {
-            "fit": "cover",
-            "zoom": 100,
-            "pos_x": 52,
-            "pos_y": 50
-          }
-        },
         "detail_card_rBmAY6": {
           "type": "detail_card",
           "name": "Tarjeta de Curación",
@@ -91,7 +82,6 @@
       "block_order": [
         "image_adjust_6JYKDd",
         "image_adjust_Jtjpq7",
-        "image_adjust_GhGba8",
         "detail_card_rBmAY6",
         "detail_card_3AdTN7",
         "detail_card_edJprB",
