@@ -379,6 +379,7 @@
     "story_teaser": {
       "type": "story-teaser",
       "settings": {
+        "image": "shopify://shop_images/WhatsApp_Image_2026-09-03_at_17.18.44.jpg",
         "eyebrow": "Nuestra historia",
         "title": "<p>Una historia de <em>tradición</em></p>",
         "body": "Tres generaciones dedicadas al ibérico. Descubre quiénes somos y cómo seleccionamos cada pieza para mantener la calidad de siempre.",
