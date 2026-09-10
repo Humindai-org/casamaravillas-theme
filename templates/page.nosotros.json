@@ -173,8 +173,8 @@
       "settings": {
         "image": "shopify://shop_images/1.png",
         "image_pos_x": 50,
-        "image_pos_y": 80,
-        "image_zoom": 125,
+        "image_pos_y": 100,
+        "image_zoom": 135,
         "image_saturation": 85,
         "image_brightness": 80,
         "overlay_opacity": 0,
