@@ -34,13 +34,28 @@
     z-index: 2;
   }
 
+  /* Eyebrow overlaid on the photo — mobile only */
+  .nsh__eyebrow--media {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    text-align: center;
+    color: var(--cm-off);
+    text-shadow: 0 2px 10px rgba(0,0,0,0.55), 0 1px 3px rgba(0,0,0,0.35);
+    z-index: 3;
+    margin-bottom: 0;
+  }
+
+  .nsh__eyebrow--band { display: none; }
+
   .nsh__content {
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    padding: 28px 24px calc(env(safe-area-inset-bottom, 0px) + 24px);
+    padding: 18px 24px calc(env(safe-area-inset-bottom, 0px) + 18px);
     background: linear-gradient(135deg, var(--cm-gold) 0%, var(--cm-gold-h) 100%);
     box-shadow:
       0 -16px 28px -18px rgba(0,41,75,0.35),
@@ -64,7 +79,7 @@
     width: 0px;
     height: 1px;
     background: rgba(0,41,75,0.4);
-    margin-bottom: 16px;
+    margin-bottom: 14px;
     opacity: 0;
     transition: opacity 0.6s 0.4s ease, width 0.8s 0.4s ease;
   }
@@ -77,7 +92,7 @@
     color: var(--cm-navy);
     line-height: 1.15;
     max-width: 760px;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
   }
 
   @keyframes nshWordIn {
@@ -109,6 +124,9 @@
 
   @media (min-width: 768px) {
     .nsh__media { aspect-ratio: 16 / 9; }
+
+    .nsh__eyebrow--media { display: none; }
+    .nsh__eyebrow--band { display: block; }
 
     .nsh__content {
       padding: 56px 24px 64px;
@@ -145,18 +163,21 @@
       }}
     {%- endif -%}
     <div class="nsh__grain" aria-hidden="true"></div>
+    {%- if section.settings.eyebrow != blank -%}
+      <p class="nsh__eyebrow nsh__eyebrow--media">{{ section.settings.eyebrow }}</p>
+    {%- endif -%}
   </div>
 
   <div class="nsh__content">
     {%- if section.settings.eyebrow != blank -%}
-      <p class="nsh__eyebrow">{{ section.settings.eyebrow }}</p>
+      <p class="nsh__eyebrow nsh__eyebrow--band">{{ section.settings.eyebrow }}</p>
     {%- endif -%}
-
-    <div class="nsh__rule" aria-hidden="true"></div>
 
     <h1 class="nsh__title" id="nsh-title-{{ section.id }}">
       {{ section.settings.title | default: 'Tres generaciones eligiendo lo mejor del campo ibérico' }}
     </h1>
+
+    <div class="nsh__rule" aria-hidden="true"></div>
 
     {%- if section.settings.subtitle != blank -%}
       <p class="nsh__subtitle">{{ section.settings.subtitle }}</p>
