@@ -144,7 +144,7 @@
           "type": "text-full",
           "name": "Exigencia",
           "settings": {
-            "background_image": "shopify://shop_images/ChatGPT_Image_Sep_10_2026_05_36_59_PM.png",
+            "background_image": "shopify://shop_images/generated_image_2bbb6d13-9e22-4c61-95bc-9a0cbf08f6c4.png",
             "value_name": "Exigencia",
             "headline": "Sin excepciones y sin excusas",
             "body": "<p>Exigimos lo mismo en la selección del producto, en el proceso de envasado, en la logística del envío. El resultado en tu mesa tiene que estar a la altura de la expectativa que crea el primer bocado.</p><p>No es perfeccionismo. Es el respeto mínimo que merece alguien que ha depositado su confianza en nosotros. Cuando algo no llega al nivel, lo decimos. Y lo arreglamos.</p>"
@@ -154,6 +154,7 @@
           "type": "centered",
           "name": "Imaginación",
           "settings": {
+            "background_image": "shopify://shop_images/generated_image.jpg",
             "value_name": "Imaginación",
             "headline": "La tradición y la innovación no son opuestos",
             "body": "<p>Son los dos extremos del mismo hilo. Honramos el conocimiento de quienes llevan generaciones perfeccionando el arte del ibérico, mientras imaginamos nuevas formas de acercarlo a las personas.</p><p>La imaginación es nuestro motor de evolución. Es lo que nos permite transformar la tradición en experiencia, el producto en descubrimiento y la compra en un momento memorable. Porque creemos que el futuro del ibérico no consiste en cambiar su esencia, sino en encontrar nuevas maneras de hacerla relevante, cercana y extraordinaria.</p>"
