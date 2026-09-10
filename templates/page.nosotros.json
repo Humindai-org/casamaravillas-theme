@@ -12,12 +12,12 @@
     "hero": {
       "type": "nosotros-hero",
       "settings": {
-        "image": "shopify://shop_images/generated_image_2d79e279-ac6e-441c-b958-befd97a9d389.png",
+        "image": "shopify://shop_images/WhatsApp_Image_2026-09-03_at_17.18.44.jpg",
         "eyebrow": "Nuestra historia",
-        "title": "Tres generaciones eligiendo lo mejor del campo ibérico",
-        "subtitle": "Una convicción que se hereda, un estándar que no se negocia",
+        "title": "",
+        "subtitle": "",
         "image_pos_x": 50,
-        "image_pos_y": 50
+        "image_pos_y": 20
       }
     },
     "origen": {
@@ -171,10 +171,10 @@
     "manifesto": {
       "type": "nosotros-manifesto",
       "settings": {
-        "image": "shopify://shop_images/WhatsApp_Image_2026-09-03_at_17.18.44.jpg",
+        "image": "shopify://shop_images/1.png",
         "image_pos_x": 50,
         "image_pos_y": 25,
-        "image_zoom": 100,
+        "image_zoom": 125,
         "image_saturation": 85,
         "image_brightness": 80,
         "overlay_opacity": 0,
