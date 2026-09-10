@@ -14,10 +14,10 @@
       "settings": {
         "image": "shopify://shop_images/WhatsApp_Image_2026-09-03_at_17.18.44.jpg",
         "eyebrow": "Nuestra historia",
-        "title": "",
+        "title": "Tres generaciones",
         "subtitle": "Una convicción que se hereda, un estándar que no se negocia",
         "image_pos_x": 50,
-        "image_pos_y": 50
+        "image_pos_y": 20
       }
     },
     "origen": {
@@ -174,7 +174,7 @@
         "image": "shopify://shop_images/1.png",
         "image_pos_x": 50,
         "image_pos_y": 25,
-        "image_zoom": 100,
+        "image_zoom": 125,
         "image_saturation": 85,
         "image_brightness": 80,
         "overlay_opacity": 0,
