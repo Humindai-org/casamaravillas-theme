@@ -10,17 +10,18 @@
   .nsp__desktop {
     display: flex;
     align-items: stretch;
-    min-height: 460px;
+    min-height: 280px;
   }
 
   .nsp__sidebar {
     width: 300px;
     flex-shrink: 0;
     background: var(--cm-navy);
-    padding: 72px 48px;
+    padding: 48px 40px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
+    gap: 40px;
     z-index: 2;
   }
 
@@ -119,7 +120,7 @@
     flex-shrink: 0;
     width: min(360px, 56vw);
     scroll-snap-align: start;
-    padding: 48px 40px 40px;
+    padding: 36px 28px 28px;
     border-right: 1px solid var(--cm-border);
     display: flex;
     flex-direction: column;
@@ -156,9 +157,9 @@
   }
 
   .nsp__card-text {
-    font-family: var(--cm-font-sans);
-    font-size: 14px;
-    line-height: 1.9;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 18px;
+    line-height: 1.6;
     color: var(--cm-text-mid);
   }
 
@@ -259,8 +260,8 @@
   }
 
   @media (max-width: 1023px) {
-    .nsp__sidebar { width: 240px; padding: 56px 32px; }
-    .nsp__card { width: min(320px, 64vw); padding: 44px 32px; }
+    .nsp__sidebar { width: 240px; padding: 40px 32px; gap: 32px; }
+    .nsp__card { width: min(320px, 64vw); padding: 36px 28px; }
   }
 
   @media (max-width: 767px) {
