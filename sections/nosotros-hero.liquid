@@ -1,8 +1,12 @@
 <style>
   .nsh {
     position: relative;
-    height: calc(100svh - 70px);
-    min-height: 560px;
+  }
+
+  .nsh__media {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 3;
     overflow: hidden;
   }
 
@@ -12,6 +16,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: {{ section.settings.image_pos_x | default: 50 }}% {{ section.settings.image_pos_y | default: 50 }}%;
     opacity: 1;
     transform: scale(1.08);
     animation: nshKenBurns 10s ease-out forwards;
@@ -29,24 +34,17 @@
     z-index: 2;
   }
 
-  .nsh__fade {
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    height: 45%;
-    background: linear-gradient(to top, rgba(0,0,0,0.25), transparent);
-    z-index: 3;
-  }
-
   .nsh__content {
-    position: absolute;
-    inset: 0;
-    z-index: 4;
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     text-align: center;
-    padding: 0 24px 7% 24px;
+    padding: 28px 24px calc(env(safe-area-inset-bottom, 0px) + 24px);
+    background: linear-gradient(135deg, var(--cm-gold) 0%, var(--cm-gold-h) 100%);
+    box-shadow:
+      0 -16px 28px -18px rgba(0,41,75,0.35),
+      0 -4px 10px -6px rgba(0,41,75,0.25);
   }
 
   .nsh__eyebrow {
@@ -55,8 +53,8 @@
     font-weight: 400;
     letter-spacing: 0.5em;
     text-transform: uppercase;
-    color: var(--cm-gold);
-    margin-bottom: 32px;
+    color: var(--cm-navy);
+    margin-bottom: 16px;
     opacity: 0;
     transform: translateY(16px);
     transition: opacity 0.7s 0.2s ease, transform 0.7s 0.2s ease;
@@ -65,8 +63,8 @@
   .nsh__rule {
     width: 0px;
     height: 1px;
-    background: rgba(196,151,58,0.5);
-    margin-bottom: 32px;
+    background: rgba(0,41,75,0.4);
+    margin-bottom: 16px;
     opacity: 0;
     transition: opacity 0.6s 0.4s ease, width 0.8s 0.4s ease;
   }
@@ -74,12 +72,12 @@
   /* Title — words animate individually via JS */
   .nsh__title {
     font-family: var(--cm-font-serif);
-    font-size: clamp(32px, 5.5vw, 72px);
+    font-size: clamp(24px, 6.5vw, 32px);
     font-weight: 400;
-    color: var(--cm-off);
+    color: var(--cm-navy);
     line-height: 1.15;
     max-width: 760px;
-    margin-bottom: 28px;
+    margin-bottom: 12px;
   }
 
   @keyframes nshWordIn {
@@ -96,7 +94,7 @@
     font-family: var(--cm-font-sans);
     font-size: clamp(12px, 1.8vw, 16px);
     font-weight: 700;
-    color: var(--cm-gold);
+    color: var(--cm-navy);
     letter-spacing: 0.08em;
     max-width: 480px;
     line-height: 1.8;
@@ -109,34 +107,20 @@
   .nsh.is-loaded .nsh__subtitle { opacity: 1; transform: translateY(0); }
   .nsh.is-loaded .nsh__rule { opacity: 1; width: 48px; }
 
-  .nsh__bg {
-    object-position: {{ section.settings.image_pos_x | default: 50 }}% {{ section.settings.image_pos_y | default: 50 }}%;
-  }
-
-  @media (max-width: 767px) {
-    .nsh {
-      height: calc(100svh - 64px);
-      min-height: 520px;
-    }
-
-    .nsh__fade { display: none; }
+  @media (min-width: 768px) {
+    .nsh__media { aspect-ratio: 16 / 9; }
 
     .nsh__content {
-      inset: auto 0 0 0;
-      justify-content: flex-end;
-      align-items: center;
-      text-align: center;
-      padding: 28px 24px calc(env(safe-area-inset-bottom, 0px) + 24px);
-      background: linear-gradient(135deg, var(--cm-gold) 0%, var(--cm-gold-h) 100%);
-      box-shadow:
-        0 -16px 28px -18px rgba(0,41,75,0.35),
-        0 -4px 10px -6px rgba(0,41,75,0.25);
+      padding: 56px 24px 64px;
     }
 
-    .nsh__eyebrow { color: var(--cm-navy); margin-bottom: 16px; }
-    .nsh__rule { background: rgba(0,41,75,0.4); margin-bottom: 16px; }
-    .nsh__title { color: var(--cm-navy); font-size: clamp(24px, 6.5vw, 32px); margin-bottom: 12px; }
-    .nsh__subtitle { color: var(--cm-navy); }
+    .nsh__eyebrow,
+    .nsh__rule { margin-bottom: 32px; }
+
+    .nsh__title {
+      font-size: clamp(32px, 5.5vw, 72px);
+      margin-bottom: 28px;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -149,19 +133,19 @@
 
 <section class="nsh" id="nsh-{{ section.id }}" aria-label="{{ section.settings.eyebrow | default: 'Nuestra historia' }}">
 
-  {%- if section.settings.image != blank -%}
-    {{ section.settings.image
-      | image_url: width: 1800, format: 'webp'
-      | image_tag:
-          class: 'nsh__bg',
-          loading: 'eager',
-          fetchpriority: 'high',
-          alt: section.settings.image.alt | escape
-    }}
-  {%- endif -%}
-
-  <div class="nsh__grain" aria-hidden="true"></div>
-  <div class="nsh__fade"  aria-hidden="true"></div>
+  <div class="nsh__media">
+    {%- if section.settings.image != blank -%}
+      {{ section.settings.image
+        | image_url: width: 1800, format: 'webp'
+        | image_tag:
+            class: 'nsh__bg',
+            loading: 'eager',
+            fetchpriority: 'high',
+            alt: section.settings.image.alt | escape
+      }}
+    {%- endif -%}
+    <div class="nsh__grain" aria-hidden="true"></div>
+  </div>
 
   <div class="nsh__content">
     {%- if section.settings.eyebrow != blank -%}
