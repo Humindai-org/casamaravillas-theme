@@ -117,9 +117,9 @@
   /* Cards */
   .nsp__card {
     flex-shrink: 0;
-    width: min(520px, 62vw);
+    width: min(360px, 56vw);
     scroll-snap-align: start;
-    padding: 56px 56px 48px;
+    padding: 48px 40px 40px;
     border-right: 1px solid var(--cm-border);
     display: flex;
     flex-direction: column;
@@ -127,20 +127,6 @@
     position: relative;
     background: var(--cm-white);
     overflow: hidden;
-  }
-
-  .nsp__card-numeral {
-    position: absolute;
-    bottom: -0.1em;
-    right: -0.05em;
-    font-family: var(--cm-font-serif);
-    font-size: clamp(120px, 18vw, 220px);
-    font-style: italic;
-    color: var(--cm-gold);
-    opacity: 0.08;
-    line-height: 1;
-    pointer-events: none;
-    user-select: none;
   }
 
   .nsp__card-step {
@@ -174,7 +160,6 @@
     font-size: 14px;
     line-height: 1.9;
     color: var(--cm-text-mid);
-    max-width: 380px;
   }
 
   .nsp__card-image {
@@ -275,7 +260,7 @@
 
   @media (max-width: 1023px) {
     .nsp__sidebar { width: 240px; padding: 56px 32px; }
-    .nsp__card { width: min(440px, 70vw); padding: 56px 40px; }
+    .nsp__card { width: min(320px, 64vw); padding: 44px 32px; }
   }
 
   @media (max-width: 767px) {
@@ -339,8 +324,6 @@
       {%- for block in section.blocks -%}
         {%- assign roman = roman_numerals[forloop.index0] -%}
         <div class="nsp__card" {{ block.shopify_attributes }}>
-          <span class="nsp__card-numeral" aria-hidden="true">{{ roman }}</span>
-
           {%- if block.settings.image != blank -%}
             <div class="nsp__card-image">
               {{ block.settings.image
