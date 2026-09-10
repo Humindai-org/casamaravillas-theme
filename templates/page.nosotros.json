@@ -46,7 +46,8 @@
         "image": "shopify://shop_images/generated_image_5a0a578b-6d60-4490-95a7-3513e4a247bf.png",
         "eyebrow": "Nuestra historia",
         "title": "Todo empezó con una convicción",
-        "body": "<p>Casa Maravillas nace con el objetivo de acercar a nuestros clientes y consumidores una selección única de ibéricos y productos gourmet de una manera sencilla y directa, ya que nos desplazamos al origen en busca de las mejores piezas del mercado. </p>"
+        "body": "<p>Casa Maravillas nace con el objetivo de acercar a nuestros clientes y consumidores una selección única de ibéricos y productos gourmet de una manera sencilla y directa, ya que nos desplazamos al origen en busca de las mejores piezas del mercado. </p>",
+        "quote": "Vamos al origen porque ahí está la verdad del producto."
       }
     },
     "proceso": {
@@ -128,20 +129,20 @@
           }
         },
         "valor-respeto": {
-          "type": "split",
+          "type": "centered",
           "name": "Respeto",
           "settings": {
-            "image": "shopify://shop_images/generated_image_6578f43c-d59b-470b-84d5-532b31e5be4c.png",
+            "background_image": "shopify://shop_images/generated_image_6578f43c-d59b-470b-84d5-532b31e5be4c.png",
             "value_name": "Respeto",
             "headline": "Un equilibrio que no se puede romper",
             "body": "<p>El ibérico nace de un equilibrio: entre el animal y su entorno, entre el productor y su tierra, entre nosotros y el cliente. Cualquier paso en falso rompe ese equilibrio.</p><p>Por eso el respeto no es solo una palabra en nuestro vocabulario — es la razón de que trabajemos con los productores que trabajamos, de que cuidemos el envío como cuidamos la selección, de que tratemos cada pedido como si fuera el primero.</p>"
           }
         },
         "valor-exigencia": {
-          "type": "cinematic",
+          "type": "text-full",
           "name": "Exigencia",
           "settings": {
-            "image": "shopify://shop_images/generated_image_2bbb6d13-9e22-4c61-95bc-9a0cbf08f6c4.png",
+            "background_image": "shopify://shop_images/generated_image_2bbb6d13-9e22-4c61-95bc-9a0cbf08f6c4.png",
             "value_name": "Exigencia",
             "headline": "Sin excepciones y sin excusas",
             "body": "<p>Exigimos lo mismo en la selección del producto, en el proceso de envasado, en la logística del envío. El resultado en tu mesa tiene que estar a la altura de la expectativa que crea el primer bocado.</p><p>No es perfeccionismo. Es el respeto mínimo que merece alguien que ha depositado su confianza en nosotros. Cuando algo no llega al nivel, lo decimos. Y lo arreglamos.</p>"

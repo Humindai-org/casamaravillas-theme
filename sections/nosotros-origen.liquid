@@ -95,10 +95,37 @@
   .nso__body p { margin-bottom: 16px; }
   .nso__body p:last-child { margin-bottom: 0; }
 
+  .nso__quote {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    max-width: 480px;
+    margin-top: 40px;
+    padding-top: 40px;
+    border-top: 1px solid var(--cm-border);
+  }
+
+  .nso__quote-rule {
+    flex-shrink: 0;
+    width: 28px;
+    height: 1px;
+    margin-top: 14px;
+    background: var(--cm-gold);
+  }
+
+  .nso__quote-text {
+    font-family: var(--cm-font-serif);
+    font-style: italic;
+    font-size: clamp(19px, 1.9vw, 24px);
+    line-height: 1.4;
+    color: var(--cm-navy);
+  }
+
   .nso__stats {
     display: flex;
     gap: 0;
     width: fit-content;
+    margin-top: 40px;
   }
 
   .nso__stat {
@@ -138,6 +165,7 @@
   .nso .cm-reveal--d1 { transition-delay: 0.15s; }
   .nso .cm-reveal--d2 { transition-delay: 0.3s; }
   .nso .cm-reveal--d3 { transition-delay: 0.45s; }
+  .nso .cm-reveal--d4 { transition-delay: 0.6s; }
 
   @media (prefers-reduced-motion: reduce) {
     .nso .cm-reveal { opacity: 1; transform: none; transition: none; }
@@ -201,6 +229,13 @@
           {%- endfor -%}
         </div>
       {%- endif -%}
+
+      {%- if section.settings.quote != blank -%}
+        <div class="nso__quote cm-reveal cm-reveal--d4">
+          <span class="nso__quote-rule" aria-hidden="true"></span>
+          <p class="nso__quote-text">{{ section.settings.quote }}</p>
+        </div>
+      {%- endif -%}
     </div>
   </div>
 
@@ -250,6 +285,13 @@
       "id": "body",
       "label": "Texto",
       "default": "<p>Somos una familia que lleva tres generaciones viviendo los ibéricos desde dentro. No desde la teoría, sino desde el campo, desde las bodegas, desde el conocimiento acumulado de quien ha pasado décadas aprendiendo a distinguir lo bueno de lo excepcional.</p><p>Cuando decidimos llevar ese conocimiento a una tienda online, nos hicimos una sola pregunta: ¿venderíamos esto a un amigo? Si la respuesta es sí, entra al catálogo. Si hay alguna duda, no entra. Así de simple. Así de exigente.</p>"
+    },
+    {
+      "type": "text",
+      "id": "quote",
+      "label": "Cita destacada",
+      "info": "Frase corta que cierra la sección, debajo de las estadísticas.",
+      "default": "Vamos al origen porque ahí está la verdad del producto."
     }
   ],
   "presets": [
