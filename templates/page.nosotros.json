@@ -47,6 +47,27 @@
         "theme": "light"
       }
     },
+    "nosotros_escena_NNiFJk": {
+      "type": "nosotros-escena",
+      "name": "Nosotros — Escena",
+      "settings": {
+        "video": "shopify://files/videos/copy_E1747862-7469-4340-AFA5-BCE838268A3C.mov",
+        "image_pos_x": 50,
+        "image_pos_y": 50,
+        "parallax": true,
+        "eyebrow": "",
+        "line": "<p>La calidad no se promete. Se selecciona.</p>",
+        "text_h": "left",
+        "text_v": "bottom",
+        "measure": 18,
+        "size_vw": 4.5,
+        "size_max": 64,
+        "overlay": 55,
+        "height": 80,
+        "height_min": 520,
+        "height_mobile": 70
+      }
+    },
     "nosotros_criterio_XpDmt4": {
       "type": "nosotros-criterio",
       "blocks": {
@@ -103,27 +124,6 @@
         "title": "<p>Qué miramos antes de <em>decir que sí</em></p>",
         "closing": "Y cuando todo encaja, sabemos que estamos ante un jamón que merece llegar a nuestra selección.",
         "theme": "light"
-      }
-    },
-    "nosotros_escena_NNiFJk": {
-      "type": "nosotros-escena",
-      "name": "Nosotros — Escena",
-      "settings": {
-        "video": "shopify://files/videos/copy_E1747862-7469-4340-AFA5-BCE838268A3C.mov",
-        "image_pos_x": 50,
-        "image_pos_y": 50,
-        "parallax": true,
-        "eyebrow": "",
-        "line": "<p>La calidad no se promete. Se selecciona.</p>",
-        "text_h": "left",
-        "text_v": "bottom",
-        "measure": 18,
-        "size_vw": 4.5,
-        "size_max": 64,
-        "overlay": 55,
-        "height": 80,
-        "height_min": 520,
-        "height_mobile": 70
       }
     },
     "nosotros_statement_Gy7fMy": {
@@ -198,13 +198,78 @@
         "cta_label": "Descubre nuestra colección de ibéricos",
         "cta_url": "shopify://collections/jamones"
       }
+    },
+    "nosotros_proceso_arXMb8": {
+      "type": "nosotros-proceso",
+      "blocks": {
+        "step_e3qhG9": {
+          "type": "step",
+          "settings": {
+            "title": "La Dehesa",
+            "description": "<p>El ecosistema donde nace todo. Encinas centenarias, suelo fértil, espacio sin límites para el animal que lo llena todo.</p>"
+          }
+        },
+        "step_yYJtRY": {
+          "type": "step",
+          "settings": {
+            "title": "La Raza",
+            "description": "<p>Ibérico puro. Sin cruzamientos que comprometan el sabor o la calidad. La raza define el potencial.</p>"
+          }
+        },
+        "step_jxB67F": {
+          "type": "step",
+          "settings": {
+            "title": "La Montanera",
+            "description": "<p>Cada otoño, los cerdos pastan libremente bajo las encinas. Las bellotas hacen el resto.</p>"
+          }
+        },
+        "step_GWV3KH": {
+          "type": "step",
+          "settings": {
+            "title": "La Maduración",
+            "description": "<p>El tiempo que cada pieza necesita en bodega. La paciencia es el ingrediente que no se puede comprar.</p>"
+          }
+        },
+        "step_xKAzpX": {
+          "type": "step",
+          "settings": {
+            "title": "Nuestra Selección",
+            "description": "<p>Visitamos, probamos, comparamos. Solo elegimos lo que nosotros mismos compraríamos.</p>"
+          }
+        },
+        "step_cEJgpb": {
+          "type": "step",
+          "settings": {
+            "title": "Tu Mesa",
+            "description": "<p>El momento para el que todo existe. El disfrute que justifica cada decisión anterior.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "step_e3qhG9",
+        "step_yYJtRY",
+        "step_jxB67F",
+        "step_GWV3KH",
+        "step_xKAzpX",
+        "step_cEJgpb"
+      ],
+      "name": "Nosotros — Proceso",
+      "settings": {
+        "eyebrow": "El proceso de selección",
+        "title": "<p>De la dehesa <em>a tu mesa</em></p>",
+        "theme": "light",
+        "media_side": "right",
+        "ratio": "4 / 5",
+        "ratio_mobile": "4 / 3"
+      }
     }
   },
   "order": [
     "hero",
     "origen",
-    "nosotros_criterio_XpDmt4",
     "nosotros_escena_NNiFJk",
+    "nosotros_proceso_arXMb8",
+    "nosotros_criterio_XpDmt4",
     "nosotros_statement_Gy7fMy",
     "manifesto"
   ]
