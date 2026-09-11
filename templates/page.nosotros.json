@@ -118,8 +118,8 @@
         "size_min": 32,
         "size_vw": 5.5,
         "size_max": 64,
-        "space_top": 150,
-        "space_bottom": 150
+        "space_top": 90,
+        "space_bottom": 90
       }
     },
     "manifesto": {
