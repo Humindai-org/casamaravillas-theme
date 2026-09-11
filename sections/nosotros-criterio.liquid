@@ -111,13 +111,15 @@
     margin: 22px 0 0;
   }
 
-  #cri-{{ section.id }} .cri__media img {
+  #cri-{{ section.id }} .cri__media img,
+  #cri-{{ section.id }} .cri__media2 img {
     display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
-  #cri-{{ section.id }} .cri__media {
+  #cri-{{ section.id }} .cri__media,
+  #cri-{{ section.id }} .cri__media2 {
     overflow: hidden;
   }
   #cri-{{ section.id }} .cri__media--dual {
@@ -149,6 +151,11 @@
   #cri-{{ section.id }} .cri--detalle .cri__text  { grid-column: 7 / span 5; }
   #cri-{{ section.id }} .cri--detalle[data-side="right"] .cri__media { grid-column: 8 / span 3; grid-row: 1; }
   #cri-{{ section.id }} .cri--detalle[data-side="right"] .cri__text  { grid-column: 2 / span 5; grid-row: 1; }
+
+  /* flanqueo: una imagen a cada lado del texto (triptico) */
+  #cri-{{ section.id }} .cri--flanqueo .cri__media  { grid-column: 1 / span 4; aspect-ratio: 3 / 4; }
+  #cri-{{ section.id }} .cri--flanqueo .cri__text   { grid-column: 5 / span 4; }
+  #cri-{{ section.id }} .cri--flanqueo .cri__media2 { grid-column: 9 / span 4; aspect-ratio: 3 / 4; }
 
   /* ancho completo: el texto ocupa las 12 columnas, debajo de la imagen si la hay.
      !important porque las reglas de cada composición (p.ej. .cri--texto .cri__text)
@@ -184,16 +191,20 @@
     #cri-{{ section.id }} .cri__items { gap: 56px; }
     #cri-{{ section.id }} .cri__item { grid-template-columns: 1fr; row-gap: 22px; }
     #cri-{{ section.id }} .cri__item .cri__media,
+    #cri-{{ section.id }} .cri__item .cri__media2,
     #cri-{{ section.id }} .cri__item .cri__text {
       grid-column: 1 / -1 !important;
       grid-row: auto !important;
     }
-    /* en móvil la imagen siempre va primero */
+    /* en móvil la imagen siempre va primero; en flanqueo, imagen-texto-imagen */
     #cri-{{ section.id }} .cri__media { order: 1; }
     #cri-{{ section.id }} .cri__text  { order: 2; }
+    #cri-{{ section.id }} .cri__media2 { order: 3; }
     #cri-{{ section.id }} .cri--retrato .cri__media { aspect-ratio: 4 / 5; }
     #cri-{{ section.id }} .cri--panorama .cri__media { aspect-ratio: 16 / 9; }
     #cri-{{ section.id }} .cri--detalle .cri__media { aspect-ratio: 4 / 3; }
+    #cri-{{ section.id }} .cri--flanqueo .cri__media,
+    #cri-{{ section.id }} .cri--flanqueo .cri__media2 { aspect-ratio: 4 / 5; }
     #cri-{{ section.id }} .cri__num { margin-bottom: 12px; }
   }
 
@@ -244,36 +255,13 @@
             when 'full'
               assign text_full = true
           endcase
+          assign flanqueo = false
+          if img1 != blank and img2 != blank and block.settings.two_image_layout == 'flanqueo'
+            assign flanqueo = true
+            assign layout = 'flanqueo'
+          endif
         -%}
-        <article
-          class="cri__item cri--{{ layout }}"
-          data-side="{{ side }}"
-          data-cm-reveal
-          {{ block.shopify_attributes }}
-        >
-          {%- if layout != 'texto' and img1 != blank -%}
-            <div class="cri__media{% if img2 != blank %} cri__media--dual{% endif %}">
-              {{ img1
-                | image_url: width: 1600, format: 'webp'
-                | image_tag:
-                    loading: 'lazy',
-                    sizes: '(max-width: 860px) 100vw, 45vw',
-                    widths: '500, 800, 1100, 1600',
-                    alt: block.settings.name | escape
-              }}
-              {%- if img2 != blank -%}
-                {{ img2
-                  | image_url: width: 1600, format: 'webp'
-                  | image_tag:
-                      loading: 'lazy',
-                      sizes: '(max-width: 860px) 100vw, 45vw',
-                      widths: '500, 800, 1100, 1600',
-                      alt: block.settings.name | escape
-                }}
-              {%- endif -%}
-            </div>
-          {%- endif -%}
-
+        {%- capture cri_text_block -%}
           <div class="cri__text{% if text_full %} cri__text--full{% endif %}">
             <span class="cri__num">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
             {%- if block.settings.name != blank -%}
@@ -286,6 +274,60 @@
               <p class="cri__meta">{{ block.settings.meta }}</p>
             {%- endif -%}
           </div>
+        {%- endcapture -%}
+        <article
+          class="cri__item cri--{{ layout }}"
+          data-side="{{ side }}"
+          data-cm-reveal
+          {{ block.shopify_attributes }}
+        >
+          {%- if flanqueo -%}
+            <div class="cri__media">
+              {{ img1
+                | image_url: width: 1200, format: 'webp'
+                | image_tag:
+                    loading: 'lazy',
+                    sizes: '(max-width: 860px) 100vw, 30vw',
+                    widths: '400, 600, 900, 1200',
+                    alt: block.settings.name | escape
+              }}
+            </div>
+            {{ cri_text_block }}
+            <div class="cri__media2">
+              {{ img2
+                | image_url: width: 1200, format: 'webp'
+                | image_tag:
+                    loading: 'lazy',
+                    sizes: '(max-width: 860px) 100vw, 30vw',
+                    widths: '400, 600, 900, 1200',
+                    alt: block.settings.name | escape
+              }}
+            </div>
+          {%- else -%}
+            {%- if layout != 'texto' and img1 != blank -%}
+              <div class="cri__media{% if img2 != blank %} cri__media--dual{% endif %}">
+                {{ img1
+                  | image_url: width: 1600, format: 'webp'
+                  | image_tag:
+                      loading: 'lazy',
+                      sizes: '(max-width: 860px) 100vw, 45vw',
+                      widths: '500, 800, 1100, 1600',
+                      alt: block.settings.name | escape
+                }}
+                {%- if img2 != blank -%}
+                  {{ img2
+                    | image_url: width: 1600, format: 'webp'
+                    | image_tag:
+                        loading: 'lazy',
+                        sizes: '(max-width: 860px) 100vw, 45vw',
+                        widths: '500, 800, 1100, 1600',
+                        alt: block.settings.name | escape
+                  }}
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+            {{ cri_text_block }}
+          {%- endif -%}
         </article>
       {%- endfor -%}
     </div>
@@ -320,12 +362,23 @@
         },
         { "type": "text", "id": "meta", "label": "Dato / detalle", "info": "Opcional. En mayúsculas doradas." },
         { "type": "image_picker", "id": "image", "label": "Imagen", "info": "Opcional. Sin imagen, el capítulo queda solo tipográfico." },
-        { "type": "image_picker", "id": "image_2", "label": "Imagen 2 (opcional)", "info": "Si la añades, se muestra en pareja junto a la primera." },
+        { "type": "image_picker", "id": "image_2", "label": "Imagen 2 (opcional)", "info": "Decide cómo se combina con la primera en «Composición con 2 imágenes», más abajo." },
+        {
+          "type": "select",
+          "id": "two_image_layout",
+          "label": "Composición con 2 imágenes",
+          "info": "Solo aplica si has añadido una Imagen 2. «Una a cada lado» sustituye al tamaño de imagen elegido abajo.",
+          "options": [
+            { "value": "pareja", "label": "Juntas, en pareja" },
+            { "value": "flanqueo", "label": "Una a cada lado del texto" }
+          ],
+          "default": "pareja"
+        },
         {
           "type": "select",
           "id": "layout",
           "label": "Tamaño de la imagen",
-          "info": "Alterna entre composiciones para que no haya dos capítulos iguales. Con dos imágenes, ambas comparten este mismo tamaño en pareja.",
+          "info": "Alterna entre composiciones para que no haya dos capítulos iguales. Con dos imágenes en pareja, ambas comparten este mismo tamaño.",
           "options": [
             { "value": "texto", "label": "Solo texto" },
             { "value": "retrato", "label": "Imagen vertical" },
