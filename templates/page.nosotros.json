@@ -109,6 +109,54 @@
     },
     "valores": {
       "type": "nosotros-valores-editorial",
+      "blocks": {
+        "valor_EYnxR3": {
+          "type": "valor",
+          "settings": {
+            "name": "<p>Solo ponemos <em>lo que creemos</em></p>",
+            "line": "Si un producto no nos convence en la primera prueba, no llega a nuestra tienda.",
+            "meta": "Autenticidad",
+            "layout": "izq",
+            "ground": "crema"
+          }
+        },
+        "valor_maRFxT": {
+          "type": "valor",
+          "settings": {
+            "name": "<p>Solo ponemos <em>lo que creemos</em></p>",
+            "line": "Si un producto no nos convence en la primera prueba, no llega a nuestra tienda.",
+            "meta": "Autenticidad",
+            "layout": "izq",
+            "ground": "crema"
+          }
+        },
+        "valor_qGff8z": {
+          "type": "valor",
+          "settings": {
+            "name": "<p>Solo ponemos <em>lo que creemos</em></p>",
+            "line": "Si un producto no nos convence en la primera prueba, no llega a nuestra tienda.",
+            "meta": "Autenticidad",
+            "layout": "izq",
+            "ground": "crema"
+          }
+        },
+        "valor_qEEbxE": {
+          "type": "valor",
+          "settings": {
+            "name": "<p>Solo ponemos <em>lo que creemos</em></p>",
+            "line": "Si un producto no nos convence en la primera prueba, no llega a nuestra tienda.",
+            "meta": "Autenticidad",
+            "layout": "izq",
+            "ground": "crema"
+          }
+        }
+      },
+      "block_order": [
+        "valor_EYnxR3",
+        "valor_maRFxT",
+        "valor_qGff8z",
+        "valor_qEEbxE"
+      ],
       "settings": {
         "aria_label": "Nuestros valores"
       }
