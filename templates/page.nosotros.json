@@ -13,11 +13,21 @@
       "type": "nosotros-hero",
       "settings": {
         "image": "shopify://shop_images/WhatsApp_Image_2026-09-03_at_17.18.44.jpg",
+        "ratio": "3 / 2",
+        "max_height": 90,
+        "ratio_mobile": "4 / 3",
+        "max_height_mobile": 80,
+        "image_pos_x": 50,
+        "image_pos_y": 35,
+        "ken_burns": true,
         "eyebrow": "Nuestra historia",
         "title": "",
         "subtitle": "",
-        "image_pos_x": 50,
-        "image_pos_y": 35
+        "align": "left",
+        "measure": 20,
+        "size_vw": 4.5,
+        "size_max": 68,
+        "overlay": 70
       }
     },
     "origen": {
@@ -31,131 +41,118 @@
         "image_pos_y": 50,
         "eyebrow": "Nuestra historia",
         "title": "<p>Todo empezó con una convicción</p>",
-        "body": "<p>Casa Maravillas nace con el objetivo de acercar a nuestros clientes y consumidores una selección única de ibéricos y productos gourmet de una manera sencilla y directa, ya que nos desplazamos al origen en busca de las mejores piezas del mercado. </p>",
-        "dato_value": "Tres",
-        "dato_label": "Generaciones eligiendo",
+        "body": "<p>Casa Maravillas nace con el objetivo de acercar a nuestros clientes y consumidores una selección única de ibéricos y productos gourmet de una manera sencilla y directa, ya que nos desplazamos al origen en busca de las mejores piezas del mercado.</p>",
+        "dato_value": "",
+        "dato_label": "",
         "quote": "Vamos al origen porque ahí está la verdad del producto.",
         "theme": "light"
       }
     },
-    "nosotros_proceso_8aK8N4": {
-      "type": "nosotros-proceso",
-      "blocks": {
-        "step_AgbKDr": {
-          "type": "step",
-          "settings": {
-            "title": "La Dehesa",
-            "description": "El ecosistema donde nace todo. Encinas centenarias, suelo fértil, espacio sin límites para el animal que lo llena todo."
-          }
-        },
-        "step_9e74Ne": {
-          "type": "step",
-          "settings": {
-            "title": "La Raza",
-            "description": "Ibérico puro. Sin cruzamientos que comprometan el sabor o la calidad. La raza define el potencial."
-          }
-        },
-        "step_d7BRWU": {
-          "type": "step",
-          "settings": {
-            "title": "La Montanera",
-            "description": "Cada otoño, los cerdos pastan libremente bajo las encinas. Las bellotas hacen el resto."
-          }
-        },
-        "step_kgEg4C": {
-          "type": "step",
-          "settings": {
-            "title": "La Maduración",
-            "description": "El tiempo que cada pieza necesita en bodega. La paciencia es el ingrediente que no se puede comprar."
-          }
-        },
-        "step_WgJJLK": {
-          "type": "step",
-          "settings": {
-            "title": "Nuestra Selección",
-            "description": "Visitamos, probamos, comparamos. Solo elegimos lo que nosotros mismos compraríamos."
-          }
-        },
-        "step_xbFimc": {
-          "type": "step",
-          "settings": {
-            "title": "Tu Mesa",
-            "description": "El momento para el que todo existe. El disfrute que justifica cada decisión anterior."
-          }
-        }
-      },
-      "block_order": [
-        "step_AgbKDr",
-        "step_9e74Ne",
-        "step_d7BRWU",
-        "step_kgEg4C",
-        "step_WgJJLK",
-        "step_xbFimc"
-      ],
-      "name": "Nosotros — Proceso",
+    "nosotros_escena_NNiFJk": {
+      "type": "nosotros-escena",
+      "name": "Nosotros — Escena",
       "settings": {
-        "eyebrow": "El proceso de selección",
-        "title": "<p>De la dehesa <em>a tu mesa</em></p>",
-        "theme": "light",
-        "media_side": "right",
-        "ratio": "4 / 5",
-        "ratio_mobile": "1 / 1"
+        "image_pos_x": 50,
+        "image_pos_y": 50,
+        "parallax": true,
+        "eyebrow": "",
+        "line": "<p>La dehesa no se fabrica. <em>Se respeta.</em></p>",
+        "text_h": "left",
+        "text_v": "bottom",
+        "measure": 18,
+        "size_vw": 4.5,
+        "size_max": 64,
+        "overlay": 55,
+        "height": 80,
+        "height_min": 520,
+        "height_mobile": 70
       }
     },
-    "nosotros_valores_editorial_Y3HqdE": {
-      "type": "nosotros-valores-editorial",
+    "nosotros_criterio_TwLXLT": {
+      "type": "nosotros-criterio",
       "blocks": {
-        "valor_qihwBE": {
-          "type": "valor",
+        "principio_CLHeYT": {
+          "type": "principio",
           "settings": {
-            "name": "<p>Solo ponemos <em>lo que creemos</em></p>",
-            "line": "Si un producto no nos convence en la primera prueba, no llega a nuestra tienda.",
-            "meta": "Autenticidad",
-            "image": "shopify://shop_images/ChatGPT_Image_Jun_27_2026_02_12_26_PM.png",
-            "layout": "izq",
-            "ground": "crema"
+            "name": "Origen y raza",
+            "line": "De qué dehesa viene y qué porcentaje de ibérico tiene. Sin cruces que comprometan el resultado.",
+            "meta": "",
+            "layout": "retrato"
           }
         },
-        "valor_cpDLrY": {
-          "type": "valor",
+        "principio_UdUwFg": {
+          "type": "principio",
           "settings": {
-            "name": "<p>Solo ponemos <em>lo que creemos</em></p>",
-            "line": "Si un producto no nos convence en la primera prueba, no llega a nuestra tienda.",
-            "meta": "Autenticidad",
-            "layout": "der",
-            "ground": "navy"
+            "name": "Alimentación",
+            "line": "Montanera real: bellota y hierba en libertad durante la última fase de engorde.",
+            "meta": "",
+            "image": "shopify://shop_images/DEHESA.png",
+            "layout": "panorama"
           }
         },
-        "valor_hrGdwH": {
-          "type": "valor",
+        "principio_6dzNfz": {
+          "type": "principio",
           "settings": {
-            "name": "<p>Solo ponemos <em>lo que creemos</em></p>",
-            "line": "Si un producto no nos convence en la primera prueba, no llega a nuestra tienda.",
-            "meta": "Autenticidad",
-            "layout": "columna",
-            "ground": "blanco"
+            "name": "Curación",
+            "line": "El tiempo que cada pieza necesita en bodega. Ni un mes menos por acelerar la venta.",
+            "meta": "",
+            "layout": "texto"
           }
         },
-        "valor_CyV8eF": {
-          "type": "valor",
+        "principio_YamcA9": {
+          "type": "principio",
           "settings": {
-            "name": "<p>Solo ponemos <em>lo que creemos</em></p>",
-            "line": "Si un producto no nos convence en la primera prueba, no llega a nuestra tienda.",
-            "meta": "Autenticidad",
-            "layout": "panoramica",
-            "ground": "noche"
+            "name": "Origen y raza",
+            "line": "De qué dehesa viene y qué porcentaje de ibérico tiene.",
+            "meta": "",
+            "layout": "retrato"
+          }
+        },
+        "principio_fC3WiC": {
+          "type": "principio",
+          "settings": {
+            "name": "Conformación y grasa",
+            "line": "La forma de la pieza y cómo está infiltrada la grasa. Se ve mucho antes de probarla.",
+            "meta": "",
+            "image": "shopify://shop_images/generated_image_865993ea-f89f-484e-ac63-82f8cd44f83b.png",
+            "layout": "retrato"
+          }
+        },
+        "principio_k7MgBW": {
+          "type": "principio",
+          "settings": {
+            "name": "Aroma, textura y sabor",
+            "line": "La cata. Aquí se confirma o se descarta lo que prometía todo lo anterior.",
+            "meta": "",
+            "image": "shopify://shop_images/MESA.png",
+            "layout": "panorama"
+          }
+        },
+        "principio_VFVywY": {
+          "type": "principio",
+          "settings": {
+            "name": "Rendimiento y regularidad",
+            "line": "Cuánto aprovecha quien la compra, y que la siguiente pieza esté a la misma altura.",
+            "meta": "",
+            "layout": "texto"
           }
         }
       },
       "block_order": [
-        "valor_qihwBE",
-        "valor_cpDLrY",
-        "valor_hrGdwH",
-        "valor_CyV8eF"
+        "principio_CLHeYT",
+        "principio_UdUwFg",
+        "principio_6dzNfz",
+        "principio_YamcA9",
+        "principio_fC3WiC",
+        "principio_k7MgBW",
+        "principio_VFVywY"
       ],
-      "name": "Nosotros — Valores",
+      "name": "Nosotros — El criterio",
       "settings": {
-        "aria_label": "Nuestros valores"
+        "eyebrow": "El criterio Casa Maravillas",
+        "title": "<p>Qué miramos antes de <em>decir que sí</em></p>",
+        "closing": "¿Lo pondríamos en nuestra propia mesa?",
+        "theme": "light"
       }
     },
     "manifesto": {
@@ -181,8 +178,8 @@
   "order": [
     "hero",
     "origen",
-    "nosotros_proceso_8aK8N4",
-    "nosotros_valores_editorial_Y3HqdE",
+    "nosotros_escena_NNiFJk",
+    "nosotros_criterio_TwLXLT",
     "manifesto"
   ]
 }
