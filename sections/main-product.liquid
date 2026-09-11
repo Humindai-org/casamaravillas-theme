@@ -249,6 +249,33 @@
         </div>
       {%- endif -%}
 
+      {%- comment -%} ── PRECIO POR KILO (según categoría de calidad) ── {%- endcomment -%}
+      {%- comment -%}
+        Prioridad: metafield del producto (custom.price_per_kg) > tarifa por categoría
+        (tags "precinto negro/rojo/verde"). Solo en formatos pieza entera y deshuesado.
+      {%- endcomment -%}
+      {%- assign price_kg_value = product.metafields.custom.price_per_kg.value -%}
+      {%- if price_kg_value == blank -%}
+        {%- assign is_whole_format = false -%}
+        {%- assign tier_rate = '' -%}
+        {%- for tag in product.tags -%}
+          {%- assign tag_lower = tag | downcase -%}
+          {%- if tag_lower contains 'pieza' or tag_lower contains 'deshuesado' -%}
+            {%- assign is_whole_format = true -%}
+          {%- endif -%}
+          {%- if tag_lower == 'precinto negro' -%}
+            {%- assign tier_rate = section.settings.price_kg_bellota_100 -%}
+          {%- elsif tag_lower == 'precinto rojo' -%}
+            {%- assign tier_rate = section.settings.price_kg_bellota_50 -%}
+          {%- elsif tag_lower == 'precinto verde' -%}
+            {%- assign tier_rate = section.settings.price_kg_cebo_campo -%}
+          {%- endif -%}
+        {%- endfor -%}
+        {%- if is_whole_format -%}
+          {%- assign price_kg_value = tier_rate -%}
+        {%- endif -%}
+      {%- endif -%}
+
       {%- comment -%} ── PRECIO ── {%- endcomment -%}
       <div
         id="cm-price-wrap-{{ section.id }}"
@@ -280,6 +307,10 @@
             content="{{ current_variant.price | divided_by: 100.0 }}"
           >{{ current_variant.price | money }}</span>
         {%- endif -%}
+
+        {%- if price_kg_value != blank -%}
+          <span class="cm-pdp__price-kg">{{ price_kg_value }}/kg</span>
+        {%- endif -%}
       </div>
 
       {%- comment -%} ── VOLUMEN DISCOUNT (solo para cortado a mano) ── {%- endcomment -%}
@@ -290,10 +321,6 @@
       </div>
 
       <p class="cm-pdp__tax-note">Impuestos añadidos &middot; <a href="/pages/envios" class="cm-pdp__shipping-link">Consulta nuestra política de envíos</a></p>
-
-      {%- if product.metafields.custom.price_per_kg.value != blank -%}
-        <p class="cm-pdp__price-kg">{{ product.metafields.custom.price_per_kg.value }}/kg</p>
-      {%- endif -%}
 
       {%- comment -%} ── VARIANTES (Peso vinculado a Shopify) ── {%- endcomment -%}
       {%- unless product.has_only_default_variant -%}
@@ -652,6 +679,32 @@
         { "value": "lonchado",    "label": "Lonchado" }
       ],
       "default": "entero"
+    },
+    {
+      "type": "header",
+      "content": "Precio por kilo"
+    },
+    {
+      "type": "paragraph",
+      "content": "Se muestra junto al precio en jamones de pieza entera y deshuesados, según la etiqueta de precinto del producto. Para fijar un valor distinto en un producto concreto, usa el metacampo custom.price_per_kg."
+    },
+    {
+      "type": "text",
+      "id": "price_kg_cebo_campo",
+      "label": "Cebo de Campo (precinto verde)",
+      "default": "32,88 €"
+    },
+    {
+      "type": "text",
+      "id": "price_kg_bellota_50",
+      "label": "Bellota 50% (precinto rojo)",
+      "default": "48,50 €"
+    },
+    {
+      "type": "text",
+      "id": "price_kg_bellota_100",
+      "label": "Bellota 100% (precinto negro)",
+      "default": "61,00 €"
     },
     {
       "type": "header",

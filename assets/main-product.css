@@ -189,6 +189,7 @@
   .cm-pdp__price-row {
     display: flex;
     align-items: baseline;
+    flex-wrap: wrap;
     gap: 12px;
     margin-bottom: 8px;
   }
@@ -218,11 +219,25 @@
     font-weight: 500;
   }
 
+  /* Precio por kilo — referencia discreta junto al precio */
   .cm-pdp__price-kg {
-    font-size: 12px;
+    position: relative;
+    padding-left: 13px;
+    font-size: 13px;
+    font-weight: 400;
     color: var(--text-secondary);
     font-family: var(--cm-font-sans);
-    margin-bottom: 24px;
+    white-space: nowrap;
+  }
+
+  .cm-pdp__price-kg::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.15em;
+    bottom: 0.15em;
+    width: 1px;
+    background: var(--border-color);
   }
 
   /* ── VOLUMEN DISCOUNT ── */
