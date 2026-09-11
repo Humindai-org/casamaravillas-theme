@@ -62,47 +62,32 @@
         },
         "principio_MPxhVw": {
           "type": "principio",
+          "name": "CRIANZA",
           "settings": {
-            "name": "Alimentación",
-            "line": "<p>Montanera real: bellota y hierba en libertad durante la última fase de engorde.</p>",
+            "name": "LA CRIANZA",
+            "line": "<p><strong>La calidad también se construye durante la crianza.</strong></p><p>Nos importa conocer cómo se ha criado cada animal, su raza, su alimentación y, sobre todo, el entorno en el que ha vivido. Buscamos animales criados en espacios donde puedan desarrollarse con libertad, en contacto con la naturaleza y en condiciones acordes con su forma de vida.</p><p>Porque el lugar donde vive un animal también forma parte del jamón que llega a nuestra mesa.</p>",
             "meta": "",
             "layout": "panorama"
           }
         },
         "principio_UWk9Mb": {
           "type": "principio",
+          "name": "TIEMPO",
           "settings": {
-            "name": "Curación",
-            "line": "<p>El tiempo que cada pieza necesita en bodega. Ni un mes menos por acelerar la venta.</p>",
+            "name": "EL TIEMPO",
+            "line": "<p><strong>Un buen jamón necesita tiempo.</strong></p><p>La curación no se puede acelerar sin consecuencias. Por eso buscamos piezas que hayan seguido su propio ritmo, respetando los tiempos de bodega que necesita cada una para desarrollar todo su potencial.</p><p>No buscamos que un jamón esté listo antes. Buscamos que esté listo cuando realmente lo está.</p>",
             "meta": "",
             "layout": "texto"
           }
         },
         "principio_hMU4zY": {
           "type": "principio",
+          "name": "PIEZA",
           "settings": {
-            "name": "Conformación y grasa",
-            "line": "<p>La forma de la pieza y cómo está infiltrada la grasa. Se ve mucho antes de probarla.</p>",
+            "name": "LA PIEZA",
+            "line": "<p><strong>Antes de probar un jamón, hay mucho que nos puede contar.</strong></p><p>Observamos su forma, su conformación, sus proporciones y, especialmente, cómo se presenta la grasa y su infiltración. Cada pieza tiene sus propias características y sabemos que muchas de ellas empiezan a descubrirse incluso antes de abrirla.</p><p>Porque seleccionar también es saber mirar, reconocer los detalles y entender qué puede ofrecer una pieza antes de llevarla a la mesa.</p>",
             "meta": "",
             "layout": "detalle"
-          }
-        },
-        "principio_YTbT8C": {
-          "type": "principio",
-          "settings": {
-            "name": "Aroma, textura y sabor",
-            "line": "<p>La cata. Aquí se confirma o se descarta lo que prometía todo lo anterior.</p>",
-            "meta": "",
-            "layout": "retrato"
-          }
-        },
-        "principio_bTJK8g": {
-          "type": "principio",
-          "settings": {
-            "name": "Rendimiento y regularidad",
-            "line": "<p>Cuánto aprovecha quien la compra, y que la siguiente pieza esté a la misma altura.</p>",
-            "meta": "",
-            "layout": "texto"
           }
         }
       },
@@ -110,9 +95,7 @@
         "principio_bJALGX",
         "principio_MPxhVw",
         "principio_UWk9Mb",
-        "principio_hMU4zY",
-        "principio_YTbT8C",
-        "principio_bTJK8g"
+        "principio_hMU4zY"
       ],
       "name": "Nosotros — El criterio",
       "settings": {
