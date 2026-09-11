@@ -99,13 +99,23 @@
             "layout": "texto"
           }
         },
+        "principio_YamcA9": {
+          "type": "principio",
+          "settings": {
+            "name": "Origen y raza",
+            "line": "De qué dehesa viene y qué porcentaje de ibérico tiene.",
+            "meta": "",
+            "layout": "retrato"
+          }
+        },
         "principio_fC3WiC": {
           "type": "principio",
           "settings": {
             "name": "Conformación y grasa",
             "line": "La forma de la pieza y cómo está infiltrada la grasa. Se ve mucho antes de probarla.",
             "meta": "",
-            "layout": "detalle"
+            "image": "shopify://shop_images/generated_image_865993ea-f89f-484e-ac63-82f8cd44f83b.png",
+            "layout": "retrato"
           }
         },
         "principio_k7MgBW": {
@@ -114,7 +124,8 @@
             "name": "Aroma, textura y sabor",
             "line": "La cata. Aquí se confirma o se descarta lo que prometía todo lo anterior.",
             "meta": "",
-            "layout": "retrato"
+            "image": "shopify://shop_images/MESA.png",
+            "layout": "panorama"
           }
         },
         "principio_VFVywY": {
@@ -131,6 +142,7 @@
         "principio_CLHeYT",
         "principio_UdUwFg",
         "principio_6dzNfz",
+        "principio_YamcA9",
         "principio_fC3WiC",
         "principio_k7MgBW",
         "principio_VFVywY"
