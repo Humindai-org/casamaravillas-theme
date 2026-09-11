@@ -152,10 +152,12 @@
   #cri-{{ section.id }} .cri--detalle[data-side="right"] .cri__media { grid-column: 8 / span 3; grid-row: 1; }
   #cri-{{ section.id }} .cri--detalle[data-side="right"] .cri__text  { grid-column: 2 / span 5; grid-row: 1; }
 
-  /* flanqueo: una imagen a cada lado del texto (triptico) */
-  #cri-{{ section.id }} .cri--flanqueo .cri__media  { grid-column: 1 / span 4; aspect-ratio: 3 / 4; }
-  #cri-{{ section.id }} .cri--flanqueo .cri__text   { grid-column: 5 / span 4; }
-  #cri-{{ section.id }} .cri--flanqueo .cri__media2 { grid-column: 9 / span 4; aspect-ratio: 3 / 4; }
+  /* flanqueo: imagen 1 panorámica arriba, imagen 2 junto al texto debajo */
+  #cri-{{ section.id }} .cri--flanqueo .cri__media  { grid-column: 1 / span 12; grid-row: 1; aspect-ratio: 21 / 9; }
+  #cri-{{ section.id }} .cri--flanqueo .cri__text   { grid-column: 1 / span 7; grid-row: 2; }
+  #cri-{{ section.id }} .cri--flanqueo .cri__media2 { grid-column: 9 / span 4; grid-row: 2; aspect-ratio: 3 / 4; }
+  #cri-{{ section.id }} .cri--flanqueo[data-side="right"] .cri__text   { grid-column: 6 / span 7; grid-row: 2; }
+  #cri-{{ section.id }} .cri--flanqueo[data-side="right"] .cri__media2 { grid-column: 1 / span 4; grid-row: 2; }
 
   /* ancho completo: el texto ocupa las 12 columnas, debajo de la imagen si la hay.
      !important porque las reglas de cada composición (p.ej. .cri--texto .cri__text)
@@ -203,7 +205,7 @@
     #cri-{{ section.id }} .cri--retrato .cri__media { aspect-ratio: 4 / 5; }
     #cri-{{ section.id }} .cri--panorama .cri__media { aspect-ratio: 16 / 9; }
     #cri-{{ section.id }} .cri--detalle .cri__media { aspect-ratio: 4 / 3; }
-    #cri-{{ section.id }} .cri--flanqueo .cri__media,
+    #cri-{{ section.id }} .cri--flanqueo .cri__media  { aspect-ratio: 16 / 9; }
     #cri-{{ section.id }} .cri--flanqueo .cri__media2 { aspect-ratio: 4 / 5; }
     #cri-{{ section.id }} .cri__num { margin-bottom: 12px; }
   }
@@ -284,11 +286,11 @@
           {%- if flanqueo -%}
             <div class="cri__media">
               {{ img1
-                | image_url: width: 1200, format: 'webp'
+                | image_url: width: 2000, format: 'webp'
                 | image_tag:
                     loading: 'lazy',
-                    sizes: '(max-width: 860px) 100vw, 30vw',
-                    widths: '400, 600, 900, 1200',
+                    sizes: '(max-width: 860px) 100vw, 1200px',
+                    widths: '700, 1100, 1500, 2000',
                     alt: block.settings.name | escape
               }}
             </div>
@@ -367,10 +369,10 @@
           "type": "select",
           "id": "two_image_layout",
           "label": "Composición con 2 imágenes",
-          "info": "Solo aplica si has añadido una Imagen 2. «Una a cada lado» sustituye al tamaño de imagen elegido abajo.",
+          "info": "Solo aplica si has añadido una Imagen 2. «Panorámica + junto al texto» sustituye al tamaño de imagen elegido abajo: la Imagen 1 se muestra panorámica arriba y la Imagen 2, más pequeña, junto al texto debajo.",
           "options": [
             { "value": "pareja", "label": "Juntas, en pareja" },
-            { "value": "flanqueo", "label": "Una a cada lado del texto" }
+            { "value": "flanqueo", "label": "Imagen 1 panorámica + Imagen 2 junto al texto" }
           ],
           "default": "pareja"
         },
