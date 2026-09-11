@@ -76,6 +76,7 @@
         "step-5": {
           "type": "step",
           "settings": {
+            "image": "shopify://shop_images/ChatGPT_Image_Jun_27_2026_02_12_26_PM.png",
             "title": "Nuestra Selección",
             "description": "Visitamos, probamos, comparamos. Solo elegimos lo que nosotros mismos compraríamos. Si hay dudas, la respuesta es no."
           }
@@ -83,6 +84,7 @@
         "step-6": {
           "type": "step",
           "settings": {
+            "image": "shopify://shop_images/MESA.png",
             "title": "Tu Mesa",
             "description": "El momento para el que todo existe. El disfrute que justifica cada paso anterior, cada decisión tomada con exigencia a lo largo del camino."
           }
