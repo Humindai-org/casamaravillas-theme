@@ -89,6 +89,15 @@
     align-content: start;
   }
 
+  #nst-{{ section.id }} .nst__icon {
+    display: block;
+    height: clamp(44px, 5vw, 64px);
+    width: auto;
+    margin-bottom: 20px;
+    object-fit: contain;
+    object-position: left center;
+  }
+
   #nst-{{ section.id }} .nst__rule {
     width: 100%;
     height: 2px;
@@ -157,6 +166,9 @@
       <div class="nst__data">
         {%- for block in section.blocks -%}
           <div class="nst__item" data-cm-reveal data-cm-delay="{{ forloop.index | at_most: 4 }}" {{ block.shopify_attributes }}>
+            {%- if block.settings.icon != blank -%}
+              {{ block.settings.icon | image_url: width: 160 | image_tag: class: 'nst__icon', loading: 'lazy', alt: block.settings.icon.alt | default: block.settings.value | escape }}
+            {%- endif -%}
             <span
               class="nst__rule"
               {% if block.settings.accent != blank %}style="background: {{ block.settings.accent }};"{% endif %}
@@ -189,6 +201,7 @@
       "type": "dato",
       "name": "Dato / nivel",
       "settings": [
+        { "type": "image_picker", "id": "icon", "label": "Escudo / icono", "info": "Opcional. Va encima del titular." },
         { "type": "text", "id": "value", "label": "Titular del dato", "default": "Oro" },
         { "type": "text", "id": "label", "label": "Descripción", "default": "Bellota 100% Ibérico" },
         { "type": "text", "id": "meta", "label": "Etiqueta inferior", "info": "Opcional. Va en mayúsculas doradas.", "default": "Precinto negro" },
