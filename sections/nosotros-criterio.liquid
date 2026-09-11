@@ -155,9 +155,10 @@
   /* flanqueo: imagen 1 panorámica arriba, imagen 2 junto al texto debajo */
   #cri-{{ section.id }} .cri--flanqueo .cri__media  { grid-column: 1 / span 12; grid-row: 1; aspect-ratio: 21 / 9; }
   #cri-{{ section.id }} .cri--flanqueo .cri__text   { grid-column: 1 / span 7; grid-row: 2; }
-  #cri-{{ section.id }} .cri--flanqueo .cri__media2 { grid-column: 9 / span 4; grid-row: 2; aspect-ratio: 3 / 4; }
+  #cri-{{ section.id }} .cri--flanqueo .cri__media2 { grid-column: 8 / span 5; grid-row: 2; aspect-ratio: 3 / 4; }
   #cri-{{ section.id }} .cri--flanqueo[data-side="right"] .cri__text   { grid-column: 6 / span 7; grid-row: 2; }
-  #cri-{{ section.id }} .cri--flanqueo[data-side="right"] .cri__media2 { grid-column: 1 / span 4; grid-row: 2; }
+  #cri-{{ section.id }} .cri--flanqueo[data-side="right"] .cri__media2 { grid-column: 1 / span 5; grid-row: 2; }
+  #cri-{{ section.id }} .cri--flanqueo .cri__line { max-width: 70ch; }
 
   /* ancho completo: el texto ocupa las 12 columnas, debajo de la imagen si la hay.
      !important porque las reglas de cada composición (p.ej. .cri--texto .cri__text)
