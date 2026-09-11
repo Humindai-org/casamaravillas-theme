@@ -32,7 +32,8 @@
     overflow: hidden;
   }
 
-  #nse-{{ section.id }} .nse__media img {
+  #nse-{{ section.id }} .nse__media img,
+  #nse-{{ section.id }} .nse__media video {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -112,7 +113,9 @@
 
 <section id="nse-{{ section.id }}" class="nse">
   <div class="nse__media">
-    {%- if s.image != blank -%}
+    {%- if s.video != blank -%}
+      {{ s.video | video_tag: image_size: '2400x', autoplay: true, loop: true, muted: true, controls: false, preload: 'metadata' }}
+    {%- elsif s.image != blank -%}
       {{ s.image
         | image_url: width: 2400, format: 'webp'
         | image_tag:
@@ -185,6 +188,12 @@
     },
     { "type": "image_picker", "id": "image", "label": "Imagen" },
     {
+      "type": "video",
+      "id": "video",
+      "label": "Vídeo (opcional)",
+      "info": "Si se sube un vídeo, sustituye a la imagen. Se reproduce en bucle, sin sonido y sin controles."
+    },
+    {
       "type": "range",
       "id": "image_pos_x",
       "label": "Posición horizontal",
@@ -198,7 +207,7 @@
       "info": "0% = arriba · 100% = abajo",
       "min": 0, "max": 100, "step": 5, "default": 50, "unit": "%"
     },
-    { "type": "checkbox", "id": "parallax", "label": "Parallax sutil", "default": true },
+    { "type": "checkbox", "id": "parallax", "label": "Parallax sutil", "info": "Solo afecta a la imagen; no aplica si se usa vídeo.", "default": true },
     {
       "type": "header",
       "content": "Texto"
