@@ -31,23 +31,34 @@
     },
     "toc": {
       "type": "nosotros-toc",
-      "name": "Nosotros — Índice",
       "blocks": {
         "toc_link_historia": {
           "type": "toc_link",
-          "settings": { "title": "Historia", "anchor": "historia" }
+          "settings": {
+            "title": "Historia",
+            "anchor": "historia"
+          }
         },
         "toc_link_criterio": {
           "type": "toc_link",
-          "settings": { "title": "El criterio", "anchor": "criterio" }
+          "settings": {
+            "title": "El criterio",
+            "anchor": "criterio"
+          }
         },
         "toc_link_niveles": {
           "type": "toc_link",
-          "settings": { "title": "Niveles de selección", "anchor": "niveles" }
+          "settings": {
+            "title": "Niveles de selección",
+            "anchor": "niveles"
+          }
         },
         "toc_link_valores": {
           "type": "toc_link",
-          "settings": { "title": "Valores", "anchor": "valores" }
+          "settings": {
+            "title": "Valores",
+            "anchor": "valores"
+          }
         }
       },
       "block_order": [
@@ -56,6 +67,7 @@
         "toc_link_niveles",
         "toc_link_valores"
       ],
+      "name": "Nosotros — Índice",
       "settings": {
         "label": "Contenidos"
       }
@@ -123,7 +135,7 @@
             "meta": "",
             "image": "shopify://shop_images/DEHESA.png",
             "layout": "panorama",
-            "text_position": "auto"
+            "text_position": "full"
           }
         },
         "principio_UWk9Mb": {
@@ -207,7 +219,6 @@
       ],
       "name": "Nosotros — Niveles de selección",
       "settings": {
-        "anchor": "niveles",
         "eyebrow": "Tres niveles de selección",
         "heading": "<p>No hay un solo estándar. <em>Hay tres.</em></p>",
         "note": "El precinto marca la categoría legal. Nuestro nivel dice qué lugar ocupa esa pieza dentro de lo que nosotros aceptamos.",
