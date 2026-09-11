@@ -89,13 +89,28 @@
     align-content: start;
   }
 
+  #nst-{{ section.id }} .nst__icon-link {
+    display: block;
+    width: fit-content;
+    margin: 0 auto 24px;
+    transition: transform 0.3s ease;
+  }
+
+  #nst-{{ section.id }} .nst__icon-link:hover,
+  #nst-{{ section.id }} .nst__icon-link:focus-visible {
+    transform: translateY(-6px);
+  }
+
+  #nst-{{ section.id }} .nst__icon-link:focus-visible {
+    outline: 2px solid var(--cm-gold);
+    outline-offset: 6px;
+  }
+
   #nst-{{ section.id }} .nst__icon {
     display: block;
-    height: clamp(44px, 5vw, 64px);
-    width: auto;
-    margin-bottom: 20px;
+    width: 220px;
+    height: 220px;
     object-fit: contain;
-    object-position: left center;
   }
 
   #nst-{{ section.id }} .nst__rule {
@@ -144,6 +159,8 @@
       margin-top: 48px;
     }
     #nst-{{ section.id }} .nst__rule { margin-bottom: 16px; }
+    #nst-{{ section.id }} .nst__icon,
+    #nst-{{ section.id }} .nst__icon-link { width: 160px; height: 160px; }
   }
 </style>
 
@@ -167,7 +184,18 @@
         {%- for block in section.blocks -%}
           <div class="nst__item" data-cm-reveal data-cm-delay="{{ forloop.index | at_most: 4 }}" {{ block.shopify_attributes }}>
             {%- if block.settings.icon != blank -%}
-              {{ block.settings.icon | image_url: width: 160 | image_tag: class: 'nst__icon', loading: 'lazy', alt: block.settings.icon.alt | default: block.settings.value | escape }}
+              {%- liquid
+                assign icon_img = block.settings.icon | image_url: width: 440 | image_tag: class: 'nst__icon', loading: 'lazy', alt: block.settings.icon.alt | default: block.settings.value | escape
+                if block.settings.meta != blank
+                  assign icon_tag = block.settings.meta | downcase | replace: ' ', '%20'
+                  assign icon_href = '/collections/jamones#' | append: icon_tag
+                endif
+              -%}
+              {%- if icon_href != blank -%}
+                <a href="{{ icon_href }}" class="nst__icon-link" aria-label="Ver jamones {{ block.settings.value | escape }}">{{ icon_img }}</a>
+              {%- else -%}
+                <span class="nst__icon-link">{{ icon_img }}</span>
+              {%- endif -%}
             {%- endif -%}
             <span
               class="nst__rule"
