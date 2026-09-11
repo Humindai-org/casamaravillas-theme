@@ -47,6 +47,80 @@
         "theme": "light"
       }
     },
+    "nosotros_criterio_XpDmt4": {
+      "type": "nosotros-criterio",
+      "blocks": {
+        "principio_bJALGX": {
+          "type": "principio",
+          "settings": {
+            "name": "Origen y raza",
+            "line": "<p>De qué dehesa viene y qué porcentaje de ibérico tiene. Sin cruces que comprometan el resultado.</p>",
+            "meta": "",
+            "layout": "retrato"
+          }
+        },
+        "principio_MPxhVw": {
+          "type": "principio",
+          "settings": {
+            "name": "Alimentación",
+            "line": "<p>Montanera real: bellota y hierba en libertad durante la última fase de engorde.</p>",
+            "meta": "",
+            "layout": "panorama"
+          }
+        },
+        "principio_UWk9Mb": {
+          "type": "principio",
+          "settings": {
+            "name": "Curación",
+            "line": "<p>El tiempo que cada pieza necesita en bodega. Ni un mes menos por acelerar la venta.</p>",
+            "meta": "",
+            "layout": "texto"
+          }
+        },
+        "principio_hMU4zY": {
+          "type": "principio",
+          "settings": {
+            "name": "Conformación y grasa",
+            "line": "<p>La forma de la pieza y cómo está infiltrada la grasa. Se ve mucho antes de probarla.</p>",
+            "meta": "",
+            "layout": "detalle"
+          }
+        },
+        "principio_YTbT8C": {
+          "type": "principio",
+          "settings": {
+            "name": "Aroma, textura y sabor",
+            "line": "<p>La cata. Aquí se confirma o se descarta lo que prometía todo lo anterior.</p>",
+            "meta": "",
+            "layout": "retrato"
+          }
+        },
+        "principio_bTJK8g": {
+          "type": "principio",
+          "settings": {
+            "name": "Rendimiento y regularidad",
+            "line": "<p>Cuánto aprovecha quien la compra, y que la siguiente pieza esté a la misma altura.</p>",
+            "meta": "",
+            "layout": "texto"
+          }
+        }
+      },
+      "block_order": [
+        "principio_bJALGX",
+        "principio_MPxhVw",
+        "principio_UWk9Mb",
+        "principio_hMU4zY",
+        "principio_YTbT8C",
+        "principio_bTJK8g"
+      ],
+      "name": "Nosotros — El criterio",
+      "settings": {
+        "eyebrow": "El criterio Casa Maravillas",
+        "title": "<p>Qué miramos antes de <em>decir que sí</em></p>",
+        "closing": "Y cuando todo encaja, sabemos que estamos ante un jamón que merece llegar a nuestra selección.",
+        "theme": "light"
+      }
+    },
     "nosotros_escena_NNiFJk": {
       "type": "nosotros-escena",
       "name": "Nosotros — Escena",
@@ -145,6 +219,7 @@
   "order": [
     "hero",
     "origen",
+    "nosotros_criterio_XpDmt4",
     "nosotros_escena_NNiFJk",
     "nosotros_statement_Gy7fMy",
     "manifesto"
