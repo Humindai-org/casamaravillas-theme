@@ -60,6 +60,7 @@
         "step-3": {
           "type": "step",
           "settings": {
+            "image": "shopify://shop_images/catalogo.jpg",
             "title": "La Montanera",
             "description": "Cada otoño, los cerdos pastan libremente bajo las encinas. Las bellotas hacen el resto: esa grasa infiltrada característica que no se puede imitar."
           }
@@ -67,6 +68,7 @@
         "step-4": {
           "type": "step",
           "settings": {
+            "image": "shopify://shop_images/Bodega.png",
             "title": "La Maduración",
             "description": "Más de 36 meses en bodega. La paciencia es el ingrediente que no se puede comprar. El tiempo transforma la materia prima en algo irremplazable."
           }
