@@ -52,8 +52,8 @@
 
   function show(el) { el.classList.add('cm-in'); }
 
-  // Cada sección coloca `{% render 'cm-reveal' %}` en un punto distinto de su
-  // propio HTML (algunas antes del elemento section, otras después), así que este
+  // Cada sección incluye este snippet en un punto distinto de su propio HTML
+  // (algunas antes del elemento section, otras después), así que este
   // script puede ejecutarse ANTES de que los elementos que debe vigilar
   // existan todavía en el DOM — el navegador ejecuta cada script en cuanto
   // lo parsea, no espera al resto de la página. Por eso el primer escaneo se
