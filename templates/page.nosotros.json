@@ -52,11 +52,12 @@
       "type": "nosotros-escena",
       "name": "Nosotros — Escena",
       "settings": {
+        "video": "shopify://files/videos/copy_E1747862-7469-4340-AFA5-BCE838268A3C.mov",
         "image_pos_x": 50,
         "image_pos_y": 50,
         "parallax": true,
         "eyebrow": "",
-        "line": "<p>La dehesa no se fabrica. <em>Se respeta.</em></p>",
+        "line": "<p>Cada gran jamón empieza con una decisión: elegir bien.</p>",
         "text_h": "left",
         "text_v": "bottom",
         "measure": 18,
