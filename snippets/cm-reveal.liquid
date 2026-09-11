@@ -2,16 +2,21 @@
   Sistema de aparición al hacer scroll, compartido por las secciones de Nosotros.
 
   El contenido es visible por defecto: solo se oculta si el JS ha corrido y ha
-  marcado <html class="cm-js">. Así una carga sin JS (o un fallo del observer)
-  muestra la página entera en vez de dejar huecos en blanco.
+  marcado la etiqueta html con la clase cm-js. Así una carga sin JS (o un fallo
+  del observer) muestra la página entera en vez de dejar huecos en blanco.
 
-  Uso: {% render 'cm-reveal' %} una vez por sección, y data-cm-reveal en los
-  elementos que deban aparecer. data-cm-delay="1|2|3" escalona la entrada.
+  Uso: {% render 'cm-reveal' %} en cualquier punto de la sección (el orden no
+  importa: el escaneo espera a que el documento entero esté listo), y
+  data-cm-reveal en los elementos que deban aparecer. data-cm-delay="1|2|3"
+  escalona la entrada.
+
+  Nota: `render` en Liquid aísla el scope entre llamadas, así que una variable
+  asignada aquí no sobrevive a la siguiente sección — no sirve como guarda
+  "solo una vez". Por eso el script de abajo añade la clase de forma
+  idempotente en cada llamada en vez de depender de esa variable.
 {%- endcomment -%}
 
-{%- unless cm_reveal_rendered -%}
 <script>document.documentElement.classList.add('cm-js');</script>
-{%- endunless -%}
 
 <style>
   html.cm-js [data-cm-reveal] {
@@ -47,13 +52,28 @@
 
   function show(el) { el.classList.add('cm-in'); }
 
+  // Cada sección coloca `{% render 'cm-reveal' %}` en un punto distinto de su
+  // propio HTML (algunas antes del elemento section, otras después), así que este
+  // script puede ejecutarse ANTES de que los elementos que debe vigilar
+  // existan todavía en el DOM — el navegador ejecuta cada script en cuanto
+  // lo parsea, no espera al resto de la página. Por eso el primer escaneo se
+  // aplaza a que el documento entero termine de parsearse: en ese punto todas
+  // las secciones ya están en el DOM, sin importar el orden de cada una.
+  function ready(fn) {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', fn, { once: true });
+    } else {
+      fn();
+    }
+  }
+
   if (reduce || !('IntersectionObserver' in window)) {
     window.__cmReveal = {
       scan: function () {
         document.querySelectorAll('[data-cm-reveal]').forEach(show);
       }
     };
-    window.__cmReveal.scan();
+    ready(window.__cmReveal.scan);
     return;
   }
 
@@ -77,11 +97,9 @@
     }
   };
 
-  window.__cmReveal.scan();
+  ready(window.__cmReveal.scan);
 
   // El editor de temas inyecta secciones sin recargar la página.
   document.addEventListener('shopify:section:load', function () { window.__cmReveal.scan(); });
 })();
 </script>
-
-{%- assign cm_reveal_rendered = true -%}
