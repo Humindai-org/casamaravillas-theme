@@ -106,6 +106,14 @@
   }
   #nsh-band-{{ section.id }} .nsh__title em { font-style: italic; color: var(--cm-gold); }
 
+  @media (min-width: 768px) {
+    #nsh-band-{{ section.id }} .nsh__title {
+      white-space: nowrap;
+      max-width: none;
+      font-size: clamp(20px, 2.6vw, 42px);
+    }
+  }
+
   #nsh-band-{{ section.id }} .nsh__rule {
     width: 46px;
     height: 1px;
