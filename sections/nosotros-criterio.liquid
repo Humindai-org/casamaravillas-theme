@@ -29,7 +29,7 @@
 
   #cri-{{ section.id }} .cri__head {
     max-width: 30ch;
-    margin-bottom: clamp(56px, 9vw, 130px);
+    margin-bottom: clamp(32px, 4vw, 56px);
   }
   #cri-{{ section.id }} .cri__eyebrow {
     font-family: var(--cm-font-sans);
@@ -51,6 +51,21 @@
     text-wrap: balance;
   }
   #cri-{{ section.id }} .cri__title em { font-style: italic; color: var(--cm-gold); }
+
+  #cri-{{ section.id }} .cri__intro {
+    margin-bottom: clamp(56px, 9vw, 130px);
+    overflow: hidden;
+  }
+  #cri-{{ section.id }} .cri__intro img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    aspect-ratio: 21 / 8;
+  }
+  @media (max-width: 860px) {
+    #cri-{{ section.id }} .cri__intro img { aspect-ratio: 4 / 3; }
+  }
 
   /* ── Capítulos ── */
   #cri-{{ section.id }} .cri__items {
@@ -230,6 +245,19 @@
         <h2 class="cri__title" data-cm-reveal data-cm-delay="1">{{ s.title }}</h2>
       {%- endif -%}
     </header>
+
+    {%- if s.intro_image != blank -%}
+      <div class="cri__intro" data-cm-reveal data-cm-delay="2">
+        {{ s.intro_image
+          | image_url: width: 2000, format: 'webp'
+          | image_tag:
+              loading: 'lazy',
+              sizes: '(max-width: 860px) 100vw, 1320px',
+              widths: '700, 1100, 1600, 2000',
+              alt: s.title | strip_html | escape
+        }}
+      </div>
+    {%- endif -%}
 
     <div class="cri__items">
       {%- for block in section.blocks -%}
@@ -418,6 +446,12 @@
       "id": "title",
       "label": "Título",
       "default": "<p>Qué miramos antes de <em>decir que sí</em></p>"
+    },
+    {
+      "type": "image_picker",
+      "id": "intro_image",
+      "label": "Imagen bajo el título",
+      "info": "Opcional. Aparece justo debajo del título, antes del primer capítulo."
     },
     {
       "type": "text",
