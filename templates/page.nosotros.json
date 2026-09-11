@@ -52,9 +52,10 @@
       "blocks": {
         "principio_bJALGX": {
           "type": "principio",
+          "name": "ORIGEN",
           "settings": {
-            "name": "Origen y raza",
-            "line": "<p>De qué dehesa viene y qué porcentaje de ibérico tiene. Sin cruces que comprometan el resultado.</p>",
+            "name": "EL ORIGEN",
+            "line": "<p><strong>Todo gran jamón empieza mucho antes de llegar a la mesa.</strong></p><p>Por eso, antes de elegir una pieza, queremos saber de dónde viene, quién está detrás de ella y qué hay en su origen. Conocemos las dehesas, trabajamos con productores en los que confiamos y buscamos procedencias que estén a la altura de lo que queremos ofrecer.</p><p>Porque para nosotros, seleccionar un buen jamón empieza por elegir bien desde el principio.</p>",
             "meta": "",
             "layout": "retrato"
           }
