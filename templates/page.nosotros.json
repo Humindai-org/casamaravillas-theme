@@ -13,11 +13,21 @@
       "type": "nosotros-hero",
       "settings": {
         "image": "shopify://shop_images/WhatsApp_Image_2026-09-03_at_17.18.44.jpg",
+        "ratio": "3 / 2",
+        "max_height": 90,
+        "ratio_mobile": "4 / 3",
+        "max_height_mobile": 80,
+        "image_pos_x": 50,
+        "image_pos_y": 35,
+        "ken_burns": true,
         "eyebrow": "Nuestra historia",
         "title": "",
         "subtitle": "",
-        "image_pos_x": 50,
-        "image_pos_y": 35
+        "align": "left",
+        "measure": 20,
+        "size_vw": 4.5,
+        "size_max": 68,
+        "overlay": 70
       }
     },
     "origen": {
@@ -32,130 +42,10 @@
         "eyebrow": "Nuestra historia",
         "title": "<p>Todo empezó con una convicción</p>",
         "body": "<p>Casa Maravillas nace con el objetivo de acercar a nuestros clientes y consumidores una selección única de ibéricos y productos gourmet de una manera sencilla y directa, ya que nos desplazamos al origen en busca de las mejores piezas del mercado. </p>",
-        "dato_value": "Tres",
-        "dato_label": "Generaciones eligiendo",
+        "dato_value": "",
+        "dato_label": "",
         "quote": "Vamos al origen porque ahí está la verdad del producto.",
         "theme": "light"
-      }
-    },
-    "nosotros_proceso_8aK8N4": {
-      "type": "nosotros-proceso",
-      "blocks": {
-        "step_AgbKDr": {
-          "type": "step",
-          "settings": {
-            "title": "La Dehesa",
-            "description": "El ecosistema donde nace todo. Encinas centenarias, suelo fértil, espacio sin límites para el animal que lo llena todo."
-          }
-        },
-        "step_9e74Ne": {
-          "type": "step",
-          "settings": {
-            "title": "La Raza",
-            "description": "Ibérico puro. Sin cruzamientos que comprometan el sabor o la calidad. La raza define el potencial."
-          }
-        },
-        "step_d7BRWU": {
-          "type": "step",
-          "settings": {
-            "title": "La Montanera",
-            "description": "Cada otoño, los cerdos pastan libremente bajo las encinas. Las bellotas hacen el resto."
-          }
-        },
-        "step_kgEg4C": {
-          "type": "step",
-          "settings": {
-            "title": "La Maduración",
-            "description": "El tiempo que cada pieza necesita en bodega. La paciencia es el ingrediente que no se puede comprar."
-          }
-        },
-        "step_WgJJLK": {
-          "type": "step",
-          "settings": {
-            "title": "Nuestra Selección",
-            "description": "Visitamos, probamos, comparamos. Solo elegimos lo que nosotros mismos compraríamos."
-          }
-        },
-        "step_xbFimc": {
-          "type": "step",
-          "settings": {
-            "title": "Tu Mesa",
-            "description": "El momento para el que todo existe. El disfrute que justifica cada decisión anterior."
-          }
-        }
-      },
-      "block_order": [
-        "step_AgbKDr",
-        "step_9e74Ne",
-        "step_d7BRWU",
-        "step_kgEg4C",
-        "step_WgJJLK",
-        "step_xbFimc"
-      ],
-      "name": "Nosotros — Proceso",
-      "settings": {
-        "eyebrow": "El proceso de selección",
-        "title": "<p>De la dehesa <em>a tu mesa</em></p>",
-        "theme": "light",
-        "media_side": "right",
-        "ratio": "4 / 5",
-        "ratio_mobile": "1 / 1"
-      }
-    },
-    "nosotros_valores_editorial_Y3HqdE": {
-      "type": "nosotros-valores-editorial",
-      "blocks": {
-        "valor_qihwBE": {
-          "type": "valor",
-          "settings": {
-            "name": "<p>Solo ponemos <em>lo que creemos</em></p>",
-            "line": "Si un producto no nos convence en la primera prueba, no llega a nuestra tienda.",
-            "meta": "Autenticidad",
-            "image": "shopify://shop_images/ChatGPT_Image_Jun_27_2026_02_12_26_PM.png",
-            "layout": "izq",
-            "ground": "crema"
-          }
-        },
-        "valor_cpDLrY": {
-          "type": "valor",
-          "settings": {
-            "name": "<p>Solo ponemos <em>lo que creemos</em></p>",
-            "line": "Si un producto no nos convence en la primera prueba, no llega a nuestra tienda.",
-            "meta": "Autenticidad",
-            "layout": "der",
-            "ground": "navy"
-          }
-        },
-        "valor_hrGdwH": {
-          "type": "valor",
-          "settings": {
-            "name": "<p>Solo ponemos <em>lo que creemos</em></p>",
-            "line": "Si un producto no nos convence en la primera prueba, no llega a nuestra tienda.",
-            "meta": "Autenticidad",
-            "layout": "columna",
-            "ground": "blanco"
-          }
-        },
-        "valor_CyV8eF": {
-          "type": "valor",
-          "settings": {
-            "name": "<p>Solo ponemos <em>lo que creemos</em></p>",
-            "line": "Si un producto no nos convence en la primera prueba, no llega a nuestra tienda.",
-            "meta": "Autenticidad",
-            "layout": "panoramica",
-            "ground": "noche"
-          }
-        }
-      },
-      "block_order": [
-        "valor_qihwBE",
-        "valor_cpDLrY",
-        "valor_hrGdwH",
-        "valor_CyV8eF"
-      ],
-      "name": "Nosotros — Valores",
-      "settings": {
-        "aria_label": "Nuestros valores"
       }
     },
     "manifesto": {
@@ -181,8 +71,6 @@
   "order": [
     "hero",
     "origen",
-    "nosotros_proceso_8aK8N4",
-    "nosotros_valores_editorial_Y3HqdE",
     "manifesto"
   ]
 }
