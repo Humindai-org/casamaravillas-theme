@@ -1,0 +1,251 @@
+{%- comment -%}
+  Nosotros — Índice
+  Banda sticky de navegación por anclas, igual que en la Guía del Ibérico.
+  Va justo debajo de la Apertura. Cada enlace apunta al "ID de ancla" que se
+  configura en la sección de destino (Historia, El criterio, Niveles, Valores…).
+{%- endcomment -%}
+
+<style>
+  .ntoc-{{ section.id }} {
+    background: var(--cm-navy);
+    border-bottom: 1px solid rgba(196,151,58,0.2);
+    position: sticky;
+    top: 0;
+    z-index: 40;
+  }
+
+  /* ── Desktop: band horizontal ── */
+  .ntoc__band-{{ section.id }} {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 48px;
+    display: flex;
+    align-items: center;
+    gap: 0;
+  }
+
+  .ntoc__label-{{ section.id }} {
+    font-family: var(--cm-font-sans);
+    font-size: 8.5px;
+    font-weight: 600;
+    letter-spacing: 0.38em;
+    text-transform: uppercase;
+    color: rgba(250,246,239,0.3);
+    padding: 18px 28px 18px 0;
+    border-right: 1px solid rgba(255,255,255,0.1);
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+
+  .ntoc__links-{{ section.id }} {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    flex: 1;
+    padding: 0 0 0 8px;
+  }
+
+  .ntoc__link-{{ section.id }} {
+    font-family: var(--cm-font-sans);
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    color: rgba(250,246,239,0.5);
+    padding: 18px 20px;
+    text-transform: none;
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s ease, border-color 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .ntoc__link-{{ section.id }}:hover {
+    color: var(--cm-gold);
+    border-bottom-color: rgba(196,151,58,0.4);
+  }
+
+  .ntoc__link-{{ section.id }}:focus-visible {
+    outline: 1px solid var(--cm-gold);
+    outline-offset: -2px;
+  }
+
+  .ntoc__link-{{ section.id }}.is-active {
+    color: var(--cm-gold);
+    border-bottom-color: var(--cm-gold);
+  }
+
+  /* ── Mobile: accordion ── */
+  .ntoc__mobile-{{ section.id }} {
+    display: none;
+  }
+
+  .ntoc__toggle-{{ section.id }} {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 24px;
+    font-family: var(--cm-font-sans);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--cm-gold);
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  .ntoc__toggle-{{ section.id }} svg {
+    width: 14px;
+    height: 14px;
+    color: var(--cm-gold);
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+  }
+
+  .ntoc__mobile-{{ section.id }}[open] .ntoc__toggle-{{ section.id }} svg {
+    transform: rotate(180deg);
+  }
+
+  .ntoc__mobile-links-{{ section.id }} {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid rgba(255,255,255,0.07);
+    padding: 8px 0;
+  }
+
+  .ntoc__mobile-link-{{ section.id }} {
+    font-family: var(--cm-font-sans);
+    font-size: 12px;
+    font-weight: 400;
+    color: rgba(250,246,239,0.55);
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: color 0.2s;
+  }
+
+  .ntoc__mobile-link-{{ section.id }}::before {
+    content: '';
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--cm-gold);
+    opacity: 0.5;
+    flex-shrink: 0;
+  }
+
+  .ntoc__mobile-link-{{ section.id }}:hover {
+    color: var(--cm-gold);
+  }
+
+  .ntoc__mobile-link-{{ section.id }}:focus-visible {
+    outline: 1px solid var(--cm-gold);
+    outline-offset: 2px;
+  }
+
+  @media (max-width: 767px) {
+    .ntoc__band-{{ section.id }} { display: none; }
+    .ntoc__mobile-{{ section.id }} { display: block; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ntoc__link-{{ section.id }},
+    .ntoc__toggle-{{ section.id }} svg,
+    .ntoc__mobile-link-{{ section.id }} { transition: none; }
+  }
+</style>
+
+{%- liquid
+  assign links_count = section.blocks.size
+-%}
+
+{%- if links_count > 0 -%}
+
+  {%- comment %} Desktop band {%- endcomment %}
+  <nav class="ntoc-{{ section.id }}" aria-label="Contenidos de la página">
+    <div class="ntoc__band-{{ section.id }}">
+      <span class="ntoc__label-{{ section.id }}">{{ section.settings.label | default: 'Contenidos' }}</span>
+      <div class="ntoc__links-{{ section.id }}">
+        {%- for block in section.blocks -%}
+          {%- if block.settings.title != blank and block.settings.anchor != blank -%}
+            <a
+              class="ntoc__link-{{ section.id }}"
+              href="#{{ block.settings.anchor }}"
+              {{ block.shopify_attributes }}
+            >{{ block.settings.title }}</a>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </nav>
+
+  {%- comment %} Mobile accordion {%- endcomment %}
+  <details class="ntoc-{{ section.id }} ntoc__mobile-{{ section.id }}" aria-label="Contenidos de la página">
+    <summary class="ntoc__toggle-{{ section.id }}">
+      {{ section.settings.label | default: 'Contenidos' }}
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <polyline points="6 9 12 15 18 9"/>
+      </svg>
+    </summary>
+    <div class="ntoc__mobile-links-{{ section.id }}">
+      {%- for block in section.blocks -%}
+        {%- if block.settings.title != blank and block.settings.anchor != blank -%}
+          <a
+            class="ntoc__mobile-link-{{ section.id }}"
+            href="#{{ block.settings.anchor }}"
+          >{{ block.settings.title }}</a>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </details>
+
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Nosotros — Índice",
+  "max_blocks": 6,
+  "blocks": [
+    {
+      "type": "toc_link",
+      "name": "Enlace",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Etiqueta del enlace",
+          "default": "Sección"
+        },
+        {
+          "type": "text",
+          "id": "anchor",
+          "label": "ID del anchor (sin #)",
+          "info": "Debe coincidir exactamente con el «ID de ancla» de la sección de destino.",
+          "default": "seccion"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Etiqueta del índice",
+      "default": "Contenidos"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Nosotros — Índice",
+      "blocks": [
+        { "type": "toc_link", "settings": { "title": "Historia", "anchor": "historia" } },
+        { "type": "toc_link", "settings": { "title": "El criterio", "anchor": "criterio" } },
+        { "type": "toc_link", "settings": { "title": "Niveles de selección", "anchor": "niveles" } },
+        { "type": "toc_link", "settings": { "title": "Valores", "anchor": "valores" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

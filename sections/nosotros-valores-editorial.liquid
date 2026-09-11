@@ -151,6 +151,12 @@
     #val-{{ section.id }} .val__text { order: 2; }
     #val-{{ section.id }} .val__num { margin-bottom: 10px; }
   }
+
+  #val-{{ section.id }} .val__anchor {
+    display: block;
+    height: 0;
+    scroll-margin-top: 56px;
+  }
 </style>
 
 <section
@@ -158,6 +164,7 @@
   class="val"
   aria-label="{{ section.settings.aria_label | default: 'Nuestros valores' | escape }}"
 >
+  {%- if section.settings.anchor != blank -%}<span id="{{ section.settings.anchor }}" class="val__anchor" aria-hidden="true"></span>{%- endif -%}
   {%- for block in section.blocks -%}
     {%- liquid
       comment
@@ -311,6 +318,11 @@
     }
   ],
   "settings": [
+    {
+      "type": "header",
+      "content": "Navegación"
+    },
+    { "type": "text", "id": "anchor", "label": "ID de ancla (para el índice)", "info": "Debe coincidir con el enlace del índice. Déjalo vacío si no se enlaza desde ahí.", "default": "valores" },
     { "type": "text", "id": "aria_label", "label": "Etiqueta accesibilidad", "default": "Nuestros valores" }
   ],
   "presets": [

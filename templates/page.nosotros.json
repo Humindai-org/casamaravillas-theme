@@ -29,9 +29,41 @@
         "size_max": 68
       }
     },
+    "toc": {
+      "type": "nosotros-toc",
+      "name": "Nosotros — Índice",
+      "blocks": {
+        "toc_link_historia": {
+          "type": "toc_link",
+          "settings": { "title": "Historia", "anchor": "historia" }
+        },
+        "toc_link_criterio": {
+          "type": "toc_link",
+          "settings": { "title": "El criterio", "anchor": "criterio" }
+        },
+        "toc_link_niveles": {
+          "type": "toc_link",
+          "settings": { "title": "Niveles de selección", "anchor": "niveles" }
+        },
+        "toc_link_valores": {
+          "type": "toc_link",
+          "settings": { "title": "Valores", "anchor": "valores" }
+        }
+      },
+      "block_order": [
+        "toc_link_historia",
+        "toc_link_criterio",
+        "toc_link_niveles",
+        "toc_link_valores"
+      ],
+      "settings": {
+        "label": "Contenidos"
+      }
+    },
     "origen": {
       "type": "nosotros-origen",
       "settings": {
+        "anchor": "historia",
         "image": "shopify://shop_images/generated_image_5a0a578b-6d60-4490-95a7-3513e4a247bf.png",
         "media_side": "left",
         "ratio": "4 / 3",
@@ -127,6 +159,7 @@
       ],
       "name": "Nosotros — El criterio",
       "settings": {
+        "anchor": "criterio",
         "eyebrow": "El criterio Casa Maravillas",
         "title": "<p>Qué miramos antes de <em>decir que sí</em></p>",
         "closing": "Y cuando todo encaja, sabemos que estamos ante un jamón que merece llegar a nuestra selección.",
@@ -174,6 +207,7 @@
       ],
       "name": "Nosotros — Niveles de selección",
       "settings": {
+        "anchor": "niveles",
         "eyebrow": "Tres niveles de selección",
         "heading": "<p>No hay un solo estándar. <em>Hay tres.</em></p>",
         "note": "El precinto marca la categoría legal. Nuestro nivel dice qué lugar ocupa esa pieza dentro de lo que nosotros aceptamos.",
@@ -239,6 +273,7 @@
       ],
       "name": "Nosotros — Valores",
       "settings": {
+        "anchor": "valores",
         "aria_label": "Nuestros valores"
       }
     },
@@ -265,6 +300,7 @@
   },
   "order": [
     "hero",
+    "toc",
     "origen",
     "nosotros_escena_NNiFJk",
     "nosotros_criterio_XpDmt4",

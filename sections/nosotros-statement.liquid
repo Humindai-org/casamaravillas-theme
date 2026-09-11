@@ -162,9 +162,16 @@
     #nst-{{ section.id }} .nst__icon,
     #nst-{{ section.id }} .nst__icon-link { width: 160px; height: 160px; }
   }
+
+  #nst-{{ section.id }} .nst__anchor {
+    display: block;
+    height: 0;
+    scroll-margin-top: 56px;
+  }
 </style>
 
 <section id="nst-{{ section.id }}" class="nst">
+  {%- if s.anchor != blank -%}<span id="{{ s.anchor }}" class="nst__anchor" aria-hidden="true"></span>{%- endif -%}
   <div class="nst__wrap">
 
     {%- if s.eyebrow != blank -%}
@@ -240,6 +247,11 @@
   "settings": [
     {
       "type": "header",
+      "content": "Navegación"
+    },
+    { "type": "text", "id": "anchor", "label": "ID de ancla (para el índice)", "info": "Se usa dos veces en la página; ponlo solo en la instancia que enlaces desde el índice (p. ej. «niveles»).", "default": "" },
+    {
+      "type": "header",
       "content": "Contenido"
     },
     { "type": "text", "id": "eyebrow", "label": "Etiqueta superior", "default": "El valor de elegir bien" },
@@ -303,6 +315,7 @@
     {
       "name": "Nosotros — Niveles de selección",
       "settings": {
+        "anchor": "niveles",
         "eyebrow": "Tres niveles de selección",
         "heading": "<p>No hay un solo estándar. <em>Hay tres.</em></p>",
         "note": "El precinto marca la categoría legal. Nuestro nivel dice qué lugar ocupa esa pieza dentro de lo que nosotros aceptamos.",

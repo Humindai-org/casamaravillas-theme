@@ -165,9 +165,16 @@
     #nso-{{ section.id }} .nso__text  { grid-column: 1 / -1; grid-row: 2; }
     #nso-{{ section.id }} .nso__aside { grid-column: 1 / -1; grid-row: 3; }
   }
+
+  #nso-{{ section.id }} .nso__anchor {
+    display: block;
+    height: 0;
+    scroll-margin-top: 56px;
+  }
 </style>
 
 <section id="nso-{{ section.id }}" class="nso">
+  {%- if s.anchor != blank -%}<span id="{{ s.anchor }}" class="nso__anchor" aria-hidden="true"></span>{%- endif -%}
   <div class="nso__grid">
 
     <div class="nso__media" data-cm-reveal>
@@ -221,6 +228,11 @@
   "name": "Nosotros — Historia",
   "tag": "section",
   "settings": [
+    {
+      "type": "header",
+      "content": "Navegación"
+    },
+    { "type": "text", "id": "anchor", "label": "ID de ancla (para el índice)", "info": "Debe coincidir con el enlace del índice. Déjalo vacío si no se enlaza desde ahí.", "default": "historia" },
     {
       "type": "header",
       "content": "Fotografía"
