@@ -68,6 +68,67 @@
         "height_mobile": 70
       }
     },
+    "nosotros_criterio_XpDmt4": {
+      "type": "nosotros-criterio",
+      "blocks": {
+        "principio_bJALGX": {
+          "type": "principio",
+          "name": "ORIGEN",
+          "settings": {
+            "name": "EL ORIGEN",
+            "line": "<p><strong>Todo gran jamón empieza mucho antes de llegar a la mesa.</strong></p><p>Por eso, antes de elegir una pieza, queremos saber de dónde viene, quién está detrás de ella y qué hay en su origen. Conocemos las dehesas, trabajamos con productores en los que confiamos y buscamos procedencias que estén a la altura de lo que queremos ofrecer.</p><p>Porque para nosotros, seleccionar un buen jamón empieza por elegir bien desde el principio.</p>",
+            "meta": "",
+            "layout": "panorama"
+          }
+        },
+        "principio_MPxhVw": {
+          "type": "principio",
+          "name": "CRIANZA",
+          "settings": {
+            "name": "LA CRIANZA",
+            "line": "<p><strong>La calidad también se construye durante la crianza.</strong></p><p>Nos importa conocer cómo se ha criado cada animal, su raza, su alimentación y, sobre todo, el entorno en el que ha vivido. Buscamos animales criados en espacios donde puedan desarrollarse con libertad, en contacto con la naturaleza y en condiciones acordes con su forma de vida.</p><p>Porque el lugar donde vive un animal también forma parte del jamón que llega a nuestra mesa.</p>",
+            "meta": "",
+            "image": "shopify://shop_images/DEHESA.png",
+            "layout": "panorama"
+          }
+        },
+        "principio_UWk9Mb": {
+          "type": "principio",
+          "name": "TIEMPO",
+          "settings": {
+            "name": "EL TIEMPO",
+            "line": "<p><strong>Un buen jamón necesita tiempo.</strong></p><p>La curación no se puede acelerar sin consecuencias. Por eso buscamos piezas que hayan seguido su propio ritmo, respetando los tiempos de bodega que necesita cada una para desarrollar todo su potencial.</p><p>No buscamos que un jamón esté listo antes. Buscamos que esté listo cuando realmente lo está.</p>",
+            "meta": "",
+            "image": "shopify://shop_images/Bodega.png",
+            "layout": "retrato"
+          }
+        },
+        "principio_hMU4zY": {
+          "type": "principio",
+          "name": "PIEZA",
+          "settings": {
+            "name": "LA PIEZA",
+            "line": "<p><strong>Antes de probar un jamón, hay mucho que nos puede contar.</strong></p><p>Observamos su forma, su conformación, sus proporciones y, especialmente, cómo se presenta la grasa y su infiltración. Cada pieza tiene sus propias características y sabemos que muchas de ellas empiezan a descubrirse incluso antes de abrirla.</p><p>Porque seleccionar también es saber mirar, reconocer los detalles y entender qué puede ofrecer una pieza antes de llevarla a la mesa.</p>",
+            "meta": "",
+            "image": "shopify://shop_images/ChatGPT_Image_Jun_27_2026_02_12_26_PM.png",
+            "layout": "panorama"
+          }
+        }
+      },
+      "block_order": [
+        "principio_bJALGX",
+        "principio_MPxhVw",
+        "principio_UWk9Mb",
+        "principio_hMU4zY"
+      ],
+      "name": "Nosotros — El criterio",
+      "settings": {
+        "eyebrow": "El criterio Casa Maravillas",
+        "title": "<p>Qué miramos antes de <em>decir que sí</em></p>",
+        "closing": "Y cuando todo encaja, sabemos que estamos ante un jamón que merece llegar a nuestra selección.",
+        "theme": "light"
+      }
+    },
     "nosotros_statement_Gy7fMy": {
       "type": "nosotros-statement",
       "blocks": {
@@ -122,8 +183,64 @@
         "space_bottom": 90
       }
     },
+    "nosotros_valores_editorial_pyddUY": {
+      "type": "nosotros-valores-editorial",
+      "blocks": {
+        "valor_LcTHe7": {
+          "type": "valor",
+          "settings": {
+            "name": "<p>Solo ponemos <em>lo que creemos</em></p>",
+            "line": "<p>Si un producto no nos convence en la primera prueba, no llega a nuestra tienda. Decimos que no con mucha más frecuencia de la que decimos que sí.</p>",
+            "meta": "Autenticidad",
+            "layout": "columna",
+            "ground": "blanco"
+          }
+        },
+        "valor_imiECm": {
+          "type": "valor",
+          "settings": {
+            "name": "<p>Un equilibrio que <em>no se puede romper</em></p>",
+            "line": "<p>Entre el animal y su entorno, entre el productor y su tierra, entre nosotros y quien recibe el pedido.</p>",
+            "meta": "Respeto",
+            "layout": "tipografica",
+            "ground": "navy"
+          }
+        },
+        "valor_Dxwbbi": {
+          "type": "valor",
+          "settings": {
+            "name": "<p>Sin excepciones y <em>sin excusas</em></p>",
+            "line": "<p>El mismo estándar en la selección, en el envasado y en la logística. Cuando algo no llega al nivel, lo decimos y lo arreglamos.</p>",
+            "meta": "Exigencia",
+            "layout": "izq",
+            "ground": "crema"
+          }
+        },
+        "valor_wd8YfJ": {
+          "type": "valor",
+          "settings": {
+            "name": "<p>La tradición y la innovación <em>no son opuestos</em></p>",
+            "line": "<p>Son los dos extremos del mismo hilo: honramos el saber de generaciones mientras buscamos nuevas formas de acercarlo.</p>",
+            "meta": "Imaginación",
+            "layout": "panoramica",
+            "ground": "noche"
+          }
+        }
+      },
+      "block_order": [
+        "valor_LcTHe7",
+        "valor_imiECm",
+        "valor_Dxwbbi",
+        "valor_wd8YfJ"
+      ],
+      "name": "Nosotros — Valores",
+      "settings": {
+        "aria_label": "Nuestros valores"
+      }
+    },
     "manifesto": {
       "type": "nosotros-manifesto",
+      "name": "Nosotros — Cierre",
       "settings": {
         "image": "shopify://shop_images/1.png",
         "image_pos_x": 50,
@@ -146,7 +263,9 @@
     "hero",
     "origen",
     "nosotros_escena_NNiFJk",
+    "nosotros_criterio_XpDmt4",
     "nosotros_statement_Gy7fMy",
+    "nosotros_valores_editorial_pyddUY",
     "manifesto"
   ]
 }
