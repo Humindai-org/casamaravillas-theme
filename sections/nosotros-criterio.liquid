@@ -119,6 +119,16 @@
   #cri-{{ section.id }} .cri__media {
     overflow: hidden;
   }
+  #cri-{{ section.id }} .cri__media--dual {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(8px, 1vw, 14px);
+    overflow: visible;
+  }
+  #cri-{{ section.id }} .cri__media--dual img {
+    overflow: hidden;
+  }
+  #cri-{{ section.id }} .cri__media--dual > img:nth-child(1) { border-radius: 0; }
 
   /* ── Composiciones ── */
 
@@ -143,6 +153,11 @@
   #cri-{{ section.id }} .cri--detalle .cri__text  { grid-column: 7 / span 5; }
   #cri-{{ section.id }} .cri--detalle[data-side="right"] .cri__media { grid-column: 8 / span 3; grid-row: 1; }
   #cri-{{ section.id }} .cri--detalle[data-side="right"] .cri__text  { grid-column: 2 / span 5; grid-row: 1; }
+
+  /* ancho completo: el texto ocupa las 12 columnas, debajo de la imagen si la hay */
+  #cri-{{ section.id }} .cri__text--full { grid-column: 1 / span 12; }
+  #cri-{{ section.id }} .cri__item:not(.cri--texto) .cri__text--full { grid-row: 2; }
+  #cri-{{ section.id }} .cri__text--full .cri__line { max-width: 70ch; }
 
   /* ── Cierre ── */
   #cri-{{ section.id }} .cri__close {
@@ -209,6 +224,15 @@
           if block.settings.image == blank
             assign layout = 'texto'
           endif
+          assign text_full = false
+          case block.settings.text_position
+            when 'left'
+              assign side = 'left'
+            when 'right'
+              assign side = 'right'
+            when 'full'
+              assign text_full = true
+          endcase
         -%}
         <article
           class="cri__item cri--{{ layout }}"
@@ -229,7 +253,7 @@
             </div>
           {%- endif -%}
 
-          <div class="cri__text">
+          <div class="cri__text{% if text_full %} cri__text--full{% endif %}">
             <span class="cri__num">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
             {%- if block.settings.name != blank -%}
               <h3 class="cri__name">{{ block.settings.name }}</h3>
@@ -287,6 +311,19 @@
             { "value": "detalle", "label": "Detalle pequeño" }
           ],
           "default": "retrato"
+        },
+        {
+          "type": "select",
+          "id": "text_position",
+          "label": "Posición del texto",
+          "info": "Automático alterna izquierda/derecha según el orden del capítulo.",
+          "options": [
+            { "value": "auto", "label": "Automático (alterna)" },
+            { "value": "left", "label": "Izquierda" },
+            { "value": "right", "label": "Derecha" },
+            { "value": "full", "label": "Ancho completo de la sección" }
+          ],
+          "default": "auto"
         }
       ]
     }
