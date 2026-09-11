@@ -75,6 +75,8 @@
     margin: 0;
     max-width: 42ch;
   }
+  #val-{{ section.id }} .val__line p { margin: 0 0 1.1em; }
+  #val-{{ section.id }} .val__line p:last-child { margin-bottom: 0; }
 
   #val-{{ section.id }} .val__meta {
     font-family: var(--cm-font-sans);
@@ -158,38 +160,73 @@
 >
   {%- for block in section.blocks -%}
     {%- liquid
-      assign layout = block.settings.layout
-      if block.settings.image == blank
+      comment
+        Los bloques del template anterior (text-full / centered) se normalizan
+        al formato nuevo para que la sección siga montando la página mientras
+        el template no se haya actualizado.
+      endcomment
+      assign b = block.settings
+
+      if block.type == 'valor'
+        assign v_image = b.image
+        assign v_name = b.name
+        assign v_line = b.line
+        assign v_meta = b.meta
+        assign layout = b.layout
+        assign ground = b.ground
+      else
+        assign v_image = b.background_image | default: b.image
+        assign v_name = b.headline
+        assign v_line = b.body
+        assign v_meta = b.value_name
+        assign cycle_i = forloop.index0 | modulo: 4
+        case cycle_i
+          when 0
+            assign layout = 'izq'
+            assign ground = 'crema'
+          when 1
+            assign layout = 'tipografica'
+            assign ground = 'navy'
+          when 2
+            assign layout = 'der'
+            assign ground = 'blanco'
+          else
+            assign layout = 'panoramica'
+            assign ground = 'noche'
+        endcase
+      endif
+
+      if v_image == blank
         assign layout = 'tipografica'
       endif
     -%}
     <article
-      class="val__scene val--{{ layout }} val--{{ block.settings.ground }}"
+      class="val__scene val--{{ layout }} val--{{ ground }}"
       {{ block.shopify_attributes }}
     >
-      {%- if layout != 'tipografica' and block.settings.image != blank -%}
+      {%- if layout != 'tipografica' and v_image != blank -%}
         <div class="val__media" data-cm-reveal>
-          {{ block.settings.image
+          {{ v_image
             | image_url: width: 2000, format: 'webp'
             | image_tag:
                 loading: 'lazy',
                 sizes: '(max-width: 900px) 100vw, 60vw',
                 widths: '600, 900, 1300, 1700, 2000',
-                alt: block.settings.name | escape
+                alt: v_meta | escape
           }}
         </div>
       {%- endif -%}
 
       <div class="val__text" data-cm-reveal data-cm-delay="1">
         <span class="val__num">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
-        {%- if block.settings.name != blank -%}
-          <h2 class="val__name">{{ block.settings.name }}</h2>
+        {%- if v_name != blank -%}
+          <h2 class="val__name">{{ v_name }}</h2>
         {%- endif -%}
-        {%- if block.settings.line != blank -%}
-          <p class="val__line">{{ block.settings.line }}</p>
+        {%- if v_line != blank -%}
+          <div class="val__line">{{ v_line }}</div>
         {%- endif -%}
-        {%- if block.settings.meta != blank -%}
-          <p class="val__meta">{{ block.settings.meta }}</p>
+        {%- if v_meta != blank -%}
+          <p class="val__meta">{{ v_meta }}</p>
         {%- endif -%}
       </div>
     </article>
@@ -248,6 +285,28 @@
           ],
           "default": "crema"
         }
+      ]
+    },
+    {
+      "type": "text-full",
+      "name": "Valor (formato anterior)",
+      "settings": [
+        { "type": "paragraph", "content": "Bloque heredado. Se dibuja con la composición nueva; al pasarlo a «Valor» tendrás control de composición y fondo." },
+        { "type": "image_picker", "id": "background_image", "label": "Imagen" },
+        { "type": "text",     "id": "value_name", "label": "Nombre del valor" },
+        { "type": "text",     "id": "headline",   "label": "Titular" },
+        { "type": "richtext", "id": "body",       "label": "Texto" }
+      ]
+    },
+    {
+      "type": "centered",
+      "name": "Valor centrado (formato anterior)",
+      "settings": [
+        { "type": "paragraph", "content": "Bloque heredado. Se dibuja con la composición nueva; al pasarlo a «Valor» tendrás control de composición y fondo." },
+        { "type": "image_picker", "id": "background_image", "label": "Imagen" },
+        { "type": "text",     "id": "value_name", "label": "Nombre del valor" },
+        { "type": "text",     "id": "headline",   "label": "Titular" },
+        { "type": "richtext", "id": "body",       "label": "Texto" }
       ]
     }
   ],
