@@ -180,8 +180,64 @@
         "space_bottom": 90
       }
     },
+    "nosotros_valores_editorial_pyddUY": {
+      "type": "nosotros-valores-editorial",
+      "blocks": {
+        "valor_LcTHe7": {
+          "type": "valor",
+          "settings": {
+            "name": "<p>Solo ponemos <em>lo que creemos</em></p>",
+            "line": "<p>Si un producto no nos convence en la primera prueba, no llega a nuestra tienda. Decimos que no con mucha más frecuencia de la que decimos que sí.</p>",
+            "meta": "Autenticidad",
+            "layout": "columna",
+            "ground": "blanco"
+          }
+        },
+        "valor_imiECm": {
+          "type": "valor",
+          "settings": {
+            "name": "<p>Un equilibrio que <em>no se puede romper</em></p>",
+            "line": "<p>Entre el animal y su entorno, entre el productor y su tierra, entre nosotros y quien recibe el pedido.</p>",
+            "meta": "Respeto",
+            "layout": "tipografica",
+            "ground": "navy"
+          }
+        },
+        "valor_Dxwbbi": {
+          "type": "valor",
+          "settings": {
+            "name": "<p>Sin excepciones y <em>sin excusas</em></p>",
+            "line": "<p>El mismo estándar en la selección, en el envasado y en la logística. Cuando algo no llega al nivel, lo decimos y lo arreglamos.</p>",
+            "meta": "Exigencia",
+            "layout": "izq",
+            "ground": "crema"
+          }
+        },
+        "valor_wd8YfJ": {
+          "type": "valor",
+          "settings": {
+            "name": "<p>La tradición y la innovación <em>no son opuestos</em></p>",
+            "line": "<p>Son los dos extremos del mismo hilo: honramos el saber de generaciones mientras buscamos nuevas formas de acercarlo.</p>",
+            "meta": "Imaginación",
+            "layout": "panoramica",
+            "ground": "noche"
+          }
+        }
+      },
+      "block_order": [
+        "valor_LcTHe7",
+        "valor_imiECm",
+        "valor_Dxwbbi",
+        "valor_wd8YfJ"
+      ],
+      "name": "Nosotros — Valores",
+      "settings": {
+        "aria_label": "Nuestros valores"
+      }
+    },
     "manifesto": {
       "type": "nosotros-manifesto",
+      "name": "Nosotros — Cierre",
       "settings": {
         "image": "shopify://shop_images/1.png",
         "image_pos_x": 50,
@@ -198,79 +254,15 @@
         "cta_label": "Descubre nuestra colección de ibéricos",
         "cta_url": "shopify://collections/jamones"
       }
-    },
-    "nosotros_proceso_arXMb8": {
-      "type": "nosotros-proceso",
-      "blocks": {
-        "step_e3qhG9": {
-          "type": "step",
-          "settings": {
-            "title": "La Dehesa",
-            "description": "<p>El ecosistema donde nace todo. Encinas centenarias, suelo fértil, espacio sin límites para el animal que lo llena todo.</p>"
-          }
-        },
-        "step_yYJtRY": {
-          "type": "step",
-          "settings": {
-            "title": "La Raza",
-            "description": "<p>Ibérico puro. Sin cruzamientos que comprometan el sabor o la calidad. La raza define el potencial.</p>"
-          }
-        },
-        "step_jxB67F": {
-          "type": "step",
-          "settings": {
-            "title": "La Montanera",
-            "description": "<p>Cada otoño, los cerdos pastan libremente bajo las encinas. Las bellotas hacen el resto.</p>"
-          }
-        },
-        "step_GWV3KH": {
-          "type": "step",
-          "settings": {
-            "title": "La Maduración",
-            "description": "<p>El tiempo que cada pieza necesita en bodega. La paciencia es el ingrediente que no se puede comprar.</p>"
-          }
-        },
-        "step_xKAzpX": {
-          "type": "step",
-          "settings": {
-            "title": "Nuestra Selección",
-            "description": "<p>Visitamos, probamos, comparamos. Solo elegimos lo que nosotros mismos compraríamos.</p>"
-          }
-        },
-        "step_cEJgpb": {
-          "type": "step",
-          "settings": {
-            "title": "Tu Mesa",
-            "description": "<p>El momento para el que todo existe. El disfrute que justifica cada decisión anterior.</p>"
-          }
-        }
-      },
-      "block_order": [
-        "step_e3qhG9",
-        "step_yYJtRY",
-        "step_jxB67F",
-        "step_GWV3KH",
-        "step_xKAzpX",
-        "step_cEJgpb"
-      ],
-      "name": "Nosotros — Proceso",
-      "settings": {
-        "eyebrow": "El proceso de selección",
-        "title": "<p>De la dehesa <em>a tu mesa</em></p>",
-        "theme": "light",
-        "media_side": "right",
-        "ratio": "4 / 5",
-        "ratio_mobile": "4 / 3"
-      }
     }
   },
   "order": [
     "hero",
     "origen",
     "nosotros_escena_NNiFJk",
-    "nosotros_proceso_arXMb8",
     "nosotros_criterio_XpDmt4",
     "nosotros_statement_Gy7fMy",
+    "nosotros_valores_editorial_pyddUY",
     "manifesto"
   ]
 }
