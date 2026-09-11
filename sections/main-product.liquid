@@ -251,29 +251,35 @@
 
       {%- comment -%} ── PRECIO POR KILO (según categoría de calidad) ── {%- endcomment -%}
       {%- comment -%}
+        Solo en pieza entera: las tarifas por kilo son las del jamón con hueso.
+        En deshuesado el peso final es menor, así que el €/kg no coincide y no se muestra.
         Prioridad: metafield del producto (custom.price_per_kg) > tarifa por categoría
-        (tags "precinto negro/rojo/verde"). Solo en formatos pieza entera y deshuesado.
+        (tags "precinto negro/rojo/verde").
       {%- endcomment -%}
       {%- assign price_kg_value = product.metafields.custom.price_per_kg.value -%}
-      {%- if price_kg_value == blank -%}
-        {%- assign is_whole_format = false -%}
-        {%- assign tier_rate = '' -%}
-        {%- for tag in product.tags -%}
-          {%- assign tag_lower = tag | downcase -%}
-          {%- if tag_lower contains 'pieza' or tag_lower contains 'deshuesado' -%}
-            {%- assign is_whole_format = true -%}
-          {%- endif -%}
-          {%- if tag_lower == 'precinto negro' -%}
-            {%- assign tier_rate = section.settings.price_kg_bellota_100 -%}
-          {%- elsif tag_lower == 'precinto rojo' -%}
-            {%- assign tier_rate = section.settings.price_kg_bellota_50 -%}
-          {%- elsif tag_lower == 'precinto verde' -%}
-            {%- assign tier_rate = section.settings.price_kg_cebo_campo -%}
-          {%- endif -%}
-        {%- endfor -%}
-        {%- if is_whole_format -%}
-          {%- assign price_kg_value = tier_rate -%}
+      {%- assign is_pieza_entera = false -%}
+      {%- assign is_deshuesado = false -%}
+      {%- assign tier_rate = '' -%}
+      {%- for tag in product.tags -%}
+        {%- assign tag_lower = tag | downcase -%}
+        {%- if tag_lower contains 'deshuesado' -%}
+          {%- assign is_deshuesado = true -%}
+        {%- elsif tag_lower contains 'pieza' -%}
+          {%- assign is_pieza_entera = true -%}
         {%- endif -%}
+        {%- if tag_lower == 'precinto negro' -%}
+          {%- assign tier_rate = section.settings.price_kg_bellota_100 -%}
+        {%- elsif tag_lower == 'precinto rojo' -%}
+          {%- assign tier_rate = section.settings.price_kg_bellota_50 -%}
+        {%- elsif tag_lower == 'precinto verde' -%}
+          {%- assign tier_rate = section.settings.price_kg_cebo_campo -%}
+        {%- endif -%}
+      {%- endfor -%}
+      {%- if price_kg_value == blank and is_pieza_entera -%}
+        {%- assign price_kg_value = tier_rate -%}
+      {%- endif -%}
+      {%- if is_deshuesado -%}
+        {%- assign price_kg_value = '' -%}
       {%- endif -%}
 
       {%- comment -%} ── PRECIO ── {%- endcomment -%}
@@ -686,7 +692,7 @@
     },
     {
       "type": "paragraph",
-      "content": "Se muestra junto al precio en jamones de pieza entera y deshuesados, según la etiqueta de precinto del producto. Para fijar un valor distinto en un producto concreto, usa el metacampo custom.price_per_kg."
+      "content": "Se muestra junto al precio solo en jamones de pieza entera, según la etiqueta de precinto del producto. No aparece en deshuesados (el peso final es menor y el €/kg no coincide) ni en cortado a mano o loncheado. Para fijar un valor distinto en un producto concreto, usa el metacampo custom.price_per_kg."
     },
     {
       "type": "text",
