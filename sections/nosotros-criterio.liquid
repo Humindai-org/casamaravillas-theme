@@ -150,8 +150,10 @@
   #cri-{{ section.id }} .cri--detalle[data-side="right"] .cri__media { grid-column: 8 / span 3; grid-row: 1; }
   #cri-{{ section.id }} .cri--detalle[data-side="right"] .cri__text  { grid-column: 2 / span 5; grid-row: 1; }
 
-  /* ancho completo: el texto ocupa las 12 columnas, debajo de la imagen si la hay */
-  #cri-{{ section.id }} .cri__text--full { grid-column: 1 / span 12; }
+  /* ancho completo: el texto ocupa las 12 columnas, debajo de la imagen si la hay.
+     !important porque las reglas de cada composición (p.ej. .cri--texto .cri__text)
+     son más específicas que esta al llevar dos clases bajo el mismo id. */
+  #cri-{{ section.id }} .cri__text--full { grid-column: 1 / span 12 !important; }
   #cri-{{ section.id }} .cri__item:not(.cri--texto) .cri__text--full { grid-row: 2; }
   #cri-{{ section.id }} .cri__text--full .cri__line { max-width: 70ch; }
 
@@ -194,9 +196,16 @@
     #cri-{{ section.id }} .cri--detalle .cri__media { aspect-ratio: 4 / 3; }
     #cri-{{ section.id }} .cri__num { margin-bottom: 12px; }
   }
+
+  #cri-{{ section.id }} .cri__anchor {
+    display: block;
+    height: 0;
+    scroll-margin-top: 56px;
+  }
 </style>
 
 <section id="cri-{{ section.id }}" class="cri">
+  {%- if s.anchor != blank -%}<span id="{{ s.anchor }}" class="cri__anchor" aria-hidden="true"></span>{%- endif -%}
   <div class="cri__wrap">
 
     <header class="cri__head">
@@ -342,6 +351,11 @@
     }
   ],
   "settings": [
+    {
+      "type": "header",
+      "content": "Navegación"
+    },
+    { "type": "text", "id": "anchor", "label": "ID de ancla (para el índice)", "info": "Debe coincidir con el enlace del índice. Déjalo vacío si no se enlaza desde ahí.", "default": "criterio" },
     { "type": "text", "id": "eyebrow", "label": "Etiqueta superior", "default": "El criterio Casa Maravillas" },
     {
       "type": "richtext",
