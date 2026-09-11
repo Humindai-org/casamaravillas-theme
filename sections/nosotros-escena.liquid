@@ -1,0 +1,265 @@
+{%- comment -%}
+  Nosotros — Escena
+  Imagen cinematográfica a sangre completa con muy poco texto encima.
+  Es el momento de contemplación del ritmo: la imagen manda y el texto
+  se limita a una línea. Sin marcos, sin cajas, sin bordes.
+{%- endcomment -%}
+
+{%- liquid
+  assign s = section.settings
+  assign pos_x = s.image_pos_x | default: 50
+  assign pos_y = s.image_pos_y | default: 50
+-%}
+
+{% render 'cm-reveal' %}
+
+<style>
+  #nse-{{ section.id }} {
+    position: relative;
+    width: 100%;
+    height: {{ s.height }}vh;
+    min-height: {{ s.height_min }}px;
+    overflow: hidden;
+    background: var(--cm-navy);
+    display: flex;
+    align-items: {% if s.text_v == 'top' %}flex-start{% elsif s.text_v == 'center' %}center{% else %}flex-end{% endif %};
+    justify-content: {% if s.text_h == 'left' %}flex-start{% elsif s.text_h == 'center' %}center{% else %}flex-end{% endif %};
+  }
+
+  #nse-{{ section.id }} .nse__media {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+
+  #nse-{{ section.id }} .nse__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: {{ pos_x }}% {{ pos_y }}%;
+    display: block;
+    {% if s.parallax %}
+      height: 118%;
+      top: -9%;
+      position: absolute;
+      left: 0;
+      will-change: transform;
+    {% endif %}
+  }
+
+  #nse-{{ section.id }} .nse__veil {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      linear-gradient(
+        to {% if s.text_v == 'top' %}bottom{% else %}top{% endif %},
+        rgba(0, 20, 38, {{ s.overlay | divided_by: 100.0 }}) 0%,
+        rgba(0, 20, 38, {{ s.overlay | divided_by: 240.0 }}) 42%,
+        rgba(0, 20, 38, 0) 72%
+      );
+  }
+
+  #nse-{{ section.id }} .nse__inner {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 1240px;
+    margin-inline: auto;
+    padding-inline: clamp(24px, 6vw, 80px);
+    padding-block: clamp(40px, 7vw, 96px);
+    text-align: {% if s.text_h == 'center' %}center{% elsif s.text_h == 'right' %}right{% else %}left{% endif %};
+  }
+
+  #nse-{{ section.id }} .nse__eyebrow {
+    font-family: var(--cm-font-sans);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.55em;
+    text-transform: uppercase;
+    color: rgba(250, 246, 239, 0.82);
+    margin: 0 0 22px;
+    text-shadow: 0 1px 18px rgba(0, 0, 0, 0.55);
+  }
+
+  #nse-{{ section.id }} .nse__line {
+    font-family: var(--cm-font-serif);
+    font-weight: 300;
+    font-size: clamp(26px, {{ s.size_vw }}vw, {{ s.size_max }}px);
+    line-height: 1.14;
+    letter-spacing: -0.01em;
+    color: var(--cm-off);
+    text-wrap: balance;
+    margin: 0;
+    max-width: {{ s.measure }}ch;
+    text-shadow: 0 2px 34px rgba(0, 0, 0, 0.42);
+    {% if s.text_h == 'center' %}margin-inline: auto;{% endif %}
+    {% if s.text_h == 'right' %}margin-left: auto;{% endif %}
+  }
+
+  #nse-{{ section.id }} .nse__line em {
+    font-style: italic;
+    color: var(--cm-gold);
+  }
+
+  @media (max-width: 767px) {
+    #nse-{{ section.id }} {
+      height: {{ s.height_mobile }}vh;
+      min-height: 320px;
+    }
+  }
+</style>
+
+<section id="nse-{{ section.id }}" class="nse">
+  <div class="nse__media">
+    {%- if s.image != blank -%}
+      {{ s.image
+        | image_url: width: 2400, format: 'webp'
+        | image_tag:
+            loading: 'lazy',
+            sizes: '100vw',
+            widths: '800, 1200, 1600, 2000, 2400',
+            alt: s.image.alt | escape
+      }}
+    {%- endif -%}
+  </div>
+
+  {%- if s.overlay > 0 -%}
+    <div class="nse__veil" aria-hidden="true"></div>
+  {%- endif -%}
+
+  {%- if s.eyebrow != blank or s.line != blank -%}
+    <div class="nse__inner">
+      {%- if s.eyebrow != blank -%}
+        <p class="nse__eyebrow" data-cm-reveal>{{ s.eyebrow }}</p>
+      {%- endif -%}
+      {%- if s.line != blank -%}
+        <h2 class="nse__line" data-cm-reveal data-cm-delay="1">{{ s.line }}</h2>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+</section>
+
+{%- if s.parallax -%}
+<script>
+(function () {
+  var sec = document.getElementById('nse-{{ section.id }}');
+  if (!sec) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var img = sec.querySelector('.nse__media img');
+  if (!img) return;
+
+  var ticking = false;
+
+  function update() {
+    ticking = false;
+    var r = sec.getBoundingClientRect();
+    if (r.bottom < 0 || r.top > window.innerHeight) return;
+    // -1 arriba del viewport, 1 abajo. Desplazamiento muy contenido.
+    var progress = (r.top + r.height / 2 - window.innerHeight / 2) / (window.innerHeight / 2 + r.height / 2);
+    img.style.transform = 'translate3d(0,' + (progress * 4.5).toFixed(2) + '%,0)';
+  }
+
+  function onScroll() {
+    if (ticking) return;
+    ticking = true;
+    window.requestAnimationFrame(update);
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll, { passive: true });
+  update();
+})();
+</script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Nosotros — Escena",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Imagen"
+    },
+    { "type": "image_picker", "id": "image", "label": "Imagen" },
+    {
+      "type": "range",
+      "id": "image_pos_x",
+      "label": "Posición horizontal",
+      "info": "0% = izquierda · 100% = derecha",
+      "min": 0, "max": 100, "step": 5, "default": 50, "unit": "%"
+    },
+    {
+      "type": "range",
+      "id": "image_pos_y",
+      "label": "Posición vertical",
+      "info": "0% = arriba · 100% = abajo",
+      "min": 0, "max": 100, "step": 5, "default": 50, "unit": "%"
+    },
+    { "type": "checkbox", "id": "parallax", "label": "Parallax sutil", "default": true },
+    {
+      "type": "header",
+      "content": "Texto"
+    },
+    { "type": "text", "id": "eyebrow", "label": "Etiqueta superior" },
+    {
+      "type": "richtext",
+      "id": "line",
+      "label": "Frase",
+      "info": "Una sola línea. Usa cursiva para resaltar en dorado.",
+      "default": "<p>La dehesa no se fabrica. <em>Se respeta.</em></p>"
+    },
+    {
+      "type": "select",
+      "id": "text_h",
+      "label": "Posición horizontal del texto",
+      "options": [
+        { "value": "left", "label": "Izquierda" },
+        { "value": "center", "label": "Centro" },
+        { "value": "right", "label": "Derecha" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "text_v",
+      "label": "Posición vertical del texto",
+      "options": [
+        { "value": "top", "label": "Arriba" },
+        { "value": "center", "label": "Centro" },
+        { "value": "bottom", "label": "Abajo" }
+      ],
+      "default": "bottom"
+    },
+    {
+      "type": "range",
+      "id": "measure",
+      "label": "Ancho del texto",
+      "min": 12, "max": 34, "step": 1, "default": 18, "unit": "ch"
+    },
+    { "type": "range", "id": "size_vw", "label": "Crecimiento tipográfico", "min": 2, "max": 9, "step": 0.5, "default": 4.5, "unit": "vw" },
+    { "type": "range", "id": "size_max", "label": "Tamaño máximo", "min": 32, "max": 120, "step": 4, "default": 64, "unit": "px" },
+    {
+      "type": "header",
+      "content": "Composición"
+    },
+    {
+      "type": "range",
+      "id": "overlay",
+      "label": "Veladura sobre la imagen",
+      "info": "Solo lo necesario para que el texto se lea.",
+      "min": 0, "max": 90, "step": 5, "default": 55, "unit": "%"
+    },
+    { "type": "range", "id": "height", "label": "Altura (escritorio)", "min": 40, "max": 100, "step": 5, "default": 82, "unit": "vh" },
+    { "type": "range", "id": "height_min", "label": "Altura mínima", "min": 300, "max": 800, "step": 20, "default": 520, "unit": "px" },
+    { "type": "range", "id": "height_mobile", "label": "Altura (móvil)", "min": 40, "max": 100, "step": 5, "default": 70, "unit": "vh" }
+  ],
+  "presets": [
+    {
+      "name": "Nosotros — Escena"
+    }
+  ]
+}
+{% endschema %}

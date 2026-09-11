@@ -1,0 +1,331 @@
+{%- comment -%}
+  Nosotros — El criterio
+  Seis capítulos visuales, no seis tarjetas. Cada bloque elige su propia
+  composición (solo texto, retrato, panorámica o detalle) y el lado alterna
+  automáticamente, de forma que ninguno se lee igual que el anterior.
+{%- endcomment -%}
+
+{%- liquid
+  assign s = section.settings
+-%}
+
+{% render 'cm-reveal' %}
+
+<style>
+  #cri-{{ section.id }} {
+    background: {% if s.theme == 'dark' %}var(--cm-navy){% else %}var(--cm-white){% endif %};
+    --cri-ink:   {% if s.theme == 'dark' %}var(--cm-off){% else %}var(--cm-navy){% endif %};
+    --cri-muted: {% if s.theme == 'dark' %}rgba(250,246,239,0.6){% else %}var(--cm-text-mid){% endif %};
+    padding-block: clamp(72px, 10vw, 150px);
+    overflow: hidden;
+  }
+
+  #cri-{{ section.id }} .cri__wrap {
+    max-width: 1320px;
+    margin-inline: auto;
+    padding-inline: clamp(24px, 5vw, 72px);
+  }
+
+  #cri-{{ section.id }} .cri__head {
+    max-width: 30ch;
+    margin-bottom: clamp(56px, 9vw, 130px);
+  }
+  #cri-{{ section.id }} .cri__eyebrow {
+    font-family: var(--cm-font-sans);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.55em;
+    text-transform: uppercase;
+    color: var(--cm-gold);
+    margin: 0 0 22px;
+  }
+  #cri-{{ section.id }} .cri__title {
+    font-family: var(--cm-font-serif);
+    font-weight: 300;
+    font-size: clamp(28px, 3.8vw, 54px);
+    line-height: 1.14;
+    letter-spacing: -0.01em;
+    color: var(--cri-ink);
+    margin: 0;
+    text-wrap: balance;
+  }
+  #cri-{{ section.id }} .cri__title em { font-style: italic; color: var(--cm-gold); }
+
+  /* ── Capítulos ── */
+  #cri-{{ section.id }} .cri__items {
+    display: grid;
+    gap: clamp(64px, 11vw, 168px);
+  }
+
+  #cri-{{ section.id }} .cri__item {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    column-gap: clamp(20px, 3vw, 44px);
+    row-gap: clamp(24px, 3vw, 40px);
+    align-items: center;
+  }
+
+  #cri-{{ section.id }} .cri__num {
+    display: block;
+    font-family: var(--cm-font-serif);
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(34px, 4.5vw, 62px);
+    line-height: 1;
+    color: var(--cm-gold);
+    opacity: 0.55;
+    margin-bottom: 18px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  #cri-{{ section.id }} .cri__name {
+    font-family: var(--cm-font-serif);
+    font-weight: 300;
+    font-size: clamp(24px, 2.9vw, 40px);
+    line-height: 1.16;
+    color: var(--cri-ink);
+    margin: 0 0 18px;
+    text-wrap: balance;
+  }
+
+  #cri-{{ section.id }} .cri__line {
+    font-family: var(--cm-font-sans);
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--cri-muted);
+    margin: 0;
+    max-width: 44ch;
+  }
+
+  #cri-{{ section.id }} .cri__meta {
+    font-family: var(--cm-font-sans);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--cm-gold);
+    margin: 22px 0 0;
+  }
+
+  #cri-{{ section.id }} .cri__media img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  #cri-{{ section.id }} .cri__media {
+    overflow: hidden;
+  }
+
+  /* ── Composiciones ── */
+
+  /* solo texto: columna estrecha, sin imagen */
+  #cri-{{ section.id }} .cri--texto .cri__text { grid-column: 2 / span 6; }
+  #cri-{{ section.id }} .cri--texto[data-side="right"] .cri__text { grid-column: 6 / span 6; }
+  #cri-{{ section.id }} .cri--texto .cri__name { font-size: clamp(28px, 3.6vw, 52px); }
+
+  /* retrato: imagen vertical junto al texto */
+  #cri-{{ section.id }} .cri--retrato .cri__media { grid-column: 1 / span 5; aspect-ratio: 3 / 4; }
+  #cri-{{ section.id }} .cri--retrato .cri__text  { grid-column: 7 / span 5; }
+  #cri-{{ section.id }} .cri--retrato[data-side="right"] .cri__media { grid-column: 8 / span 5; grid-row: 1; }
+  #cri-{{ section.id }} .cri--retrato[data-side="right"] .cri__text  { grid-column: 2 / span 5; grid-row: 1; }
+
+  /* panorámica: imagen ancha, texto desplazado debajo */
+  #cri-{{ section.id }} .cri--panorama .cri__media { grid-column: 1 / span 12; aspect-ratio: 21 / 9; }
+  #cri-{{ section.id }} .cri--panorama .cri__text  { grid-column: 7 / span 5; }
+  #cri-{{ section.id }} .cri--panorama[data-side="right"] .cri__text { grid-column: 1 / span 5; }
+
+  /* detalle: imagen pequeña cuadrada, mucho aire */
+  #cri-{{ section.id }} .cri--detalle .cri__media { grid-column: 2 / span 3; aspect-ratio: 1 / 1; }
+  #cri-{{ section.id }} .cri--detalle .cri__text  { grid-column: 7 / span 5; }
+  #cri-{{ section.id }} .cri--detalle[data-side="right"] .cri__media { grid-column: 8 / span 3; grid-row: 1; }
+  #cri-{{ section.id }} .cri--detalle[data-side="right"] .cri__text  { grid-column: 2 / span 5; grid-row: 1; }
+
+  /* ── Cierre ── */
+  #cri-{{ section.id }} .cri__close {
+    margin-top: clamp(72px, 11vw, 170px);
+    text-align: center;
+  }
+  #cri-{{ section.id }} .cri__close span {
+    display: block;
+    width: 44px;
+    height: 1px;
+    background: var(--cm-gold);
+    margin: 0 auto 32px;
+  }
+  #cri-{{ section.id }} .cri__close p {
+    font-family: var(--cm-font-serif);
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(25px, 3.6vw, 50px);
+    line-height: 1.25;
+    color: var(--cri-ink);
+    margin: 0;
+    text-wrap: balance;
+  }
+
+  @media (max-width: 860px) {
+    #cri-{{ section.id }} .cri__items { gap: 56px; }
+    #cri-{{ section.id }} .cri__item { grid-template-columns: 1fr; row-gap: 22px; }
+    #cri-{{ section.id }} .cri__item .cri__media,
+    #cri-{{ section.id }} .cri__item .cri__text {
+      grid-column: 1 / -1 !important;
+      grid-row: auto !important;
+    }
+    /* en móvil la imagen siempre va primero */
+    #cri-{{ section.id }} .cri__media { order: 1; }
+    #cri-{{ section.id }} .cri__text  { order: 2; }
+    #cri-{{ section.id }} .cri--retrato .cri__media { aspect-ratio: 4 / 5; }
+    #cri-{{ section.id }} .cri--panorama .cri__media { aspect-ratio: 16 / 9; }
+    #cri-{{ section.id }} .cri--detalle .cri__media { aspect-ratio: 4 / 3; }
+    #cri-{{ section.id }} .cri__num { margin-bottom: 12px; }
+  }
+</style>
+
+<section id="cri-{{ section.id }}" class="cri">
+  <div class="cri__wrap">
+
+    <header class="cri__head">
+      {%- if s.eyebrow != blank -%}
+        <p class="cri__eyebrow" data-cm-reveal>{{ s.eyebrow }}</p>
+      {%- endif -%}
+      {%- if s.title != blank -%}
+        <h2 class="cri__title" data-cm-reveal data-cm-delay="1">{{ s.title }}</h2>
+      {%- endif -%}
+    </header>
+
+    <div class="cri__items">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign layout = block.settings.layout
+          assign parity = forloop.index0 | modulo: 2
+          assign side = 'left'
+          if parity == 1
+            assign side = 'right'
+          endif
+          if block.settings.image == blank
+            assign layout = 'texto'
+          endif
+        -%}
+        <article
+          class="cri__item cri--{{ layout }}"
+          data-side="{{ side }}"
+          data-cm-reveal
+          {{ block.shopify_attributes }}
+        >
+          {%- if layout != 'texto' and block.settings.image != blank -%}
+            <div class="cri__media">
+              {{ block.settings.image
+                | image_url: width: 1600, format: 'webp'
+                | image_tag:
+                    loading: 'lazy',
+                    sizes: '(max-width: 860px) 100vw, 45vw',
+                    widths: '500, 800, 1100, 1600',
+                    alt: block.settings.name | escape
+              }}
+            </div>
+          {%- endif -%}
+
+          <div class="cri__text">
+            <span class="cri__num">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+            {%- if block.settings.name != blank -%}
+              <h3 class="cri__name">{{ block.settings.name }}</h3>
+            {%- endif -%}
+            {%- if block.settings.line != blank -%}
+              <p class="cri__line">{{ block.settings.line }}</p>
+            {%- endif -%}
+            {%- if block.settings.meta != blank -%}
+              <p class="cri__meta">{{ block.settings.meta }}</p>
+            {%- endif -%}
+          </div>
+        </article>
+      {%- endfor -%}
+    </div>
+
+    {%- if s.closing != blank -%}
+      <div class="cri__close" data-cm-reveal>
+        <span aria-hidden="true"></span>
+        <p>{{ s.closing }}</p>
+      </div>
+    {%- endif -%}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Nosotros — El criterio",
+  "tag": "section",
+  "max_blocks": 8,
+  "blocks": [
+    {
+      "type": "principio",
+      "name": "Principio",
+      "settings": [
+        { "type": "text", "id": "name", "label": "Título", "default": "Origen y raza" },
+        {
+          "type": "textarea",
+          "id": "line",
+          "label": "Frase",
+          "info": "Muy corta. Una o dos líneas.",
+          "default": "De qué dehesa viene y qué porcentaje de ibérico tiene."
+        },
+        { "type": "text", "id": "meta", "label": "Dato / detalle", "info": "Opcional. En mayúsculas doradas." },
+        { "type": "image_picker", "id": "image", "label": "Imagen", "info": "Opcional. Sin imagen, el capítulo queda solo tipográfico." },
+        {
+          "type": "select",
+          "id": "layout",
+          "label": "Composición",
+          "info": "Alterna entre composiciones para que no haya dos capítulos iguales.",
+          "options": [
+            { "value": "texto", "label": "Solo texto" },
+            { "value": "retrato", "label": "Imagen vertical" },
+            { "value": "panorama", "label": "Imagen panorámica" },
+            { "value": "detalle", "label": "Detalle pequeño" }
+          ],
+          "default": "retrato"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Etiqueta superior", "default": "El criterio Casa Maravillas" },
+    {
+      "type": "richtext",
+      "id": "title",
+      "label": "Título",
+      "default": "<p>Qué miramos antes de <em>decir que sí</em></p>"
+    },
+    {
+      "type": "text",
+      "id": "closing",
+      "label": "Frase de cierre",
+      "default": "¿Lo pondríamos en nuestra propia mesa?"
+    },
+    {
+      "type": "select",
+      "id": "theme",
+      "label": "Fondo",
+      "options": [
+        { "value": "light", "label": "Blanco" },
+        { "value": "dark", "label": "Navy" }
+      ],
+      "default": "light"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Nosotros — El criterio",
+      "blocks": [
+        { "type": "principio", "settings": { "name": "Origen y raza", "line": "De qué dehesa viene y qué porcentaje de ibérico tiene. Sin cruces que comprometan el resultado.", "layout": "retrato" } },
+        { "type": "principio", "settings": { "name": "Alimentación", "line": "Montanera real: bellota y hierba en libertad durante la última fase de engorde.", "layout": "panorama" } },
+        { "type": "principio", "settings": { "name": "Curación", "line": "El tiempo que cada pieza necesita en bodega. Ni un mes menos por acelerar la venta.", "layout": "texto" } },
+        { "type": "principio", "settings": { "name": "Conformación y grasa", "line": "La forma de la pieza y cómo está infiltrada la grasa. Se ve mucho antes de probarla.", "layout": "detalle" } },
+        { "type": "principio", "settings": { "name": "Aroma, textura y sabor", "line": "La cata. Aquí se confirma o se descarta lo que prometía todo lo anterior.", "layout": "retrato" } },
+        { "type": "principio", "settings": { "name": "Rendimiento y regularidad", "line": "Cuánto aprovecha quien la compra, y que la siguiente pieza esté a la misma altura.", "layout": "texto" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

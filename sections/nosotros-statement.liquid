@@ -1,0 +1,264 @@
+{%- comment -%}
+  Nosotros — Declaración
+  Pantalla de "silencio": tipografía a gran escala sobre espacio vacío.
+  Se usa dos veces en la página: la tesis de marca y los tres niveles de
+  selección. Sin imagen: su función en el ritmo es crear la pausa que hace
+  que la escena siguiente golpee.
+{%- endcomment -%}
+
+{%- liquid
+  assign s = section.settings
+  assign is_dark = false
+  if s.theme == 'dark'
+    assign is_dark = true
+  endif
+-%}
+
+{% render 'cm-reveal' %}
+
+<style>
+  #nst-{{ section.id }} {
+    --nst-ground: {% if is_dark %}var(--cm-navy){% else %}var(--cm-off){% endif %};
+    --nst-ink:    {% if is_dark %}var(--cm-off){% else %}var(--cm-navy){% endif %};
+    --nst-muted:  {% if is_dark %}rgba(250,246,239,0.62){% else %}var(--cm-text-mid){% endif %};
+    --nst-hair:   {% if is_dark %}rgba(250,246,239,0.16){% else %}var(--cm-border){% endif %};
+
+    background: var(--nst-ground);
+    padding-block: {{ s.space_top }}px {{ s.space_bottom }}px;
+    overflow: hidden;
+  }
+
+  #nst-{{ section.id }} .nst__wrap {
+    max-width: 1240px;
+    margin-inline: auto;
+    padding-inline: clamp(24px, 6vw, 80px);
+    text-align: {{ s.align }};
+  }
+
+  #nst-{{ section.id }} .nst__eyebrow {
+    font-family: var(--cm-font-sans);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.55em;
+    text-transform: uppercase;
+    color: var(--cm-gold);
+    margin: 0 0 clamp(28px, 4vw, 48px);
+  }
+
+  #nst-{{ section.id }} .nst__heading {
+    font-family: var(--cm-font-serif);
+    font-weight: 300;
+    color: var(--nst-ink);
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+    margin: 0;
+    font-size: clamp({{ s.size_min }}px, {{ s.size_vw }}vw, {{ s.size_max }}px);
+    max-width: {{ s.measure }}ch;
+    {% if s.align == 'center' %}margin-inline: auto;{% endif %}
+  }
+
+  #nst-{{ section.id }} .nst__heading em {
+    font-style: italic;
+    color: var(--cm-gold);
+  }
+
+  #nst-{{ section.id }} .nst__note {
+    font-family: var(--cm-font-sans);
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--nst-muted);
+    max-width: 54ch;
+    margin: clamp(28px, 3.5vw, 44px) 0 0;
+    {% if s.align == 'center' %}margin-inline: auto;{% endif %}
+  }
+
+  /* ── Fila de datos (los tres niveles de selección) ── */
+  #nst-{{ section.id }} .nst__data {
+    display: grid;
+    grid-template-columns: repeat({{ section.blocks.size | at_most: 4 }}, 1fr);
+    gap: clamp(32px, 5vw, 72px);
+    margin-top: clamp(56px, 8vw, 104px);
+    text-align: left;
+  }
+
+  #nst-{{ section.id }} .nst__item {
+    display: grid;
+    gap: 0;
+    align-content: start;
+  }
+
+  #nst-{{ section.id }} .nst__rule {
+    width: 100%;
+    height: 2px;
+    margin-bottom: 22px;
+    background: var(--nst-hair);
+  }
+
+  #nst-{{ section.id }} .nst__value {
+    font-family: var(--cm-font-serif);
+    font-weight: 300;
+    font-size: clamp(30px, 4vw, 52px);
+    line-height: 1;
+    color: var(--nst-ink);
+    margin: 0 0 14px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  #nst-{{ section.id }} .nst__label {
+    font-family: var(--cm-font-sans);
+    font-size: 13px;
+    font-weight: 300;
+    line-height: 1.65;
+    color: var(--nst-muted);
+    margin: 0;
+  }
+
+  #nst-{{ section.id }} .nst__meta {
+    font-family: var(--cm-font-sans);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--cm-gold);
+    margin: 14px 0 0;
+  }
+
+  @media (max-width: 860px) {
+    #nst-{{ section.id }} {
+      padding-block: {{ s.space_top | times: 0.55 | round }}px {{ s.space_bottom | times: 0.55 | round }}px;
+    }
+    #nst-{{ section.id }} .nst__data {
+      grid-template-columns: 1fr;
+      gap: 30px;
+      margin-top: 48px;
+    }
+    #nst-{{ section.id }} .nst__rule { margin-bottom: 16px; }
+  }
+</style>
+
+<section id="nst-{{ section.id }}" class="nst">
+  <div class="nst__wrap">
+
+    {%- if s.eyebrow != blank -%}
+      <p class="nst__eyebrow" data-cm-reveal>{{ s.eyebrow }}</p>
+    {%- endif -%}
+
+    {%- if s.heading != blank -%}
+      <h2 class="nst__heading" data-cm-reveal data-cm-delay="1">{{ s.heading }}</h2>
+    {%- endif -%}
+
+    {%- if s.note != blank -%}
+      <p class="nst__note" data-cm-reveal data-cm-delay="2">{{ s.note }}</p>
+    {%- endif -%}
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="nst__data">
+        {%- for block in section.blocks -%}
+          <div class="nst__item" data-cm-reveal data-cm-delay="{{ forloop.index | at_most: 4 }}" {{ block.shopify_attributes }}>
+            <span
+              class="nst__rule"
+              {% if block.settings.accent != blank %}style="background: {{ block.settings.accent }};"{% endif %}
+              aria-hidden="true"
+            ></span>
+            {%- if block.settings.value != blank -%}
+              <p class="nst__value">{{ block.settings.value }}</p>
+            {%- endif -%}
+            {%- if block.settings.label != blank -%}
+              <p class="nst__label">{{ block.settings.label }}</p>
+            {%- endif -%}
+            {%- if block.settings.meta != blank -%}
+              <p class="nst__meta">{{ block.settings.meta }}</p>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Nosotros — Declaración",
+  "tag": "section",
+  "max_blocks": 4,
+  "blocks": [
+    {
+      "type": "dato",
+      "name": "Dato / nivel",
+      "settings": [
+        { "type": "text", "id": "value", "label": "Titular del dato", "default": "Oro" },
+        { "type": "text", "id": "label", "label": "Descripción", "default": "Bellota 100% Ibérico" },
+        { "type": "text", "id": "meta", "label": "Etiqueta inferior", "info": "Opcional. Va en mayúsculas doradas.", "default": "Precinto negro" },
+        { "type": "color", "id": "accent", "label": "Color de la línea", "info": "Usa el color real del precinto.", "default": "#1A1A1A" }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "header",
+      "content": "Contenido"
+    },
+    { "type": "text", "id": "eyebrow", "label": "Etiqueta superior", "default": "El valor de elegir bien" },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Frase principal",
+      "info": "Usa cursiva para resaltar un fragmento en dorado.",
+      "default": "<p>No vendemos todo. Seleccionamos lo que <em>merece llevar nuestro nombre.</em></p>"
+    },
+    { "type": "text", "id": "note", "label": "Texto de apoyo", "info": "Opcional. Mantenlo muy corto." },
+    {
+      "type": "header",
+      "content": "Composición"
+    },
+    {
+      "type": "select",
+      "id": "theme",
+      "label": "Fondo",
+      "options": [
+        { "value": "light", "label": "Crema" },
+        { "value": "dark", "label": "Navy" }
+      ],
+      "default": "light"
+    },
+    {
+      "type": "select",
+      "id": "align",
+      "label": "Alineación",
+      "options": [
+        { "value": "left", "label": "Izquierda" },
+        { "value": "center", "label": "Centrada" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "measure",
+      "label": "Ancho del texto",
+      "info": "En caracteres. Más bajo = más saltos de línea.",
+      "min": 14, "max": 40, "step": 1, "default": 22, "unit": "ch"
+    },
+    {
+      "type": "header",
+      "content": "Escala tipográfica"
+    },
+    { "type": "range", "id": "size_min", "label": "Tamaño mínimo", "min": 24, "max": 56, "step": 2, "default": 32, "unit": "px" },
+    { "type": "range", "id": "size_vw", "label": "Crecimiento", "min": 2, "max": 10, "step": 0.5, "default": 5.5, "unit": "vw" },
+    { "type": "range", "id": "size_max", "label": "Tamaño máximo", "min": 40, "max": 140, "step": 4, "default": 76, "unit": "px" },
+    {
+      "type": "header",
+      "content": "Espacio"
+    },
+    { "type": "range", "id": "space_top", "label": "Aire superior", "min": 40, "max": 260, "step": 10, "default": 160, "unit": "px" },
+    { "type": "range", "id": "space_bottom", "label": "Aire inferior", "min": 40, "max": 260, "step": 10, "default": 160, "unit": "px" }
+  ],
+  "presets": [
+    {
+      "name": "Nosotros — Declaración"
+    }
+  ]
+}
+{% endschema %}

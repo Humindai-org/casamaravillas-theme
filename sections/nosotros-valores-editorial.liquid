@@ -1,528 +1,252 @@
+{%- comment -%}
+  Nosotros — Valores
+  Cada valor es una escena editorial propia: fondo, composición y escala
+  distintos. Las imágenes se desbordan hasta el borde del viewport y el
+  numeral se superpone a la esquina. Sin marcos, sin bordes, sin tarjetas.
+{%- endcomment -%}
+
+{% render 'cm-reveal' %}
+
 <style>
-  /* ── Shared elements ── */
-  .nve__eyebrow {
+  #val-{{ section.id }} .val__scene {
+    --pad: clamp(24px, 5vw, 72px);
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    column-gap: clamp(20px, 3vw, 48px);
+    row-gap: clamp(28px, 4vw, 52px);
+    align-items: center;
+    padding-inline: var(--pad);
+    padding-block: clamp(72px, 11vw, 168px);
+    overflow: hidden;
+  }
+
+  #val-{{ section.id }} .val--crema { background: var(--cm-off);  --val-ink: var(--cm-navy); --val-muted: var(--cm-text-mid); }
+  #val-{{ section.id }} .val--blanco { background: var(--cm-white); --val-ink: var(--cm-navy); --val-muted: var(--cm-text-mid); }
+  #val-{{ section.id }} .val--navy  { background: var(--cm-navy); --val-ink: var(--cm-off);  --val-muted: rgba(250,246,239,0.62); }
+  #val-{{ section.id }} .val--noche { background: #0C0C0C;        --val-ink: var(--cm-off);  --val-muted: rgba(250,246,239,0.56); }
+
+  /* ── Media ── */
+  #val-{{ section.id }} .val__media {
+    position: relative;
+    overflow: hidden;
+  }
+  #val-{{ section.id }} .val__media img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* ── Texto ── */
+  #val-{{ section.id }} .val__text { position: relative; z-index: 2; }
+
+  #val-{{ section.id }} .val__num {
+    display: block;
+    font-family: var(--cm-font-serif);
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(40px, 6vw, 92px);
+    line-height: 0.9;
+    color: var(--cm-gold);
+    opacity: 0.5;
+    margin-bottom: 16px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  #val-{{ section.id }} .val__name {
+    font-family: var(--cm-font-serif);
+    font-weight: 300;
+    font-size: clamp(30px, 4.4vw, 68px);
+    line-height: 1.08;
+    letter-spacing: -0.015em;
+    color: var(--val-ink);
+    margin: 0 0 22px;
+    text-wrap: balance;
+  }
+  #val-{{ section.id }} .val__name em { font-style: italic; color: var(--cm-gold); }
+
+  #val-{{ section.id }} .val__line {
+    font-family: var(--cm-font-sans);
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.85;
+    color: var(--val-muted);
+    margin: 0;
+    max-width: 42ch;
+  }
+
+  #val-{{ section.id }} .val__meta {
     font-family: var(--cm-font-sans);
     font-size: 9px;
     font-weight: 500;
-    letter-spacing: 0.55em;
+    letter-spacing: 0.32em;
     text-transform: uppercase;
     color: var(--cm-gold);
-    margin-bottom: 28px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
+    margin: 26px 0 0;
   }
 
-  .nve__eyebrow::before {
-    content: '';
-    width: 28px;
-    height: 1px;
-    background: var(--cm-gold);
-    flex-shrink: 0;
-  }
+  /* ── Composiciones ──
+     La imagen rompe el contenedor hasta el borde del viewport. */
 
-  .nve__headline {
-    font-family: var(--cm-font-serif);
-    font-weight: 400;
-    line-height: 1.1;
-    margin-bottom: 32px;
+  /* imagen desbordada por la izquierda */
+  #val-{{ section.id }} .val--izq .val__media {
+    grid-column: 1 / span 7;
+    margin-left: calc(-1 * var(--pad));
+    aspect-ratio: 5 / 4;
   }
+  #val-{{ section.id }} .val--izq .val__text { grid-column: 9 / span 4; }
 
-  .nve__body {
-    font-family: var(--cm-font-sans);
-    font-size: clamp(13.5px, 1.4vw, 16px);
-    line-height: 1.9;
-    font-weight: 300;
+  /* imagen desbordada por la derecha */
+  #val-{{ section.id }} .val--der .val__media {
+    grid-column: 6 / span 7;
+    margin-right: calc(-1 * var(--pad));
+    grid-row: 1;
+    aspect-ratio: 5 / 4;
   }
+  #val-{{ section.id }} .val--der .val__text { grid-column: 1 / span 4; grid-row: 1; }
 
-  .nve__body p { margin-bottom: 1.4em; }
-  .nve__body p:last-child { margin-bottom: 0; }
+  /* columna vertical alta, mucho aire al lado */
+  #val-{{ section.id }} .val--columna .val__media {
+    grid-column: 2 / span 4;
+    aspect-ratio: 3 / 4;
+  }
+  #val-{{ section.id }} .val--columna .val__text { grid-column: 8 / span 4; }
 
-  .sr-w { display: inline-block; }
+  /* panorámica a todo el ancho, texto debajo desplazado */
+  #val-{{ section.id }} .val--panoramica .val__media {
+    grid-column: 1 / span 12;
+    margin-inline: calc(-1 * var(--pad));
+    aspect-ratio: 21 / 9;
+  }
+  #val-{{ section.id }} .val--panoramica .val__text { grid-column: 7 / span 5; }
 
-  /* ── Read more (mobile only) + popup with the full text ── */
-  .nve__read-more {
-    display: none;
-    margin-top: 14px;
-    background: none;
-    border: none;
-    padding: 0;
-    font-family: var(--cm-font-sans);
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    text-decoration: underline;
-    text-underline-offset: 3px;
-    cursor: pointer;
-    transition: opacity 0.2s ease;
+  /* sin imagen: solo tipografía a gran escala */
+  #val-{{ section.id }} .val--tipografica .val__text {
+    grid-column: 2 / span 9;
+    text-align: left;
   }
-  .nve__read-more:hover { opacity: 0.65; }
-  .nve__read-more:focus-visible { outline: 2px solid var(--cm-gold); outline-offset: 3px; }
-  .nve__read-more { color: var(--cm-gold); }
+  #val-{{ section.id }} .val--tipografica .val__name { font-size: clamp(36px, 6.5vw, 104px); }
+  #val-{{ section.id }} .val--tipografica .val__line { font-size: 16px; max-width: 46ch; }
 
-  .nve__modal {
-    border: none;
-    padding: 0;
-    width: calc(100% - 48px);
-    max-width: 480px;
-    max-height: 78vh;
-    background: var(--cm-off);
-    box-shadow: 0 28px 64px -16px rgba(0,0,0,0.4), 0 10px 28px -10px rgba(0,0,0,0.28);
-  }
-  .nve__modal::backdrop {
-    background: rgba(8,8,8,0.55);
-  }
-  .nve__modal[open] { animation: nveModalIn 0.25s cubic-bezier(0.22,1,0.36,1) both; }
-  .nve__modal[open]::backdrop { animation: nveModalFadeIn 0.25s ease both; }
-  @keyframes nveModalIn {
-    from { opacity: 0; transform: translateY(14px) scale(0.97); }
-    to   { opacity: 1; transform: translateY(0) scale(1); }
-  }
-  @keyframes nveModalFadeIn {
-    from { opacity: 0; }
-    to   { opacity: 1; }
-  }
-
-  .nve__modal-inner {
-    position: relative;
-    padding: clamp(32px, 8vw, 48px) clamp(24px, 6vw, 40px);
-    max-height: 78vh;
-    overflow-y: auto;
-  }
-
-  .nve__modal-close {
-    position: absolute;
-    top: 14px;
-    right: 14px;
-    width: 32px;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: none;
-    border: 1px solid rgba(0,41,75,0.18);
-    border-radius: 999px;
-    color: var(--cm-navy);
-    cursor: pointer;
-    transition: background-color 0.2s ease, transform 0.2s ease;
-  }
-  .nve__modal-close:hover { background: rgba(0,41,75,0.06); transform: rotate(90deg); }
-  .nve__modal-close:focus-visible { outline: 2px solid var(--cm-gold); outline-offset: 2px; }
-
-  .nve__modal .nve__eyebrow { margin-bottom: 18px; }
-  .nve__modal .nve__headline {
-    font-size: clamp(22px, 5vw, 30px);
-    color: var(--cm-navy);
-    margin-bottom: 20px;
-  }
-  .nve__modal .nve__body { color: var(--cm-text-mid); }
-
-  @media (prefers-reduced-motion: reduce) {
-    .nve__modal[open],
-    .nve__modal[open]::backdrop { animation: none; }
-  }
-
-  /* ── Grain helper ── */
-  .nve-grain::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
-    background-size: 180px;
-    pointer-events: none;
-    z-index: 2;
-  }
-
-  /* ─────────────────────────────────────────────────
-     LAYOUT: text-full
-     Full editorial text. Headline left / body right.
-     ───────────────────────────────────────────────── */
-  .nve__text-full {
-    position: relative;
-    background: #080808;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    padding: clamp(100px, 12vw, 160px) clamp(48px, 10vw, 140px);
-    overflow: hidden;
-  }
-
-  .nve__text-full__bg-img {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center center;
-    z-index: 0;
-  }
-
-  .nve__text-full-inner {
-    width: 100%;
-    max-width: 1200px;
-    position: relative;
-    z-index: 1;
-  }
-
-  .nve__text-full .nve__tf-grid {
-    display: grid;
-    grid-template-columns: 1fr 0.75fr;
-    gap: clamp(48px, 6vw, 100px);
-    align-items: start;
-  }
-
-  .nve__text-full .nve__headline {
-    font-size: clamp(48px, 6.5vw, 96px);
-    color: var(--cm-off);
-    margin-bottom: 0;
-  }
-
-  .nve__text-full__panel {
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    width: clamp(300px, 35%, 500px);
-    background: var(--cm-off);
-    padding: clamp(40px, 5vw, 64px) clamp(36px, 4vw, 56px);
-    z-index: 2;
-  }
-
-  .nve__text-full .nve__body {
-    color: var(--cm-text-mid);
-    padding-top: 0;
-    font-size: clamp(13px, 1.3vw, 15px);
-  }
-
-  /* ─────────────────────────────────────────────────
-     LAYOUT: centered
-     Centered editorial text, cream background.
-     ───────────────────────────────────────────────── */
-  .nve__centered {
-    position: relative;
-    background: var(--cm-off);
-    min-height: 56vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: clamp(56px, 7vw, 96px) clamp(24px, 8vw, 120px);
-    overflow: hidden;
-  }
-
-  .nve__centered__bg-img {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: 0;
-  }
-
-  .nve__centered__inner {
-    max-width: 640px;
-    position: relative;
-    z-index: 2;
-    background: rgba(250,246,239,0.72);
-    backdrop-filter: blur(20px) saturate(120%);
-    -webkit-backdrop-filter: blur(20px) saturate(120%);
-    border: 1px solid rgba(250,246,239,0.40);
-    border-radius: 4px;
-    padding: clamp(28px, 4vw, 48px) clamp(24px, 4vw, 44px);
-  }
-
-  .nve__centered .nve__eyebrow {
-    justify-content: center;
-    margin-bottom: 18px;
-  }
-
-  .nve__centered .nve__headline {
-    font-size: clamp(26px, 3.2vw, 42px);
-    color: var(--cm-navy);
-    max-width: 560px;
-    margin: 0 auto 20px;
-  }
-
-  .nve__centered .nve__body {
-    color: var(--cm-navy);
-    max-width: 560px;
-    margin: 0 auto;
-    font-weight: 350;
-  }
-
-  /* ── Mobile ── */
   @media (max-width: 900px) {
-    /* Clamp the on-card text to a few lines so a long value doesn't
-       turn the block into a wall of text; the full text opens in
-       the popup via "Leer más". */
-    .nve__text-full .nve__body,
-    .nve__centered .nve__body {
-      display: -webkit-box;
-      -webkit-box-orient: vertical;
-      -webkit-line-clamp: 4;
-      overflow: hidden;
-    }
-
-    .nve__read-more {
-      display: inline-block;
-    }
-
-    .nve__text-full {
-      padding: 80px 24px;
-      min-height: auto;
-    }
-
-    .nve__text-full .nve__tf-grid {
+    #val-{{ section.id }} .val__scene {
       grid-template-columns: 1fr;
-      gap: 36px;
+      padding-block: clamp(56px, 12vw, 90px);
+      row-gap: 26px;
     }
-
-    .nve__text-full .nve__headline {
-      font-size: clamp(40px, 9vw, 56px);
+    #val-{{ section.id }} .val__scene .val__media,
+    #val-{{ section.id }} .val__scene .val__text {
+      grid-column: 1 / -1 !important;
+      grid-row: auto !important;
     }
-
-    .nve__text-full__panel {
-      position: relative;
-      width: 100%;
-      padding: 48px 24px;
-      transform: none;
-      right: auto;
-      top: auto;
-      margin-top: 48px;
+    #val-{{ section.id }} .val__media {
+      order: 1;
+      margin-inline: calc(-1 * var(--pad)) !important;
+      aspect-ratio: 4 / 3 !important;
     }
-
-    .nve__centered {
-      padding: 56px 24px;
-      min-height: auto;
-    }
-
-    .nve__centered .nve__headline {
-      font-size: clamp(28px, 7vw, 38px);
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .sr-w { opacity: 1 !important; filter: none !important; }
+    #val-{{ section.id }} .val--columna .val__media { aspect-ratio: 4 / 5 !important; }
+    #val-{{ section.id }} .val__text { order: 2; }
+    #val-{{ section.id }} .val__num { margin-bottom: 10px; }
   }
 </style>
 
 <section
-  class="nve"
-  id="nve-{{ section.id }}"
-  aria-label="{{ section.settings.aria_label | default: 'Nuestros valores' }}"
+  id="val-{{ section.id }}"
+  class="val"
+  aria-label="{{ section.settings.aria_label | default: 'Nuestros valores' | escape }}"
 >
-
   {%- for block in section.blocks -%}
-
-    {%- if block.type == 'text-full' -%}
-    {%- comment -%} ── Layout: editorial text full width ── {%- endcomment -%}
-    <div class="nve__text-full" data-sr-block {{ block.shopify_attributes }}>
-      {%- if block.settings.background_image != blank -%}
-        {{ block.settings.background_image
-          | image_url: width: 2000, format: 'webp'
-          | image_tag:
-              class: 'nve__text-full__bg-img',
-              loading: 'lazy',
-              alt: block.settings.background_image.alt | escape
-        }}
-      {%- endif -%}
-      <div class="nve__text-full-inner">
-        {%- if block.settings.value_name != blank -%}
-          <p class="nve__eyebrow">{{ block.settings.value_name }}</p>
-        {%- endif -%}
-        <div class="nve__tf-grid">
-          {%- if block.settings.headline != blank -%}
-            <h2 class="nve__headline" data-sr-h>{{ block.settings.headline }}</h2>
-          {%- endif -%}
-        </div>
-      </div>
-      {%- if block.settings.body != blank -%}
-        <div class="nve__text-full__panel">
-          <div class="nve__body">{{ block.settings.body }}</div>
-          <button type="button" class="nve__read-more" data-nve-open="nve-modal-{{ block.id }}">Leer más</button>
+    {%- liquid
+      assign layout = block.settings.layout
+      if block.settings.image == blank
+        assign layout = 'tipografica'
+      endif
+    -%}
+    <article
+      class="val__scene val--{{ layout }} val--{{ block.settings.ground }}"
+      {{ block.shopify_attributes }}
+    >
+      {%- if layout != 'tipografica' and block.settings.image != blank -%}
+        <div class="val__media" data-cm-reveal>
+          {{ block.settings.image
+            | image_url: width: 2000, format: 'webp'
+            | image_tag:
+                loading: 'lazy',
+                sizes: '(max-width: 900px) 100vw, 60vw',
+                widths: '600, 900, 1300, 1700, 2000',
+                alt: block.settings.name | escape
+          }}
         </div>
       {%- endif -%}
-    </div>
-    {%- render 'nosotros-valor-modal', block: block -%}
 
-    {%- elsif block.type == 'centered' -%}
-    {%- comment -%} ── Layout: centered editorial text ── {%- endcomment -%}
-    <div class="nve__centered" data-sr-block {{ block.shopify_attributes }}>
-      {%- if block.settings.background_image != blank -%}
-        {{ block.settings.background_image
-          | image_url: width: 2000, format: 'webp'
-          | image_tag:
-              class: 'nve__centered__bg-img',
-              loading: 'lazy',
-              alt: block.settings.background_image.alt | escape
-        }}
-      {%- endif -%}
-      <div class="nve__centered__inner">
-        {%- if block.settings.value_name != blank -%}
-          <p class="nve__eyebrow">{{ block.settings.value_name }}</p>
+      <div class="val__text" data-cm-reveal data-cm-delay="1">
+        <span class="val__num">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+        {%- if block.settings.name != blank -%}
+          <h2 class="val__name">{{ block.settings.name }}</h2>
         {%- endif -%}
-        {%- if block.settings.headline != blank -%}
-          <h2 class="nve__headline" data-sr-h>{{ block.settings.headline }}</h2>
+        {%- if block.settings.line != blank -%}
+          <p class="val__line">{{ block.settings.line }}</p>
         {%- endif -%}
-        {%- if block.settings.body != blank -%}
-          <div class="nve__body">{{ block.settings.body }}</div>
-          <button type="button" class="nve__read-more" data-nve-open="nve-modal-{{ block.id }}">Leer más</button>
+        {%- if block.settings.meta != blank -%}
+          <p class="val__meta">{{ block.settings.meta }}</p>
         {%- endif -%}
       </div>
-    </div>
-    {%- render 'nosotros-valor-modal', block: block -%}
-
-    {%- endif -%}
-
+    </article>
   {%- endfor -%}
-
 </section>
-
-<script>
-(function() {
-  var sec = document.getElementById('nve-{{ section.id }}');
-  if (!sec) return;
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-  var BASE = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/';
-
-  function initReveal() {
-    if (!window.__nveGsapReg) {
-      gsap.registerPlugin(ScrollTrigger);
-      window.__nveGsapReg = true;
-    }
-
-    sec.querySelectorAll('[data-sr-h]').forEach(function(el) {
-      var text = el.textContent.trim();
-      if (!text) return;
-
-      var words = text.split(/(\s+)/);
-      el.innerHTML = words.map(function(w) {
-        if (/^\s+$/.test(w)) return ' ';
-        return '<span class="sr-w">' + w + '</span>';
-      }).join('');
-
-      var wordEls = el.querySelectorAll('.sr-w');
-      var trigger = el.closest('[data-sr-block]') || el;
-
-      gsap.fromTo(
-        wordEls,
-        { opacity: 0, filter: 'blur(6px)' },
-        {
-          opacity: 1,
-          filter: 'blur(0px)',
-          stagger: 0.05,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: trigger,
-            start: 'top 85%',
-            end: 'center 45%',
-            scrub: true
-          }
-        }
-      );
-    });
-  }
-
-  function loadScript(src, cb) {
-    var existing = document.querySelector('script[data-cm-src="' + src + '"]');
-    if (existing) {
-      if (window.__cmLoaded && window.__cmLoaded[src]) { cb(); return; }
-      existing.addEventListener('load', cb, { once: true });
-      return;
-    }
-    var s = document.createElement('script');
-    s.setAttribute('data-cm-src', src);
-    s.src = src;
-    s.onload = function() {
-      window.__cmLoaded = window.__cmLoaded || {};
-      window.__cmLoaded[src] = true;
-      cb();
-    };
-    document.head.appendChild(s);
-  }
-
-  if (window.gsap && window.ScrollTrigger) {
-    initReveal();
-  } else if (window.gsap) {
-    loadScript(BASE + 'ScrollTrigger.min.js', initReveal);
-  } else {
-    loadScript(BASE + 'gsap.min.js', function() {
-      loadScript(BASE + 'ScrollTrigger.min.js', initReveal);
-    });
-  }
-})();
-</script>
-
-<script>
-(function() {
-  var sec = document.getElementById('nve-{{ section.id }}');
-  if (!sec) return;
-
-  var supportsDialog = typeof HTMLDialogElement === 'function';
-
-  function openModal(dialog) {
-    if (!dialog) return;
-    if (supportsDialog && dialog.showModal) {
-      try { dialog.showModal(); return; } catch (e) {}
-    }
-    dialog.setAttribute('open', '');
-  }
-
-  function closeModal(dialog) {
-    if (!dialog) return;
-    if (supportsDialog && dialog.close) {
-      try { dialog.close(); return; } catch (e) {}
-    }
-    dialog.removeAttribute('open');
-  }
-
-  sec.querySelectorAll('[data-nve-open]').forEach(function(btn) {
-    var dialog = document.getElementById(btn.getAttribute('data-nve-open'));
-    if (!dialog) return;
-    btn.addEventListener('click', function() { openModal(dialog); });
-  });
-
-  sec.querySelectorAll('.nve__modal').forEach(function(dialog) {
-    dialog.querySelectorAll('[data-nve-close]').forEach(function(btn) {
-      btn.addEventListener('click', function() { closeModal(dialog); });
-    });
-    // Click on the backdrop (outside the inner panel) closes it too.
-    dialog.addEventListener('click', function(e) {
-      if (e.target === dialog) closeModal(dialog);
-    });
-  });
-})();
-</script>
 
 {% schema %}
 {
-  "name": "Valores — Editorial",
+  "name": "Nosotros — Valores",
   "tag": "section",
-  "max_blocks": 8,
+  "max_blocks": 6,
   "blocks": [
     {
-      "type": "text-full",
-      "name": "Texto editorial completo",
+      "type": "valor",
+      "name": "Valor",
       "settings": [
-        { "type": "image_picker", "id": "background_image", "label": "Imagen de fondo" },
-        { "type": "text",         "id": "value_name", "label": "Eyebrow",   "default": "Autenticidad" },
-        { "type": "text",         "id": "headline",   "label": "Titular",   "default": "Solo ponemos lo que creemos" },
-        { "type": "richtext",     "id": "body",       "label": "Texto",
-          "default": "<p>Trabajamos únicamente con lo que creemos. Si un producto no nos convence en la primera prueba, no llega a nuestra tienda.</p><p>La autenticidad no es un valor que se declara, es una práctica que se ejerce cada vez que decimos no a algo que no da la talla.</p>"
-        }
-      ]
-    },
-    {
-      "type": "centered",
-      "name": "Texto centrado",
-      "settings": [
-        { "type": "image_picker", "id": "background_image", "label": "Imagen de fondo" },
-        { "type": "text",         "id": "value_name", "label": "Eyebrow",   "default": "Imaginación" },
-        { "type": "text",         "id": "headline",   "label": "Titular",   "default": "La tradición y la innovación no son opuestos" },
-        { "type": "richtext",     "id": "body",       "label": "Texto",
-          "default": "<p>Son los dos extremos del mismo hilo. Llevamos generaciones aprendiendo de los productores y su saber hacer; al mismo tiempo, reinventamos cómo ese conocimiento llega a ti.</p><p>La imaginación es lo que transforma un legado en algo vivo.</p>"
+        {
+          "type": "richtext",
+          "id": "name",
+          "label": "Nombre del valor",
+          "info": "Usa cursiva para resaltar en dorado.",
+          "default": "<p>Solo ponemos <em>lo que creemos</em></p>"
+        },
+        {
+          "type": "textarea",
+          "id": "line",
+          "label": "Frase",
+          "info": "Corta. Dos o tres líneas como mucho.",
+          "default": "Si un producto no nos convence en la primera prueba, no llega a nuestra tienda."
+        },
+        { "type": "text", "id": "meta", "label": "Etiqueta inferior", "info": "Opcional.", "default": "Autenticidad" },
+        { "type": "image_picker", "id": "image", "label": "Imagen", "info": "Sin imagen, la escena queda solo tipográfica." },
+        {
+          "type": "select",
+          "id": "layout",
+          "label": "Composición",
+          "info": "Alterna para que ninguna escena se lea igual que la anterior.",
+          "options": [
+            { "value": "izq", "label": "Imagen desbordada a la izquierda" },
+            { "value": "der", "label": "Imagen desbordada a la derecha" },
+            { "value": "columna", "label": "Columna vertical con aire" },
+            { "value": "panoramica", "label": "Panorámica a todo el ancho" },
+            { "value": "tipografica", "label": "Solo tipografía" }
+          ],
+          "default": "izq"
+        },
+        {
+          "type": "select",
+          "id": "ground",
+          "label": "Fondo de la escena",
+          "options": [
+            { "value": "crema", "label": "Crema" },
+            { "value": "blanco", "label": "Blanco" },
+            { "value": "navy", "label": "Navy" },
+            { "value": "noche", "label": "Negro" }
+          ],
+          "default": "crema"
         }
       ]
     }
@@ -532,12 +256,12 @@
   ],
   "presets": [
     {
-      "name": "Valores — Editorial",
+      "name": "Nosotros — Valores",
       "blocks": [
-        { "type": "text-full" },
-        { "type": "centered" },
-        { "type": "text-full" },
-        { "type": "centered" }
+        { "type": "valor", "settings": { "layout": "izq", "ground": "crema" } },
+        { "type": "valor", "settings": { "layout": "der", "ground": "navy" } },
+        { "type": "valor", "settings": { "layout": "columna", "ground": "blanco" } },
+        { "type": "valor", "settings": { "layout": "panoramica", "ground": "noche" } }
       ]
     }
   ]

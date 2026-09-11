@@ -1,0 +1,87 @@
+{%- comment -%}
+  Sistema de aparición al hacer scroll, compartido por las secciones de Nosotros.
+
+  El contenido es visible por defecto: solo se oculta si el JS ha corrido y ha
+  marcado <html class="cm-js">. Así una carga sin JS (o un fallo del observer)
+  muestra la página entera en vez de dejar huecos en blanco.
+
+  Uso: {% render 'cm-reveal' %} una vez por sección, y data-cm-reveal en los
+  elementos que deban aparecer. data-cm-delay="1|2|3" escalona la entrada.
+{%- endcomment -%}
+
+{%- unless cm_reveal_rendered -%}
+<script>document.documentElement.classList.add('cm-js');</script>
+{%- endunless -%}
+
+<style>
+  html.cm-js [data-cm-reveal] {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 1s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
+  }
+  html.cm-js [data-cm-reveal].cm-in {
+    opacity: 1;
+    transform: none;
+  }
+  html.cm-js [data-cm-delay="1"] { transition-delay: 0.10s; }
+  html.cm-js [data-cm-delay="2"] { transition-delay: 0.20s; }
+  html.cm-js [data-cm-delay="3"] { transition-delay: 0.30s; }
+  html.cm-js [data-cm-delay="4"] { transition-delay: 0.40s; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html.cm-js [data-cm-reveal] {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+(function () {
+  if (window.__cmReveal) { window.__cmReveal.scan(); return; }
+
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function show(el) { el.classList.add('cm-in'); }
+
+  if (reduce || !('IntersectionObserver' in window)) {
+    window.__cmReveal = {
+      scan: function () {
+        document.querySelectorAll('[data-cm-reveal]').forEach(show);
+      }
+    };
+    window.__cmReveal.scan();
+    return;
+  }
+
+  // rootMargin generoso por abajo: el elemento aparece antes de entrar del todo,
+  // así a velocidad de scroll normal nunca se percibe como espacio vacío.
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      show(e.target);
+      io.unobserve(e.target);
+    });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.01 });
+
+  window.__cmReveal = {
+    scan: function () {
+      document.querySelectorAll('[data-cm-reveal]:not(.cm-in)').forEach(function (el) {
+        // Lo que ya está en pantalla al cargar se muestra sin esperar al scroll.
+        if (el.getBoundingClientRect().top < window.innerHeight) { show(el); return; }
+        io.observe(el);
+      });
+    }
+  };
+
+  window.__cmReveal.scan();
+
+  // El editor de temas inyecta secciones sin recargar la página.
+  document.addEventListener('shopify:section:load', function () { window.__cmReveal.scan(); });
+})();
+</script>
+
+{%- assign cm_reveal_rendered = true -%}

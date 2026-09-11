@@ -1,237 +1,326 @@
+{%- comment -%}
+  Nosotros — Historia
+  Imagen a gran escala desbordada hasta el borde del viewport, con el texto
+  fragmentado a su alrededor en bloques cortos: etiqueta, titular, dos frases,
+  un dato aislado y una cita. Sin marco ni recuadro: la foto no va contenida.
+{%- endcomment -%}
+
+{%- liquid
+  assign s = section.settings
+  assign pos_x = s.image_pos_x | default: 50
+  assign pos_y = s.image_pos_y | default: 50
+-%}
+
+{% render 'cm-reveal' %}
+
 <style>
-  .nso {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    min-height: 50vh;
-    background: var(--cm-off);
-    border-bottom: 1px solid var(--cm-border);
-  }
-
-  .nso__image-col {
-    position: relative;
+  #nso-{{ section.id }} {
+    --nso-pad: clamp(24px, 5vw, 72px);
+    background: {% if s.theme == 'dark' %}var(--cm-navy){% else %}var(--cm-off){% endif %};
+    --nso-ink:   {% if s.theme == 'dark' %}var(--cm-off){% else %}var(--cm-navy){% endif %};
+    --nso-muted: {% if s.theme == 'dark' %}rgba(250,246,239,0.6){% else %}var(--cm-text-mid){% endif %};
+    --nso-hair:  {% if s.theme == 'dark' %}rgba(250,246,239,0.16){% else %}var(--cm-border){% endif %};
+    padding-block: clamp(64px, 9vw, 140px);
+    padding-inline: var(--nso-pad);
     overflow: hidden;
-    min-height: 380px;
   }
 
-  .nso__image-col img {
-    position: absolute;
-    inset: 0;
+  #nso-{{ section.id }} .nso__grid {
+    max-width: 1320px;
+    margin-inline: auto;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    column-gap: clamp(24px, 4vw, 64px);
+    row-gap: clamp(32px, 5vw, 64px);
+    align-items: start;
+  }
+
+  /* imagen: rompe hasta el borde del viewport */
+  #nso-{{ section.id }} .nso__media {
+    grid-column: {% if s.media_side == 'right' %}7 / span 6{% else %}1 / span 6{% endif %};
+    grid-row: 1 / span 2;
+    aspect-ratio: {{ s.ratio }};
+    overflow: hidden;
+    {% if s.media_side == 'right' %}
+      margin-right: calc(-1 * var(--nso-pad));
+    {% else %}
+      margin-left: calc(-1 * var(--nso-pad));
+    {% endif %}
+  }
+  #nso-{{ section.id }} .nso__media img {
+    display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: {{ section.settings.image_pos_x | default: 50 }}% {{ section.settings.image_pos_y | default: 50 }}%;
+    object-position: {{ pos_x }}% {{ pos_y }}%;
   }
 
-  .nso__image-placeholder {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(145deg, var(--cm-navy) 0%, #001a30 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  /* bloque de texto principal */
+  #nso-{{ section.id }} .nso__text {
+    grid-column: {% if s.media_side == 'right' %}1 / span 5{% else %}8 / span 5{% endif %};
+    grid-row: 1;
   }
 
-
-  .nso__content {
-    padding: clamp(64px, 8vw, 112px) clamp(48px, 7vw, 96px);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    position: relative;
-    overflow: hidden;
+  /* dato aislado, debajo del texto */
+  #nso-{{ section.id }} .nso__aside {
+    grid-column: {% if s.media_side == 'right' %}1 / span 5{% else %}8 / span 5{% endif %};
+    grid-row: 2;
+    align-self: end;
   }
 
-  .nso__inner { position: relative; z-index: 1; }
-
-  .nso__eyebrow {
+  #nso-{{ section.id }} .nso__eyebrow {
     font-family: var(--cm-font-sans);
     font-size: 9px;
     font-weight: 500;
-    letter-spacing: 0.5em;
+    letter-spacing: 0.55em;
     text-transform: uppercase;
     color: var(--cm-gold);
-    margin-bottom: 20px;
+    margin: 0 0 22px;
   }
 
-  .nso__title {
+  #nso-{{ section.id }} .nso__title {
     font-family: var(--cm-font-serif);
-    font-size: clamp(28px, 3.5vw, 48px);
-    font-weight: 400;
-    color: var(--cm-navy);
-    line-height: 1.2;
-    margin-bottom: 28px;
+    font-weight: 300;
+    font-size: clamp(28px, 3.8vw, 54px);
+    line-height: 1.12;
+    letter-spacing: -0.01em;
+    color: var(--nso-ink);
+    margin: 0 0 28px;
+    text-wrap: balance;
   }
+  #nso-{{ section.id }} .nso__title em { font-style: italic; color: var(--cm-gold); }
 
-  .nso__body {
+  #nso-{{ section.id }} .nso__body {
     font-family: var(--cm-font-sans);
-    font-size: 14.5px;
-    line-height: 1.9;
-    color: var(--cm-text-mid);
-    margin-bottom: 48px;
-    max-width: 480px;
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.85;
+    color: var(--nso-muted);
+    max-width: 44ch;
+  }
+  #nso-{{ section.id }} .nso__body p { margin: 0 0 1.2em; }
+  #nso-{{ section.id }} .nso__body p:last-child { margin-bottom: 0; }
+  #nso-{{ section.id }} .nso__body strong { font-weight: 500; color: var(--nso-ink); }
+
+  /* el dato */
+  #nso-{{ section.id }} .nso__dato {
+    padding-top: 26px;
+    border-top: 1px solid var(--nso-hair);
+  }
+  #nso-{{ section.id }} .nso__dato-value {
+    display: block;
+    font-family: var(--cm-font-serif);
+    font-weight: 300;
+    font-size: clamp(34px, 4.6vw, 62px);
+    line-height: 1;
+    color: var(--nso-ink);
+    margin-bottom: 12px;
+  }
+  #nso-{{ section.id }} .nso__dato-label {
+    font-family: var(--cm-font-sans);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.34em;
+    text-transform: uppercase;
+    color: var(--cm-gold);
+    margin: 0;
   }
 
-  .nso__body p { margin-bottom: 16px; }
-  .nso__body p:last-child { margin-bottom: 0; }
-
-  .nso__quote {
+  /* la cita */
+  #nso-{{ section.id }} .nso__quote {
+    margin-top: clamp(28px, 3.5vw, 44px);
     display: flex;
-    gap: 20px;
+    gap: 18px;
     align-items: flex-start;
-    max-width: 480px;
-    margin-top: 40px;
-    padding-top: 40px;
-    border-top: 1px solid var(--cm-border);
   }
-
-  .nso__quote-rule {
+  #nso-{{ section.id }} .nso__quote span {
     flex-shrink: 0;
-    width: 28px;
+    width: 26px;
     height: 1px;
     margin-top: 14px;
     background: var(--cm-gold);
   }
-
-  .nso__quote-text {
+  #nso-{{ section.id }} .nso__quote p {
     font-family: var(--cm-font-serif);
     font-style: italic;
-    font-size: clamp(19px, 1.9vw, 24px);
+    font-weight: 300;
+    font-size: clamp(18px, 1.9vw, 24px);
     line-height: 1.4;
-    color: var(--cm-navy);
+    color: var(--nso-ink);
+    margin: 0;
+    max-width: 30ch;
   }
 
-  .nso .cm-reveal {
-    opacity: 0;
-    transform: translateY(32px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
-  }
-  .nso .cm-reveal.is-visible { opacity: 1; transform: none; }
-  .nso .cm-reveal--d1 { transition-delay: 0.15s; }
-  .nso .cm-reveal--d2 { transition-delay: 0.3s; }
-  .nso .cm-reveal--d3 { transition-delay: 0.45s; }
-
-  @media (prefers-reduced-motion: reduce) {
-    .nso .cm-reveal { opacity: 1; transform: none; transition: none; }
-  }
-
-  @media (max-width: 1023px) {
-    .nso { grid-template-columns: 1fr; }
-    .nso__image-col { min-height: 0; height: 340px; }
-    .nso__content { padding: 56px 40px; }
-  }
-
-  @media (max-width: 767px) {
-    .nso__image-col { height: 260px; }
-    .nso__content { padding: 48px 24px; }
+  @media (max-width: 900px) {
+    #nso-{{ section.id }} .nso__grid {
+      grid-template-columns: 1fr;
+      row-gap: 30px;
+    }
+    #nso-{{ section.id }} .nso__media {
+      grid-column: 1 / -1;
+      grid-row: 1;
+      margin-inline: calc(-1 * var(--nso-pad));
+      aspect-ratio: {{ s.ratio_mobile }};
+    }
+    #nso-{{ section.id }} .nso__text  { grid-column: 1 / -1; grid-row: 2; }
+    #nso-{{ section.id }} .nso__aside { grid-column: 1 / -1; grid-row: 3; }
   }
 </style>
 
-<section class="nso" id="nso-{{ section.id }}">
+<section id="nso-{{ section.id }}" class="nso">
+  <div class="nso__grid">
 
-  <div class="nso__image-col">
-    {%- if section.settings.image != blank -%}
-      {{ section.settings.image
-        | image_url: width: 1200, format: 'webp'
-        | image_tag:
-            loading: 'lazy',
-            alt: section.settings.image.alt | escape
-      }}
-    {%- else -%}
-      <div class="nso__image-placeholder" aria-hidden="true"></div>
-    {%- endif -%}
-  </div>
+    <div class="nso__media" data-cm-reveal>
+      {%- if s.image != blank -%}
+        {{ s.image
+          | image_url: width: 1800, format: 'webp'
+          | image_tag:
+              loading: 'lazy',
+              sizes: '(max-width: 900px) 100vw, 55vw',
+              widths: '600, 900, 1300, 1800',
+              alt: s.image.alt | escape
+        }}
+      {%- endif -%}
+    </div>
 
-  <div class="nso__content">
-    <div class="nso__inner">
-      {%- if section.settings.eyebrow != blank -%}
-        <p class="nso__eyebrow cm-reveal">{{ section.settings.eyebrow }}</p>
+    <div class="nso__text" data-cm-reveal data-cm-delay="1">
+      {%- if s.eyebrow != blank -%}
+        <p class="nso__eyebrow">{{ s.eyebrow }}</p>
+      {%- endif -%}
+      {%- if s.title != blank -%}
+        <h2 class="nso__title">{{ s.title }}</h2>
+      {%- endif -%}
+      {%- if s.body != blank -%}
+        <div class="nso__body">{{ s.body }}</div>
+      {%- endif -%}
+    </div>
+
+    <div class="nso__aside" data-cm-reveal data-cm-delay="2">
+      {%- if s.dato_value != blank -%}
+        <div class="nso__dato">
+          <span class="nso__dato-value">{{ s.dato_value }}</span>
+          {%- if s.dato_label != blank -%}
+            <p class="nso__dato-label">{{ s.dato_label }}</p>
+          {%- endif -%}
+        </div>
       {%- endif -%}
 
-      <h2 class="nso__title cm-reveal cm-reveal--d1">{{ section.settings.title | default: 'Todo empezó con una convicción' }}</h2>
-
-      {%- if section.settings.body != blank -%}
-        <div class="nso__body cm-reveal cm-reveal--d2">{{ section.settings.body }}</div>
-      {%- endif -%}
-
-      {%- if section.settings.quote != blank -%}
-        <div class="nso__quote cm-reveal cm-reveal--d3">
-          <span class="nso__quote-rule" aria-hidden="true"></span>
-          <p class="nso__quote-text">{{ section.settings.quote }}</p>
+      {%- if s.quote != blank -%}
+        <div class="nso__quote">
+          <span aria-hidden="true"></span>
+          <p>{{ s.quote }}</p>
         </div>
       {%- endif -%}
     </div>
+
   </div>
-
 </section>
-
-<script>
-(function() {
-  var sec = document.getElementById('nso-{{ section.id }}');
-  if (!sec) return;
-  var obs = new IntersectionObserver(function(entries) {
-    entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('is-visible'); });
-  }, { threshold: 0.15 });
-  sec.querySelectorAll('.cm-reveal').forEach(function(el) { obs.observe(el); });
-})();
-</script>
 
 {% schema %}
 {
-  "name": "Nosotros — Origen",
+  "name": "Nosotros — Historia",
   "tag": "section",
   "settings": [
+    {
+      "type": "header",
+      "content": "Fotografía"
+    },
     { "type": "image_picker", "id": "image", "label": "Imagen" },
+    {
+      "type": "select",
+      "id": "media_side",
+      "label": "Lado de la imagen",
+      "options": [
+        { "value": "left", "label": "Izquierda" },
+        { "value": "right", "label": "Derecha" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "ratio",
+      "label": "Proporción (escritorio)",
+      "options": [
+        { "value": "4 / 5", "label": "Vertical 4:5" },
+        { "value": "1 / 1", "label": "Cuadrada" },
+        { "value": "4 / 3", "label": "Horizontal 4:3" },
+        { "value": "3 / 2", "label": "Horizontal 3:2" }
+      ],
+      "default": "4 / 3"
+    },
+    {
+      "type": "select",
+      "id": "ratio_mobile",
+      "label": "Proporción (móvil)",
+      "options": [
+        { "value": "4 / 5", "label": "Vertical 4:5" },
+        { "value": "1 / 1", "label": "Cuadrada" },
+        { "value": "4 / 3", "label": "Horizontal 4:3" }
+      ],
+      "default": "4 / 3"
+    },
     {
       "type": "range",
       "id": "image_pos_x",
-      "label": "Posición horizontal imagen",
-      "info": "0% = izquierda · 50% = centro · 100% = derecha",
-      "min": 0,
-      "max": 100,
-      "step": 5,
-      "default": 70,
-      "unit": "%"
+      "label": "Posición horizontal",
+      "info": "0% = izquierda · 100% = derecha",
+      "min": 0, "max": 100, "step": 5, "default": 50, "unit": "%"
     },
     {
       "type": "range",
       "id": "image_pos_y",
-      "label": "Posición vertical imagen",
-      "info": "0% = arriba · 50% = centro · 100% = abajo",
-      "min": 0,
-      "max": 100,
-      "step": 5,
-      "default": 50,
-      "unit": "%"
+      "label": "Posición vertical",
+      "info": "0% = arriba · 100% = abajo",
+      "min": 0, "max": 100, "step": 5, "default": 50, "unit": "%"
     },
     {
-      "type": "text",
-      "id": "eyebrow",
-      "label": "Etiqueta superior",
-      "default": "Nuestra historia"
+      "type": "header",
+      "content": "Texto"
     },
+    { "type": "text", "id": "eyebrow", "label": "Etiqueta superior", "default": "Nuestra historia" },
     {
-      "type": "text",
+      "type": "richtext",
       "id": "title",
-      "label": "Título",
-      "default": "Todo empezó con una convicción"
+      "label": "Titular",
+      "default": "<p>Todo empezó con <em>una convicción</em></p>"
     },
     {
       "type": "richtext",
       "id": "body",
       "label": "Texto",
-      "default": "<p>Somos una familia que lleva tres generaciones viviendo los ibéricos desde dentro. No desde la teoría, sino desde el campo, desde las bodegas, desde el conocimiento acumulado de quien ha pasado décadas aprendiendo a distinguir lo bueno de lo excepcional.</p><p>Cuando decidimos llevar ese conocimiento a una tienda online, nos hicimos una sola pregunta: ¿venderíamos esto a un amigo? Si la respuesta es sí, entra al catálogo. Si hay alguna duda, no entra. Así de simple. Así de exigente.</p>"
+      "info": "Fragmentado en frases cortas. No un bloque largo.",
+      "default": "<p>Casa Maravillas nace para acercar una selección única de ibéricos y productos gourmet de forma sencilla y directa: <strong>nos desplazamos al origen</strong> en busca de las mejores piezas del mercado.</p>"
     },
+    {
+      "type": "header",
+      "content": "Dato destacado"
+    },
+    { "type": "text", "id": "dato_value", "label": "Dato", "default": "Tres" },
+    { "type": "text", "id": "dato_label", "label": "Etiqueta del dato", "default": "Generaciones eligiendo" },
     {
       "type": "text",
       "id": "quote",
-      "label": "Cita destacada",
-      "info": "Frase corta que cierra la sección.",
+      "label": "Cita",
       "default": "Vamos al origen porque ahí está la verdad del producto."
+    },
+    {
+      "type": "header",
+      "content": "Composición"
+    },
+    {
+      "type": "select",
+      "id": "theme",
+      "label": "Fondo",
+      "options": [
+        { "value": "light", "label": "Crema" },
+        { "value": "dark", "label": "Navy" }
+      ],
+      "default": "light"
     }
   ],
   "presets": [
     {
-      "name": "Nosotros — Origen"
+      "name": "Nosotros — Historia"
     }
   ]
 }

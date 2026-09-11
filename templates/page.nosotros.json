@@ -13,23 +13,75 @@
       "type": "nosotros-hero",
       "settings": {
         "image": "shopify://shop_images/WhatsApp_Image_2026-09-03_at_17.18.44.jpg",
-        "eyebrow": "Nuestra historia",
-        "title": "",
-        "subtitle": "",
+        "ratio": "3 / 2",
+        "max_height": 88,
+        "ratio_mobile": "4 / 3",
+        "max_height_mobile": 80,
         "image_pos_x": 50,
-        "image_pos_y": 35
+        "image_pos_y": 35,
+        "ken_burns": true,
+        "eyebrow": "Nuestra historia",
+        "title": "Tres generaciones eligiendo lo mejor del campo ibérico",
+        "subtitle": "",
+        "align": "left",
+        "measure": 20,
+        "size_vw": 4.5,
+        "size_max": 68,
+        "overlay": 70
+      }
+    },
+    "tesis": {
+      "type": "nosotros-statement",
+      "settings": {
+        "eyebrow": "El valor de elegir bien",
+        "heading": "<p>No vendemos todo. Seleccionamos lo que <em>merece llevar nuestro nombre.</em></p>",
+        "note": "",
+        "theme": "light",
+        "align": "center",
+        "measure": 22,
+        "size_min": 32,
+        "size_vw": 5.5,
+        "size_max": 82,
+        "space_top": 180,
+        "space_bottom": 180
       }
     },
     "origen": {
       "type": "nosotros-origen",
       "settings": {
         "image": "shopify://shop_images/generated_image_5a0a578b-6d60-4490-95a7-3513e4a247bf.png",
+        "media_side": "left",
+        "ratio": "4 / 3",
+        "ratio_mobile": "4 / 3",
         "image_pos_x": 25,
         "image_pos_y": 50,
         "eyebrow": "Nuestra historia",
-        "title": "Todo empezó con una convicción",
-        "body": "<p>Casa Maravillas nace con el objetivo de acercar a nuestros clientes y consumidores una selección única de ibéricos y productos gourmet de una manera sencilla y directa, ya que nos desplazamos al origen en busca de las mejores piezas del mercado. </p>",
-        "quote": "Vamos al origen porque ahí está la verdad del producto."
+        "title": "<p>Todo empezó con <em>una convicción</em></p>",
+        "body": "<p>Casa Maravillas nace para acercar una selección única de ibéricos y productos gourmet de forma sencilla y directa: <strong>nos desplazamos al origen</strong> en busca de las mejores piezas del mercado.</p>",
+        "dato_value": "Tres",
+        "dato_label": "Generaciones eligiendo",
+        "quote": "Vamos al origen porque ahí está la verdad del producto.",
+        "theme": "light"
+      }
+    },
+    "territorio": {
+      "type": "nosotros-escena",
+      "settings": {
+        "image": "shopify://shop_images/2.png",
+        "image_pos_x": 50,
+        "image_pos_y": 50,
+        "parallax": true,
+        "eyebrow": "La dehesa",
+        "line": "<p>Aquí no empieza un producto. <em>Empieza un tiempo.</em></p>",
+        "text_h": "left",
+        "text_v": "bottom",
+        "measure": 18,
+        "size_vw": 4.5,
+        "size_max": 64,
+        "overlay": 55,
+        "height": 82,
+        "height_min": 520,
+        "height_mobile": 70
       }
     },
     "proceso": {
@@ -38,6 +90,7 @@
         "step-1": {
           "type": "step",
           "settings": {
+            "image": "shopify://shop_images/1.png",
             "title": "La Dehesa",
             "description": "El ecosistema donde nace todo. Encinas centenarias, suelo fértil, espacio sin límites para el animal que lo llena todo."
           }
@@ -45,6 +98,7 @@
         "step-2": {
           "type": "step",
           "settings": {
+            "image": "shopify://shop_images/Gemini_Generated_Image_i1ftvxi1ftvxi1ft.png",
             "title": "La Raza",
             "description": "Ibérico puro. Sin cruzamientos que comprometan el sabor o la calidad. La raza define el potencial; todo lo demás es la forma de alcanzarlo."
           }
@@ -52,20 +106,23 @@
         "step-3": {
           "type": "step",
           "settings": {
+            "image": "shopify://shop_images/generated_image_6578f43c-d59b-470b-84d5-532b31e5be4c.png",
             "title": "La Montanera",
-            "description": "Cada otoño, los cerdos pastan libremente bajo las encinas. Las bellotas hacen el resto: esa grasa infiltrada característica que no se puede imitar."
+            "description": "Cada otoño, los cerdos pastan libremente bajo las encinas. Las bellotas hacen el resto: esa grasa infiltrada que no se puede imitar."
           }
         },
         "step-4": {
           "type": "step",
           "settings": {
+            "image": "shopify://shop_images/ChatGPT_Image_Jun_27_2026_02_12_26_PM.png",
             "title": "La Maduración",
-            "description": "Más de 36 meses en bodega. La paciencia es el ingrediente que no se puede comprar. El tiempo transforma la materia prima en algo irremplazable."
+            "description": "El tiempo que cada pieza necesita en bodega. La paciencia es el ingrediente que no se puede comprar."
           }
         },
         "step-5": {
           "type": "step",
           "settings": {
+            "image": "shopify://shop_images/IMG_1752.png",
             "title": "Nuestra Selección",
             "description": "Visitamos, probamos, comparamos. Solo elegimos lo que nosotros mismos compraríamos. Si hay dudas, la respuesta es no."
           }
@@ -73,8 +130,9 @@
         "step-6": {
           "type": "step",
           "settings": {
+            "image": "shopify://shop_images/generated_image_2bbb6d13-9e22-4c61-95bc-9a0cbf08f6c4.png",
             "title": "Tu Mesa",
-            "description": "El momento para el que todo existe. El disfrute que justifica cada paso anterior, cada decisión tomada con exigencia a lo largo del camino."
+            "description": "El momento para el que todo existe. El disfrute que justifica cada decisión tomada por el camino."
           }
         }
       },
@@ -88,7 +146,11 @@
       ],
       "settings": {
         "eyebrow": "El proceso de selección",
-        "title": "De la dehesa a tu mesa"
+        "title": "<p>De la dehesa <em>a tu mesa</em></p>",
+        "theme": "light",
+        "media_side": "right",
+        "ratio": "4 / 5",
+        "ratio_mobile": "4 / 3"
       }
     },
     "marquee_strip_a4m4DP": {
@@ -99,55 +161,184 @@
         "text_exterior": "Jamón Ibérico de Bellota | Embutidos Artesanales | Packs Regalo | Envío Internacional | Tres Generaciones | Calidad Garantizada | Dehesa Española"
       }
     },
-    "valores": {
-      "type": "nosotros-valores-editorial",
+    "niveles": {
+      "type": "nosotros-statement",
       "blocks": {
-        "valor-autenticidad": {
-          "type": "text-full",
-          "name": "Autenticidad",
+        "nivel-bronce": {
+          "type": "dato",
           "settings": {
-            "background_image": "shopify://shop_images/ChatGPT_Image_Jun_27_2026_02_12_26_PM.png",
-            "value_name": "Autenticidad",
-            "headline": "Solo ponemos lo que creemos",
-            "body": "<p>Trabajamos únicamente con lo que creemos. Si un producto no nos convence en la primera prueba, no llega a nuestra tienda. Así de simple y así de exigente.</p><p>La autenticidad no es un valor que se declara, es una práctica que se ejerce cada vez que decimos no a algo que no da la talla. Y decimos no con mucha más frecuencia de lo que decimos sí.</p>"
+            "value": "Bronce",
+            "label": "Cebo de Campo",
+            "meta": "Precinto verde",
+            "accent": "#4A7C3F"
           }
         },
-        "valor-respeto": {
-          "type": "centered",
-          "name": "Respeto",
+        "nivel-plata": {
+          "type": "dato",
           "settings": {
-            "background_image": "shopify://shop_images/generated_image_6578f43c-d59b-470b-84d5-532b31e5be4c.png",
-            "value_name": "Respeto",
-            "headline": "Un equilibrio que no se puede romper",
-            "body": "<p>El ibérico nace de un equilibrio: entre el animal y su entorno, entre el productor y su tierra, entre nosotros y el cliente. Cualquier paso en falso rompe ese equilibrio.</p><p>Por eso el respeto no es solo una palabra en nuestro vocabulario — es la razón de que trabajemos con los productores que trabajamos, de que cuidemos el envío como cuidamos la selección, de que tratemos cada pedido como si fuera el primero.</p>"
+            "value": "Plata",
+            "label": "Bellota 50% Ibérico",
+            "meta": "Precinto rojo",
+            "accent": "#9B2226"
           }
         },
-        "valor-exigencia": {
-          "type": "text-full",
-          "name": "Exigencia",
+        "nivel-oro": {
+          "type": "dato",
           "settings": {
-            "background_image": "shopify://shop_images/generated_image_2bbb6d13-9e22-4c61-95bc-9a0cbf08f6c4.png",
-            "value_name": "Exigencia",
-            "headline": "Sin excepciones y sin excusas",
-            "body": "<p>Exigimos lo mismo en la selección del producto, en el proceso de envasado, en la logística del envío. El resultado en tu mesa tiene que estar a la altura de la expectativa que crea el primer bocado.</p><p>No es perfeccionismo. Es el respeto mínimo que merece alguien que ha depositado su confianza en nosotros. Cuando algo no llega al nivel, lo decimos. Y lo arreglamos.</p>"
-          }
-        },
-        "valor-imaginacion": {
-          "type": "centered",
-          "name": "Imaginación",
-          "settings": {
-            "background_image": "shopify://shop_images/generated_image.jpg",
-            "value_name": "Imaginación",
-            "headline": "La tradición y la innovación no son opuestos",
-            "body": "<p>Son los dos extremos del mismo hilo. Honramos el conocimiento de quienes llevan generaciones perfeccionando el arte del ibérico, mientras imaginamos nuevas formas de acercarlo a las personas.</p><p>La imaginación es nuestro motor de evolución. Es lo que nos permite transformar la tradición en experiencia, el producto en descubrimiento y la compra en un momento memorable. Porque creemos que el futuro del ibérico no consiste en cambiar su esencia, sino en encontrar nuevas maneras de hacerla relevante, cercana y extraordinaria.</p>"
+            "value": "Oro",
+            "label": "Bellota 100% Ibérico",
+            "meta": "Precinto negro",
+            "accent": "#1A1A1A"
           }
         }
       },
       "block_order": [
-        "valor-autenticidad",
-        "valor-respeto",
-        "valor-exigencia",
-        "valor-imaginacion"
+        "nivel-bronce",
+        "nivel-plata",
+        "nivel-oro"
+      ],
+      "settings": {
+        "eyebrow": "Tres niveles de selección",
+        "heading": "<p>No hay un solo estándar. <em>Hay tres.</em></p>",
+        "note": "El precinto marca la categoría legal. Nuestro nivel dice qué lugar ocupa esa pieza dentro de lo que nosotros aceptamos.",
+        "theme": "dark",
+        "align": "center",
+        "measure": 24,
+        "size_min": 30,
+        "size_vw": 4.5,
+        "size_max": 66,
+        "space_top": 150,
+        "space_bottom": 150
+      }
+    },
+    "criterio": {
+      "type": "nosotros-criterio",
+      "blocks": {
+        "c1": {
+          "type": "principio",
+          "settings": {
+            "name": "Origen y raza",
+            "line": "De qué dehesa viene y qué porcentaje de ibérico tiene. Sin cruces que comprometan el resultado.",
+            "meta": "",
+            "layout": "texto"
+          }
+        },
+        "c2": {
+          "type": "principio",
+          "settings": {
+            "name": "Alimentación",
+            "line": "Montanera real: bellota y hierba en libertad durante la última fase de engorde.",
+            "meta": "",
+            "image": "shopify://shop_images/ChatGPT_Image_Jun_4_2026_12_27_24_PM.png",
+            "layout": "panorama"
+          }
+        },
+        "c3": {
+          "type": "principio",
+          "settings": {
+            "name": "Curación",
+            "line": "El tiempo que cada pieza necesita en bodega. Ni un mes menos por acelerar la venta.",
+            "meta": "",
+            "layout": "texto"
+          }
+        },
+        "c4": {
+          "type": "principio",
+          "settings": {
+            "name": "Conformación y grasa",
+            "line": "La forma de la pieza y cómo está infiltrada la grasa. Se ve mucho antes de probarla.",
+            "meta": "",
+            "image": "shopify://shop_images/Untitled_design_1_84471d21-82dc-4e53-b6f8-e324772ffbb9.png",
+            "layout": "detalle"
+          }
+        },
+        "c5": {
+          "type": "principio",
+          "settings": {
+            "name": "Aroma, textura y sabor",
+            "line": "La cata. Aquí se confirma o se descarta lo que prometía todo lo anterior.",
+            "meta": "",
+            "image": "shopify://shop_images/embutidos.3.png",
+            "layout": "retrato"
+          }
+        },
+        "c6": {
+          "type": "principio",
+          "settings": {
+            "name": "Rendimiento y regularidad",
+            "line": "Cuánto aprovecha quien la compra, y que la siguiente pieza esté a la misma altura.",
+            "meta": "",
+            "layout": "texto"
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3",
+        "c4",
+        "c5",
+        "c6"
+      ],
+      "settings": {
+        "eyebrow": "El criterio Casa Maravillas",
+        "title": "<p>Qué miramos antes de <em>decir que sí</em></p>",
+        "closing": "¿Lo pondríamos en nuestra propia mesa?",
+        "theme": "light"
+      }
+    },
+    "valores": {
+      "type": "nosotros-valores-editorial",
+      "blocks": {
+        "v1": {
+          "type": "valor",
+          "settings": {
+            "name": "<p>Solo ponemos <em>lo que creemos</em></p>",
+            "line": "Si un producto no nos convence en la primera prueba, no llega a nuestra tienda. Decimos que no con mucha más frecuencia de la que decimos que sí.",
+            "meta": "Autenticidad",
+            "image": "shopify://shop_images/CASAMARAVILLAS__2.jpg",
+            "layout": "columna",
+            "ground": "blanco"
+          }
+        },
+        "v2": {
+          "type": "valor",
+          "settings": {
+            "name": "<p>Un equilibrio que <em>no se puede romper</em></p>",
+            "line": "Entre el animal y su entorno, entre el productor y su tierra, entre nosotros y quien recibe el pedido.",
+            "meta": "Respeto",
+            "layout": "tipografica",
+            "ground": "navy"
+          }
+        },
+        "v3": {
+          "type": "valor",
+          "settings": {
+            "name": "<p>Sin excepciones y <em>sin excusas</em></p>",
+            "line": "El mismo estándar en la selección, en el envasado y en la logística. Cuando algo no llega al nivel, lo decimos y lo arreglamos.",
+            "meta": "Exigencia",
+            "image": "shopify://shop_images/JAMONES_banner.png",
+            "layout": "izq",
+            "ground": "crema"
+          }
+        },
+        "v4": {
+          "type": "valor",
+          "settings": {
+            "name": "<p>La tradición y la innovación <em>no son opuestos</em></p>",
+            "line": "Son los dos extremos del mismo hilo: honramos el saber de generaciones mientras buscamos nuevas formas de acercarlo.",
+            "meta": "Imaginación",
+            "image": "shopify://shop_images/ChatGPT_Image_Jun_16_2026_05_56_09_PM.png",
+            "layout": "panoramica",
+            "ground": "noche"
+          }
+        }
+      },
+      "block_order": [
+        "v1",
+        "v2",
+        "v3",
+        "v4"
       ],
       "settings": {
         "aria_label": "Nuestros valores"
@@ -156,7 +347,7 @@
     "manifesto": {
       "type": "nosotros-manifesto",
       "settings": {
-        "image": "shopify://shop_images/1.png",
+        "image": "shopify://shop_images/generated_image.jpg",
         "image_pos_x": 50,
         "image_pos_y": 100,
         "image_zoom": 120,
@@ -175,9 +366,13 @@
   },
   "order": [
     "hero",
+    "tesis",
     "origen",
+    "territorio",
     "proceso",
     "marquee_strip_a4m4DP",
+    "niveles",
+    "criterio",
     "valores",
     "manifesto"
   ]
