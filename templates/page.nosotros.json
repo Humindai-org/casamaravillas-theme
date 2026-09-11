@@ -44,7 +44,7 @@
       ],
       "settings": {
         "image": "shopify://shop_images/generated_image_5a0a578b-6d60-4490-95a7-3513e4a247bf.png",
-        "image_pos_x": 70,
+        "image_pos_x": 25,
         "image_pos_y": 50,
         "eyebrow": "Nuestra historia",
         "title": "Todo empezó con una convicción",
@@ -111,10 +111,12 @@
         "title": "De la dehesa a tu mesa"
       }
     },
-    "filmstrip": {
-      "type": "nosotros-filmstrip",
+    "marquee_strip_a4m4DP": {
+      "type": "marquee-strip",
+      "name": "Banda marquee",
       "settings": {
-        "speed": 40
+        "text_peninsula": "Jamón Ibérico de Bellota | Embutidos Artesanales | Packs Regalo | Envío en 24–72h | Tres Generaciones | Calidad Garantizada | Dehesa Española",
+        "text_exterior": "Jamón Ibérico de Bellota | Embutidos Artesanales | Packs Regalo | Envío Internacional | Tres Generaciones | Calidad Garantizada | Dehesa Española"
       }
     },
     "valores": {
@@ -195,7 +197,7 @@
     "hero",
     "origen",
     "proceso",
-    "filmstrip",
+    "marquee_strip_a4m4DP",
     "valores",
     "manifesto"
   ]
