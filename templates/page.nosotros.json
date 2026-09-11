@@ -99,7 +99,8 @@
             "name": "EL TIEMPO",
             "line": "<p><strong>Un buen jamón necesita tiempo.</strong></p><p>La curación no se puede acelerar sin consecuencias. Por eso buscamos piezas que hayan seguido su propio ritmo, respetando los tiempos de bodega que necesita cada una para desarrollar todo su potencial.</p><p>No buscamos que un jamón esté listo antes. Buscamos que esté listo cuando realmente lo está.</p>",
             "meta": "",
-            "layout": "texto"
+            "image": "shopify://shop_images/Bodega.png",
+            "layout": "retrato"
           }
         },
         "principio_hMU4zY": {
@@ -109,7 +110,8 @@
             "name": "LA PIEZA",
             "line": "<p><strong>Antes de probar un jamón, hay mucho que nos puede contar.</strong></p><p>Observamos su forma, su conformación, sus proporciones y, especialmente, cómo se presenta la grasa y su infiltración. Cada pieza tiene sus propias características y sabemos que muchas de ellas empiezan a descubrirse incluso antes de abrirla.</p><p>Porque seleccionar también es saber mirar, reconocer los detalles y entender qué puede ofrecer una pieza antes de llevarla a la mesa.</p>",
             "meta": "",
-            "layout": "detalle"
+            "image": "shopify://shop_images/ChatGPT_Image_Jun_27_2026_02_12_26_PM.png",
+            "layout": "panorama"
           }
         }
       },
