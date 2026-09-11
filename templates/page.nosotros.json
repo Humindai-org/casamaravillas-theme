@@ -48,6 +48,101 @@
         "theme": "light"
       }
     },
+    "nosotros_escena_NNiFJk": {
+      "type": "nosotros-escena",
+      "name": "Nosotros — Escena",
+      "settings": {
+        "image_pos_x": 50,
+        "image_pos_y": 50,
+        "parallax": true,
+        "eyebrow": "",
+        "line": "<p>La dehesa no se fabrica. <em>Se respeta.</em></p>",
+        "text_h": "left",
+        "text_v": "bottom",
+        "measure": 18,
+        "size_vw": 4.5,
+        "size_max": 64,
+        "overlay": 55,
+        "height": 80,
+        "height_min": 520,
+        "height_mobile": 70
+      }
+    },
+    "nosotros_criterio_TwLXLT": {
+      "type": "nosotros-criterio",
+      "blocks": {
+        "principio_CLHeYT": {
+          "type": "principio",
+          "settings": {
+            "name": "Origen y raza",
+            "line": "De qué dehesa viene y qué porcentaje de ibérico tiene. Sin cruces que comprometan el resultado.",
+            "meta": "",
+            "layout": "retrato"
+          }
+        },
+        "principio_UdUwFg": {
+          "type": "principio",
+          "settings": {
+            "name": "Alimentación",
+            "line": "Montanera real: bellota y hierba en libertad durante la última fase de engorde.",
+            "meta": "",
+            "image": "shopify://shop_images/DEHESA.png",
+            "layout": "panorama"
+          }
+        },
+        "principio_6dzNfz": {
+          "type": "principio",
+          "settings": {
+            "name": "Curación",
+            "line": "El tiempo que cada pieza necesita en bodega. Ni un mes menos por acelerar la venta.",
+            "meta": "",
+            "layout": "texto"
+          }
+        },
+        "principio_fC3WiC": {
+          "type": "principio",
+          "settings": {
+            "name": "Conformación y grasa",
+            "line": "La forma de la pieza y cómo está infiltrada la grasa. Se ve mucho antes de probarla.",
+            "meta": "",
+            "layout": "detalle"
+          }
+        },
+        "principio_k7MgBW": {
+          "type": "principio",
+          "settings": {
+            "name": "Aroma, textura y sabor",
+            "line": "La cata. Aquí se confirma o se descarta lo que prometía todo lo anterior.",
+            "meta": "",
+            "layout": "retrato"
+          }
+        },
+        "principio_VFVywY": {
+          "type": "principio",
+          "settings": {
+            "name": "Rendimiento y regularidad",
+            "line": "Cuánto aprovecha quien la compra, y que la siguiente pieza esté a la misma altura.",
+            "meta": "",
+            "layout": "texto"
+          }
+        }
+      },
+      "block_order": [
+        "principio_CLHeYT",
+        "principio_UdUwFg",
+        "principio_6dzNfz",
+        "principio_fC3WiC",
+        "principio_k7MgBW",
+        "principio_VFVywY"
+      ],
+      "name": "Nosotros — El criterio",
+      "settings": {
+        "eyebrow": "El criterio Casa Maravillas",
+        "title": "<p>Qué miramos antes de <em>decir que sí</em></p>",
+        "closing": "¿Lo pondríamos en nuestra propia mesa?",
+        "theme": "light"
+      }
+    },
     "manifesto": {
       "type": "nosotros-manifesto",
       "settings": {
@@ -71,6 +166,8 @@
   "order": [
     "hero",
     "origen",
+    "nosotros_escena_NNiFJk",
+    "nosotros_criterio_TwLXLT",
     "manifesto"
   ]
 }
