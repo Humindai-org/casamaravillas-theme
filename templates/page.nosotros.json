@@ -102,25 +102,6 @@
         "ratio_mobile": "1 / 1"
       }
     },
-    "manifesto": {
-      "type": "nosotros-manifesto",
-      "settings": {
-        "image": "shopify://shop_images/1.png",
-        "image_pos_x": 50,
-        "image_pos_y": 100,
-        "image_zoom": 120,
-        "image_saturation": 85,
-        "image_brightness": 80,
-        "overlay_opacity": 0,
-        "height": 65,
-        "height_mobile": 70,
-        "eyebrow": "Casa Maravillas",
-        "quote": "Tres generaciones haciendo de la selección un arte.",
-        "attribution": "",
-        "cta_label": "Descubre nuestra colección de ibéricos",
-        "cta_url": "shopify://collections/jamones"
-      }
-    },
     "nosotros_valores_editorial_Y3HqdE": {
       "type": "nosotros-valores-editorial",
       "blocks": {
@@ -130,6 +111,7 @@
             "name": "<p>Solo ponemos <em>lo que creemos</em></p>",
             "line": "Si un producto no nos convence en la primera prueba, no llega a nuestra tienda.",
             "meta": "Autenticidad",
+            "image": "shopify://shop_images/ChatGPT_Image_Jun_27_2026_02_12_26_PM.png",
             "layout": "izq",
             "ground": "crema"
           }
@@ -175,13 +157,32 @@
       "settings": {
         "aria_label": "Nuestros valores"
       }
+    },
+    "manifesto": {
+      "type": "nosotros-manifesto",
+      "settings": {
+        "image": "shopify://shop_images/1.png",
+        "image_pos_x": 50,
+        "image_pos_y": 100,
+        "image_zoom": 120,
+        "image_saturation": 85,
+        "image_brightness": 80,
+        "overlay_opacity": 0,
+        "height": 65,
+        "height_mobile": 70,
+        "eyebrow": "Casa Maravillas",
+        "quote": "Tres generaciones haciendo de la selección un arte.",
+        "attribution": "",
+        "cta_label": "Descubre nuestra colección de ibéricos",
+        "cta_url": "shopify://collections/jamones"
+      }
     }
   },
   "order": [
     "hero",
     "origen",
-    "nosotros_valores_editorial_Y3HqdE",
     "nosotros_proceso_8aK8N4",
+    "nosotros_valores_editorial_Y3HqdE",
     "manifesto"
   ]
 }
