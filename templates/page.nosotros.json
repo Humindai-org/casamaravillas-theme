@@ -52,6 +52,7 @@
         "step-2": {
           "type": "step",
           "settings": {
+            "image": "shopify://shop_images/generated_image_2d79e279-ac6e-441c-b958-befd97a9d389.png",
             "title": "La Raza",
             "description": "Ibérico puro. Sin cruzamientos que comprometan el sabor o la calidad. La raza define el potencial; todo lo demás es la forma de alcanzarlo."
           }
