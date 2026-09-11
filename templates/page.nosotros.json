@@ -78,7 +78,7 @@
             "value": "Oro",
             "label": "Bellota 100% Ibérico",
             "meta": "Precinto negro",
-            "accent": "#E9B346"
+            "accent": "#e9b346"
           }
         },
         "dato_hWbbBh": {
@@ -88,7 +88,7 @@
             "value": "Plata",
             "label": "Bellota 50% Ibérico",
             "meta": "Precinto rojo",
-            "accent": "#C5BABA"
+            "accent": "#c5baba"
           }
         },
         "dato_yifttJ": {
@@ -98,7 +98,7 @@
             "value": "Bronce",
             "label": "Cebo de Campo",
             "meta": "Precinto verde",
-            "accent": "#BC660A"
+            "accent": "#bc660a"
           }
         }
       },
@@ -117,7 +117,7 @@
         "measure": 24,
         "size_min": 32,
         "size_vw": 5.5,
-        "size_max": 64,
+        "size_max": 56,
         "space_top": 150,
         "space_bottom": 150
       }
