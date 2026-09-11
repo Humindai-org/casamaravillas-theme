@@ -71,14 +71,14 @@
     "nosotros_statement_Gy7fMy": {
       "type": "nosotros-statement",
       "blocks": {
-        "dato_yifttJ": {
+        "dato_KzeXyx": {
           "type": "dato",
           "settings": {
-            "icon": "shopify://shop_images/i3-bronce.svg",
-            "value": "Bronce",
-            "label": "Cebo de Campo",
-            "meta": "Precinto verde",
-            "accent": "#BC660A"
+            "icon": "shopify://shop_images/i1-oro.svg",
+            "value": "Oro",
+            "label": "Bellota 100% Ibérico",
+            "meta": "Precinto negro",
+            "accent": "#E9B346"
           }
         },
         "dato_hWbbBh": {
@@ -91,21 +91,21 @@
             "accent": "#C5BABA"
           }
         },
-        "dato_KzeXyx": {
+        "dato_yifttJ": {
           "type": "dato",
           "settings": {
-            "icon": "shopify://shop_images/i1-oro.svg",
-            "value": "Oro",
-            "label": "Bellota 100% Ibérico",
-            "meta": "Precinto negro",
-            "accent": "#E9B346"
+            "icon": "shopify://shop_images/i3-bronce.svg",
+            "value": "Bronce",
+            "label": "Cebo de Campo",
+            "meta": "Precinto verde",
+            "accent": "#BC660A"
           }
         }
       },
       "block_order": [
-        "dato_yifttJ",
+        "dato_KzeXyx",
         "dato_hWbbBh",
-        "dato_KzeXyx"
+        "dato_yifttJ"
       ],
       "name": "Nosotros — Niveles de selección",
       "settings": {
