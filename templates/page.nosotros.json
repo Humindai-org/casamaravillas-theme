@@ -68,6 +68,60 @@
         "height_mobile": 70
       }
     },
+    "nosotros_statement_Gy7fMy": {
+      "type": "nosotros-statement",
+      "blocks": {
+        "dato_KzeXyx": {
+          "type": "dato",
+          "settings": {
+            "icon": "shopify://shop_images/i1-oro.svg",
+            "value": "Oro",
+            "label": "Bellota 100% Ibérico",
+            "meta": "Precinto negro",
+            "accent": "#E9B346"
+          }
+        },
+        "dato_hWbbBh": {
+          "type": "dato",
+          "settings": {
+            "icon": "shopify://shop_images/i2-plata.svg",
+            "value": "Plata",
+            "label": "Bellota 50% Ibérico",
+            "meta": "Precinto rojo",
+            "accent": "#C5BABA"
+          }
+        },
+        "dato_yifttJ": {
+          "type": "dato",
+          "settings": {
+            "icon": "shopify://shop_images/i3-bronce.svg",
+            "value": "Bronce",
+            "label": "Cebo de Campo",
+            "meta": "Precinto verde",
+            "accent": "#BC660A"
+          }
+        }
+      },
+      "block_order": [
+        "dato_KzeXyx",
+        "dato_hWbbBh",
+        "dato_yifttJ"
+      ],
+      "name": "Nosotros — Niveles de selección",
+      "settings": {
+        "eyebrow": "Tres niveles de selección",
+        "heading": "<p>No hay un solo estándar. <em>Hay tres.</em></p>",
+        "note": "El precinto marca la categoría legal. Nuestro nivel dice qué lugar ocupa esa pieza dentro de lo que nosotros aceptamos.",
+        "theme": "dark",
+        "align": "center",
+        "measure": 24,
+        "size_min": 32,
+        "size_vw": 5.5,
+        "size_max": 64,
+        "space_top": 150,
+        "space_bottom": 150
+      }
+    },
     "manifesto": {
       "type": "nosotros-manifesto",
       "settings": {
@@ -92,6 +146,7 @@
     "hero",
     "origen",
     "nosotros_escena_NNiFJk",
+    "nosotros_statement_Gy7fMy",
     "manifesto"
   ]
 }
