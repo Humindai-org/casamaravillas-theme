@@ -2,7 +2,7 @@
   .nso {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    min-height: 70vh;
+    min-height: 50vh;
     background: var(--cm-off);
     border-bottom: 1px solid var(--cm-border);
   }
@@ -10,7 +10,7 @@
   .nso__image-col {
     position: relative;
     overflow: hidden;
-    min-height: 480px;
+    min-height: 380px;
   }
 
   .nso__image-col img {
@@ -31,13 +31,6 @@
     justify-content: center;
   }
 
-  .nso__image-placeholder-text {
-    font-family: var(--cm-font-serif);
-    font-size: clamp(80px, 15vw, 180px);
-    font-style: italic;
-    color: rgba(196,151,58,0.12);
-    user-select: none;
-  }
 
   .nso__content {
     padding: clamp(64px, 8vw, 112px) clamp(48px, 7vw, 96px);
@@ -46,21 +39,6 @@
     justify-content: center;
     position: relative;
     overflow: hidden;
-  }
-
-  .nso__bg-numeral {
-    position: absolute;
-    bottom: -0.1em;
-    right: -0.05em;
-    font-family: var(--cm-font-serif);
-    font-size: clamp(180px, 28vw, 320px);
-    font-style: italic;
-    color: var(--cm-gold);
-    opacity: 0.04;
-    line-height: 1;
-    pointer-events: none;
-    user-select: none;
-    z-index: 0;
   }
 
   .nso__inner { position: relative; z-index: 1; }
@@ -122,41 +100,6 @@
     color: var(--cm-navy);
   }
 
-  .nso__stats {
-    display: flex;
-    gap: 0;
-    width: fit-content;
-    margin-top: 40px;
-  }
-
-  .nso__stat {
-    background: var(--cm-navy);
-    padding: 24px 36px;
-    text-align: center;
-    border-right: 1px solid rgba(255,255,255,0.08);
-  }
-  .nso__stat:last-child { border-right: none; }
-
-  .nso__stat-num {
-    display: block;
-    font-family: var(--cm-font-serif);
-    font-size: 36px;
-    font-style: italic;
-    color: var(--cm-gold);
-    line-height: 1;
-    margin-bottom: 6px;
-  }
-
-  .nso__stat-label {
-    display: block;
-    font-family: var(--cm-font-sans);
-    font-size: 9px;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: rgba(255,255,255,0.45);
-    line-height: 1.5;
-  }
-
   .nso .cm-reveal {
     opacity: 0;
     transform: translateY(32px);
@@ -166,7 +109,6 @@
   .nso .cm-reveal--d1 { transition-delay: 0.15s; }
   .nso .cm-reveal--d2 { transition-delay: 0.3s; }
   .nso .cm-reveal--d3 { transition-delay: 0.45s; }
-  .nso .cm-reveal--d4 { transition-delay: 0.6s; }
 
   @media (prefers-reduced-motion: reduce) {
     .nso .cm-reveal { opacity: 1; transform: none; transition: none; }
@@ -174,16 +116,13 @@
 
   @media (max-width: 1023px) {
     .nso { grid-template-columns: 1fr; }
-    .nso__image-col { min-height: 0; height: 400px; }
+    .nso__image-col { min-height: 0; height: 340px; }
     .nso__content { padding: 56px 40px; }
   }
 
   @media (max-width: 767px) {
-    .nso__image-col { height: 300px; }
+    .nso__image-col { height: 260px; }
     .nso__content { padding: 48px 24px; }
-    .nso__stats { flex-direction: column; width: 100%; }
-    .nso__stat { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); padding: 20px 24px; text-align: left; }
-    .nso__stat:last-child { border-bottom: none; }
   }
 </style>
 
@@ -198,15 +137,11 @@
             alt: section.settings.image.alt | escape
       }}
     {%- else -%}
-      <div class="nso__image-placeholder" aria-hidden="true">
-        <span class="nso__image-placeholder-text">III</span>
-      </div>
+      <div class="nso__image-placeholder" aria-hidden="true"></div>
     {%- endif -%}
   </div>
 
   <div class="nso__content">
-    <span class="nso__bg-numeral" aria-hidden="true">III</span>
-
     <div class="nso__inner">
       {%- if section.settings.eyebrow != blank -%}
         <p class="nso__eyebrow cm-reveal">{{ section.settings.eyebrow }}</p>
@@ -218,21 +153,8 @@
         <div class="nso__body cm-reveal cm-reveal--d2">{{ section.settings.body }}</div>
       {%- endif -%}
 
-      {%- if section.blocks.size > 0 -%}
-        <div class="nso__stats cm-reveal cm-reveal--d3">
-          {%- for block in section.blocks -%}
-            {%- if block.type == 'stat' -%}
-              <div class="nso__stat" {{ block.shopify_attributes }}>
-                <span class="nso__stat-num">{{ block.settings.number }}</span>
-                <span class="nso__stat-label">{{ block.settings.label }}</span>
-              </div>
-            {%- endif -%}
-          {%- endfor -%}
-        </div>
-      {%- endif -%}
-
       {%- if section.settings.quote != blank -%}
-        <div class="nso__quote cm-reveal cm-reveal--d4">
+        <div class="nso__quote cm-reveal cm-reveal--d3">
           <span class="nso__quote-rule" aria-hidden="true"></span>
           <p class="nso__quote-text">{{ section.settings.quote }}</p>
         </div>
@@ -257,16 +179,6 @@
 {
   "name": "Nosotros — Origen",
   "tag": "section",
-  "blocks": [
-    {
-      "type": "stat",
-      "name": "Estadística",
-      "settings": [
-        { "type": "text", "id": "number", "label": "Número", "default": "3" },
-        { "type": "text", "id": "label", "label": "Etiqueta", "default": "Generaciones" }
-      ]
-    }
-  ],
   "settings": [
     { "type": "image_picker", "id": "image", "label": "Imagen" },
     {
@@ -313,17 +225,13 @@
       "type": "text",
       "id": "quote",
       "label": "Cita destacada",
-      "info": "Frase corta que cierra la sección, debajo de las estadísticas.",
+      "info": "Frase corta que cierra la sección.",
       "default": "Vamos al origen porque ahí está la verdad del producto."
     }
   ],
   "presets": [
     {
-      "name": "Nosotros — Origen",
-      "blocks": [
-        { "type": "stat", "settings": { "number": "3", "label": "Generaciones" } },
-        { "type": "stat", "settings": { "number": "100%", "label": "Ibérico puro" } }
-      ]
+      "name": "Nosotros — Origen"
     }
   ]
 }

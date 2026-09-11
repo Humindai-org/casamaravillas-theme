@@ -22,26 +22,6 @@
     },
     "origen": {
       "type": "nosotros-origen",
-      "blocks": {
-        "stat-gen": {
-          "type": "stat",
-          "settings": {
-            "number": "3",
-            "label": "Generaciones"
-          }
-        },
-        "stat-iberico": {
-          "type": "stat",
-          "settings": {
-            "number": "100%",
-            "label": "Ibérico puro"
-          }
-        }
-      },
-      "block_order": [
-        "stat-gen",
-        "stat-iberico"
-      ],
       "settings": {
         "image": "shopify://shop_images/generated_image_5a0a578b-6d60-4490-95a7-3513e4a247bf.png",
         "image_pos_x": 70,
