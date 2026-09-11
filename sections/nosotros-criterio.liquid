@@ -1,8 +1,9 @@
 {%- comment -%}
   Nosotros — El criterio
-  Seis capítulos visuales, no seis tarjetas. Cada bloque elige su propia
-  composición (solo texto, retrato, panorámica o detalle) y el lado alterna
-  automáticamente, de forma que ninguno se lee igual que el anterior.
+  Seis capítulos visuales, no seis tarjetas. Cada bloque elige su propio
+  tamaño de imagen (solo texto, retrato, panorámica o detalle), si el lado
+  alterna automáticamente o se fija a mano, y admite una o dos imágenes
+  (la segunda se muestra en pareja junto a la primera, ambas al mismo tamaño).
 {%- endcomment -%}
 
 {%- liquid
@@ -123,12 +124,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: clamp(8px, 1vw, 14px);
-    overflow: visible;
   }
-  #cri-{{ section.id }} .cri__media--dual img {
-    overflow: hidden;
-  }
-  #cri-{{ section.id }} .cri__media--dual > img:nth-child(1) { border-radius: 0; }
 
   /* ── Composiciones ── */
 
@@ -221,7 +217,13 @@
           if parity == 1
             assign side = 'right'
           endif
-          if block.settings.image == blank
+          assign img1 = block.settings.image
+          assign img2 = block.settings.image_2
+          if img1 == blank and img2 != blank
+            assign img1 = img2
+            assign img2 = blank
+          endif
+          if img1 == blank
             assign layout = 'texto'
           endif
           assign text_full = false
@@ -240,9 +242,9 @@
           data-cm-reveal
           {{ block.shopify_attributes }}
         >
-          {%- if layout != 'texto' and block.settings.image != blank -%}
-            <div class="cri__media">
-              {{ block.settings.image
+          {%- if layout != 'texto' and img1 != blank -%}
+            <div class="cri__media{% if img2 != blank %} cri__media--dual{% endif %}">
+              {{ img1
                 | image_url: width: 1600, format: 'webp'
                 | image_tag:
                     loading: 'lazy',
@@ -250,6 +252,16 @@
                     widths: '500, 800, 1100, 1600',
                     alt: block.settings.name | escape
               }}
+              {%- if img2 != blank -%}
+                {{ img2
+                  | image_url: width: 1600, format: 'webp'
+                  | image_tag:
+                      loading: 'lazy',
+                      sizes: '(max-width: 860px) 100vw, 45vw',
+                      widths: '500, 800, 1100, 1600',
+                      alt: block.settings.name | escape
+                }}
+              {%- endif -%}
             </div>
           {%- endif -%}
 
@@ -299,11 +311,12 @@
         },
         { "type": "text", "id": "meta", "label": "Dato / detalle", "info": "Opcional. En mayúsculas doradas." },
         { "type": "image_picker", "id": "image", "label": "Imagen", "info": "Opcional. Sin imagen, el capítulo queda solo tipográfico." },
+        { "type": "image_picker", "id": "image_2", "label": "Imagen 2 (opcional)", "info": "Si la añades, se muestra en pareja junto a la primera." },
         {
           "type": "select",
           "id": "layout",
-          "label": "Composición",
-          "info": "Alterna entre composiciones para que no haya dos capítulos iguales.",
+          "label": "Tamaño de la imagen",
+          "info": "Alterna entre composiciones para que no haya dos capítulos iguales. Con dos imágenes, ambas comparten este mismo tamaño en pareja.",
           "options": [
             { "value": "texto", "label": "Solo texto" },
             { "value": "retrato", "label": "Imagen vertical" },
@@ -315,12 +328,12 @@
         {
           "type": "select",
           "id": "text_position",
-          "label": "Posición del texto",
+          "label": "Posición del texto (y del lado de la imagen)",
           "info": "Automático alterna izquierda/derecha según el orden del capítulo.",
           "options": [
             { "value": "auto", "label": "Automático (alterna)" },
-            { "value": "left", "label": "Izquierda" },
-            { "value": "right", "label": "Derecha" },
+            { "value": "left", "label": "Texto a la izquierda / imagen a la derecha" },
+            { "value": "right", "label": "Texto a la derecha / imagen a la izquierda" },
             { "value": "full", "label": "Ancho completo de la sección" }
           ],
           "default": "auto"
