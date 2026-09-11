@@ -194,7 +194,7 @@
     grid-template-rows: 1fr;
     opacity: 1;
   }
-  #nsp-{{ section.id }} .nsp__desc > span {
+  #nsp-{{ section.id }} .nsp__desc > div {
     overflow: hidden;
     font-family: var(--cm-font-sans);
     font-size: 14px;
@@ -203,7 +203,9 @@
     color: var(--nsp-muted);
     max-width: 46ch;
   }
-  #nsp-{{ section.id }} .nsp__step.is-on .nsp__desc > span { padding-top: 12px; }
+  #nsp-{{ section.id }} .nsp__desc > div p { margin: 0 0 1em; }
+  #nsp-{{ section.id }} .nsp__desc > div p:last-child { margin-bottom: 0; }
+  #nsp-{{ section.id }} .nsp__step.is-on .nsp__desc > div { padding-top: 12px; }
 
   #nsp-{{ section.id }} .nsp__btn:focus-visible {
     outline: 2px solid var(--cm-gold);
@@ -280,7 +282,7 @@
               <span class="nsp__num">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
               <span class="nsp__name">{{ block.settings.title }}</span>
               {%- if block.settings.description != blank -%}
-                <span class="nsp__desc"><span>{{ block.settings.description }}</span></span>
+                <span class="nsp__desc"><div>{{ block.settings.description }}</div></span>
               {%- endif -%}
             </button>
           </li>
@@ -340,11 +342,11 @@
         { "type": "image_picker", "id": "image", "label": "Imagen", "info": "Si se deja vacía, el panel muestra el número del paso." },
         { "type": "text", "id": "title", "label": "Título", "default": "La Dehesa" },
         {
-          "type": "textarea",
+          "type": "richtext",
           "id": "description",
           "label": "Descripción",
-          "info": "Una o dos frases. Solo se ve en el paso activo.",
-          "default": "El ecosistema donde nace todo. Encinas centenarias, suelo fértil, espacio sin límites."
+          "info": "Una o dos frases, o varios párrafos. Solo se ve en el paso activo.",
+          "default": "<p>El ecosistema donde nace todo. Encinas centenarias, suelo fértil, espacio sin límites.</p>"
         }
       ]
     }
@@ -407,12 +409,12 @@
     {
       "name": "Nosotros — Proceso",
       "blocks": [
-        { "type": "step", "settings": { "title": "La Dehesa", "description": "El ecosistema donde nace todo. Encinas centenarias, suelo fértil, espacio sin límites para el animal que lo llena todo." } },
-        { "type": "step", "settings": { "title": "La Raza", "description": "Ibérico puro. Sin cruzamientos que comprometan el sabor o la calidad. La raza define el potencial." } },
-        { "type": "step", "settings": { "title": "La Montanera", "description": "Cada otoño, los cerdos pastan libremente bajo las encinas. Las bellotas hacen el resto." } },
-        { "type": "step", "settings": { "title": "La Maduración", "description": "El tiempo que cada pieza necesita en bodega. La paciencia es el ingrediente que no se puede comprar." } },
-        { "type": "step", "settings": { "title": "Nuestra Selección", "description": "Visitamos, probamos, comparamos. Solo elegimos lo que nosotros mismos compraríamos." } },
-        { "type": "step", "settings": { "title": "Tu Mesa", "description": "El momento para el que todo existe. El disfrute que justifica cada decisión anterior." } }
+        { "type": "step", "settings": { "title": "La Dehesa", "description": "<p>El ecosistema donde nace todo. Encinas centenarias, suelo fértil, espacio sin límites para el animal que lo llena todo.</p>" } },
+        { "type": "step", "settings": { "title": "La Raza", "description": "<p>Ibérico puro. Sin cruzamientos que comprometan el sabor o la calidad. La raza define el potencial.</p>" } },
+        { "type": "step", "settings": { "title": "La Montanera", "description": "<p>Cada otoño, los cerdos pastan libremente bajo las encinas. Las bellotas hacen el resto.</p>" } },
+        { "type": "step", "settings": { "title": "La Maduración", "description": "<p>El tiempo que cada pieza necesita en bodega. La paciencia es el ingrediente que no se puede comprar.</p>" } },
+        { "type": "step", "settings": { "title": "Nuestra Selección", "description": "<p>Visitamos, probamos, comparamos. Solo elegimos lo que nosotros mismos compraríamos.</p>" } },
+        { "type": "step", "settings": { "title": "Tu Mesa", "description": "<p>El momento para el que todo existe. El disfrute que justifica cada decisión anterior.</p>" } }
       ]
     }
   ]

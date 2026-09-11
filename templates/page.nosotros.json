@@ -75,7 +75,7 @@
           "type": "principio",
           "settings": {
             "name": "Origen y raza",
-            "line": "De qué dehesa viene y qué porcentaje de ibérico tiene. Sin cruces que comprometan el resultado.",
+            "line": "<p>De qué dehesa viene y qué porcentaje de ibérico tiene. Sin cruces que comprometan el resultado.</p>",
             "meta": "",
             "layout": "retrato"
           }
@@ -84,7 +84,7 @@
           "type": "principio",
           "settings": {
             "name": "Alimentación",
-            "line": "Montanera real: bellota y hierba en libertad durante la última fase de engorde.",
+            "line": "<p>Montanera real: bellota y hierba en libertad durante la última fase de engorde.</p>",
             "meta": "",
             "image": "shopify://shop_images/DEHESA.png",
             "layout": "panorama"
@@ -94,7 +94,7 @@
           "type": "principio",
           "settings": {
             "name": "Curación",
-            "line": "El tiempo que cada pieza necesita en bodega. Ni un mes menos por acelerar la venta.",
+            "line": "<p>El tiempo que cada pieza necesita en bodega. Ni un mes menos por acelerar la venta.</p>",
             "meta": "",
             "layout": "texto"
           }
@@ -103,7 +103,7 @@
           "type": "principio",
           "settings": {
             "name": "Origen y raza",
-            "line": "De qué dehesa viene y qué porcentaje de ibérico tiene.",
+            "line": "<p>De qué dehesa viene y qué porcentaje de ibérico tiene.</p>",
             "meta": "",
             "layout": "retrato"
           }
@@ -112,7 +112,7 @@
           "type": "principio",
           "settings": {
             "name": "Conformación y grasa",
-            "line": "La forma de la pieza y cómo está infiltrada la grasa. Se ve mucho antes de probarla.",
+            "line": "<p>La forma de la pieza y cómo está infiltrada la grasa. Se ve mucho antes de probarla.</p>",
             "meta": "",
             "image": "shopify://shop_images/generated_image_865993ea-f89f-484e-ac63-82f8cd44f83b.png",
             "layout": "retrato"
@@ -122,7 +122,7 @@
           "type": "principio",
           "settings": {
             "name": "Aroma, textura y sabor",
-            "line": "La cata. Aquí se confirma o se descarta lo que prometía todo lo anterior.",
+            "line": "<p>La cata. Aquí se confirma o se descarta lo que prometía todo lo anterior.</p>",
             "meta": "",
             "image": "shopify://shop_images/MESA.png",
             "layout": "panorama"
@@ -132,7 +132,7 @@
           "type": "principio",
           "settings": {
             "name": "Rendimiento y regularidad",
-            "line": "Cuánto aprovecha quien la compra, y que la siguiente pieza esté a la misma altura.",
+            "line": "<p>Cuánto aprovecha quien la compra, y que la siguiente pieza esté a la misma altura.</p>",
             "meta": "",
             "layout": "texto"
           }

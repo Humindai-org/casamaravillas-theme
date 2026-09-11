@@ -97,6 +97,8 @@
     margin: 0;
     max-width: 44ch;
   }
+  #cri-{{ section.id }} .cri__line p { margin: 0 0 1.1em; }
+  #cri-{{ section.id }} .cri__line p:last-child { margin-bottom: 0; }
 
   #cri-{{ section.id }} .cri__meta {
     font-family: var(--cm-font-sans);
@@ -233,7 +235,7 @@
               <h3 class="cri__name">{{ block.settings.name }}</h3>
             {%- endif -%}
             {%- if block.settings.line != blank -%}
-              <p class="cri__line">{{ block.settings.line }}</p>
+              <div class="cri__line">{{ block.settings.line }}</div>
             {%- endif -%}
             {%- if block.settings.meta != blank -%}
               <p class="cri__meta">{{ block.settings.meta }}</p>
@@ -265,11 +267,11 @@
       "settings": [
         { "type": "text", "id": "name", "label": "Título", "default": "Origen y raza" },
         {
-          "type": "textarea",
+          "type": "richtext",
           "id": "line",
           "label": "Frase",
-          "info": "Muy corta. Una o dos líneas.",
-          "default": "De qué dehesa viene y qué porcentaje de ibérico tiene."
+          "info": "Puedes usar varios párrafos y negrita.",
+          "default": "<p>De qué dehesa viene y qué porcentaje de ibérico tiene.</p>"
         },
         { "type": "text", "id": "meta", "label": "Dato / detalle", "info": "Opcional. En mayúsculas doradas." },
         { "type": "image_picker", "id": "image", "label": "Imagen", "info": "Opcional. Sin imagen, el capítulo queda solo tipográfico." },
@@ -318,12 +320,12 @@
     {
       "name": "Nosotros — El criterio",
       "blocks": [
-        { "type": "principio", "settings": { "name": "Origen y raza", "line": "De qué dehesa viene y qué porcentaje de ibérico tiene. Sin cruces que comprometan el resultado.", "layout": "retrato" } },
-        { "type": "principio", "settings": { "name": "Alimentación", "line": "Montanera real: bellota y hierba en libertad durante la última fase de engorde.", "layout": "panorama" } },
-        { "type": "principio", "settings": { "name": "Curación", "line": "El tiempo que cada pieza necesita en bodega. Ni un mes menos por acelerar la venta.", "layout": "texto" } },
-        { "type": "principio", "settings": { "name": "Conformación y grasa", "line": "La forma de la pieza y cómo está infiltrada la grasa. Se ve mucho antes de probarla.", "layout": "detalle" } },
-        { "type": "principio", "settings": { "name": "Aroma, textura y sabor", "line": "La cata. Aquí se confirma o se descarta lo que prometía todo lo anterior.", "layout": "retrato" } },
-        { "type": "principio", "settings": { "name": "Rendimiento y regularidad", "line": "Cuánto aprovecha quien la compra, y que la siguiente pieza esté a la misma altura.", "layout": "texto" } }
+        { "type": "principio", "settings": { "name": "Origen y raza", "line": "<p>De qué dehesa viene y qué porcentaje de ibérico tiene. Sin cruces que comprometan el resultado.</p>", "layout": "retrato" } },
+        { "type": "principio", "settings": { "name": "Alimentación", "line": "<p>Montanera real: bellota y hierba en libertad durante la última fase de engorde.</p>", "layout": "panorama" } },
+        { "type": "principio", "settings": { "name": "Curación", "line": "<p>El tiempo que cada pieza necesita en bodega. Ni un mes menos por acelerar la venta.</p>", "layout": "texto" } },
+        { "type": "principio", "settings": { "name": "Conformación y grasa", "line": "<p>La forma de la pieza y cómo está infiltrada la grasa. Se ve mucho antes de probarla.</p>", "layout": "detalle" } },
+        { "type": "principio", "settings": { "name": "Aroma, textura y sabor", "line": "<p>La cata. Aquí se confirma o se descarta lo que prometía todo lo anterior.</p>", "layout": "retrato" } },
+        { "type": "principio", "settings": { "name": "Rendimiento y regularidad", "line": "<p>Cuánto aprovecha quien la compra, y que la siguiente pieza esté a la misma altura.</p>", "layout": "texto" } }
       ]
     }
   ]
