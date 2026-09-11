@@ -38,25 +38,6 @@
         "theme": "light"
       }
     },
-    "manifesto": {
-      "type": "nosotros-manifesto",
-      "settings": {
-        "image": "shopify://shop_images/1.png",
-        "image_pos_x": 50,
-        "image_pos_y": 100,
-        "image_zoom": 120,
-        "image_saturation": 85,
-        "image_brightness": 80,
-        "overlay_opacity": 0,
-        "height": 65,
-        "height_mobile": 70,
-        "eyebrow": "Casa Maravillas",
-        "quote": "Tres generaciones haciendo de la selección un arte.",
-        "attribution": "",
-        "cta_label": "Descubre nuestra colección de ibéricos",
-        "cta_url": "shopify://collections/jamones"
-      }
-    },
     "nosotros_proceso_8aK8N4": {
       "type": "nosotros-proceso",
       "blocks": {
@@ -118,14 +99,33 @@
         "theme": "light",
         "media_side": "right",
         "ratio": "4 / 5",
-        "ratio_mobile": "4 / 3"
+        "ratio_mobile": "1 / 1"
+      }
+    },
+    "manifesto": {
+      "type": "nosotros-manifesto",
+      "settings": {
+        "image": "shopify://shop_images/1.png",
+        "image_pos_x": 50,
+        "image_pos_y": 100,
+        "image_zoom": 120,
+        "image_saturation": 85,
+        "image_brightness": 80,
+        "overlay_opacity": 0,
+        "height": 65,
+        "height_mobile": 70,
+        "eyebrow": "Casa Maravillas",
+        "quote": "Tres generaciones haciendo de la selección un arte.",
+        "attribution": "",
+        "cta_label": "Descubre nuestra colección de ibéricos",
+        "cta_url": "shopify://collections/jamones"
       }
     }
   },
   "order": [
     "hero",
     "origen",
-    "manifesto",
-    "nosotros_proceso_8aK8N4"
+    "nosotros_proceso_8aK8N4",
+    "manifesto"
   ]
 }
