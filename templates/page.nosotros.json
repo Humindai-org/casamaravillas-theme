@@ -52,11 +52,12 @@
       "type": "nosotros-escena",
       "name": "Nosotros — Escena",
       "settings": {
+        "video": "shopify://files/videos/copy_E1747862-7469-4340-AFA5-BCE838268A3C.mov",
         "image_pos_x": 50,
         "image_pos_y": 50,
         "parallax": true,
         "eyebrow": "",
-        "line": "<p>La dehesa no se fabrica. <em>Se respeta.</em></p>",
+        "line": "<p>La calidad no se promete. Se selecciona.</p>",
         "text_h": "left",
         "text_v": "bottom",
         "measure": 18,
@@ -74,8 +75,8 @@
         "principio_CLHeYT": {
           "type": "principio",
           "settings": {
-            "name": "Origen y raza",
-            "line": "<p>De qué dehesa viene y qué porcentaje de ibérico tiene. Sin cruces que comprometan el resultado.</p>",
+            "name": "EL ORIGEN",
+            "line": "Todo gran jamón empieza mucho antes de llegar a la mesa.\n\nPor eso, antes de elegir una pieza, queremos saber de dónde viene, quién está detrás de ella y qué hay en su origen. Conocemos las dehesas, trabajamos con productores en los que confiamos y buscamos procedencias que estén a la altura de lo que queremos ofrecer.\n\nPorque para nosotros, seleccionar un buen jamón empieza por elegir bien desde el principio.",
             "meta": "",
             "layout": "retrato"
           }
@@ -84,7 +85,7 @@
           "type": "principio",
           "settings": {
             "name": "Alimentación",
-            "line": "<p>Montanera real: bellota y hierba en libertad durante la última fase de engorde.</p>",
+            "line": "Montanera real: bellota y hierba en libertad durante la última fase de engorde.",
             "meta": "",
             "image": "shopify://shop_images/DEHESA.png",
             "layout": "panorama"
@@ -94,7 +95,7 @@
           "type": "principio",
           "settings": {
             "name": "Curación",
-            "line": "<p>El tiempo que cada pieza necesita en bodega. Ni un mes menos por acelerar la venta.</p>",
+            "line": "El tiempo que cada pieza necesita en bodega. Ni un mes menos por acelerar la venta.",
             "meta": "",
             "layout": "texto"
           }
@@ -103,7 +104,7 @@
           "type": "principio",
           "settings": {
             "name": "Origen y raza",
-            "line": "<p>De qué dehesa viene y qué porcentaje de ibérico tiene.</p>",
+            "line": "De qué dehesa viene y qué porcentaje de ibérico tiene.",
             "meta": "",
             "layout": "retrato"
           }
@@ -112,7 +113,7 @@
           "type": "principio",
           "settings": {
             "name": "Conformación y grasa",
-            "line": "<p>La forma de la pieza y cómo está infiltrada la grasa. Se ve mucho antes de probarla.</p>",
+            "line": "La forma de la pieza y cómo está infiltrada la grasa. Se ve mucho antes de probarla.",
             "meta": "",
             "image": "shopify://shop_images/generated_image_865993ea-f89f-484e-ac63-82f8cd44f83b.png",
             "layout": "retrato"
@@ -122,7 +123,7 @@
           "type": "principio",
           "settings": {
             "name": "Aroma, textura y sabor",
-            "line": "<p>La cata. Aquí se confirma o se descarta lo que prometía todo lo anterior.</p>",
+            "line": "La cata. Aquí se confirma o se descarta lo que prometía todo lo anterior.",
             "meta": "",
             "image": "shopify://shop_images/MESA.png",
             "layout": "panorama"
@@ -132,7 +133,7 @@
           "type": "principio",
           "settings": {
             "name": "Rendimiento y regularidad",
-            "line": "<p>Cuánto aprovecha quien la compra, y que la siguiente pieza esté a la misma altura.</p>",
+            "line": "Cuánto aprovecha quien la compra, y que la siguiente pieza esté a la misma altura.",
             "meta": "",
             "layout": "texto"
           }
