@@ -107,14 +107,6 @@
         "ratio_mobile": "4 / 3"
       }
     },
-    "marquee_strip_a4m4DP": {
-      "type": "marquee-strip",
-      "name": "Banda marquee",
-      "settings": {
-        "text_peninsula": "Jamón Ibérico de Bellota | Embutidos Artesanales | Packs Regalo | Envío en 24–72h | Tres Generaciones | Calidad Garantizada | Dehesa Española",
-        "text_exterior": "Jamón Ibérico de Bellota | Embutidos Artesanales | Packs Regalo | Envío Internacional | Tres Generaciones | Calidad Garantizada | Dehesa Española"
-      }
-    },
     "valores": {
       "type": "nosotros-valores-editorial",
       "settings": {
@@ -145,7 +137,6 @@
     "hero",
     "origen",
     "proceso",
-    "marquee_strip_a4m4DP",
     "valores",
     "manifesto"
   ]
