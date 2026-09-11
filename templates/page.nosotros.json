@@ -179,6 +179,7 @@
         "anchor": "criterio",
         "eyebrow": "El criterio Casa Maravillas",
         "title": "<p>Qué miramos antes de <em>decir que sí</em></p>",
+        "intro_image": "shopify://shop_images/generated_image_865993ea-f89f-484e-ac63-82f8cd44f83b.png",
         "closing": "Y cuando todo encaja, sabemos que estamos ante un jamón que merece llegar a nuestra selección.",
         "theme": "light"
       }
@@ -224,7 +225,6 @@
       ],
       "name": "Nosotros — Niveles de selección",
       "settings": {
-        "anchor": "niveles",
         "eyebrow": "Tres niveles de selección",
         "heading": "<p>No hay un solo estándar. <em>Hay tres.</em></p>",
         "note": "El precinto marca la categoría legal. Nuestro nivel dice qué lugar ocupa esa pieza dentro de lo que nosotros aceptamos.",
