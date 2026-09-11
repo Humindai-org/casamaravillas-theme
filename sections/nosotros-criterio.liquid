@@ -28,8 +28,15 @@
   }
 
   #cri-{{ section.id }} .cri__head {
+    margin-bottom: clamp(56px, 9vw, 130px);
+  }
+  #cri-{{ section.id }} .cri__head-text {
     max-width: 30ch;
-    margin-bottom: clamp(32px, 4vw, 56px);
+  }
+  #cri-{{ section.id }} .cri__head--media {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 28px;
   }
   #cri-{{ section.id }} .cri__eyebrow {
     font-family: var(--cm-font-sans);
@@ -53,7 +60,6 @@
   #cri-{{ section.id }} .cri__title em { font-style: italic; color: var(--cm-gold); }
 
   #cri-{{ section.id }} .cri__intro {
-    margin-bottom: clamp(56px, 9vw, 130px);
     overflow: hidden;
   }
   #cri-{{ section.id }} .cri__intro img {
@@ -61,10 +67,22 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    aspect-ratio: 21 / 8;
   }
-  @media (max-width: 860px) {
-    #cri-{{ section.id }} .cri__intro img { aspect-ratio: 4 / 3; }
+  #cri-{{ section.id }} .cri__intro { aspect-ratio: 16 / 10; }
+
+  @media (min-width: 861px) {
+    #cri-{{ section.id }} .cri__head--media {
+      grid-template-columns: minmax(0, 30ch) 1fr;
+      align-items: start;
+      column-gap: clamp(32px, 5vw, 64px);
+    }
+    #cri-{{ section.id }} .cri__head--media .cri__head-text { max-width: none; }
+    #cri-{{ section.id }} .cri__head--media .cri__intro {
+      justify-self: end;
+      width: 100%;
+      max-width: 380px;
+      aspect-ratio: 4 / 3;
+    }
   }
 
   /* ── Capítulos ── */
@@ -237,27 +255,28 @@
   {%- if s.anchor != blank -%}<span id="{{ s.anchor }}" class="cri__anchor" aria-hidden="true"></span>{%- endif -%}
   <div class="cri__wrap">
 
-    <header class="cri__head">
-      {%- if s.eyebrow != blank -%}
-        <p class="cri__eyebrow" data-cm-reveal>{{ s.eyebrow }}</p>
-      {%- endif -%}
-      {%- if s.title != blank -%}
-        <h2 class="cri__title" data-cm-reveal data-cm-delay="1">{{ s.title }}</h2>
+    <header class="cri__head{% if s.intro_image != blank %} cri__head--media{% endif %}">
+      <div class="cri__head-text">
+        {%- if s.eyebrow != blank -%}
+          <p class="cri__eyebrow" data-cm-reveal>{{ s.eyebrow }}</p>
+        {%- endif -%}
+        {%- if s.title != blank -%}
+          <h2 class="cri__title" data-cm-reveal data-cm-delay="1">{{ s.title }}</h2>
+        {%- endif -%}
+      </div>
+      {%- if s.intro_image != blank -%}
+        <div class="cri__intro" data-cm-reveal data-cm-delay="2">
+          {{ s.intro_image
+            | image_url: width: 1200, format: 'webp'
+            | image_tag:
+                loading: 'lazy',
+                sizes: '(max-width: 860px) 100vw, 380px',
+                widths: '400, 600, 900, 1200',
+                alt: s.title | strip_html | escape
+          }}
+        </div>
       {%- endif -%}
     </header>
-
-    {%- if s.intro_image != blank -%}
-      <div class="cri__intro" data-cm-reveal data-cm-delay="2">
-        {{ s.intro_image
-          | image_url: width: 2000, format: 'webp'
-          | image_tag:
-              loading: 'lazy',
-              sizes: '(max-width: 860px) 100vw, 1320px',
-              widths: '700, 1100, 1600, 2000',
-              alt: s.title | strip_html | escape
-        }}
-      </div>
-    {%- endif -%}
 
     <div class="cri__items">
       {%- for block in section.blocks -%}
@@ -450,8 +469,8 @@
     {
       "type": "image_picker",
       "id": "intro_image",
-      "label": "Imagen bajo el título",
-      "info": "Opcional. Aparece justo debajo del título, antes del primer capítulo."
+      "label": "Imagen junto al título",
+      "info": "Opcional. Aparece a la derecha del título, en el hueco superior. En móvil pasa a ir debajo."
     },
     {
       "type": "text",
