@@ -120,11 +120,67 @@
         "cta_label": "Descubre nuestra colección de ibéricos",
         "cta_url": "shopify://collections/jamones"
       }
+    },
+    "nosotros_valores_editorial_Y3HqdE": {
+      "type": "nosotros-valores-editorial",
+      "blocks": {
+        "valor_qihwBE": {
+          "type": "valor",
+          "settings": {
+            "name": "<p>Solo ponemos <em>lo que creemos</em></p>",
+            "line": "Si un producto no nos convence en la primera prueba, no llega a nuestra tienda.",
+            "meta": "Autenticidad",
+            "layout": "izq",
+            "ground": "crema"
+          }
+        },
+        "valor_cpDLrY": {
+          "type": "valor",
+          "settings": {
+            "name": "<p>Solo ponemos <em>lo que creemos</em></p>",
+            "line": "Si un producto no nos convence en la primera prueba, no llega a nuestra tienda.",
+            "meta": "Autenticidad",
+            "layout": "der",
+            "ground": "navy"
+          }
+        },
+        "valor_hrGdwH": {
+          "type": "valor",
+          "settings": {
+            "name": "<p>Solo ponemos <em>lo que creemos</em></p>",
+            "line": "Si un producto no nos convence en la primera prueba, no llega a nuestra tienda.",
+            "meta": "Autenticidad",
+            "layout": "columna",
+            "ground": "blanco"
+          }
+        },
+        "valor_CyV8eF": {
+          "type": "valor",
+          "settings": {
+            "name": "<p>Solo ponemos <em>lo que creemos</em></p>",
+            "line": "Si un producto no nos convence en la primera prueba, no llega a nuestra tienda.",
+            "meta": "Autenticidad",
+            "layout": "panoramica",
+            "ground": "noche"
+          }
+        }
+      },
+      "block_order": [
+        "valor_qihwBE",
+        "valor_cpDLrY",
+        "valor_hrGdwH",
+        "valor_CyV8eF"
+      ],
+      "name": "Nosotros — Valores",
+      "settings": {
+        "aria_label": "Nuestros valores"
+      }
     }
   },
   "order": [
     "hero",
     "origen",
+    "nosotros_valores_editorial_Y3HqdE",
     "nosotros_proceso_8aK8N4",
     "manifesto"
   ]
