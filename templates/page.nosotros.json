@@ -26,8 +26,7 @@
         "align": "left",
         "measure": 20,
         "size_vw": 4.5,
-        "size_max": 68,
-        "overlay": 70
+        "size_max": 68
       }
     },
     "origen": {
@@ -69,93 +68,6 @@
         "height_mobile": 70
       }
     },
-    "nosotros_criterio_TwLXLT": {
-      "type": "nosotros-criterio",
-      "blocks": {
-        "principio_CLHeYT": {
-          "type": "principio",
-          "settings": {
-            "name": "EL ORIGEN",
-            "line": "Todo gran jamón empieza mucho antes de llegar a la mesa.\n\nPor eso, antes de elegir una pieza, queremos saber de dónde viene, quién está detrás de ella y qué hay en su origen. Conocemos las dehesas, trabajamos con productores en los que confiamos y buscamos procedencias que estén a la altura de lo que queremos ofrecer.\n\nPorque para nosotros, seleccionar un buen jamón empieza por elegir bien desde el principio.",
-            "meta": "",
-            "layout": "retrato"
-          }
-        },
-        "principio_UdUwFg": {
-          "type": "principio",
-          "settings": {
-            "name": "Alimentación",
-            "line": "Montanera real: bellota y hierba en libertad durante la última fase de engorde.",
-            "meta": "",
-            "image": "shopify://shop_images/DEHESA.png",
-            "layout": "panorama"
-          }
-        },
-        "principio_6dzNfz": {
-          "type": "principio",
-          "settings": {
-            "name": "Curación",
-            "line": "El tiempo que cada pieza necesita en bodega. Ni un mes menos por acelerar la venta.",
-            "meta": "",
-            "layout": "texto"
-          }
-        },
-        "principio_YamcA9": {
-          "type": "principio",
-          "settings": {
-            "name": "Origen y raza",
-            "line": "De qué dehesa viene y qué porcentaje de ibérico tiene.",
-            "meta": "",
-            "layout": "retrato"
-          }
-        },
-        "principio_fC3WiC": {
-          "type": "principio",
-          "settings": {
-            "name": "Conformación y grasa",
-            "line": "La forma de la pieza y cómo está infiltrada la grasa. Se ve mucho antes de probarla.",
-            "meta": "",
-            "image": "shopify://shop_images/generated_image_865993ea-f89f-484e-ac63-82f8cd44f83b.png",
-            "layout": "retrato"
-          }
-        },
-        "principio_k7MgBW": {
-          "type": "principio",
-          "settings": {
-            "name": "Aroma, textura y sabor",
-            "line": "La cata. Aquí se confirma o se descarta lo que prometía todo lo anterior.",
-            "meta": "",
-            "image": "shopify://shop_images/MESA.png",
-            "layout": "panorama"
-          }
-        },
-        "principio_VFVywY": {
-          "type": "principio",
-          "settings": {
-            "name": "Rendimiento y regularidad",
-            "line": "Cuánto aprovecha quien la compra, y que la siguiente pieza esté a la misma altura.",
-            "meta": "",
-            "layout": "texto"
-          }
-        }
-      },
-      "block_order": [
-        "principio_CLHeYT",
-        "principio_UdUwFg",
-        "principio_6dzNfz",
-        "principio_YamcA9",
-        "principio_fC3WiC",
-        "principio_k7MgBW",
-        "principio_VFVywY"
-      ],
-      "name": "Nosotros — El criterio",
-      "settings": {
-        "eyebrow": "El criterio Casa Maravillas",
-        "title": "<p>Qué miramos antes de <em>decir que sí</em></p>",
-        "closing": "¿Lo pondríamos en nuestra propia mesa?",
-        "theme": "light"
-      }
-    },
     "manifesto": {
       "type": "nosotros-manifesto",
       "settings": {
@@ -180,7 +92,6 @@
     "hero",
     "origen",
     "nosotros_escena_NNiFJk",
-    "nosotros_criterio_TwLXLT",
     "manifesto"
   ]
 }
