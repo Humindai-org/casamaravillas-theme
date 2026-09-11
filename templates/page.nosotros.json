@@ -122,6 +122,7 @@
             "name": "EL ORIGEN",
             "line": "<p><strong>Todo gran jamón empieza mucho antes de llegar a la mesa.</strong></p><p>Por eso, antes de elegir una pieza, queremos saber de dónde viene, quién está detrás de ella y qué hay en su origen. Conocemos las dehesas, trabajamos con productores en los que confiamos y buscamos procedencias que estén a la altura de lo que queremos ofrecer.</p><p>Porque para nosotros, seleccionar un buen jamón empieza por elegir bien desde el principio.</p>",
             "meta": "",
+            "two_image_layout": "pareja",
             "layout": "panorama",
             "text_position": "full"
           }
@@ -134,6 +135,7 @@
             "line": "<p><strong>La calidad también se construye durante la crianza.</strong></p><p>Nos importa conocer cómo se ha criado cada animal, su raza, su alimentación y, sobre todo, el entorno en el que ha vivido. Buscamos animales criados en espacios donde puedan desarrollarse con libertad, en contacto con la naturaleza y en condiciones acordes con su forma de vida.</p><p>Porque el lugar donde vive un animal también forma parte del jamón que llega a nuestra mesa.</p>",
             "meta": "",
             "image": "shopify://shop_images/DEHESA.png",
+            "two_image_layout": "pareja",
             "layout": "panorama",
             "text_position": "full"
           }
@@ -146,6 +148,7 @@
             "line": "<p><strong>Un buen jamón necesita tiempo.</strong></p><p>La curación no se puede acelerar sin consecuencias. Por eso buscamos piezas que hayan seguido su propio ritmo, respetando los tiempos de bodega que necesita cada una para desarrollar todo su potencial.</p><p>No buscamos que un jamón esté listo antes. Buscamos que esté listo cuando realmente lo está.</p>",
             "meta": "",
             "image": "shopify://shop_images/Bodega.png",
+            "two_image_layout": "pareja",
             "layout": "retrato",
             "text_position": "left"
           }
@@ -158,6 +161,8 @@
             "line": "<p><strong>Antes de probar un jamón, hay mucho que nos puede contar.</strong></p><p>Observamos su forma, su conformación, sus proporciones y, especialmente, cómo se presenta la grasa y su infiltración. Cada pieza tiene sus propias características y sabemos que muchas de ellas empiezan a descubrirse incluso antes de abrirla.</p><p>Porque seleccionar también es saber mirar, reconocer los detalles y entender qué puede ofrecer una pieza antes de llevarla a la mesa.</p>",
             "meta": "",
             "image": "shopify://shop_images/ChatGPT_Image_Jun_27_2026_02_12_26_PM.png",
+            "image_2": "shopify://shop_images/Gemini_Generated_Image_i1ftvxi1ftvxi1ft.png",
+            "two_image_layout": "pareja",
             "layout": "panorama",
             "text_position": "right"
           }
@@ -219,7 +224,6 @@
       ],
       "name": "Nosotros — Niveles de selección",
       "settings": {
-        "anchor": "niveles",
         "eyebrow": "Tres niveles de selección",
         "heading": "<p>No hay un solo estándar. <em>Hay tres.</em></p>",
         "note": "El precinto marca la categoría legal. Nuestro nivel dice qué lugar ocupa esa pieza dentro de lo que nosotros aceptamos.",
