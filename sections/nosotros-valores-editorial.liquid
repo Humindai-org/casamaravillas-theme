@@ -248,16 +248,16 @@
           "id": "name",
           "label": "Nombre del valor",
           "info": "Usa cursiva para resaltar en dorado.",
-          "default": "<p>Solo ponemos <em>lo que creemos</em></p>"
+          "default": "<p>Un valor <em>que no negociamos</em></p>"
         },
         {
           "type": "textarea",
           "id": "line",
           "label": "Frase",
           "info": "Corta. Dos o tres líneas como mucho.",
-          "default": "Si un producto no nos convence en la primera prueba, no llega a nuestra tienda."
+          "default": "Una frase corta que lo explique. Dos líneas como mucho."
         },
-        { "type": "text", "id": "meta", "label": "Etiqueta inferior", "info": "Opcional.", "default": "Autenticidad" },
+        { "type": "text", "id": "meta", "label": "Etiqueta inferior", "info": "Opcional. El nombre del valor." },
         { "type": "image_picker", "id": "image", "label": "Imagen", "info": "Sin imagen, la escena queda solo tipográfica." },
         {
           "type": "select",
@@ -317,10 +317,46 @@
     {
       "name": "Nosotros — Valores",
       "blocks": [
-        { "type": "valor", "settings": { "layout": "izq", "ground": "crema" } },
-        { "type": "valor", "settings": { "layout": "der", "ground": "navy" } },
-        { "type": "valor", "settings": { "layout": "columna", "ground": "blanco" } },
-        { "type": "valor", "settings": { "layout": "panoramica", "ground": "noche" } }
+        {
+          "type": "valor",
+          "settings": {
+            "name": "<p>Solo ponemos <em>lo que creemos</em></p>",
+            "line": "Si un producto no nos convence en la primera prueba, no llega a nuestra tienda. Decimos que no con mucha más frecuencia de la que decimos que sí.",
+            "meta": "Autenticidad",
+            "layout": "columna",
+            "ground": "blanco"
+          }
+        },
+        {
+          "type": "valor",
+          "settings": {
+            "name": "<p>Un equilibrio que <em>no se puede romper</em></p>",
+            "line": "Entre el animal y su entorno, entre el productor y su tierra, entre nosotros y quien recibe el pedido.",
+            "meta": "Respeto",
+            "layout": "tipografica",
+            "ground": "navy"
+          }
+        },
+        {
+          "type": "valor",
+          "settings": {
+            "name": "<p>Sin excepciones y <em>sin excusas</em></p>",
+            "line": "El mismo estándar en la selección, en el envasado y en la logística. Cuando algo no llega al nivel, lo decimos y lo arreglamos.",
+            "meta": "Exigencia",
+            "layout": "izq",
+            "ground": "crema"
+          }
+        },
+        {
+          "type": "valor",
+          "settings": {
+            "name": "<p>La tradición y la innovación <em>no son opuestos</em></p>",
+            "line": "Son los dos extremos del mismo hilo: honramos el saber de generaciones mientras buscamos nuevas formas de acercarlo.",
+            "meta": "Imaginación",
+            "layout": "panoramica",
+            "ground": "noche"
+          }
+        }
       ]
     }
   ]
