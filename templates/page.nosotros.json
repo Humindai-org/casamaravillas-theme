@@ -225,6 +225,7 @@
       ],
       "name": "Nosotros — Niveles de selección",
       "settings": {
+        "anchor": "niveles",
         "eyebrow": "Tres niveles de selección",
         "heading": "<p>No hay un solo estándar. <em>Hay tres.</em></p>",
         "note": "El precinto marca la categoría legal. Nuestro nivel dice qué lugar ocupa esa pieza dentro de lo que nosotros aceptamos.",
