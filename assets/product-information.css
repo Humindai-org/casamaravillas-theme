@@ -243,7 +243,11 @@
     display: flex;
     gap: 32px;
     overflow-x: auto;
-    scroll-snap-type: x mandatory;
+    /* proximity, no mandatory: con "mandatory" un gesto de trackpad
+       mayormente vertical pero con algo de deltaX quedaba "atrapado"
+       forzando el snap horizontal y bloqueaba el scroll de la página */
+    scroll-snap-type: x proximity;
+    overscroll-behavior-x: contain;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
   }
@@ -493,7 +497,8 @@
   .cm-pack-carousel {
     display: flex;
     overflow-x: auto;
-    scroll-snap-type: x mandatory;
+    scroll-snap-type: x proximity;
+    overscroll-behavior-x: contain;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
   }
