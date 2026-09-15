@@ -34,11 +34,70 @@ document.addEventListener('keydown', function(event) {
   }
 });
 
+// Carrusel de las 3 tarjetas (Nutrición / Alérgenos / Conservación) — no está
+// dentro de un modal, así que no hace falta fase de captura aquí.
+function updateInfoCardsArrows(track) {
+  const wrap = track.closest('.cm-info-cards-wrap');
+  if (!wrap) return;
+  const prevBtn = wrap.querySelector('[data-info-cards-prev]');
+  const nextBtn = wrap.querySelector('[data-info-cards-next]');
+  const maxScroll = track.scrollWidth - track.clientWidth;
+  if (prevBtn) prevBtn.disabled = track.scrollLeft <= 4;
+  if (nextBtn) nextBtn.disabled = track.scrollLeft >= maxScroll - 4;
+}
+
+document.addEventListener('click', function(e) {
+  const btn = e.target.closest('[data-info-cards-prev], [data-info-cards-next]');
+  if (!btn) return;
+  const wrap = btn.closest('.cm-info-cards-wrap');
+  const track = wrap && wrap.querySelector('[data-info-cards-track]');
+  const cards = track && track.querySelectorAll('.cm-info-card');
+  if (!track || !cards || !cards.length) return;
+
+  const current = track.scrollLeft;
+  let target = null;
+  if (btn.hasAttribute('data-info-cards-prev')) {
+    for (let i = cards.length - 1; i >= 0; i--) {
+      if (cards[i].offsetLeft < current - 4) { target = cards[i].offsetLeft; break; }
+    }
+    if (target === null) target = cards[0].offsetLeft;
+  } else {
+    for (let j = 0; j < cards.length; j++) {
+      if (cards[j].offsetLeft > current + 4) { target = cards[j].offsetLeft; break; }
+    }
+    if (target === null) target = cards[cards.length - 1].offsetLeft;
+  }
+  track.scrollTo({ left: target, behavior: 'smooth' });
+});
+
+document.querySelectorAll('[data-info-cards-track]').forEach(function(track) {
+  updateInfoCardsArrows(track);
+  track.addEventListener('scroll', function() { updateInfoCardsArrows(track); }, { passive: true });
+});
+window.addEventListener('resize', function() {
+  document.querySelectorAll('[data-info-cards-track]').forEach(updateInfoCardsArrows);
+});
+
 // Carrusel de componentes de pack (dentro del modal "Alérgenos e Ingredientes")
 function updatePackCarousel(track) {
-  const nav = track.parentElement.querySelector('.cm-pack-carousel__nav');
   const cards = track.querySelectorAll('[data-pack-carousel-card]');
-  if (!nav || !cards.length) return;
+  if (!cards.length) return;
+
+  let current = 0;
+  cards.forEach(function(card, i) {
+    if (card.offsetLeft <= track.scrollLeft + 4) current = i;
+  });
+
+  // Título dinámico arriba del modal: qué producto del pack se está viendo
+  const modal = track.closest('.cm-modal');
+  const headerCurrent = modal && modal.querySelector('[data-pack-carousel-current]');
+  if (headerCurrent) {
+    const nameEl = cards[current].querySelector('.cm-pack-carousel__name');
+    headerCurrent.textContent = nameEl ? nameEl.textContent : '';
+  }
+
+  const nav = track.parentElement.querySelector('.cm-pack-carousel__nav');
+  if (!nav) return;
 
   const prevBtn = nav.querySelector('[data-pack-carousel-prev]');
   const nextBtn = nav.querySelector('[data-pack-carousel-next]');
@@ -47,14 +106,7 @@ function updatePackCarousel(track) {
 
   if (prevBtn) prevBtn.disabled = track.scrollLeft <= 4;
   if (nextBtn) nextBtn.disabled = track.scrollLeft >= maxScroll - 4;
-
-  if (counter) {
-    let current = 0;
-    cards.forEach(function(card, i) {
-      if (card.offsetLeft <= track.scrollLeft + 4) current = i;
-    });
-    counter.textContent = (current + 1) + ' / ' + cards.length;
-  }
+  if (counter) counter.textContent = (current + 1) + ' / ' + cards.length;
 }
 
 function scrollPackCarouselTo(track, cardOffsetLeft) {

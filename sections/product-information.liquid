@@ -63,15 +63,21 @@
 {%- endcase -%}
 
 {%- if section.settings.product_image != blank -%}
-  {%- assign image_src = section.settings.product_image | image_url: width: 520, format: 'webp' -%}
-  {%- assign image_alt = section.settings.product_image.alt | default: 'Mano ofreciendo jamón ibérico' -%}
+  {%- assign image_object = section.settings.product_image -%}
+  {%- assign image_src = image_object | image_url: width: 520, format: 'webp' -%}
+  {%- assign image_alt = image_object.alt | default: 'Mano ofreciendo jamón ibérico' -%}
 {%- elsif _variant_handle == 'jamones' and section.settings.jamones_image != blank -%}
-  {%- assign image_src = section.settings.jamones_image | image_url: width: 520, format: 'webp' -%}
-  {%- assign image_alt = section.settings.jamones_image.alt | default: 'Mano ofreciendo jamón ibérico' -%}
+  {%- assign image_object = section.settings.jamones_image -%}
+  {%- assign image_src = image_object | image_url: width: 520, format: 'webp' -%}
+  {%- assign image_alt = image_object.alt | default: 'Mano ofreciendo jamón ibérico' -%}
 {%- elsif _variant_handle == 'embutidos' and section.settings.embutidos_image != blank -%}
-  {%- assign image_src = section.settings.embutidos_image | image_url: width: 520, format: 'webp' -%}
-  {%- assign image_alt = section.settings.embutidos_image.alt | default: 'Embutido ibérico' -%}
+  {%- assign image_object = section.settings.embutidos_image -%}
+  {%- assign image_src = image_object | image_url: width: 520, format: 'webp' -%}
+  {%- assign image_alt = image_object.alt | default: 'Embutido ibérico' -%}
 {%- endif -%}
+{%- comment -%} width/height explícitos para evitar CLS (theme check: ImgWidthAndHeight) {%- endcomment -%}
+{%- assign _image_aspect_ratio = image_object.aspect_ratio | default: 1.0 -%}
+{%- assign image_height = 520.0 | divided_by: _image_aspect_ratio | round -%}
 
 <div class="cm-info-section{% if section_modifier != blank %} {{ section_modifier }}{% endif %}">
   <div class="cm-info-section__inner">
@@ -92,7 +98,8 @@
     <div class="cm-info-right">
 
       {%- comment -%} Information Cards {%- endcomment -%}
-      <div class="cm-info-cards">
+      <div class="cm-info-cards-wrap">
+      <div class="cm-info-cards" data-info-cards-track>
 
         {%- comment -%} Card 1: Información nutricional {%- endcomment -%}
         <article class="cm-info-card">
@@ -172,6 +179,57 @@
           </button>
         </article>
 
+        {%- comment -%} Card 3: Conservación y consumo — se llega deslizando con la flecha {%- endcomment -%}
+        <article class="cm-info-card">
+          <h3 class="cm-info-card__title">{{ section.settings.card2_title }}</h3>
+          <div class="cm-info-card__rows">
+            {%- assign _cons_t  = product.metafields.custom.conservation_temp.value | default: section.settings.info_conservation_temp -%}
+            {%- assign _serv_t  = product.metafields.custom.service_temp.value | default: section.settings.info_service_temp -%}
+            {%- assign _cons_d  = product.metafields.custom.conservation_days.value | default: section.settings.info_conservation_days -%}
+            {%- if _cons_t != blank -%}
+              <div class="cm-info-card__row">
+                <span class="cm-info-card__label">{{ section.settings.conservation_label }}</span>
+                <span class="cm-info-card__value">{{ _cons_t }}°</span>
+              </div>
+            {%- endif -%}
+            {%- if _serv_t != blank -%}
+              <div class="cm-info-card__row">
+                <span class="cm-info-card__label">{{ section.settings.service_label }}</span>
+                <span class="cm-info-card__value">{{ _serv_t }}°</span>
+              </div>
+            {%- endif -%}
+            {%- if _cons_d != blank -%}
+              <div class="cm-info-card__row">
+                <span class="cm-info-card__label">{{ section.settings.opened_label }}</span>
+                <span class="cm-info-card__value">{{ _cons_d }} días</span>
+              </div>
+            {%- endif -%}
+          </div>
+          {%- if section.settings.card2_additional_text != blank -%}
+            {%- assign _has_cons_rows = false -%}
+            {%- if _cons_t != blank or _serv_t != blank or _cons_d != blank -%}
+              {%- assign _has_cons_rows = true -%}
+            {%- endif -%}
+            <div class="cm-info-card__additional-text{% unless _has_cons_rows %} cm-info-card__additional-text--no-sep{% endunless %}">
+              {{ section.settings.card2_additional_text }}
+            </div>
+          {%- endif -%}
+        </article>
+
+      </div>
+
+      {%- comment -%}
+        Flechas para deslizar entre las 3 tarjetas: se ven 2 a la vez (mismo
+        ancho de siempre) y la flecha revela Conservación sin apilarla debajo
+        ni crecer la altura de la fila — así la imagen de la mano (posición en
+        píxeles fijos) no se descuadra.
+      {%- endcomment -%}
+      <button type="button" class="cm-info-cards__arrow cm-info-cards__arrow--prev" data-info-cards-prev aria-label="Tarjeta anterior">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <button type="button" class="cm-info-cards__arrow cm-info-cards__arrow--next" data-info-cards-next aria-label="Tarjeta siguiente">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+      </button>
       </div>
 
     </div>
@@ -183,60 +241,13 @@
     <img
       src="{{ image_src }}"
       alt="{{ image_alt }}"
+      width="520"
+      height="{{ image_height }}"
       loading="lazy"
     />
   </div>
   {%- endif -%}
 
-</div>
-
-{%- comment -%}
-  Conservación y consumo vive FUERA de .cm-info-section a propósito: si se
-  metiera una tercera tarjeta dentro del grid, lo haría más alto y
-  descuadraría la imagen de la mano, que está posicionada con "top" en
-  píxeles fijos calculado para el alto original de 2 tarjetas (ver
-  .cm-info-image-container en product-information.css). Por eso Alérgenos e
-  Ingredientes ocupa el puesto 2 del grid (a petición del cliente, para que
-  vaya antes que Conservación) y Conservación pasa a este panel externo.
-{%- endcomment -%}
-<div class="cm-info-extra-panel{% if section_modifier != blank %} {{ section_modifier }}{% endif %}">
-  <div class="cm-info-extra-panel__inner">
-    <article class="cm-info-card">
-      <h3 class="cm-info-card__title">{{ section.settings.card2_title }}</h3>
-      <div class="cm-info-card__rows">
-        {%- assign _cons_t  = product.metafields.custom.conservation_temp.value | default: section.settings.info_conservation_temp -%}
-        {%- assign _serv_t  = product.metafields.custom.service_temp.value | default: section.settings.info_service_temp -%}
-        {%- assign _cons_d  = product.metafields.custom.conservation_days.value | default: section.settings.info_conservation_days -%}
-        {%- if _cons_t != blank -%}
-          <div class="cm-info-card__row">
-            <span class="cm-info-card__label">{{ section.settings.conservation_label }}</span>
-            <span class="cm-info-card__value">{{ _cons_t }}°</span>
-          </div>
-        {%- endif -%}
-        {%- if _serv_t != blank -%}
-          <div class="cm-info-card__row">
-            <span class="cm-info-card__label">{{ section.settings.service_label }}</span>
-            <span class="cm-info-card__value">{{ _serv_t }}°</span>
-          </div>
-        {%- endif -%}
-        {%- if _cons_d != blank -%}
-          <div class="cm-info-card__row">
-            <span class="cm-info-card__label">{{ section.settings.opened_label }}</span>
-            <span class="cm-info-card__value">{{ _cons_d }} días</span>
-          </div>
-        {%- endif -%}
-      </div>
-      {%- if section.settings.card2_additional_text != blank -%}
-        {%- assign _has_cons_rows = false -%}
-        {%- if _cons_t != blank or _serv_t != blank or _cons_d != blank -%}
-          {%- assign _has_cons_rows = true -%}
-        {%- endif -%}
-        <div class="cm-info-card__additional-text{% unless _has_cons_rows %} cm-info-card__additional-text--no-sep{% endunless %}">
-          {{ section.settings.card2_additional_text }}
-        </div>
-      {%- endif -%}
-    </article>
-  </div>
 </div>
 
 <!-- MODAL: Información Nutricional -->
@@ -364,7 +375,12 @@
   <div class="cm-modal__content" onclick="event.stopPropagation()">
     <button class="cm-modal__close" onclick="closeModal('allergens-modal')" aria-label="Cerrar modal">&times;</button>
 
-    <div class="cm-modal__header">{{ section.settings.card3_title }}</div>
+    <div class="cm-modal__header">
+      {{ section.settings.card3_title }}
+      {%- if _has_pack_components -%}
+        <span class="cm-modal__header-current" data-pack-carousel-current></span>
+      {%- endif -%}
+    </div>
 
     {%- if _has_pack_components -%}
       <div class="cm-modal__section">
@@ -549,7 +565,7 @@
     {
       "type": "text",
       "id": "card1_title",
-      "label": "Título Tarjeta 1",
+      "label": "Título — Información nutricional",
       "default": "Información nutricional"
     },
     {
@@ -711,7 +727,7 @@
     {
       "type": "text",
       "id": "card2_title",
-      "label": "Título Tarjeta 2",
+      "label": "Título — Conservación y consumo",
       "default": "Conservación y consumo"
     },
     {
@@ -830,7 +846,7 @@
     {
       "type": "text",
       "id": "card3_title",
-      "label": "Título Tarjeta 3",
+      "label": "Título — Alérgenos e Ingredientes",
       "default": "Alérgenos e Ingredientes"
     }
   ],

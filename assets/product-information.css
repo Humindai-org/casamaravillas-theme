@@ -229,17 +229,102 @@
     }
   }
 
-  /* ── CARDS LAYOUT ── */
+  /* ── CARDS LAYOUT ──
+     3 tarjetas (Nutrición, Alérgenos, Conservación) en una sola fila horizontal
+     con scroll-snap: se ven 2 a la vez (mismo ancho que antes) y la flecha
+     desliza para revelar la tercera, en vez de apilarla debajo. Así la altura
+     de la fila nunca crece y la imagen de la mano (posición en píxeles fijos)
+     no se descuadra — ver .cm-info-image-container más abajo. ── */
+  .cm-info-cards-wrap {
+    position: relative;
+  }
+
   .cm-info-cards {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
     gap: 32px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .cm-info-cards::-webkit-scrollbar {
+    display: none;
+  }
+
+  .cm-info-cards .cm-info-card {
+    flex: 0 0 calc(50% - 16px);
+    max-width: calc(50% - 16px);
+    scroll-snap-align: start;
+  }
+
+  .cm-info-cards__arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid var(--accent-gold);
+    background: var(--bg-primary);
+    color: var(--accent-gold);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    cursor: pointer;
+    box-shadow: 0 8px 24px var(--shadow-dark), 0 0 1px var(--shadow-warm);
+    transition: background 0.25s ease, color 0.25s ease, transform 0.2s ease, opacity 0.25s ease;
+    z-index: 3;
+  }
+
+  .cm-info-cards__arrow svg {
+    width: 18px;
+    height: 18px;
+    display: block;
+  }
+
+  .cm-info-cards__arrow:hover {
+    background: var(--accent-gold);
+    color: #fff;
+  }
+
+  .cm-info-cards__arrow:active {
+    transform: translateY(-50%) scale(0.92);
+  }
+
+  .cm-info-cards__arrow:focus-visible {
+    outline: 2px solid var(--accent-gold);
+    outline-offset: 2px;
+  }
+
+  .cm-info-cards__arrow[disabled] {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .cm-info-cards__arrow--prev {
+    left: -14px;
+  }
+
+  .cm-info-cards__arrow--next {
+    right: -14px;
   }
 
   @media (max-width: 768px) {
     .cm-info-cards {
-      grid-template-columns: 1fr;
+      flex-direction: column;
+      overflow-x: visible;
       gap: 24px;
+    }
+
+    .cm-info-cards .cm-info-card {
+      flex: none;
+      max-width: 100%;
+    }
+
+    .cm-info-cards__arrow {
+      display: none;
     }
   }
 
@@ -402,32 +487,6 @@
     border-top: none;
     margin-top: 12px;
     padding-top: 0;
-  }
-
-  /* ── PANEL Conservación y consumo — fuera de .cm-info-section a propósito
-     (ver comentario en product-information.liquid) para no afectar la altura
-     de las 2 tarjetas del grid ni la posición fija de la imagen de la mano ── */
-  .cm-info-extra-panel {
-    width: 100%;
-    background: linear-gradient(135deg, var(--bg-primary) 0%, #FBF9F6) 100%;
-    padding: 0 24px 80px;
-    box-sizing: border-box;
-    position: relative;
-  }
-
-  .cm-info-extra-panel__inner {
-    max-width: 1400px;
-    margin: 0 auto;
-  }
-
-  .cm-info-extra-panel .cm-info-card {
-    max-width: 100%;
-  }
-
-  @media (max-width: 768px) {
-    .cm-info-extra-panel {
-      padding: 0 20px 60px;
-    }
   }
 
   /* ── CARRUSEL DE COMPONENTES DE PACK (dentro del modal) ── */
@@ -660,6 +719,17 @@
     margin-bottom: 40px;
     color: var(--text-primary);
     letter-spacing: -0.01em;
+  }
+
+  /* Nombre del componente de pack actual, actualizado al deslizar el carrusel */
+  .cm-modal__header-current {
+    display: block;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--accent-gold);
+    letter-spacing: 0.02em;
+    margin-top: 8px;
   }
 
   .cm-modal__section {
