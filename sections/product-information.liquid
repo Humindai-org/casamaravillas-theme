@@ -11,6 +11,23 @@
 {%- assign icon_card1 = section.settings.card1_icon -%}
 {%- assign icon_card2 = section.settings.card2_icon -%}
 
+{%- comment -%}
+  Card 3: Alérgenos e Ingredientes
+  - Packs: product.metafields.custom.componentes_del_packs es una lista de referencias
+    al metaobject "componente_pack" (campos: nombre, ingredientes, alergenos, formato — rich text
+    para ingredientes/alergenos, así los alérgenos ya llegan en <strong> desde el editor de Shopify).
+  - Jamones/embutidos sueltos: product.metafields.custom.ingredients / .allergens son texto plano
+    que ya incluye <strong> alrededor de los alérgenos tal como lo carga el equipo de contenido,
+    por eso se vuelcan sin escapar ("tal cual").
+{%- endcomment -%}
+{%- assign _ingredients = product.metafields.custom.ingredients.value -%}
+{%- assign _allergens = product.metafields.custom.allergens.value -%}
+{%- assign _pack_components = product.metafields.custom.componentes_del_packs.value -%}
+{%- assign _has_pack_components = false -%}
+{%- if _pack_components.size > 0 -%}
+  {%- assign _has_pack_components = true -%}
+{%- endif -%}
+
 {{ 'product-information.css' | asset_url | stylesheet_tag }}
 <style>
   .cm-info-image-container--embutidos {
@@ -142,41 +159,17 @@
           </button>
         </article>
 
-        {%- comment -%} Card 2: Conservación y consumo {%- endcomment -%}
+        {%- comment -%} Card 2: Alérgenos e Ingredientes (antes que Conservación, a petición del cliente) {%- endcomment -%}
         <article class="cm-info-card">
-          <h3 class="cm-info-card__title">{{ section.settings.card2_title }}</h3>
-          <div class="cm-info-card__rows">
-            {%- assign _cons_t  = product.metafields.custom.conservation_temp.value | default: section.settings.info_conservation_temp -%}
-            {%- assign _serv_t  = product.metafields.custom.service_temp.value | default: section.settings.info_service_temp -%}
-            {%- assign _cons_d  = product.metafields.custom.conservation_days.value | default: section.settings.info_conservation_days -%}
-            {%- if _cons_t != blank -%}
-              <div class="cm-info-card__row">
-                <span class="cm-info-card__label">{{ section.settings.conservation_label }}</span>
-                <span class="cm-info-card__value">{{ _cons_t }}°</span>
-              </div>
-            {%- endif -%}
-            {%- if _serv_t != blank -%}
-              <div class="cm-info-card__row">
-                <span class="cm-info-card__label">{{ section.settings.service_label }}</span>
-                <span class="cm-info-card__value">{{ _serv_t }}°</span>
-              </div>
-            {%- endif -%}
-            {%- if _cons_d != blank -%}
-              <div class="cm-info-card__row">
-                <span class="cm-info-card__label">{{ section.settings.opened_label }}</span>
-                <span class="cm-info-card__value">{{ _cons_d }} días</span>
-              </div>
-            {%- endif -%}
-          </div>
-          {%- if section.settings.card2_additional_text != blank -%}
-            {%- assign _has_cons_rows = false -%}
-            {%- if _cons_t != blank or _serv_t != blank or _cons_d != blank -%}
-              {%- assign _has_cons_rows = true -%}
-            {%- endif -%}
-            <div class="cm-info-card__additional-text{% unless _has_cons_rows %} cm-info-card__additional-text--no-sep{% endunless %}">
-              {{ section.settings.card2_additional_text }}
-            </div>
+          <h3 class="cm-info-card__title">{{ section.settings.card3_title }}</h3>
+          {%- if _has_pack_components -%}
+            <p class="cm-info-card__subtitle">{{ _pack_components.size }} referencias incluidas en este pack</p>
+          {%- else -%}
+            <p class="cm-info-card__subtitle">Composición y alérgenos declarados</p>
           {%- endif -%}
+          <button class="cm-info-card__more-btn" onclick="openModal('allergens-modal')">
+            Saber más
+          </button>
         </article>
 
       </div>
@@ -195,6 +188,55 @@
   </div>
   {%- endif -%}
 
+</div>
+
+{%- comment -%}
+  Conservación y consumo vive FUERA de .cm-info-section a propósito: si se
+  metiera una tercera tarjeta dentro del grid, lo haría más alto y
+  descuadraría la imagen de la mano, que está posicionada con "top" en
+  píxeles fijos calculado para el alto original de 2 tarjetas (ver
+  .cm-info-image-container en product-information.css). Por eso Alérgenos e
+  Ingredientes ocupa el puesto 2 del grid (a petición del cliente, para que
+  vaya antes que Conservación) y Conservación pasa a este panel externo.
+{%- endcomment -%}
+<div class="cm-info-extra-panel{% if section_modifier != blank %} {{ section_modifier }}{% endif %}">
+  <div class="cm-info-extra-panel__inner">
+    <article class="cm-info-card">
+      <h3 class="cm-info-card__title">{{ section.settings.card2_title }}</h3>
+      <div class="cm-info-card__rows">
+        {%- assign _cons_t  = product.metafields.custom.conservation_temp.value | default: section.settings.info_conservation_temp -%}
+        {%- assign _serv_t  = product.metafields.custom.service_temp.value | default: section.settings.info_service_temp -%}
+        {%- assign _cons_d  = product.metafields.custom.conservation_days.value | default: section.settings.info_conservation_days -%}
+        {%- if _cons_t != blank -%}
+          <div class="cm-info-card__row">
+            <span class="cm-info-card__label">{{ section.settings.conservation_label }}</span>
+            <span class="cm-info-card__value">{{ _cons_t }}°</span>
+          </div>
+        {%- endif -%}
+        {%- if _serv_t != blank -%}
+          <div class="cm-info-card__row">
+            <span class="cm-info-card__label">{{ section.settings.service_label }}</span>
+            <span class="cm-info-card__value">{{ _serv_t }}°</span>
+          </div>
+        {%- endif -%}
+        {%- if _cons_d != blank -%}
+          <div class="cm-info-card__row">
+            <span class="cm-info-card__label">{{ section.settings.opened_label }}</span>
+            <span class="cm-info-card__value">{{ _cons_d }} días</span>
+          </div>
+        {%- endif -%}
+      </div>
+      {%- if section.settings.card2_additional_text != blank -%}
+        {%- assign _has_cons_rows = false -%}
+        {%- if _cons_t != blank or _serv_t != blank or _cons_d != blank -%}
+          {%- assign _has_cons_rows = true -%}
+        {%- endif -%}
+        <div class="cm-info-card__additional-text{% unless _has_cons_rows %} cm-info-card__additional-text--no-sep{% endunless %}">
+          {{ section.settings.card2_additional_text }}
+        </div>
+      {%- endif -%}
+    </article>
+  </div>
 </div>
 
 <!-- MODAL: Información Nutricional -->
@@ -313,6 +355,111 @@
         <div class="cm-modal__section-title">Sugerencias de consumo</div>
         <div class="cm-modal__text">{{ section.settings.modal_consumption_tips }}</div>
       </div>
+    {%- endif -%}
+  </div>
+</div>
+
+<!-- MODAL: Alérgenos e Ingredientes -->
+<div class="cm-modal" id="allergens-modal" onclick="closeModalOnOverlay(event, 'allergens-modal')">
+  <div class="cm-modal__content" onclick="event.stopPropagation()">
+    <button class="cm-modal__close" onclick="closeModal('allergens-modal')" aria-label="Cerrar modal">&times;</button>
+
+    <div class="cm-modal__header">{{ section.settings.card3_title }}</div>
+
+    {%- if _has_pack_components -%}
+      <div class="cm-modal__section">
+
+        {%- if _pack_components.size > 1 -%}
+          <div class="cm-pack-carousel__search">
+            <input
+              type="text"
+              class="cm-pack-carousel__search-input"
+              data-pack-carousel-search
+              placeholder="Buscar producto del pack…"
+              autocomplete="off"
+              aria-label="Buscar producto del pack"
+            >
+            <ul class="cm-pack-carousel__search-results" data-pack-carousel-search-results hidden></ul>
+          </div>
+        {%- endif -%}
+
+        <div class="cm-pack-carousel" data-pack-carousel-track>
+          {%- for component in _pack_components -%}
+            {%- assign _comp_name = component.fields.nombre.value -%}
+            {%- comment -%}
+              Key asumida a partir de la etiqueta "Información nutricional" (rich text)
+              añadida al metaobject componente_pack — ajustar si Shopify generó otra key.
+            {%- endcomment -%}
+            {%- assign _comp_nutrition = component.fields.informacion_nutricional -%}
+            {%- assign _comp_ing = component.fields.ingredientes -%}
+            {%- assign _comp_alg = component.fields.alergenos -%}
+            {%- assign _comp_fmt = component.fields.formato.value -%}
+            <div class="cm-pack-carousel__card" data-pack-carousel-card>
+              <h4 class="cm-pack-carousel__name">{{ _comp_name | default: 'Componente' }}</h4>
+
+              <div class="cm-pack-carousel__block">
+                <div class="cm-modal__section-title">Información nutricional (por 100g)</div>
+                {%- if _comp_nutrition.value != blank -%}
+                  <div class="cm-modal__text">{{ _comp_nutrition | metafield_tag }}</div>
+                {%- else -%}
+                  <p class="cm-pack-carousel__empty">Ficha en preparación</p>
+                {%- endif -%}
+              </div>
+
+              <div class="cm-pack-carousel__block">
+                <div class="cm-modal__section-title">Ingredientes</div>
+                {%- if _comp_ing.value != blank -%}
+                  <div class="cm-modal__text">{{ _comp_ing | metafield_tag }}</div>
+                {%- else -%}
+                  <p class="cm-pack-carousel__empty">Ficha en preparación</p>
+                {%- endif -%}
+              </div>
+
+              <div class="cm-pack-carousel__block">
+                <div class="cm-modal__section-title">Alérgenos</div>
+                {%- if _comp_alg.value != blank -%}
+                  <div class="cm-modal__text">{{ _comp_alg | metafield_tag }}</div>
+                {%- else -%}
+                  <p class="cm-pack-carousel__empty">Ficha en preparación</p>
+                {%- endif -%}
+              </div>
+
+              {%- if _comp_fmt != blank -%}
+                <div class="cm-pack-carousel__block">
+                  <div class="cm-modal__section-title">Formato / Peso</div>
+                  <div class="cm-modal__text">{{ _comp_fmt | newline_to_br }}</div>
+                </div>
+              {%- endif -%}
+            </div>
+          {%- endfor -%}
+        </div>
+
+        {%- if _pack_components.size > 1 -%}
+          <div class="cm-pack-carousel__nav">
+            <button type="button" class="cm-pack-carousel__arrow" data-pack-carousel-prev aria-label="Componente anterior">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+            </button>
+            <span class="cm-pack-carousel__counter" data-pack-carousel-counter></span>
+            <button type="button" class="cm-pack-carousel__arrow" data-pack-carousel-next aria-label="Componente siguiente">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+            </button>
+          </div>
+        {%- endif -%}
+      </div>
+    {%- else -%}
+      {%- if _ingredients != blank -%}
+        <div class="cm-modal__section">
+          <div class="cm-modal__section-title">Ingredientes</div>
+          <div class="cm-modal__text">{{ _ingredients }}</div>
+        </div>
+      {%- endif -%}
+
+      {%- if _allergens != blank -%}
+        <div class="cm-modal__section">
+          <div class="cm-modal__section-title">Alérgenos</div>
+          <div class="cm-modal__text">{{ _allergens }}</div>
+        </div>
+      {%- endif -%}
     {%- endif -%}
   </div>
 </div>
@@ -679,6 +826,12 @@
       "type": "textarea",
       "id": "card2_additional_text",
       "label": "Texto adicional en Conservación y consumo"
+    },
+    {
+      "type": "text",
+      "id": "card3_title",
+      "label": "Título Tarjeta 3",
+      "default": "Alérgenos e Ingredientes"
     }
   ],
   "presets": [
