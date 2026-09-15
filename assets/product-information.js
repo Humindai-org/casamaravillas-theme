@@ -41,9 +41,12 @@ function updateInfoCardsArrows(track) {
   if (!wrap) return;
   const prevBtn = wrap.querySelector('[data-info-cards-prev]');
   const nextBtn = wrap.querySelector('[data-info-cards-next]');
+  // Igual que en updatePackCarousel: nunca usar `disabled` (bloquea clicks
+  // nativamente) ni tocar el estado si el track aún no tiene layout.
+  if (track.clientWidth === 0) return;
   const maxScroll = track.scrollWidth - track.clientWidth;
-  if (prevBtn) prevBtn.disabled = track.scrollLeft <= 4;
-  if (nextBtn) nextBtn.disabled = track.scrollLeft >= maxScroll - 4;
+  if (prevBtn) prevBtn.classList.toggle('is-edge', track.scrollLeft <= 4);
+  if (nextBtn) nextBtn.classList.toggle('is-edge', track.scrollLeft >= maxScroll - 4);
 }
 
 document.addEventListener('click', function(e) {
@@ -102,11 +105,16 @@ function updatePackCarousel(track) {
   const prevBtn = nav.querySelector('[data-pack-carousel-prev]');
   const nextBtn = nav.querySelector('[data-pack-carousel-next]');
   const counter = nav.querySelector('[data-pack-carousel-counter]');
-  const maxScroll = track.scrollWidth - track.clientWidth;
-
-  if (prevBtn) prevBtn.disabled = track.scrollLeft <= 4;
-  if (nextBtn) nextBtn.disabled = track.scrollLeft >= maxScroll - 4;
   if (counter) counter.textContent = (current + 1) + ' / ' + cards.length;
+
+  // Si el modal todavía no terminó su layout (clientWidth 0), no tocamos el
+  // estado visual de las flechas: usar el atributo `disabled` aquí bloquearía
+  // los clicks nativamente y, si esta medición sale mal justo al abrir el
+  // modal, la flecha se quedaría "atascada" sin poder recuperarse.
+  if (track.clientWidth === 0) return;
+  const maxScroll = track.scrollWidth - track.clientWidth;
+  if (prevBtn) prevBtn.classList.toggle('is-edge', track.scrollLeft <= 4);
+  if (nextBtn) nextBtn.classList.toggle('is-edge', track.scrollLeft >= maxScroll - 4);
 }
 
 function scrollPackCarouselTo(track, cardOffsetLeft) {

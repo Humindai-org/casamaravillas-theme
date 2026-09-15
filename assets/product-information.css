@@ -298,7 +298,7 @@
     outline-offset: 2px;
   }
 
-  .cm-info-cards__arrow[disabled] {
+  .cm-info-cards__arrow.is-edge {
     opacity: 0;
     pointer-events: none;
   }
@@ -638,12 +638,15 @@
     outline-offset: 2px;
   }
 
-  .cm-pack-carousel__arrow[disabled] {
+  /* .is-edge (no `disabled`): solo atenúa, nunca bloquea el click — un botón
+     con `disabled` real deja de disparar eventos de click en el navegador, y
+     si el cálculo de ancho fallaba justo al abrir el modal la flecha se
+     quedaba inutilizable sin forma de recuperarse. */
+  .cm-pack-carousel__arrow.is-edge {
     opacity: 0.35;
-    cursor: default;
   }
 
-  .cm-pack-carousel__arrow[disabled]:hover {
+  .cm-pack-carousel__arrow.is-edge:hover {
     background: transparent;
     color: var(--accent-gold);
   }
