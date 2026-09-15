@@ -1008,8 +1008,15 @@
     var formatoTags = ['loncheado', 'pieza'];
 
     /* Category definitions — packs */
-    var calidadPacksTags = ['cebo', 'cebo-de-campo', 'bellota-75', 'bellota-100'];
+    var calidadPacksTags = ['cebo', 'cebo-de-campo', 'bellota-50', 'bellota-100'];
     var vinoTags = ['vino-tinto', 'cava'];
+    var tierTags = ['pack_gourmet', 'pack_seleccion', 'pack_premium'];
+    /* Rangos de precio (€) — deben coincidir con las etiquetas "Desde €X" de las tarjetas de Nuestra gama */
+    var tierPriceRanges = {
+      'pack_gourmet': [30, 80],
+      'pack_seleccion': [80, 150],
+      'pack_premium': [150, Infinity]
+    };
 
     /* Category definitions — jamones */
     var jCalidadTags = ['precinto negro', 'precinto rojo', 'precinto verde', 'precinto blanco'];
@@ -1020,6 +1027,7 @@
     var selectedFormatoTags = selectedTags.filter(function(tag) { return formatoTags.indexOf(tag) !== -1; });
     var selectedCalidadPacksTags = selectedTags.filter(function(tag) { return calidadPacksTags.indexOf(tag) !== -1; });
     var selectedVinoTags = selectedTags.filter(function(tag) { return vinoTags.indexOf(tag) !== -1; });
+    var selectedTierTags = selectedTags.filter(function(tag) { return tierTags.indexOf(tag) !== -1; });
     var selectedJCalidadTags = selectedTags.filter(function(tag) { return jCalidadTags.indexOf(tag) !== -1; });
     var selectedJFormatoTags = selectedTags.filter(function(tag) { return jFormatoTags.indexOf(tag) !== -1; });
 
@@ -1045,6 +1053,15 @@
       /* OR logic within Tipo de vino category (packs) */
       if (selectedVinoTags.length > 0) {
         matches = matches && selectedVinoTags.some(function(tag) { return productTags.indexOf(tag) !== -1; });
+      }
+
+      /* OR logic within Nivel category (packs — tarjetas "Nuestra gama"), por precio, no por tag */
+      if (selectedTierTags.length > 0) {
+        var productPrice = parseFloat(product.getAttribute('data-product-price'));
+        matches = matches && selectedTierTags.some(function(tag) {
+          var range = tierPriceRanges[tag];
+          return range && productPrice >= range[0] && productPrice < range[1];
+        });
       }
 
       /* OR logic within Calidad category (jamones) */

@@ -250,9 +250,12 @@
   var section = document.getElementById('it-section-' + sid);
   if (!section) return;
 
-  /* Solo embutidos filtra en cliente (sin recarga). Carnes/packs usan
-     navegación por ruta nativa del <a href> server-side. */
-  var clientSide = '{{ collection.handle }}'.indexOf('embutidos') !== -1;
+  /* Embutidos y packs filtran en cliente (sin recarga), sincronizando con
+     los checkboxes ocultos de su sidebar. Carnes sigue usando navegación
+     por ruta nativa del <a href> server-side. */
+  var isEmbutidos = '{{ collection.handle }}'.indexOf('embutidos') !== -1;
+  var isPacks = '{{ collection.handle }}' === 'packs-regalo' || '{{ collection.template_suffix }}' === 'packs-regalo';
+  var clientSide = isEmbutidos || isPacks;
   if (!clientSide) return;
 
   var cards = section.querySelectorAll('[data-filter-tag-btn]');
