@@ -236,7 +236,8 @@
 
   </div>
 
-  {%- if image_src != blank -%}
+  {%- comment -%} La imagen de la mano no se muestra en packs, a petición del cliente {%- endcomment -%}
+  {%- if image_src != blank and _has_pack_components == false -%}
   <div class="cm-info-image-container{% if image_modifier != blank %} {{ image_modifier }}{% endif %}">
     <img
       src="{{ image_src }}"
@@ -401,15 +402,15 @@
 
         <div class="cm-pack-carousel" data-pack-carousel-track>
           {%- for component in _pack_components -%}
-            {%- assign _comp_name = component.fields.nombre.value -%}
+            {%- assign _comp_name = component.nombre.value -%}
             {%- comment -%}
               Key asumida a partir de la etiqueta "Información nutricional" (rich text)
               añadida al metaobject componente_pack — ajustar si Shopify generó otra key.
             {%- endcomment -%}
-            {%- assign _comp_nutrition = component.fields.informacion_nutricional -%}
-            {%- assign _comp_ing = component.fields.ingredientes -%}
-            {%- assign _comp_alg = component.fields.alergenos -%}
-            {%- assign _comp_fmt = component.fields.formato.value -%}
+            {%- assign _comp_nutrition = component.informacion_nutricional -%}
+            {%- assign _comp_ing = component.ingredientes -%}
+            {%- assign _comp_alg = component.alergenos -%}
+            {%- assign _comp_fmt = component.formato.value -%}
             <div class="cm-pack-carousel__card" data-pack-carousel-card>
               <h4 class="cm-pack-carousel__name">{{ _comp_name | default: 'Componente' }}</h4>
 

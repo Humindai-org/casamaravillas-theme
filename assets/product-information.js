@@ -154,7 +154,7 @@ function normalizePackSearch(str) {
   return (str || '')
     .toString()
     .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '')
+    .replace(/[\u0300-\u036f]/g, '')
     .toLowerCase()
     .trim();
 }
