@@ -68,7 +68,10 @@
     height: 100%;
     object-fit: cover;
   }
-  #cri-{{ section.id }} .cri__intro { aspect-ratio: 16 / 10; }
+  /* Solo reserva alto (aspect-ratio) si la imagen llegó a renderizarse.
+     Si el picker está vacío o la imagen no cargó, el div queda a 0 y no
+     deja un hueco en blanco junto al título. */
+  #cri-{{ section.id }} .cri__intro:has(img) { aspect-ratio: 16 / 10; }
 
   @media (min-width: 861px) {
     #cri-{{ section.id }} .cri__head--media {
@@ -77,7 +80,7 @@
       column-gap: clamp(32px, 5vw, 64px);
     }
     #cri-{{ section.id }} .cri__head--media .cri__head-text { max-width: none; }
-    #cri-{{ section.id }} .cri__head--media .cri__intro {
+    #cri-{{ section.id }} .cri__head--media .cri__intro:has(img) {
       justify-self: end;
       width: 100%;
       max-width: 380px;
