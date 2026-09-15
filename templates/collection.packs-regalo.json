@@ -57,58 +57,10 @@
             "offset_2": 50
           }
         },
-        "product_eYkjTb": {
-          "type": "product",
-          "settings": {
-            "product": "pack-chacinas-y-quesos",
-            "zoom": 100,
-            "offset_x": 50,
-            "offset": 50,
-            "zoom_2": 100,
-            "offset_x_2": 50,
-            "offset_2": 50
-          }
-        },
         "product_Xp4c9q": {
           "type": "product",
           "settings": {
             "product": "pack-dehesa-y-mar",
-            "zoom": 100,
-            "offset_x": 50,
-            "offset": 50,
-            "zoom_2": 100,
-            "offset_x_2": 50,
-            "offset_2": 50
-          }
-        },
-        "product_txAyGa": {
-          "type": "product",
-          "settings": {
-            "product": "pack-dehesa-y-vinedo",
-            "zoom": 100,
-            "offset_x": 50,
-            "offset": 50,
-            "zoom_2": 100,
-            "offset_x_2": 50,
-            "offset_2": 50
-          }
-        },
-        "product_bdJV8V": {
-          "type": "product",
-          "settings": {
-            "product": "pack-esencia-iberica",
-            "zoom": 100,
-            "offset_x": 50,
-            "offset": 50,
-            "zoom_2": 100,
-            "offset_x_2": 50,
-            "offset_2": 50
-          }
-        },
-        "product_bExtAX": {
-          "type": "product",
-          "settings": {
-            "product": "pack-sibarita",
             "zoom": 100,
             "offset_x": 50,
             "offset": 50,
@@ -141,6 +93,30 @@
             "offset_2": 50
           }
         },
+        "product_eYkjTb": {
+          "type": "product",
+          "settings": {
+            "product": "pack-chacinas-y-quesos",
+            "zoom": 100,
+            "offset_x": 50,
+            "offset": 50,
+            "zoom_2": 100,
+            "offset_x_2": 50,
+            "offset_2": 50
+          }
+        },
+        "product_txAyGa": {
+          "type": "product",
+          "settings": {
+            "product": "pack-dehesa-y-vinedo",
+            "zoom": 100,
+            "offset_x": 50,
+            "offset": 50,
+            "zoom_2": 100,
+            "offset_x_2": 50,
+            "offset_2": 50
+          }
+        },
         "product_FWtXWc": {
           "type": "product",
           "settings": {
@@ -152,18 +128,42 @@
             "offset_x_2": 50,
             "offset_2": 50
           }
+        },
+        "product_bExtAX": {
+          "type": "product",
+          "settings": {
+            "product": "pack-sibarita",
+            "zoom": 100,
+            "offset_x": 50,
+            "offset": 50,
+            "zoom_2": 100,
+            "offset_x_2": 50,
+            "offset_2": 50
+          }
+        },
+        "product_bdJV8V": {
+          "type": "product",
+          "settings": {
+            "product": "pack-esencia-iberica",
+            "zoom": 100,
+            "offset_x": 50,
+            "offset": 50,
+            "zoom_2": 100,
+            "offset_x_2": 50,
+            "offset_2": 50
+          }
         }
       },
       "block_order": [
         "product_ceC6kz",
-        "product_eYkjTb",
         "product_Xp4c9q",
-        "product_txAyGa",
-        "product_bdJV8V",
-        "product_bExtAX",
         "product_EyLQBR",
         "product_ik6HT9",
-        "product_FWtXWc"
+        "product_eYkjTb",
+        "product_txAyGa",
+        "product_FWtXWc",
+        "product_bExtAX",
+        "product_bdJV8V"
       ],
       "settings": {
         "eyebrow": "Nuestra selección",
