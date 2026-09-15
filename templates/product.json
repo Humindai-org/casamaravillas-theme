@@ -308,14 +308,12 @@
       }
     },
     "related": {
-      "type": "product-grid",
+      "type": "related-same-family",
       "settings": {
         "eyebrow": "También te puede gustar",
-        "title": "<p>Productos <em>relacionados</em></p>",
-        "description": "",
+        "title": "",
         "view_all_label": "Ver toda la colección",
-        "view_all_url": "/collections/all",
-        "section_bg": "off"
+        "view_all_url": "/collections/all"
       }
     },
     "1782741149c362a15e": {

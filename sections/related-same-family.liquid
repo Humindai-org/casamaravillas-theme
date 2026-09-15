@@ -91,7 +91,21 @@
 </style>
 
 {%- liquid
-  assign current_family = template.suffix
+  # Los packs no siempre tienen bien asignado el template "packs-regalo" en el
+  # admin (ver product-details-accordion.liquid), así que se detectan por el
+  # metafield de componentes — no por template.suffix — para que esta lógica
+  # funcione sin importar qué plantilla tenga asignada el producto.
+  assign _rsf_pack_components = product.metafields.custom.componentes_del_packs.value
+  assign is_pack = false
+  if _rsf_pack_components.size > 0
+    assign is_pack = true
+  endif
+
+  if is_pack
+    assign current_family = 'packs-regalo'
+  else
+    assign current_family = template.suffix
+  endif
 
   # Carnes ibéricas oculta temporalmente de las sugerencias — no se ofrece todavía.
   # Para reactivar, volver a incluir 'carnes-ibericas' en las listas de abajo.
@@ -103,10 +117,33 @@
     when 'carnes-ibericas'
       assign other_families = 'jamones,embutidos,packs-regalo' | split: ','
     when 'packs-regalo'
-      assign other_families = 'jamones,embutidos' | split: ','
+      # Mezcla fija: un jamón, un embutido y otro pack similar — así el pack
+      # se completa con productos sueltos y también se ofrece una alternativa.
+      assign other_families = 'jamones,embutidos,packs-regalo' | split: ','
     else
       assign other_families = 'jamones,embutidos,packs-regalo' | split: ','
   endcase
+
+  # Excluir del carrito: si el cliente ya lleva un producto en la cesta no
+  # tiene sentido volver a sugerírselo aquí. Comas al inicio y al final de
+  # cada handle para que "contains" no dé falsos positivos entre handles
+  # parecidos (p. ej. "jamon-iberico-50" dentro de "jamon-iberico-500").
+  assign cart_handles = ','
+  for cart_item in cart.items
+    assign cart_handles = cart_handles | append: cart_item.product.handle | append: ','
+  endfor
+
+  # Excluir componentes de este mismo pack: los nombres de componente son
+  # texto libre (no hay referencia a producto), así que se compara por
+  # título en minúsculas — evita sugerir algo que el cliente ya recibe
+  # dentro del propio pack.
+  assign pack_component_names_dc = ''
+  if is_pack
+    for component in _rsf_pack_components
+      assign pack_component_names_dc = pack_component_names_dc | append: component.nombre.value | append: '|'
+    endfor
+    assign pack_component_names_dc = pack_component_names_dc | downcase
+  endif
 
   assign eyebrow    = section.settings.eyebrow | default: 'También te puede gustar'
   assign title      = section.settings.title
@@ -152,7 +189,7 @@
     {%- else -%}
 
       {%- comment -%} Modo automático: 1 producto de cada familia complementaria {%- endcomment -%}
-      {%- assign shown_handles = product.handle | append: ',' -%}
+      {%- assign shown_handles = product.handle | prepend: ',' | append: ',' -%}
       {%- assign shown_count   = 0 -%}
 
       {%- comment -%} Pasada 1: 1 producto por familia {%- endcomment -%}
@@ -160,25 +197,39 @@
         {%- if shown_count >= 3 -%}{%- break -%}{%- endif -%}
         {%- assign fam_col = collections[family] -%}
         {%- if fam_col != blank -%}
-          {%- for p in fam_col.products limit: 1 -%}
-            {%- unless shown_handles contains p.handle -%}
+          {%- for p in fam_col.products limit: 5 -%}
+            {%- if shown_count >= 3 -%}{%- break -%}{%- endif -%}
+            {%- assign p_handle_delim = p.handle | prepend: ',' | append: ',' -%}
+            {%- assign p_title_dc = p.title | downcase -%}
+            {%- assign p_excluded = false -%}
+            {%- if shown_handles contains p_handle_delim -%}{%- assign p_excluded = true -%}{%- endif -%}
+            {%- if cart_handles contains p_handle_delim -%}{%- assign p_excluded = true -%}{%- endif -%}
+            {%- if pack_component_names_dc != blank and pack_component_names_dc contains p_title_dc -%}{%- assign p_excluded = true -%}{%- endif -%}
+            {%- unless p_excluded -%}
               {% render 'product-card', card_product: p %}
               {%- assign shown_count   = shown_count | plus: 1 -%}
               {%- assign shown_handles = shown_handles | append: p.handle | append: ',' -%}
+              {%- break -%}
             {%- endunless -%}
           {%- endfor -%}
         {%- endif -%}
       {%- endfor -%}
 
-      {%- comment -%} Pasada 2: rellenar huecos si alguna familia estaba vacía {%- endcomment -%}
+      {%- comment -%} Pasada 2: rellenar huecos si alguna familia estaba vacía o se quedó sin candidatos {%- endcomment -%}
       {%- if shown_count < 3 -%}
         {%- for family in other_families -%}
           {%- if shown_count >= 3 -%}{%- break -%}{%- endif -%}
           {%- assign fam_col = collections[family] -%}
           {%- if fam_col != blank -%}
-            {%- for p in fam_col.products limit: 5 -%}
+            {%- for p in fam_col.products limit: 10 -%}
               {%- if shown_count >= 3 -%}{%- break -%}{%- endif -%}
-              {%- unless shown_handles contains p.handle -%}
+              {%- assign p_handle_delim = p.handle | prepend: ',' | append: ',' -%}
+              {%- assign p_title_dc = p.title | downcase -%}
+              {%- assign p_excluded = false -%}
+              {%- if shown_handles contains p_handle_delim -%}{%- assign p_excluded = true -%}{%- endif -%}
+              {%- if cart_handles contains p_handle_delim -%}{%- assign p_excluded = true -%}{%- endif -%}
+              {%- if pack_component_names_dc != blank and pack_component_names_dc contains p_title_dc -%}{%- assign p_excluded = true -%}{%- endif -%}
+              {%- unless p_excluded -%}
                 {% render 'product-card', card_product: p %}
                 {%- assign shown_count   = shown_count | plus: 1 -%}
                 {%- assign shown_handles = shown_handles | append: p.handle | append: ',' -%}
