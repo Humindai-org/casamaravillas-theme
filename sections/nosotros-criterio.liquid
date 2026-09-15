@@ -165,8 +165,15 @@
 
   /* solo texto: columna estrecha, sin imagen */
   #cri-{{ section.id }} .cri--texto .cri__text { grid-column: 2 / span 6; }
-  #cri-{{ section.id }} .cri--texto[data-side="right"] .cri__text { grid-column: 6 / span 6; }
   #cri-{{ section.id }} .cri--texto .cri__name { font-size: clamp(28px, 3.6vw, 52px); }
+
+  /* solo texto + posición derecha: bloque ancho, pegado al margen derecho,
+     todo el texto alineado a la derecha (num, título y párrafo). */
+  #cri-{{ section.id }} .cri--texto[data-side="right"] .cri__text {
+    grid-column: 3 / -1;
+    text-align: right;
+  }
+  #cri-{{ section.id }} .cri--texto[data-side="right"] .cri__line { max-width: none; }
 
   /* retrato: imagen vertical junto al texto */
   #cri-{{ section.id }} .cri--retrato .cri__media { grid-column: 1 / span 5; aspect-ratio: 3 / 4; }
@@ -242,6 +249,7 @@
     #cri-{{ section.id }} .cri--flanqueo .cri__media  { aspect-ratio: 16 / 9; }
     #cri-{{ section.id }} .cri--flanqueo .cri__media2 { aspect-ratio: 4 / 5; }
     #cri-{{ section.id }} .cri__num { margin-bottom: 12px; }
+    #cri-{{ section.id }} .cri--texto[data-side="right"] .cri__text { text-align: left; }
   }
 
   #cri-{{ section.id }} .cri__anchor {
