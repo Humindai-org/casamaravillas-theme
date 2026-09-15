@@ -34,6 +34,17 @@ document.addEventListener('keydown', function(event) {
   }
 });
 
+// `el.offsetLeft` es relativo al ancestro posicionado más cercano
+// (offsetParent), que casi nunca es el propio carrusel con scroll — en los
+// modales, por ejemplo, es .cm-modal__content (position: relative). Usarlo
+// directo para calcular a dónde hacer scroll da un valor desplazado por el
+// padding de ese ancestro, y las flechas terminan "atascadas" o saltando a
+// un punto que no es el de la tarjeta. Esta función calcula la posición real
+// del elemento dentro del sistema de coordenadas de scroll del propio track.
+function offsetWithinTrack(track, el) {
+  return el.getBoundingClientRect().left - track.getBoundingClientRect().left + track.scrollLeft;
+}
+
 // Carrusel de las 3 tarjetas (Nutrición / Alérgenos / Conservación) — no está
 // dentro de un modal, así que no hace falta fase de captura aquí.
 function updateInfoCardsArrows(track) {
@@ -61,14 +72,16 @@ document.addEventListener('click', function(e) {
   let target = null;
   if (btn.hasAttribute('data-info-cards-prev')) {
     for (let i = cards.length - 1; i >= 0; i--) {
-      if (cards[i].offsetLeft < current - 4) { target = cards[i].offsetLeft; break; }
+      const pos = offsetWithinTrack(track, cards[i]);
+      if (pos < current - 4) { target = pos; break; }
     }
-    if (target === null) target = cards[0].offsetLeft;
+    if (target === null) target = offsetWithinTrack(track, cards[0]);
   } else {
     for (let j = 0; j < cards.length; j++) {
-      if (cards[j].offsetLeft > current + 4) { target = cards[j].offsetLeft; break; }
+      const pos = offsetWithinTrack(track, cards[j]);
+      if (pos > current + 4) { target = pos; break; }
     }
-    if (target === null) target = cards[cards.length - 1].offsetLeft;
+    if (target === null) target = offsetWithinTrack(track, cards[cards.length - 1]);
   }
   track.scrollTo({ left: target, behavior: 'smooth' });
 });
@@ -88,7 +101,7 @@ function updatePackCarousel(track) {
 
   let current = 0;
   cards.forEach(function(card, i) {
-    if (card.offsetLeft <= track.scrollLeft + 4) current = i;
+    if (offsetWithinTrack(track, card) <= track.scrollLeft + 4) current = i;
   });
 
   // Título dinámico arriba del modal: qué producto del pack se está viendo
