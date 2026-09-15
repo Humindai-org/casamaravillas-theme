@@ -1,7 +1,18 @@
 {% comment %}
   product-details-accordion.liquid — Sección de detalles del producto
   Acordeón interactivo con información detallada (conservación, origen, consumo, etc.)
+
+  No se muestra en packs: la info de alérgenos/composición de los packs ya
+  vive en la tarjeta "Alérgenos e Ingredientes" de product-information.liquid.
+  Se detecta por el metafield de componentes (no por template.suffix), así
+  funciona aunque el pack tenga asignada otra plantilla por error.
 {% endcomment %}
+
+{%- assign _acc_pack_components = product.metafields.custom.componentes_del_packs.value -%}
+{%- assign _acc_is_pack = false -%}
+{%- if _acc_pack_components.size > 0 -%}
+  {%- assign _acc_is_pack = true -%}
+{%- endif -%}
 
 <style>
   /* ── VARIABLES DE COLOR — paleta crema clara ── */
@@ -272,7 +283,7 @@
 </style>
 
 {% assign accordion_blocks = section.blocks | where: 'type', 'accordion' %}
-{% if accordion_blocks.size > 0 %}
+{% if accordion_blocks.size > 0 and _acc_is_pack == false %}
 <div class="cm-pdp__accordions" id="cm-accordions-{{ section.id }}" aria-label="Información detallada del producto">
 
   {%- comment -%} ── ENCABEZADO DEL ACORDEÓN ── {%- endcomment -%}
