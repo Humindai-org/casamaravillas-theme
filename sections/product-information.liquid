@@ -464,17 +464,25 @@
         {%- endif -%}
       </div>
     {%- else -%}
-      {%- if _ingredients != blank -%}
-        <div class="cm-modal__section">
-          <div class="cm-modal__section-title">Ingredientes</div>
-          <div class="cm-modal__text">{{ _ingredients }}</div>
-        </div>
-      {%- endif -%}
-
       {%- if _allergens != blank -%}
         <div class="cm-modal__section">
           <div class="cm-modal__section-title">Alérgenos</div>
           <div class="cm-modal__text">{{ _allergens }}</div>
+        </div>
+      {%- endif -%}
+
+      {%- if _ingredients != blank -%}
+        <div class="cm-modal__section">
+          <div class="cm-modal__section-title">Ingredientes</div>
+          <ul class="cm-modal__list">
+            {%- assign _ingredient_items = _ingredients | strip_html | split: ',' -%}
+            {%- for _ingredient in _ingredient_items -%}
+              {%- assign _ingredient = _ingredient | strip -%}
+              {%- if _ingredient != blank -%}
+                <li>{{ _ingredient }}</li>
+              {%- endif -%}
+            {%- endfor -%}
+          </ul>
         </div>
       {%- endif -%}
     {%- endif -%}

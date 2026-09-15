@@ -790,6 +790,35 @@
     margin-bottom: 0;
   }
 
+  .cm-modal__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .cm-modal__list li {
+    position: relative;
+    padding-left: 18px;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--text-primary);
+  }
+
+  .cm-modal__list li:not(:last-child) {
+    margin-bottom: 10px;
+  }
+
+  .cm-modal__list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 9px;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--accent-gold, var(--text-secondary));
+  }
+
   .cm-modal__footer {
     font-size: 12px;
     color: var(--text-secondary);

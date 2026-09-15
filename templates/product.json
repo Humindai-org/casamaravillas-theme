@@ -290,34 +290,13 @@
             "kv_5_label": "",
             "kv_5_value": ""
           }
-        },
-        "accordion_pNab39": {
-          "type": "accordion",
-          "settings": {
-            "icon": "garantia",
-            "title": "Alérgenos e ingredientes",
-            "summary": "",
-            "metafield_key": "allergens",
-            "content_fallback": "",
-            "kv_1_label": "",
-            "kv_1_value": "",
-            "kv_2_label": "",
-            "kv_2_value": "",
-            "kv_3_label": "",
-            "kv_3_value": "",
-            "kv_4_label": "",
-            "kv_4_value": "",
-            "kv_5_label": "",
-            "kv_5_value": ""
-          }
         }
       },
       "block_order": [
         "accordion_dA6gdX",
         "accordion_z7nhkT",
         "accordion_eNJyBz",
-        "accordion_UqXNXn",
-        "accordion_pNab39"
+        "accordion_UqXNXn"
       ],
       "name": "Detalles de la Pieza",
       "settings": {
