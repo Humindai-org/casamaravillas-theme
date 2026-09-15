@@ -172,7 +172,21 @@
           {%- if _has_pack_components -%}
             <p class="cm-info-card__subtitle">{{ _pack_components.size }} referencias incluidas en este pack</p>
           {%- else -%}
-            <p class="cm-info-card__subtitle">Composición y alérgenos declarados</p>
+            {%- comment -%}
+              Previsualización directa en la tarjeta (como en Información Nutricional),
+              con "Saber más" para el texto completo — solo para producto único, no packs.
+            {%- endcomment -%}
+            {%- if _ingredients != blank -%}
+              <p class="cm-info-card__preview-label">Ingredientes</p>
+              <p class="cm-info-card__preview-text">{{ _ingredients | strip_html }}</p>
+            {%- endif -%}
+            {%- if _allergens != blank -%}
+              <p class="cm-info-card__preview-label">Alérgenos</p>
+              <p class="cm-info-card__preview-text">{{ _allergens | strip_html }}</p>
+            {%- endif -%}
+            {%- if _ingredients == blank and _allergens == blank -%}
+              <p class="cm-info-card__subtitle">Composición y alérgenos declarados</p>
+            {%- endif -%}
           {%- endif -%}
           <button class="cm-info-card__more-btn" onclick="openModal('allergens-modal')">
             Saber más

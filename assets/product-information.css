@@ -421,6 +421,33 @@
     font-style: italic;
   }
 
+  /* ── Previsualización de Ingredientes/Alérgenos en la tarjeta (producto único) ──
+     Truncada a 2 líneas por campo: aunque el texto sea largo, la tarjeta nunca
+     se vuelve más alta que "Información nutricional" ni descuadra la fila. ── */
+  .cm-info-card__preview-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.9px;
+    color: var(--text-secondary);
+    margin: 16px 0 4px;
+  }
+
+  .cm-info-card__preview-label:first-of-type {
+    margin-top: 0;
+  }
+
+  .cm-info-card__preview-text {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--text-primary);
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
   .cm-info-card__more-btn {
     display: inline-block;
     margin-top: 28px;

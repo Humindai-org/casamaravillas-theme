@@ -151,14 +151,16 @@ document.addEventListener('click', function(e) {
   let target = null;
   if (btn.hasAttribute('data-pack-carousel-prev')) {
     for (let i = cards.length - 1; i >= 0; i--) {
-      if (cards[i].offsetLeft < current - 4) { target = cards[i].offsetLeft; break; }
+      const pos = offsetWithinTrack(track, cards[i]);
+      if (pos < current - 4) { target = pos; break; }
     }
-    if (target === null) target = cards[0].offsetLeft;
+    if (target === null) target = offsetWithinTrack(track, cards[0]);
   } else {
     for (let j = 0; j < cards.length; j++) {
-      if (cards[j].offsetLeft > current + 4) { target = cards[j].offsetLeft; break; }
+      const pos = offsetWithinTrack(track, cards[j]);
+      if (pos > current + 4) { target = pos; break; }
     }
-    if (target === null) target = cards[cards.length - 1].offsetLeft;
+    if (target === null) target = offsetWithinTrack(track, cards[cards.length - 1]);
   }
   scrollPackCarouselTo(track, target);
 }, true);
@@ -219,7 +221,7 @@ document.addEventListener('input', function(e) {
       li.textContent = match.name;
       li.tabIndex = 0;
       li.addEventListener('click', function() {
-        scrollPackCarouselTo(track, match.card.offsetLeft);
+        scrollPackCarouselTo(track, offsetWithinTrack(track, match.card));
         resultsList.hidden = true;
         input.value = match.name;
       });
