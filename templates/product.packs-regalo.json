@@ -118,42 +118,6 @@
         "card2_additional_text": "<ul>\n<li>\n<strong>Embutidos loncheados:</strong> conservar en refrigerador entre 2-8°C</li>\n<li>\n<strong>Quesos:</strong> lugar fresco, por debajo de 8°C</li>\n<li>\n<strong>Vino y AOVE:</strong> lugar fresco y seco, alejado de la luz directa</li>\n</ul>"
       }
     },
-    "product_details_accordion_packs": {
-      "type": "product-details-accordion",
-      "blocks": {
-        "accordion_alergenos": {
-          "type": "accordion",
-          "settings": {
-            "icon": "garantia",
-            "title": "Alérgenos",
-            "summary": "",
-            "metafield_key": "allergens",
-            "content_fallback": "<p><strong>Contiene:</strong> Leche y derivados lácteos (quesos curados), Gluten de trigo (picos rústicos), Dióxido de azufre y sulfitos (vino tinto).</p><p><strong>Puede contener trazas de:</strong> Sésamo, Soja, Proteína de leche (instalaciones compartidas con productos lácteos).</p>",
-            "kv_1_label": "",
-            "kv_1_value": "",
-            "kv_2_label": "",
-            "kv_2_value": "",
-            "kv_3_label": "",
-            "kv_3_value": "",
-            "kv_4_label": "",
-            "kv_4_value": "",
-            "kv_5_label": "",
-            "kv_5_value": ""
-          }
-        }
-      },
-      "block_order": [
-        "accordion_alergenos"
-      ],
-      "name": "Detalles del pack",
-      "settings": {
-        "header_eyebrow": "Detalles del pack",
-        "header_title": "Todo lo que debes",
-        "header_title_em": "saber.",
-        "sections_label": "secciones",
-        "empty_message": "Información no añadida todavía para este producto."
-      }
-    },
     "related": {
       "type": "product-grid",
       "blocks": {
@@ -201,7 +165,6 @@
     "main",
     "trust_band_YfPnnW",
     "product_information_packs",
-    "product_details_accordion_packs",
     "related"
   ]
 }
