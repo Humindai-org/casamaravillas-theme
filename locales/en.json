@@ -41,6 +41,19 @@
           "default_message": {
             "many": "The selected delivery method is no longer available for these items."
           }
+        },
+        "out_of_stock": {
+          "missing_items": {
+            "title": {
+              "many": "{{count}} items are no longer available"
+            },
+            "some_available_notice": {
+              "many": "The remaining items are still available for purchase. Unavailable items will be removed from the cart."
+            },
+            "none_available_notice": {
+              "many": "These items are no longer available and have been removed from the cart."
+            }
+          }
         }
       },
       "order_summary": {
@@ -161,6 +174,9 @@
         },
         "unbranded_description_with_fulfillment_weeks": {
           "many": "Ships in %{count} weeks"
+        },
+        "split_shipping_shipment_count_notice_one_time_purchase": {
+          "many": "Your order will arrive in %{count} shipments"
         }
       },
       "payment": {
@@ -192,6 +208,13 @@
         },
         "discount_codes_removed_or_modified_summary": {
           "many": "%{count} discount codes were removed or modified"
+        },
+        "pending_payment": {
+          "oxxo": {
+            "days_left": {
+              "many": "%{count} days"
+            }
+          }
         }
       },
       "shipping_errors": {
@@ -585,6 +608,11 @@
           "many": "{{count}} minutes ago"
         }
       }
+    },
+    "navigation_and_structure": {
+      "store_credit_multi_currency_accessibility_label": {
+        "many": "{{formattedBalance}} in store credit and in {{count}} more currencies"
+      }
     }
   },
   "general": {
@@ -637,12 +665,15 @@
       },
       "shipping_at_checkout": "Shipping calculated at checkout",
       "update": "Update",
-      "remove": "Delete"
+      "remove": "Delete",
+      "total": "Total",
+      "subtotal": "Subtotal"
     }
   },
   "blogs": {
     "general": {
-      "read_more": "Read more"
+      "read_more": "Read more",
+      "title": "Blog"
     },
     "article": {
       "by_author": "By {{ author }}",
@@ -656,7 +687,8 @@
       "password": "Password",
       "submit": "Log in",
       "create_account": "Create account",
-      "forgot_password": "Forgot your password?"
+      "forgot_password": "Forgot your password?",
+      "email": "Email"
     },
     "register": {
       "title": "Create account",
@@ -664,7 +696,8 @@
       "last_name": "Last Name",
       "password": "Password",
       "submit": "Create account",
-      "login": "Already have an account? Log in"
+      "login": "Already have an account? Log in",
+      "email": "Email"
     },
     "account": {
       "title": "My Account",
