@@ -33,7 +33,7 @@
         "image_adjust_qtkHAk": {
           "type": "image_adjust",
           "settings": {
-            "fit": "cover",
+            "fit": "contain",
             "zoom": 100,
             "pos_x": 50,
             "pos_y": 50
