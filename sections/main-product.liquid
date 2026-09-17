@@ -332,9 +332,14 @@
       {%- unless product.has_only_default_variant -%}
         <div class="cm-pdp__variants">
           {%- for option in product.options_with_values -%}
+            {%- assign option_name_lower = option.name | downcase -%}
             <div class="cm-pdp__select-wrap">
               <label class="cm-pdp__select-label" for="cm-sel-{{ forloop.index }}-{{ section.id }}">
-                {{ option.name }}
+                {%- if option_name_lower contains 'vino' -%}
+                  Selecciona tu vino
+                {%- else -%}
+                  {{ option.name }}
+                {%- endif -%}
               </label>
               <select
                 id="cm-sel-{{ forloop.index }}-{{ section.id }}"
@@ -374,8 +379,8 @@
         </div>
       {%- endif -%}
 
-      {%- comment -%} ── SELECTOR DE CURACIÓN ── {%- endcomment -%}
-      {%- if section.settings.show_curing_selector -%}
+      {%- comment -%} ── SELECTOR DE CURACIÓN (no aplica a Packs & Regalos) ── {%- endcomment -%}
+      {%- if section.settings.show_curing_selector and product.type != 'Packs & Regalos' -%}
         <div class="cm-curing-selector" id="cm-curing-{{ section.id }}">
           <label class="cm-pdp__select-label" for="cm-curing-sel-{{ section.id }}">
             Punto de Curación
