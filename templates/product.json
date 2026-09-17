@@ -15,7 +15,7 @@
         "image_adjust_ca3MJC": {
           "type": "image_adjust",
           "settings": {
-            "fit": "contain",
+            "fit": "cover",
             "zoom": 100,
             "pos_x": 50,
             "pos_y": 50
@@ -104,6 +104,9 @@
         "gallery_pos_y": 50,
         "show_sticky_atc": true,
         "product_type": "deshuesado",
+        "price_kg_cebo_campo": "32,88 €",
+        "price_kg_bellota_50": "48,50 €",
+        "price_kg_bellota_100": "61,00 €",
         "show_curing_selector": true,
         "pack_options": "1 ud., 10 ud., 20 ud., 30 ud.",
         "show_complementary_products": false,
@@ -177,6 +180,9 @@
       "name": "Información del Producto",
       "settings": {
         "product_image": "shopify://shop_images/IMG_1752.png",
+        "embutidos_mobile_bottom": -120,
+        "embutidos_mobile_right": -40,
+        "embutidos_mobile_section_padding": 580,
         "eyebrow_text": "Información del producto",
         "title_text": "Transparencia con sabor a",
         "title_em_text": "TRADICIÓN",
@@ -205,7 +211,8 @@
         "info_service_temp": "20-24",
         "opened_label": "Una vez abierto",
         "info_conservation_days": "",
-        "card2_additional_text": ""
+        "card2_additional_text": "",
+        "card3_title": "Alérgenos e Ingredientes"
       }
     },
     "product_details_accordion_Dtwtwz": {
