@@ -380,7 +380,17 @@
       {%- endif -%}
 
       {%- comment -%} ── SELECTOR DE CURACIÓN (no aplica a Packs & Regalos) ── {%- endcomment -%}
-      {%- if section.settings.show_curing_selector and product.type != 'Packs & Regalos' -%}
+      {%- comment -%}
+        No nos fiamos solo de product.type porque no todos los packs lo
+        tienen escrito igual ("Packs Gourmet", "Packs & Regalos"...) ni
+        todos tienen asignada la plantilla packs-regalo en el admin.
+      {%- endcomment -%}
+      {%- assign _product_type_lower = product.type | downcase -%}
+      {%- assign _is_pack_product = false -%}
+      {%- if template.suffix == 'packs-regalo' or _product_type_lower contains 'pack' -%}
+        {%- assign _is_pack_product = true -%}
+      {%- endif -%}
+      {%- if section.settings.show_curing_selector and _is_pack_product == false -%}
         <div class="cm-curing-selector" id="cm-curing-{{ section.id }}">
           <label class="cm-pdp__select-label" for="cm-curing-sel-{{ section.id }}">
             Punto de Curación
