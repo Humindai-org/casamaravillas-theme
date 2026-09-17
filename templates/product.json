@@ -24,7 +24,7 @@
         "image_adjust_iHrxeN": {
           "type": "image_adjust",
           "settings": {
-            "fit": "inherit",
+            "fit": "cover",
             "zoom": 100,
             "pos_x": 50,
             "pos_y": 50
