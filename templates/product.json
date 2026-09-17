@@ -21,6 +21,15 @@
             "pos_y": 50
           }
         },
+        "image_adjust_iHrxeN": {
+          "type": "image_adjust",
+          "settings": {
+            "fit": "inherit",
+            "zoom": 100,
+            "pos_x": 50,
+            "pos_y": 50
+          }
+        },
         "image_adjust_qtkHAk": {
           "type": "image_adjust",
           "settings": {
@@ -90,6 +99,7 @@
       },
       "block_order": [
         "image_adjust_ca3MJC",
+        "image_adjust_iHrxeN",
         "image_adjust_qtkHAk",
         "image_adjust_LtpTtk",
         "detail_card_rBmAY6",
