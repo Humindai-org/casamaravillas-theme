@@ -1,0 +1,119 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin language editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "general": {
+    "announcement_bar": {
+      "label": "Barre d'annonce"
+    },
+    "search": {
+      "search": "Rechercher",
+      "placeholder": "Rechercher des produits..."
+    },
+    "pagination": {
+      "previous": "Précédent",
+      "next": "Suivant",
+      "current_page": "Page {{ page }} sur {{ total }}"
+    },
+    "password_page": {
+      "opening_soon": "Prochainement"
+    }
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "Ajouter au panier",
+      "sold_out": "Épuisé",
+      "unavailable": "Non disponible",
+      "on_sale": "Offre",
+      "quantity": "Quantité",
+      "description": "Description",
+      "sku": "Référence",
+      "vendor": "Producteur",
+      "from_price_html": "Depuis {{ price }}"
+    },
+    "general": {
+      "title": "Tous les produits"
+    }
+  },
+  "collections": {
+    "general": {
+      "title": "Collections"
+    }
+  },
+  "cart": {
+    "general": {
+      "title": "Votre panier",
+      "empty": "Votre panier est vide",
+      "checkout": "Finaliser l'achat",
+      "continue_shopping": "Continuer mes achats",
+      "item_count": {
+        "one": "{{ count }} article",
+        "other": "{{ count }} articles"
+      },
+      "total": "Total",
+      "subtotal": "Sous-total",
+      "shipping_at_checkout": "Frais de port calculés lors du paiement",
+      "update": "Mettre à jour",
+      "remove": "Supprimer"
+    }
+  },
+  "blogs": {
+    "general": {
+      "title": "Blog",
+      "read_more": "Lire la suite"
+    },
+    "article": {
+      "by_author": "Par {{ author }}",
+      "posted_in": "À",
+      "related_articles": "Articles liés"
+    }
+  },
+  "customer": {
+    "login": {
+      "title": "Connexion",
+      "email": "Courriel",
+      "password": "Mot de passe",
+      "submit": "Connexion",
+      "create_account": "Créer un compte",
+      "forgot_password": "Mot de passe oublié ?"
+    },
+    "register": {
+      "title": "Créer un compte",
+      "first_name": "Nom",
+      "last_name": "Nom de famille",
+      "email": "Courriel",
+      "password": "Mot de passe",
+      "submit": "Créer un compte",
+      "login": "Vous avez déjà un compte ? Connectez-vous"
+    },
+    "account": {
+      "title": "Mon compte",
+      "orders": "Commandes",
+      "details": "Données personnelles",
+      "logout": "Déconnexion"
+    }
+  },
+  "newsletter": {
+    "label": "S'inscrire à la newsletter",
+    "success": "Merci ! Votre inscription a bien été enregistrée."
+  },
+  "404": {
+    "title": "Page introuvable",
+    "subtext": "La page que vous recherchez n'existe pas ou a été déplacée.",
+    "link": "Retour à l'accueil"
+  },
+  "accessibility": {
+    "skip_to_content": "Aller au contenu principal",
+    "close": "Fermer",
+    "open_nav": "Ouvrir la navigation",
+    "close_nav": "Fermer la navigation",
+    "cart": "Voir le panier",
+    "cart_count": "{{ count }} articles dans le panier"
+  }
+}
