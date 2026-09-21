@@ -21,6 +21,10 @@
       "cart-drawer": {
         "type": "cart-drawer",
         "settings": {}
+      },
+      "wishlist-drawer": {
+        "type": "wishlist-drawer",
+        "settings": {}
       }
     },
     "content_for_index": [],
@@ -35,6 +39,36 @@
         "disabled": false,
         "settings": {
           "widget_type": "review-widget"
+        }
+      },
+      "8765772171712610185": {
+        "type": "shopify://apps/t-lab-ai-language-translate/blocks/language_switcher/b5b83690-efd4-434d-8c6a-a5cef4019faf",
+        "disabled": false,
+        "settings": {
+          "enable_language_switcher": false,
+          "enable_country_region_switcher": false,
+          "use_currency_for_region": false,
+          "switcher_position": "header",
+          "show_flags": true,
+          "switcher_appearance": "language-name",
+          "invert_switcher_icon_colors": false,
+          "dropdown_appearance": "language-name",
+          "use_modal_dialog": false,
+          "language_country_mapping": "",
+          "countries_filter": "",
+          "custom_css": "",
+          "header_switcher_reference_element": "",
+          "header_switcher_relative_position": "before",
+          "mobile_menu_switcher_reference_element": "",
+          "mobile_switcher_relative_position": "before",
+          "header_switcher_border_width": 0,
+          "switcher_viewport_position": "top-right",
+          "custom_position_spacing": "55,20,20,20",
+          "custom_switcher_font_size": "14px",
+          "custom_switcher_border_width": 1,
+          "custom_switcher_text_color": "#5c5c5c",
+          "custom_switcher_background_color": "#ffffff",
+          "custom_switcher_border_color": "#000000"
         }
       }
     }
