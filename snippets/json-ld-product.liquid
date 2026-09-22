@@ -3,12 +3,45 @@
   Datos estructurados schema.org/Product. Render solo desde main-product.liquid,
   reutiliza las variables (current_variant, featured_image, rev_rating...) que esa
   sección ya calcula más arriba. No produce salida visible.
+
+  Offers: una por variante (necesario para jamones de pieza entera, que tienen
+  dos pesos con precios distintos) con shippingDetails y hasMerchantReturnPolicy,
+  campos que Google exige para que las fichas salgan en la pestaña gratuita de
+  Shopping (Merchant Center).
 {% endcomment %}
 
 {%- assign ld_breed = product.metafields.custom.breed.value -%}
 {%- assign ld_feeding = product.metafields.custom.feeding_type.value -%}
 {%- assign ld_origin = product.metafields.custom.origin.value -%}
 {%- assign ld_curing = product.metafields.custom.tiempo_de_curacion.value -%}
+{%- assign ld_brand = product.vendor | default: 'Casa Maravillas' -%}
+
+{%- comment -%}
+  Tarifas reales de envío a España peninsular (TABLA ENVÍOS, IVA incluido,
+  confirmada por el cliente 2026-09-22). Gratis desde 80 €; por debajo, la
+  caja de jamón entero/deshuesado cuesta 11,20 €, la de cortado a
+  mano/embutidos/carnes 8,94 €. Solo cubre España peninsular: es el mercado
+  que declara el resto del tema (envios-content.liquid).
+{%- endcomment -%}
+{%- assign ld_free_shipping_threshold_cents = 8000 -%}
+{%- assign ld_product_type_lower = product.type | downcase -%}
+{%- if ld_product_type_lower == 'embutidos' or product.tags contains 'cortado a mano' or product.tags contains 'loncheado' -%}
+  {%- assign ld_shipping_rate_below_threshold = '8.94' -%}
+{%- else -%}
+  {%- assign ld_shipping_rate_below_threshold = '11.20' -%}
+{%- endif -%}
+
+{%- comment -%}
+  Política de devoluciones real (devoluciones-content.liquid): 14 días
+  naturales de desistimiento para curados no perecederos, gastos de
+  devolución a cargo del cliente. Las carnes frescas ibéricas (perecederas)
+  no admiten devolución.
+{%- endcomment -%}
+{%- if ld_product_type_lower == 'carnes ibéricas' -%}
+  {%- assign ld_is_fresh_meat = true -%}
+{%- else -%}
+  {%- assign ld_is_fresh_meat = false -%}
+{%- endif -%}
 
 <script type="application/ld+json">
 {
@@ -27,13 +60,11 @@
         {%- assign ld_extra_count = ld_extra_count | plus: 1 -%}
       {%- endif -%}
     {%- endfor -%}
-  ]
-  {%- unless product.vendor == blank -%},
+  ],
   "brand": {
     "@type": "Brand",
-    "name": {{ product.vendor | json }}
+    "name": {{ ld_brand | json }}
   }
-  {%- endunless -%}
   {%- if rev_rating != blank -%},
   "aggregateRating": {
     "@type": "AggregateRating",
@@ -52,12 +83,64 @@
     {{ ld_props | remove_last: ',' }}
   ]
   {%- endunless -%},
-  "offers": {
-    "@type": "Offer",
-    "url": {{ request.origin | append: product.url | json }},
-    "priceCurrency": {{ cart.currency.iso_code | json }},
-    "price": {{ current_variant.price | divided_by: 100.0 | json }},
-    "availability": "https://schema.org/{% if current_variant.available %}InStock{% else %}OutOfStock{% endif %}"
-  }
+  "offers": [
+    {%- for variant in product.variants -%}
+      {%- if variant.price >= ld_free_shipping_threshold_cents -%}
+        {%- assign ld_shipping_rate = '0.00' -%}
+      {%- else -%}
+        {%- assign ld_shipping_rate = ld_shipping_rate_below_threshold -%}
+      {%- endif -%}
+      {
+        "@type": "Offer",
+        "url": {{ request.origin | append: product.url | append: '?variant=' | append: variant.id | json }},
+        "priceCurrency": {{ cart.currency.iso_code | json }},
+        "price": {{ variant.price | divided_by: 100.0 | json }},
+        "priceValidUntil": {{ 'now' | date: '%s' | plus: 7776000 | date: '%Y-%m-%d' | json }},
+        "availability": "https://schema.org/{% if variant.available %}InStock{% else %}OutOfStock{% endif %}",
+        "itemCondition": "https://schema.org/NewCondition",
+        "mpn": {{ variant.sku | json }},
+        "shippingDetails": {
+          "@type": "OfferShippingDetails",
+          "shippingRate": {
+            "@type": "MonetaryAmount",
+            "value": {{ ld_shipping_rate | json }},
+            "currency": {{ cart.currency.iso_code | json }}
+          },
+          "shippingDestination": {
+            "@type": "DefinedRegion",
+            "addressCountry": "ES"
+          },
+          "deliveryTime": {
+            "@type": "ShippingDeliveryTime",
+            "handlingTime": {
+              "@type": "QuantitativeValue",
+              "minValue": 0,
+              "maxValue": 1,
+              "unitCode": "DAY"
+            },
+            "transitTime": {
+              "@type": "QuantitativeValue",
+              "minValue": 1,
+              "maxValue": 2,
+              "unitCode": "DAY"
+            }
+          }
+        },
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "applicableCountry": "ES",
+          {%- if ld_is_fresh_meat -%}
+          "returnPolicyCategory": "https://schema.org/MerchantReturnNotPermitted"
+          {%- else -%}
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 14,
+          "returnMethod": "https://schema.org/ReturnByMail",
+          "returnFees": "https://schema.org/ReturnFeesCustomerResponsibility"
+          {%- endif -%}
+        }
+      }
+      {%- unless forloop.last -%},{%- endunless -%}
+    {%- endfor -%}
+  ]
 }
 </script>

@@ -9,6 +9,7 @@
 
 {%- if template.name == 'product' -%}
   {%- assign og_image = product.featured_image | image_url: width: 1200 -%}
+  {%- assign og_variant = product.selected_or_first_available_variant -%}
 {%- elsif template.name == 'collection' and collection.image -%}
   {%- assign og_image = collection.image | image_url: width: 1200 -%}
 {%- elsif template.name == 'article' and article.image -%}
@@ -27,6 +28,10 @@
 {%- if og_image -%}
   <meta property="og:image" content="https:{{ og_image }}">
   <meta property="og:image:width" content="1200">
+{%- endif -%}
+{%- if template.name == 'product' -%}
+  <meta property="product:price:amount" content="{{ og_variant.price | divided_by: 100.0 }}">
+  <meta property="product:price:currency" content="{{ cart.currency.iso_code }}">
 {%- endif -%}
 
 <meta name="twitter:card" content="summary_large_image">
