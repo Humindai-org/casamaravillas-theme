@@ -105,8 +105,23 @@
       <div class="cm-combina__grid">
         {%- for family in families_to_show -%}
           {%- assign col = collections[family] -%}
-          {%- if col != blank and col.products.first != blank -%}
-            {% render 'product-card', card_product: col.products.first %}
+          {%- assign pick = blank -%}
+          {%- if col != blank -%}
+            {%- for p in col.products limit: 10 -%}
+              {%- unless p.id == product.id -%}
+                {%- if pick == blank -%}
+                  {%- assign pick = p -%}
+                {%- endif -%}
+                {%- assign price_ratio = p.price | times: 1.0 | divided_by: product.price -%}
+                {%- if price_ratio <= 2 and price_ratio >= 0.5 -%}
+                  {%- assign pick = p -%}
+                  {%- break -%}
+                {%- endif -%}
+              {%- endunless -%}
+            {%- endfor -%}
+          {%- endif -%}
+          {%- if pick != blank -%}
+            {% render 'product-card', card_product: pick %}
           {%- endif -%}
         {%- endfor -%}
       </div>

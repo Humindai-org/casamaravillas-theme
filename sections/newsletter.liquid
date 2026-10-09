@@ -93,6 +93,41 @@
     outline-offset: 3px;
   }
 
+  .newsletter-section__form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+  }
+
+  .newsletter-section__input {
+    width: 100%;
+    padding: 13px 16px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: white;
+    font-family: var(--cm-font-sans);
+    font-size: 13px;
+    box-sizing: border-box;
+  }
+
+  .newsletter-section__input::placeholder { color: rgba(255, 255, 255, 0.45); }
+
+  .newsletter-section__input:focus-visible {
+    outline: 2px solid var(--cm-gold);
+    outline-offset: 2px;
+  }
+
+  .newsletter-section__success,
+  .newsletter-section__error {
+    font-family: var(--cm-font-sans);
+    font-size: 12px;
+    margin-top: 4px;
+  }
+
+  .newsletter-section__success { color: var(--cm-gold); }
+  .newsletter-section__error { color: #e7a1a1; }
+
   @media (max-width: 600px) {
     .newsletter-section { padding: 72px 24px; }
     .newsletter-section__seal { padding: 48px 28px; }
@@ -107,9 +142,39 @@
     {%- if section.settings.body != blank -%}
       <p class="newsletter-section__body">{{ section.settings.body }}</p>
     {%- endif -%}
-    <a href="{{ section.settings.cta_url | default: '/pages/suscripcion' }}" class="newsletter-section__btn">
-      {{ section.settings.cta_label | default: 'Unirme al club' }}
-    </a>
+
+    {%- if section.settings.incentive_code != blank -%}
+      <p class="newsletter-section__body" style="margin-top: -16px; margin-bottom: 24px; color: var(--cm-gold);">
+        {{ section.settings.incentive_text | default: 'Código de bienvenida' }}: <strong>{{ section.settings.incentive_code }}</strong>
+      </p>
+    {%- endif -%}
+
+    {%- form 'customer', id: 'newsletter-form', class: 'newsletter-section__form' -%}
+      <input type="hidden" name="contact[tags]" value="newsletter">
+      <input type="hidden" name="contact[accepts_marketing]" value="1">
+      <label for="newsletter-email" class="visually-hidden">Correo electrónico</label>
+      <input
+        type="email"
+        name="contact[email]"
+        id="newsletter-email"
+        class="newsletter-section__input"
+        value="{{ form.email }}"
+        placeholder="Tu correo electrónico"
+        required
+      >
+      <button type="submit" class="newsletter-section__btn">
+        {{ section.settings.cta_label | default: 'Unirme al club' }}
+      </button>
+
+      {%- if form.posted_successfully? -%}
+        <p class="newsletter-section__success">
+          {{ section.settings.success_text | default: '¡Gracias! Revisa tu correo en los próximos minutos.' }}
+        </p>
+      {%- endif -%}
+      {%- if form.errors -%}
+        <p class="newsletter-section__error">{{ form.errors.messages['email'] | default: 'Revisa el correo e inténtalo de nuevo.' }}</p>
+      {%- endif -%}
+    {%- endform -%}
   </div>
 </section>
 
@@ -143,9 +208,21 @@
       "default": "Quiero suscribirme"
     },
     {
-      "type": "url",
-      "id": "cta_url",
-      "label": "Enlace del botón"
+      "type": "text",
+      "id": "incentive_text",
+      "label": "Texto del incentivo (opcional)",
+      "default": "Código de bienvenida"
+    },
+    {
+      "type": "text",
+      "id": "incentive_code",
+      "label": "Código de descuento a mostrar (opcional, se crea en Shopify Admin > Descuentos)"
+    },
+    {
+      "type": "text",
+      "id": "success_text",
+      "label": "Mensaje de confirmación",
+      "default": "¡Gracias! Revisa tu correo en los próximos minutos."
     }
   ],
   "presets": [
