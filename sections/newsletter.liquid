@@ -128,6 +128,19 @@
   .newsletter-section__success { color: var(--cm-gold); }
   .newsletter-section__error { color: #e7a1a1; }
 
+  .newsletter-section__legal {
+    font-family: var(--cm-font-sans);
+    font-size: 11px;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.6);
+    margin: 0;
+  }
+
+  .newsletter-section__legal a {
+    color: inherit;
+    text-decoration: underline;
+  }
+
   @media (max-width: 600px) {
     .newsletter-section { padding: 72px 24px; }
     .newsletter-section__seal { padding: 48px 28px; }
@@ -165,10 +178,14 @@
       <button type="submit" class="newsletter-section__btn">
         {{ section.settings.cta_label | default: 'Unirme al club' }}
       </button>
+      <p class="newsletter-section__legal">
+        Al suscribirte aceptas recibir comunicaciones comerciales de Casa Maravillas y nuestra
+        <a href="/pages/privacidad">Política de privacidad</a>. Puedes darte de baja cuando quieras.
+      </p>
 
       {%- if form.posted_successfully? -%}
         <p class="newsletter-section__success">
-          {{ section.settings.success_text | default: '¡Gracias! Revisa tu correo en los próximos minutos.' }}
+          {{ section.settings.success_text | default: '¡Gracias por suscribirte! Te escribiremos pronto.' }}
         </p>
       {%- endif -%}
       {%- if form.errors -%}
@@ -222,7 +239,7 @@
       "type": "text",
       "id": "success_text",
       "label": "Mensaje de confirmación",
-      "default": "¡Gracias! Revisa tu correo en los próximos minutos."
+      "default": "¡Gracias por suscribirte! Te escribiremos pronto."
     }
   ],
   "presets": [
