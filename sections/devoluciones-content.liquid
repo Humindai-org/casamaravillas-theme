@@ -104,6 +104,67 @@
     transform: translateY(0);
   }
 
+
+  .devoluciones-section__form {
+    margin: 1.5em 0;
+    border: 1px solid rgba(0,0,0,0.12);
+    border-radius: 4px;
+    background: var(--cm-white);
+  }
+
+  .devoluciones-section__form summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 16px 20px;
+    cursor: pointer;
+    list-style: none;
+    font-family: var(--cm-font-serif);
+    font-size: 1.15em;
+    color: var(--cm-navy);
+    border-radius: 4px;
+  }
+
+  .devoluciones-section__form summary::-webkit-details-marker { display: none; }
+
+  .devoluciones-section__form summary::after {
+    content: '+';
+    font-family: var(--cm-font-sans);
+    font-size: 1.4em;
+    line-height: 1;
+    color: var(--cm-gold);
+    flex-shrink: 0;
+  }
+
+  .devoluciones-section__form[open] summary::after { content: '\2212'; }
+
+  .devoluciones-section__form summary:hover { color: var(--cm-gold); }
+
+  .devoluciones-section__form summary:focus-visible {
+    outline: 2px solid var(--cm-gold);
+    outline-offset: 2px;
+  }
+
+  .devoluciones-section__form-body {
+    padding: 4px 20px 20px;
+    border-top: 1px solid rgba(0,0,0,0.08);
+  }
+
+  .devoluciones-section__form-body p { margin: 1em 0 0; }
+
+  .devoluciones-section__form-fields {
+    list-style: none !important;
+    margin: 1em 0 0 !important;
+    padding: 0 !important;
+  }
+
+  .devoluciones-section__form-fields li {
+    padding: 10px 0;
+    border-bottom: 1px dashed rgba(0,0,0,0.25);
+    margin: 0;
+  }
+
   @media (max-width: 1023px) {
     .devoluciones-section { padding: 64px 48px 80px; }
   }
@@ -133,6 +194,22 @@
     <p>Puedes iniciar tu solicitud de devolución directamente desde tu cuenta, sin necesidad de contactarnos. Shopify gestionará el proceso de forma automática.</p>
     <a href="/account/orders" class="devoluciones-section__cta">Iniciar devolución en Mi Cuenta</a>
     <p>Accede a tu pedido, selecciona el artículo que deseas devolver y sigue los pasos indicados. Deberás confirmar tu decisión de desistir antes de que venza el plazo de <strong>14 días naturales</strong> desde la recepción.</p>
+    <details class="devoluciones-section__form">
+      <summary>Modelo de formulario de desistimiento</summary>
+      <div class="devoluciones-section__form-body">
+        <p><em>(Solo debe cumplimentar y enviar el presente formulario si desea desistir del contrato.)</em></p>
+        <p>A la atención de <strong>Selected Iberian, S.L.</strong> (marca comercial: Casa Maravillas), Av. de San Sebastián, 10, Local 1, 03540 San Juan Playa, Alicante · <a href="mailto:info@casamaravillas.com">info@casamaravillas.com</a>:</p>
+        <p>Por la presente le comunico/comunicamos (*) que desisto de mi/desistimos de nuestro (*) contrato de venta del siguiente bien (*):</p>
+        <ul class="devoluciones-section__form-fields">
+          <li>Pedido el (*) / recibido el (*):</li>
+          <li>Nombre del consumidor o de los consumidores:</li>
+          <li>Domicilio del consumidor o de los consumidores:</li>
+          <li>Firma del consumidor o de los consumidores (solo si el presente formulario se presenta en papel):</li>
+          <li>Fecha:</li>
+        </ul>
+        <p><em>(*) Táchese lo que no proceda.</em></p>
+      </div>
+    </details>
     <p>Una vez recibida tu solicitud, coordinaremos la recogida del producto. Los gastos de devolución en caso de desistimiento (no imputable a un defecto del producto) corren a cargo del cliente.</p>
     <p>El reembolso se realizará en un plazo máximo de <strong>14 días hábiles</strong> desde que recibamos el producto devuelto y verifiquemos su estado, a través del mismo método de pago empleado en la compra.</p>
 
