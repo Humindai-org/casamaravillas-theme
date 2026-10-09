@@ -220,7 +220,7 @@ Todo lo que necesitas saber sobre
 <em>el auténtico lujo español.</em>
 </p>
 
-<a href="/pages/guia-del-iberico" class="igh__cta-{{ section.id }}">EXPLORAR LA GUÍA →</a>
+<a href="#iberico-vs-serrano" class="igh__cta-{{ section.id }}" data-igh-scroll>EXPLORAR LA GUÍA →</a>
 
 </div>
 </section>
@@ -286,6 +286,20 @@ Tradición, naturaleza y tiempo se unen para crear un producto único en el mund
 </div>
 </div>
 </div>
+
+<script>
+  (function () {
+    var cta = document.querySelector('.igh__cta-{{ section.id }}[data-igh-scroll]');
+    if (!cta) return;
+    cta.addEventListener('click', function (e) {
+      var target = document.getElementById('iberico-vs-serrano');
+      if (!target) return;
+      e.preventDefault();
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+    });
+  })();
+</script>
 
 {% schema %}
 {
