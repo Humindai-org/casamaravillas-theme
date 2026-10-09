@@ -9,15 +9,15 @@
   # Para reactivar, volver a incluir 'carnes-ibericas' en las listas de abajo.
   case current_family
     when 'jamones'
-      assign families_to_show = 'embutidos,packs-regalo' | split: ','
+      assign families_to_show = 'embutidos,regalos-ibericos' | split: ','
     when 'embutidos'
-      assign families_to_show = 'jamones,packs-regalo' | split: ','
+      assign families_to_show = 'jamones,regalos-ibericos' | split: ','
     when 'carnes-ibericas'
-      assign families_to_show = 'jamones,embutidos,packs-regalo' | split: ','
+      assign families_to_show = 'jamones,embutidos,regalos-ibericos' | split: ','
     when 'packs-regalo'
       assign families_to_show = 'jamones,embutidos' | split: ','
     else
-      assign families_to_show = 'jamones,embutidos,packs-regalo' | split: ','
+      assign families_to_show = 'jamones,embutidos,regalos-ibericos' | split: ','
   endcase
 -%}
 
