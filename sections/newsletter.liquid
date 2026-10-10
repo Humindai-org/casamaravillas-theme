@@ -93,54 +93,6 @@
     outline-offset: 3px;
   }
 
-  .newsletter-section__form {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    width: 100%;
-  }
-
-  .newsletter-section__input {
-    width: 100%;
-    padding: 13px 16px;
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    color: white;
-    font-family: var(--cm-font-sans);
-    font-size: 13px;
-    box-sizing: border-box;
-  }
-
-  .newsletter-section__input::placeholder { color: rgba(255, 255, 255, 0.45); }
-
-  .newsletter-section__input:focus-visible {
-    outline: 2px solid var(--cm-gold);
-    outline-offset: 2px;
-  }
-
-  .newsletter-section__success,
-  .newsletter-section__error {
-    font-family: var(--cm-font-sans);
-    font-size: 12px;
-    margin-top: 4px;
-  }
-
-  .newsletter-section__success { color: var(--cm-gold); }
-  .newsletter-section__error { color: #e7a1a1; }
-
-  .newsletter-section__legal {
-    font-family: var(--cm-font-sans);
-    font-size: 11px;
-    line-height: 1.5;
-    color: rgba(255, 255, 255, 0.6);
-    margin: 0;
-  }
-
-  .newsletter-section__legal a {
-    color: inherit;
-    text-decoration: underline;
-  }
-
   @media (max-width: 600px) {
     .newsletter-section { padding: 72px 24px; }
     .newsletter-section__seal { padding: 48px 28px; }
@@ -162,36 +114,11 @@
       </p>
     {%- endif -%}
 
-    {%- form 'customer', id: 'newsletter-form', class: 'newsletter-section__form' -%}
-      <input type="hidden" name="contact[tags]" value="newsletter">
-      <input type="hidden" name="contact[accepts_marketing]" value="1">
-      <label for="newsletter-email" class="visually-hidden">Correo electrónico</label>
-      <input
-        type="email"
-        name="contact[email]"
-        id="newsletter-email"
-        class="newsletter-section__input"
-        value="{{ form.email }}"
-        placeholder="Tu correo electrónico"
-        required
-      >
-      <button type="submit" class="newsletter-section__btn">
-        {{ section.settings.cta_label | default: 'Unirme al club' }}
-      </button>
-      <p class="newsletter-section__legal">
-        Al suscribirte aceptas recibir comunicaciones comerciales de Casa Maravillas y nuestra
-        <a href="/pages/privacidad">Política de privacidad</a>. Puedes darte de baja cuando quieras.
-      </p>
-
-      {%- if form.posted_successfully? -%}
-        <p class="newsletter-section__success">
-          {{ section.settings.success_text | default: '¡Gracias por suscribirte! Te escribiremos pronto.' }}
-        </p>
-      {%- endif -%}
-      {%- if form.errors -%}
-        <p class="newsletter-section__error">{{ form.errors.messages['email'] | default: 'Revisa el correo e inténtalo de nuevo.' }}</p>
-      {%- endif -%}
-    {%- endform -%}
+    {% render 'newsletter-form',
+      form_id: 'newsletter-form',
+      cta_label: section.settings.cta_label,
+      success_text: section.settings.success_text
+    %}
   </div>
 </section>
 
