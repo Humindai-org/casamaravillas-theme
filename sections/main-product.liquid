@@ -195,7 +195,7 @@
         </div>
       {%- endif -%}
 
-      {% render 'json-ld-product' %}
+      {% render 'json-ld-product', current_variant: current_variant, featured_image: featured_image, rev_rating: rev_rating, rev_count: rev_count %}
 
       {%- comment -%} ── TARJETAS DE DETALLES DEL PRODUCTO ── {%- endcomment -%}
       {%- if section.blocks.size > 0 -%}
