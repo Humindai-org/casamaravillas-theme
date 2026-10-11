@@ -1,0 +1,35 @@
+{%- comment -%}
+  free-shipping-bar.liquid — barra "te faltan X € para el envío gratis".
+  Solo para España y Portugal (el envío gratis es el descuento automático "Envío gratis desde 80 €").
+  Umbral en céntimos: debe coincidir con el mínimo de ese descuento (Admin > Descuentos).
+  El carrito lateral la actualiza por JS (assets/cart-drawer.js > updateShippingBar).
+{%- endcomment -%}
+{%- assign fs_threshold = 8000 -%}
+{%- assign fs_country = localization.country.iso_code -%}
+{%- assign fs_eligible = false -%}
+{%- if fs_country == 'ES' or fs_country == 'PT' -%}
+  {%- assign fs_eligible = true -%}
+{%- endif -%}
+{%- assign fs_remaining = fs_threshold | minus: cart.total_price -%}
+{%- if fs_remaining < 0 -%}{%- assign fs_remaining = 0 -%}{%- endif -%}
+{%- assign fs_percent = cart.total_price | times: 100 | divided_by: fs_threshold -%}
+{%- if fs_percent > 100 -%}{%- assign fs_percent = 100 -%}{%- endif -%}
+
+<div
+  class="cm-shipbar{% if fs_remaining == 0 %} is-complete{% endif %}"
+  data-cm-shipbar
+  data-threshold="{{ fs_threshold }}"
+  data-eligible="{{ fs_eligible }}"
+  {% unless fs_eligible and cart.item_count > 0 %}hidden{% endunless %}
+>
+  <p class="cm-shipbar__text" data-cm-shipbar-text>
+    {%- if fs_remaining == 0 -%}
+      ¡Tienes <strong>envío gratis</strong>!
+    {%- else -%}
+      Te faltan <strong>{{ fs_remaining | money }}</strong> para el envío gratis
+    {%- endif -%}
+  </p>
+  <div class="cm-shipbar__track" role="progressbar" aria-label="Progreso hacia el envío gratis" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ fs_percent }}">
+    <div class="cm-shipbar__fill" data-cm-shipbar-fill style="width: {{ fs_percent }}%"></div>
+  </div>
+</div>
