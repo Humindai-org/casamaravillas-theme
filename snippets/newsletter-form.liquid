@@ -112,23 +112,33 @@
         msg.classList.toggle('is-error', !!isError);
       }
 
+      /* Tras el envío normal Shopify recarga la página con ?customer_posted=true y el navegador salta al
+         formulario. Con scroll-behavior: smooth en el tema, ese salto se ve como un recorrido largo desde arriba:
+         se desactiva solo para esa carga. */
+      if (location.search.indexOf('customer_posted=true') > -1) {
+        var docEl = document.documentElement;
+        docEl.style.scrollBehavior = 'auto';
+        window.addEventListener('load', function () {
+          setTimeout(function () { docEl.style.scrollBehavior = ''; }, 400);
+        });
+      }
+
+      /* Envío sin recargar. Shopify protege este formulario contra bots y puede rechazar el envío por script
+         (400/403) o pedir verificación (/challenge): en cualquier caso que no sea un éxito claro se usa el
+         envío normal del formulario, que siempre funciona. */
       form.addEventListener('submit', function (event) {
         event.preventDefault();
         btn.disabled = true;
         show('Enviando…', false);
         fetch(form.action, { method: 'POST', body: new FormData(form), credentials: 'same-origin' })
           .then(function (res) {
-            if (res.url.indexOf('/challenge') > -1) {
-              form.submit(); // Shopify pide verificación anti-spam: se muestra con el envío normal
-              return;
-            }
             if (res.url.indexOf('customer_posted=true') > -1) {
               form.reset();
               show({{ nl_success | json }}, false);
+              btn.disabled = false;
             } else {
-              show('Revisa el correo e inténtalo de nuevo.', true);
+              form.submit();
             }
-            btn.disabled = false;
           })
           .catch(function () { form.submit(); });
       });
