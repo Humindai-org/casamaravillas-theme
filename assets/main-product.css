@@ -1304,7 +1304,7 @@
   @media (max-width: 600px) {
     .cm-pdp__purchase { flex-direction: column; }
     .cm-qty { width: 100%; justify-content: space-between; }
-    .cm-pdp__add-btn { width: 100%; }
+    .cm-pdp__add-btn { width: 100%; flex: none; }
     .cm-origin-item { grid-template-columns: 1fr; gap: 4px; }
     .cm-sticky-atc__product { display: none; }
     .cm-sticky-qty { display: none; }
