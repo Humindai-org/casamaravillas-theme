@@ -235,6 +235,13 @@
                 {%- endif -%}
               {%- endif -%}
 
+              {%- comment -%} Quitar apóstrofos sobrantes al inicio (restos de importar desde Excel, p. ej. '+36 meses) {%- endcomment -%}
+              {%- assign card_value = card_value | strip -%}
+              {%- assign card_first_char = card_value | slice: 0 -%}
+              {%- if card_first_char == "'" or card_first_char == "’" -%}
+                {%- assign card_value = card_value | slice: 1, card_value.size | strip -%}
+              {%- endif -%}
+
               {%- if card_value != blank -%}
                 <div class="cm-product-card">
                   <div class="cm-product-card__icon"{% if field_type == 'alimentacion' %} data-icon-type="alimentacion"{% endif %}>
