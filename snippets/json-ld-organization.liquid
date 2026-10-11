@@ -16,7 +16,11 @@
 {
   "@context": "https://schema.org",
   "@type": "Organization",
+  "@id": {{ request.origin | append: routes.root_url | append: '#organization' | json }},
   "name": {{ org_name | json }},
+  "legalName": "Selected Iberian, S.L.",
+  "description": "Tienda online de jamón ibérico, embutidos y packs de regalo desde Alicante. Tres generaciones seleccionando ibéricos, desde 1919.",
+  "foundingDate": "1919",
   "url": {{ request.origin | append: routes.root_url | json }},
   "logo": {{ org_logo | prepend: 'https:' | json }}
   {%- unless settings.seo_org_email == blank -%},
@@ -24,13 +28,15 @@
   {%- endunless -%}
   {%- unless settings.seo_org_phone == blank -%},
   "telephone": {{ settings.seo_org_phone | json }}
-  {%- endunless -%}
-  {%- unless settings.seo_org_address == blank -%},
+  {%- endunless -%},
   "address": {
     "@type": "PostalAddress",
-    "streetAddress": {{ settings.seo_org_address | json }}
-  }
-  {%- endunless -%}
+    "streetAddress": "Av. de San Sebastián, 10, Local 1",
+    "postalCode": "03540",
+    "addressLocality": "Alicante",
+    "addressCountry": "ES"
+  },
+  "areaServed": ["ES", "PT"]
   {%- if same_as.size > 0 -%},
   "sameAs": {{ same_as | json }}
   {%- endif -%}
