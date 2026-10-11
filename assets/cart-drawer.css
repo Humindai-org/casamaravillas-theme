@@ -527,3 +527,30 @@
     padding: 24px 20px;
   }
 }
+
+
+/* ── Barra de envío gratis ── */
+.cm-shipbar {
+  margin: 4px 0 18px;
+  padding: 12px 14px;
+  background: rgba(196, 151, 58, 0.1);
+  border: 1px solid rgba(196, 151, 58, 0.35);
+}
+.cm-shipbar[hidden] { display: none; }
+.cm-shipbar__text {
+  margin: 0 0 8px;
+  font-size: 13px;
+  line-height: 1.4;
+  color: #00294B;
+}
+.cm-shipbar__track {
+  height: 6px;
+  background: rgba(0, 41, 75, 0.12);
+  overflow: hidden;
+}
+.cm-shipbar__fill {
+  height: 100%;
+  background: #C4973A;
+  transition: width 0.35s ease;
+}
+.cm-shipbar.is-complete .cm-shipbar__fill { background: #00294B; }

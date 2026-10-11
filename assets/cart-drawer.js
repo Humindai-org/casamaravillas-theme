@@ -142,6 +142,30 @@ function initCartDrawer() {
     var formatted  = formatMoney(cart.total_price);
     if (subtotalEl) subtotalEl.textContent = formatted;
     if (totalEl)    totalEl.textContent    = formatted;
+    updateShippingBar(cart);
+  }
+
+  /* ---- BARRA DE ENVÍO GRATIS ---- */
+
+  function updateShippingBar(cart) {
+    var bar = document.querySelector('#cart-drawer [data-cm-shipbar]');
+    if (!bar) return;
+    var threshold = parseInt(bar.getAttribute('data-threshold'), 10);
+    var eligible  = bar.getAttribute('data-eligible') === 'true';
+    var remaining = Math.max(threshold - cart.total_price, 0);
+    var percent   = Math.min(Math.round(cart.total_price * 100 / threshold), 100);
+    var text  = bar.querySelector('[data-cm-shipbar-text]');
+    var fill  = bar.querySelector('[data-cm-shipbar-fill]');
+    var track = bar.querySelector('[role="progressbar"]');
+    bar.hidden = !(eligible && cart.item_count > 0);
+    bar.classList.toggle('is-complete', remaining === 0);
+    if (text) {
+      text.innerHTML = remaining === 0
+        ? '¡Tienes <strong>envío gratis</strong>!'
+        : 'Te faltan <strong>' + formatMoney(remaining) + '</strong> para el envío gratis';
+    }
+    if (fill)  fill.style.width = percent + '%';
+    if (track) track.setAttribute('aria-valuenow', percent);
   }
 
   /* ---- UPDATE QTY ---- */
