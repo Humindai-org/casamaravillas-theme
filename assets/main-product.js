@@ -467,7 +467,11 @@ document.addEventListener('DOMContentLoaded', function() {
       const curingSelectEl = sectionEl ? sectionEl.querySelector('[data-curing-select]') : null;
       const curingVal = curingSelectEl ? curingSelectEl.value : '';
       const packSelectEl = sectionEl ? sectionEl.querySelector('[data-pack-select]') : null;
-      const packVal = packSelectEl ? packSelectEl.value : '';
+      // El selector de pack solo se muestra en los jamones loncheados (cortado a mano). Si está oculto no debe viajar al carrito:
+      // antes enviaba "Pack: 1 ud." también para chorizos, packs, etc.
+      const packWrap = packSelectEl ? packSelectEl.closest('[data-selector-type]') : null;
+      const packVisible = !packWrap || packWrap.style.display !== 'none';
+      const packVal = packSelectEl && packVisible ? packSelectEl.value : '';
       const cartBody = {
         id: variantId,
         quantity: getQty(),
