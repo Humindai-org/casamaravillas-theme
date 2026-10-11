@@ -107,9 +107,18 @@
     {%- if section.settings.body != blank -%}
       <p class="newsletter-section__body">{{ section.settings.body }}</p>
     {%- endif -%}
-    <a href="{{ section.settings.cta_url | default: '/pages/suscripcion' }}" class="newsletter-section__btn">
-      {{ section.settings.cta_label | default: 'Unirme al club' }}
-    </a>
+
+    {%- if section.settings.incentive_code != blank -%}
+      <p class="newsletter-section__body" style="margin-top: -16px; margin-bottom: 24px; color: var(--cm-gold);">
+        {{ section.settings.incentive_text | default: 'Código de bienvenida' }}: <strong>{{ section.settings.incentive_code }}</strong>
+      </p>
+    {%- endif -%}
+
+    {% render 'newsletter-form',
+      form_id: 'newsletter-form',
+      cta_label: section.settings.cta_label,
+      success_text: section.settings.success_text
+    %}
   </div>
 </section>
 
@@ -143,9 +152,22 @@
       "default": "Quiero suscribirme"
     },
     {
-      "type": "url",
-      "id": "cta_url",
-      "label": "Enlace del botón"
+      "type": "text",
+      "id": "incentive_text",
+      "label": "Texto del incentivo (opcional)",
+      "default": "Código de bienvenida"
+    },
+    {
+      "type": "text",
+      "id": "incentive_code",
+      "label": "Código de descuento (opcional)",
+      "info": "Debe existir antes en Shopify Admin > Descuentos."
+    },
+    {
+      "type": "text",
+      "id": "success_text",
+      "label": "Mensaje de confirmación",
+      "default": "¡Gracias por suscribirte! Te escribiremos pronto."
     }
   ],
   "presets": [

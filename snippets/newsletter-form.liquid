@@ -1,0 +1,147 @@
+{%- comment -%}
+  newsletter-form.liquid — Alta a la newsletter, un único bloque para toda la web (home, pie de página...).
+
+  Cumplimiento (RGPD / LSSI art. 21): casilla de consentimiento obligatoria y sin marcar, e información
+  de primera capa (responsable, finalidad, derechos) con enlace a la política de privacidad.
+  El alta crea un cliente con la etiqueta "newsletter" en Shopify > Customers.
+
+  Parámetros:
+    form_id      — id único del formulario en la página (obligatorio si hay más de uno)
+    cta_label    — texto del botón (por defecto "Suscribirme")
+    success_text — mensaje tras suscribirse
+  Sobre fondo oscuro (navy).
+{%- endcomment -%}
+{%- liquid
+  assign nl_id = form_id | default: 'newsletter-form'
+  assign nl_label = cta_label | default: 'Suscribirme'
+  assign nl_success = success_text | default: '¡Gracias por suscribirte! Te escribiremos pronto.'
+-%}
+
+<style>
+  .cm-nl { width: 100%; max-width: 520px; font-family: var(--cm-font-sans); text-align: left; }
+  .cm-nl__form { display: flex; flex-direction: column; gap: 12px; margin: 0; }
+  .cm-nl__input {
+    width: 100%;
+    padding: 13px 16px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: white;
+    font-family: var(--cm-font-sans);
+    font-size: 13px;
+    box-sizing: border-box;
+  }
+  .cm-nl__input::placeholder { color: rgba(255, 255, 255, 0.45); }
+  .cm-nl__input:focus-visible { outline: 2px solid var(--cm-gold); outline-offset: 2px; }
+  .cm-nl__consent {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    font-size: 12px;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.78);
+    cursor: pointer;
+  }
+  .cm-nl__consent input { flex-shrink: 0; width: 16px; height: 16px; margin-top: 2px; accent-color: var(--cm-gold); }
+  .cm-nl__consent a,
+  .cm-nl__legal a { color: inherit; text-decoration: underline; }
+  .cm-nl__btn {
+    padding: 14px 36px;
+    background: var(--cm-gold);
+    color: white;
+    border: none;
+    font-family: var(--cm-font-sans);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  .cm-nl__btn:hover { background: var(--cm-gold-h); }
+  .cm-nl__btn:focus-visible { outline: 2px solid white; outline-offset: 3px; }
+  .cm-nl__btn[disabled] { opacity: 0.6; cursor: wait; }
+  .cm-nl__legal { margin: 0; font-size: 11px; line-height: 1.55; color: rgba(255, 255, 255, 0.55); }
+  .cm-nl__msg { margin: 0; min-height: 18px; font-size: 13px; line-height: 1.5; color: var(--cm-gold); }
+  .cm-nl__msg.is-error { color: #e7a1a1; }
+</style>
+
+<div class="cm-nl" data-cm-newsletter>
+  {%- form 'customer', id: nl_id, class: 'cm-nl__form' -%}
+    <input type="hidden" name="contact[tags]" value="newsletter">
+    <label for="{{ nl_id }}-email" class="visually-hidden">Correo electrónico</label>
+    <input
+      type="email"
+      name="contact[email]"
+      id="{{ nl_id }}-email"
+      class="cm-nl__input"
+      value="{{ form.email }}"
+      placeholder="Tu correo electrónico"
+      autocomplete="email"
+      required
+    >
+    <label class="cm-nl__consent" for="{{ nl_id }}-consent">
+      <input type="checkbox" id="{{ nl_id }}-consent" name="contact[accepts_marketing]" value="true" required>
+      <span>Acepto recibir comunicaciones comerciales de Casa Maravillas por correo electrónico y la <a href="/pages/privacidad">Política de privacidad</a>.</span>
+    </label>
+    <button type="submit" class="cm-nl__btn">{{ nl_label }}</button>
+    <p class="cm-nl__legal">
+      <strong>Responsable:</strong> Selected Iberian, S.L. · <strong>Finalidad:</strong> enviarte novedades y ofertas ·
+      <strong>Base legal:</strong> tu consentimiento · <strong>Derechos:</strong> acceso, rectificación, supresión y baja
+      en cualquier momento, con un clic desde el enlace que incluye cada correo.
+      Más información en la <a href="/pages/privacidad">Política de privacidad</a>.
+    </p>
+    <p class="cm-nl__msg{% if form.errors %} is-error{% endif %}" role="status" aria-live="polite">
+      {%- if form.posted_successfully? -%}
+        {{ nl_success }}
+      {%- elsif form.errors -%}
+        Revisa el correo e inténtalo de nuevo.
+      {%- endif -%}
+    </p>
+  {%- endform -%}
+
+  <script>
+    (function () {
+      var root = document.currentScript.closest('[data-cm-newsletter]');
+      var form = root && root.querySelector('form');
+      if (!form || !window.fetch || !window.FormData) return;
+      var msg = root.querySelector('.cm-nl__msg');
+      var btn = form.querySelector('.cm-nl__btn');
+
+      function show(text, isError) {
+        msg.textContent = text;
+        msg.classList.toggle('is-error', !!isError);
+      }
+
+      /* Tras el envío normal Shopify recarga la página con ?customer_posted=true y el navegador salta al
+         formulario. Con scroll-behavior: smooth en el tema, ese salto se ve como un recorrido largo desde arriba:
+         se desactiva solo para esa carga. */
+      if (location.search.indexOf('customer_posted=true') > -1) {
+        var docEl = document.documentElement;
+        docEl.style.scrollBehavior = 'auto';
+        window.addEventListener('load', function () {
+          setTimeout(function () { docEl.style.scrollBehavior = ''; }, 400);
+        });
+      }
+
+      /* Envío sin recargar. Shopify protege este formulario contra bots y puede rechazar el envío por script
+         (400/403) o pedir verificación (/challenge): en cualquier caso que no sea un éxito claro se usa el
+         envío normal del formulario, que siempre funciona. */
+      form.addEventListener('submit', function (event) {
+        event.preventDefault();
+        btn.disabled = true;
+        show('Enviando…', false);
+        fetch(form.action, { method: 'POST', body: new FormData(form), credentials: 'same-origin' })
+          .then(function (res) {
+            if (res.url.indexOf('customer_posted=true') > -1) {
+              form.reset();
+              show({{ nl_success | json }}, false);
+              btn.disabled = false;
+            } else {
+              form.submit();
+            }
+          })
+          .catch(function () { form.submit(); });
+      });
+    })();
+  </script>
+</div>

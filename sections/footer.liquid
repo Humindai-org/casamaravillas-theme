@@ -110,6 +110,31 @@
 
   .site-footer__nav-list a:hover { color: rgba(255,255,255,0.9); }
 
+  .site-footer__newsletter {
+    padding: 40px 72px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: start;
+  }
+
+  .site-footer__newsletter-title {
+    font-family: var(--cm-font-serif);
+    font-size: 22px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.9);
+    margin: 0 0 10px;
+  }
+
+  .site-footer__newsletter-text {
+    font-size: 13px;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.45);
+    margin: 0;
+    max-width: 380px;
+  }
+
   .site-footer__bottom {
     padding: 20px 72px;
     border-top: 1px solid rgba(255,255,255,0.06);
@@ -152,6 +177,11 @@
       padding: 56px 40px 40px;
     }
     .site-footer__bottom { padding: 20px 40px; }
+    .site-footer__newsletter {
+      grid-template-columns: 1fr;
+      gap: 24px;
+      padding: 32px 40px;
+    }
   }
 
   @media (max-width: 767px) {
@@ -177,6 +207,7 @@
     .site-footer__social {
       justify-content: center;
     }
+    .site-footer__newsletter { padding: 28px 24px; }
     .site-footer__bottom {
       padding: 20px 24px;
       flex-direction: column;
@@ -264,6 +295,17 @@
 
   </div>
 
+  {%- if section.settings.show_newsletter -%}
+    <!-- Newsletter -->
+    <div class="site-footer__newsletter">
+      <div>
+        <h4 class="site-footer__newsletter-title">{{ section.settings.newsletter_title }}</h4>
+        <p class="site-footer__newsletter-text">{{ section.settings.newsletter_text }}</p>
+      </div>
+      {% render 'newsletter-form', form_id: 'footer-newsletter-form' %}
+    </div>
+  {%- endif -%}
+
   <!-- Barra inferior -->
   <div class="site-footer__bottom">
     <p class="site-footer__copyright">
@@ -306,6 +348,28 @@
       "type": "url",
       "id": "tiktok",
       "label": "TikTok URL"
+    },
+    {
+      "type": "header",
+      "content": "Newsletter"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_newsletter",
+      "label": "Mostrar el formulario de newsletter",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "newsletter_title",
+      "label": "Título de la newsletter",
+      "default": "Únete al Club Casa Maravillas"
+    },
+    {
+      "type": "textarea",
+      "id": "newsletter_text",
+      "label": "Texto de la newsletter",
+      "default": "Novedades, piezas especiales y ofertas, directamente en tu correo."
     }
   ]
 }
