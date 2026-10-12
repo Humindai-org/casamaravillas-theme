@@ -1622,3 +1622,16 @@
       font-size: 0.8rem;
     }
   }
+
+  /* ── Barra de envío gratis de la ficha ── */
+  .cm-shipbar--pdp {
+    margin: 0 0 20px;
+  }
+  .cm-shipbar--pdp .cm-shipbar__goal {
+    margin: 8px 0 0;
+    font-family: var(--cm-font-sans);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--cm-text-light);
+  }
