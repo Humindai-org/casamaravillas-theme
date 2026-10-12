@@ -120,12 +120,19 @@ document.addEventListener('DOMContentLoaded', function() {
     pdpShipbar.classList.toggle('is-complete', remaining === 0);
     if (text) {
       text.innerHTML = remaining === 0
-        ? 'Con este producto tienes <strong>envío gratis</strong> en España y Portugal'
+        ? 'Con este producto tienes <strong>envío gratis</strong>'
         : 'Añadiendo este producto te faltan <strong>' + formatMoney(remaining) + '</strong> para el envío gratis';
     }
     if (fill) fill.style.width = percent + '%';
     if (track) track.setAttribute('aria-valuenow', percent);
   }
+
+  /* El carrito lateral avisa con 'cm:cart-updated' al quitar, cambiar cantidades o añadir */
+  document.addEventListener('cm:cart-updated', function (e) {
+    if (!pdpShipbar || !e.detail || !e.detail.cart) return;
+    pdpShipbar.setAttribute('data-cart-total', e.detail.cart.total_price);
+    updatePdpShipbar();
+  });
 
   function updateVolumDiscount() {
     const tags = (data && data.tags) ? data.tags.map(t => String(t).trim().toLowerCase()) : [];

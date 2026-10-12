@@ -33,7 +33,7 @@
   >
     <p class="cm-shipbar__text" data-cm-shipbar-text>
       {%- if fs_remaining == 0 -%}
-        Con este producto tienes <strong>envío gratis</strong> en España y Portugal
+        Con este producto tienes <strong>envío gratis</strong>
       {%- else -%}
         Añadiendo este producto te faltan <strong>{{ fs_remaining | money }}</strong> para el envío gratis
       {%- endif -%}
@@ -41,7 +41,7 @@
     <div class="cm-shipbar__track" role="progressbar" aria-label="Progreso hacia el envío gratis" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ fs_percent }}">
       <div class="cm-shipbar__fill" data-cm-shipbar-fill style="width: {{ fs_percent }}%"></div>
     </div>
-    <p class="cm-shipbar__goal">Envío gratis desde {{ fs_threshold | money_without_trailing_zeros }} · España y Portugal</p>
+    <p class="cm-shipbar__goal">Envío gratis desde {{ fs_threshold | money_without_trailing_zeros }}</p>
   </div>
 {%- else -%}
 <div

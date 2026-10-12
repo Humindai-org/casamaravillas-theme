@@ -143,6 +143,8 @@ function initCartDrawer() {
     if (subtotalEl) subtotalEl.textContent = formatted;
     if (totalEl)    totalEl.textContent    = formatted;
     updateShippingBar(cart);
+    /* Avisa a otras piezas (p. ej. la barra de envío gratis de la ficha) de que el carrito cambió */
+    document.dispatchEvent(new CustomEvent('cm:cart-updated', { detail: { cart: cart } }));
   }
 
   /* ---- BARRA DE ENVÍO GRATIS ---- */
