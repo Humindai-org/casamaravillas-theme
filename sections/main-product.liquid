@@ -336,7 +336,7 @@
       <p class="cm-pdp__tax-note">Impuestos añadidos &middot; <a href="/pages/envios" class="cm-pdp__shipping-link">Consulta nuestra política de envíos</a></p>
 
       {%- comment -%} ── BARRA DE ENVÍO GRATIS (solo ES/PT, el snippet decide) ── {%- endcomment -%}
-      {% render 'free-shipping-bar', pdp: true, price: current_variant.price %}
+      {% render 'free-shipping-bar', pdp: true %}
 
       {%- comment -%} ── VARIANTES (Peso vinculado a Shopify) ── {%- endcomment -%}
       {%- unless product.has_only_default_variant -%}

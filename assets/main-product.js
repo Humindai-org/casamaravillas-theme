@@ -98,30 +98,22 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   /* ── Barra de envío gratis de la ficha (snippets/free-shipping-bar.liquid, pdp: true) ──
-     Muestra cuánto falta con lo que ya hay en el carrito + la variante y cantidad elegidas. */
+     Mismo criterio que el carrito: lo que falta según lo que ya hay en él, sin sumar el producto de la ficha. */
   const pdpShipbar = document.querySelector('[data-cm-shipbar-pdp]');
   function updatePdpShipbar() {
     if (!pdpShipbar) return;
-    const variant = findVariant();
-    if (!variant) return;
     const threshold = parseInt(pdpShipbar.getAttribute('data-threshold'), 10);
     const cartTotal = parseInt(pdpShipbar.getAttribute('data-cart-total'), 10) || 0;
-    const tags = (data && data.tags) ? data.tags.map(t => String(t).trim().toLowerCase()) : [];
-    const isCortado = tags.some(t => t.includes('cortado'));
-    const qty = getQty();
-    const disc = isCortado ? volumeDiscountPct(qty) : 0;
-    const line = Math.round(variant.price * qty * (100 - disc) / 100);
-    const projected = cartTotal + line;
-    const remaining = Math.max(threshold - projected, 0);
-    const percent = Math.min(Math.round(projected * 100 / threshold), 100);
+    const remaining = Math.max(threshold - cartTotal, 0);
+    const percent = Math.min(Math.round(cartTotal * 100 / threshold), 100);
     const text = pdpShipbar.querySelector('[data-cm-shipbar-text]');
     const fill = pdpShipbar.querySelector('[data-cm-shipbar-fill]');
     const track = pdpShipbar.querySelector('[role="progressbar"]');
     pdpShipbar.classList.toggle('is-complete', remaining === 0);
     if (text) {
       text.innerHTML = remaining === 0
-        ? 'Con este producto tienes <strong>envío gratis</strong>'
-        : 'Añadiendo este producto te faltan <strong>' + formatMoney(remaining) + '</strong> para el envío gratis';
+        ? '¡Tienes <strong>envío gratis</strong>!'
+        : 'Te faltan <strong>' + formatMoney(remaining) + '</strong> para el envío gratis';
     }
     if (fill) fill.style.width = percent + '%';
     if (track) track.setAttribute('aria-valuenow', percent);
@@ -176,7 +168,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const stickyVal = $('cm-sticky-qty-val-' + SID);
     if (stickyVal) stickyVal.value = v;
     updateVolumDiscount();
-    updatePdpShipbar();
   }
 
   if (qtyInput) {
@@ -356,7 +347,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     /* Actualizar descuento por volumen */
     updateVolumDiscount();
-    updatePdpShipbar();
   }
 
   /* ── AJAX añadir al carrito ── */

@@ -3,8 +3,9 @@
   Solo para España y Portugal (el envío gratis es el descuento automático "Envío gratis desde 80 €").
   Umbral en céntimos: debe coincidir con el mínimo de ese descuento (Admin > Descuentos).
   El carrito lateral la actualiza por JS (assets/cart-drawer.js > updateShippingBar).
-  Con pdp: true se pinta la variante de la ficha de producto (price = precio de la variante en céntimos);
-  assets/main-product.js > updatePdpShipbar la recalcula con la variante, la cantidad y el carrito.
+  Con pdp: true se pinta en la ficha de producto con el mismo criterio que el carrito: lo que falta
+  según lo que YA hay en el carrito (no suma el producto de la ficha).
+  assets/main-product.js > updatePdpShipbar la recalcula cuando el carrito cambia.
 {%- endcomment -%}
 {%- assign fs_threshold = 8000 -%}
 {%- assign fs_country = localization.country.iso_code -%}
@@ -18,11 +19,6 @@
 {%- if fs_percent > 100 -%}{%- assign fs_percent = 100 -%}{%- endif -%}
 
 {%- if pdp -%}
-  {%- assign fs_projected = cart.total_price | plus: price -%}
-  {%- assign fs_remaining = fs_threshold | minus: fs_projected -%}
-  {%- if fs_remaining < 0 -%}{%- assign fs_remaining = 0 -%}{%- endif -%}
-  {%- assign fs_percent = fs_projected | times: 100 | divided_by: fs_threshold -%}
-  {%- if fs_percent > 100 -%}{%- assign fs_percent = 100 -%}{%- endif -%}
   <div
     class="cm-shipbar cm-shipbar--pdp{% if fs_remaining == 0 %} is-complete{% endif %}"
     data-cm-shipbar-pdp
@@ -33,9 +29,9 @@
   >
     <p class="cm-shipbar__text" data-cm-shipbar-text>
       {%- if fs_remaining == 0 -%}
-        Con este producto tienes <strong>envío gratis</strong>
+        ¡Tienes <strong>envío gratis</strong>!
       {%- else -%}
-        Añadiendo este producto te faltan <strong>{{ fs_remaining | money }}</strong> para el envío gratis
+        Te faltan <strong>{{ fs_remaining | money }}</strong> para el envío gratis
       {%- endif -%}
     </p>
     <div class="cm-shipbar__track" role="progressbar" aria-label="Progreso hacia el envío gratis" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ fs_percent }}">
