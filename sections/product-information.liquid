@@ -481,21 +481,24 @@
               se acumula el trozo hasta que el paréntesis queda cerrado.
             {%- endcomment -%}
             {%- assign _pending = '' -%}
-            {%- for _ingredient in _ingredient_items -%}
+            {%- for _piece in _ingredient_items -%}
+              {%- comment -%} no reasignar la variable del bucle: Liquid da prioridad a la del bucle sobre un assign {%- endcomment -%}
               {%- if _pending != blank -%}
-                {%- assign _ingredient = _pending | append: ',' | append: _ingredient -%}
+                {%- assign _cur = _pending | append: ',' | append: _piece -%}
+              {%- else -%}
+                {%- assign _cur = _piece -%}
               {%- endif -%}
               {%- comment -%} el sufijo evita que split descarte el vacío final cuando el trozo termina en ( o ) {%- endcomment -%}
-              {%- assign _guarded = _ingredient | append: '|' -%}
+              {%- assign _guarded = _cur | append: '|' -%}
               {%- assign _open = _guarded | split: '(' | size -%}
               {%- assign _close = _guarded | split: ')' | size -%}
               {%- if _open > _close and forloop.last == false -%}
-                {%- assign _pending = _ingredient -%}
+                {%- assign _pending = _cur -%}
               {%- else -%}
                 {%- assign _pending = '' -%}
-                {%- assign _ingredient = _ingredient | strip -%}
-                {%- if _ingredient != blank -%}
-                  <li>{{ _ingredient }}</li>
+                {%- assign _cur = _cur | strip -%}
+                {%- if _cur != blank -%}
+                  <li>{{ _cur }}</li>
                 {%- endif -%}
               {%- endif -%}
             {%- endfor -%}
