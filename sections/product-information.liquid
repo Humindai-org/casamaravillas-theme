@@ -476,10 +476,27 @@
           <div class="cm-modal__section-title">Ingredientes</div>
           <ul class="cm-modal__list">
             {%- assign _ingredient_items = _ingredients | strip_html | split: ',' -%}
+            {%- comment -%}
+              Una coma dentro de un paréntesis, p. ej. "(E-252, E-250)", no abre viñeta nueva:
+              se acumula el trozo hasta que el paréntesis queda cerrado.
+            {%- endcomment -%}
+            {%- assign _pending = '' -%}
             {%- for _ingredient in _ingredient_items -%}
-              {%- assign _ingredient = _ingredient | strip -%}
-              {%- if _ingredient != blank -%}
-                <li>{{ _ingredient }}</li>
+              {%- if _pending != blank -%}
+                {%- assign _ingredient = _pending | append: ',' | append: _ingredient -%}
+              {%- endif -%}
+              {%- comment -%} el sufijo evita que split descarte el vacío final cuando el trozo termina en ( o ) {%- endcomment -%}
+              {%- assign _guarded = _ingredient | append: '|' -%}
+              {%- assign _open = _guarded | split: '(' | size -%}
+              {%- assign _close = _guarded | split: ')' | size -%}
+              {%- if _open > _close and forloop.last == false -%}
+                {%- assign _pending = _ingredient -%}
+              {%- else -%}
+                {%- assign _pending = '' -%}
+                {%- assign _ingredient = _ingredient | strip -%}
+                {%- if _ingredient != blank -%}
+                  <li>{{ _ingredient }}</li>
+                {%- endif -%}
               {%- endif -%}
             {%- endfor -%}
           </ul>
