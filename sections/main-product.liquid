@@ -4,6 +4,16 @@
 {% endcomment %}
 
 {%- assign current_variant = product.selected_or_first_available_variant -%}
+{%- comment -%}
+  La tarjeta de colección muestra el precio mínimo (product.price). Sin ?variant= la ficha abre en esa misma variante,
+  para que el precio no cambie al entrar.
+{%- endcomment -%}
+{%- if product.price_varies and product.selected_variant == blank -%}
+  {%- assign cheapest_variant = product.variants | where: 'available', true | sort: 'price' | first -%}
+  {%- if cheapest_variant != blank -%}
+    {%- assign current_variant = cheapest_variant -%}
+  {%- endif -%}
+{%- endif -%}
 {%- assign featured_image = current_variant.featured_image | default: product.featured_image -%}
 {%- assign product_accent = '#00294B' -%}
 {%- case product.type -%}
@@ -343,6 +353,8 @@
         <div class="cm-pdp__variants">
           {%- for option in product.options_with_values -%}
             {%- assign option_name_lower = option.name | downcase -%}
+            {%- assign option_idx = option.position | minus: 1 -%}
+            {%- assign selected_in_option = current_variant.options[option_idx] -%}
             <div class="cm-pdp__select-wrap">
               <label class="cm-pdp__select-label" for="cm-sel-{{ forloop.index }}-{{ section.id }}">
                 {%- if option_name_lower contains 'vino' -%}
@@ -358,7 +370,7 @@
                 data-section="{{ section.id }}"
               >
                 {%- for value in option.values -%}
-                  <option value="{{ value | escape }}"{% if option.selected_value == value %} selected{% endif %}>{{ value }}</option>
+                  <option value="{{ value | escape }}"{% if value == selected_in_option %} selected{% endif %}>{{ value }}</option>
                 {%- endfor -%}
               </select>
               <span class="cm-pdp__select-arrow" aria-hidden="true">
@@ -372,11 +384,15 @@
       {%- endunless -%}
 
       {%- comment -%} ── SELECTOR DE PACK (Lonchado/Cortado a Mano) ── {%- endcomment -%}
-      {%- if section.settings.pack_options != blank -%}
-        <div class="cm-pdp__select-wrap" data-selector-type="cortado" style="display: none;">
-          <label class="cm-pdp__select-label" for="cm-pack-sel-{{ section.id }}">Cortado a Mano - Pack</label>
+      {%- assign pack_opts_raw = section.settings.pack_options -%}
+      {%- if product.tags contains 'loncheado' -%}
+        {%- assign pack_opts_raw = section.settings.pack_options_loncheado -%}
+      {%- endif -%}
+      {%- if pack_opts_raw != blank -%}
+        <div class="cm-pdp__select-wrap" data-selector-type="cortado lonchado" style="display: none;">
+          <label class="cm-pdp__select-label" for="cm-pack-sel-{{ section.id }}">Unidades</label>
           <select id="cm-pack-sel-{{ section.id }}" class="cm-pdp__select" data-pack-select>
-            {%- assign pack_opts = section.settings.pack_options | split: ',' -%}
+            {%- assign pack_opts = pack_opts_raw | split: ',' -%}
             {%- for opt in pack_opts -%}
               <option value="{{ opt | strip | escape }}">{{ opt | strip }}</option>
             {%- endfor -%}
@@ -755,8 +771,15 @@
       "type": "text",
       "id": "pack_options",
       "label": "Opciones de pack (separadas por comas)",
-      "default": "1, 10, 20, 30",
-      "info": "Solo se muestra en productos etiquetados como \"Cortado a Mano\" (no en \"Loncheado\")."
+      "default": "1 ud., 10 ud.",
+      "info": "Jamón loncheado (etiqueta \"cortado a mano\"). El descuento por cantidad empieza en 10 uds."
+    },
+    {
+      "type": "text",
+      "id": "pack_options_loncheado",
+      "label": "Opciones de pack — embutido loncheado",
+      "default": "1 ud., 5 ud.",
+      "info": "Productos con la etiqueta \"loncheado\". El descuento por cantidad empieza en 5 uds."
     },
     {
       "type": "header",

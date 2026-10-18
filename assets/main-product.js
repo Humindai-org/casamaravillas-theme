@@ -90,10 +90,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function getQty() { return qtyInput ? parseInt(qtyInput.value, 10) || 1 : 1; }
 
-  function volumeDiscountPct(qty) {
-    if (qty >= 30) return 10;
-    if (qty >= 20) return 7;
-    if (qty >= 10) return 5;
+  /* Jamón loncheado: -10% desde 10 uds. Embutido loncheado: -10% desde 5 uds. */
+  function volumeDiscountPct(qty, minQty) {
+    if (qty >= minQty) return 10;
     return 0;
   }
 
@@ -128,15 +127,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function updateVolumDiscount() {
     const tags = (data && data.tags) ? data.tags.map(t => String(t).trim().toLowerCase()) : [];
+    const isLoncheado = tags.some(t => t.includes('loncheado'));
     const isCortado = tags.some(t => t.includes('cortado'));
-    if (!isCortado) return;
+    if (!isCortado && !isLoncheado) return;
 
     const qty = getQty();
     const variant = findVariant();
     if (!variant) return;
 
     const basePrice = variant.price;
-    const discount = volumeDiscountPct(qty);
+    const discount = volumeDiscountPct(qty, isLoncheado ? 5 : 10);
 
 
     const volDiscEl = $('cm-volume-discount-' + SID);
@@ -249,7 +249,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const selectors = sectionEl.querySelectorAll('[data-selector-type]');
     selectors.forEach(selector => {
-      if (selector.getAttribute('data-selector-type') === selectorType) {
+      if (selector.getAttribute('data-selector-type').split(' ').indexOf(selectorType) !== -1) {
         selector.style.display = '';
       } else {
         selector.style.display = 'none';
