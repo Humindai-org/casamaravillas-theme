@@ -48,19 +48,37 @@
         "product_jYNXjH": {
           "type": "product",
           "settings": {
-            "product": "jamon-cebo-de-campo-50-iberico-cortado-a-mano"
+            "product": "jamon-cebo-de-campo-50-iberico-loncheado-a-mano"
           }
         },
         "product_7F4fii": {
           "type": "product",
           "settings": {
-            "product": "jamon-bellota-50-iberico-cortado-a-mano"
+            "product": "jamon-bellota-50-iberico-loncheado-a-mano"
           }
         },
         "product_YgFWai": {
           "type": "product",
           "settings": {
-            "product": "jamon-bellota-100-iberico-cortado-a-mano"
+            "product": "jamon-bellota-100-iberico-loncheado-a-mano"
+          }
+        },
+        "product_maq0": {
+          "type": "product",
+          "settings": {
+            "product": "jamon-cebo-de-campo-50-iberico-loncheado-a-maquina"
+          }
+        },
+        "product_maq1": {
+          "type": "product",
+          "settings": {
+            "product": "jamon-bellota-50-iberico-loncheado-a-maquina"
+          }
+        },
+        "product_maq2": {
+          "type": "product",
+          "settings": {
+            "product": "jamon-bellota-100-iberico-loncheado-a-maquina"
           }
         },
         "product_mfpG3P": {
@@ -86,6 +104,9 @@
         "product_jYNXjH",
         "product_7F4fii",
         "product_YgFWai",
+        "product_maq0",
+        "product_maq1",
+        "product_maq2",
         "product_mfpG3P",
         "product_QxpcEm",
         "product_WFUzPt"

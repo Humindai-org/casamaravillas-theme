@@ -25,7 +25,7 @@
 {%- endcomment -%}
 {%- assign ld_free_shipping_threshold_cents = 8000 -%}
 {%- assign ld_product_type_lower = product.type | downcase -%}
-{%- if ld_product_type_lower == 'embutidos' or product.tags contains 'cortado a mano' or product.tags contains 'loncheado' -%}
+{%- if ld_product_type_lower == 'embutidos' or product.tags contains 'cortado a mano' or product.tags contains 'cortado a máquina' or product.tags contains 'loncheado' -%}
   {%- assign ld_shipping_rate_below_threshold = '8.94' -%}
 {%- else -%}
   {%- assign ld_shipping_rate_below_threshold = '11.20' -%}
