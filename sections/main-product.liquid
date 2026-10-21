@@ -36,6 +36,7 @@
         variants: {{ product.variants | json }},
         moneyFormat: {{ shop.money_format | json }},
         tags: {{ product.tags | json }},
+        options: {{ product.options | json }},
         productId: {{ product.id | json }},
         productHandle: {{ product.handle | json }},
         galFit: {{ section.settings.gallery_fit | default: 'contain' | json }},
