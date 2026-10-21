@@ -12,6 +12,7 @@
     "hero": {
       "type": "video-banner",
       "settings": {
+        "video": "shopify://files/videos/banner_loncheados_v3_web.mp4",
         "image": "shopify://shop_images/Untitled_design_1_84471d21-82dc-4e53-b6f8-e324772ffbb9.png",
         "eyebrow": "Listo para disfrutar",
         "heading": "Loncheados Ibéricos",
