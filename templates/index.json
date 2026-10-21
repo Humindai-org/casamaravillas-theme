@@ -70,9 +70,9 @@
           "settings": {
             "title": "Envío gratis",
             "description": "A partir de 80 € en Península",
+            "icon": "icon-envio.svg",
             "title_exterior": "Envío a toda Europa",
-            "description_exterior": "Con seguimiento",
-            "icon": "icon-envio.svg"
+            "description_exterior": "Con seguimiento"
           }
         },
         "trust-2": {
@@ -458,6 +458,7 @@
     },
     "newsletter": {
       "type": "newsletter",
+      "disabled": false,
       "settings": {
         "eyebrow": "Club Casa Maravillas",
         "title": "<p>Suscríbete al placer de lo <em>auténtico.</em></p>",

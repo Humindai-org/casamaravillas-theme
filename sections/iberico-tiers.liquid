@@ -255,7 +255,8 @@
      por ruta nativa del <a href> server-side. */
   var isEmbutidos = '{{ collection.handle }}'.indexOf('embutidos') !== -1;
   var isPacks = '{{ collection.handle }}' === 'packs-regalo' || '{{ collection.template_suffix }}' === 'packs-regalo';
-  var clientSide = isEmbutidos || isPacks;
+  var isLoncheados = '{{ collection.handle }}' === 'loncheados' || '{{ collection.template_suffix }}' === 'loncheados';
+  var clientSide = isEmbutidos || isPacks || isLoncheados;
   if (!clientSide) return;
 
   var cards = section.querySelectorAll('[data-filter-tag-btn]');

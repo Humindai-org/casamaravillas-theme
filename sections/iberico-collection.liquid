@@ -729,9 +729,13 @@
           {%- render 'embutidos-filters', section_id: section.id, collection: collection, current_tags: current_tags -%}
         {%- when 'packs-regalo' -%}
           {%- render 'packs-regalo-filters', section_id: section.id, collection: collection, current_tags: current_tags -%}
+        {%- when 'loncheados' -%}
+          {%- render 'loncheados-filters', section_id: section.id, collection: collection, current_tags: current_tags -%}
         {%- else -%}
           {%- if collection.template_suffix == 'packs-regalo' -%}
             {%- render 'packs-regalo-filters', section_id: section.id, collection: collection, current_tags: current_tags -%}
+          {%- elsif collection.template_suffix == 'loncheados' -%}
+            {%- render 'loncheados-filters', section_id: section.id, collection: collection, current_tags: current_tags -%}
           {%- endif -%}
       {%- endcase -%}
     </aside>
@@ -743,8 +747,14 @@
       <div class="ic__toolbar-{{ section.id }}">
         {%- if section.settings.show_count -%}
           <p class="ic__count-{{ section.id }}">
-            {{ collection.products_count }}
-            {%- if collection.products_count == 1 -%} producto{%- else -%} productos{%- endif -%}
+            {%- liquid
+              assign total_shown = collection.products_count
+              if section.blocks.size > 0
+                assign total_shown = section.blocks.size
+              endif
+            -%}
+            {{ total_shown }}
+            {%- if total_shown == 1 -%} producto{%- else -%} productos{%- endif -%}
           </p>
         {%- endif -%}
 
@@ -757,6 +767,8 @@
               assign search_placeholder = 'Buscar Embutido...'
             elsif collection.handle == 'packs-regalo' or collection.template_suffix == 'packs-regalo'
               assign search_placeholder = 'Buscar pack...'
+            elsif collection.handle == 'loncheados' or collection.template_suffix == 'loncheados'
+              assign search_placeholder = 'Buscar loncheado...'
             endif
           -%}
 
@@ -813,6 +825,13 @@
         </div>
       </div>
 
+      {%- liquid
+        assign is_loncheados = false
+        if collection.handle == 'loncheados' or collection.template_suffix == 'loncheados'
+          assign is_loncheados = true
+        endif
+      -%}
+
       <!-- Product grid + Pagination (Custom order or collection) -->
       {%- if section.blocks.size > 0 -%}
         {%- comment -%}Mode: producto blocks — render directly without pagination{%- endcomment -%}
@@ -820,7 +839,7 @@
           {%- for block in section.blocks -%}
             {%- if block.settings.product -%}
               {%- assign product = block.settings.product -%}
-              <div data-product-tags="{{ product.tags | join: ',' | downcase }}" data-product-price="{{ product.price | divided_by: 100 }}">
+              <div data-product-tags="{{ product.tags | join: ',' | downcase }}{%- if is_loncheados -%}{%- render 'loncheados-derived-tags', product: product -%}{%- endif -%}" data-product-price="{{ product.price | divided_by: 100 }}">
                 {% render 'product-card', card_product: product, card_collection: collection.handle, block_zoom: block.settings.zoom, block_offset_x: block.settings.offset_x, block_offset: block.settings.offset, block_zoom_2: block.settings.zoom_2, block_offset_x_2: block.settings.offset_x_2, block_offset_2: block.settings.offset_2, card_style: section.settings.card_style %}
               </div>
             {%- endif -%}
@@ -836,7 +855,7 @@
           <div class="ic__grid-{{ section.id }}">
             {%- if collection.products.size > 0 -%}
               {%- for product in collection.products -%}
-                <div data-product-tags="{{ product.tags | join: ',' | downcase }}" data-product-price="{{ product.price | divided_by: 100 }}">
+                <div data-product-tags="{{ product.tags | join: ',' | downcase }}{%- if is_loncheados -%}{%- render 'loncheados-derived-tags', product: product -%}{%- endif -%}" data-product-price="{{ product.price | divided_by: 100 }}">
                   {% render 'product-card', card_product: product, card_collection: collection.handle, card_style: section.settings.card_style %}
                 </div>
               {%- endfor -%}
@@ -899,9 +918,13 @@
         {%- render 'embutidos-filters', section_id: section.id, collection: collection, current_tags: current_tags, drawer: true -%}
       {%- when 'packs-regalo' -%}
         {%- render 'packs-regalo-filters', section_id: section.id, collection: collection, current_tags: current_tags, drawer: true -%}
+      {%- when 'loncheados' -%}
+        {%- render 'loncheados-filters', section_id: section.id, collection: collection, current_tags: current_tags, drawer: true -%}
       {%- else -%}
         {%- if collection.template_suffix == 'packs-regalo' -%}
           {%- render 'packs-regalo-filters', section_id: section.id, collection: collection, current_tags: current_tags, drawer: true -%}
+        {%- elsif collection.template_suffix == 'loncheados' -%}
+          {%- render 'loncheados-filters', section_id: section.id, collection: collection, current_tags: current_tags, drawer: true -%}
         {%- endif -%}
     {%- endcase -%}
   </div>
@@ -990,6 +1013,7 @@
   var isEmbutidos = '{{ collection.handle }}'.indexOf('embutidos') !== -1;
   var isPacks = '{{ collection.handle }}' === 'packs-regalo' || '{{ collection.template_suffix }}' === 'packs-regalo';
   var isJamones = '{{ collection.handle }}' === 'jamones';
+  var isLoncheados = '{{ collection.handle }}' === 'loncheados' || '{{ collection.template_suffix }}' === 'loncheados';
 
   /* Client-side filtering for embutidos, packs, and jamones (blocks mode bypasses Shopify server-side tag filtering) */
   function filterProducts() {
@@ -999,7 +1023,9 @@
 
     /* Category definitions — embutidos */
     var tipoTags = ['chorizo', 'lomo', 'salchichón'];
+    if (isLoncheados) tipoTags = ['jamon', 'lomo', 'chorizo', 'salchichón', 'chorizo-salchichon'];
     var formatoTags = ['loncheado', 'pieza'];
+    if (isLoncheados) formatoTags = ['bellota-100', 'bellota-50', 'cebo-de-campo'];
 
     /* Category definitions — packs */
     var calidadPacksTags = ['cebo', 'cebo-de-campo', 'bellota-50', 'bellota-100'];
@@ -1014,7 +1040,7 @@
 
     /* Category definitions — jamones */
     var jCalidadTags = ['precinto negro', 'precinto rojo', 'precinto verde', 'precinto blanco'];
-    var jFormatoTags = ['pieza entera', 'cortado a mano'];
+    var jFormatoTags = ['pieza entera', 'cortado a mano', 'cortado a máquina'];
 
     /* Separate selected tags by category */
     var selectedTipoTags = selectedTags.filter(function(tag) { return tipoTags.indexOf(tag) !== -1; });
@@ -1123,7 +1149,7 @@
       section.querySelectorAll('input[data-filter-tag="' + tag + '"]').forEach(function (other) {
         other.checked = cb.checked;
       });
-      if (isEmbutidos || isPacks) {
+      if (isEmbutidos || isPacks || isLoncheados) {
         filterProducts();
       } else {
         navigateToTags(collectChecked());
@@ -1145,7 +1171,7 @@
     }
   }
 
-  if (isEmbutidos || isPacks) {
+  if (isEmbutidos || isPacks || isLoncheados) {
     restoreFiltersFromHash();
     window.addEventListener('hashchange', function() {
       section.querySelectorAll('input[data-filter-tag]').forEach(function(cb) {
