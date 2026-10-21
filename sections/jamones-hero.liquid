@@ -3,6 +3,12 @@
   Hero con scroll expansion: frame escala de 0.85 a 1 mientras el sticky viaja.
 {% endcomment %}
 
+{%- liquid
+  assign jh_crop = section.settings.image_crop_top | default: 0
+  assign jh_crop_rest = 100 | minus: jh_crop
+  assign jh_crop_height = 10000.0 | divided_by: jh_crop_rest | round: 2
+-%}
+
 <style>
   .jh-{{ section.id }} {
     position: relative;
@@ -32,6 +38,18 @@
     object-fit: cover;
     display: block;
   }
+
+  {%- if jh_crop > 0 %}
+  /* Recorte superior: la caja se alarga hacia arriba y se ancla abajo; el overflow del
+     contenedor oculta la franja sobrante de la imagen en cualquier proporción de pantalla. */
+  .jh__bg-crop-{{ section.id }} {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: {{ jh_crop_height }}%;
+  }
+  {%- endif %}
 
   .jh__bg-overlay-{{ section.id }} {
     display: none;
@@ -227,6 +245,7 @@
     {%- if section.settings.image != blank -%}
       {%- assign jh_bg_class = 'jh__bg-img-' | append: section.id -%}
       <div class="jh__bg-{{ section.id }}">
+        {%- if jh_crop > 0 -%}<div class="jh__bg-crop-{{ section.id }}">{%- endif -%}
         {{ section.settings.image
           | image_url: width: 2400, format: 'webp'
           | image_tag:
@@ -237,6 +256,7 @@
               sizes: '100vw',
               widths: '480,768,1024,1440,1920,2400'
         }}
+        {%- if jh_crop > 0 -%}</div>{%- endif -%}
         <div class="jh__bg-overlay-{{ section.id }}" id="jh-overlay-{{ section.id }}" aria-hidden="true"></div>
         <div class="jh__bg-wash-{{ section.id }}" aria-hidden="true"></div>
       </div>
@@ -403,6 +423,17 @@
       "max": 100,
       "step": 5,
       "default": 50,
+      "unit": "%"
+    },
+    {
+      "type": "range",
+      "id": "image_crop_top",
+      "label": "Recortar parte superior de la imagen",
+      "info": "Para imágenes con una franja vacía arriba (pared, fondo liso). Se recorta en todas las pantallas. 0% = sin recorte",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "default": 0,
       "unit": "%"
     },
     {
