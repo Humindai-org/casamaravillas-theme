@@ -126,7 +126,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const wrap = select.closest('.cm-pdp__select-wrap');
     if (!wrap || wrap.classList.contains('has-opts')) return;
     const group = document.createElement('div');
-    group.className = 'cm-pdp__opts';
+    const cards = (wrap.dataset.optName || '').toLowerCase() === 'formato';
+    group.className = 'cm-pdp__opts' + (cards ? ' cm-pdp__opts--cards' : '');
     group.setAttribute('role', 'radiogroup');
     const label = select.id ? document.querySelector('label[for="' + select.id + '"]') : null;
     if (label) {
@@ -139,7 +140,16 @@ document.addEventListener('DOMContentLoaded', function() {
       btn.className = 'cm-pdp__opt';
       btn.setAttribute('role', 'radio');
       btn.dataset.value = opt.value;
-      btn.textContent = prettyOptionLabel(opt.textContent);
+      const nameEl = document.createElement('span');
+      nameEl.className = 'cm-pdp__opt-name';
+      nameEl.textContent = prettyOptionLabel(opt.textContent);
+      btn.appendChild(nameEl);
+      if (cards && opt.dataset.desc) {
+        const descEl = document.createElement('span');
+        descEl.className = 'cm-pdp__opt-desc';
+        descEl.textContent = opt.dataset.desc;
+        btn.appendChild(descEl);
+      }
       btn.addEventListener('click', function() {
         select.value = opt.value;
         select.dispatchEvent(new Event('change', { bubbles: true }));

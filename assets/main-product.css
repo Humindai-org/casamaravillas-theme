@@ -1650,22 +1650,58 @@
   }
   .cm-pdp__select-wrap.has-opts .cm-pdp__select-arrow { display: none; }
 
-  .cm-pdp__opts {
+  /* Grupos de opciones (Peso, Formato, Punto de curación…): cabecera con ayuda y separador */
+  .cm-pdp__variants { margin-bottom: 0; }
+  .cm-pdp__group {
+    margin: 0;
+    padding: 24px 0;
+    border-top: 1px solid var(--border-color);
+  }
+  .cm-pdp__variants .cm-pdp__group:first-child { border-top: 0; padding-top: 4px; }
+  .cm-pdp__group-head {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 4px 16px;
+    margin-bottom: 14px;
+  }
+  .cm-pdp__group-head .cm-pdp__select-label {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    color: var(--text-primary);
+  }
+  .cm-pdp__group-caption {
+    font-family: var(--cm-font-serif, var(--cm-font-sans));
+    font-size: 13px;
+    font-style: italic;
+    line-height: 1.4;
+    color: var(--text-secondary);
   }
 
+  .cm-pdp__opts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
+    gap: 10px;
+  }
+  .cm-pdp__opts--cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
   .cm-pdp__opt {
-    flex: 1 1 auto;
-    min-height: 44px;
-    padding: 10px 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    min-height: 52px;
+    padding: 12px 16px;
     background: var(--bg-card);
     border: 1.5px solid var(--border-color);
-    border-radius: 4px;
+    border-radius: 999px;
     color: var(--text-primary);
     font-family: var(--cm-font-sans);
-    font-size: 14px;
+    font-size: 15px;
     line-height: 1.3;
     text-align: center;
     cursor: pointer;
@@ -1674,16 +1710,32 @@
   .cm-pdp__opt:hover { border-color: var(--accent-gold); }
   .cm-pdp__opt:focus-visible { outline: 2px solid var(--accent-gold); outline-offset: 2px; }
   .cm-pdp__opt:active { transform: scale(0.98); }
-  .cm-pdp__opt-extra {
-    display: block;
-    margin-top: 2px;
-    font-size: 12px;
-    font-weight: 400;
-    opacity: 0.75;
-  }
   .cm-pdp__opt[aria-checked="true"] {
     border-color: var(--accent-gold);
     background: var(--accent-gold);
-    font-weight: 600;
+    font-weight: 500;
   }
-
+  .cm-pdp__opt-name { order: 1; }
+  .cm-pdp__opt-extra {
+    order: 2;
+    font-size: 15px;
+    font-weight: 400;
+    color: var(--text-secondary);
+  }
+  .cm-pdp__opt-desc {
+    order: 3;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.4;
+    color: var(--text-secondary);
+  }
+  /* Formato: tarjetas con nombre, suplemento y una línea de descripción */
+  .cm-pdp__opts--cards .cm-pdp__opt {
+    min-height: 104px;
+    padding: 16px 18px;
+    border-radius: 4px;
+  }
+  @media (max-width: 480px) {
+    .cm-pdp__opts--cards { grid-template-columns: 1fr; }
+    .cm-pdp__opts--cards .cm-pdp__opt { min-height: 88px; }
+  }

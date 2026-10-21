@@ -356,14 +356,22 @@
             {%- assign option_name_lower = option.name | downcase -%}
             {%- assign option_idx = option.position | minus: 1 -%}
             {%- assign selected_in_option = current_variant.options[option_idx] -%}
-            <div class="cm-pdp__select-wrap">
-              <label class="cm-pdp__select-label" for="cm-sel-{{ forloop.index }}-{{ section.id }}">
-                {%- if option_name_lower contains 'vino' -%}
-                  Selecciona tu vino
-                {%- else -%}
-                  {{ option.name }}
-                {%- endif -%}
-              </label>
+            {%- case option_name_lower -%}
+              {%- when 'peso' -%}{%- assign opt_caption = 'Selecciona el peso aproximado de tu pieza.' -%}
+              {%- when 'formato' -%}{%- assign opt_caption = 'Elige cómo quieres tu pieza.' -%}
+              {%- else -%}{%- assign opt_caption = '' -%}
+            {%- endcase -%}
+            <div class="cm-pdp__select-wrap cm-pdp__group" data-opt-name="{{ option.name | escape }}">
+              <div class="cm-pdp__group-head">
+                <label class="cm-pdp__select-label" for="cm-sel-{{ forloop.index }}-{{ section.id }}">
+                  {%- if option_name_lower contains 'vino' -%}
+                    Selecciona tu vino
+                  {%- else -%}
+                    {{ option.name }}
+                  {%- endif -%}
+                </label>
+                {%- if opt_caption != blank -%}<span class="cm-pdp__group-caption">{{ opt_caption }}</span>{%- endif -%}
+              </div>
               <select
                 id="cm-sel-{{ forloop.index }}-{{ section.id }}"
                 class="cm-pdp__select"
@@ -371,7 +379,14 @@
                 data-section="{{ section.id }}"
               >
                 {%- for value in option.values -%}
-                  <option value="{{ value | escape }}"{% if value == selected_in_option %} selected{% endif %}>{{ value }}</option>
+                  {%- case value -%}
+                    {%- when 'Pieza entera' -%}{%- assign value_desc = 'Disfruta de la experiencia completa en casa.' -%}
+                    {%- when 'Deshuesado' -%}{%- assign value_desc = 'Más cómodo, mismo sabor.' -%}
+                    {%- when 'Corte a máquina y envasado' -%}{%- assign value_desc = 'Listo para disfrutar.' -%}
+                    {%- when 'Corte a mano y envasado' -%}{%- assign value_desc = 'El máximo nivel de experiencia.' -%}
+                    {%- else -%}{%- assign value_desc = '' -%}
+                  {%- endcase -%}
+                  <option value="{{ value | escape }}"{% if value == selected_in_option %} selected{% endif %}{% if value_desc != blank and option_name_lower == 'formato' %} data-desc="{{ value_desc }}"{% endif %}>{{ value }}</option>
                 {%- endfor -%}
               </select>
               <span class="cm-pdp__select-arrow" aria-hidden="true">
@@ -390,8 +405,11 @@
         {%- assign pack_opts_raw = section.settings.pack_options_loncheado -%}
       {%- endif -%}
       {%- if pack_opts_raw != blank -%}
-        <div class="cm-pdp__select-wrap" data-selector-type="cortado lonchado" style="display: none;">
-          <label class="cm-pdp__select-label" for="cm-pack-sel-{{ section.id }}">Unidades</label>
+        <div class="cm-pdp__select-wrap cm-pdp__group" data-selector-type="cortado lonchado" style="display: none;">
+          <div class="cm-pdp__group-head">
+            <label class="cm-pdp__select-label" for="cm-pack-sel-{{ section.id }}">Unidades</label>
+            <span class="cm-pdp__group-caption">Elige cuántas unidades quieres.</span>
+          </div>
           <select id="cm-pack-sel-{{ section.id }}" class="cm-pdp__select" data-pack-select>
             {%- assign pack_opts = pack_opts_raw | split: ',' -%}
             {%- for opt in pack_opts -%}
@@ -418,10 +436,13 @@
         {%- assign _is_pack_product = true -%}
       {%- endif -%}
       {%- if section.settings.show_curing_selector and _is_pack_product == false -%}
-        <div class="cm-curing-selector" id="cm-curing-{{ section.id }}">
-          <label class="cm-pdp__select-label" for="cm-curing-sel-{{ section.id }}">
-            Punto de Curación
-          </label>
+        <div class="cm-curing-selector cm-pdp__group" id="cm-curing-{{ section.id }}">
+          <div class="cm-pdp__group-head">
+            <label class="cm-pdp__select-label" for="cm-curing-sel-{{ section.id }}">
+              Punto de Curación
+            </label>
+            <span class="cm-pdp__group-caption">Selecciona el sabor y la textura que más te guste.</span>
+          </div>
           <div class="cm-pdp__select-wrap">
             <select id="cm-curing-sel-{{ section.id }}" class="cm-pdp__select" data-curing-select>
               <option value="tierno" data-desc="Textura suave, sabor delicado. Ideal para amantes de cortes más frescos.">Más tierno</option>
