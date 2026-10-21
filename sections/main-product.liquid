@@ -357,7 +357,12 @@
             {%- assign option_idx = option.position | minus: 1 -%}
             {%- assign selected_in_option = current_variant.options[option_idx] -%}
             {%- case option_name_lower -%}
-              {%- when 'peso' -%}{%- assign opt_caption = 'Selecciona el peso aproximado de tu pieza.' -%}
+              {%- when 'peso' -%}
+                {%- if product.handle contains 'pieza-entera' or product.tags contains 'pieza' -%}
+                  {%- assign opt_caption = 'Selecciona el peso aproximado de tu pieza.' -%}
+                {%- else -%}
+                  {%- assign opt_caption = 'Selecciona el peso.' -%}
+                {%- endif -%}
               {%- when 'formato' -%}{%- assign opt_caption = 'Elige cómo quieres tu pieza.' -%}
               {%- else -%}{%- assign opt_caption = '' -%}
             {%- endcase -%}

@@ -1731,11 +1731,15 @@
   }
   /* Formato: tarjetas con nombre, suplemento y una línea de descripción */
   .cm-pdp__opts--cards .cm-pdp__opt {
-    min-height: 104px;
-    padding: 16px 18px;
+    min-height: 80px;
+    padding: 12px 14px;
+    gap: 2px;
     border-radius: 4px;
   }
+  .cm-pdp__opts--cards .cm-pdp__opt-name { font-size: 14px; }
+  .cm-pdp__opts--cards .cm-pdp__opt-extra { font-size: 13px; }
+  .cm-pdp__opts--cards .cm-pdp__opt-desc { font-size: 12px; }
   @media (max-width: 480px) {
     .cm-pdp__opts--cards { grid-template-columns: 1fr; }
-    .cm-pdp__opts--cards .cm-pdp__opt { min-height: 88px; }
+    .cm-pdp__opts--cards .cm-pdp__opt { min-height: 72px; }
   }
