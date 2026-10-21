@@ -238,7 +238,7 @@ document.addEventListener('DOMContentLoaded', function() {
       formatLabel = 'Loncheado';
     } else if (tagsLower.some(t => t.includes('cortado'))) {
       selectorType = 'cortado';
-      formatLabel = 'Cortado a Mano';
+      formatLabel = 'Loncheado';
     } else if (tagsLower.some(t => t.includes('deshuesado'))) {
       selectorType = 'deshuesado';
       formatLabel = 'Deshuesado';

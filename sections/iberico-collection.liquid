@@ -727,8 +727,6 @@
           {%- render 'jamones-filters', section_id: section.id, collection: collection, current_tags: current_tags -%}
         {%- when 'embutidos', 'embutidos-1' -%}
           {%- render 'embutidos-filters', section_id: section.id, collection: collection, current_tags: current_tags -%}
-        {%- when 'carnes-ibericas' -%}
-          {%- render 'carnes-ibericas-filters', section_id: section.id, collection: collection, current_tags: current_tags -%}
         {%- when 'packs-regalo' -%}
           {%- render 'packs-regalo-filters', section_id: section.id, collection: collection, current_tags: current_tags -%}
         {%- else -%}
@@ -757,8 +755,6 @@
               assign search_placeholder = 'Buscar jamón...'
             elsif collection.handle == 'embutidos' or collection.handle == 'embutidos-1'
               assign search_placeholder = 'Buscar Embutido...'
-            elsif collection.handle == 'carnes-ibericas'
-              assign search_placeholder = 'Buscar carne...'
             elsif collection.handle == 'packs-regalo' or collection.template_suffix == 'packs-regalo'
               assign search_placeholder = 'Buscar pack...'
             endif
@@ -901,8 +897,6 @@
         {%- render 'jamones-filters', section_id: section.id, collection: collection, current_tags: current_tags, drawer: true -%}
       {%- when 'embutidos', 'embutidos-1' -%}
         {%- render 'embutidos-filters', section_id: section.id, collection: collection, current_tags: current_tags, drawer: true -%}
-      {%- when 'carnes-ibericas' -%}
-        {%- render 'carnes-ibericas-filters', section_id: section.id, collection: collection, current_tags: current_tags, drawer: true -%}
       {%- when 'packs-regalo' -%}
         {%- render 'packs-regalo-filters', section_id: section.id, collection: collection, current_tags: current_tags, drawer: true -%}
       {%- else -%}

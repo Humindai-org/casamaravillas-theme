@@ -551,7 +551,7 @@
 {%- comment -%} ════════════════════════════════════ COMBINA (oculta por defecto) ══ {%- endcomment -%}
 {%- liquid
   assign current_family = template.suffix
-  assign all_families   = 'jamones,embutidos,carnes-ibericas,packs-regalo' | split: ','
+  assign all_families   = 'jamones,embutidos,packs-regalo' | split: ','
   assign shown_handles  = product.handle | append: ','
   assign shown_count    = 0
 -%}
