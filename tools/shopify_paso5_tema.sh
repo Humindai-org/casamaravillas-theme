@@ -5,6 +5,8 @@
 # por lo que no arrastra la deriva entre el repo y el tema live (p. ej. "Nosotros").
 #
 # Uso (desde cualquier carpeta):
+# Opcional: tras el comando se pueden indicar archivos concretos (por defecto, los 3), p. ej.:
+#   tools/shopify_paso5_tema.sh push assets/main-product.js
 #   tools/shopify_paso5_tema.sh plan                    # solo lee: diff entre el tema publicado y la rama
 #   tools/shopify_paso5_tema.sh backup                  # guarda los 3 archivos publicados en _backup/tema_live_<fecha>/
 #   tools/shopify_paso5_tema.sh push                    # sube los 3 archivos al tema publicado (--allow-live)
@@ -17,6 +19,9 @@ BRANCH="fix/embutido-100g-y-descuento-5pct"
 FILES=(assets/main-product.js sections/main-product.liquid sections/policy-body.liquid)
 
 cd "$(dirname "$0")/.."
+cmd="${1:-plan}"; [ $# -gt 0 ] && shift
+if [ "$cmd" = "rollback" ]; then bk="${1:?Indica la carpeta de backup (_backup/tema_live_XXXX)}"; shift; fi
+if [ $# -gt 0 ]; then FILES=("$@"); fi
 only=()
 for f in "${FILES[@]}"; do only+=(--only "$f"); done
 
@@ -29,7 +34,7 @@ export_branch() {
   echo "$dir"
 }
 
-case "${1:-plan}" in
+case "$cmd" in
   plan)
     tmp="$(mktemp -d)"; src="$(export_branch)"
     shopify theme pull --store "$STORE" --theme "$LIVE_ID" --path "$tmp" "${only[@]}" --force --no-color >/dev/null
@@ -43,7 +48,7 @@ case "${1:-plan}" in
     dir="_backup/tema_live_$(date +%Y%m%d-%H%M%S)"
     mkdir -p "$dir"
     shopify theme pull --store "$STORE" --theme "$LIVE_ID" --path "$dir" "${only[@]}" --force --no-color >/dev/null
-    echo "Backup en $dir"; ls -la "$dir"/assets/main-product.js "$dir"/sections/main-product.liquid "$dir"/sections/policy-body.liquid
+    echo "Backup en $dir"; for f in "${FILES[@]}"; do ls -la "$dir/$f"; done
     ;;
   push)
     src="$(export_branch)"
@@ -51,7 +56,6 @@ case "${1:-plan}" in
     rm -rf "$src"
     ;;
   rollback)
-    bk="${2:?Indica la carpeta de backup (_backup/tema_live_XXXX)}"
     src="$(export_branch)"
     for f in "${FILES[@]}"; do cp "$bk/$f" "$src/$f"; done     # sobre el árbol, los 3 archivos de la copia
     shopify theme push --store "$STORE" --theme "$LIVE_ID" --allow-live --nodelete --path "$src" "${only[@]}" --no-color
