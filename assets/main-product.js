@@ -183,10 +183,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function getQty() { return qtyInput ? parseInt(qtyInput.value, 10) || 1 : 1; }
 
-  /* Jamón loncheado: -10% desde 10 uds. Embutido loncheado: -10% desde 5 uds. */
-  function volumeDiscountPct(qty, minQty) {
-    if (qty >= minQty) return 10;
-    return 0;
+  /* Descuentos por cantidad: deben coincidir con los descuentos automáticos de Shopify
+     (Admin > Descuentos). Jamón cortado a mano/a máquina: -10% desde 10 uds.
+     Embutido loncheado: -5% desde 5 uds. */
+  const VOLUME_RULES = {
+    jamon:    { minQty: 10, pct: 10 },
+    embutido: { minQty: 5,  pct: 5 }
+  };
+
+  /* Criterio por etiquetas exactas (no por substring): embutido loncheado = "embutido" + "loncheado";
+     jamón loncheado = "cortado a mano" o "cortado a máquina". Si hay etiquetas de ambos tipos, manda embutido. */
+  function volumeRuleFor(tags) {
+    if (tags.includes('embutido') && tags.includes('loncheado')) return VOLUME_RULES.embutido;
+    if (tags.includes('cortado a mano') || tags.includes('cortado a máquina')) return VOLUME_RULES.jamon;
+    return null;
+  }
+
+  function volumeDiscountPct(qty, rule) {
+    return qty >= rule.minQty ? rule.pct : 0;
   }
 
   /* ── Barra de envío gratis de la ficha (snippets/free-shipping-bar.liquid, pdp: true) ──
@@ -220,17 +234,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function updateVolumDiscount() {
     const tags = (data && data.tags) ? data.tags.map(t => String(t).trim().toLowerCase()) : [];
-    const isLoncheado = tags.some(t => t.includes('loncheado'));
-    const isCortado = tags.some(t => t.includes('cortado'));
-    if (!isCortado && !isLoncheado) return;
+    const rule = volumeRuleFor(tags);
+    if (!rule) return;
 
     const qty = getQty();
     const variant = findVariant();
     if (!variant) return;
 
     const basePrice = variant.price;
-    const discount = volumeDiscountPct(qty, isLoncheado ? 5 : 10);
-
+    const discount = volumeDiscountPct(qty, rule);
 
     const volDiscEl = $('cm-volume-discount-' + SID);
     const origEl = $('cm-volume-discount-original-' + SID);
