@@ -50,12 +50,17 @@ def main():
     ea, pa = variant_id(EMBUTIDO_A)
     eb, pb = variant_id(EMBUTIDO_B)
     r = lambda x: round(x + 1e-9, 2)
+
+    def con_dto(precio, uds, pct_):
+        """Total que cobra Shopify: redondea el descuento de CADA unidad al céntimo (mitades hacia abajo)."""
+        c = round(precio * 100)
+        return uds * (c - (c * pct_ + 49) // 100) / 100
     cases = [
         ("4 chorizo loncheado (bajo el umbral)", [(ea, 4)], (), r(4 * pa)),
-        (f"5 chorizo loncheado (-{pct} %)", [(ea, 5)], (), r(5 * pa * (100 - pct) / 100)),
-        (f"5 chorizo + 5 salchichón (-{pct} % cada línea)", [(ea, 5), (eb, 5)], (), r(5 * pa * (100 - pct) / 100 + 5 * pb * (100 - pct) / 100)),
-        ("10 jamón a máquina (-10 %, no cambia)", [(jamon, 10)], (), r(10 * pj * 0.9)),
-        (f"5 chorizo + {WELCOME} (gana el 10 % sobre todo el carrito)", [(ea, 5)], (WELCOME,), r(5 * pa * 0.9)),
+        (f"5 chorizo loncheado (-{pct} %)", [(ea, 5)], (), r(con_dto(pa, 5, pct))),
+        (f"5 chorizo + 5 salchichón (-{pct} % cada línea)", [(ea, 5), (eb, 5)], (), r(con_dto(pa, 5, pct) + con_dto(pb, 5, pct))),
+        ("10 jamón a máquina (-10 %, no cambia)", [(jamon, 10)], (), r(con_dto(pj, 10, 10))),
+        (f"5 chorizo + {WELCOME} (gana el 10 % sobre todo el carrito)", [(ea, 5)], (WELCOME,), r(con_dto(pa, 5, 10))),
     ]
     fails = 0
     for label, lines, codes, expected in cases:
