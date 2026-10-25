@@ -252,7 +252,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (discount > 0) {
       const totalPrice = qty * basePrice;
-      const discountedTotal = Math.round(totalPrice * (100 - discount) / 100);
+      /* Replica el redondeo por unidad de Shopify: redondea el descuento de CADA unidad al céntimo
+         (las mitades, hacia abajo) y luego multiplica por la cantidad; así el total de la ficha coincide
+         con el del carrito (p. ej. 5 uds de 4,90 € a -5 %: 5 x (4,90 - 0,24) = 23,30 €, no 23,28 €).
+         basePrice está en céntimos: basePrice * discount / 100 es el descuento unitario en céntimos.
+         Regla observada (25/10/2026), no documentada por Shopify: si cambian los precios o los
+         porcentajes, volver a probar con tools/probar_descuentos_embutido.py --esperado <pct> --ficha. */
+      const unitDiscount = Math.floor((basePrice * discount + 49) / 100);
+      const discountedTotal = qty * (basePrice - unitDiscount);
       const origPrice = formatMoney(totalPrice);
       const discPrice = formatMoney(discountedTotal);
 
