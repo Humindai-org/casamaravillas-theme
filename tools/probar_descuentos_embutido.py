@@ -67,8 +67,8 @@ def main():
 
     if "--ficha" in args:
         html = get(f"{DOM}/products/{EMBUTIDO_A}?cb={int(time.time())}")
-        m = re.search(r'https://[^"\']*main-product\.js[^"\']*', html)
-        js = get(m.group(0)) if m else ""
+        m = re.search(r'(?:https:)?//[^"\']*main-product\.js[^"\']*', html)   # la ficha usa URL sin protocolo
+        js = get(m.group(0) if m.group(0).startswith("http") else "https:" + m.group(0)) if m else ""
         want = re.search(r"embutido:\s*\{\s*minQty:\s*5,\s*pct:\s*%d\s*\}" % pct, js)
         jam = re.search(r"jamon:\s*\{\s*minQty:\s*10,\s*pct:\s*10\s*\}", js)
         ok = bool(want and jam)
