@@ -5,7 +5,7 @@ Embutido de pieza (SKU 495-499): precios de la tarifa de Luis Juan (23/10/2026) 
 
   - Precio: solo lomo de cebo de campo (497), lomo de bellota (498) y lomito de presa (499).
     Chorizo (495) y salchichón (496): precio FUERA, pendiente de Luis Juan.
-  - Peso (peso de envío de la variante): 495-498 a 0,70 kg (600-800 g), 499 a 0,45 kg (350-550 g).
+  - Peso (peso de envío de la variante): 495-498 a 0,70 kg (600-800 g), 499 a 0,50 kg (450-550 g, rango confirmado por Jorge el 26/10/2026).
 
 Solo envía los campos que difieren de lo que hay en Shopify (idempotente). No toca SKU,
 precio de comparación ni inventario.
@@ -48,7 +48,7 @@ PLAN = {
     "salchichon-bellota-iberico": {"496": (None, 0.70)},     # precio pendiente de Luis Juan
     "lomo-cebo-campo-50-iberico": {"497": ("44.90", 0.70)},
     "lomo-bellota-iberico": {"498": ("54.90", 0.70)},
-    "lomito-presa-bellota": {"499": ("43.90", 0.45)},
+    "lomito-presa-bellota": {"499": ("43.90", 0.50)},   # punto medio de 450-550 g (antes 350-550 g -> 0,45 kg)
 }
 
 Q_PRODUCT = """query($h:String!){ productByHandle(handle:$h){ id title status

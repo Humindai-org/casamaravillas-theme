@@ -82,3 +82,11 @@ Documento vivo para ir picando durante el mantenimiento mensual. No son bugs urg
 - El repo `casamaravillas-theme` está sincronizado como tema **live** de la tienda vía GitHub — cualquier cambio en `main` se refleja en producción tras el sync. Probar siempre primero en un tema de vista previa (`shopify theme push --unpublished`) antes de fusionar.
 - Convención de assets: cada sección grande carga su propio CSS/JS (`{{ 'archivo.css' | asset_url | stylesheet_tag }}` + `<script src="..." defer>`), no hay bundle único — seguir ese patrón para nuevos assets.
 - Blob de datos Liquid→JS: `window['cmPDP_' + sectionId]` en `main-product.liquid` es la fuente de datos del producto para `main-product.js` (variantes, precio, tags, handle, id, etc.) — cualquier dato nuevo que el JS necesite del lado de Liquid debe añadirse ahí.
+
+---
+
+## 8. Correcciones de octubre 2026 (Luis Juan): pendientes y manual de scripts
+
+Pendientes de código (traducción EN/FR de política, `/pages/envios`, barra del cajón e "IVA incluido"; metacampo `custom.gramaje`; deriva de "Nosotros"),
+pendientes de Luis Juan, manual de `tools/` y el recordatorio del 15/11 (carritos de 80–99 € que no compran): ver **`TRASPASO-2026-10-26.md`** (rama `chore/tools-embutidos-y-stock`).
+Relacionado con el punto 5 (traducciones en inglés incompletas).
