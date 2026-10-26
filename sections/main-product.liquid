@@ -591,12 +591,15 @@
       {%- if family != current_family and shown_count < 3 -%}
         {%- assign fam_col = collections[family] -%}
         {%- if fam_col != blank -%}
-          {%- for cp in fam_col.products limit: 1 -%}
+          {%- comment -%} Se recorren hasta 10 para poder saltar los packs con vino/vermut (IVA 21 %) y quedarse con el primero válido {%- endcomment -%}
+          {%- for cp in fam_col.products limit: 10 -%}
+            {%- if cp.tags contains 'con-alcohol' -%}{%- continue -%}{%- endif -%}
             {%- unless shown_handles contains cp.handle -%}
               {%- assign cp_variant = cp.first_available_variant | default: cp.variants.first -%}
               {% render 'combina-card', cp: cp, cp_variant: cp_variant %}
               {%- assign shown_count = shown_count | plus: 1 -%}
               {%- assign shown_handles = shown_handles | append: cp.handle | append: ',' -%}
+              {%- break -%}
             {%- endunless -%}
           {%- endfor -%}
         {%- endif -%}
@@ -611,6 +614,7 @@
           {%- if fam_col != blank -%}
             {%- for cp in fam_col.products limit: 5 -%}
               {%- if shown_count >= 3 -%}{%- break -%}{%- endif -%}
+              {%- if cp.tags contains 'con-alcohol' -%}{%- continue -%}{%- endif -%}
               {%- unless shown_handles contains cp.handle -%}
                 {%- assign cp_variant = cp.first_available_variant | default: cp.variants.first -%}
                 {% render 'combina-card', cp: cp, cp_variant: cp_variant %}

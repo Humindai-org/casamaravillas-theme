@@ -338,21 +338,12 @@
             "image_zoom": 100,
             "image_offset": 50
           }
-        },
-        "product_t6MeYD": {
-          "type": "product",
-          "settings": {
-            "product": "pack-iberico-bellota-100",
-            "image_zoom": 100,
-            "image_offset": 50
-          }
         }
       },
       "block_order": [
         "product_gdKgzR",
         "product_kDx39C",
-        "product_bkMDid",
-        "product_t6MeYD"
+        "product_bkMDid"
       ],
       "settings": {
         "eyebrow": "También te puede gustar",

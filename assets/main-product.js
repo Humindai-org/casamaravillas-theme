@@ -199,6 +199,14 @@ document.addEventListener('DOMContentLoaded', function() {
     return null;
   }
 
+  /* Packs con vino/vermut (IVA 21 %): llevan la etiqueta "con-alcohol" y no deben salir en las sugerencias.
+     /recommendations/products.json y /collections/<handle>/products.json devuelven las etiquetas (tags). */
+  function sinAlcohol(list) {
+    return (list || []).filter(function (p) {
+      return !(p.tags || []).some(function (t) { return String(t).trim().toLowerCase() === 'con-alcohol'; });
+    });
+  }
+
   function volumeDiscountPct(qty, rule) {
     return qty >= rule.minQty ? rule.pct : 0;
   }
@@ -561,12 +569,13 @@ document.addEventListener('DOMContentLoaded', function() {
     fetch('/recommendations/products.json?product_id=' + productId + '&limit=8&intent=complementary')
       .then(function(r) { return r.json(); })
       .then(function(d) {
-        if (d.products && d.products.length > 0) {
-          renderProducts(d.products);
+        var lista = sinAlcohol(d.products);
+        if (lista.length > 0) {
+          renderProducts(lista);
         } else {
           return fetch('/recommendations/products.json?product_id=' + productId + '&limit=8&intent=related')
             .then(function(r) { return r.json(); })
-            .then(function(d2) { renderProducts(d2.products); });
+            .then(function(d2) { renderProducts(sinAlcohol(d2.products)); });
         }
       })
       .catch(function() {
@@ -917,13 +926,14 @@ document.addEventListener('DOMContentLoaded', function() {
     fetch('/recommendations/products.json?product_id=' + compProductId + '&limit=' + compMax + '&intent=complementary')
       .then(function(r) { return r.json(); })
       .then(function(d) {
-        if (d.products && d.products.length > 0) {
-          renderCompItems(d.products);
+        var lista = sinAlcohol(d.products);
+        if (lista.length > 0) {
+          renderCompItems(lista);
         } else if (compFallback) {
           return fetch('/collections/' + compFallback + '/products.json?limit=' + (compMax + 1))
             .then(function(r) { return r.json(); })
             .then(function(d2) {
-              renderCompItems((d2.products || []).filter(function(p) { return String(p.id) !== compProductId; }));
+              renderCompItems(sinAlcohol(d2.products).filter(function(p) { return String(p.id) !== compProductId; }));
             });
         } else {
           compEl.style.display = 'none';

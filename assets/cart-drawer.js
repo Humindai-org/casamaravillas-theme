@@ -299,9 +299,15 @@ function initCartDrawer() {
 
   function fetchRecommendations(productId) {
     if (!productId) return;
-    fetch('/recommendations/products.json?product_id=' + productId + '&limit=4&intent=related')
+    /* Se piden 8 y se muestran 4 tras quitar los packs con vino/vermut (etiqueta "con-alcohol", IVA 21 %) */
+    fetch('/recommendations/products.json?product_id=' + productId + '&limit=8&intent=related')
       .then(function (res) { return res.json(); })
-      .then(function (data) { renderRecommendations(data.products); })
+      .then(function (data) {
+        var sinAlcohol = (data.products || []).filter(function (p) {
+          return !(p.tags || []).some(function (t) { return String(t).trim().toLowerCase() === 'con-alcohol'; });
+        });
+        renderRecommendations(sinAlcohol.slice(0, 4));
+      })
       .catch(function (err) {
         console.error('[cart-drawer] recommendations error:', err);
       });
