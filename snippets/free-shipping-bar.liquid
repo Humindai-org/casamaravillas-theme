@@ -1,13 +1,13 @@
 {%- comment -%}
   free-shipping-bar.liquid — barra "te faltan X € para el envío gratis".
-  Solo para España y Portugal (el envío gratis es el descuento automático "Envío gratis desde 80 €").
+  Solo para España y Portugal (el envío gratis es el descuento automático "Envío gratis desde 99 €").
   Umbral en céntimos: debe coincidir con el mínimo de ese descuento (Admin > Descuentos).
   El carrito lateral la actualiza por JS (assets/cart-drawer.js > updateShippingBar).
   Con pdp: true se pinta en la ficha de producto con el mismo criterio que el carrito: lo que falta
   según lo que YA hay en el carrito (no suma el producto de la ficha).
   assets/main-product.js > updatePdpShipbar la recalcula cuando el carrito cambia.
 {%- endcomment -%}
-{%- assign fs_threshold = 8000 -%}
+{%- assign fs_threshold = 9900 -%}
 {%- assign fs_country = localization.country.iso_code -%}
 {%- assign fs_eligible = false -%}
 {%- if fs_country == 'ES' or fs_country == 'PT' -%}
