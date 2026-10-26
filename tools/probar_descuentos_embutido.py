@@ -22,8 +22,20 @@ Q = """mutation($i:CartInput!){ cartCreate(input:$i){ cart{ cost{ subtotalAmount
   discountCodes{ code applicable } } userErrors{ message } } }"""
 
 
+def abrir(req, intentos=5):
+    """urlopen con reintentos y espera creciente: la tienda responde 429 si se la consulta muy seguido."""
+    for i in range(intentos):
+        try:
+            time.sleep(0.6)   # pausa entre peticiones: evita el 429
+            return urllib.request.urlopen(req, timeout=30)
+        except urllib.error.HTTPError as e:
+            if e.code != 429 or i == intentos - 1:
+                raise
+            time.sleep(int(e.headers.get("Retry-After", 60)) + 2)   # respeta la espera que pide la tienda
+
+
 def get(url):
-    return urllib.request.urlopen(urllib.request.Request(url, headers=UA), timeout=30).read().decode()
+    return abrir(urllib.request.Request(url, headers=UA)).read().decode()
 
 
 def variant_id(handle):
@@ -37,7 +49,7 @@ def cart_total(lines, codes=()):
                                            "buyerIdentity": {"countryCode": "ES"}}}}
     req = urllib.request.Request(f"{DOM}/api/2025-07/graphql.json", data=json.dumps(body).encode(),
                                  headers={"Content-Type": "application/json", **UA})
-    c = json.load(urllib.request.urlopen(req, timeout=30))["data"]["cartCreate"]["cart"]
+    c = json.load(abrir(req))["data"]["cartCreate"]["cart"]
     return float(c["cost"]["totalAmount"]["amount"]), c["discountCodes"]
 
 
