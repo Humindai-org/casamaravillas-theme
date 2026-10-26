@@ -628,7 +628,9 @@ document.addEventListener('DOMContentLoaded', function() {
     fetch('/cart.js')
       .then(r => r.json())
       .then(cart => {
-        document.querySelectorAll('[data-cart-count], .cart-count, .header__cart-count, .js-cart-count').forEach(el => {
+        /* Sin ".cart-count": es la clase del encabezado del cajón ("TU CESTA (n)") y pisaba todo su texto.
+           El número del cajón y la burbuja de la cabecera los actualiza cart-drawer.js (fetchAndRenderCart). */
+        document.querySelectorAll('[data-cart-count], .header__cart-count, .js-cart-count').forEach(el => {
           el.textContent = cart.item_count;
           el.setAttribute('aria-label', cart.item_count + ' artículos en la cesta');
         });

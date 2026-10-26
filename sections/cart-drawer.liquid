@@ -53,9 +53,11 @@
             {%- unless item.variant.title == 'Default Title' -%}
               <p class="cart-variant">{{ item.variant.title }}</p>
             {%- endunless -%}
-            {%- if item.variant.weight > 0 -%}
-              <p class="cart-variant">{{ item.variant.weight | weight_with_unit }}</p>
-            {%- endif -%}
+            {%- comment -%}
+              Sin línea de peso: item.variant.weight es el peso de ENVÍO (p. ej. 0,15 kg en el jamón loncheado
+              de 100 g), no el contenido, y el JS que repinta el cajón (cart-drawer.js) no lo pintaba, así que la
+              línea aparecía y desaparecía. Pendiente: mostrar el gramaje real con el metacampo custom.gramaje.
+            {%- endcomment -%}
             <div class="cart-qty">
               <button
                 class="cart-qty-btn"
