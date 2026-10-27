@@ -199,6 +199,8 @@
             {%- if shown_handles contains p_handle_delim -%}{%- assign p_excluded = true -%}{%- endif -%}
             {%- if cart_handles contains p_handle_delim -%}{%- assign p_excluded = true -%}{%- endif -%}
             {%- if pack_component_names_dc != blank and pack_component_names_dc contains p_title_dc -%}{%- assign p_excluded = true -%}{%- endif -%}
+            {%- comment -%} Packs con vino/vermut (IVA 21 %): fuera de las sugerencias {%- endcomment -%}
+            {%- if p.tags contains 'con-alcohol' -%}{%- assign p_excluded = true -%}{%- endif -%}
             {%- unless p_excluded -%}
               {% render 'product-card', card_product: p %}
               {%- assign shown_count   = shown_count | plus: 1 -%}
@@ -223,6 +225,7 @@
               {%- if shown_handles contains p_handle_delim -%}{%- assign p_excluded = true -%}{%- endif -%}
               {%- if cart_handles contains p_handle_delim -%}{%- assign p_excluded = true -%}{%- endif -%}
               {%- if pack_component_names_dc != blank and pack_component_names_dc contains p_title_dc -%}{%- assign p_excluded = true -%}{%- endif -%}
+              {%- if p.tags contains 'con-alcohol' -%}{%- assign p_excluded = true -%}{%- endif -%}
               {%- unless p_excluded -%}
                 {% render 'product-card', card_product: p %}
                 {%- assign shown_count   = shown_count | plus: 1 -%}

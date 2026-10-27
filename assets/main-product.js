@@ -126,7 +126,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const wrap = select.closest('.cm-pdp__select-wrap');
     if (!wrap || wrap.classList.contains('has-opts')) return;
     const group = document.createElement('div');
-    group.className = 'cm-pdp__opts';
+    const cards = (wrap.dataset.optName || '').toLowerCase() === 'formato';
+    group.className = 'cm-pdp__opts' + (cards ? ' cm-pdp__opts--cards' : '');
     group.setAttribute('role', 'radiogroup');
     const label = select.id ? document.querySelector('label[for="' + select.id + '"]') : null;
     if (label) {
@@ -139,7 +140,16 @@ document.addEventListener('DOMContentLoaded', function() {
       btn.className = 'cm-pdp__opt';
       btn.setAttribute('role', 'radio');
       btn.dataset.value = opt.value;
-      btn.textContent = prettyOptionLabel(opt.textContent);
+      const nameEl = document.createElement('span');
+      nameEl.className = 'cm-pdp__opt-name';
+      nameEl.textContent = prettyOptionLabel(opt.textContent);
+      btn.appendChild(nameEl);
+      if (cards && opt.dataset.desc) {
+        const descEl = document.createElement('span');
+        descEl.className = 'cm-pdp__opt-desc';
+        descEl.textContent = opt.dataset.desc;
+        btn.appendChild(descEl);
+      }
       btn.addEventListener('click', function() {
         select.value = opt.value;
         select.dispatchEvent(new Event('change', { bubbles: true }));
@@ -173,10 +183,32 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function getQty() { return qtyInput ? parseInt(qtyInput.value, 10) || 1 : 1; }
 
-  /* Jamón loncheado: -10% desde 10 uds. Embutido loncheado: -10% desde 5 uds. */
-  function volumeDiscountPct(qty, minQty) {
-    if (qty >= minQty) return 10;
-    return 0;
+  /* Descuentos por cantidad: deben coincidir con los descuentos automáticos de Shopify
+     (Admin > Descuentos). Jamón cortado a mano/a máquina: -10% desde 10 uds.
+     Embutido loncheado: -5% desde 5 uds. */
+  const VOLUME_RULES = {
+    jamon:    { minQty: 10, pct: 10 },
+    embutido: { minQty: 5,  pct: 5 }
+  };
+
+  /* Criterio por etiquetas exactas (no por substring): embutido loncheado = "embutido" + "loncheado";
+     jamón loncheado = "cortado a mano" o "cortado a máquina". Si hay etiquetas de ambos tipos, manda embutido. */
+  function volumeRuleFor(tags) {
+    if (tags.includes('embutido') && tags.includes('loncheado')) return VOLUME_RULES.embutido;
+    if (tags.includes('cortado a mano') || tags.includes('cortado a máquina')) return VOLUME_RULES.jamon;
+    return null;
+  }
+
+  /* Packs con vino/vermut (IVA 21 %): llevan la etiqueta "con-alcohol" y no deben salir en las sugerencias.
+     /recommendations/products.json y /collections/<handle>/products.json devuelven las etiquetas (tags). */
+  function sinAlcohol(list) {
+    return (list || []).filter(function (p) {
+      return !(p.tags || []).some(function (t) { return String(t).trim().toLowerCase() === 'con-alcohol'; });
+    });
+  }
+
+  function volumeDiscountPct(qty, rule) {
+    return qty >= rule.minQty ? rule.pct : 0;
   }
 
   /* ── Barra de envío gratis de la ficha (snippets/free-shipping-bar.liquid, pdp: true) ──
@@ -210,17 +242,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function updateVolumDiscount() {
     const tags = (data && data.tags) ? data.tags.map(t => String(t).trim().toLowerCase()) : [];
-    const isLoncheado = tags.some(t => t.includes('loncheado'));
-    const isCortado = tags.some(t => t.includes('cortado'));
-    if (!isCortado && !isLoncheado) return;
+    const rule = volumeRuleFor(tags);
+    if (!rule) return;
 
     const qty = getQty();
     const variant = findVariant();
     if (!variant) return;
 
     const basePrice = variant.price;
-    const discount = volumeDiscountPct(qty, isLoncheado ? 5 : 10);
-
+    const discount = volumeDiscountPct(qty, rule);
 
     const volDiscEl = $('cm-volume-discount-' + SID);
     const origEl = $('cm-volume-discount-original-' + SID);
@@ -230,7 +260,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (discount > 0) {
       const totalPrice = qty * basePrice;
-      const discountedTotal = Math.round(totalPrice * (100 - discount) / 100);
+      /* Replica el redondeo por unidad de Shopify: redondea el descuento de CADA unidad al céntimo
+         (las mitades, hacia abajo) y luego multiplica por la cantidad; así el total de la ficha coincide
+         con el del carrito (p. ej. 5 uds de 4,90 € a -5 %: 5 x (4,90 - 0,24) = 23,30 €, no 23,28 €).
+         basePrice está en céntimos: basePrice * discount / 100 es el descuento unitario en céntimos.
+         Regla observada (25/10/2026), no documentada por Shopify: si cambian los precios o los
+         porcentajes, volver a probar con tools/probar_descuentos_embutido.py --esperado <pct> --ficha. */
+      const unitDiscount = Math.floor((basePrice * discount + 49) / 100);
+      const discountedTotal = qty * (basePrice - unitDiscount);
       const origPrice = formatMoney(totalPrice);
       const discPrice = formatMoney(discountedTotal);
 
@@ -370,8 +407,12 @@ document.addEventListener('DOMContentLoaded', function() {
   function updatePriceKg(variant) {
     const el = document.querySelector('#cm-pdp-' + SID + ' .cm-pdp__price-kg');
     const idx = formatoOptionIndex();
-    if (!el || idx < 0 || !variant) return;
-    el.style.display = variant['option' + (idx + 1)] === 'Pieza entera' ? '' : 'none';
+    if (idx < 0 || !variant) return;
+    const formato = variant['option' + (idx + 1)];
+    if (el) el.style.display = formato === 'Pieza entera' ? '' : 'none';
+    /* La banda de confianza muestra el formato elegido */
+    const bandDesc = document.querySelector('#cm-trust-formato-desc');
+    if (bandDesc && formato) bandDesc.textContent = formato;
   }
 
   function refreshFormatoExtras() {
@@ -528,12 +569,13 @@ document.addEventListener('DOMContentLoaded', function() {
     fetch('/recommendations/products.json?product_id=' + productId + '&limit=8&intent=complementary')
       .then(function(r) { return r.json(); })
       .then(function(d) {
-        if (d.products && d.products.length > 0) {
-          renderProducts(d.products);
+        var lista = sinAlcohol(d.products);
+        if (lista.length > 0) {
+          renderProducts(lista);
         } else {
           return fetch('/recommendations/products.json?product_id=' + productId + '&limit=8&intent=related')
             .then(function(r) { return r.json(); })
-            .then(function(d2) { renderProducts(d2.products); });
+            .then(function(d2) { renderProducts(sinAlcohol(d2.products)); });
         }
       })
       .catch(function() {
@@ -595,7 +637,9 @@ document.addEventListener('DOMContentLoaded', function() {
     fetch('/cart.js')
       .then(r => r.json())
       .then(cart => {
-        document.querySelectorAll('[data-cart-count], .cart-count, .header__cart-count, .js-cart-count').forEach(el => {
+        /* Sin ".cart-count": es la clase del encabezado del cajón ("TU CESTA (n)") y pisaba todo su texto.
+           El número del cajón y la burbuja de la cabecera los actualiza cart-drawer.js (fetchAndRenderCart). */
+        document.querySelectorAll('[data-cart-count], .header__cart-count, .js-cart-count').forEach(el => {
           el.textContent = cart.item_count;
           el.setAttribute('aria-label', cmT('cart_items_aria', '{n} artículos en la cesta', { n: cart.item_count }));
         });
@@ -882,13 +926,14 @@ document.addEventListener('DOMContentLoaded', function() {
     fetch('/recommendations/products.json?product_id=' + compProductId + '&limit=' + compMax + '&intent=complementary')
       .then(function(r) { return r.json(); })
       .then(function(d) {
-        if (d.products && d.products.length > 0) {
-          renderCompItems(d.products);
+        var lista = sinAlcohol(d.products);
+        if (lista.length > 0) {
+          renderCompItems(lista);
         } else if (compFallback) {
           return fetch('/collections/' + compFallback + '/products.json?limit=' + (compMax + 1))
             .then(function(r) { return r.json(); })
             .then(function(d2) {
-              renderCompItems((d2.products || []).filter(function(p) { return String(p.id) !== compProductId; }));
+              renderCompItems(sinAlcohol(d2.products).filter(function(p) { return String(p.id) !== compProductId; }));
             });
         } else {
           compEl.style.display = 'none';

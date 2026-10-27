@@ -14,9 +14,9 @@
   assign tipo_labels = 'Jamón,Lomo,Chorizo,Salchichón' | split: ','
 
   assign calidad_tags = 'bellota-100,bellota-50,cebo-de-campo' | split: ','
-  assign cal_l1 = 'cm.header.tier_black' | t
-  assign cal_l2 = 'cm.header.tier_red' | t
-  assign cal_l3 = 'cm.header.tier_green' | t
+  assign cal_l1 = 'Bellota 100% Ibérico'
+  assign cal_l2 = 'Bellota 50% Ibérico'
+  assign cal_l3 = 'Cebo de Campo Ibérico'
   assign calidad_labels = cal_l1 | append: '|' | append: cal_l2 | append: '|' | append: cal_l3 | split: '|'
 -%}
 
