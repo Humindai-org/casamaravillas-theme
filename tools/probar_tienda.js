@@ -8,6 +8,8 @@
  * Modos:
  *   descuentos --esperado 5 [--ficha]     descuento por volumen del embutido (5|10) y, con --ficha, que la ficha
  *                                         publicada promete lo mismo (lee main-product.js)
+ *   tarifa                               packs de la tarifa del 26/10/2026 (10 uds de jamón loncheado, 5 uds de embutido
+ *                                         loncheado) en carrito de prueba (tolerancia 5 cts) y la ficha frente al carrito
  *   envio --umbral 99 [--ficha]           envío gratis con carritos de ~85 € y ~99,50 €, con y sin BIENVENIDA10
  *                                         (el umbral se mide DESPUÉS de los descuentos); con --ficha, que la
  *                                         tienda anuncia el umbral (portada, /pages/envios) y no el antiguo
@@ -15,13 +17,14 @@
  * Requisitos: node, Google Chrome y playwright-core fuera del repo (p. ej. mkdir /tmp/pw && cd /tmp/pw && npm i playwright-core).
  *   NODE_PATH=/tmp/pw/node_modules node tools/probar_tienda.js descuentos --esperado 5 --ficha
  *   NODE_PATH=/tmp/pw/node_modules node tools/probar_tienda.js envio --umbral 99 --ficha
- * Variables: BASE (def. https://casamaravillas.com), CHROME (def. ruta de macOS).
+ * Variables: BASE (def. https://casamaravillas.com), CHROME (def. ruta de macOS), PREVIEW_THEME_ID (probar un tema sin publicar).
  */
 const { chromium } = require('playwright-core');
 
 const BASE = process.env.BASE || 'https://casamaravillas.com';
 const CHROME = process.env.CHROME || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 const WELCOME = 'BIENVENIDA10';
+const PREVIEW = process.env.PREVIEW_THEME_ID;   // id de un tema SIN PUBLICAR para probarlo en vez del publicado
 const args = process.argv.slice(2);
 const modo = args[0];
 const opt = n => { const i = args.indexOf('--' + n); return i >= 0 ? args[i + 1] : undefined; };
@@ -30,13 +33,14 @@ let fallos = 0;
 const out = (ok, txt) => { if (!ok) fallos++; console.log(`  ${ok ? 'PASS' : 'FAIL'}  ${txt}`); };
 const r2 = x => Math.round(x * 100) / 100;
 
-// Total que cobra Shopify: redondea el descuento de CADA unidad al céntimo (mitades hacia abajo)
-const conDto = (precioCents, uds, pct) => uds * (precioCents - Math.floor((precioCents * pct + 49) / 100)) / 100;
+// Total que cobra Shopify: TRUNCA al céntimo el descuento de CADA unidad (verificado el 27/10/2026 con 10 carritos de la
+// tarifa; antes se creyó «mitades hacia abajo», que solo coincidía con los precios antiguos)
+const conDto = (precioCents, uds, pct) => uds * (precioCents - Math.floor(precioCents * pct / 100)) / 100;
 
 async function iniciar() {
   const browser = await chromium.launch({ executablePath: CHROME, headless: true });
   const page = await (await browser.newContext({ locale: 'es-ES' })).newPage();
-  await page.goto(BASE + '/', { waitUntil: 'domcontentloaded', timeout: 60000 });
+  await page.goto(BASE + '/' + (PREVIEW ? '?preview_theme_id=' + PREVIEW : ''), { waitUntil: 'domcontentloaded', timeout: 60000 });
   return { browser, page };
 }
 
@@ -69,7 +73,7 @@ async function descuentos(page) {
     [`5 chorizo loncheado (-${pct} %)`, [{ id: a.id, q: 5 }], [], r2(conDto(a.price, 5, pct))],
     [`5 chorizo + 5 salchichón (-${pct} % cada línea)`, [{ id: a.id, q: 5 }, { id: b.id, q: 5 }], [], r2(conDto(a.price, 5, pct) + conDto(b.price, 5, pct))],
     ['10 jamón a máquina (-10 %, no cambia)', [{ id: jam.id, q: 10 }], [], r2(conDto(jam.price, 10, 10))],
-    [`5 chorizo + ${WELCOME} (gana el 10 % sobre todo el carrito)`, [{ id: a.id, q: 5 }], [WELCOME], r2(conDto(a.price, 5, 10))],
+    [`5 chorizo + ${WELCOME} (gana el 10 % sobre todo el carrito)`, [{ id: a.id, q: 5 }], [WELCOME], r2((a.price * 5 - Math.floor(a.price * 5 * 10 / 100)) / 100)],   // descuento de PEDIDO: se trunca sobre el subtotal
   ];
   for (const [txt, lines, codes, esperado] of casos) {
     const c = await carrito(page, lines, codes);
@@ -84,6 +88,48 @@ async function descuentos(page) {
       return new RegExp('embutido:\\s*\\{\\s*minQty:\\s*5,\\s*pct:\\s*' + pct + '\\s*\\}').test(js) && /jamon:\s*\{\s*minQty:\s*10,\s*pct:\s*10\s*\}/.test(js);
     }, { pct });
     out(ok, `ficha publicada: JS con embutido -${pct} % desde 5 uds y jamón -10 % desde 10 uds`);
+  }
+}
+
+
+async function tarifa(page) {
+  // handle, unidades, total esperado de la tarifa (tolerancia de 5 céntimos por el redondeo por unidad de Shopify)
+  const CASOS = [
+    ['jamon-bellota-100-iberico-loncheado-a-maquina', 10, 170.91], ['jamon-cebo-de-campo-50-iberico-loncheado-a-mano', 10, 98.91],
+    ['jamon-bellota-50-iberico-loncheado-a-mano', 10, 125.91], ['jamon-bellota-100-iberico-loncheado-a-mano', 10, 152.91],
+    ['jamon-cebo-de-campo-50-iberico-loncheado-a-maquina', 10, 89.91], ['jamon-bellota-50-iberico-loncheado-a-maquina', 10, 134.91],
+    ['chorizo-bellota-iberico-loncheado', 5, 18.95], ['salchichon-bellota-iberico-loncheado', 5, 18.95],
+    ['lomo-cebo-campo-50-iberico-loncheado', 5, 33.20], ['lomo-bellota-iberico-loncheado-2', 5, 42.70], ['lomo-bellota-iberico-loncheado-1', 5, 47.45],
+  ];
+  console.log('Packs de la tarifa: carrito de prueba y ficha (navegador)');
+  for (const [h, q, esperado] of CASOS) {
+    const v = await variante(page, h);
+    const c = await carrito(page, [{ id: v.id, q }]);
+    const pct = h.startsWith('jamon') ? 10 : 5;
+    const trunc = r2(conDto(v.price, q, pct));
+    const dif = c.neto - esperado;
+    // PASS = el carrito cumple la regla de Shopify; el aviso marca si se sale de la tolerancia de 5 cts de la tarifa
+    out(Math.abs(c.neto - trunc) < 0.005, `${h.padEnd(52)} ${String(q).padStart(2)} uds  carrito ${c.neto.toFixed(2)} € | tarifa ${esperado.toFixed(2)} (dif. ${dif.toFixed(2)}${Math.abs(dif) > 0.05 ? ' ¡FUERA de 5 cts!' : ''})`);
+  }
+}
+
+async function fichaVsCarrito(browser) {
+  // La barra de la ficha (JS del tema) frente al carrito, en una página real por producto
+  const CASOS = [['jamon-bellota-100-iberico-loncheado-a-maquina', 10], ['jamon-cebo-de-campo-50-iberico-loncheado-a-mano', 10], ['jamon-bellota-50-iberico-loncheado-a-mano', 10],
+    ['jamon-bellota-100-iberico-loncheado-a-mano', 10], ['jamon-cebo-de-campo-50-iberico-loncheado-a-maquina', 10], ['jamon-bellota-50-iberico-loncheado-a-maquina', 10],
+    ['chorizo-bellota-iberico-loncheado', 5], ['salchichon-bellota-iberico-loncheado', 5], ['lomo-cebo-campo-50-iberico-loncheado', 5], ['lomo-bellota-iberico-loncheado-2', 5], ['lomo-bellota-iberico-loncheado-1', 5]];
+  console.log('Ficha (barra del descuento por volumen) frente al carrito');
+  for (const [h, q] of CASOS) {
+    const page = await (await browser.newContext({ locale: 'es-ES' })).newPage();
+    if (PREVIEW) await page.goto(`${BASE}/?preview_theme_id=${PREVIEW}`, { waitUntil: 'domcontentloaded', timeout: 60000 });
+    await page.goto(`${BASE}/products/${h}`, { waitUntil: 'networkidle', timeout: 60000 });
+    await page.evaluate(n => { const i = document.querySelector('input[id^="cm-qty-"]'); i.value = n; i.dispatchEvent(new Event('input', { bubbles: true })); i.dispatchEvent(new Event('change', { bubbles: true })); }, q);
+    await page.waitForTimeout(300);
+    const f = await page.evaluate(() => { const e = document.querySelector('[id^="cm-volume-discount-price-"]'); const w = document.querySelector('[id^="cm-volume-discount-"]:not([id*="original"]):not([id*="price"]):not([id*="badge"])');
+      return w && getComputedStyle(w).display !== 'none' ? parseFloat(e.textContent.replace(/[^\d,]/g, '').replace(',', '.')) : null; });
+    const v = await variante(page, h); const c = await carrito(page, [{ id: v.id, q }]);
+    out(f !== null && Math.abs(f - c.neto) < 0.005, `${h.padEnd(52)} ${String(q).padStart(2)} uds  ficha ${f === null ? '(sin barra)' : f.toFixed(2)} € | carrito ${c.neto.toFixed(2)} €`);
+    await page.context().close();
   }
 }
 
@@ -126,9 +172,9 @@ async function envio(page) {
 }
 
 (async () => {
-  if (!['descuentos', 'envio'].includes(modo)) { console.error('Uso: probar_tienda.js descuentos --esperado 5 [--ficha] | envio --umbral 99 [--ficha]'); process.exit(2); }
+  if (!['descuentos', 'envio', 'tarifa'].includes(modo)) { console.error('Uso: probar_tienda.js tarifa | descuentos --esperado 5 [--ficha] | envio --umbral 99 [--ficha]'); process.exit(2); }
   const { browser, page } = await iniciar();
-  try { await (modo === 'descuentos' ? descuentos : envio)(page); } finally { await browser.close(); }
+  try { if (modo === 'tarifa') { await tarifa(page); await fichaVsCarrito(browser); } else await (modo === 'descuentos' ? descuentos : envio)(page); } finally { await browser.close(); }
   console.log(fallos ? `${fallos} comprobación(es) FALLIDA(S).` : 'Todo OK.');
   process.exit(fallos ? 1 : 0);
 })().catch(e => { console.error('ERROR', e.message.split('\n')[0]); process.exit(2); });
