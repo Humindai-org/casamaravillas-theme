@@ -24,12 +24,12 @@ ADDR_ALICANTE = {"countryCode": "ES", "provinceCode": "A", "city": "Alicante", "
 M_PRODUCT = """mutation($p:ProductCreateInput!){ productCreate(product:$p){ product{ id handle status
   options{ id name optionValues{ name } } variants(first:10){ nodes{ id title } } } userErrors{ field message } } }"""
 M_VARS_CREATE = """mutation($p:ID!,$v:[ProductVariantsBulkInput!]!){
-  productVariantsBulkCreate(productId:$p, variants:$v, strategy:REMOVE_STANDALONE_VARIANT){
+  productVariantsBulkCreate(productId:$p, variants:$v){
     productVariants{ id title sku price } userErrors{ field message } } }"""
 M_VARS_UPDATE = """mutation($p:ID!,$v:[ProductVariantsBulkInput!]!){
   productVariantsBulkUpdate(productId:$p, variants:$v){ productVariants{ id title } userErrors{ field message } } }"""
 M_LINK = """mutation($i:[ProductVariantRelationshipUpdateInput!]!){ productVariantRelationshipBulkUpdate(input:$i){
-  parentProductVariants{ id title requiresComponents productVariantComponents{ quantity productVariant{ id title sku } } }
+  parentProductVariants{ id title requiresComponents productVariantComponents(first:5){ nodes{ quantity productVariant{ id title sku } } } }
   userErrors{ code field message } } }"""
 M_CALC = """mutation($i:DraftOrderInput!){ draftOrderCalculate(input:$i){ userErrors{ field message }
   calculatedDraftOrder{ taxesIncluded subtotalPriceSet{ shopMoney{ amount } } totalTaxSet{ shopMoney{ amount } }

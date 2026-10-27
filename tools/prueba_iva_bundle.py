@@ -47,9 +47,14 @@ def setup(tok):
     guardar({"servicio": srv["id"], "servicio_vars": {k: v["id"] for k, v in sv.items()},
              "test": test["id"], "test_vars": {k: v["id"] for k, v in tv.items()}})
     print("test:", test["id"], {k: v["id"].split("/")[-1] for k, v in tv.items()})
-    maq = sv["Corte a máquina y envasado"]["id"]
+    enlazar_padres(tok, tv, sv)
+
+
+def enlazar_padres(tok, tv, sv):
+    maq = sv["Corte a máquina y envasado"] if isinstance(sv["Corte a máquina y envasado"], str) else sv["Corte a máquina y envasado"]["id"]
+    tv = {k: (v if isinstance(v, str) else v["id"]) for k, v in tv.items()}
     for padre, pieza in (("Corte a máquina", "Pieza entera"), ("Corte agotado", "Pieza agotada")):
-        r = jb.enlazar(tok, tv[padre]["id"], [(tv[pieza]["id"], 1), (maq, 1)])
+        r = jb.enlazar(tok, tv[padre], [(tv[pieza], 1), (maq, 1)])
         print("bundle", padre, "->", json.dumps(r, ensure_ascii=False))
 
 
@@ -72,6 +77,23 @@ def calc(tok):
             print(nombre, "->", e)
 
 
+def borrador(tok):
+    """Pedido borrador SIN completar (no es un pedido ni una compra, sin email: no envía nada) y se borra siempre."""
+    st = cargar()
+    q = """mutation($i:DraftOrderInput!){ draftOrderCreate(input:$i){ userErrors{ field message } draftOrder{ id name status taxesIncluded
+      totalTaxSet{ shopMoney{ amount } } taxLines{ ratePercentage priceSet{ shopMoney{ amount } } }
+      lineItems(first:10){ nodes{ title variantTitle sku quantity originalTotalSet{ shopMoney{ amount } }
+        taxLines{ ratePercentage priceSet{ shopMoney{ amount } } }
+        components{ title variantTitle sku quantity originalTotalSet{ shopMoney{ amount } } taxLines{ ratePercentage priceSet{ shopMoney{ amount } } } } } } } } }"""
+    inp = {"lineItems": [{"variantId": st["test_vars"]["Corte a máquina"], "quantity": 1}], "shippingAddress": jb.ADDR_ALICANTE}
+    d = jb.ok(base.gql(tok, q, {"i": inp}), "draftOrderCreate")["draftOrder"]
+    try:
+        print(json.dumps(d, indent=1, ensure_ascii=False))
+    finally:
+        r = base.gql(tok, "mutation($i:ID!){ draftOrderDelete(input:{id:$i}){ deletedId userErrors{ message } } }", {"i": d["id"]})
+        print("borrador borrado:", r["draftOrderDelete"])
+
+
 def cleanup(tok, con_servicio):
     st = cargar()
     jb.borrar_producto(tok, st["test"]); print("borrado test")
@@ -82,5 +104,5 @@ def cleanup(tok, con_servicio):
 if __name__ == "__main__":
     tok, _ = base.get_token()
     cmd = sys.argv[1] if len(sys.argv) > 1 else ""
-    {"setup": lambda: setup(tok), "calc": lambda: calc(tok),
-     "cleanup": lambda: cleanup(tok, "--con-servicio" in sys.argv)}.get(cmd, lambda: sys.exit(__doc__))()
+    {"setup": lambda: setup(tok), "enlazar": lambda: enlazar_padres(tok, cargar()["test_vars"], cargar()["servicio_vars"]), "calc": lambda: calc(tok),
+     "borrador": lambda: borrador(tok), "cleanup": lambda: cleanup(tok, "--con-servicio" in sys.argv)}.get(cmd, lambda: sys.exit(__doc__))()

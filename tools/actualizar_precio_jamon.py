@@ -25,18 +25,18 @@ PIEZA = "Pieza entera"
 
 Q_JAMON = """query($h:String!){ productByHandle(handle:$h){ id handle category{ id }
   variants(first:50){ nodes{ id title sku price selectedOptions{ name value }
-    productVariantComponents{ quantity productVariant{ id sku product{ handle } } } } } } }"""
-Q_SERVICIO = """query($q:String!){ products(first:2, query:$q){ nodes{ id handle title status category{ id }
-  variants(first:10){ nodes{ id title sku price } } } } }"""
+    productVariantComponents(first:5){ nodes{ quantity productVariant{ id sku product{ handle } } } } } } } }"""
+SERVICIO_HANDLE = "servicio-de-preparacion-del-jamon"  # por handle: la búsqueda por título no indexa borradores
+Q_SERVICIO = """query($h:String!){ productByHandle(handle:$h){ id handle title status category{ id }
+  variants(first:10){ nodes{ id title sku price } } } }"""
 M_UPD = """mutation($p:ID!,$v:[ProductVariantsBulkInput!]!){ productVariantsBulkUpdate(productId:$p, variants:$v){
   userErrors{ field message } } }"""
 
 
 def cargar(tok):
-    srv = base.gql(tok, Q_SERVICIO, {"q": f'title:"{SERVICIO_TITULO}"'})["products"]["nodes"]
-    if len(srv) != 1:
-        sys.exit(f"Se esperaba 1 producto «{SERVICIO_TITULO}» y hay {len(srv)}.")
-    srv = srv[0]
+    srv = base.gql(tok, Q_SERVICIO, {"h": SERVICIO_HANDLE})["productByHandle"]
+    if not srv:
+        sys.exit(f"No existe el producto «{SERVICIO_TITULO}» ({SERVICIO_HANDLE}).")
     jamones = []
     for h in JAMONES:
         p = base.gql(tok, Q_JAMON, {"h": h})["productByHandle"]
@@ -73,7 +73,7 @@ def comprobar(tok, srv, jamones, piezas, serv):
             if v["precio"] != exp:
                 fallos.append(f"{j['handle']} {v['title']}: precio {v['precio']/100:.2f} ≠ pieza+servicio {exp/100:.2f}")
             comp = {(c["productVariant"]["product"]["handle"], c["productVariant"]["sku"]): c["quantity"]
-                    for c in v["productVariantComponents"]}
+                    for c in v["productVariantComponents"]["nodes"]}
             if len(comp) != 2 or j["handle"] not in {k[0] for k in comp}:
                 fallos.append(f"{j['handle']} {v['title']}: componentes inesperados {sorted(comp)}")
     # IVA real: pieza al 10 %, servicio al 21 % (draftOrderCalculate, no crea pedidos)
