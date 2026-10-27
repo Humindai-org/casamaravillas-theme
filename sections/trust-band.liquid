@@ -26,6 +26,10 @@
     flex-shrink: 0;
   }
 
+  /* Iconos con mucho margen interno en su SVG: se amplían para igualar el peso visual del resto */
+  .trust-band__icon-img[src*="icon-niveles"],
+  .trust-band__icon-img[src*="icon-devolucion"] { transform: scale(1.45); }
+
   .trust-band__title {
     font-size: 12px;
     font-weight: 500;
@@ -65,28 +69,40 @@
   }
 </style>
 
+{%- assign tb_country = localization.country.iso_code -%}
+{%- assign tb_peninsula = false -%}
+{%- if tb_country == 'ES' or tb_country == 'PT' -%}{%- assign tb_peninsula = true -%}{%- endif -%}
+
 <div class="trust-band" id="cm-trust-band">
   {%- for block in section.blocks -%}
     {%- assign icon_name = block.settings.icon -%}
+    {%- assign tb_title = block.settings.title -%}
+    {%- assign tb_desc = block.settings.description -%}
+    {%- unless tb_peninsula -%}
+      {%- if block.settings.title_exterior != blank -%}{%- assign tb_title = block.settings.title_exterior -%}{%- endif -%}
+      {%- if block.settings.description_exterior != blank -%}{%- assign tb_desc = block.settings.description_exterior -%}{%- endif -%}
+    {%- endunless -%}
     <div class="trust-band__cell" {{ block.shopify_attributes }} {%- if icon_name == 'formato.svg' %} id="cm-trust-formato" data-is-formato="true"{% endif %}>
       <div class="trust-band__icon">
         {%- render 'icon-selector', icon: icon_name, width: 48, height: 48, css_class: 'trust-band__icon-img' -%}
       </div>
       <div>
-        <p class="trust-band__title" {%- if icon_name == 'formato.svg' %} id="cm-trust-formato-title"{% endif %}>{{ block.settings.title }}</p>
+        <p class="trust-band__title" {%- if icon_name == 'formato.svg' %} id="cm-trust-formato-title"{% endif %}>{{ tb_title }}</p>
         <p class="trust-band__desc" {%- if icon_name == 'formato.svg' %} id="cm-trust-formato-desc"{% endif %}>
           {%- if icon_name == 'formato.svg' -%}
             {%- if product.tags contains 'loncheado' -%}
               Loncheado
+            {%- elsif product.tags contains 'cortado' -%}
+              Loncheado
             {%- elsif product.tags contains 'pieza' -%}
               Pieza entera
             {%- else -%}
-              {{ block.settings.description }}
+              {{ tb_desc }}
             {%- endif -%}
           {%- elsif icon_name == 'icon-curacion.svg' -%}
-            {{- product.metafields.custom.tiempo_de_curacion.value | default: product.metafields.custom.curing_time.value | default: block.settings.description -}}
+            {{- product.metafields.custom.tiempo_de_curacion.value | default: product.metafields.custom.curing_time.value | default: tb_desc -}}
           {%- else -%}
-            {{ block.settings.description }}
+            {{ tb_desc }}
           {%- endif -%}
         </p>
       </div>
@@ -117,6 +133,16 @@
           "default": "A partir de €80 en Peninsula"
         },
         {
+          "type": "text",
+          "id": "title_exterior",
+          "label": "Título fuera de España/Portugal (opcional)"
+        },
+        {
+          "type": "text",
+          "id": "description_exterior",
+          "label": "Descripción fuera de España/Portugal (opcional)"
+        },
+        {
           "type": "select",
           "id": "icon",
           "label": "Icono",
@@ -129,6 +155,14 @@
             {
               "value": "icon-garantia.svg",
               "label": "Garantía"
+            },
+            {
+              "value": "icon-devolucion.svg",
+              "label": "Devolución"
+            },
+            {
+              "value": "icon-niveles.svg",
+              "label": "Niveles de selección"
             },
             {
               "value": "icon-conservacion.svg",
@@ -214,9 +248,9 @@
         {
           "type": "trust_item",
           "settings": {
-            "title": "Embalaje especial",
-            "description": "Conservación en frío garantizada",
-            "icon": "icon-conservacion.svg"
+            "title": "Garantía 100%",
+            "description": "Si no te convence, puedes devolverlo.",
+            "icon": "icon-garantia.svg"
           }
         },
         {
@@ -231,7 +265,7 @@
           "type": "trust_item",
           "settings": {
             "title": "Múltiples formatos",
-            "description": "Cortado, deshuesado o pieza entera",
+            "description": "Loncheado, deshuesado o pieza entera",
             "icon": "formato.svg"
           }
         }

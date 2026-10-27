@@ -83,6 +83,89 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
+  /* ── Opciones a la vista (botones en vez de desplegables) ──
+     El <select> sigue en el DOM, oculto: el resto del script lee su valor y escucha 'change'. */
+  function prettyOptionLabel(text) {
+    const m = String(text).match(/^(\d+(?:\.\d+)?)\s*kg\s*-\s*(\d+(?:\.\d+)?)\s*kg$/i);
+    return m ? parseFloat(m[1]) + '–' + parseFloat(m[2]) + ' kg' : text;
+  }
+
+  function setCheckedOption(group, checkedBtn) {
+    const btns = group.querySelectorAll('.cm-pdp__opt');
+    btns.forEach(function(btn) {
+      const on = btn === checkedBtn;
+      btn.setAttribute('aria-checked', on ? 'true' : 'false');
+      btn.tabIndex = (on || (!checkedBtn && btn === btns[0])) ? 0 : -1;
+    });
+  }
+
+  function syncOptionButtons(select) {
+    const group = select._cmOpts;
+    if (!group) return;
+    let checked = null;
+    group.querySelectorAll('.cm-pdp__opt').forEach(function(btn) {
+      if (btn.dataset.value === select.value) checked = btn;
+    });
+    setCheckedOption(group, checked);
+  }
+
+  /* El pack ("1 ud.", "10 ud."…) fija la cantidad; si la cantidad se cambia con +/− a un valor sin botón, ninguno queda marcado. */
+  function syncPackButtons() {
+    const select = document.querySelector('[data-pack-select]');
+    const group = select && select._cmOpts;
+    if (!group) return;
+    let checked = null;
+    group.querySelectorAll('.cm-pdp__opt').forEach(function(btn) {
+      const n = btn.dataset.value.match(/^(\d+)/);
+      if (n && parseInt(n[1], 10) === getQty()) checked = btn;
+    });
+    setCheckedOption(group, checked);
+  }
+
+  function enhanceSelect(select) {
+    const wrap = select.closest('.cm-pdp__select-wrap');
+    if (!wrap || wrap.classList.contains('has-opts')) return;
+    const group = document.createElement('div');
+    group.className = 'cm-pdp__opts';
+    group.setAttribute('role', 'radiogroup');
+    const label = select.id ? document.querySelector('label[for="' + select.id + '"]') : null;
+    if (label) {
+      if (!label.id) label.id = select.id + '-label';
+      group.setAttribute('aria-labelledby', label.id);
+    }
+    Array.prototype.forEach.call(select.options, function(opt) {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'cm-pdp__opt';
+      btn.setAttribute('role', 'radio');
+      btn.dataset.value = opt.value;
+      btn.textContent = prettyOptionLabel(opt.textContent);
+      btn.addEventListener('click', function() {
+        select.value = opt.value;
+        select.dispatchEvent(new Event('change', { bubbles: true }));
+        if (select.hasAttribute('data-pack-select')) syncPackButtons(); else syncOptionButtons(select);
+      });
+      group.appendChild(btn);
+    });
+    group.addEventListener('keydown', function(e) {
+      const keys = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 };
+      if (!keys[e.key]) return;
+      const btns = Array.prototype.slice.call(group.querySelectorAll('.cm-pdp__opt'));
+      const i = btns.indexOf(document.activeElement);
+      if (i === -1) return;
+      e.preventDefault();
+      const next = btns[(i + keys[e.key] + btns.length) % btns.length];
+      next.focus();
+      next.click();
+    });
+    wrap.insertBefore(group, select);
+    wrap.classList.add('has-opts');
+    select._cmOpts = group;
+    syncOptionButtons(select);
+  }
+
+  document.querySelectorAll('#cm-pdp-' + SID + ' select.cm-pdp__select').forEach(enhanceSelect);
+
   /* ── Selector de cantidad ── */
   const qtyInput = $('cm-qty-' + SID);
   const qtyMinus = $('cm-qty-minus-' + SID);
@@ -111,8 +194,8 @@ document.addEventListener('DOMContentLoaded', function() {
     pdpShipbar.classList.toggle('is-complete', remaining === 0);
     if (text) {
       text.innerHTML = remaining === 0
-        ? '¡Tienes <strong>envío gratis</strong>!'
-        : 'Te faltan <strong>' + formatMoney(remaining) + '</strong> para el envío gratis';
+        ? cmT('shipbar_free_html', '¡Tienes <strong>envío gratis</strong>!')
+        : cmT('shipbar_remaining_html', 'Te faltan <strong>{amount}</strong> para el envío gratis', { amount: formatMoney(remaining) });
     }
     if (fill) fill.style.width = percent + '%';
     if (track) track.setAttribute('aria-valuenow', percent);
@@ -168,6 +251,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const stickyVal = $('cm-sticky-qty-val-' + SID);
     if (stickyVal) stickyVal.value = v;
     updateVolumDiscount();
+    syncPackButtons();
   }
 
   if (qtyInput) {
@@ -238,7 +322,7 @@ document.addEventListener('DOMContentLoaded', function() {
       formatLabel = 'Loncheado';
     } else if (tagsLower.some(t => t.includes('cortado'))) {
       selectorType = 'cortado';
-      formatLabel = 'Cortado a Mano';
+      formatLabel = 'Loncheado';
     } else if (tagsLower.some(t => t.includes('deshuesado'))) {
       selectorType = 'deshuesado';
       formatLabel = 'Deshuesado';
@@ -277,9 +361,52 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
+  /* Formato (Pieza entera / Deshuesado / Corte…): el €/kg solo tiene sentido con la pieza entera,
+     y cada formato muestra su suplemento sobre la pieza del peso elegido. */
+  function formatoOptionIndex() {
+    return data && data.options ? data.options.indexOf('Formato') : -1;
+  }
+
+  function updatePriceKg(variant) {
+    const el = document.querySelector('#cm-pdp-' + SID + ' .cm-pdp__price-kg');
+    const idx = formatoOptionIndex();
+    if (!el || idx < 0 || !variant) return;
+    el.style.display = variant['option' + (idx + 1)] === 'Pieza entera' ? '' : 'none';
+  }
+
+  function refreshFormatoExtras() {
+    const idx = formatoOptionIndex();
+    if (idx < 0 || !data) return;
+    const select = document.querySelector('#cm-pdp-' + SID + ' select[data-option-index="' + (idx + 1) + '"]');
+    const group = select && select._cmOpts;
+    if (!group) return;
+    function priceFor(formato) {
+      const v = data.variants.find(function(x) {
+        return [1, 2, 3].every(function(n) {
+          const want = n === idx + 1 ? formato : selectedOptions[n];
+          return !x['option' + n] || x['option' + n] === want;
+        });
+      });
+      return v ? v.price : null;
+    }
+    const base = priceFor('Pieza entera');
+    group.querySelectorAll('.cm-pdp__opt').forEach(function(btn) {
+      const old = btn.querySelector('.cm-pdp__opt-extra');
+      if (old) old.remove();
+      const p = priceFor(btn.dataset.value);
+      if (base === null || p === null || p === base) return;
+      const extra = document.createElement('span');
+      extra.className = 'cm-pdp__opt-extra';
+      extra.textContent = (p > base ? '+' : '−') + formatMoney(Math.abs(p - base)).replace(/[,.]00(?!\d)/, '');
+      btn.appendChild(extra);
+    });
+  }
+
   /* Inicializar selector al cargar */
   updateWeightPackSelector();
   updateVolumDiscount();
+  updatePriceKg(findVariant());
+  refreshFormatoExtras();
 
   function updateVariant() {
     const variant = findVariant();
@@ -288,6 +415,9 @@ document.addEventListener('DOMContentLoaded', function() {
     /* ID oculto */
     const idInput = $('cm-variant-id-' + SID);
     if (idInput) idInput.value = variant.id;
+
+    updatePriceKg(variant);
+    refreshFormatoExtras();
 
     /* Precio */
     const priceEl  = $('cm-price-' + SID);
@@ -324,11 +454,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const stickyBtn = $('cm-sticky-btn-' + SID);
     if (addBtn) {
       addBtn.disabled = !variant.available;
-      if (addText) addText.textContent = variant.available ? 'Añadir a la cesta' : 'Agotado';
+      if (addText) addText.textContent = variant.available ? cmT('add_to_cart', 'Añadir a la cesta') : cmT('sold_out', 'Agotado');
     }
     if (stickyBtn) {
       stickyBtn.disabled = !variant.available;
-      stickyBtn.textContent = variant.available ? 'Añadir a la cesta' : 'Agotado';
+      stickyBtn.textContent = variant.available ? cmT('add_to_cart', 'Añadir a la cesta') : cmT('sold_out', 'Agotado');
     }
 
     /* Imagen de variante */
@@ -467,7 +597,7 @@ document.addEventListener('DOMContentLoaded', function() {
       .then(cart => {
         document.querySelectorAll('[data-cart-count], .cart-count, .header__cart-count, .js-cart-count').forEach(el => {
           el.textContent = cart.item_count;
-          el.setAttribute('aria-label', cart.item_count + ' artículos en la cesta');
+          el.setAttribute('aria-label', cmT('cart_items_aria', '{n} artículos en la cesta', { n: cart.item_count }));
         });
         if (pdpShipbar) {
           pdpShipbar.setAttribute('data-cart-total', cart.total_price);
@@ -481,7 +611,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const addBtn    = $('cm-add-' + SID);
     const addText   = $('cm-add-text-' + SID);
     const stickyBtn = $('cm-sticky-btn-' + SID);
-    const labels = { idle: 'Añadir a la cesta', loading: 'Añadiendo…', done: '✓ Añadido' };
+    const labels = { idle: cmT('add_to_cart', 'Añadir a la cesta'), loading: cmT('adding', 'Añadiendo…'), done: cmT('added', '✓ Añadido') };
     if (addBtn)    addBtn.disabled = (state !== 'idle');
     if (addText)   addText.textContent = labels[state] || labels.idle;
     if (stickyBtn) { stickyBtn.disabled = (state !== 'idle'); stickyBtn.textContent = labels[state] || labels.idle; }
@@ -658,7 +788,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function setWishlistState(active) {
       wishlistBtn.classList.toggle('is-active', active);
       wishlistBtn.setAttribute('aria-pressed', String(active));
-      if (wishlistText) wishlistText.textContent = active ? 'Guardado en tu lista' : 'Añadir a la lista de deseos';
+      if (wishlistText) wishlistText.textContent = active ? cmT('wishlist_saved', 'Guardado en tu lista') : cmT('wishlist_add', 'Añadir a la lista de deseos');
     }
 
     /* Lee localStorage directamente (no depende de que wishlist-drawer.js ya
@@ -718,7 +848,7 @@ document.addEventListener('DOMContentLoaded', function() {
             '<p class="cm-comp__card-price">' + formatMoney(variant.price) + '</p>' +
           '</div>' +
           '<button type="button" class="cm-comp__atc-btn" data-variant-id="' + variant.id + '"' + (!available ? ' disabled' : '') + '>' +
-            (available ? 'Agregar a mi cesta' : 'Agotado') +
+            (available ? cmT('add_to_my_cart', 'Agregar a mi cesta') : cmT('sold_out', 'Agotado')) +
           '</button>';
         card.querySelector('.cm-comp__atc-btn').addEventListener('click', async function() {
           var btn = this;

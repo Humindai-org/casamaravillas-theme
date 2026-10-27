@@ -439,6 +439,9 @@
 </style>
 
 {%- assign main_nav = linklists[section.settings.main_menu] -%}
+{%- comment -%} TEMPORAL (borrador): pestaña Loncheados fija. Quitar al publicar y añadirla en Navegación > Menú principal. {%- endcomment -%}
+{%- assign lonch_in_menu = false -%}
+{%- for l in main_nav.links -%}{%- if l.url contains '/loncheados' -%}{%- assign lonch_in_menu = true -%}{%- endif -%}{%- endfor -%}
 
 <header class="site-header" id="site-header">
 
@@ -446,7 +449,7 @@
   <div class="site-header__top">
 
     <div class="site-header__top-left">
-      <button class="site-header__hamburger" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobile-drawer" id="hamburger-btn">
+      <button class="site-header__hamburger" aria-label="{{ 'cm.header.open_menu' | t }}" aria-expanded="false" aria-controls="mobile-drawer" id="hamburger-btn">
         <span></span>
         <span></span>
         <span></span>
@@ -464,10 +467,10 @@
     <!-- Derecha: enlaces configurables + carrito -->
     <div class="site-header__top-right">
       {%- if section.settings.nosotros_url != blank -%}
-        <a href="{{ section.settings.nosotros_url }}">{{ section.settings.nosotros_label | default: 'Nosotros' }}</a>
+        <a href="{{ section.settings.nosotros_url }}">{%- assign _lbl_about = 'cm.header.about' | t -%}{{ section.settings.nosotros_label | default: _lbl_about }}</a>
       {%- endif -%}
       {%- if section.settings.guia_url != blank -%}
-        <a href="{{ section.settings.guia_url }}">{{ section.settings.guia_label | default: 'Guía del Ibérico' }}</a>
+        <a href="{{ section.settings.guia_url }}">{%- assign _lbl_guide = 'cm.header.guide' | t -%}{{ section.settings.guia_label | default: _lbl_guide }}</a>
       {%- endif -%}
       <a href="{{ routes.search_url }}" class="site-header__search-btn hide-desktop" aria-label="Buscar">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
@@ -475,24 +478,24 @@
           <path d="m21 21-4.35-4.35"/>
         </svg>
       </a>
-      <a href="#" class="site-header__wishlist" aria-label="Tu lista guardada" onclick="if(typeof openWishlist!=='undefined'){openWishlist();return false;}return false;">
+      <a href="#" class="site-header__wishlist" aria-label="{{ 'cm.header.wishlist' | t }}" onclick="if(typeof openWishlist!=='undefined'){openWishlist();return false;}return false;">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="M20.84 4.6a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.07a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
         </svg>
         <span class="site-header__wishlist-count" style="display:none">0</span>
       </a>
-      <a href="{{ routes.cart_url }}" class="site-header__cart" aria-label="Carrito de compra" onclick="if(typeof openCart!=='undefined'){openCart();return false;}">
+      <a href="{{ routes.cart_url }}" class="site-header__cart" aria-label="{{ 'cm.header.cart_aria' | t }}" onclick="if(typeof openCart!=='undefined'){openCart();return false;}">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
           <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
           <line x1="3" y1="6" x2="21" y2="6"/>
           <path d="M16 10a4 4 0 01-8 0"/>
         </svg>
-        <span>Cesta</span>
+        <span>{{ 'cm.header.cart' | t }}</span>
         {%- if cart.item_count > 0 -%}
           <span class="site-header__cart-count" aria-label="{{ cart.item_count }} artículos">{{ cart.item_count }}</span>
         {%- endif -%}
       </a>
-      <a href="https://shopify.com/106438000978/account" class="site-header__account" aria-label="{%- if customer -%}Mi cuenta{%- else -%}Iniciar sesión{%- endif -%}" target="_blank" rel="noopener">
+      <a href="https://shopify.com/106438000978/account" class="site-header__account" aria-label="{%- if customer -%}{{ 'cm.header.my_account' | t }}{%- else -%}{{ 'cm.header.sign_in' | t }}{%- endif -%}" target="_blank" rel="noopener">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
           <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
           <circle cx="12" cy="7" r="4"/>
@@ -505,7 +508,7 @@
 
   <!-- Fila 2: Navegación principal desde menú de Shopify -->
   {%- if main_nav.links.size > 0 -%}
-    <nav class="site-header__nav" aria-label="Navegación principal">
+    <nav class="site-header__nav" aria-label="{{ 'cm.header.main_nav' | t }}">
       <ul class="site-header__nav-list">
         {%- for link in main_nav.links -%}
           {%- assign has_jamones_submenu = false -%}
@@ -525,16 +528,16 @@
             {%- if has_jamones_submenu -%}
               {%- comment -%} Dropdown especial para Jamones con opciones de calidad {%- endcomment -%}
               <ul class="site-header__dropdown">
-                <li><a href="/collections/jamones#precinto%20negro">Bellota 100% Ibérico</a></li>
-                <li><a href="/collections/jamones#precinto%20rojo">Bellota 50% Ibérico</a></li>
-                <li><a href="/collections/jamones#precinto%20verde">Cebo de Campo Ibérico</a></li>
+                <li><a href="{{ routes.collections_url }}/jamones#precinto%20negro">{{ 'cm.header.tier_black' | t }}</a></li>
+                <li><a href="{{ routes.collections_url }}/jamones#precinto%20rojo">{{ 'cm.header.tier_red' | t }}</a></li>
+                <li><a href="{{ routes.collections_url }}/jamones#precinto%20verde">{{ 'cm.header.tier_green' | t }}</a></li>
               </ul>
             {%- elsif has_embutidos_submenu -%}
               {%- comment -%} Dropdown especial para Embutidos con opciones de tipo {%- endcomment -%}
               <ul class="site-header__dropdown">
-                <li><a href="/collections/embutidos#chorizo">Chorizo</a></li>
-                <li><a href="/collections/embutidos#lomo">Lomo</a></li>
-                <li><a href="/collections/embutidos#salchichón">Salchichón</a></li>
+                <li><a href="{{ routes.collections_url }}/embutidos#chorizo">Chorizo</a></li>
+                <li><a href="{{ routes.collections_url }}/embutidos#lomo">{{ 'cm.header.loin' | t }}</a></li>
+                <li><a href="{{ routes.collections_url }}/embutidos#salchichón">Salchichón</a></li>
               </ul>
             {%- elsif link.links.size > 0 -%}
               <ul class="site-header__dropdown">
@@ -548,6 +551,9 @@
             {%- endif -%}
           </li>
         {%- endfor -%}
+        {%- unless lonch_in_menu -%}
+          <li><a href="{{ routes.collections_url }}/loncheados">{{ 'cm.footer.sliced' | t }}</a></li>
+        {%- endunless -%}
       </ul>
     </nav>
   {%- endif -%}
@@ -555,10 +561,10 @@
 </header>
 
 <!-- Mobile drawer -->
-<div class="site-header__drawer" id="mobile-drawer" aria-hidden="true" role="dialog" aria-label="Menú de navegación">
+<div class="site-header__drawer" id="mobile-drawer" aria-hidden="true" role="dialog" aria-label="{{ 'cm.header.nav_menu' | t }}">
   <div class="site-header__drawer-overlay" id="drawer-overlay"></div>
   <div class="site-header__drawer-panel">
-    <button class="site-header__drawer-close" aria-label="Cerrar menú" id="drawer-close">✕</button>
+    <button class="site-header__drawer-close" aria-label="{{ 'cm.header.close_menu' | t }}" id="drawer-close">✕</button>
     <nav>
       <ul class="site-header__drawer-nav">
 
@@ -582,14 +588,17 @@
             <li><a href="{{ link.url }}">{{ link.title }}</a></li>
           {%- endif -%}
         {%- endfor -%}
+        {%- unless lonch_in_menu -%}
+          <li><a href="{{ routes.collections_url }}/loncheados">{{ 'cm.footer.sliced' | t }}</a></li>
+        {%- endunless -%}
 
         {%- if section.settings.nosotros_url != blank -%}
-          <li><a href="{{ section.settings.nosotros_url }}">{{ section.settings.nosotros_label | default: 'Nosotros' }}</a></li>
+          <li><a href="{{ section.settings.nosotros_url }}">{%- assign _lbl_about = 'cm.header.about' | t -%}{{ section.settings.nosotros_label | default: _lbl_about }}</a></li>
         {%- endif -%}
         {%- if section.settings.guia_url != blank -%}
-          <li><a href="{{ section.settings.guia_url }}">{{ section.settings.guia_label | default: 'Guía del Ibérico' }}</a></li>
+          <li><a href="{{ section.settings.guia_url }}">{%- assign _lbl_guide = 'cm.header.guide' | t -%}{{ section.settings.guia_label | default: _lbl_guide }}</a></li>
         {%- endif -%}
-        <li><a href="{{ routes.cart_url }}">Cesta ({{ cart.item_count }})</a></li>
+        <li><a href="{{ routes.cart_url }}">{{ 'cm.header.cart_count' | t: n: cart.item_count }}</a></li>
 
       </ul>
     </nav>

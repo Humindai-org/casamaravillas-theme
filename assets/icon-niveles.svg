@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72" width="72" height="72" fill="none">
+  <g stroke="#C88A45" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round">
+    <!-- cinta, unida al borde superior de la medalla -->
+    <path d="M29 29V12l7 5 7-5v17"/>
+
+    <!-- medalla: el círculo comienza justo donde termina la cinta -->
+    <circle cx="36" cy="44" r="15"/>
+    <circle cx="36" cy="44" r="11"/>
+
+    <!-- estrella central -->
+    <path d="m36 36 2.5 5 5.5.8-4 3.9.9 5.5-4.9-2.6-4.9 2.6.9-5.5-4-3.9 5.5-.8L36 36Z"/>
+  </g>
+</svg>

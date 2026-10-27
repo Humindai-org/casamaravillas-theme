@@ -20,6 +20,7 @@
         "overlay_opacity": 35,
         "image_pos_x": 45,
         "image_pos_y": 100,
+        "image_crop_top": 27,
         "image_pos_y_mobile": 100
       }
     },

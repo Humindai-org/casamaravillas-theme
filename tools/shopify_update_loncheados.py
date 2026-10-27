@@ -30,9 +30,9 @@ PLAN = {
 EMB_PLAN = {
     "chorizo-bellota-iberico-loncheado":        ("Chorizo de Bellota Ibérico",        "4.90", "476"),
     "salchichon-bellota-iberico-loncheado":     ("Salchichón de Bellota Ibérico",     "4.90", "478"),
-    "lomo-cebo-campo-50-iberico-loncheado":     ("Lomo de Cebo de Campo Ibérico 50%", "8.90", "480"),
-    "lomo-bellota-iberico-loncheado-2":         ("Lomo de Bellota Ibérico",           "9.70", "482"),
-    "lomo-bellota-iberico-loncheado-1":         ("Lomito de Presa Ibérico",          "10.30", "484"),
+    "lomo-cebo-campo-50-iberico-loncheado":     ("Lomo de Cebo de Campo Ibérico 50%", "8.70", "480"),
+    "lomo-bellota-iberico-loncheado-2":         ("Lomo de Bellota Ibérico",           "10.20", "482"),
+    "lomo-bellota-iberico-loncheado-1":         ("Lomito de Presa Ibérico",          "10.20", "484"),
 }
 EMB_QTY = "5"
 DISCOUNT_PCT = 0.10
@@ -188,7 +188,7 @@ def main():
             {"id": p["variants"]["nodes"][0]["id"], "price": price, "inventoryItem": {"sku": sku}}]}), "productVariantsBulkUpdate")
         check(base.gql(token, M_DISC_NEW, {"d": {
             "title": f"{name} — 5 uds (-10%)", "startsAt": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-            "combinesWith": {"productDiscounts": False, "orderDiscounts": False, "shippingDiscounts": True},
+            "combinesWith": {"productDiscounts": True, "orderDiscounts": False, "shippingDiscounts": True},
             "minimumRequirement": {"quantity": {"greaterThanOrEqualToQuantity": EMB_QTY}},
             "customerGets": {"value": {"percentage": DISCOUNT_PCT}, "items": {"products": {"productsToAdd": [p["id"]]}}}}}),
             "discountAutomaticBasicCreate")

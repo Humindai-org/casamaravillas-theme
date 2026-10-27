@@ -1,0 +1,15 @@
+{%- comment -%}
+  loncheados-derived-tags.liquid
+  Tags de filtrado calculados desde el handle del producto (no hace falta
+  etiquetar nada a mano en Shopify). Devuelve una lista separada por comas.
+  Variables: product
+{%- endcomment -%}
+{%- assign h = product.handle -%}
+{%- if h contains 'jamon' -%},jamon{%- endif -%}
+{%- if h contains 'lomo' -%},lomo{%- endif -%}
+{%- if h contains 'chorizo' -%},chorizo,chorizo-salchichon{%- endif -%}
+{%- if h contains 'salchichon' -%},salchichón,chorizo-salchichon{%- endif -%}
+{%- if h contains 'bellota-50' -%},bellota-50
+{%- elsif h contains 'bellota' -%},bellota-100
+{%- endif -%}
+{%- if h contains 'cebo' -%},cebo-de-campo{%- endif -%}

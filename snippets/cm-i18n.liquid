@@ -1,0 +1,31 @@
+{%- assign ph_n = '{' | append: 'n' | append: '}' -%}
+{%- assign ph_amount = '{' | append: 'amount' | append: '}' -%}
+{%- comment -%}
+  cm-i18n.liquid — textos de la tienda para los JS (window.CM_I18N), en el idioma activo.
+  Las claves viven en locales/*.json bajo "cm". Los marcadores {n} / {amount} los sustituye el JS.
+  Cada JS lleva el texto en español como respaldo por si esta tabla no existe.
+{%- endcomment -%}
+<script>
+  window.CM_I18N = {
+    add_to_cart: {{ 'cm.pdp.add_to_cart' | t | json }},
+    sold_out: {{ 'cm.pdp.sold_out' | t | json }},
+    adding: {{ 'cm.pdp.adding' | t | json }},
+    added: {{ 'cm.pdp.added' | t | json }},
+    added_short: {{ 'cm.pdp.added_short' | t | json }},
+    keep_shopping: {{ 'cm.cart.keep_shopping' | t | json }},
+    add_to_my_cart: {{ 'cm.pdp.add_to_my_cart' | t | json }},
+    wishlist_add: {{ 'cm.pdp.add_to_wishlist' | t | json }},
+    wishlist_saved: {{ 'cm.pdp.wishlist_saved' | t | json }},
+    cart_items_aria: {{ 'cm.pdp.cart_items_aria' | t: n: ph_n | json }},
+    shipbar_free_html: {{ 'cm.shipbar.free_html' | t | json }},
+    shipbar_remaining_html: {{ 'cm.shipbar.remaining_html' | t: amount: ph_amount | json }},
+    cart_empty: {{ 'cm.cart.empty' | t | json }},
+    cart_items_count_aria: {{ 'cm.cart.items_aria' | t: n: ph_n | json }},
+    wishlist_empty: {{ 'cm.wishlist.empty' | t | json }}
+  };
+  window.cmT = function (key, fallback, vars) {
+    var s = (window.CM_I18N && window.CM_I18N[key]) || fallback;
+    if (vars) Object.keys(vars).forEach(function (k) { s = s.split('{' + k + '}').join(vars[k]); });
+    return s;
+  };
+</script>

@@ -13,8 +13,11 @@
 {%- endcomment -%}
 {%- liquid
   assign nl_id = form_id | default: 'newsletter-form'
-  assign nl_label = cta_label | default: 'Suscribirme'
-  assign nl_success = success_text | default: '¡Gracias por suscribirte! Te escribiremos pronto.'
+  assign nl_label_d = 'cm.newsletter.cta' | t
+  assign nl_success_d = 'cm.newsletter.success' | t
+  assign nl_label = cta_label | default: nl_label_d
+  assign nl_success = success_text | default: nl_success_d
+  assign nl_privacy = routes.root_url | remove_last: '/' | append: '/pages/privacidad'
 -%}
 
 <style>
@@ -68,33 +71,28 @@
 <div class="cm-nl" data-cm-newsletter>
   {%- form 'customer', id: nl_id, class: 'cm-nl__form' -%}
     <input type="hidden" name="contact[tags]" value="newsletter">
-    <label for="{{ nl_id }}-email" class="visually-hidden">Correo electrónico</label>
+    <label for="{{ nl_id }}-email" class="visually-hidden">{{ 'cm.newsletter.email_label' | t }}</label>
     <input
       type="email"
       name="contact[email]"
       id="{{ nl_id }}-email"
       class="cm-nl__input"
       value="{{ form.email }}"
-      placeholder="Tu correo electrónico"
+      placeholder="{{ 'cm.newsletter.placeholder' | t }}"
       autocomplete="email"
       required
     >
     <label class="cm-nl__consent" for="{{ nl_id }}-consent">
       <input type="checkbox" id="{{ nl_id }}-consent" name="contact[accepts_marketing]" value="true" required>
-      <span>Acepto recibir comunicaciones comerciales de Casa Maravillas por correo electrónico y la <a href="/pages/privacidad">Política de privacidad</a>.</span>
+      <span>{{ 'cm.newsletter.consent_html' | t: url: nl_privacy }}</span>
     </label>
     <button type="submit" class="cm-nl__btn">{{ nl_label }}</button>
-    <p class="cm-nl__legal">
-      <strong>Responsable:</strong> Selected Iberian, S.L. · <strong>Finalidad:</strong> enviarte novedades y ofertas ·
-      <strong>Base legal:</strong> tu consentimiento · <strong>Derechos:</strong> acceso, rectificación, supresión y baja
-      en cualquier momento, con un clic desde el enlace que incluye cada correo.
-      Más información en la <a href="/pages/privacidad">Política de privacidad</a>.
-    </p>
+    <p class="cm-nl__legal">{{ 'cm.newsletter.legal_html' | t: url: nl_privacy }}</p>
     <p class="cm-nl__msg{% if form.errors %} is-error{% endif %}" role="status" aria-live="polite">
       {%- if form.posted_successfully? -%}
         {{ nl_success }}
       {%- elsif form.errors -%}
-        Revisa el correo e inténtalo de nuevo.
+        {{ 'cm.newsletter.error' | t }}
       {%- endif -%}
     </p>
   {%- endform -%}
@@ -129,7 +127,7 @@
       form.addEventListener('submit', function (event) {
         event.preventDefault();
         btn.disabled = true;
-        show('Enviando…', false);
+        show({{ 'cm.newsletter.sending' | t | json }}, false);
         fetch(form.action, { method: 'POST', body: new FormData(form), credentials: 'same-origin' })
           .then(function (res) {
             if (res.url.indexOf('customer_posted=true') > -1) {

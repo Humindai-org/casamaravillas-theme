@@ -208,9 +208,18 @@
   font-family: "Montserrat", sans-serif;
   font-size: 13px;
   color: #00294B;
-  width: 32px;
+  width: 44px;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
   text-align: center;
+  -moz-appearance: textfield;
+  appearance: textfield;
 }
+.cart-qty-num::-webkit-outer-spin-button,
+.cart-qty-num::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.cart-qty-num:focus-visible { outline: 2px solid #C4973A; outline-offset: -2px; }
 
 /* ITEM RIGHT (price + delete) */
 .cart-item-right {
@@ -349,6 +358,8 @@
   margin-bottom: 8px;
 }
 
+.cart-summary .row.discount-row { color: #2a7a4b; font-weight: 500; }
+.cart-summary .row[hidden] { display: none; }
 .cart-summary .row.total {
   font-weight: 700;
   font-size: 15px;
@@ -419,7 +430,7 @@
 
 .cart-values-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 8px;
   text-align: center;
 }
@@ -554,3 +565,133 @@
   transition: width 0.35s ease;
 }
 .cm-shipbar.is-complete .cm-shipbar__fill { background: #00294B; }
+
+/* ---- CAJA DE REGALO (cesta personalizada agrupada) ---- */
+.cart-box {
+  margin: 0 0 16px;
+  border: 1px solid var(--cm-gold, #C4973A);
+  background: var(--cm-gold-pale, #F5EDDA);
+  box-shadow: 0 1px 0 rgba(196, 151, 58, 0.18), 0 8px 20px -12px rgba(0, 41, 75, 0.25);
+}
+.cart-box-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px 12px;
+  border-bottom: 1px solid rgba(196, 151, 58, 0.35);
+}
+.cart-box-eyebrow {
+  margin: 0 0 2px;
+  font-family: var(--cm-font-sans, 'Outfit', sans-serif);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--cm-gold, #C4973A);
+}
+.cart-box-title {
+  margin: 0;
+  font-family: var(--cm-font-serif, 'Cormorant Garamond', serif);
+  font-size: 20px;
+  line-height: 1.15;
+  color: var(--cm-navy, #00294B);
+}
+.cart-box-meta {
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: var(--cm-text-mid, #4A3F32);
+}
+.cart-box-remove {
+  flex: none;
+  background: none;
+  border: 0;
+  padding: 4px 0;
+  font-family: var(--cm-font-sans, 'Outfit', sans-serif);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  color: var(--cm-text-mid, #4A3F32);
+  cursor: pointer;
+}
+.cart-box-remove:hover { color: var(--cm-navy, #00294B); }
+.cart-box-remove:focus-visible { outline: 2px solid var(--cm-navy, #00294B); outline-offset: 2px; }
+.cart-box-remove:active { opacity: 0.7; }
+.cart-box .cart-item { padding-left: 16px; padding-right: 16px; border-bottom-color: rgba(196, 151, 58, 0.25); }
+.cart-box .cart-item:last-child { border-bottom: 0; }
+
+/* ---- DIÁLOGO DE PACK (reemplaza confirm/alert del navegador) ---- */
+.cm-dialog {
+  position: fixed;
+  inset: 0;
+  z-index: 10001;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(0, 41, 75, 0.55);
+  opacity: 0;
+  transition: opacity 0.18s ease;
+}
+.cm-dialog.is-open { opacity: 1; }
+.cm-dialog__box {
+  width: 100%;
+  max-width: 440px;
+  padding: 32px 30px 26px;
+  background: var(--cm-off, #FAF6EF);
+  border-top: 3px solid var(--cm-gold, #C4973A);
+  box-shadow: 0 1px 0 rgba(196, 151, 58, 0.25), 0 30px 60px -24px rgba(0, 41, 75, 0.6);
+  transform: translateY(10px);
+  transition: transform 0.18s ease;
+}
+.cm-dialog.is-open .cm-dialog__box { transform: translateY(0); }
+.cm-dialog__eyebrow {
+  margin: 0 0 8px;
+  font-family: var(--cm-font-sans, 'Outfit', sans-serif);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--cm-gold, #C4973A);
+}
+.cm-dialog__title {
+  margin: 0 0 10px;
+  font-family: var(--cm-font-serif, 'Cormorant Garamond', serif);
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.1;
+  color: var(--cm-navy, #00294B);
+}
+.cm-dialog__text {
+  margin: 0 0 24px;
+  font-family: var(--cm-font-sans, 'Outfit', sans-serif);
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--cm-text-mid, #4A3F32);
+}
+.cm-dialog__actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.cm-dialog__btn {
+  flex: 1 1 140px;
+  padding: 15px 16px;
+  border-radius: 4px;
+  font-family: var(--cm-font-sans, 'Outfit', sans-serif);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+.cm-dialog__btn--main {
+  background: var(--cm-navy, #00294B);
+  border: 1.5px solid var(--cm-navy, #00294B);
+  color: #fff;
+  box-shadow: 0 12px 22px -14px rgba(0, 41, 75, 0.9);
+}
+.cm-dialog__btn--ghost {
+  background: transparent;
+  border: 1.5px solid var(--cm-border2, #D4CCBF);
+  color: var(--cm-text-mid, #4A3F32);
+}
+.cm-dialog__btn:hover { opacity: 0.9; }
+.cm-dialog__btn:active { transform: scale(0.98); }
+.cm-dialog__btn:focus-visible { outline: 2px solid var(--cm-gold, #C4973A); outline-offset: 2px; }

@@ -1,0 +1,110 @@
+{% comment %}
+  cesta-builder.liquid
+  Constructor "Crea tu pack": el cliente elige productos y se añaden al carrito
+  agrupados por _cesta_id bajo una "Caja de regalo". Catálogo vía /collections/all/products.json.
+{% endcomment %}
+
+{{ 'cesta-builder.css' | asset_url | stylesheet_tag }}
+
+<div
+  class="cb"
+  data-cesta-builder
+  data-min="{{ section.settings.min_items }}"
+  data-free-shipping="{{ section.settings.free_shipping_euros | times: 100 }}"
+  data-gift-handle="{{ section.settings.gift_handle | escape }}"
+  data-exclude-handles="{{ section.settings.exclude_handles | escape }}"
+  data-disc-qty="{{ settings.cesta_discount_qty }}"
+  data-disc-pct="{{ settings.cesta_discount_pct }}"
+  data-gift1-qty="{{ section.settings.gift1_qty }}"
+  data-gift1-label="{{ section.settings.gift1_label | escape }}"
+  data-gift2-qty="{{ section.settings.gift2_qty }}"
+  data-gift2-label="{{ section.settings.gift2_label | escape }}"
+>
+  <section class="cb-banner">
+    {%- if section.settings.eyebrow != blank -%}<p class="cb-eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+    <h1>{{ section.settings.heading }}</h1>
+    {%- if section.settings.intro != blank -%}<p class="cb-lead">{{ section.settings.intro }}</p>{%- endif -%}
+    <div class="cb-tl" data-cb-tl>
+      <div class="cb-tl-line"><span data-cb-tl-fill></span></div>
+      <div class="cb-tl-steps">
+        <button type="button" class="cb-tl-step" data-s="0"><i>1</i><h3>Elige tus productos</h3><p>Jamón, lonchados, embutidos… Mínimo {{ section.settings.min_items }} para crear tu pack.</p></button>
+        <button type="button" class="cb-tl-step" data-s="1"><i>2</i><h3>Personaliza el punto</h3><p>En pieza entera, escoge el punto de curación que prefieres.</p></button>
+        <button type="button" class="cb-tl-step" data-s="2"><i>3</i><h3>Suma y ahorra</h3><p>Cuantos más productos, más descuentos y regalos desbloqueas.</p></button>
+        <button type="button" class="cb-tl-step" data-s="3"><i>4</i><h3>Recíbelo en caja regalo</h3><p>Preparado y embalado a mano por Casa Maravillas.</p></button>
+      </div>
+    </div>
+  </section>
+
+  <div class="cb-wrap">
+    <div>
+      <div class="cb-tabs" role="tablist" aria-label="Categorías" data-cb-tabs></div>
+      <label class="cb-searchbox">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+        <span class="visually-hidden">Buscar producto</span>
+        <input type="search" placeholder="Busca jamón, lomo, chorizo…" autocomplete="off" data-cb-search>
+        <button type="button" aria-label="Borrar búsqueda" data-cb-search-clear hidden>×</button>
+      </label>
+      <div class="cb-grid" data-cb-grid aria-live="polite">
+        <p class="cb-status">Cargando productos…</p>
+      </div>
+    </div>
+
+    <aside class="cb-pack" aria-label="Tu pack">
+      <div class="cb-pack-h">
+        <div><h2>Tu pack</h2><span class="cb-gift">Caja regalo gratis</span></div>
+        <button type="button" class="cb-clear" data-cb-clear hidden>Vaciar pack</button>
+      </div>
+      <div class="cb-pack-b">
+        <p class="cb-dtitle"><span>Llega a tus descuentos</span><span data-cb-count>0 productos</span></p>
+        <p class="cb-dsub" data-cb-dsub></p>
+        <div class="cb-track" data-cb-track role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <div class="cb-fill" data-cb-fill></div>
+        </div>
+        <ul class="cb-lines" data-cb-lines></ul>
+        <p class="cb-empty" data-cb-empty>Todavía no has añadido nada.</p>
+        <div class="cb-ship"><span data-cb-ship-text></span><div class="cb-bar"><span data-cb-ship-bar></span></div></div>
+        <p class="cb-save" data-cb-save hidden></p>
+        <p class="cb-note">Los descuentos no se suman: se aplica el que más te ahorra.</p>
+        <div class="cb-tot"><span>Total</span><strong data-cb-total>0,00 €</strong></div>
+        <button type="button" class="cb-cta" data-cb-add disabled>Añadir pack al carrito</button>
+        <p class="cb-min" data-cb-min>Mínimo {{ section.settings.min_items }} productos</p>
+      </div>
+    </aside>
+  </div>
+
+  <div class="cb-modal" data-cb-modal hidden>
+    <div class="cb-mbox" role="alertdialog" aria-modal="true" aria-labelledby="cb-mt">
+      <h3 id="cb-mt">¿Vaciar tu pack?</h3>
+      <p>¿Estás seguro de que quieres eliminar todos tus productos?</p>
+      <div class="cb-mact">
+        <button type="button" class="cb-mno" data-cb-no>Cancelar</button>
+        <button type="button" class="cb-myes" data-cb-yes>Sí, vaciar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="{{ 'cesta-builder.js' | asset_url }}" defer></script>
+
+{% schema %}
+{
+  "name": "Crea tu pack",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Etiqueta superior", "default": "Packs de regalo · Casa Maravillas" },
+    { "type": "text", "id": "heading", "label": "Título", "default": "Crea tu pack a tu medida de forma sencilla" },
+    { "type": "textarea", "id": "intro", "label": "Texto introductorio", "default": "El arte de regalar empieza por elegir bien. Crea tu pack ibérico." },
+    { "type": "range", "id": "min_items", "label": "Mínimo de productos", "min": 1, "max": 6, "step": 1, "default": 2 },
+    { "type": "number", "id": "free_shipping_euros", "label": "Envío gratis desde (€)", "default": 80 },
+    { "type": "text", "id": "gift_handle", "label": "Handle del producto 'Caja de regalo' (0 €)", "info": "Vacío: no se añade ninguna línea (la caja es el embalaje del envío)." },
+    { "type": "textarea", "id": "exclude_handles", "label": "Handles a excluir (separados por coma)", "info": "La caja de regalo ya se excluye sola." },
+    { "type": "header", "content": "Hitos de descuentos y regalos (test)" },
+    { "type": "paragraph", "content": "El descuento de la cesta se configura en Ajustes del tema > Crea tu cesta. Los regalos son solo informativos: deben existir en Shopify." },
+    { "type": "range", "id": "gift1_qty", "label": "Regalo 1: a partir de N productos", "min": 2, "max": 15, "step": 1, "default": 4 },
+    { "type": "text", "id": "gift1_label", "label": "Regalo 1: texto (vacío = sin regalo)" },
+    { "type": "range", "id": "gift2_qty", "label": "Regalo 2: a partir de N productos", "min": 2, "max": 20, "step": 1, "default": 5 },
+    { "type": "text", "id": "gift2_label", "label": "Regalo 2: texto (vacío = sin regalo)" }
+  ],
+  "presets": [{ "name": "Crea tu pack" }]
+}
+{% endschema %}

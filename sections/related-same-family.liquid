@@ -107,15 +107,11 @@
     assign current_family = template.suffix
   endif
 
-  # Carnes ibéricas oculta temporalmente de las sugerencias — no se ofrece todavía.
-  # Para reactivar, volver a incluir 'carnes-ibericas' en las listas de abajo.
   case current_family
     when 'jamones'
       assign other_families = 'embutidos,packs-regalo' | split: ','
     when 'embutidos'
       assign other_families = 'jamones,packs-regalo' | split: ','
-    when 'carnes-ibericas'
-      assign other_families = 'jamones,embutidos,packs-regalo' | split: ','
     when 'packs-regalo'
       # Mezcla fija: un jamón, un embutido y otro pack similar — así el pack
       # se completa con productos sueltos y también se ofrece una alternativa.
@@ -164,8 +160,6 @@
           <h2 class="rsf-section__title">Completa tu pedido con <em>embutidos y más</em></h2>
         {%- when 'embutidos' -%}
           <h2 class="rsf-section__title">Añade un <em>jamón ibérico</em> a tu mesa</h2>
-        {%- when 'carnes-ibericas' -%}
-          <h2 class="rsf-section__title">También te puede <em>gustar</em></h2>
         {%- when 'packs-regalo' -%}
           <h2 class="rsf-section__title">También te puede <em>gustar</em></h2>
         {%- else -%}

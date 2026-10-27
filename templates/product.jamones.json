@@ -119,8 +119,10 @@
           "type": "trust_item",
           "settings": {
             "title": "Envío gratis",
-            "description": "A partir de €80 en Península",
-            "icon": "icon-envio.svg"
+            "description": "A partir de 80 € en Península",
+            "icon": "icon-envio.svg",
+            "title_exterior": "Envío a toda Europa",
+            "description_exterior": "Con seguimiento"
           }
         },
         "trust_item_LQKy7Q": {
@@ -134,24 +136,24 @@
         "trust_item_pGzHrd": {
           "type": "trust_item",
           "settings": {
-            "title": "Embalaje especial",
-            "description": "Conservación en frío garantizada",
-            "icon": "icon-refrigerado.svg"
+            "title": "Garantía 100%",
+            "description": "Si no te convence, puedes devolverlo.",
+            "icon": "icon-devolucion.svg"
           }
         },
-        "trust_item_hhUz6U": {
+        "trust_item_niveles": {
           "type": "trust_item",
           "settings": {
-            "title": "Packaging regalo",
-            "description": "Presentación premium para regalar",
-            "icon": "icon-info.svg"
+            "title": "Tres niveles de selección",
+            "description": "Oro, plata y bronce",
+            "icon": "icon-niveles.svg"
           }
         },
         "trust_item_formato": {
           "type": "trust_item",
           "settings": {
             "title": "Formato",
-            "description": "Cortado, deshuesado o pieza entera",
+            "description": "Loncheado, deshuesado o pieza entera",
             "icon": "formato.svg"
           }
         }
@@ -160,7 +162,7 @@
         "trust_item_diRE88",
         "trust_item_LQKy7Q",
         "trust_item_pGzHrd",
-        "trust_item_hhUz6U",
+        "trust_item_niveles",
         "trust_item_formato"
       ],
       "name": "Banda de confianza",

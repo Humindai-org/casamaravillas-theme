@@ -140,6 +140,8 @@
     color: var(--cm-text-mid);
   }
 
+  .cm-cart__summary-row--discount { color: #2a7a4b; font-weight: 500; }
+  .cm-cart__price-was { display: block; font-size: 12px; font-weight: 400; opacity: 0.6; }
   .cm-cart__summary-row--total {
     border-bottom: none;
     font-size: 18px;
@@ -215,6 +217,13 @@
                     {%- unless item.variant.title == 'Default Title' -%}
                       <p class="cm-cart__variant">{{ item.variant.title }}</p>
                     {%- endunless -%}
+                    {%- for prop in item.properties -%}
+                      {%- assign prop_first = prop | first -%}
+                      {%- assign prop_first_char = prop_first | slice: 0 -%}
+                      {%- if prop_first_char != '_' and prop.last != blank -%}
+                        <p class="cm-cart__variant">{{ prop_first }}: {{ prop.last }}</p>
+                      {%- endif -%}
+                    {%- endfor -%}
                     <button class="cm-cart__remove" type="button" data-key="{{ item.key }}">Eliminar</button>
                   </div>
                 </div>
@@ -227,7 +236,14 @@
                   <button class="cm-cart__qty-btn" type="button" aria-label="Aumentar cantidad" data-action="increase" data-key="{{ item.key }}">+</button>
                 </div>
               </td>
-              <td class="cm-cart__price">{{ item.final_line_price | money }}</td>
+              <td class="cm-cart__price">
+                {%- if item.line_level_total_discount > 0 -%}
+                  <s class="cm-cart__price-was">{{ item.original_line_price | money }}</s>
+                  {{ item.original_line_price | minus: item.line_level_total_discount | money }}
+                {%- else -%}
+                  {{ item.final_line_price | money }}
+                {%- endif -%}
+              </td>
             </tr>
           {%- endfor -%}
         </tbody>
@@ -238,8 +254,14 @@
         <div class="cm-cart__summary">
           <div class="cm-cart__summary-row">
             <span>Subtotal</span>
-            <span>{{ cart.total_price | money }}</span>
+            <span>{{ cart.original_total_price | money }}</span>
           </div>
+          {%- if cart.total_discount > 0 -%}
+            <div class="cm-cart__summary-row cm-cart__summary-row--discount">
+              <span>Descuentos</span>
+              <span>−{{ cart.total_discount | money }}</span>
+            </div>
+          {%- endif -%}
           <div class="cm-cart__summary-row">
             <span>Envío</span>
             <span>Calculado en el checkout</span>
@@ -258,17 +280,79 @@
 
 <script>
 (function () {
-  function cartChange(key, quantity) {
-    fetch('/cart/change.js', {
+  var PACK_MIN = 2;
+  var PACK_MSG = 'Un pack necesita mínimo ' + PACK_MIN + ' productos.';
+
+  function dialog(opts) {
+    if (window.cmPackDialog) return window.cmPackDialog(opts);
+    return Promise.resolve(window.confirm(opts.title + '\n\n' + opts.text));
+  }
+
+  function post(url, body) {
+    return fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id: key, quantity: quantity })
-    }).then(function () {
-      window.location.reload();
+      body: JSON.stringify(body)
+    });
+  }
+
+  function boxes(cart, key, newQty) {
+    var out = {};
+    cart.items.forEach(function (it) {
+      var id = it.properties && it.properties._cesta_id;
+      if (!id) return;
+      var b = out[id] = out[id] || { units: 0, keys: [] };
+      b.keys.push(it.key);
+      if (!it.properties._cesta_caja) b.units += (it.key === key ? newQty : it.quantity);
+    });
+    return out;
+  }
+
+  function cartChange(key, quantity) {
+    fetch('/cart.js').then(function (r) { return r.json(); }).then(function (cart) {
+      var item = cart.items.filter(function (it) { return it.key === key; })[0];
+      var id = item && item.properties && item.properties._cesta_id;
+      if (id && !item.properties._cesta_caja && quantity < item.quantity) {
+        var box = boxes(cart, key, quantity)[id];
+        if (box.units < PACK_MIN) {
+          dialog({
+            title: 'Un pack necesita mínimo ' + PACK_MIN + ' productos',
+            text: 'Si quitas este producto, tu pack se quedaría con menos de ' + PACK_MIN + '. ¿Quieres quitar el pack completo?',
+            confirmLabel: 'Quitar el pack',
+            cancelLabel: 'Mantener mi pack'
+          }).then(function (ok) {
+            if (!ok) return;
+            var updates = {};
+            box.keys.forEach(function (k) { updates[k] = 0; });
+            post('/cart/update.js', { updates: updates }).then(function () { window.location.reload(); });
+          });
+          return;
+        }
+      }
+      post('/cart/change.js', { id: key, quantity: quantity }).then(function () { window.location.reload(); });
     });
   }
 
   document.addEventListener('click', function (e) {
+    var checkout = e.target.closest('.cm-cart__checkout');
+    if (checkout) {
+      e.preventDefault();
+      fetch('/cart.js').then(function (r) { return r.json(); }).then(function (cart) {
+        var all = boxes(cart, null, 0);
+        var bad = Object.keys(all).some(function (id) { return all[id].units < PACK_MIN; });
+        if (bad) {
+          dialog({
+            title: 'Falta un producto en tu pack',
+            text: 'Un pack necesita mínimo ' + PACK_MIN + ' productos. Añade más productos o quita el pack para continuar.',
+            confirmLabel: 'Entendido'
+          });
+          return;
+        }
+        window.location.href = '/checkout';
+      });
+      return;
+    }
+
     var btn = e.target.closest('[data-action="decrease"], [data-action="increase"], .cm-cart__remove');
     if (!btn) return;
 
@@ -284,7 +368,6 @@
     var qty = parseInt(input.value, 10) || 0;
     if (action === 'decrease') qty = Math.max(0, qty - 1);
     if (action === 'increase') qty = qty + 1;
-    input.value = qty;
     cartChange(key, qty);
   });
 })();

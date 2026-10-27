@@ -231,7 +231,7 @@
           }}
         {%- else -%}
           <span class="site-footer__logo-text">{{ shop.name }}</span>
-          <span class="site-footer__logo-sub">Tres generaciones</span>
+          <span class="site-footer__logo-sub">{{ 'cm.footer.logo_sub' | t }}</span>
         {%- endif -%}
       </a>
 
@@ -260,36 +260,36 @@
 
     <!-- Columna tienda -->
     <div class="site-footer__nav-col">
-      <h4>Tienda</h4>
+      <h4>{{ 'cm.footer.shop' | t }}</h4>
       <ul class="site-footer__nav-list">
-        <li><a href="{{ routes.collections_url }}/jamones">Jamones</a></li>
-        <li><a href="{{ routes.collections_url }}/embutidos">Embutidos</a></li>
+        <li><a href="{{ routes.collections_url }}/jamones">{{ 'cm.footer.hams' | t }}</a></li>
+        <li><a href="{{ routes.collections_url }}/embutidos">{{ 'cm.footer.cured' | t }}</a></li>
+        <li><a href="{{ routes.collections_url }}/loncheados">{{ 'cm.footer.sliced' | t }}</a></li>
         {%- comment -%} Carnes ibéricas oculto temporalmente — no se ofrece todavía. Para reactivar, descomentar la línea de abajo. {%- endcomment -%}
-        {%- comment -%} <li><a href="{{ routes.collections_url }}/carnes-ibericas">Carnes ibéricas</a></li> {%- endcomment -%}
-        <li><a href="{{ routes.collections_url }}/regalos-ibericos">Packs & Regalos</a></li>
+        <li><a href="{{ routes.collections_url }}/regalos-ibericos">{{ 'cm.footer.packs' | t }}</a></li>
       </ul>
     </div>
 
     <!-- Columna info -->
     <div class="site-footer__nav-col">
-      <h4>Información</h4>
+      <h4>{{ 'cm.footer.info' | t }}</h4>
       <ul class="site-footer__nav-list">
-        <li><a href="/pages/nosotros">Nosotros</a></li>
-        <li><a href="/pages/guia-del-iberico">Guía del ibérico</a></li>
-        <li><a href="/pages/informacion-de-envios">Envíos</a></li>
-        <li><a href="/pages/devoluciones">Devoluciones</a></li>
-        <li><a href="/pages/contact">Contacto</a></li>
+        <li><a href="{{ routes.root_url | remove_last: '/' }}/pages/nosotros">{{ 'cm.footer.about' | t }}</a></li>
+        <li><a href="{{ routes.root_url | remove_last: '/' }}/pages/guia-del-iberico">{{ 'cm.footer.guide' | t }}</a></li>
+        <li><a href="{{ routes.root_url | remove_last: '/' }}/pages/informacion-de-envios">{{ 'cm.footer.shipping' | t }}</a></li>
+        <li><a href="{{ routes.root_url | remove_last: '/' }}/pages/devoluciones">{{ 'cm.footer.returns' | t }}</a></li>
+        <li><a href="{{ routes.root_url | remove_last: '/' }}/pages/contact">{{ 'cm.footer.contact' | t }}</a></li>
       </ul>
     </div>
 
     <!-- Columna legal -->
     <div class="site-footer__nav-col">
-      <h4>Legal</h4>
+      <h4>{{ 'cm.footer.legal' | t }}</h4>
       <ul class="site-footer__nav-list">
-        <li><a href="/pages/privacidad">Privacidad</a></li>
-        <li><a href="/pages/terminos-y-condiciones">Términos y condiciones</a></li>
-        <li><a href="/pages/politica-de-cookies">Cookies</a></li>
-        <li><a href="/pages/aviso-legal">Aviso legal</a></li>
+        <li><a href="{{ routes.root_url | remove_last: '/' }}/pages/privacidad">{{ 'cm.footer.privacy' | t }}</a></li>
+        <li><a href="{{ routes.root_url | remove_last: '/' }}/pages/terminos-y-condiciones">{{ 'cm.footer.terms' | t }}</a></li>
+        <li><a href="{{ routes.root_url | remove_last: '/' }}/pages/politica-de-cookies">{{ 'cm.footer.cookies' | t }}</a></li>
+        <li><a href="{{ routes.root_url | remove_last: '/' }}/pages/aviso-legal">{{ 'cm.footer.legal_notice' | t }}</a></li>
       </ul>
     </div>
 
@@ -299,8 +299,10 @@
     <!-- Newsletter -->
     <div class="site-footer__newsletter">
       <div>
-        <h4 class="site-footer__newsletter-title">{{ section.settings.newsletter_title }}</h4>
-        <p class="site-footer__newsletter-text">{{ section.settings.newsletter_text }}</p>
+        {%- assign _nl_t = 'cm.footer.newsletter_title' | t -%}
+        <h4 class="site-footer__newsletter-title">{{ section.settings.newsletter_title | default: _nl_t }}</h4>
+        {%- assign _nl_x = 'cm.footer.newsletter_text' | t -%}
+        <p class="site-footer__newsletter-text">{{ section.settings.newsletter_text | default: _nl_x }}</p>
       </div>
       {% render 'newsletter-form', form_id: 'footer-newsletter-form' %}
     </div>
@@ -309,9 +311,9 @@
   <!-- Barra inferior -->
   <div class="site-footer__bottom">
     <p class="site-footer__copyright">
-      © {{ 'now' | date: '%Y' }} {{ shop.name }}. Todos los derechos reservados.
+      © {{ 'now' | date: '%Y' }} {{ shop.name }}. {{ 'cm.footer.rights' | t }}
     </p>
-    <div class="site-footer__payments" aria-label="Métodos de pago aceptados">
+    <div class="site-footer__payments" aria-label="{{ 'cm.footer.payments' | t }}">
       {% for type in shop.enabled_payment_types %}
         {{ type | payment_type_svg_tag }}
       {% endfor %}
@@ -362,14 +364,12 @@
     {
       "type": "text",
       "id": "newsletter_title",
-      "label": "Título de la newsletter",
-      "default": "Únete al Club Casa Maravillas"
+      "label": "Título de la newsletter"
     },
     {
       "type": "textarea",
       "id": "newsletter_text",
-      "label": "Texto de la newsletter",
-      "default": "Novedades, piezas especiales y ofertas, directamente en tu correo."
+      "label": "Texto de la newsletter"
     }
   ]
 }

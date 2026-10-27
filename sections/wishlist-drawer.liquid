@@ -1,14 +1,14 @@
 {{ 'wishlist-drawer.css' | asset_url | stylesheet_tag }}
 
-<div id="wishlist-drawer" class="wishlist-drawer" role="dialog" aria-modal="true" aria-label="Tu lista guardada">
+<div id="wishlist-drawer" class="wishlist-drawer" role="dialog" aria-modal="true" aria-label="{{ 'cm.wishlist.aria' | t }}">
   <div class="wishlist-overlay" onclick="closeWishlist()"></div>
 
   <div class="wishlist-panel">
 
     <!-- HEADER -->
     <div class="wishlist-header">
-      <h2>TU LISTA<br>GUARDADA</h2>
-      <button class="wishlist-close" onclick="closeWishlist()" aria-label="Cerrar lista guardada">
+      <h2>{{ 'cm.wishlist.title_html' | t }}</h2>
+      <button class="wishlist-close" onclick="closeWishlist()" aria-label="{{ 'cm.wishlist.close' | t }}">
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
           <line x1="2" y1="2" x2="16" y2="16" stroke="#00294B" stroke-width="1.5" stroke-linecap="round"/>
           <line x1="16" y1="2" x2="2" y2="16" stroke="#00294B" stroke-width="1.5" stroke-linecap="round"/>
@@ -18,13 +18,13 @@
 
     <div class="wishlist-divider"></div>
 
-    <p class="wishlist-count">GUARDADOS (<span id="wishlist-item-count">0</span>)</p>
+    <p class="wishlist-count">{{ 'cm.wishlist.saved' | t }} (<span id="wishlist-item-count">0</span>)</p>
 
     <!-- ITEMS -->
     <div class="wishlist-items" id="wishlist-items-container">
       <div class="wishlist-empty" id="wishlist-empty-state">
-        <p>Aún no has guardado ningún producto.</p>
-        <a href="{{ routes.collections_url }}/all">Seguir comprando</a>
+        <p>{{ 'cm.wishlist.empty' | t }}</p>
+        <a href="{{ routes.collections_url }}/all">{{ 'cm.cart.keep_shopping' | t }}</a>
       </div>
     </div>
 

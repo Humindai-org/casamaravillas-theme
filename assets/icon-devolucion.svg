@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72" width="72" height="72" fill="none">
+  <g stroke="#C88A45" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <!-- circular return arrow -->
+    <path d="M52 35a17 17 0 1 0-4.7 12"/>
+    <path d="M52 35v-8"/>
+    <path d="m52 35-8-1"/>
+    <!-- check -->
+    <path d="m28 35.5 4.2 4.2L40 32"/>
+  </g>
+</svg>

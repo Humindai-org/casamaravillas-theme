@@ -1,0 +1,171 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "hero": {
+      "type": "video-banner",
+      "settings": {
+        "image": "shopify://shop_images/Untitled_design_1_84471d21-82dc-4e53-b6f8-e324772ffbb9.png",
+        "eyebrow": "Listo para disfrutar",
+        "heading": "Loncheados Ibéricos",
+        "overlay_opacity": 20,
+        "tint_strength": 50,
+        "height_desktop": 60,
+        "height_mobile": 45,
+        "pos_x": 45,
+        "pos_y": 70
+      }
+    },
+    "tiers": {
+      "type": "iberico-tiers",
+      "settings": {
+        "eyebrow": "Nuestra gama",
+        "heading": "Elige tu loncheado",
+        "cat1_name": "Jamón",
+        "cat1_label": "3 referencias",
+        "cat1_tag": "tipo_jamon",
+        "cat1_color": "gold",
+        "cat2_name": "Lomo",
+        "cat2_label": "3 referencias",
+        "cat2_tag": "tipo_lomo",
+        "cat2_color": "burgundy",
+        "cat3_name": "Chorizo y salchichón",
+        "cat3_label": "2 referencias",
+        "cat3_tag": "chorizo-salchichon",
+        "cat3_color": "terracotta"
+      }
+    },
+    "collection": {
+      "type": "iberico-collection",
+      "blocks": {
+        "product_lonch1": {
+          "type": "product",
+          "settings": {
+            "product": "jamon-cebo-de-campo-50-iberico-cortado-a-mano",
+            "zoom": 100,
+            "offset_x": 50,
+            "offset": 50,
+            "zoom_2": 100,
+            "offset_x_2": 50,
+            "offset_2": 50
+          }
+        },
+        "product_lonch2": {
+          "type": "product",
+          "settings": {
+            "product": "jamon-bellota-50-iberico-cortado-a-mano",
+            "zoom": 100,
+            "offset_x": 50,
+            "offset": 50,
+            "zoom_2": 100,
+            "offset_x_2": 50,
+            "offset_2": 50
+          }
+        },
+        "product_lonch3": {
+          "type": "product",
+          "settings": {
+            "product": "jamon-bellota-100-iberico-cortado-a-mano",
+            "zoom": 100,
+            "offset_x": 50,
+            "offset": 50,
+            "zoom_2": 100,
+            "offset_x_2": 50,
+            "offset_2": 50
+          }
+        },
+        "product_lonch4": {
+          "type": "product",
+          "settings": {
+            "product": "lomo-cebo-campo-50-iberico-loncheado",
+            "zoom": 100,
+            "offset_x": 55,
+            "offset": 50,
+            "zoom_2": 100,
+            "offset_x_2": 50,
+            "offset_2": 50
+          }
+        },
+        "product_lonch5": {
+          "type": "product",
+          "settings": {
+            "product": "lomo-bellota-iberico-loncheado-2",
+            "zoom": 100,
+            "offset_x": 55,
+            "offset": 50,
+            "zoom_2": 100,
+            "offset_x_2": 50,
+            "offset_2": 50
+          }
+        },
+        "product_lonch6": {
+          "type": "product",
+          "settings": {
+            "product": "lomo-bellota-iberico-loncheado-1",
+            "zoom": 100,
+            "offset_x": 50,
+            "offset": 50,
+            "zoom_2": 100,
+            "offset_x_2": 50,
+            "offset_2": 50
+          }
+        },
+        "product_lonch7": {
+          "type": "product",
+          "settings": {
+            "product": "chorizo-bellota-iberico-loncheado",
+            "zoom": 100,
+            "offset_x": 70,
+            "offset": 50,
+            "zoom_2": 100,
+            "offset_x_2": 50,
+            "offset_2": 50
+          }
+        },
+        "product_lonch8": {
+          "type": "product",
+          "settings": {
+            "product": "salchichon-bellota-iberico-loncheado",
+            "zoom": 100,
+            "offset_x": 55,
+            "offset": 50,
+            "zoom_2": 100,
+            "offset_x_2": 50,
+            "offset_2": 50
+          }
+        }
+      },
+      "block_order": [
+        "product_lonch1",
+        "product_lonch2",
+        "product_lonch3",
+        "product_lonch4",
+        "product_lonch5",
+        "product_lonch6",
+        "product_lonch7",
+        "product_lonch8"
+      ],
+      "settings": {
+        "eyebrow": "Nuestra selección",
+        "products_per_page": 50,
+        "products_per_row": 4,
+        "show_sort": true,
+        "show_count": true,
+        "empty_label": "No hay loncheados disponibles en este momento.",
+        "card_style": "light"
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "tiers",
+    "collection"
+  ]
+}
