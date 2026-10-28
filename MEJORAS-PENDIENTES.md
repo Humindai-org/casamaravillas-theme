@@ -90,3 +90,14 @@ Documento vivo para ir picando durante el mantenimiento mensual. No son bugs urg
 Pendientes de código (traducción EN/FR de política, `/pages/envios`, barra del cajón e "IVA incluido"; metacampo `custom.gramaje`; deriva de "Nosotros"),
 pendientes de Luis Juan, manual de `tools/` y el recordatorio del 15/11 (carritos de 80–99 € que no compran): ver **`TRASPASO-2026-10-26.md`** (rama `chore/tools-embutidos-y-stock`).
 Relacionado con el punto 5 (traducciones en inglés incompletas).
+
+---
+
+## 9. Pendientes de código anotados el 27–28/10/2026
+
+- **Aviso en «Crea tu pack»:** cuando la cesta tiene 2 productos, mostrar «añade un 3.º producto y te llevas un 5 %» (descuento CESTA5-K7Q2, mínimo 3). Código de Kiara (`sections/cesta-builder.liquid`, `assets/cesta-builder.js`).
+- **`cart/add.js` con el jamón 9-10 kg agotado (SKU 458):** devuelve 200 (el 25/10 devolvía 422); el checkout lo bloquea («Agotado») y la ficha mantiene el botón desactivado, pero el carrito ya no lo rechaza. Revisar por qué (¿seguimiento de inventario con política DENY en el canal?) antes de depender de ello.
+- **IVA del envío para la gestoría:** el envío sale con 0,82 € de IVA (10 %) en el checkout aunque «Charge sales tax on shipping» está desactivado.
+- **«Punto de retiro»:** pestaña del checkout sin carrier ni tarifa detrás (no devuelve puntos). Jorge lo desactiva a mano en Ajustes → Envío y entrega.
+- **Reglas de descuentos, truncado de céntimos, QR de la tarjeta y nota de los precios de los jamones** (solo con `tools/actualizar_precio_jamon.py`): ver `TRASPASO-2026-10-26.md`, sección 0b.
+
