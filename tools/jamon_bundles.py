@@ -87,6 +87,12 @@ def enlazar(token, padre_id, componentes):
     return ok(base.gql(token, M_LINK, {"i": [inp]}), "productVariantRelationshipBulkUpdate")["parentProductVariants"][0]
 
 
+def desenlazar(token, padre_id):
+    """Deshace el bundle: la variante padre vuelve a ser una variante normal (conserva su precio)."""
+    inp = {"parentProductVariantId": padre_id, "removeAllProductVariantRelationships": True}
+    return ok(base.gql(token, M_LINK, {"i": [inp]}), "productVariantRelationshipBulkUpdate")["parentProductVariants"][0]
+
+
 def calcular_impuestos(token, lineas, descuento=None, direccion=ADDR_ALICANTE):
     """lineas: [(variant_id, qty)]. draftOrderCalculate NO crea ningún pedido borrador."""
     inp = {"lineItems": [{"variantId": v, "quantity": q} for v, q in lineas], "shippingAddress": direccion}

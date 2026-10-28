@@ -66,16 +66,25 @@ def comprobar(tok, srv, jamones, piezas, serv):
     if srv.get("category"):
         fallos.append("El servicio TIENE categoría: perdería el 21 % (debe quedar sin categoría).")
     for j in jamones:
-        for v in j["variantes"]:
-            if v["formato"] == PIEZA:
-                continue
+        padres = [v for v in j["variantes"] if v["formato"] != PIEZA]
+        convertidos = [v for v in padres if v["productVariantComponents"]["nodes"]]
+        print(f"  {j['handle']}: {len(convertidos)}/{len(padres)} padres con componentes")
+        for v in padres:
             exp = esperado(j, serv, piezas, v["formato"], v["peso"])
             if v["precio"] != exp:
                 fallos.append(f"{j['handle']} {v['title']}: precio {v['precio']/100:.2f} ≠ pieza+servicio {exp/100:.2f}")
+        if not convertidos:
+            continue  # jamón aún sin convertir: solo se exige el invariante de precio
+        for v in padres:
             comp = {(c["productVariant"]["product"]["handle"], c["productVariant"]["sku"]): c["quantity"]
                     for c in v["productVariantComponents"]["nodes"]}
             if len(comp) != 2 or j["handle"] not in {k[0] for k in comp}:
                 fallos.append(f"{j['handle']} {v['title']}: componentes inesperados {sorted(comp)}")
+        # IVA real de un padre: dos tipos (pieza 10 % + servicio 21 %)
+        got = sorted({t["ratePercentage"] for t in jb.calcular_impuestos(tok, [(convertidos[1]["id"], 1)])["taxLines"]})
+        print(f"  IVA padre {convertidos[1]['title']:40} {got}")
+        if got != [10.0, 21.0]:
+            fallos.append(f"IVA del padre {j['handle']} {convertidos[1]['title']}: {got}, se esperaba [10.0, 21.0]")
     # IVA real: pieza al 10 %, servicio al 21 % (draftOrderCalculate, no crea pedidos)
     muestras = [("pieza", next(v for v in jamones[0]["variantes"] if v["formato"] == PIEZA)["id"], 10.0)]
     muestras += [(n, next(x for x in srv["variants"]["nodes"] if x["title"] == n)["id"], 21.0) for n in SERVICIOS.values()]
