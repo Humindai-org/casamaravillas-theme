@@ -27,7 +27,7 @@
         <button
           class="cm-combina__card-plus"
           data-variant-id="{{ cp_variant.id }}"
-          aria-label="Añadir {{ cp.title | escape }} a la cesta"
+          aria-label="{{ 'cm.pdp.add_product_to_cart' | t: title: cp.title }}"
           type="button"
         >
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">

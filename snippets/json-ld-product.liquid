@@ -18,12 +18,12 @@
 
 {%- comment -%}
   Tarifas reales de envío a España peninsular (TABLA ENVÍOS, IVA incluido,
-  confirmada por el cliente 2026-09-22). Gratis desde 80 €; por debajo, la
+  confirmada por el cliente 2026-09-22). Gratis desde 99 €; por debajo, la
   caja de jamón entero/deshuesado cuesta 11,20 €, la de cortado a
   mano/embutidos/carnes 8,94 €. Solo cubre España peninsular: es el mercado
   que declara el resto del tema (envios-content.liquid).
 {%- endcomment -%}
-{%- assign ld_free_shipping_threshold_cents = 8000 -%}
+{%- assign ld_free_shipping_threshold_cents = 9900 -%}
 {%- assign ld_product_type_lower = product.type | downcase -%}
 {%- if ld_product_type_lower == 'embutidos' or product.tags contains 'cortado a mano' or product.tags contains 'cortado a máquina' or product.tags contains 'loncheado' -%}
   {%- assign ld_shipping_rate_below_threshold = '8.94' -%}

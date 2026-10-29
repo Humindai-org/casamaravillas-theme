@@ -119,7 +119,7 @@
           "type": "trust_item",
           "settings": {
             "title": "Envío gratis",
-            "description": "A partir de 80 € en Península",
+            "description": "A partir de 99 € en Península",
             "icon": "icon-envio.svg",
             "title_exterior": "Envío a toda Europa",
             "description_exterior": "Con seguimiento"
@@ -338,21 +338,12 @@
             "image_zoom": 100,
             "image_offset": 50
           }
-        },
-        "product_t6MeYD": {
-          "type": "product",
-          "settings": {
-            "product": "pack-iberico-bellota-100",
-            "image_zoom": 100,
-            "image_offset": 50
-          }
         }
       },
       "block_order": [
         "product_gdKgzR",
         "product_kDx39C",
-        "product_bkMDid",
-        "product_t6MeYD"
+        "product_bkMDid"
       ],
       "settings": {
         "eyebrow": "También te puede gustar",

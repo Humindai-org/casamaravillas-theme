@@ -114,7 +114,7 @@
       </div>
 
       {%- if product.images.size > 1 -%}
-        <div class="cm-pdp__thumbnails" role="list" aria-label="Miniaturas del producto">
+        <div class="cm-pdp__thumbnails" role="list" aria-label="{{ 'cm.pdp.thumbnails' | t }}">
           {%- for image in product.images limit: 8 -%}
             {%- comment -%} Buscar el bloque image_adjust correspondiente a esta imagen {%- endcomment -%}
             {%- assign _img_idx   = forloop.index -%}
@@ -149,7 +149,7 @@
               data-img-zoom="{{ _tbn_zoom }}"
               data-img-pos-x="{{ _tbn_pos_x }}"
               data-img-pos-y="{{ _tbn_pos_y }}"
-              aria-label="Ver imagen {{ forloop.index }}"
+              aria-label="{{ 'cm.pdp.view_image' | t: n: forloop.index }}"
               role="listitem"
               type="button"
             >
@@ -191,7 +191,7 @@
         <div class="cm-pdp__rating" itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating">
           <meta itemprop="ratingValue" content="{{ rev_rating }}">
           <meta itemprop="reviewCount" content="{{ rev_count | default: 0 }}">
-          <span class="cm-pdp__stars" aria-label="{{ rev_rating }} de 5 estrellas">
+          <span class="cm-pdp__stars" aria-label="{{ 'cm.pdp.stars_label' | t: rating: rev_rating }}">
             {%- for i in (1..5) -%}
               {%- if i <= rating_rounded -%}
                 <svg class="cm-star" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
@@ -201,7 +201,7 @@
             {%- endfor -%}
           </span>
           {%- if rev_count != blank -%}
-            <a href="#judgeme_product_reviews" class="cm-pdp__rating-count">{{ rev_count }} reseñas</a>
+            <a href="#judgeme_product_reviews" class="cm-pdp__rating-count">{{ 'cm.pdp.reviews_count' | t: n: rev_count }}</a>
           {%- endif -%}
         </div>
       {%- endif -%}
@@ -344,7 +344,7 @@
         <span class="cm-volume-discount__badge" id="cm-volume-discount-badge-{{ section.id }}"></span>
       </div>
 
-      <p class="cm-pdp__tax-note">Impuestos añadidos &middot; <a href="/pages/envios" class="cm-pdp__shipping-link">Consulta nuestra política de envíos</a></p>
+      <p class="cm-pdp__tax-note">IVA incluido &middot; <a href="/pages/envios" class="cm-pdp__shipping-link">Consulta nuestra política de envíos</a></p>
 
       {%- comment -%} ── BARRA DE ENVÍO GRATIS (solo ES/PT, el snippet decide) ── {%- endcomment -%}
       {% render 'free-shipping-bar', pdp: true %}
@@ -363,7 +363,7 @@
                 {%- else -%}
                   {%- assign opt_caption = 'Selecciona el peso.' -%}
                 {%- endif -%}
-              {%- when 'formato' -%}{%- assign opt_caption = 'Elige cómo quieres tu pieza.' -%}
+              {%- when 'formato' -%}{%- assign opt_caption = 'Elige cómo quieres tu pieza. Recargos con IVA incluido.' -%}
               {%- else -%}{%- assign opt_caption = '' -%}
             {%- endcase -%}
             <div class="cm-pdp__select-wrap cm-pdp__group" data-opt-name="{{ option.name | escape }}">
@@ -450,9 +450,9 @@
           </div>
           <div class="cm-pdp__select-wrap">
             <select id="cm-curing-sel-{{ section.id }}" class="cm-pdp__select" data-curing-select>
-              <option value="tierno" data-desc="Textura suave, sabor delicado. Ideal para amantes de cortes más frescos.">Más tierno</option>
-              <option value="equilibrado" selected data-desc="El punto perfecto entre textura y sabor. Nuestra selección recomendada.">Equilibrado</option>
-              <option value="curado" data-desc="Sabor intenso y concentrado. Mayor tiempo de maduración.">Más curado</option>
+              <option value="tierno" data-desc="{{ 'cm.pdp.curing_tender_desc' | t }}">{{ 'cm.pdp.curing_tender' | t }}</option>
+              <option value="equilibrado" selected data-desc="{{ 'cm.pdp.curing_balanced_desc' | t }}">{{ 'cm.pdp.curing_balanced' | t }}</option>
+              <option value="curado" data-desc="{{ 'cm.pdp.curing_cured_desc' | t }}">{{ 'cm.pdp.curing_cured' | t }}</option>
             </select>
             <span class="cm-pdp__select-arrow" aria-hidden="true">
               <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
@@ -460,7 +460,7 @@
               </svg>
             </span>
           </div>
-          <p class="option-hint" id="cm-curing-hint-{{ section.id }}">El punto perfecto entre textura y sabor. Nuestra selección recomendada.</p>
+          <p class="option-hint" id="cm-curing-hint-{{ section.id }}">{{ 'cm.pdp.curing_balanced_desc' | t }}</p>
         </div>
       {%- endif -%}
 
@@ -470,12 +470,12 @@
         <input type="hidden" name="id" id="cm-variant-id-{{ section.id }}" value="{{ current_variant.id }}">
 
         <div class="cm-pdp__purchase">
-          <div class="cm-qty" role="group" aria-label="Selector de cantidad">
+          <div class="cm-qty" role="group" aria-label="{{ 'cm.pdp.qty_selector' | t }}">
             <button
               type="button"
               class="cm-qty__btn"
               id="cm-qty-minus-{{ section.id }}"
-              aria-label="Reducir cantidad"
+              aria-label="{{ 'cm.pdp.qty_decrease' | t }}"
             >
               <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round">
                 <path d="M5 12h14"/>
@@ -488,13 +488,13 @@
               min="1"
               value="1"
               class="cm-qty__input"
-              aria-label="Cantidad"
+              aria-label="{{ 'cm.pdp.qty' | t }}"
             >
             <button
               type="button"
               class="cm-qty__btn"
               id="cm-qty-plus-{{ section.id }}"
-              aria-label="Aumentar cantidad"
+              aria-label="{{ 'cm.pdp.qty_increase' | t }}"
             >
               <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round">
                 <path d="M12 5v14M5 12h14"/>
@@ -508,15 +508,15 @@
             id="cm-add-{{ section.id }}"
             class="cm-pdp__add-btn"
             {%- unless current_variant.available -%}disabled{%- endunless -%}
-            aria-label="Añadir {{ product.title | escape }} a la cesta"
+            aria-label="{{ 'cm.pdp.add_product_to_cart' | t: title: product.title }}"
           >
             {%- if current_variant.available -%}
-              <span id="cm-add-text-{{ section.id }}">Añadir a la cesta</span>
+              <span id="cm-add-text-{{ section.id }}">{{ 'cm.pdp.add_to_cart' | t }}</span>
               <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <path d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"/>
               </svg>
             {%- else -%}
-              <span id="cm-add-text-{{ section.id }}">Agotado</span>
+              <span id="cm-add-text-{{ section.id }}">{{ 'cm.pdp.sold_out' | t }}</span>
             {%- endif -%}
           </button>
         </div>
@@ -527,13 +527,13 @@
         type="button"
         class="cm-wishlist-btn"
         id="cm-wishlist-{{ section.id }}"
-        aria-label="Añadir a la lista de deseos"
+        aria-label="{{ 'cm.pdp.add_to_wishlist' | t }}"
         aria-pressed="false"
       >
         <svg viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="M20.84 4.6a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.07a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
         </svg>
-        <span class="cm-wishlist-text">Añadir a la lista de deseos</span>
+        <span class="cm-wishlist-text">{{ 'cm.pdp.add_to_wishlist' | t }}</span>
       </button>
 
       {%- comment -%} ── PRODUCTOS COMPLEMENTARIOS ── {%- endcomment -%}
@@ -548,7 +548,8 @@
           {%- endif -%}
         >
           <p class="cm-comp__eyebrow">
-            {{- section.settings.complementary_title | default: 'Complementa tu pedido con' -}}
+            {%- assign _comp_t = 'cm.pdp.complement_title' | t -%}
+            {{- section.settings.complementary_title | default: _comp_t -}}
           </p>
           <div class="cm-comp__list" id="cm-comp-list-{{ section.id }}">
             {%- for i in (1..3) -%}
@@ -583,7 +584,7 @@
   assign shown_count    = 0
 -%}
 <div class="cm-combina-section" id="cm-combina-section">
-  <p class="cm-combina__title">Combina tu compra con</p>
+  <p class="cm-combina__title">{{ 'cm.pdp.combine_title' | t }}</p>
   <div class="cm-combina__grid">
 
     {%- comment -%} PASADA 1: 1 producto de cada familia complementaria {%- endcomment -%}
@@ -591,12 +592,15 @@
       {%- if family != current_family and shown_count < 3 -%}
         {%- assign fam_col = collections[family] -%}
         {%- if fam_col != blank -%}
-          {%- for cp in fam_col.products limit: 1 -%}
+          {%- comment -%} Se recorren hasta 10 para poder saltar los packs con vino/vermut (IVA 21 %) y quedarse con el primero válido {%- endcomment -%}
+          {%- for cp in fam_col.products limit: 10 -%}
+            {%- if cp.tags contains 'con-alcohol' -%}{%- continue -%}{%- endif -%}
             {%- unless shown_handles contains cp.handle -%}
               {%- assign cp_variant = cp.first_available_variant | default: cp.variants.first -%}
               {% render 'combina-card', cp: cp, cp_variant: cp_variant %}
               {%- assign shown_count = shown_count | plus: 1 -%}
               {%- assign shown_handles = shown_handles | append: cp.handle | append: ',' -%}
+              {%- break -%}
             {%- endunless -%}
           {%- endfor -%}
         {%- endif -%}
@@ -611,6 +615,7 @@
           {%- if fam_col != blank -%}
             {%- for cp in fam_col.products limit: 5 -%}
               {%- if shown_count >= 3 -%}{%- break -%}{%- endif -%}
+              {%- if cp.tags contains 'con-alcohol' -%}{%- continue -%}{%- endif -%}
               {%- unless shown_handles contains cp.handle -%}
                 {%- assign cp_variant = cp.first_available_variant | default: cp.variants.first -%}
                 {% render 'combina-card', cp: cp, cp_variant: cp_variant %}
@@ -632,7 +637,7 @@
     class="cm-sticky-atc"
     id="cm-sticky-atc-{{ section.id }}"
     aria-hidden="true"
-    aria-label="Compra rápida"
+    aria-label="{{ 'cm.pdp.quick_buy' | t }}"
   >
     <div class="cm-sticky-atc__inner">
       <div class="cm-sticky-atc__product">
@@ -654,19 +659,19 @@
         </div>
       </div>
       <div class="cm-sticky-atc__right">
-        <div class="cm-sticky-qty" role="group" aria-label="Cantidad">
-          <button type="button" class="cm-sticky-qty__btn" id="cm-sticky-qty-minus-{{ section.id }}" aria-label="Reducir cantidad">−</button>
-          <input type="number" class="cm-sticky-qty__val" id="cm-sticky-qty-val-{{ section.id }}" min="1" value="1" aria-label="Cantidad">
-          <button type="button" class="cm-sticky-qty__btn" id="cm-sticky-qty-plus-{{ section.id }}" aria-label="Aumentar cantidad">+</button>
+        <div class="cm-sticky-qty" role="group" aria-label="{{ 'cm.pdp.qty' | t }}">
+          <button type="button" class="cm-sticky-qty__btn" id="cm-sticky-qty-minus-{{ section.id }}" aria-label="{{ 'cm.pdp.qty_decrease' | t }}">−</button>
+          <input type="number" class="cm-sticky-qty__val" id="cm-sticky-qty-val-{{ section.id }}" min="1" value="1" aria-label="{{ 'cm.pdp.qty' | t }}">
+          <button type="button" class="cm-sticky-qty__btn" id="cm-sticky-qty-plus-{{ section.id }}" aria-label="{{ 'cm.pdp.qty_increase' | t }}">+</button>
         </div>
         <button
           type="button"
           class="cm-sticky-atc__btn"
           id="cm-sticky-btn-{{ section.id }}"
           {%- unless current_variant.available -%}disabled{%- endunless -%}
-          aria-label="Añadir a la cesta"
+          aria-label="{{ 'cm.pdp.add_to_cart' | t }}"
         >
-          {%- if current_variant.available -%}Añadir a la cesta{%- else -%}Agotado{%- endif -%}
+          {%- if current_variant.available -%}{{ 'cm.pdp.add_to_cart' | t }}{%- else -%}{{ 'cm.pdp.sold_out' | t }}{%- endif -%}
         </button>
       </div>
     </div>
@@ -799,14 +804,14 @@
       "id": "pack_options",
       "label": "Opciones de pack (separadas por comas)",
       "default": "1 ud., 10 ud.",
-      "info": "Jamón loncheado (etiqueta \"cortado a mano\"). El descuento por cantidad empieza en 10 uds."
+      "info": "Jamón loncheado (etiquetas \"cortado a mano\" o \"cortado a máquina\"). El descuento por cantidad (-10 %) empieza en 10 uds."
     },
     {
       "type": "text",
       "id": "pack_options_loncheado",
       "label": "Opciones de pack — embutido loncheado",
       "default": "1 ud., 5 ud.",
-      "info": "Productos con la etiqueta \"loncheado\". El descuento por cantidad empieza en 5 uds."
+      "info": "Embutido loncheado (etiquetas \"embutido\" y \"loncheado\"). El descuento por cantidad (-5 %) empieza en 5 uds."
     },
     {
       "type": "header",

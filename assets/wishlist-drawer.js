@@ -118,8 +118,8 @@ function initWishlistDrawer() {
   function emptyStateHtml() {
     return (
       '<div class="wishlist-empty">' +
-        '<p>Aún no has guardado ningún producto.</p>' +
-        '<a href="/collections/all">Seguir comprando</a>' +
+        '<p>' + cmT('wishlist_empty', 'Aún no has guardado ningún producto.') + '</p>' +
+        '<a href="' + ((window.Shopify && Shopify.routes && Shopify.routes.root) || '/') + 'collections/all">' + cmT('keep_shopping', 'Seguir comprando') + '</a>' +
       '</div>'
     );
   }
@@ -159,7 +159,7 @@ function initWishlistDrawer() {
               '<a href="' + product.url + '" class="wishlist-title">' + escapeHtml(product.title) + '</a>' +
               '<span class="wishlist-price">' + formatMoney(variant.price) + '</span>' +
               '<button type="button" class="wishlist-add-btn" data-variant-id="' + variant.id + '"' + (!variant.available ? ' disabled' : '') + '>' +
-                (variant.available ? 'Añadir a la cesta' : 'Agotado') +
+                (variant.available ? cmT('add_to_cart', 'Añadir a la cesta') : cmT('sold_out', 'Agotado')) +
               '</button>' +
             '</div>' +
             '<button type="button" class="wishlist-remove" data-handle="' + product.handle + '" aria-label="Quitar ' + escapeHtml(product.title) + '">' +
@@ -191,7 +191,7 @@ function initWishlistDrawer() {
       if (!variantId) return;
       var originalText = addBtn.textContent;
       addBtn.disabled = true;
-      addBtn.textContent = 'Añadiendo…';
+      addBtn.textContent = cmT('adding', 'Añadiendo…');
       fetch('/cart/add.js', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },

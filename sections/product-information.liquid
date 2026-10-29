@@ -65,15 +65,15 @@
 {%- if section.settings.product_image != blank -%}
   {%- assign image_object = section.settings.product_image -%}
   {%- assign image_src = image_object | image_url: width: 520, format: 'webp' -%}
-  {%- assign image_alt = image_object.alt | default: 'Mano ofreciendo jamón ibérico' -%}
+  {%- assign _alt_d = 'cm.info.alt_hand' | t -%}{%- assign image_alt = image_object.alt | default: _alt_d -%}
 {%- elsif _variant_handle == 'jamones' and section.settings.jamones_image != blank -%}
   {%- assign image_object = section.settings.jamones_image -%}
   {%- assign image_src = image_object | image_url: width: 520, format: 'webp' -%}
-  {%- assign image_alt = image_object.alt | default: 'Mano ofreciendo jamón ibérico' -%}
+  {%- assign _alt_d = 'cm.info.alt_hand' | t -%}{%- assign image_alt = image_object.alt | default: _alt_d -%}
 {%- elsif _variant_handle == 'embutidos' and section.settings.embutidos_image != blank -%}
   {%- assign image_object = section.settings.embutidos_image -%}
   {%- assign image_src = image_object | image_url: width: 520, format: 'webp' -%}
-  {%- assign image_alt = image_object.alt | default: 'Embutido ibérico' -%}
+  {%- assign _alt_d = 'cm.info.alt_cured' | t -%}{%- assign image_alt = image_object.alt | default: _alt_d -%}
 {%- endif -%}
 {%- comment -%} width/height explícitos para evitar CLS (theme check: ImgWidthAndHeight) {%- endcomment -%}
 {%- assign _image_aspect_ratio = image_object.aspect_ratio | default: 1.0 -%}
@@ -104,7 +104,7 @@
         {%- comment -%} Card 1: Información nutricional {%- endcomment -%}
         <article class="cm-info-card">
           <h3 class="cm-info-card__title">{{ section.settings.card1_title }}</h3>
-          <p class="cm-info-card__subtitle">Cada 100g</p>
+          <p class="cm-info-card__subtitle">{{ 'cm.info.per_100g' | t }}</p>
           <div class="cm-info-card__rows">
             {%- assign _kcal      = product.metafields.custom.kcal.value | default: product.metafields.custom.energy.value | default: section.settings.info_kcal -%}
             {%- assign _fats      = product.metafields.custom.fats_g.value | default: product.metafields.custom.fat.value | default: section.settings.info_fats -%}
@@ -162,7 +162,7 @@
             {%- endif -%}
           </div>
           <button class="cm-info-card__more-btn" onclick="openModal('nutritional-modal')">
-            Saber más
+            {{ 'cm.info.know_more' | t }}
           </button>
         </article>
 
@@ -177,19 +177,19 @@
               con "Saber más" para el texto completo — solo para producto único, no packs.
             {%- endcomment -%}
             {%- if _ingredients != blank -%}
-              <p class="cm-info-card__preview-label">Ingredientes</p>
+              <p class="cm-info-card__preview-label">{{ 'cm.info.ingredients' | t }}</p>
               <p class="cm-info-card__preview-text">{{ _ingredients | strip_html }}</p>
             {%- endif -%}
             {%- if _allergens != blank -%}
-              <p class="cm-info-card__preview-label">Alérgenos</p>
+              <p class="cm-info-card__preview-label">{{ 'cm.info.allergens' | t }}</p>
               <p class="cm-info-card__preview-text">{{ _allergens | strip_html }}</p>
             {%- endif -%}
             {%- if _ingredients == blank and _allergens == blank -%}
-              <p class="cm-info-card__subtitle">Composición y alérgenos declarados</p>
+              <p class="cm-info-card__subtitle">{{ 'cm.info.composition' | t }}</p>
             {%- endif -%}
           {%- endif -%}
           <button class="cm-info-card__more-btn" onclick="openModal('allergens-modal')">
-            Saber más
+            {{ 'cm.info.know_more' | t }}
           </button>
         </article>
 
@@ -215,7 +215,7 @@
             {%- if _cons_d != blank -%}
               <div class="cm-info-card__row">
                 <span class="cm-info-card__label">{{ section.settings.opened_label }}</span>
-                <span class="cm-info-card__value">{{ _cons_d }} días</span>
+                <span class="cm-info-card__value">{{ 'cm.info.days' | t: n: _cons_d }}</span>
               </div>
             {%- endif -%}
           </div>
@@ -238,10 +238,10 @@
         ni crecer la altura de la fila — así la imagen de la mano (posición en
         píxeles fijos) no se descuadra.
       {%- endcomment -%}
-      <button type="button" class="cm-info-cards__arrow cm-info-cards__arrow--prev" data-info-cards-prev aria-label="Tarjeta anterior">
+      <button type="button" class="cm-info-cards__arrow cm-info-cards__arrow--prev" data-info-cards-prev aria-label="{{ 'cm.info.prev_card' | t }}">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
       </button>
-      <button type="button" class="cm-info-cards__arrow cm-info-cards__arrow--next" data-info-cards-next aria-label="Tarjeta siguiente">
+      <button type="button" class="cm-info-cards__arrow cm-info-cards__arrow--next" data-info-cards-next aria-label="{{ 'cm.info.next_card' | t }}">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
       </button>
       </div>
@@ -268,12 +268,12 @@
 <!-- MODAL: Información Nutricional -->
 <div class="cm-modal" id="nutritional-modal" onclick="closeModalOnOverlay(event, 'nutritional-modal')">
   <div class="cm-modal__content" onclick="event.stopPropagation()">
-    <button class="cm-modal__close" onclick="closeModal('nutritional-modal')" aria-label="Cerrar modal">&times;</button>
+    <button class="cm-modal__close" onclick="closeModal('nutritional-modal')" aria-label="{{ 'cm.info.close_modal' | t }}">&times;</button>
 
-    <div class="cm-modal__header">Información Nutricional</div>
+    <div class="cm-modal__header">{{ 'cm.info.nutrition_header' | t }}</div>
 
     <div class="cm-modal__section">
-      <div class="cm-modal__section-title">Análisis nutricional por 100 g</div>
+      <div class="cm-modal__section-title">{{ 'cm.info.nutrition_analysis' | t }}</div>
       <div class="cm-modal__grid">
         {%- assign _kcal      = product.metafields.custom.kcal.value | default: product.metafields.custom.energy.value | default: section.settings.info_kcal -%}
         {%- assign _fats      = product.metafields.custom.fats_g.value | default: product.metafields.custom.fat.value | default: section.settings.info_fats -%}
@@ -341,14 +341,14 @@
 
     {%- if section.settings.modal_ingredients != blank -%}
       <div class="cm-modal__section">
-        <div class="cm-modal__section-title">Ingredientes</div>
+        <div class="cm-modal__section-title">{{ 'cm.info.ingredients' | t }}</div>
         <div class="cm-modal__text">{{ section.settings.modal_ingredients }}</div>
       </div>
     {%- endif -%}
 
     {%- if section.settings.modal_allergens != blank -%}
       <div class="cm-modal__section">
-        <div class="cm-modal__section-title">Información de alérgenos</div>
+        <div class="cm-modal__section-title">{{ 'cm.info.allergens_info' | t }}</div>
         <div class="cm-modal__text">{{ section.settings.modal_allergens }}</div>
       </div>
     {%- endif -%}
@@ -358,27 +358,27 @@
 <!-- MODAL: Conservación y Consumo -->
 <div class="cm-modal" id="storage-modal" onclick="closeModalOnOverlay(event, 'storage-modal')">
   <div class="cm-modal__content" onclick="event.stopPropagation()">
-    <button class="cm-modal__close" onclick="closeModal('storage-modal')" aria-label="Cerrar modal">&times;</button>
+    <button class="cm-modal__close" onclick="closeModal('storage-modal')" aria-label="{{ 'cm.info.close_modal' | t }}">&times;</button>
 
-    <div class="cm-modal__header">Conservación y Consumo</div>
+    <div class="cm-modal__header">{{ 'cm.info.storage_header' | t }}</div>
 
     {%- if section.settings.modal_before_opening != blank -%}
       <div class="cm-modal__section">
-        <div class="cm-modal__section-title">Antes de abrir</div>
+        <div class="cm-modal__section-title">{{ 'cm.info.before_opening' | t }}</div>
         <div class="cm-modal__text">{{ section.settings.modal_before_opening }}</div>
       </div>
     {%- endif -%}
 
     {%- if section.settings.modal_after_opening != blank -%}
       <div class="cm-modal__section">
-        <div class="cm-modal__section-title">Después de abrir</div>
+        <div class="cm-modal__section-title">{{ 'cm.info.after_opening' | t }}</div>
         <div class="cm-modal__text">{{ section.settings.modal_after_opening }}</div>
       </div>
     {%- endif -%}
 
     {%- if section.settings.modal_consumption_tips != blank -%}
       <div class="cm-modal__section">
-        <div class="cm-modal__section-title">Sugerencias de consumo</div>
+        <div class="cm-modal__section-title">{{ 'cm.info.serving_tips' | t }}</div>
         <div class="cm-modal__text">{{ section.settings.modal_consumption_tips }}</div>
       </div>
     {%- endif -%}
@@ -388,7 +388,7 @@
 <!-- MODAL: Alérgenos e Ingredientes -->
 <div class="cm-modal" id="allergens-modal" onclick="closeModalOnOverlay(event, 'allergens-modal')">
   <div class="cm-modal__content" onclick="event.stopPropagation()">
-    <button class="cm-modal__close" onclick="closeModal('allergens-modal')" aria-label="Cerrar modal">&times;</button>
+    <button class="cm-modal__close" onclick="closeModal('allergens-modal')" aria-label="{{ 'cm.info.close_modal' | t }}">&times;</button>
 
     <div class="cm-modal__header">
       {{ section.settings.card3_title }}
@@ -406,9 +406,9 @@
               type="text"
               class="cm-pack-carousel__search-input"
               data-pack-carousel-search
-              placeholder="Buscar producto del pack…"
+              placeholder="{{ 'cm.info.pack_search' | t }}"
               autocomplete="off"
-              aria-label="Buscar producto del pack"
+              aria-label="{{ 'cm.info.pack_search_label' | t }}"
             >
             <ul class="cm-pack-carousel__search-results" data-pack-carousel-search-results hidden></ul>
           </div>
@@ -421,29 +421,29 @@
             {%- assign _comp_alg = component.alergenos -%}
             {%- assign _comp_fmt = component.formato.value -%}
             <div class="cm-pack-carousel__card" data-pack-carousel-card>
-              <h4 class="cm-pack-carousel__name">{{ _comp_name | default: 'Componente' }}</h4>
+              {%- assign _comp_d = 'cm.info.component' | t -%}<h4 class="cm-pack-carousel__name">{{ _comp_name | default: _comp_d }}</h4>
 
               <div class="cm-pack-carousel__block">
-                <div class="cm-modal__section-title">Ingredientes</div>
+                <div class="cm-modal__section-title">{{ 'cm.info.ingredients' | t }}</div>
                 {%- if _comp_ing.value != blank -%}
                   <div class="cm-modal__text">{{ _comp_ing | metafield_tag }}</div>
                 {%- else -%}
-                  <p class="cm-pack-carousel__empty">Ficha en preparación</p>
+                  <p class="cm-pack-carousel__empty">{{ 'cm.info.in_preparation' | t }}</p>
                 {%- endif -%}
               </div>
 
               <div class="cm-pack-carousel__block">
-                <div class="cm-modal__section-title">Alérgenos</div>
+                <div class="cm-modal__section-title">{{ 'cm.info.allergens' | t }}</div>
                 {%- if _comp_alg.value != blank -%}
                   <div class="cm-modal__text">{{ _comp_alg | metafield_tag }}</div>
                 {%- else -%}
-                  <p class="cm-pack-carousel__empty">Ficha en preparación</p>
+                  <p class="cm-pack-carousel__empty">{{ 'cm.info.in_preparation' | t }}</p>
                 {%- endif -%}
               </div>
 
               {%- if _comp_fmt != blank -%}
                 <div class="cm-pack-carousel__block">
-                  <div class="cm-modal__section-title">Formato / Peso</div>
+                  <div class="cm-modal__section-title">{{ 'cm.info.format_weight' | t }}</div>
                   <div class="cm-modal__text">{{ _comp_fmt | newline_to_br }}</div>
                 </div>
               {%- endif -%}
@@ -453,11 +453,11 @@
 
         {%- if _pack_components.size > 1 -%}
           <div class="cm-pack-carousel__nav">
-            <button type="button" class="cm-pack-carousel__arrow" data-pack-carousel-prev aria-label="Componente anterior">
+            <button type="button" class="cm-pack-carousel__arrow" data-pack-carousel-prev aria-label="{{ 'cm.info.prev_component' | t }}">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
             </button>
             <span class="cm-pack-carousel__counter" data-pack-carousel-counter></span>
-            <button type="button" class="cm-pack-carousel__arrow" data-pack-carousel-next aria-label="Componente siguiente">
+            <button type="button" class="cm-pack-carousel__arrow" data-pack-carousel-next aria-label="{{ 'cm.info.next_component' | t }}">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
             </button>
           </div>
@@ -466,14 +466,14 @@
     {%- else -%}
       {%- if _allergens != blank -%}
         <div class="cm-modal__section">
-          <div class="cm-modal__section-title">Alérgenos</div>
+          <div class="cm-modal__section-title">{{ 'cm.info.allergens' | t }}</div>
           <div class="cm-modal__text">{{ _allergens }}</div>
         </div>
       {%- endif -%}
 
       {%- if _ingredients != blank -%}
         <div class="cm-modal__section">
-          <div class="cm-modal__section-title">Ingredientes</div>
+          <div class="cm-modal__section-title">{{ 'cm.info.ingredients' | t }}</div>
           <ul class="cm-modal__list">
             {%- assign _ingredient_items = _ingredients | strip_html | split: ',' -%}
             {%- comment -%}

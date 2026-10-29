@@ -36,6 +36,10 @@
   {{ 'base.css' | asset_url | stylesheet_tag }}
 
   {{ content_for_header }}
+  {% render 'cm-i18n' %}
+  <script>
+    window.cmCestaDiscount = { code: {{ settings.cesta_discount_code | json }}, qty: {{ settings.cesta_discount_qty | default: 3 | json }}, pct: {{ settings.cesta_discount_pct | default: 5 | json }} };
+  </script>
 
 {%- if template.name == 'product' -%}
   <style>
@@ -64,6 +68,7 @@
   {% section 'wishlist-drawer' %}
 
   <script src="{{ 'theme.js' | asset_url }}" defer></script>
+  <script src="{{ 'cesta-discount.js' | asset_url }}" defer></script>
 
 </body>
 </html>

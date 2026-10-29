@@ -183,10 +183,32 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function getQty() { return qtyInput ? parseInt(qtyInput.value, 10) || 1 : 1; }
 
-  /* Jamón loncheado: -10% desde 10 uds. Embutido loncheado: -10% desde 5 uds. */
-  function volumeDiscountPct(qty, minQty) {
-    if (qty >= minQty) return 10;
-    return 0;
+  /* Descuentos por cantidad: deben coincidir con los descuentos automáticos de Shopify
+     (Admin > Descuentos). Jamón cortado a mano/a máquina: -10% desde 10 uds.
+     Embutido loncheado: -5% desde 5 uds. */
+  const VOLUME_RULES = {
+    jamon:    { minQty: 10, pct: 10 },
+    embutido: { minQty: 5,  pct: 5 }
+  };
+
+  /* Criterio por etiquetas exactas (no por substring): embutido loncheado = "embutido" + "loncheado";
+     jamón loncheado = "cortado a mano" o "cortado a máquina". Si hay etiquetas de ambos tipos, manda embutido. */
+  function volumeRuleFor(tags) {
+    if (tags.includes('embutido') && tags.includes('loncheado')) return VOLUME_RULES.embutido;
+    if (tags.includes('cortado a mano') || tags.includes('cortado a máquina')) return VOLUME_RULES.jamon;
+    return null;
+  }
+
+  /* Packs con vino/vermut (IVA 21 %): llevan la etiqueta "con-alcohol" y no deben salir en las sugerencias.
+     /recommendations/products.json y /collections/<handle>/products.json devuelven las etiquetas (tags). */
+  function sinAlcohol(list) {
+    return (list || []).filter(function (p) {
+      return !(p.tags || []).some(function (t) { return String(t).trim().toLowerCase() === 'con-alcohol'; });
+    });
+  }
+
+  function volumeDiscountPct(qty, rule) {
+    return qty >= rule.minQty ? rule.pct : 0;
   }
 
   /* ── Barra de envío gratis de la ficha (snippets/free-shipping-bar.liquid, pdp: true) ──
@@ -204,8 +226,8 @@ document.addEventListener('DOMContentLoaded', function() {
     pdpShipbar.classList.toggle('is-complete', remaining === 0);
     if (text) {
       text.innerHTML = remaining === 0
-        ? '¡Tienes <strong>envío gratis</strong>!'
-        : 'Te faltan <strong>' + formatMoney(remaining) + '</strong> para el envío gratis';
+        ? cmT('shipbar_free_html', '¡Tienes <strong>envío gratis</strong>!')
+        : cmT('shipbar_remaining_html', 'Te faltan <strong>{amount}</strong> para el envío gratis', { amount: formatMoney(remaining) });
     }
     if (fill) fill.style.width = percent + '%';
     if (track) track.setAttribute('aria-valuenow', percent);
@@ -220,17 +242,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function updateVolumDiscount() {
     const tags = (data && data.tags) ? data.tags.map(t => String(t).trim().toLowerCase()) : [];
-    const isLoncheado = tags.some(t => t.includes('loncheado'));
-    const isCortado = tags.some(t => t.includes('cortado'));
-    if (!isCortado && !isLoncheado) return;
+    const rule = volumeRuleFor(tags);
+    if (!rule) return;
 
     const qty = getQty();
     const variant = findVariant();
     if (!variant) return;
 
     const basePrice = variant.price;
-    const discount = volumeDiscountPct(qty, isLoncheado ? 5 : 10);
-
+    const discount = volumeDiscountPct(qty, rule);
 
     const volDiscEl = $('cm-volume-discount-' + SID);
     const origEl = $('cm-volume-discount-original-' + SID);
@@ -240,7 +260,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (discount > 0) {
       const totalPrice = qty * basePrice;
-      const discountedTotal = Math.round(totalPrice * (100 - discount) / 100);
+      /* Replica el redondeo por unidad de Shopify: TRUNCA al céntimo el descuento de CADA unidad y luego
+         multiplica por la cantidad; así el total de la ficha coincide con el del carrito
+         (p. ej. 5 uds de 3,99 € a -5 %: 5 x (3,99 - 0,19) = 19,00 €; 10 uds de 18,99 € a -10 %: 10 x (18,99 - 1,89) = 171,00 €).
+         basePrice está en céntimos: basePrice * discount / 100 es el descuento unitario en céntimos (se trunca).
+         Regla observada (27/10/2026) con 10 carritos de la tarifa; Shopify no la documenta. El 25/10 se había
+         creído «mitades hacia abajo», que solo coincidía con los precios antiguos. Si cambian los precios o los
+         porcentajes, volver a probar con tools/probar_tienda.js tarifa. */
+      const unitDiscount = Math.floor(basePrice * discount / 100);
+      const discountedTotal = qty * (basePrice - unitDiscount);
       const origPrice = formatMoney(totalPrice);
       const discPrice = formatMoney(discountedTotal);
 
@@ -468,11 +496,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const stickyBtn = $('cm-sticky-btn-' + SID);
     if (addBtn) {
       addBtn.disabled = !variant.available;
-      if (addText) addText.textContent = variant.available ? 'Añadir a la cesta' : 'Agotado';
+      if (addText) addText.textContent = variant.available ? cmT('add_to_cart', 'Añadir a la cesta') : cmT('sold_out', 'Agotado');
     }
     if (stickyBtn) {
       stickyBtn.disabled = !variant.available;
-      stickyBtn.textContent = variant.available ? 'Añadir a la cesta' : 'Agotado';
+      stickyBtn.textContent = variant.available ? cmT('add_to_cart', 'Añadir a la cesta') : cmT('sold_out', 'Agotado');
     }
 
     /* Imagen de variante */
@@ -542,12 +570,13 @@ document.addEventListener('DOMContentLoaded', function() {
     fetch('/recommendations/products.json?product_id=' + productId + '&limit=8&intent=complementary')
       .then(function(r) { return r.json(); })
       .then(function(d) {
-        if (d.products && d.products.length > 0) {
-          renderProducts(d.products);
+        var lista = sinAlcohol(d.products);
+        if (lista.length > 0) {
+          renderProducts(lista);
         } else {
           return fetch('/recommendations/products.json?product_id=' + productId + '&limit=8&intent=related')
             .then(function(r) { return r.json(); })
-            .then(function(d2) { renderProducts(d2.products); });
+            .then(function(d2) { renderProducts(sinAlcohol(d2.products)); });
         }
       })
       .catch(function() {
@@ -609,9 +638,11 @@ document.addEventListener('DOMContentLoaded', function() {
     fetch('/cart.js')
       .then(r => r.json())
       .then(cart => {
-        document.querySelectorAll('[data-cart-count], .cart-count, .header__cart-count, .js-cart-count').forEach(el => {
+        /* Sin ".cart-count": es la clase del encabezado del cajón ("TU CESTA (n)") y pisaba todo su texto.
+           El número del cajón y la burbuja de la cabecera los actualiza cart-drawer.js (fetchAndRenderCart). */
+        document.querySelectorAll('[data-cart-count], .header__cart-count, .js-cart-count').forEach(el => {
           el.textContent = cart.item_count;
-          el.setAttribute('aria-label', cart.item_count + ' artículos en la cesta');
+          el.setAttribute('aria-label', cmT('cart_items_aria', '{n} artículos en la cesta', { n: cart.item_count }));
         });
         if (pdpShipbar) {
           pdpShipbar.setAttribute('data-cart-total', cart.total_price);
@@ -625,7 +656,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const addBtn    = $('cm-add-' + SID);
     const addText   = $('cm-add-text-' + SID);
     const stickyBtn = $('cm-sticky-btn-' + SID);
-    const labels = { idle: 'Añadir a la cesta', loading: 'Añadiendo…', done: '✓ Añadido' };
+    const labels = { idle: cmT('add_to_cart', 'Añadir a la cesta'), loading: cmT('adding', 'Añadiendo…'), done: cmT('added', '✓ Añadido') };
     if (addBtn)    addBtn.disabled = (state !== 'idle');
     if (addText)   addText.textContent = labels[state] || labels.idle;
     if (stickyBtn) { stickyBtn.disabled = (state !== 'idle'); stickyBtn.textContent = labels[state] || labels.idle; }
@@ -802,7 +833,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function setWishlistState(active) {
       wishlistBtn.classList.toggle('is-active', active);
       wishlistBtn.setAttribute('aria-pressed', String(active));
-      if (wishlistText) wishlistText.textContent = active ? 'Guardado en tu lista' : 'Añadir a la lista de deseos';
+      if (wishlistText) wishlistText.textContent = active ? cmT('wishlist_saved', 'Guardado en tu lista') : cmT('wishlist_add', 'Añadir a la lista de deseos');
     }
 
     /* Lee localStorage directamente (no depende de que wishlist-drawer.js ya
@@ -862,7 +893,7 @@ document.addEventListener('DOMContentLoaded', function() {
             '<p class="cm-comp__card-price">' + formatMoney(variant.price) + '</p>' +
           '</div>' +
           '<button type="button" class="cm-comp__atc-btn" data-variant-id="' + variant.id + '"' + (!available ? ' disabled' : '') + '>' +
-            (available ? 'Agregar a mi cesta' : 'Agotado') +
+            (available ? cmT('add_to_my_cart', 'Agregar a mi cesta') : cmT('sold_out', 'Agotado')) +
           '</button>';
         card.querySelector('.cm-comp__atc-btn').addEventListener('click', async function() {
           var btn = this;
@@ -896,13 +927,14 @@ document.addEventListener('DOMContentLoaded', function() {
     fetch('/recommendations/products.json?product_id=' + compProductId + '&limit=' + compMax + '&intent=complementary')
       .then(function(r) { return r.json(); })
       .then(function(d) {
-        if (d.products && d.products.length > 0) {
-          renderCompItems(d.products);
+        var lista = sinAlcohol(d.products);
+        if (lista.length > 0) {
+          renderCompItems(lista);
         } else if (compFallback) {
           return fetch('/collections/' + compFallback + '/products.json?limit=' + (compMax + 1))
             .then(function(r) { return r.json(); })
             .then(function(d2) {
-              renderCompItems((d2.products || []).filter(function(p) { return String(p.id) !== compProductId; }));
+              renderCompItems(sinAlcohol(d2.products).filter(function(p) { return String(p.id) !== compProductId; }));
             });
         } else {
           compEl.style.display = 'none';

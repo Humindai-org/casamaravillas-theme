@@ -104,6 +104,8 @@
           {%- assign pick = blank -%}
           {%- if col != blank -%}
             {%- for p in col.products limit: 10 -%}
+              {%- comment -%} Packs con vino/vermut (IVA 21 %): fuera de las sugerencias {%- endcomment -%}
+              {%- if p.tags contains 'con-alcohol' -%}{%- continue -%}{%- endif -%}
               {%- unless p.id == product.id -%}
                 {%- if pick == blank -%}
                   {%- assign pick = p -%}

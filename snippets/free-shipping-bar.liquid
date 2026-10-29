@@ -1,13 +1,13 @@
 {%- comment -%}
   free-shipping-bar.liquid — barra "te faltan X € para el envío gratis".
-  Solo para España y Portugal (el envío gratis es el descuento automático "Envío gratis desde 80 €").
+  Solo para España y Portugal (el envío gratis es el descuento automático "Envío gratis desde 99 €").
   Umbral en céntimos: debe coincidir con el mínimo de ese descuento (Admin > Descuentos).
   El carrito lateral la actualiza por JS (assets/cart-drawer.js > updateShippingBar).
   Con pdp: true se pinta en la ficha de producto con el mismo criterio que el carrito: lo que falta
   según lo que YA hay en el carrito (no suma el producto de la ficha).
   assets/main-product.js > updatePdpShipbar la recalcula cuando el carrito cambia.
 {%- endcomment -%}
-{%- assign fs_threshold = 8000 -%}
+{%- assign fs_threshold = 9900 -%}
 {%- assign fs_country = localization.country.iso_code -%}
 {%- assign fs_eligible = false -%}
 {%- if fs_country == 'ES' or fs_country == 'PT' -%}
@@ -29,15 +29,15 @@
   >
     <p class="cm-shipbar__text" data-cm-shipbar-text>
       {%- if fs_remaining == 0 -%}
-        ¡Tienes <strong>envío gratis</strong>!
+        {{ 'cm.shipbar.free_html' | t }}
       {%- else -%}
-        Te faltan <strong>{{ fs_remaining | money }}</strong> para el envío gratis
+        {%- assign _fs_rem = fs_remaining | money -%}{{ 'cm.shipbar.remaining_html' | t: amount: _fs_rem }}
       {%- endif -%}
     </p>
-    <div class="cm-shipbar__track" role="progressbar" aria-label="Progreso hacia el envío gratis" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ fs_percent }}">
+    <div class="cm-shipbar__track" role="progressbar" aria-label="{{ 'cm.shipbar.progress' | t }}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ fs_percent }}">
       <div class="cm-shipbar__fill" data-cm-shipbar-fill style="width: {{ fs_percent }}%"></div>
     </div>
-    <p class="cm-shipbar__goal">Envío gratis desde {{ fs_threshold | money_without_trailing_zeros }}</p>
+    <p class="cm-shipbar__goal">{%- assign _fs_goal = fs_threshold | money_without_trailing_zeros -%}{{ 'cm.shipbar.goal' | t: amount: _fs_goal }}</p>
   </div>
 {%- else -%}
 <div
@@ -49,12 +49,12 @@
 >
   <p class="cm-shipbar__text" data-cm-shipbar-text>
     {%- if fs_remaining == 0 -%}
-      ¡Tienes <strong>envío gratis</strong>!
+      {{ 'cm.shipbar.free_html' | t }}
     {%- else -%}
-      Te faltan <strong>{{ fs_remaining | money }}</strong> para el envío gratis
+      {%- assign _fs_rem = fs_remaining | money -%}{{ 'cm.shipbar.remaining_html' | t: amount: _fs_rem }}
     {%- endif -%}
   </p>
-  <div class="cm-shipbar__track" role="progressbar" aria-label="Progreso hacia el envío gratis" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ fs_percent }}">
+  <div class="cm-shipbar__track" role="progressbar" aria-label="{{ 'cm.shipbar.progress' | t }}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ fs_percent }}">
     <div class="cm-shipbar__fill" data-cm-shipbar-fill style="width: {{ fs_percent }}%"></div>
   </div>
 </div>

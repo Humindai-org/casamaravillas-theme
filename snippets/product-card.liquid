@@ -428,7 +428,13 @@
           <img src="https://placehold.co/450x600/F4F2EE/A09890?text={{ product.title | url_encode }}" alt="{{ product.title | escape }}" width="450" height="600" loading="lazy" class="product-card__img product-card__img--primary">
         {%- endif -%}
         {%- if product.compare_at_price > product.price -%}
-          <span class="product-card__badge">Oferta</span>
+          <span class="product-card__badge">{{ 'cm.pdp.badge_sale' | t }}</span>
+        {%- endif -%}
+
+        {%- comment -%}Compra rápida (card_quick_add): el "+" añade 1 ud de la variante disponible más barata{%- endcomment -%}
+        {%- assign quick_variant = product.selected_or_first_available_variant -%}
+        {%- if card_quick_add -%}
+          {%- assign quick_variant = product.variants | where: 'available' | sort: 'price' | first | default: quick_variant -%}
         {%- endif -%}
 
         {%- comment -%}Quality tier badge — visible only on products with precinto tags{%- endcomment -%}
@@ -465,11 +471,11 @@
             </div>
           </div>
         {%- endif -%}
-        {%- if product.variants.size == 1 -%}
+        {%- if product.variants.size == 1 or card_quick_add -%}
           <button
             class="product-card__add-btn"
-            data-variant-id="{{ product.selected_or_first_available_variant.id }}"
-            aria-label="Añadir {{ product.title | escape }} a la cesta"
+            data-variant-id="{{ quick_variant.id }}"
+            aria-label="{{ 'cm.pdp.add_product_to_cart' | t: title: product.title }}"
             type="button"
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
@@ -477,13 +483,13 @@
               <line x1="3" y1="6" x2="21" y2="6"/>
               <path d="M16 10a4 4 0 01-8 0"/>
             </svg>
-            <span>Añadir</span>
+            <span>{{ 'cm.pdp.add_short' | t }}</span>
           </button>
         {%- else -%}
           <a
             class="product-card__add-btn"
             href="{{ product.url }}"
-            aria-label="Ver opciones de {{ product.title | escape }}"
+            aria-label="{{ 'cm.pdp.view_options' | t: title: product.title }}"
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
               <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
@@ -515,11 +521,11 @@
             <span class="product-card__price-compare">{{ product.compare_at_price | money }}</span>
           {%- endif -%}
         </div>
-        {%- if product.variants.size == 1 -%}
+        {%- if product.variants.size == 1 or card_quick_add -%}
           <button
             class="product-card__plus"
-            data-variant-id="{{ product.selected_or_first_available_variant.id }}"
-            aria-label="Añadir {{ product.title | escape }} a la cesta"
+            data-variant-id="{{ quick_variant.id }}"
+            aria-label="{{ 'cm.pdp.add_product_to_cart' | t: title: product.title }}"
             type="button"
           >
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
@@ -531,7 +537,7 @@
           <a
             class="product-card__plus"
             href="{{ product.url }}"
-            aria-label="Ver opciones de {{ product.title | escape }}"
+            aria-label="{{ 'cm.pdp.view_options' | t: title: product.title }}"
           >
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
               <line x1="12" y1="5" x2="12" y2="19"/>
@@ -566,7 +572,7 @@
         return r.json();
       })
       .then(function() {
-        btn.innerHTML = isPlus ? CHECK_SVG : '<span>Añadido ✓</span>';
+        btn.innerHTML = isPlus ? CHECK_SVG : '<span>' + (window.cmT ? cmT('added_short', 'Añadido ✓') : 'Añadido ✓') + '</span>';
         btn.classList.add('is-added');
         var doOpen = function() {
           if (typeof window.openCart === 'function') window.openCart(true);
