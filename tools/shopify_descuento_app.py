@@ -1,5 +1,13 @@
 #!/usr/bin/env python3
 """
+⛔ NO EJECUTAR (aviso del 28/10/2026, regla de descuentos de Casa Maravillas):
+   el cliente recibe SIEMPRE el mayor descuento (tope 10 %), los de porcentaje no se acumulan y solo se combina el
+   envío gratis desde 99 € (medido tras descuentos). Este script la rompería:
+   - `crear` / `activar` publican un descuento de app con loncheados al 10 % contando TODA la cesta: choca con el
+     -5 % por línea del embutido y con la ficha, y conviviría con los 11 descuentos automáticos antiguos de loncheados
+     (el script no los desactiva). El código de la Function `cesta-descuentos` no está en este repo: no se puede auditar.
+   - Hoy NO existe ningún descuento de app en la tienda. Antes de activar nada, hablarlo con Jorge y con Luis Juan.
+
 Descuento automático de la app "Casa Maravillas Cesta" (Shopify Function `cesta-descuentos`):
 cesta 5% desde 3 productos (solo líneas de la cesta) + loncheados por cantidad (10%, cuenta toda la cesta y
 lo de fuera). En cada línea se aplica el mayor; no se combina con otros descuentos (salvo el envío gratis).

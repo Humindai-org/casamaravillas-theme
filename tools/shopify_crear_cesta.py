@@ -1,5 +1,14 @@
 #!/usr/bin/env python3
 """
+⛔ NO EJECUTAR (aviso del 28/10/2026, regla de descuentos de Casa Maravillas):
+   el cliente recibe SIEMPRE el mayor descuento (tope 10 %), los de porcentaje no se acumulan y solo se combina el
+   envío gratis desde 99 € (medido tras descuentos). Este script la rompería:
+   - El paso 2 pone BIENVENIDA10 en «combina con descuentos de producto» = true: BIENVENIDA10 se acumularía con el
+     descuento por volumen (hoy está en false a propósito).
+   - El paso 1 crea CESTA5-K7Q2 con «combina con descuentos de producto» = true. El código YA existe y el 27/10 se puso
+     a false por API (tools/shopify_cesta5_no_combina_producto.py; rollback en _backup/cesta5_combina_*.json).
+     Volver a ejecutar esto lo deshacería. Ya está creado: no hay nada que ejecutar.
+
 Crea tu cesta: descuento del 5% a partir de 3 productos (toda la cesta), aplicado por el propio constructor
 mediante un código.
 
