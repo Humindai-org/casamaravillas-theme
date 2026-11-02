@@ -412,8 +412,10 @@
         >
           {%- if block.settings.image != blank -%}
             {{ block.settings.image
-              | image_url: width: 900, format: 'webp'
+              | image_url: width: 2400
               | image_tag:
+                  widths: '800, 1200, 1600, 2000, 2400, 3000',
+                  sizes: '100vw',
                   class: 'cm-hero-split__img',
                   loading: 'eager',
                   fetchpriority: 'high',
