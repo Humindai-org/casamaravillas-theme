@@ -391,6 +391,13 @@ main { min-height: 50vh; }
 }
 
 /* Estrellas */
+/* Widget nuevo de Judge.me: el color llega como variable en estilo en línea; !important en hoja de estilos le gana */
+[data-widget-container="review-widget"],
+.jm-review-item,
+.jm-review-widget {
+  --jm-review-widget-star-and-histogram-color: var(--cm-star) !important;
+}
+
 /* Judge.me pinta sus estrellas con su propio color (var jdgm-primary-color); se fuerza el dorado de la marca */
 .jdgm-widget,
 .jdgm-review-widget,
