@@ -11,12 +11,12 @@
   assign slider_max_val = price_max | default: 50
 
   assign tipo_tags   = 'jamon,lomo,chorizo,salchichón' | split: ','
-  assign tipo_labels = 'Jamón,Lomo,Chorizo,Salchichón' | split: ','
+  assign tipo_labels = 'cm.filters.ham|cm.header.loin|cm.filters.chorizo|cm.filters.salchichon' | split: '|'
 
   assign calidad_tags = 'bellota-100,bellota-50,cebo-de-campo' | split: ','
-  assign cal_l1 = 'Bellota 100% Ibérico'
-  assign cal_l2 = 'Bellota 50% Ibérico'
-  assign cal_l3 = 'Cebo de Campo Ibérico'
+  assign cal_l1 = 'cm.header.tier_black'
+  assign cal_l2 = 'cm.header.tier_red'
+  assign cal_l3 = 'cm.header.tier_green'
   assign calidad_labels = cal_l1 | append: '|' | append: cal_l2 | append: '|' | append: cal_l3 | split: '|'
 -%}
 
@@ -35,7 +35,7 @@
     aria-expanded="true"
     aria-controls="icfg-precio-body-{{ section_id }}{% if drawer %}-drawer{% endif %}"
   >
-    Precio
+    {{ 'cm.filters.price' | t }}
     <svg class="ic__fg-icon-{{ section_id }}" viewBox="0 0 24 24" fill="none"
          stroke="currentColor" stroke-width="1.5" aria-hidden="true">
       <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/>
@@ -53,9 +53,9 @@
           <div class="ic__price-slider-fill-{{ section_id }}"></div>
         </div>
         <input type="range" class="ic__price-range-{{ section_id }}" data-price-role="min"
-               min="0" max="50" step="5" value="{{ slider_min_val }}" aria-label="Precio mínimo">
+               min="0" max="50" step="5" value="{{ slider_min_val }}" aria-label="{{ 'cm.filters.price_min' | t }}">
         <input type="range" class="ic__price-range-{{ section_id }}" data-price-role="max"
-               min="0" max="50" step="5" value="{{ slider_max_val }}" aria-label="Precio máximo">
+               min="0" max="50" step="5" value="{{ slider_max_val }}" aria-label="{{ 'cm.filters.price_max' | t }}">
       </div>
     </div>
   </div>
@@ -68,7 +68,7 @@
     aria-expanded="true"
     aria-controls="icfg-tipo-body-{{ section_id }}{% if drawer %}-drawer{% endif %}"
   >
-    Tipo
+    {{ 'cm.filters.type' | t }}
     <svg class="ic__fg-icon-{{ section_id }}" viewBox="0 0 24 24" fill="none"
          stroke="currentColor" stroke-width="1.5" aria-hidden="true">
       <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/>
@@ -77,7 +77,7 @@
   <div class="ic__fg-body-{{ section_id }}" id="icfg-tipo-body-{{ section_id }}{% if drawer %}-drawer{% endif %}">
     {%- for i in (0..3) -%}
       {%- assign tag   = tipo_tags[i] -%}
-      {%- assign label = tipo_labels[i] -%}
+      {%- assign label = tipo_labels[i] | t -%}
       {%- assign is_checked = false -%}
       {%- for t in current_tags -%}{%- if t == tag -%}{%- assign is_checked = true -%}{%- endif -%}{%- endfor -%}
       <label class="ic__check-item-{{ section_id }}">
@@ -95,7 +95,7 @@
     aria-expanded="false"
     aria-controls="icfg-calidad-body-{{ section_id }}{% if drawer %}-drawer{% endif %}"
   >
-    Calidad
+    {{ 'cm.filters.quality' | t }}
     <svg class="ic__fg-icon-{{ section_id }}" viewBox="0 0 24 24" fill="none"
          stroke="currentColor" stroke-width="1.5" aria-hidden="true">
       <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/>
@@ -104,7 +104,7 @@
   <div class="ic__fg-body-{{ section_id }}" id="icfg-calidad-body-{{ section_id }}{% if drawer %}-drawer{% endif %}">
     {%- for i in (0..2) -%}
       {%- assign tag   = calidad_tags[i] -%}
-      {%- assign label = calidad_labels[i] -%}
+      {%- assign label = calidad_labels[i] | t -%}
       {%- assign is_checked = false -%}
       {%- for t in current_tags -%}{%- if t == tag -%}{%- assign is_checked = true -%}{%- endif -%}{%- endfor -%}
       <label class="ic__check-item-{{ section_id }}">

@@ -696,10 +696,10 @@
   <div class="ic__inner-{{ section.id }}">
 
     <!-- ════ SIDEBAR ════ -->
-    <aside class="ic__sidebar-{{ section.id }}" aria-label="Filtros">
+    <aside class="ic__sidebar-{{ section.id }}" aria-label="{{ 'cm.filters.aria' | t }}">
       <div class="ic__sidebar-head-{{ section.id }}">
-        <span class="ic__sidebar-title-{{ section.id }}">Filtrar</span>
-        <a class="ic__clear-all-{{ section.id }}" href="{{ collection.url }}">Limpiar todo</a>
+        <span class="ic__sidebar-title-{{ section.id }}">{{ 'cm.filters.filter' | t }}</span>
+        <a class="ic__clear-all-{{ section.id }}" href="{{ collection.url }}">{{ 'cm.filters.clear_all' | t }}</a>
       </div>
 
       <!-- Chips de filtros activos -->
@@ -760,15 +760,15 @@
 
         <div class="ic__toolbar-controls-{{ section.id }}">
           {%- liquid
-            assign search_placeholder = 'Buscar producto...'
+            assign search_placeholder = 'cm.coll.search_product' | t
             if collection.handle == 'jamones'
-              assign search_placeholder = 'Buscar jamón...'
+              assign search_placeholder = 'cm.coll.search_ham' | t
             elsif collection.handle == 'embutidos' or collection.handle == 'embutidos-1'
-              assign search_placeholder = 'Buscar Embutido...'
+              assign search_placeholder = 'cm.coll.search_cured' | t
             elsif collection.handle == 'packs-regalo' or collection.template_suffix == 'packs-regalo'
-              assign search_placeholder = 'Buscar pack...'
+              assign search_placeholder = 'cm.coll.search_pack' | t
             elsif collection.handle == 'loncheados' or collection.template_suffix == 'loncheados'
-              assign search_placeholder = 'Buscar loncheado...'
+              assign search_placeholder = 'cm.coll.search_sliced' | t
             endif
           -%}
 
@@ -783,7 +783,7 @@
               class="ic__search-{{ section.id }}"
               id="ic-search-{{ section.id }}"
               placeholder="{{ search_placeholder }}"
-              aria-label="Buscar producto"
+              aria-label="{{ 'cm.coll.search_aria' | t }}"
               autocomplete="off"
             >
           </div>
@@ -793,31 +793,31 @@
               <select
                 class="ic__sort-{{ section.id }}"
                 id="ic-sort-{{ section.id }}"
-                aria-label="Ordenar productos"
+                aria-label="{{ 'cm.coll.sort_aria' | t }}"
               >
                 <option value="manual" {% if collection.sort_by == 'manual' %}selected{% endif %}>
-                  Más relevantes
+                  {{ 'cm.coll.sort_relevant' | t }}
                 </option>
                 <option value="best-selling" {% if collection.sort_by == 'best-selling' %}selected{% endif %}>
-                  Más vendidos
+                  {{ 'cm.coll.sort_best' | t }}
                 </option>
                 <option value="price-ascending" {% if collection.sort_by == 'price-ascending' %}selected{% endif %}>
-                  Precio ↑
+                  {{ 'cm.coll.sort_price_asc' | t }}
                 </option>
                 <option value="price-descending" {% if collection.sort_by == 'price-descending' %}selected{% endif %}>
-                  Precio ↓
+                  {{ 'cm.coll.sort_price_desc' | t }}
                 </option>
                 <option value="created-descending" {% if collection.sort_by == 'created-descending' %}selected{% endif %}>
-                  Fecha, más reciente
+                  {{ 'cm.coll.sort_new' | t }}
                 </option>
                 <option value="created-ascending" {% if collection.sort_by == 'created-ascending' %}selected{% endif %}>
-                  Fecha, más antiguo
+                  {{ 'cm.coll.sort_old' | t }}
                 </option>
                 <option value="title-ascending" {% if collection.sort_by == 'title-ascending' %}selected{% endif %}>
-                  Nombre A–Z
+                  {{ 'cm.coll.sort_az' | t }}
                 </option>
                 <option value="title-descending" {% if collection.sort_by == 'title-descending' %}selected{% endif %}>
-                  Nombre Z–A
+                  {{ 'cm.coll.sort_za' | t }}
                 </option>
               </select>
             </div>
@@ -847,7 +847,7 @@
         </div>
 
         <p class="ic__search-empty-{{ section.id }}" hidden>
-          Sin resultados para &ldquo;<span class="ic__search-term-{{ section.id }}"></span>&rdquo;
+          {{ 'cm.coll.no_results' | t }} &ldquo;<span class="ic__search-term-{{ section.id }}"></span>&rdquo;
         </p>
       {%- else -%}
         {%- comment -%}Mode: collection.products — render with pagination{%- endcomment -%}
@@ -865,13 +865,13 @@
           </div>
 
           <p class="ic__search-empty-{{ section.id }}" hidden>
-            Sin resultados para &ldquo;<span class="ic__search-term-{{ section.id }}"></span>&rdquo;
+            {{ 'cm.coll.no_results' | t }} &ldquo;<span class="ic__search-term-{{ section.id }}"></span>&rdquo;
           </p>
 
           {%- if paginate.pages > 1 -%}
-            <nav class="ic__pagination-{{ section.id }}" aria-label="Paginación">
+            <nav class="ic__pagination-{{ section.id }}" aria-label="{{ 'cm.coll.pagination' | t }}">
               {%- if paginate.previous -%}
-                <a class="ic__page-link-{{ section.id }}" href="{{ paginate.previous.url }}" aria-label="Página anterior">‹</a>
+                <a class="ic__page-link-{{ section.id }}" href="{{ paginate.previous.url }}" aria-label="{{ 'cm.coll.prev_page' | t }}">‹</a>
               {%- endif -%}
               {%- for part in paginate.parts -%}
                 {%- if part.is_link -%}
@@ -885,7 +885,7 @@
                 {%- endif -%}
               {%- endfor -%}
               {%- if paginate.next -%}
-                <a class="ic__page-link-{{ section.id }}" href="{{ paginate.next.url }}" aria-label="Página siguiente">›</a>
+                <a class="ic__page-link-{{ section.id }}" href="{{ paginate.next.url }}" aria-label="{{ 'cm.coll.next_page' | t }}">›</a>
               {%- endif -%}
             </nav>
           {%- endif -%}
@@ -901,14 +901,14 @@
     id="ic-drawer-{{ section.id }}"
     aria-hidden="true"
     role="dialog"
-    aria-label="Filtros"
+    aria-label="{{ 'cm.filters.aria' | t }}"
   >
     <div class="ic__drawer-header-{{ section.id }}">
-      <span class="ic__drawer-title-{{ section.id }}">Filtrar</span>
+      <span class="ic__drawer-title-{{ section.id }}">{{ 'cm.filters.filter' | t }}</span>
       <button
         class="ic__drawer-close-{{ section.id }}"
         id="ic-drawer-close-{{ section.id }}"
-        aria-label="Cerrar filtros"
+        aria-label="{{ 'cm.filters.close' | t }}"
       >&times;</button>
     </div>
     {%- case collection.handle -%}
@@ -938,7 +938,7 @@
     aria-controls="ic-drawer-{{ section.id }}"
     aria-expanded="false"
   >
-    Filtrar
+    {{ 'cm.filters.filter' | t }}
     {%- if active_count > 0 -%}
       <span class="ic__trigger-badge-{{ section.id }}" aria-label="{{ active_count }} filtros activos">
         {{ active_count }}

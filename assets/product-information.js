@@ -212,7 +212,7 @@ document.addEventListener('input', function(e) {
   if (!matches.length) {
     const li = document.createElement('li');
     li.className = 'cm-pack-carousel__search-empty';
-    li.textContent = 'Sin resultados';
+    li.textContent = (window.cmT ? cmT('no_results', 'Sin resultados') : 'Sin resultados');
     resultsList.appendChild(li);
   } else {
     matches.forEach(function(match) {

@@ -14,20 +14,22 @@
   var MILESTONES = [{ qty: MIN, label: 'Pack<br>listo' }];
   var discPct = parseInt(d.discPct, 10) || 0;
   var DISC_QTY = parseInt(d.discQty, 10) || 0;
-  if (discPct > 0) MILESTONES.push({ qty: parseInt(d.discQty, 10), label: '−' + discPct + '%<br>dto.' });
+  if (discPct > 0) MILESTONES.push({ qty: parseInt(d.discQty, 10), label: cmT('cb_milestone_disc', '−{pct}%<br>dto.', { pct: discPct }) });
   if (d.gift1Label) MILESTONES.push({ qty: parseInt(d.gift1Qty, 10), label: esc(d.gift1Label).replace(' ', '<br>') });
   if (d.gift2Label) MILESTONES.push({ qty: parseInt(d.gift2Qty, 10), label: esc(d.gift2Label).replace(' ', '<br>') });
   MILESTONES = MILESTONES.filter(function (m) { return m.qty > 0; }).sort(function (a, b) { return a.qty - b.qty; });
   var MAXQ = MILESTONES.length ? MILESTONES[MILESTONES.length - 1].qty : MIN;
 
   var STORE_KEY = 'cm-pack-v2';
-  var CURINGS = ['Más tierno', 'Equilibrado', 'Más curado'];
+  var CURINGS = ['Más tierno', 'Equilibrado', 'Más curado']; /* valores internos (van al carrito): solo se traduce lo que se muestra */
+  var CURING_LABELS = { 'Más tierno': ['pdp_curing_tender', 'Más tierno'], 'Equilibrado': ['pdp_curing_balanced', 'Equilibrado'], 'Más curado': ['pdp_curing_cured', 'Más curado'] };
+  function curLabel(c) { var l = CURING_LABELS[c]; return l ? cmT(l[0], l[1]) : c; }
   var CATS = [
-    { id: 'lonchado-jamon', label: 'Jamón Ibérico Lonchado' },
-    { id: 'jamon', label: 'Jamón Ibérico' },
-    { id: 'embutido', label: 'Embutidos Ibéricos' },
-    { id: 'lonchado-emb', label: 'Embutidos Lonchados' },
-    { id: 'all', label: 'Todo' }
+    { id: 'lonchado-jamon', label: cmT('cb_cat_sliced_ham', 'Jamón Ibérico Lonchado') },
+    { id: 'jamon', label: cmT('cb_cat_ham', 'Jamón Ibérico') },
+    { id: 'embutido', label: cmT('cb_cat_cured', 'Embutidos Ibéricos') },
+    { id: 'lonchado-emb', label: cmT('cb_cat_sliced_cured', 'Embutidos Lonchados') },
+    { id: 'all', label: cmT('cb_cat_all', 'Todo') }
   ];
 
   var $ = function (sel) { return root.querySelector(sel); };
@@ -67,12 +69,12 @@
 
   function classify(p) {
     var t = (p.title + ' ' + p.type).toLowerCase();
-    var sliced = /loncha|loncheado|lonchado/.test(t);
-    var ham = /jam[oó]n|paleta/.test(t);
+    var sliced = /loncha|loncheado|lonchado|sliced|tranch/.test(t);
+    var ham = /jam[oó]n|paleta|\bham\b|jambon/.test(t);
     if (sliced) return ham ? 'lonchado-jamon' : 'lonchado-emb';
     return ham ? 'jamon' : 'embutido';
   }
-  function hasCuring(p) { return /pieza entera|entero|deshuesad/.test(p.title.toLowerCase()); }
+  function hasCuring(p) { return /pieza entera|entero|deshuesad|whole piece|boneless|pi[eè]ce enti[eè]re|d[eé]soss/.test(p.title.toLowerCase()); }
 
   function totals() {
     var count = 0, cents = 0;
@@ -135,7 +137,7 @@
   }
 
   function loadProducts() {
-    return fetch('/collections/all/products.json?limit=250')
+    return fetch(((window.Shopify && Shopify.routes && Shopify.routes.root) || '/') + 'collections/all/products.json?limit=250')
       .then(function (r) { return r.json(); })
       .then(function (data) {
         products = (data.products || [])
@@ -194,7 +196,7 @@
     var list = products.filter(function (p) {
       return (activeCat === 'all' || p.cat === activeCat) && (!term || p.title.toLowerCase().indexOf(term) !== -1);
     });
-    if (!list.length) { el.grid.innerHTML = '<p class="cb-status">No hay productos que coincidan.</p>'; return; }
+    if (!list.length) { el.grid.innerHTML = '<p class="cb-status">' + cmT('cb_no_match', 'No hay productos que coincidan.') + '</p>'; return; }
     el.grid.innerHTML = list.map(function (p) {
       var v = curVariant(p);
       var q = productQty(p);
@@ -202,10 +204,10 @@
       var here = basket[ck] ? basket[ck].qty : 0;
       var variants = p.variants.length > 1 ? optRows(p, v) : '';
       var curing = p.curing
-        ? '<div><p class="cb-lab">Punto de curación</p><div class="cb-curing">' +
+        ? '<div><p class="cb-lab">' + cmT('pdp_curing_label', 'Punto de curación') + '</p><div class="cb-curing">' +
             CURINGS.map(function (c) {
               return '<label><input type="radio" name="cur-' + p.id + '" value="' + c + '" data-curing="' + p.id + '"' +
-                (c === curCuring(p) ? ' checked' : '') + '><span>' + c + '</span></label>';
+                (c === curCuring(p) ? ' checked' : '') + '><span>' + curLabel(c) + '</span></label>';
             }).join('') + '</div></div>'
         : '';
       return (
@@ -215,11 +217,11 @@
             '<h3 class="cb-name">' + esc(p.title) + '</h3>' +
             '<p class="cb-price">' + money(v.price) + '</p>' +
             variants + curing +
-            '<button type="button" class="cb-add" data-add="' + ck + '" data-vid="' + v.id + '" data-cur="' + esc(p.curing ? curCuring(p) : '') + '">Añadir al pack</button>' +
+            '<button type="button" class="cb-add" data-add="' + ck + '" data-vid="' + v.id + '" data-cur="' + esc(p.curing ? curCuring(p) : '') + '">' + cmT('cb_add_to_pack', 'Añadir al pack') + '</button>' +
             '<div class="cb-step-q">' +
-              '<button type="button" class="cb-rb" data-dec="' + ck + '" aria-label="Quitar uno">−</button>' +
-              '<input class="cb-qn" type="number" min="0" max="99" inputmode="numeric" data-qty="' + ck + '" data-vid="' + v.id + '" data-cur="' + esc(p.curing ? curCuring(p) : '') + '" value="' + here + '" aria-label="Cantidad">' +
-              '<button type="button" class="cb-rb cb-plus" data-add="' + ck + '" data-vid="' + v.id + '" data-cur="' + esc(p.curing ? curCuring(p) : '') + '" aria-label="Añadir uno">+</button>' +
+              '<button type="button" class="cb-rb" data-dec="' + ck + '" aria-label="' + cmT('cb_remove_one', 'Quitar uno') + '">−</button>' +
+              '<input class="cb-qn" type="number" min="0" max="99" inputmode="numeric" data-qty="' + ck + '" data-vid="' + v.id + '" data-cur="' + esc(p.curing ? curCuring(p) : '') + '" value="' + here + '" aria-label="' + cmT('pdp_qty', 'Cantidad') + '">' +
+              '<button type="button" class="cb-rb cb-plus" data-add="' + ck + '" data-vid="' + v.id + '" data-cur="' + esc(p.curing ? curCuring(p) : '') + '" aria-label="' + cmT('cb_add_one', 'Añadir uno') + '">+</button>' +
             '</div>' +
           '</div>' +
         '</article>'
@@ -242,15 +244,15 @@
   function renderPack() {
     var t = totals();
     var keys = Object.keys(basket).filter(function (k) { return basket[k].qty > 0 && byVariant[basket[k].vid]; });
-    el.count.textContent = t.count + ' producto' + (t.count === 1 ? '' : 's');
+    el.count.textContent = t.count === 1 ? cmT('cb_count_one', '{n} producto', { n: t.count }) : cmT('cb_count_many', '{n} productos', { n: t.count });
     /* Descuento de la cesta: se cobra al pagar (código), aquí solo se muestra */
     var di = discountInfo(t), disc = di.best;
     el.total.textContent = money(t.cents - disc);
     el.save.hidden = disc === 0;
     if (disc) {
       el.save.innerHTML = (di.qty === 'auto'
-        ? 'Descuento por cantidad (−' + AUTO_PCT + '%) aplicado, mejor que el −' + discPct + '% de la cesta'
-        : '−' + discPct + '% de la cesta aplicado') + ' · ahorras <strong>' + money(disc) + '</strong>';
+        ? cmT('cb_save_auto', 'Descuento por cantidad (−{auto}%) aplicado, mejor que el −{pct}% de la cesta', { auto: AUTO_PCT, pct: discPct })
+        : cmT('cb_save_cart', '−{pct}% de la cesta aplicado', { pct: discPct })) + cmT('cb_you_save', ' · ahorras <strong>{amount}</strong>', { amount: money(disc) });
     }
     el.empty.hidden = keys.length > 0;
     el.clear.hidden = keys.length === 0;
@@ -258,7 +260,7 @@
       var b = basket[k], h = byVariant[b.vid];
       var meta = [];
       if (h.variant.title && h.variant.title !== 'Default Title') meta.push(esc(h.variant.title));
-      if (b.curing) meta.push(esc(b.curing));
+      if (b.curing) meta.push(esc(curLabel(b.curing)));
       return '<li><span>' + esc(h.product.title) + '<small>' + b.qty + ' ×' + (meta.length ? ' · ' + meta.join(' · ') : '') + '</small></span><span>' + money(b.qty * h.variant.price) + '</span></li>';
     }).join('');
 
@@ -269,17 +271,17 @@
 
     var next = MILESTONES.filter(function (m) { return t.count < m.qty; })[0];
     if (!next) {
-      el.dsub.innerHTML = '¡Has desbloqueado <strong>todos los regalos</strong>!';
+      el.dsub.innerHTML = cmT('cb_all_gifts', '¡Has desbloqueado <strong>todos los regalos</strong>!');
     } else {
-      var what = next.qty === MIN && t.count < MIN ? 'para crear tu pack' : 'para <strong>' + next.label.replace('<br>', ' ') + '</strong>';
-      el.dsub.innerHTML = 'Añade <strong>' + (next.qty - t.count) + ' más</strong> ' + what;
+      var what = next.qty === MIN && t.count < MIN ? cmT('cb_what_pack', 'para crear tu pack') : cmT('cb_what_for', 'para <strong>{label}</strong>', { label: next.label.replace('<br>', ' ') });
+      el.dsub.innerHTML = cmT('cb_add_more', 'Añade <strong>{n} más</strong> {what}', { n: next.qty - t.count, what: what });
     }
 
     var rem = Math.max(FREE - t.cents, 0);
     if (FREE > 0) {
       el.shipText.innerHTML = rem === 0
-        ? '¡Envío gratis en península!'
-        : 'A ' + money(FREE).replace(',00', '') + ' envío gratis en península · te faltan <strong>' + money(rem) + '</strong>';
+        ? cmT('cb_ship_free', '¡Envío gratis en península!')
+        : cmT('cb_ship_remaining', 'A {goal} envío gratis en península · te faltan <strong>{amount}</strong>', { goal: money(FREE).replace(',00', ''), amount: money(rem) });
       el.shipBar.style.width = Math.min(t.cents / FREE, 1) * 100 + '%';
     }
     el.add.disabled = t.count < MIN;
@@ -369,7 +371,7 @@
     var id = boxId();
     var label = el.add.textContent;
     el.add.disabled = true;
-    el.add.textContent = 'Añadiendo…';
+    el.add.textContent = cmT('adding', 'Añadiendo…');
 
     giftVariantId().then(function (giftId) {
       var items = Object.keys(basket).filter(function (k) { return basket[k].qty > 0 && byVariant[basket[k].vid]; }).map(function (k) {
@@ -384,7 +386,7 @@
       });
     })
       .then(function (r) {
-        if (!r.ok) return r.json().then(function (x) { throw new Error(x.description || x.message || 'Error al añadir'); });
+        if (!r.ok) return r.json().then(function (x) { throw new Error(x.description || x.message || cmT('cb_add_error', 'Error al añadir')); });
         return r.json();
       })
       .then(function () {
@@ -398,7 +400,7 @@
         }
         window.location.href = '/cart';
       })
-      .catch(function (err) { el.min.textContent = err.message || 'No se pudo añadir el pack. Inténtalo de nuevo.'; })
+      .catch(function (err) { el.min.textContent = err.message || cmT('cb_add_fail', 'No se pudo añadir el pack. Inténtalo de nuevo.'); })
       .finally(function () {
         el.add.textContent = label;
         el.add.disabled = totals().count < MIN;
@@ -418,6 +420,6 @@
       refresh();
     })
     .catch(function () {
-      el.grid.innerHTML = '<p class="cb-status">No se pudieron cargar los productos. Recarga la página.</p>';
+      el.grid.innerHTML = '<p class="cb-status">' + cmT('cb_load_fail', 'No se pudieron cargar los productos. Recarga la página.') + '</p>';
     });
 })();

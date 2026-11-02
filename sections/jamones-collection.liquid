@@ -701,10 +701,10 @@
   <div class="jc__inner-{{ section.id }}">
 
     <!-- ════ SIDEBAR ════ -->
-    <aside class="jc__sidebar-{{ section.id }}" aria-label="Filtros">
+    <aside class="jc__sidebar-{{ section.id }}" aria-label="{{ 'cm.filters.aria' | t }}">
       <div class="jc__sidebar-head-{{ section.id }}">
-        <span class="jc__sidebar-title-{{ section.id }}">Filtrar</span>
-        <a class="jc__clear-all-{{ section.id }}" href="{{ collection.url }}">Limpiar todo</a>
+        <span class="jc__sidebar-title-{{ section.id }}">{{ 'cm.filters.filter' | t }}</span>
+        <a class="jc__clear-all-{{ section.id }}" href="{{ collection.url }}">{{ 'cm.filters.clear_all' | t }}</a>
       </div>
 
       <!-- Chips de filtros activos -->
@@ -753,8 +753,8 @@
               type="search"
               class="jc__search-{{ section.id }}"
               id="jc-search-{{ section.id }}"
-              placeholder="Buscar jamón..."
-              aria-label="Buscar producto"
+              placeholder="{{ 'cm.coll.search_ham' | t }}"
+              aria-label="{{ 'cm.coll.search_aria' | t }}"
               autocomplete="off"
             >
           </div>
@@ -764,31 +764,31 @@
               <select
                 class="jc__sort-{{ section.id }}"
                 id="jc-sort-{{ section.id }}"
-                aria-label="Ordenar productos"
+                aria-label="{{ 'cm.coll.sort_aria' | t }}"
               >
                 <option value="manual" {% if collection.sort_by == 'manual' %}selected{% endif %}>
-                  Más relevantes
+                  {{ 'cm.coll.sort_relevant' | t }}
                 </option>
                 <option value="best-selling" {% if collection.sort_by == 'best-selling' %}selected{% endif %}>
-                  Más vendidos
+                  {{ 'cm.coll.sort_best' | t }}
                 </option>
                 <option value="price-ascending" {% if collection.sort_by == 'price-ascending' %}selected{% endif %}>
-                  Precio ↑
+                  {{ 'cm.coll.sort_price_asc' | t }}
                 </option>
                 <option value="price-descending" {% if collection.sort_by == 'price-descending' %}selected{% endif %}>
-                  Precio ↓
+                  {{ 'cm.coll.sort_price_desc' | t }}
                 </option>
                 <option value="created-descending" {% if collection.sort_by == 'created-descending' %}selected{% endif %}>
-                  Fecha, más reciente
+                  {{ 'cm.coll.sort_new' | t }}
                 </option>
                 <option value="created-ascending" {% if collection.sort_by == 'created-ascending' %}selected{% endif %}>
-                  Fecha, más antiguo
+                  {{ 'cm.coll.sort_old' | t }}
                 </option>
                 <option value="title-ascending" {% if collection.sort_by == 'title-ascending' %}selected{% endif %}>
-                  Nombre A–Z
+                  {{ 'cm.coll.sort_az' | t }}
                 </option>
                 <option value="title-descending" {% if collection.sort_by == 'title-descending' %}selected{% endif %}>
-                  Nombre Z–A
+                  {{ 'cm.coll.sort_za' | t }}
                 </option>
               </select>
             </div>
@@ -817,7 +817,7 @@
           {%- endif -%}
         </div>
         <p class="jc__search-empty-{{ section.id }}" hidden>
-          Sin resultados para &ldquo;<span class="jc__search-term-{{ section.id }}"></span>&rdquo;
+          {{ 'cm.coll.no_results' | t }} &ldquo;<span class="jc__search-term-{{ section.id }}"></span>&rdquo;
         </p>
       {%- else -%}
         <!-- Modo colección: con paginación -->
@@ -835,13 +835,13 @@
           </div>
 
           <p class="jc__search-empty-{{ section.id }}" hidden>
-            Sin resultados para &ldquo;<span class="jc__search-term-{{ section.id }}"></span>&rdquo;
+            {{ 'cm.coll.no_results' | t }} &ldquo;<span class="jc__search-term-{{ section.id }}"></span>&rdquo;
           </p>
 
           {%- if paginate.pages > 1 -%}
-            <nav class="jc__pagination-{{ section.id }}" aria-label="Paginación">
+            <nav class="jc__pagination-{{ section.id }}" aria-label="{{ 'cm.coll.pagination' | t }}">
               {%- if paginate.previous -%}
-                <a class="jc__page-link-{{ section.id }}" href="{{ paginate.previous.url }}" aria-label="Página anterior">‹</a>
+                <a class="jc__page-link-{{ section.id }}" href="{{ paginate.previous.url }}" aria-label="{{ 'cm.coll.prev_page' | t }}">‹</a>
               {%- endif -%}
               {%- for part in paginate.parts -%}
                 {%- if part.is_link -%}
@@ -855,7 +855,7 @@
                 {%- endif -%}
               {%- endfor -%}
               {%- if paginate.next -%}
-                <a class="jc__page-link-{{ section.id }}" href="{{ paginate.next.url }}" aria-label="Página siguiente">›</a>
+                <a class="jc__page-link-{{ section.id }}" href="{{ paginate.next.url }}" aria-label="{{ 'cm.coll.next_page' | t }}">›</a>
               {%- endif -%}
             </nav>
           {%- endif -%}
@@ -871,14 +871,14 @@
     id="jc-drawer-{{ section.id }}"
     aria-hidden="true"
     role="dialog"
-    aria-label="Filtros"
+    aria-label="{{ 'cm.filters.aria' | t }}"
   >
     <div class="jc__drawer-header-{{ section.id }}">
-      <span class="jc__drawer-title-{{ section.id }}">Filtrar</span>
+      <span class="jc__drawer-title-{{ section.id }}">{{ 'cm.filters.filter' | t }}</span>
       <button
         class="jc__drawer-close-{{ section.id }}"
         id="jc-drawer-close-{{ section.id }}"
-        aria-label="Cerrar filtros"
+        aria-label="{{ 'cm.filters.close' | t }}"
       >&times;</button>
     </div>
     {% render 'jamones-filters', section_id: section.id, collection: collection, current_tags: current_tags, drawer: true %}
@@ -893,7 +893,7 @@
     aria-controls="jc-drawer-{{ section.id }}"
     aria-expanded="false"
   >
-    Filtrar
+    {{ 'cm.filters.filter' | t }}
     {%- if active_count > 0 -%}
       <span class="jc__trigger-badge-{{ section.id }}" aria-label="{{ active_count }} filtros activos">
         {{ active_count }}
