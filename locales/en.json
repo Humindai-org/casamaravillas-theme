@@ -756,6 +756,7 @@
       "view_image": "View image {{ n }}",
       "stars_label": "{{ rating }} out of 5 stars",
       "reviews_count": "{{ n }} reviews",
+      "no_reviews": "No reviews yet",
       "cart_items_aria": "{{ n }} items in your cart",
       "add_to_my_cart": "Add to my cart",
       "badge_sale": "Sale"

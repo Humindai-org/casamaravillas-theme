@@ -149,6 +149,7 @@
       "view_image": "Voir l'image {{ n }}",
       "stars_label": "{{ rating }} sur 5 étoiles",
       "reviews_count": "{{ n }} avis",
+      "no_reviews": "Aucun avis",
       "cart_items_aria": "{{ n }} articles dans votre panier",
       "add_to_my_cart": "Ajouter à mon panier",
       "badge_sale": "Promo"

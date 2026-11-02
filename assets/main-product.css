@@ -1287,7 +1287,10 @@
     gap: 10px;
     margin-bottom: 20px;
   }
-  .cm-pdp__stars { display: flex; gap: 3px; align-items: center; }
+  .cm-pdp__stars { position: relative; display: inline-flex; align-items: center; }
+  .cm-pdp__stars-row { display: flex; gap: 3px; }
+  .cm-pdp__stars-row--fill { position: absolute; inset: 0 auto 0 0; overflow: hidden; }
+  .cm-pdp__stars-row--fill .cm-star { flex-shrink: 0; }
   .cm-star { width: 24px; height: 24px; color: var(--cm-star, #B8984F); flex-shrink: 0; }
   .cm-star--empty { color: var(--border-color); }
   .cm-pdp__rating-count {

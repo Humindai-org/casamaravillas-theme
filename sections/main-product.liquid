@@ -179,36 +179,40 @@
 
       <h1 class="cm-pdp__title" itemprop="name">{{ product.title }}</h1>
 
-      {%- comment -%} ── VALORACIONES ── {%- endcomment -%}
-      {%- assign rev_rating = product.metafields.reviews.rating.value -%}
-      {%- assign rev_count  = product.metafields.reviews.rating_count.value -%}
-      {%- if rev_rating == blank -%}
-        {%- assign rev_rating = product.metafields.judgeme.avg_rating -%}
-        {%- assign rev_count  = product.metafields.judgeme.review_count -%}
+      {%- comment -%} ── VALORACIONES ── Siempre se muestran las 5 estrellas; las doradas se recortan al promedio (p. ej. 4,6 → 92 %). Sin reseñas: 5 estrellas vacías. {%- endcomment -%}
+      {%- assign rev_raw   = product.metafields.reviews.rating.value -%}
+      {%- assign rev_count = product.metafields.reviews.rating_count.value -%}
+      {%- if rev_raw == blank -%}
+        {%- assign rev_raw   = product.metafields.judgeme.avg_rating -%}
+        {%- assign rev_count = product.metafields.judgeme.review_count -%}
       {%- endif -%}
-      {%- comment -%} metafields.reviews.rating es un objeto {value, scale_max}; judgeme.avg_rating es un número. Se normaliza a número (también lo usa el JSON-LD). {%- endcomment -%}
-      {%- if rev_rating != blank -%}
-        {%- assign rev_rating = rev_rating.value | default: rev_rating -%}
+      {%- comment -%} reviews.rating es un objeto {value, scale_max} (no se puede usar como número ni en json); se pasa por texto ("5.0") y de ahí a número. {%- endcomment -%}
+      {%- assign rev_num = rev_raw | append: '' | plus: 0 -%}
+      {%- assign rev_count = rev_count | plus: 0 -%}
+      {%- assign rev_rating = blank -%}
+      {%- if rev_num > 0 -%}
+        {%- assign rev_rating = rev_num -%}
       {%- endif -%}
-      {%- if rev_rating != blank -%}
-        {%- assign rating_rounded = rev_rating | round -%}
-        <div class="cm-pdp__rating" itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating">
+      {%- assign rev_pct = rev_num | times: 20 | at_most: 100 -%}
+      <div class="cm-pdp__rating"{% if rev_rating != blank %} itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating"{% endif %}>
+        {%- if rev_rating != blank -%}
           <meta itemprop="ratingValue" content="{{ rev_rating }}">
           <meta itemprop="reviewCount" content="{{ rev_count | default: 0 }}">
-          <span class="cm-pdp__stars" aria-label="{{ 'cm.pdp.stars_label' | t: rating: rev_rating }}">
-            {%- for i in (1..5) -%}
-              {%- if i <= rating_rounded -%}
-                <svg class="cm-star" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-              {%- else -%}
-                <svg class="cm-star cm-star--empty" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-              {%- endif -%}
-            {%- endfor -%}
+        {%- endif -%}
+        <span class="cm-pdp__stars" role="img" aria-label="{{ 'cm.pdp.stars_label' | t: rating: rev_num }}">
+          <span class="cm-pdp__stars-row cm-pdp__stars-row--empty" aria-hidden="true">
+            {%- for i in (1..5) -%}<svg class="cm-star cm-star--empty" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>{%- endfor -%}
           </span>
-          {%- if rev_count != blank -%}
-            <a href="#judgeme_product_reviews" class="cm-pdp__rating-count">{{ 'cm.pdp.reviews_count' | t: n: rev_count }}</a>
-          {%- endif -%}
-        </div>
-      {%- endif -%}
+          <span class="cm-pdp__stars-row cm-pdp__stars-row--fill" aria-hidden="true" style="width: {{ rev_pct }}%">
+            {%- for i in (1..5) -%}<svg class="cm-star" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>{%- endfor -%}
+          </span>
+        </span>
+        {%- if rev_count > 0 -%}
+          <a href="#judgeme_product_reviews" class="cm-pdp__rating-count">{{ 'cm.pdp.reviews_count' | t: n: rev_count }}</a>
+        {%- else -%}
+          <span class="cm-pdp__rating-count">{{ 'cm.pdp.no_reviews' | t }}</span>
+        {%- endif -%}
+      </div>
 
       {% render 'json-ld-product', current_variant: current_variant, featured_image: featured_image, rev_rating: rev_rating, rev_count: rev_count %}
 

@@ -140,6 +140,7 @@
       "view_image": "Ver imagen {{ n }}",
       "stars_label": "{{ rating }} de 5 estrellas",
       "reviews_count": "{{ n }} reseñas",
+      "no_reviews": "Sin reseñas",
       "cart_items_aria": "{{ n }} artículos en la cesta",
       "add_to_my_cart": "Agregar a mi cesta",
       "badge_sale": "Oferta"
