@@ -13,8 +13,9 @@ Uso:
   python3 tools/shopify_fix_translations.py --apply            # escribe (backup en _backup/)
   python3 tools/shopify_fix_translations.py --rollback _backup/translations_XXXX.json --apply
 """
-import argparse, json, sys, time
+import argparse, json, re, sys, time
 import shopify_update_ingredients as base
+import shopify_fix_translations_data as data
 
 NBSP = " "
 
@@ -48,7 +49,9 @@ RULES = [
 # Traducciones vigentes pero erróneas que sí hay que sobrescribir: (texto original, locale)
 FORCE = {("Corte", "en"), ("Cata", "en"), ("Cata", "fr")}  # "Court" y "Cata" (sin traducir) estaban mal
 
-TYPES = sorted({r[0] for r in RULES})
+RULES = RULES + data.RULES2
+FORCE |= {("Raza", "en"), ("Raza y Alimentación", "en")}  # "Race" → "Breed"
+TYPES = sorted({r[0] for r in RULES} | {"PRODUCT", "COLLECTION", "METAFIELD"})
 Q = """query($t:TranslatableResourceType!,$after:String){translatableResources(first:100,resourceType:$t,after:$after){
   pageInfo{hasNextPage endCursor}
   nodes{resourceId translatableContent{key value digest}
@@ -68,6 +71,102 @@ def all_nodes(token, rtype):
         after = r["pageInfo"]["endCursor"]
 
 
+LOCS = ("en", "fr")
+SKIP_REUSE = re.compile(r"^[\d.,/ kJcalg%+\-]*$")
+
+
+def _json_translate(src, loc):
+    """Rich text (JSON) de Shopify: traduce cada nodo de texto con data.JSON_TEXT; None si falta alguno."""
+    try:
+        doc = json.loads(src)
+    except ValueError:
+        return None
+    ok = [True]
+
+    def walk(n):
+        if isinstance(n, dict):
+            if n.get("type") == "text" and "value" in n:
+                t = data.JSON_TEXT.get(n["value"])
+                if not t:
+                    ok[0] = False
+                else:
+                    n["value"] = t[loc]
+            for v in n.values():
+                walk(v)
+        elif isinstance(n, list):
+            for v in n:
+                walk(v)
+    walk(doc)
+    return json.dumps(doc, ensure_ascii=False, separators=(",", ":")) if ok[0] else None
+
+
+def build_plan(token, plan):
+    """Rellena huecos y textos outdated; solo pisa traducciones vigentes si están en FORCE."""
+    nodes = {t: list(all_nodes(token, t)) for t in TYPES}
+
+    def add(rtype, n, c, loc, new, force=False):
+        cur = next((t for t in n[loc] if t["key"] == c["key"]), None)
+        if cur and not cur["outdated"] and not force:
+            return
+        if cur and cur["value"] == new and not cur["outdated"]:
+            return
+        rid = n["resourceId"].split("/")[-1]
+        print(f"~ [{loc}] {rtype} {rid} {c['key'][:60]}\n    antes:   {(cur['value'] if cur else None)!r:.150}\n    después: {new!r:.150}")
+        plan.append((n["resourceId"], {"key": c["key"], "value": new, "locale": loc,
+                                       "translatableContentDigest": c["digest"]}, cur["value"] if cur else None))
+
+    # 1) reglas por texto original exacto (o por clave si src es None)
+    for rtype in TYPES:
+        rules = [r for r in RULES if r[0] == rtype]
+        for n in nodes[rtype]:
+            for c in n["translatableContent"]:
+                for _, kpart, src, tr in rules:
+                    if (src is not None and c["value"] != src) or kpart not in c["key"]:
+                        continue
+                    for loc, new in tr.items():
+                        add(rtype, n, c, loc, new, force=(src, loc) in FORCE)
+    # 2) productos y colecciones por handle
+    for rtype, table in (("PRODUCT", data.PRODUCT_RULES), ("COLLECTION", data.COLLECTION_RULES)):
+        for n in nodes[rtype]:
+            h = next((c["value"] for c in n["translatableContent"] if c["key"] == "handle"), None)
+            for c in n["translatableContent"]:
+                for loc, new in (table.get(h, {}).get(c["key"]) or {}).items():
+                    add(rtype, n, c, loc, new)
+    # 3) FAQ de la portada: por clave
+    for n in nodes["ONLINE_STORE_THEME_JSON_TEMPLATE"]:
+        for c in n["translatableContent"]:
+            for kpart, tr in data.FAQ.items():
+                if kpart in c["key"] and ".index.json." in c["key"]:
+                    for loc, new in tr.items():
+                        add("ONLINE_STORE_THEME_JSON_TEMPLATE", n, c, loc, new)
+    # 4) metacampos: consejos de corte, rich text de nutrición y reutilización de traducciones idénticas
+    reuse = {loc: {} for loc in LOCS}
+    for n in nodes["METAFIELD"]:
+        for c in n["translatableContent"]:
+            if c["key"] != "value":
+                continue
+            for loc in LOCS:
+                cur = next((t for t in n[loc] if t["key"] == "value"), None)
+                if cur and not cur["outdated"] and cur["value"] != c["value"]:
+                    reuse[loc].setdefault(c["value"], cur["value"])
+    for n in nodes["METAFIELD"]:
+        for c in n["translatableContent"]:
+            v = c["value"] or ""
+            if c["key"] != "value" or not v.strip() or SKIP_REUSE.match(v) or v.startswith(("<div", "<style", "{\"@context", "{\"number_of", "{\"shop_name", "{\"version", "{\"mappings")):
+                continue
+            for loc in LOCS:
+                new = None
+                for tip in data.CUTTING_TIPS.values():
+                    if tip["es_has"] in v:
+                        new = tip[loc]
+                if new is None and v.startswith('{"type":"root"'):
+                    new = reuse[loc].get(v) or _json_translate(v, loc)
+                if new is None:
+                    new = reuse[loc].get(v)
+                if new:
+                    add("METAFIELD", n, c, loc, new)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--apply", action="store_true")
@@ -85,25 +184,7 @@ def main():
                 plan.append((p["id"], {"key": p["key"], "value": p["antes"], "locale": p["locale"],
                                        "translatableContentDigest": p["digest"]}, p["despues"]))
     else:
-        for rtype in TYPES:
-            rules = [r for r in RULES if r[0] == rtype]
-            for n in all_nodes(token, rtype):
-                for c in n["translatableContent"]:
-                    for _, kpart, src, tr in rules:
-                        if c["value"] != src or kpart not in c["key"]:
-                            continue
-                        for loc, new in tr.items():
-                            cur = next((t for t in n[loc] if t["key"] == c["key"]), None)
-                            # Solo rellena huecos y outdated; no pisa traducciones vigentes salvo las erróneas de FORCE.
-                            if cur and not cur["outdated"] and (src, loc) not in FORCE:
-                                continue
-                            if cur and cur["value"] == new and not cur["outdated"]:
-                                continue
-                            rid = n["resourceId"].split("/")[-1]
-                            print(f"~ [{loc}] {rtype} {rid} {c['key'][:60]}\n    antes:   {cur['value'] if cur else None!r}\n    después: {new!r}")
-                            plan.append((n["resourceId"], {"key": c["key"], "value": new, "locale": loc,
-                                                           "translatableContentDigest": c["digest"]},
-                                         cur["value"] if cur else None))
+        build_plan(token, plan)
 
     print(f"\n{len(plan)} traducción(es) a registrar.")
     if not a.apply:
