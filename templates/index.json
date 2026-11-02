@@ -43,7 +43,7 @@
         "slide-3": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/image.png",
+            "image": "shopify://shop_images/Simple_Product_Promotion_Ads_Instagram_Post_Website.png",
             "eyebrow": "REGALOS GOURMET",
             "heading": "El regalo perfecto existe",
             "year": "",
@@ -80,15 +80,9 @@
           "settings": {
             "title": "Calidad garantizada",
             "description": "Tres generaciones de artesanía ibérica",
+            "title_exterior": "",
+            "description_exterior": "",
             "icon": "icon-garantia.svg"
-          }
-        },
-        "trust-3": {
-          "type": "trust_item",
-          "settings": {
-            "title": "Garantía 100%",
-            "description": "Si no te convence, puedes devolverlo.",
-            "icon": "icon-devolucion.svg"
           }
         },
         "trust-4": {
@@ -96,7 +90,19 @@
           "settings": {
             "title": "Tres niveles de selección",
             "description": "Oro, plata y bronce",
+            "title_exterior": "",
+            "description_exterior": "",
             "icon": "icon-niveles.svg"
+          }
+        },
+        "trust-3": {
+          "type": "trust_item",
+          "settings": {
+            "title": "Garantía 100%",
+            "description": "Si no te convence, puedes devolverlo.",
+            "title_exterior": "",
+            "description_exterior": "",
+            "icon": "icon-devolucion.svg"
           }
         }
       },
@@ -463,6 +469,8 @@
         "title": "<p>Suscríbete al placer de lo <em>auténtico.</em></p>",
         "body": "En Casa Maravillas seleccionamos por ti solo lo mejor. Recíbelo en casa, en el momento justo, con la calidad que nos define.",
         "cta_label": "Quiero suscribirme",
+        "incentive_text": "Código de bienvenida",
+        "incentive_code": "",
         "success_text": "¡Gracias por suscribirte! Te escribiremos pronto."
       }
     }
