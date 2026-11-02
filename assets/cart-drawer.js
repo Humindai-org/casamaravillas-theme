@@ -132,7 +132,7 @@ function initCartDrawer() {
         '</div>' +
         '<div class="cart-item-right">' +
           priceHtml +
-          '<button class="cart-remove" onclick="removeItem(\'' + item.key + '\')" aria-label="Eliminar">' +
+          '<button class="cart-remove" onclick="removeItem(\'' + item.key + '\')" aria-label="' + cmT('pack_remove_aria', 'Eliminar') + '">' +
             '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">' +
               '<path d="M2 4h12M6 4V2h4v2M5 4l.5 9h5L11 4" stroke="#6B6050" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>' +
             '</svg>' +
@@ -152,11 +152,11 @@ function initCartDrawer() {
       '<div class="cart-box" data-box="' + escapeHtml(box.id) + '">' +
         '<div class="cart-box-head">' +
           '<div>' +
-            '<p class="cart-box-eyebrow">Caja de regalo</p>' +
-            '<p class="cart-box-title">Tu pack personalizado</p>' +
+            '<p class="cart-box-eyebrow">' + cmT('pack_box_eyebrow', 'Caja de regalo') + '</p>' +
+            '<p class="cart-box-title">' + cmT('pack_box_title', 'Tu pack personalizado') + '</p>' +
             '<p class="cart-box-meta">' + count + ' producto' + (count === 1 ? '' : 's') + ' · ' + formatMoney(total) + '</p>' +
           '</div>' +
-          '<button class="cart-box-remove" onclick="removeBox(\'' + keys.join(',') + '\')" aria-label="Eliminar cesta completa">Quitar cesta</button>' +
+          '<button class="cart-box-remove" onclick="removeBox(\'' + keys.join(',') + '\')" aria-label="' + cmT('pack_box_remove_aria', 'Eliminar cesta completa') + '">' + cmT('pack_box_remove', 'Quitar cesta') + '</button>' +
         '</div>' +
         inner +
       '</div>'
@@ -255,12 +255,12 @@ function initCartDrawer() {
       wrap.className = 'cm-dialog';
       wrap.innerHTML =
         '<div class="cm-dialog__box" role="alertdialog" aria-modal="true" aria-labelledby="cm-dialog-title" aria-describedby="cm-dialog-text">' +
-          '<p class="cm-dialog__eyebrow">' + escapeHtml(opts.eyebrow || 'Tu pack') + '</p>' +
+          '<p class="cm-dialog__eyebrow">' + escapeHtml(opts.eyebrow || cmT('pack_eyebrow', 'Tu pack')) + '</p>' +
           '<h3 class="cm-dialog__title" id="cm-dialog-title">' + escapeHtml(opts.title) + '</h3>' +
           '<p class="cm-dialog__text" id="cm-dialog-text">' + escapeHtml(opts.text) + '</p>' +
           '<div class="cm-dialog__actions">' +
             (opts.cancelLabel ? '<button type="button" class="cm-dialog__btn cm-dialog__btn--ghost" data-dialog="no">' + escapeHtml(opts.cancelLabel) + '</button>' : '') +
-            '<button type="button" class="cm-dialog__btn cm-dialog__btn--main" data-dialog="yes">' + escapeHtml(opts.confirmLabel || 'Entendido') + '</button>' +
+            '<button type="button" class="cm-dialog__btn cm-dialog__btn--main" data-dialog="yes">' + escapeHtml(opts.confirmLabel || cmT('pack_ok', 'Entendido')) + '</button>' +
           '</div>' +
         '</div>';
 
@@ -292,7 +292,6 @@ function initCartDrawer() {
   /* ---- PACK: MÍNIMO DE PRODUCTOS ---- */
 
   var PACK_MIN = 2;
-  var PACK_MSG = 'Un pack necesita mínimo ' + PACK_MIN + ' productos.';
 
   /* Unidades (sin contar la caja de regalo) por cada _cesta_id del carrito */
   function packSummary(cart, key, newQty) {
@@ -335,10 +334,10 @@ function initCartDrawer() {
           var box = packSummary(cart, key, quantity)[id];
           if (box.units < PACK_MIN) {
             return cmPackDialog({
-              title: 'Un pack necesita mínimo ' + PACK_MIN + ' productos',
-              text: 'Si quitas este producto, tu pack se quedaría con menos de ' + PACK_MIN + '. ¿Quieres quitar el pack completo?',
-              confirmLabel: 'Quitar el pack',
-              cancelLabel: 'Mantener mi pack'
+              title: cmT('pack_min_title', 'Un pack necesita mínimo {min} productos', { min: PACK_MIN }),
+              text: cmT('pack_remove_text', 'Si quitas este producto, tu pack se quedaría con menos de {min}. ¿Quieres quitar el pack completo?', { min: PACK_MIN }),
+              confirmLabel: cmT('pack_remove_confirm', 'Quitar el pack'),
+              cancelLabel: cmT('pack_keep', 'Mantener mi pack')
             }).then(function (ok) { if (ok) removeBox(box.keys.join(',')); });
           }
         }
@@ -387,9 +386,9 @@ function initCartDrawer() {
         var bad = Object.keys(boxes).some(function (id) { return boxes[id].units < PACK_MIN; });
         if (bad) {
           return cmPackDialog({
-            title: 'Falta un producto en tu pack',
-            text: 'Un pack necesita mínimo ' + PACK_MIN + ' productos. Añade más productos o quita el pack para continuar.',
-            confirmLabel: 'Entendido'
+            title: cmT('pack_missing_title', 'Falta un producto en tu pack'),
+            text: cmT('pack_missing_text', 'Un pack necesita mínimo {min} productos. Añade más productos o quita el pack para continuar.', { min: PACK_MIN }),
+            confirmLabel: cmT('pack_ok', 'Entendido')
           });
         }
         window.location.href = '/checkout';

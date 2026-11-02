@@ -273,7 +273,7 @@
         type="button"
         class="qt__medallion-{{ section.id }}{% if is_active %} is-active{% endif %}"
         data-filter-tag-btn="{{ filter_tag }}"
-        aria-label="Ver detalles de {{ section.settings[settings_name] }}{% if is_active %} — clic para quitar filtro{% endif %}"
+        aria-label="{%- assign _tn = section.settings[settings_name] -%}{{ 'cm.coll.tier_details' | t: name: _tn }}{% if is_active %}{{ 'cm.coll.tier_clear' | t }}{% endif %}"
       >
         {%- if section.settings[settings_icon] != blank -%}
           <div

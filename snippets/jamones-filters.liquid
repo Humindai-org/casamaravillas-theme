@@ -16,11 +16,11 @@
   assign slider_max_val = price_max | default: 400
 
   assign calidad_tags   = 'precinto negro,precinto rojo,precinto verde' | split: ','
-  assign calidad_labels = 'Bellota 100% Ibérico,Bellota 50% Ibérico,Cebo de Campo Ibérico' | split: ','
+  assign calidad_labels = 'cm.header.tier_black|cm.header.tier_red|cm.header.tier_green' | split: '|'
   assign calidad_dots   = '5,4,3' | split: ','
 
   assign formato_tags   = 'pieza entera,cortado a mano,cortado a máquina' | split: ','
-  assign formato_labels = 'Pieza Entera,Loncheado a Mano,Loncheado a Máquina' | split: ','
+  assign formato_labels = 'cm.filters.whole_piece|cm.filters.hand_sliced|cm.filters.machine_sliced' | split: '|'
 -%}
 
 <!-- ── PRECIO ── -->
@@ -30,7 +30,7 @@
     aria-expanded="true"
     aria-controls="icfg-precio-body-{{ section_id }}{% if drawer %}-drawer{% endif %}"
   >
-    Precio
+    {{ 'cm.filters.price' | t }}
     <svg class="jc__fg-icon-{{ section_id }}" viewBox="0 0 24 24" fill="none"
          stroke="currentColor" stroke-width="1.5" aria-hidden="true">
       <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/>
@@ -53,7 +53,7 @@
           data-price-role="min"
           min="0" max="400" step="5"
           value="{{ slider_min_val }}"
-          aria-label="Precio mínimo"
+          aria-label="{{ 'cm.filters.price_min' | t }}"
         >
         <input
           type="range"
@@ -61,7 +61,7 @@
           data-price-role="max"
           min="0" max="400" step="5"
           value="{{ slider_max_val }}"
-          aria-label="Precio máximo"
+          aria-label="{{ 'cm.filters.price_max' | t }}"
         >
       </div>
     </div>
@@ -75,7 +75,7 @@
     aria-expanded="true"
     aria-controls="icfg-calidad-body-{{ section_id }}{% if drawer %}-drawer{% endif %}"
   >
-    Calidad
+    {{ 'cm.filters.quality' | t }}
     <svg class="jc__fg-icon-{{ section_id }}" viewBox="0 0 24 24" fill="none"
          stroke="currentColor" stroke-width="1.5" aria-hidden="true">
       <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/>
@@ -84,7 +84,7 @@
   <div class="jc__fg-body-{{ section_id }}" id="icfg-calidad-body-{{ section_id }}{% if drawer %}-drawer{% endif %}">
     {%- for i in (0..2) -%}
       {%- assign tag   = calidad_tags[i] -%}
-      {%- assign label = calidad_labels[i] -%}
+      {%- assign label = calidad_labels[i] | t -%}
       {%- assign dots  = calidad_dots[i] | plus: 0 -%}
       {%- assign is_checked = false -%}
       {%- for t in current_tags -%}
@@ -110,7 +110,7 @@
     aria-expanded="false"
     aria-controls="icfg-formato-body-{{ section_id }}{% if drawer %}-drawer{% endif %}"
   >
-    Formato
+    {{ 'cm.filters.format' | t }}
     <svg class="jc__fg-icon-{{ section_id }}" viewBox="0 0 24 24" fill="none"
          stroke="currentColor" stroke-width="1.5" aria-hidden="true">
       <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/>
@@ -119,7 +119,7 @@
   <div class="jc__fg-body-{{ section_id }}" id="icfg-formato-body-{{ section_id }}{% if drawer %}-drawer{% endif %}">
     {%- for i in (0..2) -%}
       {%- assign tag   = formato_tags[i] -%}
-      {%- assign label = formato_labels[i] -%}
+      {%- assign label = formato_labels[i] | t -%}
       {%- assign is_checked = false -%}
       {%- for t in current_tags -%}
         {%- if t == tag -%}{%- assign is_checked = true -%}{%- endif -%}
