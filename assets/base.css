@@ -17,6 +17,7 @@
   --cm-gold:        #C4973A;
   --cm-gold-h:      #d4a647;
   --cm-gold-pale:   #F5EDDA;
+  --cm-star:        #B8984F;
   --cm-text:        #1A1208;
   --cm-text-mid:    #4A3F32;
   --cm-text-light:  #9A8E82;
@@ -390,9 +391,23 @@ main { min-height: 50vh; }
 }
 
 /* Estrellas */
+/* Judge.me pinta sus estrellas con su propio color (var jdgm-primary-color); se fuerza el dorado de la marca */
+.jdgm-widget,
+.jdgm-review-widget,
+.jdgm-prev-badge {
+  --jdgm-primary-color: var(--cm-star);
+  --jdgm-star-color: var(--cm-star);
+}
+.jdgm-widget .jdgm-star.jdgm--on,
+.jdgm-widget .jdgm-star.jdgm--half,
+.jdgm-widget .jdgm-star.jdgm--on:before,
+.jdgm-widget .jdgm-star.jdgm--half:before,
+.jdgm-rev__rating .jdgm-star,
+.jdgm-prev-badge .jdgm-star,
 .jdgm-star.jdgm--on,
 .jdgm-star.jdgm--half {
-  color: var(--cm-gold) !important;
+  color: var(--cm-star) !important;
+  fill: var(--cm-star) !important;
 }
 .jdgm-star.jdgm--off {
   color: var(--cm-border2) !important;

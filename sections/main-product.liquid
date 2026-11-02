@@ -186,6 +186,10 @@
         {%- assign rev_rating = product.metafields.judgeme.avg_rating -%}
         {%- assign rev_count  = product.metafields.judgeme.review_count -%}
       {%- endif -%}
+      {%- comment -%} metafields.reviews.rating es un objeto {value, scale_max}; judgeme.avg_rating es un número. Se normaliza a número (también lo usa el JSON-LD). {%- endcomment -%}
+      {%- if rev_rating != blank -%}
+        {%- assign rev_rating = rev_rating.value | default: rev_rating -%}
+      {%- endif -%}
       {%- if rev_rating != blank -%}
         {%- assign rating_rounded = rev_rating | round -%}
         <div class="cm-pdp__rating" itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating">

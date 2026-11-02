@@ -1287,11 +1287,11 @@
     gap: 10px;
     margin-bottom: 20px;
   }
-  .cm-pdp__stars { display: flex; gap: 2px; align-items: center; }
-  .cm-star { width: 16px; height: 16px; color: var(--accent-gold); flex-shrink: 0; }
+  .cm-pdp__stars { display: flex; gap: 3px; align-items: center; }
+  .cm-star { width: 24px; height: 24px; color: var(--cm-star, #B8984F); flex-shrink: 0; }
   .cm-star--empty { color: var(--border-color); }
   .cm-pdp__rating-count {
-    font-size: 12px;
+    font-size: 15px;
     color: var(--text-secondary);
     font-family: var(--cm-font-sans);
     text-decoration: none;
