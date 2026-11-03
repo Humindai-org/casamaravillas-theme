@@ -9,9 +9,6 @@
  */
 {
   "current": {
-    "social_instagram": "https://www.instagram.com/casamaravillas/",
-    "social_facebook": "https://www.facebook.com/profile.php?id=61594205502796",
-    "social_tiktok": "https://www.tiktok.com/@casamaravillas1919",
     "color_background": "#ffffff",
     "color_background_secondary": "#FAFAF7",
     "color_navy": "#0d1b2a",
@@ -20,6 +17,9 @@
     "color_text_muted": "#6A6560",
     "color_border": "#E8E5DF",
     "font_size_base": 14,
+    "social_instagram": "https://www.instagram.com/casamaravillas/",
+    "social_facebook": "https://www.facebook.com/profile.php?id=61594205502796",
+    "social_tiktok": "https://www.tiktok.com/@casamaravillas1919",
     "sections": {
       "cart-drawer": {
         "type": "cart-drawer",
@@ -76,6 +76,11 @@
       },
       "13768625480086291342": {
         "type": "shopify://apps/forms/blocks/forms/8744a304-fcb1-4347-b211-bb6b4759a76a",
+        "disabled": false,
+        "settings": {}
+      },
+      "12793297677437526120": {
+        "type": "shopify://apps/t-lab-ai-language-translate/blocks/custom_translations/b5b83690-efd4-434d-8c6a-a5cef4019faf",
         "disabled": false,
         "settings": {}
       }
