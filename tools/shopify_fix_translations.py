@@ -72,6 +72,7 @@ def all_nodes(token, rtype):
 
 
 LOCS = ("en", "fr")
+TECH_KEY = re.compile(r"(metafield_key:|\.anchor:|_tag:)")
 SKIP_REUSE = re.compile(r"^[\d.,/ kJcalg%+\-]*$")
 
 
@@ -132,6 +133,15 @@ def build_plan(token, plan):
             for c in n["translatableContent"]:
                 for loc, new in (table.get(h, {}).get(c["key"]) or {}).items():
                     add(rtype, n, c, loc, new)
+    # 2b) ajustes técnicos que NO se traducen (el tema los usa como clave de metacampo, etiqueta de filtro o ancla):
+    #     si alguien los tradujo, se restaura el valor original en todos los idiomas
+    for n in nodes["ONLINE_STORE_THEME_JSON_TEMPLATE"]:
+        for c in n["translatableContent"]:
+            if TECH_KEY.search(c["key"]) and c["value"]:
+                for loc in LOCS:
+                    cur = next((t for t in n[loc] if t["key"] == c["key"]), None)
+                    if cur and cur["value"] != c["value"]:
+                        add("ONLINE_STORE_THEME_JSON_TEMPLATE", n, c, loc, c["value"], force=True)
     # 3) FAQ de la portada: por clave
     for n in nodes["ONLINE_STORE_THEME_JSON_TEMPLATE"]:
         for c in n["translatableContent"]:
