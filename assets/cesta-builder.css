@@ -41,6 +41,8 @@ background:var(--off);color:var(--tx);font-family:var(--sans)}
 .cb-searchbox:focus-within{border-color:var(--navy);box-shadow:0 0 0 4px rgba(0,41,75,.08)}
 .cb-searchbox input{flex:1;border:0;outline:0;background:none;font:inherit;font-size:17px;padding:17px 0;color:var(--tx)}
 .cb-searchbox button{border:0;background:var(--light);width:28px;height:28px;border-radius:50%;font-size:18px;line-height:1;color:var(--mid)}
+.cb-count{margin:-12px 0 16px;font-size:15px;color:var(--mid)}
+.cb-searching .cb-tab.cb-on{background:#fff;border-color:var(--b2);color:var(--mid)}
 .cb-grid{display:grid;gap:20px;grid-template-columns:repeat(3,minmax(0,1fr))}
 @media(max-width:700px){.cb-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}}
 .cb-card{border-radius:6px;overflow:hidden;background:#fff;border:1px solid var(--b);display:flex;flex-direction:column;box-shadow:0 1px 0 rgba(0,41,75,.04),0 14px 30px -18px rgba(0,41,75,.35);transition:transform .25s}
