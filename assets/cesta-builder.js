@@ -195,7 +195,18 @@
       return (activeCat === 'all' || p.cat === activeCat) && (!term || p.title.toLowerCase().indexOf(term) !== -1);
     });
     if (!list.length) { el.grid.innerHTML = '<p class="cb-status">No hay productos que coincidan.</p>'; return; }
+    /* Fichas con selectores (jamones enteros: peso/formato/curación): muy altas, no deben compartir fila con las simples.
+       Se marcan aquí en cada render (pestaña, buscador, cambio de opciones) y el CSS móvil (≤700px) las agrupa de dos en dos
+       al final; si el nº visible es impar, la última ocupa la fila entera. En escritorio estas clases no hacen nada. */
+    function hasSelectors(p) { return p.variants.length > 1 || !!p.curing; }
+    var selTotal = list.filter(hasSelectors).length;
+    var selSeen = 0;
     el.grid.innerHTML = list.map(function (p) {
+      var selCls = '';
+      if (hasSelectors(p)) {
+        selCls = ' cb-sel' + (selSeen === 0 ? ' cb-sel-1' : '') + (selSeen === selTotal - 1 && selTotal % 2 === 1 ? ' cb-sel-wide' : '');
+        selSeen++;
+      }
       var v = curVariant(p);
       var q = productQty(p);
       var ck = key(v.id, p.curing ? curCuring(p) : '');
@@ -209,7 +220,7 @@
             }).join('') + '</div></div>'
         : '';
       return (
-        '<article class="cb-card' + (q > 0 ? ' cb-in' : '') + '">' +
+        '<article class="cb-card' + selCls + (q > 0 ? ' cb-in' : '') + '">' +
           '<div class="cb-ph">' + (p.image ? '<img src="' + esc(img(p.image, 600)) + '" alt="' + esc(p.title) + '" loading="lazy" width="300" height="300">' : '') + '</div>' +
           '<div class="cb-body">' +
             '<h3 class="cb-name">' + esc(p.title) + '</h3>' +
