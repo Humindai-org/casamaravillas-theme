@@ -269,7 +269,7 @@
 
     var next = MILESTONES.filter(function (m) { return t.count < m.qty; })[0];
     if (!next) {
-      el.dsub.innerHTML = '¡Has desbloqueado <strong>todos los regalos</strong>!';
+      el.dsub.innerHTML = discPct > 0 ? '¡Descuento del <strong>' + discPct + ' %</strong> aplicado!' : '¡Pack listo!';
     } else {
       var what = next.qty === MIN && t.count < MIN ? 'para crear tu pack' : 'para <strong>' + next.label.replace('<br>', ' ') + '</strong>';
       el.dsub.innerHTML = 'Añade <strong>' + (next.qty - t.count) + ' más</strong> ' + what;
