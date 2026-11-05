@@ -23,16 +23,16 @@
   var STORE_KEY = 'cm-pack-v2';
   var CURINGS = ['Más tierno', 'Equilibrado', 'Más curado'];
   var CATS = [
-    { id: 'lonchado-jamon', label: 'Jamón Ibérico Lonchado' },
+    { id: 'lonchado-jamon', label: 'Jamón Ibérico Loncheado' },
     { id: 'jamon', label: 'Jamón Ibérico' },
     { id: 'embutido', label: 'Embutidos Ibéricos' },
-    { id: 'lonchado-emb', label: 'Embutidos Lonchados' },
+    { id: 'lonchado-emb', label: 'Embutidos Loncheados' },
     { id: 'all', label: 'Todo' }
   ];
 
   var $ = function (sel) { return root.querySelector(sel); };
   var el = {
-    tabs: $('[data-cb-tabs]'), search: $('[data-cb-search]'), searchClear: $('[data-cb-search-clear]'),
+    tabs: $('[data-cb-tabs]'), search: $('[data-cb-search]'), count: $('[data-cb-count]'), searchClear: $('[data-cb-search-clear]'),
     grid: $('[data-cb-grid]'), count: $('[data-cb-count]'), dsub: $('[data-cb-dsub]'),
     track: $('[data-cb-track]'), fill: $('[data-cb-fill]'),
     lines: $('[data-cb-lines]'), empty: $('[data-cb-empty]'),
@@ -64,6 +64,12 @@
     try { basket = JSON.parse(localStorage.getItem(STORE_KEY)) || {}; } catch (e) { basket = {}; }
   }
   function key(vid, curing) { return vid + '|' + (curing || ''); }
+
+  /* Búsqueda sin tildes ni mayúsculas. «lonchad…» se equipara a «lonchead…»: el catálogo dice «Loncheado»
+     pero el cliente puede escribir «lonchado». Se aplica igual al término y al texto del producto. */
+  function fold(s) {
+    return String(s == null ? '' : s).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/lonchad/g, 'lonchead');
+  }
 
   function classify(p) {
     var t = (p.title + ' ' + p.type).toLowerCase();
@@ -131,6 +137,7 @@
     };
     o.cat = classify(o);
     o.curing = hasCuring(o);
+    o.hay = fold([o.title, o.type].concat(o.tags).join(' '));
     return o;
   }
 
@@ -191,11 +198,27 @@
   }
 
   function renderGrid() {
+    /* Con texto en el buscador se busca en TODAS las categorías (se ignora la pestaña activa, que no se pierde:
+       al borrar el texto se vuelve a ella). Coincide por título, tipo de producto y etiquetas, sin tildes ni mayúsculas. */
     var list = products.filter(function (p) {
-      return (activeCat === 'all' || p.cat === activeCat) && (!term || p.title.toLowerCase().indexOf(term) !== -1);
+      return term ? p.hay.indexOf(term) !== -1 : (activeCat === 'all' || p.cat === activeCat);
     });
+    el.tabs.classList.toggle('cb-searching', !!term);
+    el.count.hidden = !term;
+    el.count.textContent = term ? list.length + (list.length === 1 ? ' resultado' : ' resultados') : '';
     if (!list.length) { el.grid.innerHTML = '<p class="cb-status">No hay productos que coincidan.</p>'; return; }
+    /* Fichas con selectores (jamones enteros: peso/formato/curación): muy altas, no deben compartir fila con las simples.
+       Se marcan aquí en cada render (pestaña, buscador, cambio de opciones) y el CSS móvil (≤700px) las agrupa de dos en dos
+       al final; si el nº visible es impar, la última ocupa la fila entera. En escritorio estas clases no hacen nada. */
+    function hasSelectors(p) { return p.variants.length > 1 || !!p.curing; }
+    var selTotal = list.filter(hasSelectors).length;
+    var selSeen = 0;
     el.grid.innerHTML = list.map(function (p) {
+      var selCls = '';
+      if (hasSelectors(p)) {
+        selCls = ' cb-sel' + (selSeen === 0 ? ' cb-sel-1' : '') + (selSeen === selTotal - 1 && selTotal % 2 === 1 ? ' cb-sel-wide' : '');
+        selSeen++;
+      }
       var v = curVariant(p);
       var q = productQty(p);
       var ck = key(v.id, p.curing ? curCuring(p) : '');
@@ -209,7 +232,7 @@
             }).join('') + '</div></div>'
         : '';
       return (
-        '<article class="cb-card' + (q > 0 ? ' cb-in' : '') + '">' +
+        '<article class="cb-card' + selCls + (q > 0 ? ' cb-in' : '') + '">' +
           '<div class="cb-ph">' + (p.image ? '<img src="' + esc(img(p.image, 600)) + '" alt="' + esc(p.title) + '" loading="lazy" width="300" height="300">' : '') + '</div>' +
           '<div class="cb-body">' +
             '<h3 class="cb-name">' + esc(p.title) + '</h3>' +
@@ -305,7 +328,10 @@
       var k = t.dataset.dec, b = basket[k];
       return b && setQty(b.vid, b.curing, b.qty - 1);
     }
-    if (t.matches('[data-cat]')) { activeCat = t.dataset.cat; renderTabs(); return renderGrid(); }
+    if (t.matches('[data-cat]')) {
+      activeCat = t.dataset.cat; el.search.value = ''; term = ''; el.searchClear.hidden = true;
+      renderTabs(); return renderGrid();
+    }
     if (t.hasAttribute('data-cb-clear')) { el.modal.hidden = false; return $('[data-cb-no]').focus(); }
     if (t.hasAttribute('data-cb-no')) { el.modal.hidden = true; return; }
     if (t.hasAttribute('data-cb-yes')) { basket = {}; save(); el.modal.hidden = true; return refresh(); }
@@ -328,7 +354,7 @@
   });
 
   el.search.addEventListener('input', function () {
-    term = el.search.value.trim().toLowerCase();
+    term = fold(el.search.value.trim());
     el.searchClear.hidden = !term;
     renderGrid();
   });

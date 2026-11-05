@@ -41,6 +41,8 @@ background:var(--off);color:var(--tx);font-family:var(--sans)}
 .cb-searchbox:focus-within{border-color:var(--navy);box-shadow:0 0 0 4px rgba(0,41,75,.08)}
 .cb-searchbox input{flex:1;border:0;outline:0;background:none;font:inherit;font-size:17px;padding:17px 0;color:var(--tx)}
 .cb-searchbox button{border:0;background:var(--light);width:28px;height:28px;border-radius:50%;font-size:18px;line-height:1;color:var(--mid)}
+.cb-count{margin:-12px 0 16px;font-size:15px;color:var(--mid)}
+.cb-searching .cb-tab.cb-on{background:#fff;border-color:var(--b2);color:var(--mid)}
 .cb-grid{display:grid;gap:20px;grid-template-columns:repeat(3,minmax(0,1fr))}
 @media(max-width:700px){.cb-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}}
 .cb-card{border-radius:6px;overflow:hidden;background:#fff;border:1px solid var(--b);display:flex;flex-direction:column;box-shadow:0 1px 0 rgba(0,41,75,.04),0 14px 30px -18px rgba(0,41,75,.35);transition:transform .25s}
@@ -86,6 +88,11 @@ select{width:100%;padding:12px;border-radius:4px;border:1.5px solid var(--b2);fo
    y el radio oculto, position:absolute sin ancestro posicionado, ensanchaba la página 3-6px a 360px) */
 .cb-curing{display:flex;flex-wrap:wrap}.cb-curing label{flex:1 1 auto}
 .cb-curing label,.cb-opts label{position:relative}
+/* Fichas con selectores (jamones enteros) aparte de las simples: al final, de dos en dos, empezando fila nueva; si el nº visible
+   es impar la última ocupa la fila entera. Las clases las pone cesta-builder.js en cada render (pestaña/buscador). */
+.cb-card.cb-sel{order:1}
+.cb-card.cb-sel-1{grid-column:1}
+.cb-card.cb-sel-wide{grid-column:1/-1}
 }
 /* PACK */
 .cb-pack{border-radius:6px;overflow:hidden;position:sticky;top:20px;background:#fff;border:1px solid var(--gold);box-shadow:0 22px 44px -26px rgba(0,41,75,.5)}
