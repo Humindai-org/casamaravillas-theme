@@ -1,3 +1,9 @@
+{%- assign ph_auto = '{' | append: 'auto' | append: '}' -%}
+{%- assign ph_goal = '{' | append: 'goal' | append: '}' -%}
+{%- assign ph_label = '{' | append: 'label' | append: '}' -%}
+{%- assign ph_min = '{' | append: 'min' | append: '}' -%}
+{%- assign ph_pct = '{' | append: 'pct' | append: '}' -%}
+{%- assign ph_what = '{' | append: 'what' | append: '}' -%}
 {%- assign ph_n = '{' | append: 'n' | append: '}' -%}
 {%- assign ph_amount = '{' | append: 'amount' | append: '}' -%}
 {%- comment -%}
@@ -19,12 +25,12 @@
     cart_items_aria: {{ 'cm.pdp.cart_items_aria' | t: n: ph_n | json }},
     shipbar_free_html: {{ 'cm.shipbar.free_html' | t | json }},
     shipbar_remaining_html: {{ 'cm.shipbar.remaining_html' | t: amount: ph_amount | json }},
-    pack_min_title: {{ 'cm.pack.min_title' | t: min: '{min}' | json }},
-    pack_remove_text: {{ 'cm.pack.remove_text' | t: min: '{min}' | json }},
+    pack_min_title: {{ 'cm.pack.min_title' | t: min: ph_min | json }},
+    pack_remove_text: {{ 'cm.pack.remove_text' | t: min: ph_min | json }},
     pack_remove_confirm: {{ 'cm.pack.remove_confirm' | t | json }},
     pack_keep: {{ 'cm.pack.keep' | t | json }},
     pack_missing_title: {{ 'cm.pack.missing_title' | t | json }},
-    pack_missing_text: {{ 'cm.pack.missing_text' | t: min: '{min}' | json }},
+    pack_missing_text: {{ 'cm.pack.missing_text' | t: min: ph_min | json }},
     pack_ok: {{ 'cm.pack.ok' | t | json }},
     pack_eyebrow: {{ 'cm.pack.eyebrow' | t | json }},
     pack_box_eyebrow: {{ 'cm.pack.box_eyebrow' | t | json }},
@@ -33,7 +39,7 @@
     pack_box_remove: {{ 'cm.pack.box_remove' | t | json }},
     pack_remove_aria: {{ 'cm.pack.remove_aria' | t | json }},
     no_results: {{ 'cm.info.no_results' | t | json }},
-    cb_milestone_disc: {{ 'cm.cb.milestone_disc' | t: pct: '{pct}' | json }},
+    cb_milestone_disc: {{ 'cm.cb.milestone_disc' | t: pct: ph_pct | json }},
     pdp_curing_tender: {{ 'cm.pdp.curing_tender' | t | json }},
     pdp_curing_balanced: {{ 'cm.pdp.curing_balanced' | t | json }},
     pdp_curing_cured: {{ 'cm.pdp.curing_cured' | t | json }},
@@ -48,22 +54,22 @@
     cb_add_to_pack: {{ 'cm.cb.add_to_pack' | t | json }},
     cb_remove_one: {{ 'cm.cb.remove_one' | t | json }},
     cb_add_one: {{ 'cm.cb.add_one' | t | json }},
-    cb_count_one: {{ 'cm.cb.count_one' | t: n: '{n}' | json }},
-    cb_count_many: {{ 'cm.cb.count_many' | t: n: '{n}' | json }},
-    cb_save_auto: {{ 'cm.cb.save_auto' | t: auto: '{auto}', pct: '{pct}' | json }},
-    cb_save_cart: {{ 'cm.cb.save_cart' | t: pct: '{pct}' | json }},
-    cb_you_save: {{ 'cm.cb.you_save' | t: amount: '{amount}' | json }},
+    cb_count_one: {{ 'cm.cb.count_one' | t: n: ph_n | json }},
+    cb_count_many: {{ 'cm.cb.count_many' | t: n: ph_n | json }},
+    cb_save_auto: {{ 'cm.cb.save_auto' | t: auto: ph_auto, pct: ph_pct | json }},
+    cb_save_cart: {{ 'cm.cb.save_cart' | t: pct: ph_pct | json }},
+    cb_you_save: {{ 'cm.cb.you_save' | t: amount: ph_amount | json }},
     cb_milestone_ready: {{ 'cm.cb.milestone_ready' | t | json }},
     cb_result_one: {{ 'cm.cb.result_one' | t | json }},
     cb_result_many: {{ 'cm.cb.result_many' | t | json }},
     cb_pack_ready: {{ 'cm.cb.pack_ready' | t | json }},
-    cb_disc_applied: {{ 'cm.cb.disc_applied' | t: pct: '{pct}' | json }},
+    cb_disc_applied: {{ 'cm.cb.disc_applied' | t: pct: ph_pct | json }},
     cb_all_gifts: {{ 'cm.cb.all_gifts' | t | json }},
     cb_what_pack: {{ 'cm.cb.what_pack' | t | json }},
-    cb_what_for: {{ 'cm.cb.what_for' | t: label: '{label}' | json }},
-    cb_add_more: {{ 'cm.cb.add_more' | t: n: '{n}', what: '{what}' | json }},
+    cb_what_for: {{ 'cm.cb.what_for' | t: label: ph_label | json }},
+    cb_add_more: {{ 'cm.cb.add_more' | t: n: ph_n, what: ph_what | json }},
     cb_ship_free: {{ 'cm.cb.ship_free' | t | json }},
-    cb_ship_remaining: {{ 'cm.cb.ship_remaining' | t: goal: '{goal}', amount: '{amount}' | json }},
+    cb_ship_remaining: {{ 'cm.cb.ship_remaining' | t: goal: ph_goal, amount: ph_amount | json }},
     cb_add_error: {{ 'cm.cb.add_error' | t | json }},
     cb_add_fail: {{ 'cm.cb.add_fail' | t | json }},
     cb_load_fail: {{ 'cm.cb.load_fail' | t | json }},
