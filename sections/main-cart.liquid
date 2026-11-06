@@ -184,22 +184,22 @@
 </style>
 
 <section class="cm-cart">
-  <h1 class="cm-cart__title">Tu carrito</h1>
+  <h1 class="cm-cart__title">{{ 'cm.cartpage.title' | t }}</h1>
 
   {%- if cart.item_count == 0 -%}
     <div class="cm-cart__empty">
-      <p>Tu carrito está vacío.</p>
-      <a href="{{ routes.collections_url }}/all" class="cm-btn">Seguir comprando</a>
+      <p>{{ 'cm.cartpage.empty' | t }}</p>
+      <a href="{{ routes.collections_url }}/all" class="cm-btn">{{ 'cm.cart.keep_shopping' | t }}</a>
     </div>
   {%- else -%}
     <form action="{{ routes.cart_url }}" method="post">
       <table class="cm-cart__table">
         <thead>
           <tr>
-            <th>Producto</th>
-            <th>Precio</th>
-            <th>Cantidad</th>
-            <th>Total</th>
+            <th>{{ 'cm.cartpage.product' | t }}</th>
+            <th>{{ 'cm.cartpage.price' | t }}</th>
+            <th>{{ 'cm.cartpage.qty' | t }}</th>
+            <th>{{ 'cm.cartpage.total' | t }}</th>
           </tr>
         </thead>
         <tbody>
@@ -224,16 +224,16 @@
                         <p class="cm-cart__variant">{{ prop_first }}: {{ prop.last }}</p>
                       {%- endif -%}
                     {%- endfor -%}
-                    <button class="cm-cart__remove" type="button" data-key="{{ item.key }}">Eliminar</button>
+                    <button class="cm-cart__remove" type="button" data-key="{{ item.key }}">{{ 'cm.cartpage.remove' | t }}</button>
                   </div>
                 </div>
               </td>
               <td>{{ item.original_price | money }}</td>
               <td>
                 <div class="cm-cart__qty">
-                  <button class="cm-cart__qty-btn" type="button" aria-label="Reducir cantidad" data-action="decrease" data-key="{{ item.key }}">−</button>
+                  <button class="cm-cart__qty-btn" type="button" aria-label="{{ 'cm.pdp.qty_decrease' | t }}" data-action="decrease" data-key="{{ item.key }}">−</button>
                   <input class="cm-cart__qty-input" type="number" value="{{ item.quantity }}" min="0" data-key="{{ item.key }}" style="width:36px;text-align:center;border:1px solid var(--cm-border);padding:4px;font-size:14px;">
-                  <button class="cm-cart__qty-btn" type="button" aria-label="Aumentar cantidad" data-action="increase" data-key="{{ item.key }}">+</button>
+                  <button class="cm-cart__qty-btn" type="button" aria-label="{{ 'cm.pdp.qty_increase' | t }}" data-action="increase" data-key="{{ item.key }}">+</button>
                 </div>
               </td>
               <td class="cm-cart__price">
@@ -253,25 +253,25 @@
         {% render 'free-shipping-bar' %}
         <div class="cm-cart__summary">
           <div class="cm-cart__summary-row">
-            <span>Subtotal</span>
+            <span>{{ 'cm.cart.subtotal' | t }}</span>
             <span>{{ cart.original_total_price | money }}</span>
           </div>
           {%- if cart.total_discount > 0 -%}
             <div class="cm-cart__summary-row cm-cart__summary-row--discount">
-              <span>Descuentos</span>
+              <span>{{ 'cm.cartpage.discounts' | t }}</span>
               <span>−{{ cart.total_discount | money }}</span>
             </div>
           {%- endif -%}
           <div class="cm-cart__summary-row">
-            <span>Envío</span>
-            <span>Calculado en el checkout</span>
+            <span>{{ 'cm.cart.shipping' | t }}</span>
+            <span>{{ 'cm.cart.shipping_calc' | t }}</span>
           </div>
           <div class="cm-cart__summary-row cm-cart__summary-row--total">
-            <span>Total</span>
+            <span>{{ 'cm.cartpage.total' | t }}</span>
             <span>{{ cart.total_price | money }}</span>
           </div>
-          <button type="submit" name="checkout" class="cm-cart__checkout">Finalizar compra</button>
-          <a href="{{ routes.collections_url }}/all" class="cm-cart__continue">Seguir comprando</a>
+          <button type="submit" name="checkout" class="cm-cart__checkout">{{ 'cm.cartpage.checkout' | t }}</button>
+          <a href="{{ routes.collections_url }}/all" class="cm-cart__continue">{{ 'cm.cart.keep_shopping' | t }}</a>
         </div>
       </div>
     </form>
@@ -281,7 +281,6 @@
 <script>
 (function () {
   var PACK_MIN = 2;
-  var PACK_MSG = 'Un pack necesita mínimo ' + PACK_MIN + ' productos.';
 
   function dialog(opts) {
     if (window.cmPackDialog) return window.cmPackDialog(opts);
@@ -316,10 +315,10 @@
         var box = boxes(cart, key, quantity)[id];
         if (box.units < PACK_MIN) {
           dialog({
-            title: 'Un pack necesita mínimo ' + PACK_MIN + ' productos',
-            text: 'Si quitas este producto, tu pack se quedaría con menos de ' + PACK_MIN + '. ¿Quieres quitar el pack completo?',
-            confirmLabel: 'Quitar el pack',
-            cancelLabel: 'Mantener mi pack'
+            title: cmT('pack_min_title', 'Un pack necesita mínimo {min} productos', { min: PACK_MIN }),
+            text: cmT('pack_remove_text', 'Si quitas este producto, tu pack se quedaría con menos de {min}. ¿Quieres quitar el pack completo?', { min: PACK_MIN }),
+            confirmLabel: cmT('pack_remove_confirm', 'Quitar el pack'),
+            cancelLabel: cmT('pack_keep', 'Mantener mi pack')
           }).then(function (ok) {
             if (!ok) return;
             var updates = {};
@@ -342,9 +341,9 @@
         var bad = Object.keys(all).some(function (id) { return all[id].units < PACK_MIN; });
         if (bad) {
           dialog({
-            title: 'Falta un producto en tu pack',
-            text: 'Un pack necesita mínimo ' + PACK_MIN + ' productos. Añade más productos o quita el pack para continuar.',
-            confirmLabel: 'Entendido'
+            title: cmT('pack_missing_title', 'Falta un producto en tu pack'),
+            text: cmT('pack_missing_text', 'Un pack necesita mínimo {min} productos. Añade más productos o quita el pack para continuar.', { min: PACK_MIN }),
+            confirmLabel: cmT('pack_ok', 'Entendido')
           });
           return;
         }

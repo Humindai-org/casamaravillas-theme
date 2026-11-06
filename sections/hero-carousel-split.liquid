@@ -407,7 +407,7 @@
           class="cm-hero-split__img-slide{% if forloop.first %} is-active{% endif %}"
           id="cm-slide-{{ block.id }}"
           role="group"
-          aria-label="Slide {{ forloop.index }} de {{ section.blocks.size }}"
+          aria-label="{{ 'cm.page.slide_aria' | t: n: forloop.index, total: section.blocks.size }}"
           {{ block.shopify_attributes }}
         >
           {%- if block.settings.image != blank -%}

@@ -352,7 +352,7 @@
         <span class="cm-volume-discount__badge" id="cm-volume-discount-badge-{{ section.id }}"></span>
       </div>
 
-      <p class="cm-pdp__tax-note">IVA incluido &middot; <a href="/pages/envios" class="cm-pdp__shipping-link">Consulta nuestra política de envíos</a></p>
+      <p class="cm-pdp__tax-note">{{ 'cm.pdp.vat_note' | t }} &middot; <a href="{{ routes.root_url | remove_last: '/' }}/pages/envios" class="cm-pdp__shipping-link">{{ 'cm.pdp.shipping_policy' | t }}</a></p>
 
       {%- comment -%} ── BARRA DE ENVÍO GRATIS (solo ES/PT, el snippet decide) ── {%- endcomment -%}
       {% render 'free-shipping-bar', pdp: true %}
@@ -365,20 +365,22 @@
             {%- assign option_idx = option.position | minus: 1 -%}
             {%- assign selected_in_option = current_variant.options[option_idx] -%}
             {%- case option_name_lower -%}
-              {%- when 'peso' -%}
+              {%- when 'peso', 'weight', 'poids' -%}
                 {%- if product.handle contains 'pieza-entera' or product.tags contains 'pieza' -%}
-                  {%- assign opt_caption = 'Selecciona el peso aproximado de tu pieza.' -%}
+                  {%- assign opt_caption = 'cm.pdp.cap_weight_whole' | t -%}
                 {%- else -%}
-                  {%- assign opt_caption = 'Selecciona el peso.' -%}
+                  {%- assign opt_caption = 'cm.pdp.cap_weight' | t -%}
                 {%- endif -%}
-              {%- when 'formato' -%}{%- assign opt_caption = 'Elige cómo quieres tu pieza. Recargos con IVA incluido.' -%}
+              {%- when 'formato', 'format' -%}{%- assign opt_caption = 'cm.pdp.cap_format' | t -%}
               {%- else -%}{%- assign opt_caption = '' -%}
             {%- endcase -%}
             <div class="cm-pdp__select-wrap cm-pdp__group" data-opt-name="{{ option.name | escape }}">
               <div class="cm-pdp__group-head">
                 <label class="cm-pdp__select-label" for="cm-sel-{{ forloop.index }}-{{ section.id }}">
-                  {%- if option_name_lower contains 'vino' -%}
-                    Selecciona tu vino
+                  {%- if option_name_lower contains 'vino' or option_name_lower contains 'wine' -%}
+                    {{ 'cm.pdp.choose_wine' | t }}
+                  {%- elsif option_name_lower == 'formato' -%}
+                    {{ 'cm.pdp.opt_format' | t }}
                   {%- else -%}
                     {{ option.name }}
                   {%- endif -%}
@@ -393,13 +395,13 @@
               >
                 {%- for value in option.values -%}
                   {%- case value -%}
-                    {%- when 'Pieza entera' -%}{%- assign value_desc = 'Disfruta de la experiencia completa en casa.' -%}
-                    {%- when 'Deshuesado' -%}{%- assign value_desc = 'Más cómodo, mismo sabor.' -%}
-                    {%- when 'Corte a máquina y envasado' -%}{%- assign value_desc = 'Listo para disfrutar.' -%}
-                    {%- when 'Corte a mano y envasado' -%}{%- assign value_desc = 'El máximo nivel de experiencia.' -%}
-                    {%- else -%}{%- assign value_desc = '' -%}
+                    {%- when 'Pieza entera' -%}{%- assign value_desc = 'cm.pdp.val_whole_desc' | t -%}{%- assign value_label = 'cm.pdp.val_whole' | t -%}
+                    {%- when 'Deshuesado' -%}{%- assign value_desc = 'cm.pdp.val_boneless_desc' | t -%}{%- assign value_label = 'cm.pdp.val_boneless' | t -%}
+                    {%- when 'Corte a máquina y envasado' -%}{%- assign value_desc = 'cm.pdp.val_machine_desc' | t -%}{%- assign value_label = 'cm.pdp.val_machine' | t -%}
+                    {%- when 'Corte a mano y envasado' -%}{%- assign value_desc = 'cm.pdp.val_hand_desc' | t -%}{%- assign value_label = 'cm.pdp.val_hand' | t -%}
+                    {%- else -%}{%- assign value_desc = '' -%}{%- assign value_label = value -%}
                   {%- endcase -%}
-                  <option value="{{ value | escape }}"{% if value == selected_in_option %} selected{% endif %}{% if value_desc != blank and option_name_lower == 'formato' %} data-desc="{{ value_desc }}"{% endif %}>{{ value }}</option>
+                  <option value="{{ value | escape }}"{% if value == selected_in_option %} selected{% endif %}{% if value_desc != blank and option_name_lower == 'formato' %} data-desc="{{ value_desc }}"{% endif %}>{{ value_label }}</option>
                 {%- endfor -%}
               </select>
               <span class="cm-pdp__select-arrow" aria-hidden="true">
@@ -420,13 +422,14 @@
       {%- if pack_opts_raw != blank -%}
         <div class="cm-pdp__select-wrap cm-pdp__group" data-selector-type="cortado lonchado" style="display: none;">
           <div class="cm-pdp__group-head">
-            <label class="cm-pdp__select-label" for="cm-pack-sel-{{ section.id }}">Unidades</label>
-            <span class="cm-pdp__group-caption">Elige cuántas unidades quieres.</span>
+            <label class="cm-pdp__select-label" for="cm-pack-sel-{{ section.id }}">{{ 'cm.pdp.units' | t }}</label>
+            <span class="cm-pdp__group-caption">{{ 'cm.pdp.units_caption' | t }}</span>
           </div>
           <select id="cm-pack-sel-{{ section.id }}" class="cm-pdp__select" data-pack-select>
             {%- assign pack_opts = pack_opts_raw | split: ',' -%}
+            {%- assign unit_short = 'cm.pdp.unit_short' | t -%}
             {%- for opt in pack_opts -%}
-              <option value="{{ opt | strip | escape }}">{{ opt | strip }}</option>
+              <option value="{{ opt | strip | escape }}">{{ opt | strip | replace: 'ud.', unit_short }}</option>
             {%- endfor -%}
           </select>
           <span class="cm-pdp__select-arrow" aria-hidden="true">
@@ -452,9 +455,9 @@
         <div class="cm-curing-selector cm-pdp__group" id="cm-curing-{{ section.id }}">
           <div class="cm-pdp__group-head">
             <label class="cm-pdp__select-label" for="cm-curing-sel-{{ section.id }}">
-              Punto de Curación
+              {{ 'cm.pdp.curing_label' | t }}
             </label>
-            <span class="cm-pdp__group-caption">Selecciona el sabor y la textura que más te guste.</span>
+            <span class="cm-pdp__group-caption">{{ 'cm.pdp.curing_caption' | t }}</span>
           </div>
           <div class="cm-pdp__select-wrap">
             <select id="cm-curing-sel-{{ section.id }}" class="cm-pdp__select" data-curing-select>

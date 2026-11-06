@@ -126,7 +126,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const wrap = select.closest('.cm-pdp__select-wrap');
     if (!wrap || wrap.classList.contains('has-opts')) return;
     const group = document.createElement('div');
-    const cards = (wrap.dataset.optName || '').toLowerCase() === 'formato';
+    const cards = ['formato', 'format'].indexOf((wrap.dataset.optName || '').toLowerCase()) !== -1;
     group.className = 'cm-pdp__opts' + (cards ? ' cm-pdp__opts--cards' : '');
     group.setAttribute('role', 'radiogroup');
     const label = select.id ? document.querySelector('label[for="' + select.id + '"]') : null;
@@ -351,22 +351,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Detectar formato desde product.tags
     let selectorType = 'entero';
-    let formatLabel = 'Pieza Entera';
+    let formatLabel = cmT('pdp_fmt_whole', 'Pieza Entera');
     const tags = data.tags || [];
     const tagsLower = tags.map(t => String(t).trim().toLowerCase());
 
     if (tagsLower.some(t => t.includes('loncheado'))) {
       selectorType = 'lonchado';
-      formatLabel = 'Loncheado';
+      formatLabel = cmT('pdp_fmt_sliced', 'Loncheado');
     } else if (tagsLower.some(t => t.includes('cortado'))) {
       selectorType = 'cortado';
-      formatLabel = 'Loncheado';
+      formatLabel = cmT('pdp_fmt_sliced', 'Loncheado');
     } else if (tagsLower.some(t => t.includes('deshuesado'))) {
       selectorType = 'deshuesado';
-      formatLabel = 'Deshuesado';
+      formatLabel = cmT('pdp_fmt_boneless', 'Deshuesado');
     } else if (tagsLower.some(t => t.includes('pieza'))) {
       selectorType = 'entero';
-      formatLabel = 'Pieza Entera';
+      formatLabel = cmT('pdp_fmt_whole', 'Pieza Entera');
     }
 
     const selectors = sectionEl.querySelectorAll('[data-selector-type]');
@@ -402,7 +402,7 @@ document.addEventListener('DOMContentLoaded', function() {
   /* Formato (Pieza entera / Deshuesado / Corte…): el €/kg solo tiene sentido con la pieza entera,
      y cada formato muestra su suplemento sobre la pieza del peso elegido. */
   function formatoOptionIndex() {
-    return data && data.options ? data.options.indexOf('Formato') : -1;
+    return data && data.options ? Math.max(data.options.indexOf('Formato'), data.options.indexOf('Format')) : -1;
   }
 
   function updatePriceKg(variant) {
@@ -410,10 +410,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const idx = formatoOptionIndex();
     if (idx < 0 || !variant) return;
     const formato = variant['option' + (idx + 1)];
-    if (el) el.style.display = formato === 'Pieza entera' ? '' : 'none';
+    if (el) el.style.display = formato === 'Pieza entera' ? '' : 'none'; /* el valor del formato no se traduce en Shopify: la lógica depende de él */
     /* La banda de confianza muestra el formato elegido */
     const bandDesc = document.querySelector('#cm-trust-formato-desc');
-    if (bandDesc && formato) bandDesc.textContent = formato;
+    if (bandDesc && formato) {
+      /* El valor del <select> es el original (lógica); en la banda se muestra el texto visible, ya traducido */
+      const sel = document.querySelector('#cm-pdp-' + SID + ' select[data-option-index="' + (idx + 1) + '"]');
+      const shown = sel && sel.selectedOptions[0] ? sel.selectedOptions[0].textContent.trim() : formato;
+      bandDesc.textContent = shown;
+    }
   }
 
   function refreshFormatoExtras() {

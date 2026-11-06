@@ -27,59 +27,59 @@
     <div class="cb-tl" data-cb-tl>
       <div class="cb-tl-line"><span data-cb-tl-fill></span></div>
       <div class="cb-tl-steps">
-        <button type="button" class="cb-tl-step" data-s="0"><i>1</i><h3>Elige tus productos</h3><p>Jamón, loncheados, embutidos… Mínimo {{ section.settings.min_items }} para crear tu pack.</p></button>
-        <button type="button" class="cb-tl-step" data-s="1"><i>2</i><h3>Personaliza el punto</h3><p>En pieza entera, escoge el punto de curación que prefieres.</p></button>
-        <button type="button" class="cb-tl-step" data-s="2"><i>3</i><h3>Suma y ahorra</h3><p>Con el tercer producto, 5 % de descuento.</p></button>
-        <button type="button" class="cb-tl-step" data-s="3"><i>4</i><h3>Recíbelo en caja regalo</h3><p>Preparado y embalado a mano por Casa Maravillas.</p></button>
+        <button type="button" class="cb-tl-step" data-s="0"><i>1</i><h3>{{ 'cm.cb.step1_t' | t }}</h3><p>{{ 'cm.cb.step1_p' | t: min: section.settings.min_items }}</p></button>
+        <button type="button" class="cb-tl-step" data-s="1"><i>2</i><h3>{{ 'cm.cb.step2_t' | t }}</h3><p>{{ 'cm.cb.step2_p' | t }}</p></button>
+        <button type="button" class="cb-tl-step" data-s="2"><i>3</i><h3>{{ 'cm.cb.step3_t' | t }}</h3><p>{{ 'cm.cb.step3_p' | t }}</p></button>
+        <button type="button" class="cb-tl-step" data-s="3"><i>4</i><h3>{{ 'cm.cb.step4_t' | t }}</h3><p>{{ 'cm.cb.step4_p' | t }}</p></button>
       </div>
     </div>
   </section>
 
   <div class="cb-wrap">
     <div>
-      <div class="cb-tabs" role="tablist" aria-label="Categorías" data-cb-tabs></div>
+      <div class="cb-tabs" role="tablist" aria-label="{{ 'cm.cb.categories' | t }}" data-cb-tabs></div>
       <label class="cb-searchbox">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
-        <span class="visually-hidden">Buscar producto</span>
-        <input type="search" placeholder="Busca jamón, lomo, chorizo…" autocomplete="off" data-cb-search>
-        <button type="button" aria-label="Borrar búsqueda" data-cb-search-clear hidden>×</button>
+        <span class="visually-hidden">{{ 'cm.coll.search_aria' | t }}</span>
+        <input type="search" placeholder="{{ 'cm.cb.search_placeholder' | t }}" autocomplete="off" data-cb-search>
+        <button type="button" aria-label="{{ 'cm.cb.search_clear' | t }}" data-cb-search-clear hidden>×</button>
       </label>
       <p class="cb-count" data-cb-count aria-live="polite" hidden></p>
       <div class="cb-grid" data-cb-grid aria-live="polite">
-        <p class="cb-status">Cargando productos…</p>
+        <p class="cb-status">{{ 'cm.cb.loading' | t }}</p>
       </div>
     </div>
 
-    <aside class="cb-pack" aria-label="Tu pack">
+    <aside class="cb-pack" aria-label="{{ 'cm.pack.eyebrow' | t }}">
       <div class="cb-pack-h">
-        <div><h2>Tu pack</h2><span class="cb-gift">Caja regalo gratis</span></div>
-        <button type="button" class="cb-clear" data-cb-clear hidden>Vaciar pack</button>
+        <div><h2>{{ 'cm.pack.eyebrow' | t }}</h2><span class="cb-gift">{{ 'cm.cb.gift_free' | t }}</span></div>
+        <button type="button" class="cb-clear" data-cb-clear hidden>{{ 'cm.cb.clear' | t }}</button>
       </div>
       <div class="cb-pack-b">
-        <p class="cb-dtitle"><span>Llega a tus descuentos</span><span data-cb-count>0 productos</span></p>
+        <p class="cb-dtitle"><span>{{ 'cm.cb.reach' | t }}</span><span data-cb-count>{{ 'cm.cb.zero_products' | t }}</span></p>
         <p class="cb-dsub" data-cb-dsub></p>
         <div class="cb-track" data-cb-track role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
           <div class="cb-fill" data-cb-fill></div>
         </div>
         <ul class="cb-lines" data-cb-lines></ul>
-        <p class="cb-empty" data-cb-empty>Todavía no has añadido nada.</p>
+        <p class="cb-empty" data-cb-empty>{{ 'cm.cb.empty' | t }}</p>
         <div class="cb-ship"><span data-cb-ship-text></span><div class="cb-bar"><span data-cb-ship-bar></span></div></div>
         <p class="cb-save" data-cb-save hidden></p>
-        <p class="cb-note">Los descuentos no se suman: se aplica el que más te ahorra.</p>
-        <div class="cb-tot"><span>Total</span><strong data-cb-total>0,00 €</strong></div>
-        <button type="button" class="cb-cta" data-cb-add disabled>Añadir pack al carrito</button>
-        <p class="cb-min" data-cb-min>Mínimo {{ section.settings.min_items }} productos</p>
+        <p class="cb-note">{{ 'cm.cb.note' | t }}</p>
+        <div class="cb-tot"><span>{{ 'cm.cartpage.total' | t }}</span><strong data-cb-total>0,00 €</strong></div>
+        <button type="button" class="cb-cta" data-cb-add disabled>{{ 'cm.cb.add_pack' | t }}</button>
+        <p class="cb-min" data-cb-min>{{ 'cm.cb.min_text' | t: min: section.settings.min_items }}</p>
       </div>
     </aside>
   </div>
 
   <div class="cb-modal" data-cb-modal hidden>
     <div class="cb-mbox" role="alertdialog" aria-modal="true" aria-labelledby="cb-mt">
-      <h3 id="cb-mt">¿Vaciar tu pack?</h3>
-      <p>¿Estás seguro de que quieres eliminar todos tus productos?</p>
+      <h3 id="cb-mt">{{ 'cm.cb.modal_title' | t }}</h3>
+      <p>{{ 'cm.cb.modal_text' | t }}</p>
       <div class="cb-mact">
-        <button type="button" class="cb-mno" data-cb-no>Cancelar</button>
-        <button type="button" class="cb-myes" data-cb-yes>Sí, vaciar</button>
+        <button type="button" class="cb-mno" data-cb-no>{{ 'cm.cb.cancel' | t }}</button>
+        <button type="button" class="cb-myes" data-cb-yes>{{ 'cm.cb.yes_clear' | t }}</button>
       </div>
     </div>
   </div>
