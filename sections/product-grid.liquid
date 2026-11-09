@@ -179,9 +179,9 @@
       scroll-snap-align: start;
     }
 
-    /* Margen visible antes de la primera tarjeta y después de la última */
-    .product-grid-section .product-card:first-child { margin-left: 20px; }
-    .product-grid-section .product-card:last-child { margin-right: 20px; }
+    /* Margen visible antes de la primera tarjeta y después de la última.
+       (No usar :first-child: el snippet product-card emite un <style> como primer hijo.) */
+    .product-grid-section__grid { padding-left: 20px; padding-right: 20px; }
 
     /* Flechas de navegación del carrusel (solo móvil) */
     .product-grid-section__nav {
