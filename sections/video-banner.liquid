@@ -60,7 +60,16 @@
     margin-bottom: 14px;
   }
 
+  /* iOS en modo bajo consumo bloquea el autoplay: ocultar el botón nativo de play */
+  .vb__media-{{ section.id }} video::-webkit-media-controls,
+  .vb__media-{{ section.id }} video::-webkit-media-controls-start-playback-button,
+  .vb__media-{{ section.id }} video::-webkit-media-controls-overlay-play-button {
+    display: none !important;
+    -webkit-appearance: none;
+  }
+
   .vb__heading-{{ section.id }} {
+    color: var(--cm-white);
     font-family: var(--cm-font-serif);
     font-weight: 400;
     font-size: clamp(34px, 6vw, 72px);
@@ -71,6 +80,9 @@
 
 <section class="vb-{{ section.id }}" aria-label="{{ section.settings.heading | escape }}">
   <div class="vb__media-{{ section.id }}">
+    {%- if section.settings.video != blank and section.settings.image != blank -%}
+      {{ section.settings.image | image_url: width: 1600 | image_tag: loading: 'eager', widths: '800, 1200, 1600', sizes: '100vw', alt: '' }}
+    {%- endif -%}
     {%- if section.settings.video != blank -%}
       {{ section.settings.video | video_tag:
           image_size: '1920x',
@@ -99,6 +111,32 @@
     </div>
   {%- endif -%}
 </section>
+
+<script>
+  (function () {
+    var root = document.querySelector('.vb-{{ section.id }}');
+    var v = root && root.querySelector('video');
+    if (!v) return;
+    v.muted = true;
+    v.setAttribute('playsinline', '');
+    v.controls = false;
+    function tryPlay() {
+      var p = v.play();
+      if (p && p.catch) p.catch(function () {});
+    }
+    tryPlay();
+    v.addEventListener('loadedmetadata', tryPlay);
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (e) { if (e[0].isIntersecting && v.paused) tryPlay(); }).observe(v);
+    }
+    ['touchstart', 'scroll', 'click'].forEach(function (ev) {
+      window.addEventListener(ev, function once() {
+        if (v.paused) tryPlay();
+        window.removeEventListener(ev, once);
+      }, { passive: true });
+    });
+  })();
+</script>
 
 {% schema %}
 {
