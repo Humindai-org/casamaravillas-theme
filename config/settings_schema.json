@@ -87,7 +87,7 @@
         "type": "image_picker",
         "id": "favicon",
         "label": "Favicon",
-        "info": "Será redimensionado a 32x32px"
+        "info": "Cuadrada, mínimo 180x180 px. Se sirve a 96x96 (Google exige múltiplos de 48) y a 180x180 (iOS)"
       }
     ]
   },
