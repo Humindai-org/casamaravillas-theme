@@ -1,14 +1,32 @@
 /*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
+ * «Packs y Regalos» (/collections/regalos-ibericos) — OPCIÓN A: todo en una página.
+ * Arriba, los packs ya hechos (desde ESTA colección, sin los que llevan la etiqueta con-alcohol)
+ * y la tarjeta regalo (producto suelto, sin elegir todavía); debajo, el constructor «Crea tu pack».
+ * Las dos rejillas no se ven mientras no haya productos publicados: hoy la página es solo el constructor.
  */
 {
   "sections": {
+    "packs": {
+      "type": "rejilla-coleccion",
+      "settings": {
+        "exclude_tag": "con-alcohol",
+        "limit": 12,
+        "anchor_id": "packs",
+        "eyebrow": "Packs y regalos",
+        "title": "<p>Packs listos para <em>regalar</em></p>"
+      }
+    },
+    "tarjeta_regalo": {
+      "type": "rejilla-coleccion",
+      "settings": {
+        "source": "product",
+        "exclude_tag": "",
+        "limit": 1,
+        "anchor_id": "tarjeta-regalo",
+        "eyebrow": "Tarjeta regalo",
+        "title": "<p>Que elija <em>quien la recibe</em></p>"
+      }
+    },
     "builder": {
       "type": "cesta-builder",
       "settings": {
@@ -26,6 +44,8 @@
     }
   },
   "order": [
+    "packs",
+    "tarjeta_regalo",
     "builder"
   ]
 }

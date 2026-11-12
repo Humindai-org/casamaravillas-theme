@@ -1,0 +1,26 @@
+/*
+ * «Crea tu pack» en su propia página (/pages/crea-tu-pack) — solo para la OPCIÓN B de «Packs y Regalos».
+ * Mismo constructor y mismos ajustes que hoy en collection.packs-regalo.json.
+ */
+{
+  "sections": {
+    "builder": {
+      "type": "cesta-builder",
+      "settings": {
+        "eyebrow": "Packs de regalo · Casa Maravillas",
+        "heading": "Crea tu pack a tu medida de forma sencilla",
+        "intro": "El arte de regalar empieza por elegir bien. Crea tu pack ibérico.",
+        "min_items": 2,
+        "free_shipping_euros": 99,
+        "gift_handle": "",
+        "gift1_qty": 4,
+        "gift1_label": "",
+        "gift2_qty": 5,
+        "gift2_label": ""
+      }
+    }
+  },
+  "order": [
+    "builder"
+  ]
+}

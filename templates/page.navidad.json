@@ -1,9 +1,12 @@
 /*
- * Página «Navidad 2026» (/pages/navidad). Propuesta: clients/casamaravillas/growth/navidad-2026-seccion-propuesta.md (opción B).
- * Secciones DESACTIVADAS a propósito (se activan desde el editor del tema cuando toque):
- *   - packs: rejilla de los packs Bronce/Plata/Oro sin vino. Sin productos hasta que existan en Shopify.
- *   - fechas: fecha límite del transportista. Sin fecha hasta que se confirme.
- *   - tarjeta_regalo: desde el 18/12. Sin enlace hasta que exista el producto de tarjeta regalo.
+ * Página «Navidad 2026» (/pages/navidad): escaparate de Navidad.
+ * Todo lo que es producto sale de una COLECCIÓN (sección rejilla-coleccion), no se duplica a mano:
+ *   - packs: colección regalos-ibericos sin con-alcohol. No se ve hasta que se publiquen los packs sin vino.
+ *   - tarjeta_regalo: producto suelto SIN ELEGIR. No se ve hasta que exista y se elija en el editor.
+ *   - jamon_entero: colección jamones, solo la etiqueta «pieza entera».
+ * Lotes de 10 sobres: hoy no son un producto, sino un -10 % automático desde 10 sobres del mismo jamón
+ * loncheado. Va como texto, sin fichas: las fotos del Bellota 50 % loncheado aún muestran el sobre antiguo de «75 %».
+ * Desactivada: fechas (fecha límite del transportista, sin confirmar).
  * Nada de vino ni alcohol, nada de «75 %», nada de venta a empresas.
  */
 {
@@ -32,13 +35,52 @@
       "settings": {}
     },
     "packs": {
-      "type": "product-grid",
-      "disabled": true,
+      "type": "rejilla-coleccion",
       "settings": {
+        "collection": "regalos-ibericos",
+        "exclude_tag": "con-alcohol",
+        "limit": 8,
+        "anchor_id": "packs",
         "eyebrow": "Packs de Navidad",
         "title": "<p>Listos para <em>regalar</em></p>",
-        "description": "<p>Sin alcohol.</p>",
-        "section_bg": "off"
+        "description": "Sin alcohol."
+      }
+    },
+    "tarjeta_regalo": {
+      "type": "rejilla-coleccion",
+      "settings": {
+        "source": "product",
+        "exclude_tag": "",
+        "limit": 1,
+        "anchor_id": "tarjeta-regalo",
+        "eyebrow": "Tarjeta regalo",
+        "title": "<p>¿Llegas <em>tarde</em>?</p>",
+        "description": "Llega por correo y elige quien la recibe."
+      }
+    },
+    "jamon_entero": {
+      "type": "rejilla-coleccion",
+      "settings": {
+        "collection": "jamones",
+        "include_tag": "pieza entera",
+        "exclude_tag": "con-alcohol",
+        "limit": 6,
+        "anchor_id": "jamon-entero",
+        "eyebrow": "El gran regalo",
+        "title": "<p>Un jamón <em>entero</em></p>",
+        "description": "Para la mesa de Navidad.",
+        "view_all_label": "Ver jamones enteros",
+        "view_all_url": "/collections/jamones#pieza%20entera"
+      }
+    },
+    "lotes_10_sobres": {
+      "type": "story-teaser",
+      "settings": {
+        "eyebrow": "Lotes de 10 sobres",
+        "title": "<p>Jamón loncheado, <em>un 10 % menos</em></p>",
+        "body": "Con 10 sobres o más del mismo jamón loncheado, el descuento del 10 % se aplica automáticamente en el carrito.",
+        "cta_label": "Ver jamón loncheado",
+        "cta_url": "/collections/jamones#cortado%20a%20mano+cortado%20a%20m%C3%A1quina"
       }
     },
     "crea_tu_pack": {
@@ -51,16 +93,6 @@
         "cta_url": "/collections/regalos-ibericos"
       }
     },
-    "jamon_entero": {
-      "type": "story-teaser",
-      "settings": {
-        "eyebrow": "El gran regalo",
-        "title": "<p>Un jamón <em>entero</em></p>",
-        "body": "Para la mesa de Navidad: Cebo de Campo 50 % Ibérico, Bellota 50 % Ibérico o Bellota 100 % Ibérico.",
-        "cta_label": "Ver jamones enteros",
-        "cta_url": "/collections/jamones#pieza%20entera"
-      }
-    },
     "fechas": {
       "type": "story-teaser",
       "disabled": true,
@@ -68,15 +100,6 @@
         "eyebrow": "Pide a tiempo",
         "title": "<p>Para recibirlo <em>antes de Nochebuena</em></p>",
         "body": "Pedidos a la Península: haz tu pedido antes del (FECHA PENDIENTE DEL TRANSPORTISTA)."
-      }
-    },
-    "tarjeta_regalo": {
-      "type": "story-teaser",
-      "disabled": true,
-      "settings": {
-        "eyebrow": "Tarjeta regalo",
-        "title": "<p>¿Llegas <em>tarde</em>?</p>",
-        "body": "Regala una tarjeta regalo: llega por correo y elige quien la recibe."
       }
     },
     "faq": {
@@ -118,10 +141,11 @@
   "order": [
     "hero",
     "packs",
-    "crea_tu_pack",
-    "jamon_entero",
-    "fechas",
     "tarjeta_regalo",
+    "jamon_entero",
+    "lotes_10_sobres",
+    "crea_tu_pack",
+    "fechas",
     "faq"
   ]
 }
