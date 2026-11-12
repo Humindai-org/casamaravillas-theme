@@ -380,7 +380,7 @@
   class="cm-hero-split"
   id="cm-hero-split-{{ section.id }}"
   aria-label="Hero — {{ shop.name }}"
-  aria-roledescription="carousel"
+  {% if section.blocks.size > 1 %}aria-roledescription="carousel"{% endif %}
 >
 
   <!-- Header with brand and establishment year -->
@@ -472,6 +472,8 @@
       }{%- unless forloop.last %},{%- endunless %}
     {%- endfor -%}
   ];
+  // Con una sola diapositiva no hay carrusel: ni flechas, ni puntos, ni avance automático.
+  var isCarousel = slides.length > 1;
 
   function renderContent(index) {
     var slide = slides[index];
@@ -490,11 +492,13 @@
       (slide.tagline ? '<p class="cm-hero-split__tagline">' + slide.tagline + '</p>' : '') +
       '<div class="cm-hero-split__cta-group">' +
       (slide.cta_label ? '<a href="' + (slide.cta_url || '/collections/jamones') + '" class="cm-hero-split__cta">' + slide.cta_label + ' <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" fill="none" stroke-width="1.5"/></svg></a>' : '') +
-      '<div class="cm-hero-split__nav">' +
-      '<button class="cm-hero-split__nav-btn" id="cm-hero-split-prev-' + sectionId + '" aria-label="Slide anterior" type="button"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" fill="none" stroke-width="1.5"/></svg></button>' +
-      '<button class="cm-hero-split__nav-btn" id="cm-hero-split-next-' + sectionId + '" aria-label="Siguiente slide" type="button"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" fill="none" stroke-width="1.5"/></svg></button>' +
-      '<div class="cm-hero-split__nav-dots">' + dotsHTML + '</div>' +
-      '</div>' +
+      (isCarousel ?
+        '<div class="cm-hero-split__nav">' +
+        '<button class="cm-hero-split__nav-btn" id="cm-hero-split-prev-' + sectionId + '" aria-label="Slide anterior" type="button"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" fill="none" stroke-width="1.5"/></svg></button>' +
+        '<button class="cm-hero-split__nav-btn" id="cm-hero-split-next-' + sectionId + '" aria-label="Siguiente slide" type="button"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" fill="none" stroke-width="1.5"/></svg></button>' +
+        '<div class="cm-hero-split__nav-dots">' + dotsHTML + '</div>' +
+        '</div>'
+      : '') +
       '</div>' +
       '</div>';
 
@@ -533,6 +537,7 @@
 
   function startAuto() {
     clearInterval(autoTimer);
+    if (!isCarousel) return;
     autoTimer = setInterval(function() { goTo(current + 1); }, DURATION);
   }
 

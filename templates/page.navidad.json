@@ -1,0 +1,127 @@
+/*
+ * Página «Navidad 2026» (/pages/navidad). Propuesta: clients/casamaravillas/growth/navidad-2026-seccion-propuesta.md (opción B).
+ * Secciones DESACTIVADAS a propósito (se activan desde el editor del tema cuando toque):
+ *   - packs: rejilla de los packs Bronce/Plata/Oro sin vino. Sin productos hasta que existan en Shopify.
+ *   - fechas: fecha límite del transportista. Sin fecha hasta que se confirme.
+ *   - tarjeta_regalo: desde el 18/12. Sin enlace hasta que exista el producto de tarjeta regalo.
+ * Nada de vino ni alcohol, nada de «75 %», nada de venta a empresas.
+ */
+{
+  "sections": {
+    "hero": {
+      "type": "hero-carousel-split",
+      "blocks": {
+        "slide_navidad": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/Simple_Product_Promotion_Ads_Instagram_Post_3000_x_1500_px.jpg",
+            "eyebrow": "NAVIDAD 2026",
+            "heading": "Regala ibérico de verdad",
+            "year": "",
+            "tagline": "Envío gratis desde 99 € a la Península",
+            "cta_label": "CREAR MI PACK",
+            "cta_url": "/collections/regalos-ibericos",
+            "image_pos_x": 25,
+            "image_pos_y": 50
+          }
+        }
+      },
+      "block_order": [
+        "slide_navidad"
+      ],
+      "settings": {}
+    },
+    "packs": {
+      "type": "product-grid",
+      "disabled": true,
+      "settings": {
+        "eyebrow": "Packs de Navidad",
+        "title": "<p>Listos para <em>regalar</em></p>",
+        "description": "<p>Sin alcohol.</p>",
+        "section_bg": "off"
+      }
+    },
+    "crea_tu_pack": {
+      "type": "story-teaser",
+      "settings": {
+        "eyebrow": "Crea tu pack",
+        "title": "<p>Tu regalo, <em>a tu medida</em></p>",
+        "body": "Combina jamón, embutidos y loncheados en tu propio pack.",
+        "cta_label": "Empezar mi pack",
+        "cta_url": "/collections/regalos-ibericos"
+      }
+    },
+    "jamon_entero": {
+      "type": "story-teaser",
+      "settings": {
+        "eyebrow": "El gran regalo",
+        "title": "<p>Un jamón <em>entero</em></p>",
+        "body": "Para la mesa de Navidad: Cebo de Campo 50 % Ibérico, Bellota 50 % Ibérico o Bellota 100 % Ibérico.",
+        "cta_label": "Ver jamones enteros",
+        "cta_url": "/collections/jamones#pieza%20entera"
+      }
+    },
+    "fechas": {
+      "type": "story-teaser",
+      "disabled": true,
+      "settings": {
+        "eyebrow": "Pide a tiempo",
+        "title": "<p>Para recibirlo <em>antes de Nochebuena</em></p>",
+        "body": "Pedidos a la Península: haz tu pedido antes del (FECHA PENDIENTE DEL TRANSPORTISTA)."
+      }
+    },
+    "tarjeta_regalo": {
+      "type": "story-teaser",
+      "disabled": true,
+      "settings": {
+        "eyebrow": "Tarjeta regalo",
+        "title": "<p>¿Llegas <em>tarde</em>?</p>",
+        "body": "Regala una tarjeta regalo: llega por correo y elige quien la recibe."
+      }
+    },
+    "faq": {
+      "type": "faq",
+      "blocks": {
+        "faq_plazo": {
+          "type": "faq_item",
+          "settings": {
+            "question": "¿Cuánto tarda en llegar mi pedido?",
+            "answer": "<p>Los pedidos realizados antes de las 12:00 h se preparan y envían el mismo día, con entrega en 24-48 horas en Península. En Navidad hay más demanda y el plazo puede extenderse ligeramente, así que te recomendamos no dejarlo para el último día.</p>"
+          }
+        },
+        "faq_envio_gratis": {
+          "type": "faq_item",
+          "settings": {
+            "question": "¿Desde cuánto es gratis el envío?",
+            "answer": "<p>El envío es gratis desde 99 € a España peninsular y Portugal. Por el momento no realizamos envíos a Islas Baleares, Islas Canarias, Ceuta ni Melilla. Más detalles en <a href=\"/pages/envios\">Envíos</a>.</p>"
+          }
+        },
+        "faq_crea_tu_pack": {
+          "type": "faq_item",
+          "settings": {
+            "question": "¿Puedo preparar mi propio pack?",
+            "answer": "<p>Sí. En <a href=\"/collections/regalos-ibericos\">Crea tu pack</a> eliges los jamones, embutidos y loncheados que quieras, con un mínimo de 2 productos.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq_plazo",
+        "faq_envio_gratis",
+        "faq_crea_tu_pack"
+      ],
+      "settings": {
+        "eyebrow": "Preguntas frecuentes",
+        "title": "<p>Regalar en <em>Navidad</em></p>"
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "packs",
+    "crea_tu_pack",
+    "jamon_entero",
+    "fechas",
+    "tarjeta_regalo",
+    "faq"
+  ]
+}
