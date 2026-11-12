@@ -117,6 +117,8 @@
     .rejilla-col__grid,
     .rejilla-col__grid.is-few {
       display: flex;
+      /* Sin esto el flex centrado deja la primera tarjeta fuera de alcance al desbordar */
+      justify-content: flex-start;
       overflow-x: auto;
       scroll-snap-type: x mandatory;
       -webkit-overflow-scrolling: touch;
