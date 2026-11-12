@@ -1,0 +1,192 @@
+{%- comment -%}
+  Rejilla de productos sacados de una COLECCIÓN (no se eligen a mano, así no se duplican).
+  - Origen («Qué muestra»): productos de la colección elegida (si no hay, la de la página, en
+    plantillas de colección) o un producto suelto (p. ej. la tarjeta regalo; sin elegir, no se ve).
+  - Filtros: «solo con la etiqueta» y «sin la etiqueta» (por defecto con-alcohol: los packs con vino
+    nunca salen aquí). Las tarjetas regalo solo salen si se eligen como producto suelto.
+  - Si no queda ningún producto, la sección no pinta NADA: sirve para dejar rejillas preparadas
+    que aparecen solas cuando se publica el producto.
+{%- endcomment -%}
+
+{%- liquid
+  assign src = section.settings.collection
+  if src == blank
+    assign src = collection
+  endif
+  assign include_tag = section.settings.include_tag | strip
+  assign exclude_tag = section.settings.exclude_tag | strip
+  assign shown = 0
+-%}
+
+{%- capture cards -%}
+  {%- if section.settings.source == 'product' -%}
+    {%- assign p = section.settings.product -%}
+    {%- if p != blank -%}
+      {%- unless exclude_tag != blank and p.tags contains exclude_tag -%}
+        {% render 'product-card', card_product: p %}
+        {%- assign shown = 1 -%}
+      {%- endunless -%}
+    {%- endif -%}
+  {%- elsif src != blank -%}
+    {%- for p in src.products -%}
+      {%- if shown >= section.settings.limit -%}{%- break -%}{%- endif -%}
+      {%- if p.gift_card? -%}{%- continue -%}{%- endif -%}
+      {%- if include_tag != blank -%}
+        {%- unless p.tags contains include_tag -%}{%- continue -%}{%- endunless -%}
+      {%- endif -%}
+      {%- if exclude_tag != blank and p.tags contains exclude_tag -%}{%- continue -%}{%- endif -%}
+      {% render 'product-card', card_product: p, card_collection: src.handle %}
+      {%- assign shown = shown | plus: 1 -%}
+    {%- endfor -%}
+  {%- endif -%}
+{%- endcapture -%}
+
+{%- if shown > 0 -%}
+<style>
+  .rejilla-col {
+    padding: 88px 72px;
+    background: var(--cm-off, #FAF6EF);
+    scroll-margin-top: 96px;
+  }
+  .rejilla-col__head { max-width: 1160px; margin: 0 auto 44px; text-align: center; }
+  .rejilla-col__eyebrow {
+    font-family: var(--cm-font-sans);
+    font-size: 10px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--cm-gold);
+    font-weight: 500;
+    margin-bottom: 14px;
+  }
+  .rejilla-col__title {
+    font-family: var(--cm-font-serif);
+    font-size: clamp(30px, 3.6vw, 48px);
+    font-weight: 400;
+    color: var(--cm-navy);
+    line-height: 1.12;
+  }
+  .rejilla-col__title p { margin: 0; }
+  .rejilla-col__title em { font-style: italic; color: var(--cm-gold); }
+  .rejilla-col__desc {
+    font-family: var(--cm-font-sans);
+    font-size: 14.5px;
+    line-height: 1.75;
+    color: var(--cm-text-mid);
+    max-width: 560px;
+    margin: 16px auto 0;
+  }
+  .rejilla-col__grid {
+    max-width: 1160px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(var(--rc-cols, 4), minmax(0, 1fr));
+    gap: 28px;
+    justify-content: center;
+  }
+  .rejilla-col__grid.is-few { grid-template-columns: repeat(var(--rc-cols), minmax(0, 300px)); }
+  .rejilla-col__foot { text-align: center; margin-top: 40px; }
+  .rejilla-col__all {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 18px 44px;
+    border: 1px solid var(--cm-navy);
+    color: var(--cm-navy);
+    font-family: var(--cm-font-sans);
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background 0.25s ease, color 0.25s ease;
+  }
+  .rejilla-col__all::after { content: '→'; font-size: 14px; }
+  .rejilla-col__all:hover { background: var(--cm-navy); color: var(--cm-white); }
+  .rejilla-col__all:focus-visible { outline: 2px solid var(--cm-gold); outline-offset: 4px; }
+
+  @media (max-width: 1023px) {
+    .rejilla-col { padding: 64px 32px; }
+    .rejilla-col__grid,
+    .rejilla-col__grid.is-few { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+  }
+
+  @media (max-width: 767px) {
+    .rejilla-col { padding: 48px 20px; }
+    .rejilla-col__head { margin-bottom: 28px; }
+    /* Carrusel horizontal como en la home: una tarjeta grande y un asomo de la siguiente */
+    .rejilla-col__grid,
+    .rejilla-col__grid.is-few {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      gap: 16px;
+      margin: 0 -20px;
+      padding: 0 20px 8px;
+      scroll-padding-left: 20px;
+      scrollbar-width: none;
+    }
+    .rejilla-col__grid::-webkit-scrollbar { display: none; }
+    .rejilla-col__grid > * { flex: 0 0 78%; scroll-snap-align: start; }
+    /* Un solo producto (p. ej. la tarjeta regalo): centrado, sin carrusel */
+    .rejilla-col__grid.is-single { display: block; margin: 0 auto; padding: 0; max-width: 320px; }
+    .rejilla-col__all { padding: 16px 32px; }
+  }
+</style>
+
+{%- assign cols = shown | at_most: 4 -%}
+<section
+  class="rejilla-col"
+  {% if section.settings.anchor_id != blank %}id="{{ section.settings.anchor_id | handleize }}"{% endif %}
+  aria-labelledby="rejilla-col-title-{{ section.id }}"
+>
+  <header class="rejilla-col__head">
+    {%- if section.settings.eyebrow != blank -%}
+      <p class="rejilla-col__eyebrow">{{ section.settings.eyebrow }}</p>
+    {%- endif -%}
+    <h2 class="rejilla-col__title" id="rejilla-col-title-{{ section.id }}">{{ section.settings.title }}</h2>
+    {%- if section.settings.description != blank -%}
+      <p class="rejilla-col__desc">{{ section.settings.description }}</p>
+    {%- endif -%}
+  </header>
+
+  <div class="rejilla-col__grid{% if shown < 4 %} is-few{% endif %}{% if shown == 1 %} is-single{% endif %}" style="--rc-cols: {{ cols }};">
+    {{ cards }}
+  </div>
+
+  {%- if section.settings.view_all_label != blank and section.settings.view_all_url != blank -%}
+    <div class="rejilla-col__foot">
+      <a class="rejilla-col__all" href="{{ section.settings.view_all_url }}">{{ section.settings.view_all_label }}</a>
+    </div>
+  {%- endif -%}
+</section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Rejilla desde colección",
+  "tag": "div",
+  "settings": [
+    { "type": "paragraph", "content": "Muestra productos de una colección. Si no queda ninguno (por ejemplo, porque aún no se han publicado), la sección no se ve." },
+    {
+      "type": "select", "id": "source", "label": "Qué muestra", "default": "collection",
+      "options": [
+        { "value": "collection", "label": "Productos de una colección" },
+        { "value": "product", "label": "Un producto suelto (p. ej. la tarjeta regalo)" }
+      ]
+    },
+    { "type": "collection", "id": "collection", "label": "Colección", "info": "Vacío: la colección de la página (solo en plantillas de colección)." },
+    { "type": "product", "id": "product", "label": "Producto suelto", "info": "Solo con «Un producto suelto». Sin elegir, la sección no se ve." },
+    { "type": "text", "id": "include_tag", "label": "Solo productos con la etiqueta", "info": "Ej.: pieza entera. Vacío: todos." },
+    { "type": "text", "id": "exclude_tag", "label": "Excluir productos con la etiqueta", "default": "con-alcohol" },
+    { "type": "range", "id": "limit", "label": "Máximo de productos", "min": 1, "max": 24, "step": 1, "default": 12 },
+    { "type": "text", "id": "anchor_id", "label": "Ancla (id) para enlazar con #", "info": "Ej.: packs → enlace /pages/navidad#packs" },
+    { "type": "text", "id": "eyebrow", "label": "Etiqueta superior" },
+    { "type": "richtext", "id": "title", "label": "Título", "default": "<p>Listos para <em>regalar</em></p>" },
+    { "type": "textarea", "id": "description", "label": "Descripción" },
+    { "type": "text", "id": "view_all_label", "label": "Texto del botón inferior" },
+    { "type": "url", "id": "view_all_url", "label": "Enlace del botón inferior" }
+  ],
+  "presets": [{ "name": "Rejilla desde colección" }]
+}
+{% endschema %}
