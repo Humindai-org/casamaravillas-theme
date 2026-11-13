@@ -215,8 +215,16 @@
 
     .jh__bg-img-{{ section.id }} {
       object-position: {{ section.settings.image_pos_x | default: 50 }}% {{ section.settings.image_pos_y_mobile | default: 70 }}%;
-      transform: scale(1.25) translateY(-10%);
+      {%- if section.settings.image_fit_mobile != 'contain' %}transform: scale(1.25) translateY(-10%);{%- endif %}
     }
+    {%- if section.settings.image_fit_mobile == 'contain' %}
+    /* Foto entera (p. ej. las tres piezas de jamón): sin recorte ni zoom, sobre el fondo de la propia foto. */
+    .jh-{{ section.id }}, .jh__sticky-{{ section.id }} { background: {{ section.settings.image_bg_mobile | default: '#f5f5f5' }}; }
+    .jh__bg-img-{{ section.id }} {
+      object-fit: contain;
+      object-position: 50% {{ section.settings.image_pos_y_mobile | default: 30 }}%;
+    }
+    {%- endif %}
     .jh__frame-{{ section.id }} {
       top: 68%;
       width: 90vw;
@@ -244,6 +252,15 @@
 
     {%- if section.settings.image != blank -%}
       {%- assign jh_bg_class = 'jh__bg-img-' | append: section.id -%}
+      {%- comment -%}
+        En móvil la foto (modo «rellenar») se pinta mucho más ancha que la pantalla (cover sobre un banner alto + zoom):
+        con sizes=100vw el navegador elegía 768w y la ampliaba → pixelada. Se declara el ancho real (~3,2 pantallas).
+      {%- endcomment -%}
+      {%- if section.settings.image_fit_mobile == 'contain' -%}
+        {%- assign jh_sizes = '100vw' -%}
+      {%- else -%}
+        {%- assign jh_sizes = '(max-width: 767px) 320vw, 100vw' -%}
+      {%- endif -%}
       <div class="jh__bg-{{ section.id }}">
         {%- if jh_crop > 0 -%}<div class="jh__bg-crop-{{ section.id }}">{%- endif -%}
         {{ section.settings.image
@@ -253,7 +270,7 @@
               alt: jh_heading,
               loading: 'eager',
               fetchpriority: 'high',
-              sizes: '100vw',
+              sizes: jh_sizes,
               widths: '480,768,1024,1440,1920,2400'
         }}
         {%- if jh_crop > 0 -%}</div>{%- endif -%}
@@ -446,6 +463,23 @@
       "step": 5,
       "default": 70,
       "unit": "%"
+    },
+    {
+      "type": "select",
+      "id": "image_fit_mobile",
+      "label": "Encaje de la imagen (móvil)",
+      "info": "Rellenar = llena el banner y recorta · Foto entera = se ve completa, sin recorte ni zoom",
+      "options": [
+        { "value": "cover", "label": "Rellenar" },
+        { "value": "contain", "label": "Foto entera" }
+      ],
+      "default": "cover"
+    },
+    {
+      "type": "color",
+      "id": "image_bg_mobile",
+      "label": "Fondo detrás de la foto entera (móvil)",
+      "default": "#f5f5f5"
     }
   ],
   "presets": [

@@ -219,9 +219,34 @@
   @media (max-width: 480px) {
     .product-grid-section .product-card { flex: 0 0 84%; max-width: 84%; }
   }
+  /* Móvil, opción «Filas compactas»: sin carrusel; todos los productos visibles a la vez (foto pequeña + nombre + precio). */
+  @media (max-width: 767px) {
+    .product-grid-section.is-compact-mobile { padding: 28px 16px 32px; }
+    .product-grid-section.is-compact-mobile .product-grid-section__header { margin-bottom: 16px; }
+    .product-grid-section.is-compact-mobile .product-grid-section__grid {
+      display: grid; grid-template-columns: 1fr; overflow: visible; gap: 10px;
+      margin: 0; padding: 0; scroll-snap-type: none;
+    }
+    .product-grid-section.is-compact-mobile .product-card {
+      flex: none; max-width: none; flex-direction: row; align-items: stretch; border-radius: 10px;
+    }
+    .product-grid-section.is-compact-mobile .product-card > a { flex: 0 0 92px; display: block; }
+    .product-grid-section.is-compact-mobile .product-card__img-box { aspect-ratio: 1; height: 100%; border-radius: 10px 0 0 10px; }
+    .product-grid-section.is-compact-mobile .product-card__add-btn,
+    .product-grid-section.is-compact-mobile .product-card__quality,
+    .product-grid-section.is-compact-mobile .product-card__cat,
+    .product-grid-section.is-compact-mobile .product-card__name-sub,
+    .product-grid-section.is-compact-mobile .product-grid-section__nav { display: none; }
+    .product-grid-section.is-compact-mobile .product-card__body { padding: 10px 12px; justify-content: center; gap: 6px; }
+    .product-grid-section.is-compact-mobile .product-card__name { font-size: 14px; margin: 0; }
+    .product-grid-section.is-compact-mobile .product-card__foot { padding-top: 6px; }
+    .product-grid-section.is-compact-mobile .product-card__price { font-size: 16px; }
+    .product-grid-section.is-compact-mobile .product-card__plus { width: 36px; height: 36px; }
+    .product-grid-section.is-compact-mobile .product-grid-section__footer { margin-top: 16px; }
+  }
 </style>
 
-<section class="product-grid-section{% if section.settings.section_bg == 'gold_pale' %} bg-gold-pale{% elsif section.settings.section_bg == 'navy' %} bg-navy{% endif %}">
+<section class="product-grid-section{% if section.settings.section_bg == 'gold_pale' %} bg-gold-pale{% elsif section.settings.section_bg == 'navy' %} bg-navy{% endif %}{% if section.settings.compact_mobile %} is-compact-mobile{% endif %}">
 
   {%- if section.settings.eyebrow != blank or section.settings.title != blank or section.settings.description != blank -%}
     <div class="product-grid-section__header">
@@ -298,19 +323,11 @@ if (!window.cmGridCarouselInit) {
     var grid = wrap && wrap.querySelector('.product-grid-section__grid');
     var cards = grid && grid.querySelectorAll('.product-card');
     if (!grid || !cards || !cards.length) return;
-    var current = grid.scrollLeft;
-    var target = null;
-    if (btn.hasAttribute('data-carousel-prev')) {
-      for (var i = cards.length - 1; i >= 0; i--) {
-        if (cards[i].offsetLeft < current - 4) { target = cards[i].offsetLeft; break; }
-      }
-      if (target === null) target = cards[0].offsetLeft;
-    } else {
-      for (var j = 0; j < cards.length; j++) {
-        if (cards[j].offsetLeft > current + 4) { target = cards[j].offsetLeft; break; }
-      }
-      if (target === null) target = cards[cards.length - 1].offsetLeft;
-    }
+    /* Paso = ancho de tarjeta + hueco. (offsetLeft no sirve: la rejilla no es offsetParent y el
+       scroll-snap devolvía el carrusel a la tarjeta 1, así que la flecha derecha parecía muerta.) */
+    var gap = parseFloat(getComputedStyle(grid).columnGap || getComputedStyle(grid).gap) || 16;
+    var step = cards[0].getBoundingClientRect().width + gap;
+    var target = grid.scrollLeft + (btn.hasAttribute('data-carousel-prev') ? -step : step);
     grid.scrollTo({ left: target, behavior: 'smooth' });
   });
 
@@ -415,6 +432,12 @@ if (!window.cmGridCarouselInit) {
       "type": "url",
       "id": "view_all_url",
       "label": "Enlace 'Ver todo'"
+    },
+    {
+      "type": "checkbox",
+      "id": "compact_mobile",
+      "label": "Móvil: filas compactas (sin carrusel)",
+      "default": false
     },
     {
       "type": "select",

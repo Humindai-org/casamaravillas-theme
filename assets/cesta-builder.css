@@ -141,3 +141,84 @@ select{width:100%;padding:12px;border-radius:4px;border:1.5px solid var(--b2);fo
 .cb .cb-mbox h3 { color: var(--navy); }
 .cb .cb-name { color: var(--navy); }
 .cb .cb-track { margin-right: 44px; }
+
+/* Móvil (borrador 2026-11-13, análisis Clarity): productos en la primera pantalla y barra fija «Tu pack» */
+.cb-sticky{display:none}
+@media(max-width:1000px){
+  .cb-sticky{position:fixed;left:0;right:0;bottom:0;z-index:90;display:flex;align-items:center;gap:12px;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:var(--navy);color:#fff;box-shadow:0 -10px 28px -10px rgba(0,41,75,.55)}
+  .cb-sticky[hidden]{display:none}
+  .cb-sticky__info{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+  .cb-sticky__count{font-size:12px;letter-spacing:.06em;color:#cfd8e2;white-space:nowrap}
+  .cb-sticky__total{font-family:var(--serif);font-size:24px;line-height:1;color:#fff}
+  .cb .cb-sticky__btn{flex:none;padding:0 18px;height:46px;border:0;border-radius:4px;background:var(--gold);color:var(--navy);font-size:13px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;transition:transform .2s,opacity .2s}
+  .cb .cb-sticky__btn:hover{background:var(--goldh)}
+  .cb .cb-sticky__btn:active{transform:scale(.97)}
+  .cb .cb-sticky__btn:focus-visible{outline:2px solid #fff;outline-offset:2px}
+  .cb .cb-sticky__btn:disabled{opacity:.55;cursor:default}
+}
+@media(max-width:760px){
+  .cb-banner{padding:22px 16px 16px}
+  .cb-eyebrow{font-size:11px;margin-bottom:6px}
+  .cb-banner h1{font-size:30px;margin-bottom:12px}
+  .cb-banner p.cb-lead{display:none}
+  .cb-tl-line{display:none}
+  .cb-tl-steps{grid-template-columns:repeat(4,1fr);gap:6px}
+  .cb-tl-step{display:block;text-align:center;padding:0 2px;opacity:.85}
+  .cb-tl-step i{width:30px;height:30px;font-size:15px;margin:0 auto 6px;border-width:2px;grid-row:auto}
+  .cb-tl-step h3{font-size:12px;line-height:1.2;margin:0}
+  .cb-tl-step p{display:none}
+  .cb-tl-step.cb-on{transform:none}
+  .cb-tl-step.cb-on i{box-shadow:none}
+  .cb-wrap{padding:16px 12px 120px;gap:20px}
+  .cb-searchbox{margin-bottom:14px}
+}
+
+/* Foto de la ficha a sangre: sin marco beige alrededor (la foto llena todo el recuadro) */
+.cb-ph{aspect-ratio:1/1;background:#fff}
+.cb-ph img{width:100%;height:100%;object-fit:cover;display:block}
+@media(max-width:760px){
+  /* Banner más presente (tamaño parecido al de las otras categorías, sin empujar los productos fuera de la pantalla) */
+  .cb-banner{min-height:42svh;display:flex;flex-direction:column;justify-content:center;padding:32px 16px 24px}
+  .cb-banner h1{font-size:36px;margin-bottom:18px}
+  .cb-tl-step i{width:36px;height:36px;font-size:17px}
+  .cb-tl-step h3{font-size:13px}
+  /* Categorías: sin barra que haya que deslizar; se reparten en filas de dos */
+  .cb-tabs{flex-wrap:wrap;overflow:visible;gap:8px;margin-bottom:12px}
+  .cb-tab{flex:1 1 calc(50% - 4px);padding:12px 10px;font-size:14px;line-height:1.2;text-align:center}
+}
+
+/* ── Rediseño móvil de «Crea tu pack» (2026-11-13): cabecera con esquinas redondeadas, categorías en pastilla,
+      fichas blancas redondeadas con sombra suave y botón dorado ── */
+@media(max-width:760px){
+  .cb-banner{border-radius:0 0 28px 28px;background:linear-gradient(180deg,var(--navy) 0%,#03355f 100%)}
+  .cb-wrap{background:var(--off)}
+  .cb-tabs{flex-wrap:nowrap;overflow:visible;gap:0;padding:5px;margin-bottom:14px;background:#fff;border:1px solid var(--b2);border-radius:999px;box-shadow:0 8px 24px -16px rgba(0,41,75,.35)}
+  .cb-tab{flex:1 1 0;padding:12px 6px;border:1.5px solid transparent;border-radius:999px;background:transparent;font-size:15px;font-weight:600;text-align:center;color:var(--tx)}
+  .cb-tab.cb-on{background:var(--navy);border-color:var(--gold);color:#fff}
+  .cb-tab:hover{border-color:var(--gold)}
+  .cb-searchbox{border-radius:14px;padding:0 16px;box-shadow:0 8px 24px -18px rgba(0,41,75,.4)}
+  .cb-card{border:0;border-radius:16px;box-shadow:0 10px 28px -14px rgba(0,41,75,.28),0 2px 6px rgba(0,41,75,.05)}
+  .cb-ph{border-radius:16px 16px 0 0}
+  .cb .cb-add{border-radius:8px;background:var(--gold);color:#fff;font-weight:700;box-shadow:0 8px 16px -10px rgba(196,151,58,.9);transition:transform .2s,background-color .2s}
+  .cb .cb-add:hover{background:var(--goldh)}
+  .cb .cb-add:active{transform:scale(.97)}
+}
+
+/* ── Fichas iguales y peso/formato/curación plegados (2026-11-13) ── */
+.cb-custom{border:1px solid var(--b2);border-radius:8px;background:#fff}
+.cb-custom>summary{list-style:none;cursor:pointer;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:2px 8px;padding:9px 12px;font-size:13px;font-weight:600;color:var(--navy)}
+.cb-custom>summary::-webkit-details-marker{display:none}
+.cb-custom>summary::after{content:"+";font-size:18px;line-height:1;color:var(--gold);transition:transform .2s;margin-left:auto}
+.cb-custom[open]>summary::after{transform:rotate(45deg)}
+.cb-custom>summary small{flex-basis:100%;order:3;font-weight:400;font-size:12px;color:var(--lt);line-height:1.3}
+.cb-custom>div{padding:0 12px 12px}
+.cb-custom>summary:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.cb-name-sub{display:block;font-family:var(--sans);font-size:12px;font-weight:400;color:var(--lt);margin-top:2px}
+.cb-card.cb-sel{order:0}
+@media(max-width:700px){
+  /* Todas las fichas del mismo tamaño estándar: 2 por fila; si queda una suelta, va centrada */
+  .cb-grid{grid-template-columns:repeat(12,minmax(0,1fr));gap:12px}
+  .cb-card,.cb-card.cb-sel{grid-column:span 6}
+  .cb-grid>.cb-card:last-child:nth-child(odd){grid-column:4 / span 6}
+  .cb-tab{font-size:14px;padding:11px 2px}
+}

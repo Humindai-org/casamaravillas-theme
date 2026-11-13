@@ -569,7 +569,7 @@
 
       {%- comment -%} ── DESCRIPCIÓN CORTA ── {%- endcomment -%}
       {%- if product.description != blank -%}
-        <div class="cm-pdp__desc" id="cm-desc-{{ section.id }}">
+        <div class="cm-pdp__desc" id="cm-desc-{{ section.id }}" data-title="{{ 'cm.pdp.description_title' | t | escape }}">
           <div class="cm-pdp__desc-preview" id="cm-desc-preview-{{ section.id }}">
             {{ product.description }}
           </div>
@@ -677,9 +677,10 @@
           class="cm-sticky-atc__btn"
           id="cm-sticky-btn-{{ section.id }}"
           {%- unless current_variant.available -%}disabled{%- endunless -%}
+          {% if is_pieza_entera and current_variant.available %} data-require-options="true" data-choose-label="{{ 'cm.pdp.choose_options' | t | escape }}" data-add-label="{{ 'cm.pdp.add_to_cart' | t | escape }}"{% endif %}
           aria-label="{{ 'cm.pdp.add_to_cart' | t }}"
         >
-          {%- if current_variant.available -%}{{ 'cm.pdp.add_to_cart' | t }}{%- else -%}{{ 'cm.pdp.sold_out' | t }}{%- endif -%}
+          {%- if current_variant.available -%}{%- if is_pieza_entera -%}{{ 'cm.pdp.choose_options' | t }}{%- else -%}{{ 'cm.pdp.add_to_cart' | t }}{%- endif -%}{%- else -%}{{ 'cm.pdp.sold_out' | t }}{%- endif -%}
         </button>
       </div>
     </div>
@@ -688,6 +689,8 @@
 
 {%- comment -%} ════════════════════════════════════ JAVASCRIPT ══ {%- endcomment -%}
 <script src="{{ 'main-product.js' | asset_url }}" defer></script>
+<script src="{{ 'pdp-mobile-slider.js' | asset_url }}" defer></script>
+<script src="{{ 'pdp-mobile-extras.js' | asset_url }}" defer></script>
 
 {% schema %}
 {

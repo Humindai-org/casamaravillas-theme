@@ -726,6 +726,8 @@
   "cm": {
     "pdp": {
       "add_to_cart": "Add to cart",
+      "choose_options": "Select weight and format",
+      "description_title": "Description",
       "sold_out": "Sold out",
       "adding": "Adding…",
       "added": "✓ Added",

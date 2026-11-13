@@ -202,17 +202,21 @@
     .qt__heading-{{ section.id }} {
       font-size: 22px;
     }
+    /* Los 3 escudos en una sola línea */
     .qt__grid-{{ section.id }} {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
     }
     .qt__medallion-{{ section.id }} {
       margin: 0 auto;
+      min-width: 0;
     }
     .qt__icon-{{ section.id }} {
-      width: 140px;
-      height: 140px;
-      margin-bottom: 16px;
+      width: 100%;
+      max-width: 112px;
+      height: auto;
+      aspect-ratio: 1 / 1;
+      margin-bottom: 10px;
     }
     .qt__icon-{{ section.id }}::before {
       filter: blur(6px);
@@ -221,7 +225,8 @@
       filter: blur(20px);
     }
     .qt__category-name-{{ section.id }} {
-      font-size: 14px;
+      font-size: 12.5px;
+      line-height: 1.2;
       margin-bottom: 4px;
     }
     .qt__category-desc-{{ section.id }} {

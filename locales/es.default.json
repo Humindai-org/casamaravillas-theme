@@ -119,6 +119,8 @@
   "cm": {
     "pdp": {
       "add_to_cart": "Añadir a la cesta",
+      "choose_options": "Selecciona peso y formato",
+      "description_title": "Descripción",
       "sold_out": "Agotado",
       "adding": "Añadiendo…",
       "added": "✓ Añadido",

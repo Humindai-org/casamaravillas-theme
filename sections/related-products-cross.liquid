@@ -99,6 +99,26 @@
     .rpc-section__grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
     .rpc-section__view-all { padding: 18px 40px; }
   }
+
+  /* Móvil: los 3 relacionados caben en una sola vista (fila compacta: foto + nombre + precio). */
+  @media (max-width: 767px) {
+    .rpc-section { padding: 28px 16px 32px; }
+    .rpc-section__header { margin-bottom: 18px; }
+    .rpc-section__grid { grid-template-columns: 1fr; gap: 10px; }
+    .rpc-section .product-card { flex-direction: row; align-items: stretch; border-radius: 10px; }
+    .rpc-section .product-card > a { flex: 0 0 92px; display: block; }
+    .rpc-section .product-card__img-box { aspect-ratio: 1; height: 100%; border-radius: 10px 0 0 10px; }
+    .rpc-section .product-card__add-btn,
+    .rpc-section .product-card__quality,
+    .rpc-section .product-card__cat,
+    .rpc-section .product-card__name-sub { display: none; }
+    .rpc-section .product-card__body { padding: 10px 12px; justify-content: center; gap: 6px; }
+    .rpc-section .product-card__name { font-size: 14px; margin: 0; }
+    .rpc-section .product-card__foot { padding-top: 6px; }
+    .rpc-section .product-card__price { font-size: 16px; }
+    .rpc-section .product-card__plus { width: 36px; height: 36px; }
+    .rpc-section__footer { margin-top: 18px; }
+  }
 </style>
 
 {%- liquid

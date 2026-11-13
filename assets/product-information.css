@@ -899,3 +899,39 @@
       gap: 20px;
     }
   }
+
+
+  /* ── Móvil: Nutrición / Alérgenos / Conservación plegables (borrador 2026-11-12, Clarity) ── */
+  @media (max-width: 768px) {
+    .cm-info-card { padding: 0; }
+    .cm-info-card:hover { transform: none; }
+
+    .cm-info-card__title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin: 0;
+      padding: 18px 20px;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .cm-info-card__title::after {
+      content: '+';
+      flex-shrink: 0;
+      font-family: var(--cm-font-sans, sans-serif);
+      font-size: 22px;
+      line-height: 1;
+      color: var(--accent-gold, #C9A84C);
+      transition: transform 0.25s ease;
+    }
+    .cm-info-card.is-open .cm-info-card__title::after { transform: rotate(45deg); }
+    .cm-info-card__title:hover { opacity: 0.8; }
+    .cm-info-card__title:focus-visible { outline: 2px solid var(--accent-gold, #C9A84C); outline-offset: -2px; }
+    .cm-info-card__title:active { opacity: 0.6; }
+
+    /* Plegada: solo el título. Abierta: se respeta el display original de cada bloque. */
+    .cm-info-card:not(.is-open) > :not(.cm-info-card__title) { display: none; }
+    .cm-info-card > :not(.cm-info-card__title) { margin-left: 20px; margin-right: 20px; }
+    .cm-info-card.is-open > :last-child { margin-bottom: 20px; }
+  }

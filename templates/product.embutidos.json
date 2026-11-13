@@ -190,6 +190,7 @@
         "description": "",
         "view_all_label": "Ver toda la colección",
         "view_all_url": "/collections/all",
+        "compact_mobile": true,
         "section_bg": "off"
       }
     },
@@ -216,8 +217,8 @@
     "main",
     "trust_band_YfPnnW",
     "combina",
-    "product_information_zDBpen",
     "related",
+    "product_information_zDBpen",
     "1782741149c362a15e"
   ]
 }

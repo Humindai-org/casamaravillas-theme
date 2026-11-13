@@ -22,13 +22,17 @@
 
   var STORE_KEY = 'cm-pack-v2';
   var CURINGS = ['Más tierno', 'Equilibrado', 'Más curado'];
+  /* Pastillas por tipo de producto: lo más barato y rápido primero (Loncheados) */
   var CATS = [
-    { id: 'lonchado-jamon', label: 'Jamón Ibérico Loncheado' },
-    { id: 'jamon', label: 'Jamón Ibérico' },
-    { id: 'embutido', label: 'Embutidos Ibéricos' },
-    { id: 'lonchado-emb', label: 'Embutidos Loncheados' },
-    { id: 'all', label: 'Todo' }
+    { id: 'lonchados', label: 'Loncheados', of: ['lonchado-jamon', 'lonchado-emb'] },
+    { id: 'jamones', label: 'Jamones', of: ['jamon'] },
+    { id: 'embutidos', label: 'Embutidos', of: ['embutido'] },
+    { id: 'all', label: 'Todo', of: null }
   ];
+  function inGroup(p, id) {
+    var g = CATS.filter(function (c) { return c.id === id; })[0];
+    return !g || !g.of || g.of.indexOf(p.cat) !== -1;
+  }
 
   var $ = function (sel) { return root.querySelector(sel); };
   var el = {
@@ -46,7 +50,8 @@
   var basket = {};          /* key "variantId|curing" -> {vid, curing, qty} */
   var selVariant = {};      /* productId -> variantId */
   var selCuring = {};       /* productId -> curing */
-  var activeCat = 'lonchado-jamon';
+  var activeCat = 'lonchados';
+  var openCust = {}; /* fichas con «Personalizar» abierto: sobrevive a los re-renders */
   var term = '';
 
   /* ---------- helpers ---------- */
@@ -187,9 +192,7 @@
 
   /* ---------- render ---------- */
   function renderTabs() {
-    var counts = { all: products.length };
-    products.forEach(function (p) { counts[p.cat] = (counts[p.cat] || 0) + 1; });
-    var cats = CATS.filter(function (c) { return c.id === 'all' || counts[c.id]; });
+    var cats = CATS.filter(function (c) { return c.id === 'all' || products.some(function (p) { return inGroup(p, c.id); }); });
     if (!cats.some(function (c) { return c.id === activeCat; })) activeCat = cats[0].id;
     el.tabs.innerHTML = cats.map(function (c) {
       return '<button type="button" role="tab" class="cb-tab' + (c.id === activeCat ? ' cb-on' : '') +
@@ -201,7 +204,7 @@
     /* Con texto en el buscador se busca en TODAS las categorías (se ignora la pestaña activa, que no se pierde:
        al borrar el texto se vuelve a ella). Coincide por título, tipo de producto y etiquetas, sin tildes ni mayúsculas. */
     var list = products.filter(function (p) {
-      return term ? p.hay.indexOf(term) !== -1 : (activeCat === 'all' || p.cat === activeCat);
+      return term ? p.hay.indexOf(term) !== -1 : inGroup(p, activeCat);
     });
     el.tabs.classList.toggle('cb-searching', !!term);
     el.count.hidden = !term;
@@ -211,14 +214,10 @@
        Se marcan aquí en cada render (pestaña, buscador, cambio de opciones) y el CSS móvil (≤700px) las agrupa de dos en dos
        al final; si el nº visible es impar, la última ocupa la fila entera. En escritorio estas clases no hacen nada. */
     function hasSelectors(p) { return p.variants.length > 1 || !!p.curing; }
-    var selTotal = list.filter(hasSelectors).length;
-    var selSeen = 0;
+    /* Jamones (piezas enteras) primero y en una misma línea (3 por fila); el resto debajo, de 2 en 2 */
+    list = list.filter(hasSelectors).concat(list.filter(function (p) { return !hasSelectors(p); }));
     el.grid.innerHTML = list.map(function (p) {
-      var selCls = '';
-      if (hasSelectors(p)) {
-        selCls = ' cb-sel' + (selSeen === 0 ? ' cb-sel-1' : '') + (selSeen === selTotal - 1 && selTotal % 2 === 1 ? ' cb-sel-wide' : '');
-        selSeen++;
-      }
+      var selCls = hasSelectors(p) ? ' cb-sel' : '';
       var v = curVariant(p);
       var q = productQty(p);
       var ck = key(v.id, p.curing ? curCuring(p) : '');
@@ -231,13 +230,26 @@
                 (c === curCuring(p) ? ' checked' : '') + '><span>' + c + '</span></label>';
             }).join('') + '</div></div>'
         : '';
+      /* Peso, formato y punto de curación plegados: la ficha trae elegido lo más habitual */
+      var custom = '';
+      if (variants || curing) {
+        var sumTxt = [];
+        if (v.title && v.title !== 'Default Title') sumTxt.push(esc(String(v.title).split(' / ').map(prettyOpt).join(' · ')));
+        if (p.curing) sumTxt.push(esc(curCuring(p)));
+        custom = '<details class="cb-custom" data-cust="' + p.id + '"' + (openCust[p.id] ? ' open' : '') + '>' +
+          '<summary><span>Personalizar</span><small>' + sumTxt.join(' · ') + '</small></summary>' + variants + curing + '</details>';
+      }
+      var nm = String(p.title).split(' — ');
+      var nameHtml = nm.length > 1 && hasSelectors(p)
+        ? esc(nm[0]) + '<span class="cb-name-sub">' + esc(nm.slice(1).join(' — ')) + '</span>'
+        : esc(p.title);
       return (
         '<article class="cb-card' + selCls + (q > 0 ? ' cb-in' : '') + '">' +
           '<div class="cb-ph">' + (p.image ? '<img src="' + esc(img(p.image, 600)) + '" alt="' + esc(p.title) + '" loading="lazy" width="300" height="300">' : '') + '</div>' +
           '<div class="cb-body">' +
-            '<h3 class="cb-name">' + esc(p.title) + '</h3>' +
+            '<h3 class="cb-name">' + nameHtml + '</h3>' +
             '<p class="cb-price">' + money(v.price) + '</p>' +
-            variants + curing +
+            custom +
             '<button type="button" class="cb-add" data-add="' + ck + '" data-vid="' + v.id + '" data-cur="' + esc(p.curing ? curCuring(p) : '') + '">Añadir al pack</button>' +
             '<div class="cb-step-q">' +
               '<button type="button" class="cb-rb" data-dec="' + ck + '" aria-label="Quitar uno">−</button>' +
@@ -306,7 +318,28 @@
       el.shipBar.style.width = Math.min(t.cents / FREE, 1) * 100 + '%';
     }
     el.add.disabled = t.count < MIN;
+    renderSticky(t, disc);
   }
+
+  /* Móvil: barra fija «Tu pack · n · total · Añadir al carrito», visible mientras el panel «Tu pack» (más abajo) no se ve. */
+  var sticky = $('[data-cb-sticky]'), stickyBtn = $('[data-cb-sticky-go]');
+  var packPanel = root.querySelector('.cb-pack'), packInView = false;
+  function renderSticky(t, disc) {
+    if (!sticky) return;
+    var ready = t.count >= MIN;
+    $('[data-cb-sticky-count]').textContent = 'Tu pack · ' + t.count + ' producto' + (t.count === 1 ? '' : 's');
+    $('[data-cb-sticky-total]').textContent = money(t.cents - disc);
+    stickyBtn.textContent = ready ? 'Añadir al carrito' : 'Elige ' + (MIN - t.count) + ' más';
+    stickyBtn.disabled = !ready;
+    sticky.hidden = t.count === 0 || packInView;
+  }
+  if (sticky && packPanel && 'IntersectionObserver' in window) {
+    new IntersectionObserver(function (entries) {
+      packInView = entries[0].isIntersecting;
+      renderPack();
+    }).observe(packPanel);
+  }
+  if (stickyBtn) stickyBtn.addEventListener('click', function () { if (!stickyBtn.disabled) addToCart(); });
 
   function refresh() { renderGrid(); renderPack(); }
 
@@ -319,6 +352,11 @@
     refresh();
   }
   function getQty(vid, curing) { var b = basket[key(vid, curing)]; return b ? b.qty : 0; }
+
+  root.addEventListener('toggle', function (e) {
+    var d = e.target;
+    if (d && d.classList && d.classList.contains('cb-custom')) openCust[d.getAttribute('data-cust')] = d.open;
+  }, true);
 
   root.addEventListener('click', function (e) {
     var t = e.target.closest('[data-add],[data-dec],[data-cat],[data-cb-clear],[data-cb-add],[data-cb-no],[data-cb-yes],[data-cb-search-clear],.cb-tl-step');

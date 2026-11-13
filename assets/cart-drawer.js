@@ -29,7 +29,7 @@ function initCartDrawer() {
         updateCartCount(cart.item_count);
         updateCartTotals(cart);
         if (cart.items.length > 0) {
-          fetchRecommendations(cart.items[0].product_id);
+          fetchRecommendations(cart);
         }
       })
       .catch(function (err) {
@@ -471,21 +471,78 @@ function initCartDrawer() {
 
   /* ---- RECOMMENDATIONS ---- */
 
-  function fetchRecommendations(productId) {
-    if (!productId) return;
-    /* Se piden 8 y se muestran 4 tras quitar los packs con vino/vermut (etiqueta "con-alcohol", IVA 21 %) */
-    fetch('/recommendations/products.json?product_id=' + productId + '&limit=8&intent=related')
+  /* Sugerencias estables: se anclan a un producto de la cesta y NO cambian cada vez que se añade algo.
+     Al añadir una sugerencia solo desaparece esa y entra la siguiente candidata. Si Shopify no devuelve
+     suficientes, se completa con el resto de la tienda, así que siempre hay alternativas de compra. */
+  var recPool = { anchor: null, products: null };
+
+  function recIsAllowed(p, inCart) {
+    if (inCart[p.id]) return false;
+    var tags = (p.tags || []).map(function (t) { return String(t).trim().toLowerCase(); });
+    if (tags.indexOf('con-alcohol') !== -1) return false; /* packs con vino/vermut (IVA 21 %) */
+    return (p.variants || []).some(function (v) { return v.available; });
+  }
+
+  function showRecs(cart) {
+    var inCart = {};
+    cart.items.forEach(function (it) { inCart[it.product_id] = true; });
+    renderRecommendations((recPool.products || []).filter(function (p) { return recIsAllowed(p, inCart); }).slice(0, 4));
+  }
+
+  function fetchRecommendations(cart) {
+    var ids = cart.items.map(function (it) { return it.product_id; });
+    /* Se mantiene el ancla mientras siga en la cesta; si no, se elige la primera línea actual */
+    var anchor = ids.indexOf(recPool.anchor) !== -1 ? recPool.anchor : ids[0];
+    if (recPool.products && recPool.anchor === anchor) return showRecs(cart);
+    var rec = fetch('/recommendations/products.json?product_id=' + anchor + '&limit=10&intent=related')
+      .then(function (res) { return res.json(); })
+      .then(function (data) { return data.products || []; })
+      .catch(function () { return []; });
+    var rest = fetch('/collections/all/products.json?limit=24')
       .then(function (res) { return res.json(); })
       .then(function (data) {
-        var sinAlcohol = (data.products || []).filter(function (p) {
-          return !(p.tags || []).some(function (t) { return String(t).trim().toLowerCase() === 'con-alcohol'; });
+        /* /products.json usa otro formato que /recommendations: se normaliza (precio en céntimos, url, imagen) */
+        return (data.products || []).map(function (p) {
+          var prices = (p.variants || []).map(function (v) { return Math.round(parseFloat(v.price) * 100); });
+          return {
+            id: p.id, title: p.title, url: '/products/' + p.handle,
+            tags: Array.isArray(p.tags) ? p.tags : String(p.tags || '').split(','),
+            variants: p.variants || [],
+            featured_image: p.images && p.images[0] ? p.images[0].src : '',
+            price_min: prices.length ? Math.min.apply(null, prices) : 0
+          };
         });
-        renderRecommendations(sinAlcohol.slice(0, 4));
       })
-      .catch(function (err) {
-        console.error('[cart-drawer] recommendations error:', err);
-      });
+      .catch(function () { return []; });
+    Promise.all([rec, rest]).then(function (r) {
+      var seen = {}, pool = [];
+      r[0].concat(r[1]).forEach(function (p) { if (!seen[p.id]) { seen[p.id] = true; pool.push(p); } });
+      recPool = { anchor: anchor, products: pool };
+      showRecs(cart);
+    });
   }
+
+  var REC_PLUS_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>';
+  var REC_CHECK_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg>';
+
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest && e.target.closest('[data-rec-add]');
+    if (!btn || btn.disabled) return;
+    e.preventDefault();
+    btn.disabled = true;
+    fetch('/cart/add.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ id: Number(btn.getAttribute('data-rec-add')), quantity: 1 })
+    })
+      .then(function (res) { if (!res.ok) throw new Error('add failed'); return res.json(); })
+      .then(function () {
+        btn.innerHTML = REC_CHECK_SVG;
+        btn.classList.add('is-added');
+        fetchAndRenderCart();
+      })
+      .catch(function (err) { console.error('[cart-drawer] rec add error:', err); btn.disabled = false; });
+  });
 
   function renderRecommendations(products) {
     var section = document.getElementById('cart-recommendations');
@@ -502,17 +559,27 @@ function initCartDrawer() {
       var imgSrc = p.featured_image
         ? p.featured_image.replace(/(\.(jpg|jpeg|png|webp|gif))(\?|$)/i, '_240x240_crop_center$1$3')
         : '';
+      /* «+» para añadir directo: solo si el producto tiene una única variante disponible; si no (piezas enteras con
+         peso/formato), el «+» lleva a la ficha para elegir. */
+      var avail = (p.variants || []).filter(function (v) { return v.available; });
+      var quick = (p.variants || []).length === 1 && avail.length === 1;
+      var plus = quick
+        ? '<button type="button" class="cart-rec-plus" data-rec-add="' + avail[0].id + '" aria-label="Añadir ' + escapeHtml(p.title) + ' a la cesta">' + REC_PLUS_SVG + '</button>'
+        : '<a href="' + p.url + '" class="cart-rec-plus" aria-label="Ver opciones de ' + escapeHtml(p.title) + '">' + REC_PLUS_SVG + '</a>';
       html +=
-        '<a href="' + p.url + '" class="cart-rec-item">' +
-          (imgSrc
-            ? '<img src="' + imgSrc + '" alt="' + escapeHtml(p.title) + '" class="cart-rec-img" loading="lazy">'
-            : '<div class="cart-rec-img"></div>'
-          ) +
-          '<div class="cart-rec-info">' +
+        '<div class="cart-rec-item">' +
+          '<div class="cart-rec-media">' +
+            '<a href="' + p.url + '" tabindex="-1" aria-hidden="true">' +
+              (imgSrc
+                ? '<img src="' + imgSrc + '" alt="" class="cart-rec-img" loading="lazy">'
+                : '<div class="cart-rec-img"></div>') +
+            '</a>' + plus +
+          '</div>' +
+          '<a href="' + p.url + '" class="cart-rec-info">' +
             '<span class="cart-rec-name">' + escapeHtml(p.title) + '</span>' +
             '<span class="cart-rec-price">' + formatMoney(p.price_min) + '</span>' +
-          '</div>' +
-        '</a>';
+          '</a>' +
+        '</div>';
     });
 
     grid.innerHTML = html;

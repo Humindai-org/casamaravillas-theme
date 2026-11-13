@@ -134,6 +134,8 @@
   }
 
   @media (max-width: 767px) {
+    /* Titular en dos líneas en móvil */
+    #nsh-band-{{ section.id }} .nsh__title { max-width: none; font-size: clamp(22px, 6.4vw, 28px); }
     #nsh-{{ section.id }} {
       aspect-ratio: {{ s.ratio_mobile }};
       max-height: {{ s.max_height_mobile }}vh;

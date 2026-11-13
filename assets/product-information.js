@@ -294,3 +294,52 @@ document.querySelectorAll('.cm-info-card').forEach(card => {
   card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
   observer.observe(card);
 });
+
+
+// Móvil (≤768 px): las tarjetas de Nutrición / Alérgenos / Conservación se pliegan
+// como acordeón (borrador 2026-11-12, análisis Clarity). En escritorio no cambia nada.
+(function () {
+  var mq = window.matchMedia('(max-width: 768px)');
+
+  function titles() {
+    return Array.prototype.slice.call(document.querySelectorAll('.cm-info-card .cm-info-card__title'));
+  }
+
+  function apply() {
+    titles().forEach(function (t) {
+      var card = t.closest('.cm-info-card');
+      if (mq.matches) {
+        t.setAttribute('role', 'button');
+        t.setAttribute('tabindex', '0');
+        t.setAttribute('aria-expanded', card.classList.contains('is-open') ? 'true' : 'false');
+      } else {
+        t.removeAttribute('role');
+        t.removeAttribute('tabindex');
+        t.removeAttribute('aria-expanded');
+        card.classList.remove('is-open');
+      }
+    });
+  }
+
+  function toggle(t) {
+    var card = t.closest('.cm-info-card');
+    var open = card.classList.toggle('is-open');
+    t.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+
+  document.addEventListener('click', function (e) {
+    var t = e.target.closest && e.target.closest('.cm-info-card__title');
+    if (t && mq.matches) toggle(t);
+  });
+  document.addEventListener('keydown', function (e) {
+    if ((e.key === 'Enter' || e.key === ' ') && mq.matches) {
+      var t = e.target.closest && e.target.closest('.cm-info-card__title');
+      if (t) { e.preventDefault(); toggle(t); }
+    }
+  });
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', apply);
+  else apply();
+  if (mq.addEventListener) mq.addEventListener('change', apply);
+  else if (mq.addListener) mq.addListener(apply);
+})();
