@@ -95,8 +95,9 @@
     .rsf-section__header { margin-bottom: 18px; }
     .rsf-section__grid { grid-template-columns: 1fr; gap: 10px; }
     .rsf-section .product-card { flex-direction: row; align-items: stretch; border-radius: 10px; }
-    .rsf-section .product-card > a { flex: 0 0 92px; display: block; }
-    .rsf-section .product-card__img-box { aspect-ratio: 1; height: 100%; border-radius: 10px 0 0 10px; }
+    .rsf-section .product-card > a { flex: 0 0 92px; width: 92px; display: block; }
+    .rsf-section .product-card__img-box { width: 92px; height: 100%; min-height: 92px; aspect-ratio: auto; border-radius: 10px 0 0 10px; }
+    .rsf-section .product-card { min-height: 92px; }
     .rsf-section .product-card__add-btn,
     .rsf-section .product-card__quality,
     .rsf-section .product-card__cat,

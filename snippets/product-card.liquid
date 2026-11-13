@@ -486,9 +486,9 @@
             <span>{{ 'cm.pdp.add_short' | t }}</span>
           </button>
         {%- else -%}
-          <a
+          {%- comment -%}span, no <a>: va dentro del <a> de la imagen y un enlace anidado hace que el navegador cierre el externo (dejaba un hueco de 92 px en las filas compactas de pieza entera).{%- endcomment -%}
+          <span
             class="product-card__add-btn"
-            href="{{ product.url }}"
             aria-label="{{ 'cm.pdp.view_options' | t: title: product.title }}"
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
@@ -497,7 +497,7 @@
               <path d="M16 10a4 4 0 01-8 0"/>
             </svg>
             <span>Opciones</span>
-          </a>
+          </span>
         {%- endif -%}
       </div>
     </a>
