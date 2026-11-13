@@ -165,7 +165,8 @@ select{width:100%;padding:12px;border-radius:4px;border:1.5px solid var(--b2);fo
   .cb-tl-steps{grid-template-columns:repeat(4,1fr);gap:6px}
   .cb-tl-step{display:block;align-self:start;text-align:center;padding:0 2px;opacity:.85}
   .cb-tl-step i{width:30px;height:30px;font-size:15px;margin:0 auto 6px;border-width:2px;grid-row:auto}
-  .cb-tl-step h3{font-size:12px;line-height:1.2;margin:0}
+  .cb-tl-step{display:flex;flex-direction:column;justify-content:flex-start;align-items:center;height:100%}
+  .cb-tl-step h3{font-size:12px;line-height:1.2;margin:0;min-height:2.4em}
   .cb-tl-step p{display:none}
   .cb-tl-step.cb-on{transform:none}
   .cb-tl-step.cb-on i{box-shadow:none}
