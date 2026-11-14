@@ -1,9 +1,11 @@
 /*
- * Página «Navidad 2026» (/pages/navidad): escaparate de Navidad.
+ * Página «Navidad 2026» (/pages/navidad): escaparate de Navidad. Vende sobre todo los packs.
+ * Orden (Jorge, 14/11): packs, tarjeta regalo, jamón entero, lotes de 10 sobres y preguntas frecuentes.
  * Todo lo que es producto sale de una COLECCIÓN (sección rejilla-coleccion), no se duplica a mano:
  *   - packs: colección regalos-ibericos sin con-alcohol. No se ve hasta que se publiquen los packs sin vino.
  *   - tarjeta_regalo: producto suelto SIN ELEGIR. No se ve hasta que exista y se elija en el editor.
- *   - jamon_entero: colección jamones, solo la etiqueta «pieza entera».
+ *   - jamon_entero: colección jamones, solo la etiqueta «pieza entera». Los pesos agotados salen marcados
+ *     y el precio es «Desde» la variante disponible más barata (show_variant_stock).
  * Lotes de 10 sobres: hoy no son un producto, sino un -10 % automático desde 10 sobres del mismo jamón
  * loncheado. Va como texto, sin fichas: las fotos del Bellota 50 % loncheado aún muestran el sobre antiguo de «75 %».
  * Desactivada: fechas (fecha límite del transportista, sin confirmar).
@@ -22,7 +24,7 @@
             "heading": "Regala ibérico de verdad",
             "year": "",
             "tagline": "Envío gratis desde 99 € a la Península",
-            "cta_label": "CREAR MI PACK",
+            "cta_label": "VER PACKS Y REGALOS",
             "cta_url": "/collections/regalos-ibericos",
             "image_pos_x": 25,
             "image_pos_y": 50
@@ -83,16 +85,6 @@
         "cta_url": "/collections/jamones#cortado%20a%20mano+cortado%20a%20m%C3%A1quina"
       }
     },
-    "crea_tu_pack": {
-      "type": "story-teaser",
-      "settings": {
-        "eyebrow": "Crea tu pack",
-        "title": "<p>Tu regalo, <em>a tu medida</em></p>",
-        "body": "Combina jamón, embutidos y loncheados en tu propio pack.",
-        "cta_label": "Empezar mi pack",
-        "cta_url": "/collections/regalos-ibericos"
-      }
-    },
     "fechas": {
       "type": "story-teaser",
       "disabled": true,
@@ -144,7 +136,6 @@
     "tarjeta_regalo",
     "jamon_entero",
     "lotes_10_sobres",
-    "crea_tu_pack",
     "fechas",
     "faq"
   ]

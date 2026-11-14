@@ -159,6 +159,39 @@
     font-family: var(--cm-font-sans);
   }
 
+  /* Pesos con su disponibilidad (solo con card_variant_stock) */
+  .product-card__sizes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    list-style: none;
+    margin: 8px 0 10px;
+    padding: 0;
+  }
+  .product-card__size {
+    font-family: var(--cm-font-sans);
+    font-size: 11px;
+    line-height: 1;
+    padding: 6px 8px;
+    border: 1px solid rgba(255,255,255,0.28);
+    border-radius: 999px;
+    color: rgba(255,255,255,0.9);
+    white-space: nowrap;
+  }
+  .product-card__size.is-soldout {
+    border-color: rgba(255,255,255,0.12);
+    color: rgba(255,255,255,0.45);
+  }
+  .product-card__size.is-soldout span {
+    color: var(--cm-gold);
+    margin-left: 2px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: 10px;
+  }
+  .product-card--light .product-card__size { border-color: rgba(0,41,75,0.25); color: var(--cm-navy); }
+  .product-card--light .product-card__size.is-soldout { border-color: rgba(0,41,75,0.1); color: rgba(0,41,75,0.45); }
+
   .product-card__foot {
     display: flex;
     justify-content: space-between;
@@ -514,10 +547,49 @@
         <p class="product-card__name-sub">{{ product.metafields.custom.subtitle }}</p>
       {%- endif -%}
 
+      {%- comment -%}
+        card_variant_stock (opcional, p. ej. escaparate de Navidad): lista los pesos y marca como agotado
+        el que no tenga NINGUNA variante disponible, y el precio pasa a «Desde» la variante disponible
+        más barata. Sin el parámetro, la tarjeta queda como siempre (product.price incluye agotadas).
+      {%- endcomment -%}
+      {%- assign card_price = product.price -%}
+      {%- assign card_price_from = false -%}
+      {%- if card_variant_stock and product.variants.size > 1 -%}
+        {%- assign avail_variant = product.variants | where: 'available' | sort: 'price' | first -%}
+        {%- if avail_variant -%}
+          {%- assign card_price = avail_variant.price -%}
+          {%- if product.price_varies -%}{%- assign card_price_from = true -%}{%- endif -%}
+        {%- endif -%}
+        {%- for opt in product.options_with_values -%}
+          {%- if opt.name == 'Peso' and opt.values.size > 1 -%}
+            {%- assign opt_idx = opt.position | minus: 1 -%}
+            <ul class="product-card__sizes" aria-label="{{ opt.name }}">
+              {%- for val in opt.values -%}
+                {%- assign val_ok = false -%}
+                {%- for v in product.variants -%}
+                  {%- if v.available and v.options[opt_idx] == val -%}{%- assign val_ok = true -%}{%- break -%}{%- endif -%}
+                {%- endfor -%}
+                {%- assign val_label = val | replace: '.0kg', '' | replace: 'kg', '' | replace: ' - ', '–' | append: ' kg' -%}
+                <li class="product-card__size{% unless val_ok %} is-soldout{% endunless %}">
+                  {%- unless val_ok -%}
+                    <s>{{ val_label }}</s> <span>{{ 'cm.pdp.sold_out' | t }}</span>
+                  {%- else -%}
+                    {{ val_label }}
+                  {%- endunless -%}
+                </li>
+              {%- endfor -%}
+            </ul>
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endif -%}
+
       <div class="product-card__foot">
         <div>
-          <span class="product-card__price">{{ product.price | money }}</span>
-          {%- if product.compare_at_price > product.price -%}
+          {%- assign card_price_money = card_price | money -%}
+          <span class="product-card__price">
+            {%- if card_price_from -%}{{ 'products.product.from_price_html' | t: price: card_price_money }}{%- else -%}{{ card_price_money }}{%- endif -%}
+          </span>
+          {%- if product.compare_at_price > card_price and card_price_from == false -%}
             <span class="product-card__price-compare">{{ product.compare_at_price | money }}</span>
           {%- endif -%}
         </div>
