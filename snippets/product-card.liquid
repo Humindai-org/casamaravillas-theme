@@ -565,13 +565,14 @@
       {%- endif -%}
 
       {%- comment -%}
-        card_variant_stock (opcional, p. ej. escaparate de Navidad): lista los pesos y marca como agotado
-        el que no tenga NINGUNA variante disponible, y el precio pasa a «Desde» la variante disponible
-        más barata. Sin el parámetro, la tarjeta queda como siempre (product.price incluye agotadas).
+        Pesos y agotados (ACTIVADO por defecto en todas las tarjetas; se apaga con card_variant_stock: false):
+        lista los pesos, marca como agotado el que no tenga NINGUNA variante disponible y el precio pasa a
+        «Desde» la variante disponible más barata. Así ninguna tarjeta anuncia el precio de un peso agotado
+        (product.price incluye las variantes agotadas). Productos de un solo peso: sin cambios.
       {%- endcomment -%}
       {%- assign card_price = product.price -%}
       {%- assign card_price_from = false -%}
-      {%- if card_variant_stock and product.variants.size > 1 -%}
+      {%- if card_variant_stock != false and product.variants.size > 1 -%}
         {%- assign avail_variant = product.variants | where: 'available' | sort: 'price' | first -%}
         {%- if avail_variant -%}
           {%- assign card_price = avail_variant.price -%}

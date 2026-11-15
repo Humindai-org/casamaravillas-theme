@@ -867,6 +867,7 @@
       "qty_increase": "Increase quantity",
       "add_product_to_cart": "Add {{ title }} to cart",
       "view_options": "View options for {{ title }}",
+      "view_options_short": "View options",
       "quick_buy": "Quick buy",
       "combine_title": "Pair your order with",
       "complement_title": "Complete your order with",

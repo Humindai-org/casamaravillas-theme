@@ -21,7 +21,9 @@
     shipbar_remaining_html: {{ 'cm.shipbar.remaining_html' | t: amount: ph_amount | json }},
     cart_empty: {{ 'cm.cart.empty' | t | json }},
     cart_items_count_aria: {{ 'cm.cart.items_aria' | t: n: ph_n | json }},
-    wishlist_empty: {{ 'cm.wishlist.empty' | t | json }}
+    wishlist_empty: {{ 'cm.wishlist.empty' | t | json }},
+    from_price: {{ 'products.product.from_price_html' | t: price: ph_amount | json }},
+    view_options_short: {{ 'cm.pdp.view_options_short' | t | json }}
   };
   window.cmT = function (key, fallback, vars) {
     var s = (window.CM_I18N && window.CM_I18N[key]) || fallback;

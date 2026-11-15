@@ -25,7 +25,8 @@
       <p class="cm-combina__card-gramaje">{{ cp.metafields.custom.gramaje }}</p>
     {%- endif -%}
     <div class="cm-combina__card-foot">
-      <p class="cm-combina__card-price">{{ cp.price | money }}</p>
+      {%- comment -%}Precio de la variante que añade el «+» (cp.price podría ser el de un peso agotado){%- endcomment -%}
+      <p class="cm-combina__card-price">{{ cp_variant.price | default: cp.price | money }}</p>
       {%- if cp_variant -%}
         <button
           class="cm-combina__card-plus"
