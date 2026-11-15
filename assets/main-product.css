@@ -1953,3 +1953,17 @@
     .cm-pdp__desc.is-collapsible:not(.is-open) .cm-pdp__desc-preview { display: none; }
     .cm-pdp__desc.is-collapsible.is-open .cm-pdp__desc-preview { padding-top: 16px; }
   }
+
+/* Opción agotada (ningún stock con ese valor): sigue pulsable para ver el precio, pero se marca */
+.cm-pdp__opt.is-soldout { border-style: dashed; }
+.cm-pdp__opt.is-soldout .cm-pdp__opt-name { text-decoration: line-through; opacity: 0.55; }
+.cm-pdp__opt-soldout {
+  display: block;
+  order: 2;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-gold);
+}
+.cm-pdp__opt[aria-checked="true"] .cm-pdp__opt-soldout { color: var(--text-primary); }
