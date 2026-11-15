@@ -144,6 +144,14 @@ document.addEventListener('DOMContentLoaded', function() {
       nameEl.className = 'cm-pdp__opt-name';
       nameEl.textContent = prettyOptionLabel(opt.textContent);
       btn.appendChild(nameEl);
+      /* Valor sin ninguna variante disponible (data-soldout lo pone el Liquid): tachado y «Agotado» */
+      if (opt.dataset.soldout) {
+        btn.classList.add('is-soldout');
+        const soldEl = document.createElement('span');
+        soldEl.className = 'cm-pdp__opt-soldout';
+        soldEl.textContent = cmT('sold_out', 'Agotado');
+        btn.appendChild(soldEl);
+      }
       if (cards && opt.dataset.desc) {
         const descEl = document.createElement('span');
         descEl.className = 'cm-pdp__opt-desc';

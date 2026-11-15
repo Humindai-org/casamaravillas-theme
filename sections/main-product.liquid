@@ -399,7 +399,12 @@
                     {%- when 'Corte a mano y envasado' -%}{%- assign value_desc = 'El máximo nivel de experiencia.' -%}
                     {%- else -%}{%- assign value_desc = '' -%}
                   {%- endcase -%}
-                  <option value="{{ value | escape }}"{% if value == selected_in_option %} selected{% endif %}{% if value_desc != blank and option_name_lower == 'formato' %} data-desc="{{ value_desc }}"{% endif %}>{{ value }}</option>
+                  {%- comment -%}Agotado: ninguna variante disponible con este valor (p. ej. un peso sin stock en ningún formato){%- endcomment -%}
+                  {%- assign value_soldout = true -%}
+                  {%- for v in product.variants -%}
+                    {%- if v.available and v.options[option_idx] == value -%}{%- assign value_soldout = false -%}{%- break -%}{%- endif -%}
+                  {%- endfor -%}
+                  <option value="{{ value | escape }}"{% if value == selected_in_option %} selected{% endif %}{% if value_desc != blank and option_name_lower == 'formato' %} data-desc="{{ value_desc }}"{% endif %}{% if value_soldout %} data-soldout="true"{% endif %}>{{ value }}</option>
                 {%- endfor -%}
               </select>
               <span class="cm-pdp__select-arrow" aria-hidden="true">
