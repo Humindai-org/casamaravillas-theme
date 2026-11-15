@@ -142,6 +142,7 @@
       "qty_increase": "Augmenter la quantité",
       "add_product_to_cart": "Ajouter {{ title }} au panier",
       "view_options": "Voir les options de {{ title }}",
+      "view_options_short": "Voir les options",
       "quick_buy": "Achat rapide",
       "combine_title": "Associez votre commande à",
       "complement_title": "Complétez votre commande avec",
