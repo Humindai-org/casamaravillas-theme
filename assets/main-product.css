@@ -824,6 +824,16 @@
     display: block;
   }
 
+  /* Gramaje real (custom.gramaje): pegado bajo el título, que ya trae 10px de margen inferior */
+  .cm-combina__card-gramaje {
+    font-family: var(--cm-font-sans);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    line-height: 1.4;
+    color: rgba(255,255,255,0.7);
+    margin: -6px 0 10px;
+  }
+
   .cm-combina__card-foot {
     display: flex;
     align-items: center;

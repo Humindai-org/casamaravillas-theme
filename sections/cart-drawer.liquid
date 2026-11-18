@@ -61,10 +61,13 @@
               <p class="cart-variant">{{ item.variant.title }}</p>
             {%- endunless -%}
             {%- comment -%}
-              Sin línea de peso: item.variant.weight es el peso de ENVÍO (p. ej. 0,15 kg en el jamón loncheado
-              de 100 g), no el contenido, y el JS que repinta el cajón (cart-drawer.js) no lo pintaba, así que la
-              línea aparecía y desaparecía. Pendiente: mostrar el gramaje real con el metacampo custom.gramaje.
+              Gramaje REAL del producto (metacampo custom.gramaje), no variant.weight (peso de ENVÍO, p. ej. 0,15 kg
+              en el jamón loncheado de 100 g). /cart.js no trae metacampos: cart-drawer.js repinta las líneas con
+              el mapa #cart-gramaje-data de esta misma sección (Section Rendering API).
             {%- endcomment -%}
+            {%- if item.product.metafields.custom.gramaje != blank -%}
+              <p class="cart-gramaje">{{ item.product.metafields.custom.gramaje }}</p>
+            {%- endif -%}
             <div class="cart-qty">
               <button
                 class="cart-qty-btn"
@@ -111,6 +114,9 @@
       {%- endfor -%}
       {%- endif -%}
     </div>
+
+    {%- comment -%}Mapa product_id → gramaje de TODAS las líneas (también las de cestas, que el servidor no pinta); lo lee cart-drawer.js{%- endcomment -%}
+    <script type="application/json" id="cart-gramaje-data">{ {%- for item in cart.items -%}"{{ item.product_id }}":{{ item.product.metafields.custom.gramaje.value | json }}{%- unless forloop.last -%},{%- endunless -%}{%- endfor -%} }</script>
 
     <!-- ENVÍO GRATIS -->
     {% render 'free-shipping-bar' %}

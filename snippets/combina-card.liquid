@@ -21,6 +21,9 @@
   </a>
   <div class="cm-combina__card-body">
     <a href="{{ cp.url }}" class="cm-combina__card-title">{{ cp.title | truncate: 50 }}</a>
+    {%- if cp.metafields.custom.gramaje != blank -%}
+      <p class="cm-combina__card-gramaje">{{ cp.metafields.custom.gramaje }}</p>
+    {%- endif -%}
     <div class="cm-combina__card-foot">
       <p class="cm-combina__card-price">{{ cp.price | money }}</p>
       {%- if cp_variant -%}
