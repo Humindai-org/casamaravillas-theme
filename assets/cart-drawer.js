@@ -72,6 +72,16 @@ function initCartDrawer() {
       });
   }
 
+  /* Gramaje del catálogo para «Podría interesarte»: la misma sección, pedida por el endpoint de recomendaciones,
+     que además del carrito trae el mapa de todos los productos (ver cart-drawer.liquid) */
+  function loadRecGramajes(anchor) {
+    var root = (window.Shopify && Shopify.routes && Shopify.routes.root) || '/';
+    return fetch(root + 'recommendations/products?section_id=cart-drawer&product_id=' + anchor + '&limit=1&intent=related')
+      .then(function (res) { if (!res.ok) throw new Error('HTTP ' + res.status); return res.text(); })
+      .then(function (html) { mergeGramajes(new DOMParser().parseFromString(html, 'text/html')); })
+      .catch(function (err) { console.error('[cart-drawer] rec gramaje error:', err); });
+  }
+
   function gramajeHtml(item) {
     var g = gramajes[item.product_id];
     return g ? '<p class="cart-gramaje">' + escapeHtml(g) + '</p>' : '';
@@ -570,7 +580,7 @@ function initCartDrawer() {
       var seen = {}, pool = [];
       r[0].concat(r[1]).forEach(function (p) { if (!seen[p.id]) { seen[p.id] = true; pool.push(p); } });
       recPool = { anchor: anchor, products: pool };
-      showRecs(cart);
+      loadRecGramajes(anchor).then(function () { showRecs(cart); });
     });
   }
 
@@ -629,6 +639,7 @@ function initCartDrawer() {
           '</div>' +
           '<a href="' + p.url + '" class="cart-rec-info">' +
             '<span class="cart-rec-name">' + escapeHtml(p.title) + '</span>' +
+            (gramajes[p.id] ? '<span class="cart-rec-gramaje">' + escapeHtml(gramajes[p.id]) + '</span>' : '') +
             '<span class="cart-rec-price">' + formatMoney(p.price_min) + '</span>' +
           '</a>' +
         '</div>';

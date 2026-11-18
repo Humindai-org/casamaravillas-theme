@@ -532,6 +532,12 @@
   font-weight: 500;
 }
 
+.cart-rec-gramaje {
+  font-family: "Montserrat", sans-serif;
+  font-size: 11px;
+  color: #6B6050;
+}
+
 .cart-rec-price {
   font-family: "Montserrat", sans-serif;
   font-size: 11px;
