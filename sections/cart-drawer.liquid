@@ -61,10 +61,13 @@
               <p class="cart-variant">{{ item.variant.title }}</p>
             {%- endunless -%}
             {%- comment -%}
-              Sin línea de peso: item.variant.weight es el peso de ENVÍO (p. ej. 0,15 kg en el jamón loncheado
-              de 100 g), no el contenido, y el JS que repinta el cajón (cart-drawer.js) no lo pintaba, así que la
-              línea aparecía y desaparecía. Pendiente: mostrar el gramaje real con el metacampo custom.gramaje.
+              Gramaje REAL del producto (metacampo custom.gramaje), no variant.weight (peso de ENVÍO, p. ej. 0,15 kg
+              en el jamón loncheado de 100 g). /cart.js no trae metacampos: cart-drawer.js repinta las líneas con
+              el mapa #cart-gramaje-data de esta misma sección (Section Rendering API).
             {%- endcomment -%}
+            {%- if item.product.metafields.custom.gramaje != blank -%}
+              <p class="cart-gramaje">{{ item.product.metafields.custom.gramaje }}</p>
+            {%- endif -%}
             <div class="cart-qty">
               <button
                 class="cart-qty-btn"
@@ -111,6 +114,21 @@
       {%- endfor -%}
       {%- endif -%}
     </div>
+
+    {%- comment -%}
+      Mapa product_id → gramaje que lee cart-drawer.js. Siempre trae las líneas del carrito (también las de cestas, que el
+      servidor no pinta). Solo cuando la sección se pide por /recommendations/products?section_id=cart-drawer
+      (recommendations.performed) añade además el gramaje de todo el catálogo, para las tarjetas de «Podría interesarte»:
+      así las páginas normales no leen metacampos de decenas de productos. Los pares se cierran con "0":null (sin coma final).
+    {%- endcomment -%}
+    {%- capture cart_gramaje_pairs -%}
+      {%- for item in cart.items -%}"{{ item.product_id }}":{{ item.product.metafields.custom.gramaje.value | json }},{%- endfor -%}
+      {%- if recommendations.performed -%}
+        {%- for p in collections.all.products limit: 50 -%}"{{ p.id }}":{{ p.metafields.custom.gramaje.value | json }},{%- endfor -%}
+      {%- endif -%}
+      "0":null
+    {%- endcapture -%}
+    <script type="application/json" id="cart-gramaje-data">{ {{ cart_gramaje_pairs }} }</script>
 
     <!-- ENVÍO GRATIS -->
     {% render 'free-shipping-bar' %}

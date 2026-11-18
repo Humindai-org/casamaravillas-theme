@@ -37,7 +37,68 @@ function initCartDrawer() {
       });
   }
 
+  /* ---- GRAMAJE (metacampo custom.gramaje) ----
+     /cart.js no trae metacampos, así que el texto sale de la propia sección del cajón vía Section
+     Rendering API (?sections=cart-drawer), que incluye el mapa product_id → gramaje de todas las líneas.
+     gramajes: caché product_id → texto ('' = el producto no tiene). Solo se pide al servidor cuando
+     entra en el carrito un producto que aún no está en la caché. */
+  var gramajes = {};
+  var renderSeq = 0;
+
+  function mergeGramajes(root) {
+    var el = root && root.querySelector('#cart-gramaje-data');
+    if (!el) return;
+    try {
+      var map = JSON.parse(el.textContent || '{}');
+      Object.keys(map).forEach(function (id) { gramajes[id] = map[id] || ''; });
+    } catch (e) {
+      console.error('[cart-drawer] gramaje map error:', e);
+    }
+  }
+
+  function loadGramajes(cart) {
+    var missing = cart.items.some(function (it) { return gramajes[it.product_id] === undefined; });
+    if (!missing) return Promise.resolve();
+    var root = (window.Shopify && Shopify.routes && Shopify.routes.root) || '/';
+    return fetch(root + '?sections=cart-drawer')
+      .then(function (res) { return res.json(); })
+      .then(function (sections) {
+        var doc = new DOMParser().parseFromString(sections['cart-drawer'] || '', 'text/html');
+        mergeGramajes(doc);
+      })
+      .catch(function (err) {
+        /* Sin gramaje el cajón sigue funcionando: se pinta igual y se reintenta en el siguiente repintado */
+        console.error('[cart-drawer] gramaje fetch error:', err);
+      });
+  }
+
+  /* Gramaje del catálogo para «Podría interesarte»: la misma sección, pedida por el endpoint de recomendaciones,
+     que además del carrito trae el mapa de todos los productos (ver cart-drawer.liquid) */
+  function loadRecGramajes(anchor) {
+    var root = (window.Shopify && Shopify.routes && Shopify.routes.root) || '/';
+    return fetch(root + 'recommendations/products?section_id=cart-drawer&product_id=' + anchor + '&limit=1&intent=related')
+      .then(function (res) { if (!res.ok) throw new Error('HTTP ' + res.status); return res.text(); })
+      .then(function (html) { mergeGramajes(new DOMParser().parseFromString(html, 'text/html')); })
+      .catch(function (err) { console.error('[cart-drawer] rec gramaje error:', err); });
+  }
+
+  function gramajeHtml(item) {
+    var g = gramajes[item.product_id];
+    return g ? '<p class="cart-gramaje">' + escapeHtml(g) + '</p>' : '';
+  }
+
+  /* Repinta el cajón; si falta el gramaje de algún producto lo pide antes (el repintado más reciente gana) */
   function renderCartItems(cart) {
+    var seq = ++renderSeq;
+    if (!cart || !cart.items) return paintCartItems(cart);
+    var missing = cart.items.some(function (it) { return gramajes[it.product_id] === undefined; });
+    if (!missing) return paintCartItems(cart);
+    return loadGramajes(cart).then(function () {
+      if (seq === renderSeq) paintCartItems(cart);
+    });
+  }
+
+  function paintCartItems(cart) {
     var container = document.getElementById('cart-items-container');
     if (!container) {
       console.error('[renderCartItems] cart-items-container not found!');
@@ -124,6 +185,7 @@ function initCartDrawer() {
         '<div class="cart-item-info">' +
           '<a href="' + item.url + '" class="cart-title">' + escapeHtml(item.product_title || item.title) + '</a>' +
           variantHtml +
+          gramajeHtml(item) +
           '<div class="cart-qty">' +
             '<button class="cart-qty-btn" onclick="updateQty(\'' + item.key + '\',' + (item.quantity - 1) + ')" aria-label="Reducir cantidad">−</button>' +
             '<input class="cart-qty-num" type="number" inputmode="numeric" min="0" max="999" value="' + item.quantity + '" aria-label="Cantidad de ' + escapeHtml(item.title) + '" onchange="cmSetCartQty(\'' + item.key + '\', this)" onfocus="this.select()">' +
@@ -518,7 +580,7 @@ function initCartDrawer() {
       var seen = {}, pool = [];
       r[0].concat(r[1]).forEach(function (p) { if (!seen[p.id]) { seen[p.id] = true; pool.push(p); } });
       recPool = { anchor: anchor, products: pool };
-      showRecs(cart);
+      loadRecGramajes(anchor).then(function () { showRecs(cart); });
     });
   }
 
@@ -577,6 +639,7 @@ function initCartDrawer() {
           '</div>' +
           '<a href="' + p.url + '" class="cart-rec-info">' +
             '<span class="cart-rec-name">' + escapeHtml(p.title) + '</span>' +
+            (gramajes[p.id] ? '<span class="cart-rec-gramaje">' + escapeHtml(gramajes[p.id]) + '</span>' : '') +
             '<span class="cart-rec-price">' + formatMoney(p.price_min) + '</span>' +
           '</a>' +
         '</div>';
@@ -598,6 +661,9 @@ function initCartDrawer() {
   window.applyDiscount       = applyDiscount;
   window.goToCheckout        = goToCheckout;
   window.fetchAndRenderCart  = fetchAndRenderCart;
+
+  /* Caché inicial de gramajes: el mapa que ya trae la página (sin petición extra) */
+  mergeGramajes(document);
 
   /* Si el HTML del servidor trae una cesta, la pinta el JS (agrupada) */
   var pending = document.getElementById('cart-items-container');

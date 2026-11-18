@@ -150,6 +150,16 @@
 
   .product-card__name:hover { color: var(--cm-gold); }
 
+  /* Gramaje real (metacampo custom.gramaje): una línea discreta bajo el nombre */
+  .product-card__gramaje {
+    margin: 0 0 2px;
+    font-family: var(--cm-font-sans);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    line-height: 1.4;
+    color: rgba(255,255,255,0.7);
+  }
+
   .product-card__name-sub {
     font-size: 11px;
     font-style: italic;
@@ -286,6 +296,9 @@
     color: var(--cm-gold);
   }
   .product-card--light .product-card__name-sub {
+    color: var(--cm-text-light);
+  }
+  .product-card--light .product-card__gramaje {
     color: var(--cm-text-light);
   }
   .product-card--light .product-card__foot {
@@ -509,6 +522,10 @@
       {%- endif -%}
 
       <a class="product-card__name" href="{{ product.url }}">{{ product.title }}</a>
+
+      {%- if product.metafields.custom.gramaje != blank -%}
+        <p class="product-card__gramaje">{{ product.metafields.custom.gramaje }}</p>
+      {%- endif -%}
 
       {%- if product.metafields.custom.subtitle != blank -%}
         <p class="product-card__name-sub">{{ product.metafields.custom.subtitle }}</p>
