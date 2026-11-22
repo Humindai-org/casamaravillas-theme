@@ -1,14 +1,15 @@
 /*
  * Página «Navidad 2026» (/pages/navidad): escaparate de Navidad. Vende sobre todo los packs.
- * Orden (Jorge, 14/11): packs, tarjeta regalo, jamón entero, lotes de 10 sobres y preguntas frecuentes.
- * Todo lo que es producto sale de una COLECCIÓN (sección rejilla-coleccion), no se duplica a mano:
- *   - packs: colección regalos-ibericos sin con-alcohol. No se ve hasta que se publiquen los packs sin vino.
- *   - tarjeta_regalo: producto suelto SIN ELEGIR. No se ve hasta que exista y se elija en el editor.
- *   - jamon_entero: colección jamones, solo la etiqueta «pieza entera». Los pesos agotados salen marcados
- *     y el precio es «Desde» la variante disponible más barata (show_variant_stock).
- * Lotes de 10 sobres: hoy no son un producto, sino un -10 % automático desde 10 sobres del mismo jamón
- * loncheado. Va como texto, sin fichas: las fotos del Bellota 50 % loncheado aún muestran el sobre antiguo de «75 %».
- * Desactivada: fechas (fecha límite del transportista, sin confirmar).
+ * Orden (Jorge, 22/11): portada, los 3 packs, «Crea tu pack», «Para compartir: caja de 10 sobres» (solo bellota 50 % y
+ * 100 %), jamón entero y preguntas frecuentes.
+ *   - packs: los 3 de Navidad elegidos a mano (seleccion-bronce, seleccion-plata, seleccion-oro). Siguen en borrador:
+ *     la sección no pinta nada hasta que se publiquen, y entonces salen solos.
+ *   - crea_tu_pack: el constructor de la colección «Packs y Regalos» (sección cesta-builder, titular h2: la portada ya tiene el h1).
+ *   - compartir: loncheado a máquina de Bellota 50 % y Bellota 100 %. No hay un producto «caja»: es el descuento automático
+ *     del 10 % desde 10 sobres del mismo jamón (se cambia la cantidad en la ficha o en el carrito).
+ *   - jamon_entero: colección jamones, solo «pieza entera». Los pesos agotados salen marcados y el precio es «Desde»
+ *     la variante disponible más barata (show_variant_stock).
+ * DESACTIVADAS: tarjeta_regalo (no hay producto elegido) y fechas (fecha límite del transportista, sin confirmar).
  * Nada de vino ni alcohol, nada de «75 %», nada de venta a empresas.
  */
 {
@@ -25,7 +26,7 @@
             "year": "",
             "tagline": "Envío gratis desde 99 € a la Península",
             "cta_label": "VER PACKS Y REGALOS",
-            "cta_url": "/collections/regalos-ibericos",
+            "cta_url": "/pages/navidad#packs",
             "image_pos_x": 25,
             "image_pos_y": 50
           }
@@ -39,25 +40,52 @@
     "packs": {
       "type": "rejilla-coleccion",
       "settings": {
-        "collection": "regalos-ibericos",
+        "source": "products",
+        "products": [
+          "seleccion-bronce",
+          "seleccion-plata",
+          "seleccion-oro"
+        ],
         "exclude_tag": "con-alcohol",
-        "limit": 8,
+        "limit": 3,
         "anchor_id": "packs",
         "eyebrow": "Packs de Navidad",
         "title": "<p>Listos para <em>regalar</em></p>",
         "description": "Sin alcohol."
       }
     },
-    "tarjeta_regalo": {
+    "crea_tu_pack": {
+      "type": "cesta-builder",
+      "settings": {
+        "eyebrow": "Packs de regalo · Casa Maravillas",
+        "heading": "Crea tu pack a tu medida de forma sencilla",
+        "heading_tag": "h2",
+        "anchor_id": "crea-tu-pack",
+        "intro": "El arte de regalar empieza por elegir bien. Crea tu pack ibérico.",
+        "min_items": 2,
+        "free_shipping_euros": 99,
+        "gift_handle": "",
+        "gift1_qty": 4,
+        "gift1_label": "",
+        "gift2_qty": 5,
+        "gift2_label": ""
+      }
+    },
+    "compartir": {
       "type": "rejilla-coleccion",
       "settings": {
-        "source": "product",
+        "source": "products",
+        "products": [
+          "jamon-bellota-50-iberico-loncheado-a-maquina",
+          "jamon-bellota-100-iberico-loncheado-a-maquina"
+        ],
         "exclude_tag": "",
-        "limit": 1,
-        "anchor_id": "tarjeta-regalo",
-        "eyebrow": "Tarjeta regalo",
-        "title": "<p>¿Llegas <em>tarde</em>?</p>",
-        "description": "Llega por correo y elige quien la recibe."
+        "show_variant_stock": false,
+        "limit": 2,
+        "anchor_id": "para-compartir",
+        "eyebrow": "Para compartir",
+        "title": "<p>Caja de <em>10 sobres</em></p>",
+        "description": "Elige tu jamón loncheado y pon 10 sobres: el 10 % de descuento se aplica solo en el carrito."
       }
     },
     "jamon_entero": {
@@ -73,25 +101,6 @@
         "description": "Para la mesa de Navidad.",
         "view_all_label": "Ver jamones enteros",
         "view_all_url": "/collections/jamones#pieza%20entera"
-      }
-    },
-    "lotes_10_sobres": {
-      "type": "story-teaser",
-      "settings": {
-        "eyebrow": "Lotes de 10 sobres",
-        "title": "<p>Jamón loncheado, <em>un 10 % menos</em></p>",
-        "body": "Con 10 sobres o más del mismo jamón loncheado, el descuento del 10 % se aplica automáticamente en el carrito.",
-        "cta_label": "Ver jamón loncheado",
-        "cta_url": "/collections/jamones#cortado%20a%20mano+cortado%20a%20m%C3%A1quina"
-      }
-    },
-    "fechas": {
-      "type": "story-teaser",
-      "disabled": true,
-      "settings": {
-        "eyebrow": "Pide a tiempo",
-        "title": "<p>Para recibirlo <em>antes de Nochebuena</em></p>",
-        "body": "Pedidos a la Península: haz tu pedido antes del (FECHA PENDIENTE DEL TRANSPORTISTA)."
       }
     },
     "faq": {
@@ -128,15 +137,38 @@
         "eyebrow": "Preguntas frecuentes",
         "title": "<p>Regalar en <em>Navidad</em></p>"
       }
+    },
+    "tarjeta_regalo": {
+      "type": "rejilla-coleccion",
+      "settings": {
+        "source": "product",
+        "exclude_tag": "",
+        "limit": 1,
+        "anchor_id": "tarjeta-regalo",
+        "eyebrow": "Tarjeta regalo",
+        "title": "<p>¿Llegas <em>tarde</em>?</p>",
+        "description": "Llega por correo y elige quien la recibe."
+      },
+      "disabled": true
+    },
+    "fechas": {
+      "type": "story-teaser",
+      "disabled": true,
+      "settings": {
+        "eyebrow": "Pide a tiempo",
+        "title": "<p>Para recibirlo <em>antes de Nochebuena</em></p>",
+        "body": "Pedidos a la Península: haz tu pedido antes del (FECHA PENDIENTE DEL TRANSPORTISTA)."
+      }
     }
   },
   "order": [
     "hero",
     "packs",
-    "tarjeta_regalo",
+    "crea_tu_pack",
+    "compartir",
     "jamon_entero",
-    "lotes_10_sobres",
-    "fechas",
-    "faq"
+    "faq",
+    "tarjeta_regalo",
+    "fechas"
   ]
 }

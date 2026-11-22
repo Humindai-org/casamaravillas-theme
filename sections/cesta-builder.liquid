@@ -6,8 +6,14 @@
 
 {{ 'cesta-builder.css' | asset_url | stylesheet_tag }}
 
+{%- comment -%}
+  Titular h1 por defecto (página de colección). Dentro de otra página que ya tiene su h1 (p. ej. /pages/navidad) se elige h2
+  en «Nivel del titular» para no repetir h1. «Ancla» permite enlazar con /pages/navidad#crea-tu-pack.
+{%- endcomment -%}
+{%- assign cb_tag = section.settings.heading_tag | default: 'h1' -%}
 <div
   class="cb"
+  {% if section.settings.anchor_id != blank %}id="{{ section.settings.anchor_id | handleize }}" style="scroll-margin-top:96px"{% endif %}
   data-cesta-builder
   data-min="{{ section.settings.min_items }}"
   data-free-shipping="{{ section.settings.free_shipping_euros | times: 100 }}"
@@ -22,7 +28,7 @@
 >
   <section class="cb-banner">
     {%- if section.settings.eyebrow != blank -%}<p class="cb-eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
-    <h1>{{ section.settings.heading }}</h1>
+    <{{ cb_tag }}>{{ section.settings.heading }}</{{ cb_tag }}>
     {%- if section.settings.intro != blank -%}<p class="cb-lead">{{ section.settings.intro }}</p>{%- endif -%}
     <div class="cb-tl" data-cb-tl>
       <div class="cb-tl-line"><span data-cb-tl-fill></span></div>
@@ -102,6 +108,9 @@
   "settings": [
     { "type": "text", "id": "eyebrow", "label": "Etiqueta superior", "default": "Packs de regalo · Casa Maravillas" },
     { "type": "text", "id": "heading", "label": "Título", "default": "Crea tu pack a tu medida de forma sencilla" },
+    { "type": "select", "id": "heading_tag", "label": "Nivel del titular", "default": "h1", "info": "h1 en una página de colección; h2 si la página ya tiene su h1 (p. ej. /pages/navidad).",
+      "options": [{ "value": "h1", "label": "h1" }, { "value": "h2", "label": "h2" }] },
+    { "type": "text", "id": "anchor_id", "label": "Ancla (id) para enlazar con #", "info": "Ej.: crea-tu-pack → /pages/navidad#crea-tu-pack" },
     { "type": "textarea", "id": "intro", "label": "Texto introductorio", "default": "El arte de regalar empieza por elegir bien. Crea tu pack ibérico." },
     { "type": "range", "id": "min_items", "label": "Mínimo de productos", "min": 1, "max": 6, "step": 1, "default": 2 },
     { "type": "number", "id": "free_shipping_euros", "label": "Envío gratis desde (€)", "default": 99 },
