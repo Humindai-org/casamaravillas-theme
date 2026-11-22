@@ -411,7 +411,19 @@ document.addEventListener('DOMContentLoaded', function() {
     const idx = formatoOptionIndex();
     if (idx < 0 || !variant) return;
     const formato = variant['option' + (idx + 1)];
-    if (el) el.style.display = formato === 'Pieza entera' ? '' : 'none';
+    if (el) {
+      el.style.display = formato === 'Pieza entera' ? '' : 'none';
+      /* Black Friday: €/kg rebajado (con el anterior tachado) solo en una pieza entera disponible */
+      const kgBf = el.getAttribute('data-kg-bf');
+      if (kgBf) {
+        const orig = el.getAttribute('data-kg-orig');
+        if (bfPriceFor(variant) !== null) {
+          el.innerHTML = '<s class="cm-pdp__price-kg-was">' + escapeHtml(orig) + '</s> ' + escapeHtml(kgBf) + '/kg';
+        } else {
+          el.textContent = orig + '/kg';
+        }
+      }
+    }
     /* La banda de confianza muestra el formato elegido */
     const bandDesc = document.querySelector('#cm-trust-formato-desc');
     if (bandDesc && formato) bandDesc.textContent = formato;
@@ -452,13 +464,19 @@ document.addEventListener('DOMContentLoaded', function() {
   refreshFormatoExtras();
 
   /* Black Friday (data.bf viene de snippets/cm-promos.liquid; null fuera de ventana o en otros productos).
-     Precio en céntimos con descuento, o null si la variante no lleva la promoción (agotada, o Deshuesado/Corte: bundles pendientes de Luis Juan).
-     Mismo redondeo que el descuento automático de Shopify: se TRUNCA el descuento al céntimo. */
+     Variante B del descuento de Shopify: el 15 % es sobre la PIEZA del mismo peso (la variante cuyo título contiene bf.piece
+     y comparte la primera opción, el peso); el servicio de deshuesado/corte va a precio completo.
+     Devuelve el precio en céntimos con descuento, o null si la variante no lleva la promoción (agotada o sin pieza).
+     Mismo redondeo que el servidor: el descuento se TRUNCA al céntimo. */
   function bfPriceFor(variant) {
     const bf = data && data.bf;
     if (!bf || !variant || !variant.available) return null;
-    if (bf.include && String(variant.title).indexOf(bf.include) === -1) return null;
-    return variant.price - Math.floor(variant.price * bf.pct / 100);
+    const piece = data.variants.find(function(v) {
+      return v.option1 === variant.option1 && String(v.title).indexOf(bf.piece) !== -1;
+    });
+    if (!piece) return null;
+    const disc = Math.floor(piece.price * bf.pct / 100);
+    return disc > 0 ? variant.price - disc : null;
   }
 
   function updateVariant() {

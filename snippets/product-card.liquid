@@ -343,10 +343,10 @@
   {%- assign card_theme_class = ' product-card--light' -%}
 {%- endif -%}
 {%- comment -%}
-  Black Friday (solo los 3 jamones enteros y solo dentro de la ventana de snippets/cm-promos.liquid): la tarjeta enseña el
-  precio de la variante «Pieza entera» DISPONIBLE más barata (Deshuesado y Corte son bundles: pendientes de Luis Juan), tachado, y ese precio menos el
-  porcentaje. El descuento real es un descuento automático de Shopify; aquí se calcula igual que él para que coincida con
-  el carrito: se resta el descuento truncado al céntimo (divided_by con enteros trunca).
+  Black Friday (solo los 3 jamones enteros y solo dentro de la ventana de snippets/cm-promos.liquid). Variante B del descuento
+  automático de Shopify: el 15 % es sobre la PIEZA del mismo peso (bf_piece); el servicio de deshuesado o corte va a precio
+  completo. La tarjeta enseña la variante DISPONIBLE con el precio rebajado más bajo: su precio normal tachado y ese precio
+  menos el 15 % del precio de la pieza de su peso (descuento truncado al céntimo: divided_by con enteros trunca).
 {%- endcomment -%}
 {%- assign bf_price = 0 -%}
 {%- assign bf_orig = 0 -%}
@@ -354,17 +354,19 @@
   {%- capture bf_flag -%}{% render 'cm-promos', key: 'bf_product', handle: product.handle %}{%- endcapture -%}
   {%- if bf_flag != blank -%}
     {%- capture bf_pct_txt -%}{% render 'cm-promos', key: 'bf_pct' %}{%- endcapture -%}
-    {%- capture bf_incl -%}{% render 'cm-promos', key: 'bf_include' %}{%- endcapture -%}
+    {%- capture bf_piece -%}{% render 'cm-promos', key: 'bf_piece' %}{%- endcapture -%}
     {%- assign bf_pct = bf_pct_txt | plus: 0 -%}
     {%- for v in product.variants -%}
       {%- if v.available == false -%}{%- continue -%}{%- endif -%}
-      {%- if bf_incl != blank -%}{%- unless v.title contains bf_incl -%}{%- continue -%}{%- endunless -%}{%- endif -%}
-      {%- if bf_orig == 0 or v.price < bf_orig -%}{%- assign bf_orig = v.price -%}{%- endif -%}
+      {%- assign bf_piece_price = 0 -%}
+      {%- for pv in product.variants -%}
+        {%- if pv.option1 == v.option1 and pv.title contains bf_piece -%}{%- assign bf_piece_price = pv.price -%}{%- break -%}{%- endif -%}
+      {%- endfor -%}
+      {%- if bf_piece_price == 0 -%}{%- continue -%}{%- endif -%}
+      {%- assign v_disc = bf_piece_price | times: bf_pct | divided_by: 100 -%}
+      {%- assign v_sale = v.price | minus: v_disc -%}
+      {%- if bf_price == 0 or v_sale < bf_price -%}{%- assign bf_price = v_sale -%}{%- assign bf_orig = v.price -%}{%- endif -%}
     {%- endfor -%}
-    {%- if bf_orig > 0 -%}
-      {%- assign bf_disc = bf_orig | times: bf_pct | divided_by: 100 -%}
-      {%- assign bf_price = bf_orig | minus: bf_disc -%}
-    {%- endif -%}
   {%- endif -%}
 {%- endif -%}
 {%- if product != blank -%}

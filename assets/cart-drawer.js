@@ -279,7 +279,6 @@ function initCartDrawer() {
     if (discEl)     discEl.textContent = '−' + formatMoney(cart.total_discount);
     if (totalEl)    totalEl.textContent    = formatted;
     updateShippingBar(cart);
-    updateShippingRow(cart);
     /* El código de la cesta solo debe estar puesto mientras haya una cesta completa en el carrito */
     if (window.cmSyncCestaCode) window.cmSyncCestaCode(cart);
     /* Avisa a otras piezas (p. ej. la barra de envío gratis de la ficha) de que el carrito cambió */
@@ -287,20 +286,6 @@ function initCartDrawer() {
   }
 
   /* ---- BARRA DE ENVÍO GRATIS ---- */
-
-  /* Fila «Envío» del resumen: «4,99 €» por debajo del umbral y «Gratis» desde él (criterio de la barra: total tras
-     descuentos). Los datos (elegibilidad, tarifa y umbral) los pone cart-drawer.liquid; si no es elegible
-     (otro país o tarifa caducada) se deja el texto «Calculado en el checkout» del servidor. */
-  function updateShippingRow(cart) {
-    var el = document.getElementById('cart-shipping');
-    if (!el || el.getAttribute('data-ship-eligible') !== 'true') return;
-    var fee = parseInt(el.getAttribute('data-ship-fee'), 10);
-    var free = parseInt(el.getAttribute('data-ship-free'), 10);
-    if (!(fee > 0) || !(free > 0)) return;
-    el.textContent = cart.item_count === 0
-      ? cmT('shipping_calc', 'Calculado en el checkout')
-      : (cart.total_price >= free ? cmT('shipping_free', 'Gratis') : formatMoney(fee));
-  }
 
   function updateShippingBar(cart) {
     var bar = document.querySelector('#cart-drawer [data-cm-shipbar]');

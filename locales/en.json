@@ -979,8 +979,6 @@
       "subtotal": "Subtotal",
       "shipping": "Shipping",
       "shipping_calc": "Calculated at checkout",
-      "shipping_fee": "{{ amount }}",
-      "shipping_free": "Free",
       "total": "TOTAL",
       "checkout": "CHECKOUT",
       "continue": "CONTINUE SHOPPING",

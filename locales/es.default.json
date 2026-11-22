@@ -256,8 +256,6 @@
       "subtotal": "Subtotal",
       "shipping": "Envío",
       "shipping_calc": "Calculado en el checkout",
-      "shipping_fee": "{{ amount }}",
-      "shipping_free": "Gratis",
       "total": "TOTAL",
       "checkout": "IR A PAGAR",
       "continue": "SEGUIR COMPRANDO",
