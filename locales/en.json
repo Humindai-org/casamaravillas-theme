@@ -877,7 +877,8 @@
       "no_reviews": "No reviews yet",
       "cart_items_aria": "{{ n }} items in your cart",
       "add_to_my_cart": "Add to my cart",
-      "badge_sale": "Sale"
+      "badge_sale": "Sale",
+      "badge_black_friday": "Black Friday −{{ pct }}%"
     },
     "shipbar": {
       "free_html": "You get <strong>free shipping</strong>!",
@@ -978,6 +979,8 @@
       "subtotal": "Subtotal",
       "shipping": "Shipping",
       "shipping_calc": "Calculated at checkout",
+      "shipping_fee": "{{ amount }}",
+      "shipping_free": "Free",
       "total": "TOTAL",
       "checkout": "CHECKOUT",
       "continue": "CONTINUE SHOPPING",

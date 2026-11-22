@@ -154,7 +154,8 @@
       "no_reviews": "Aucun avis",
       "cart_items_aria": "{{ n }} articles dans votre panier",
       "add_to_my_cart": "Ajouter à mon panier",
-      "badge_sale": "Promo"
+      "badge_sale": "Promo",
+      "badge_black_friday": "Black Friday −{{ pct }} %"
     },
     "shipbar": {
       "free_html": "Vous bénéficiez de la <strong>livraison offerte</strong> !",
@@ -255,6 +256,8 @@
       "subtotal": "Sous-total",
       "shipping": "Livraison",
       "shipping_calc": "Calculée au paiement",
+      "shipping_fee": "{{ amount }}",
+      "shipping_free": "Gratuite",
       "total": "TOTAL",
       "checkout": "PAYER",
       "continue": "CONTINUER VOS ACHATS",

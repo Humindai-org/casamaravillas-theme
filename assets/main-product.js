@@ -227,7 +227,8 @@ document.addEventListener('DOMContentLoaded', function() {
     if (text) {
       text.innerHTML = remaining === 0
         ? cmT('shipbar_free_html', '¡Tienes <strong>envío gratis</strong>!')
-        : cmT('shipbar_remaining_html', 'Te faltan <strong>{amount}</strong> para el envío gratis', { amount: formatMoney(remaining) });
+        : '<a class="cm-shipbar__link" data-cm-shipbar-link href="' + escapeHtml(pdpShipbar.getAttribute('data-more-url') || '/collections/loncheados') + '">' +
+          cmT('shipbar_remaining_html', 'Te faltan <strong>{amount}</strong> para el envío gratis', { amount: formatMoney(remaining) }) + '</a>';
     }
     if (fill) fill.style.width = percent + '%';
     if (track) track.setAttribute('aria-valuenow', percent);
@@ -450,6 +451,16 @@ document.addEventListener('DOMContentLoaded', function() {
   updatePriceKg(findVariant());
   refreshFormatoExtras();
 
+  /* Black Friday (data.bf viene de snippets/cm-promos.liquid; null fuera de ventana o en otros productos).
+     Precio en céntimos con descuento, o null si la variante no lleva la promoción (agotada, o Deshuesado/Corte: bundles pendientes de Luis Juan).
+     Mismo redondeo que el descuento automático de Shopify: se TRUNCA el descuento al céntimo. */
+  function bfPriceFor(variant) {
+    const bf = data && data.bf;
+    if (!bf || !variant || !variant.available) return null;
+    if (bf.include && String(variant.title).indexOf(bf.include) === -1) return null;
+    return variant.price - Math.floor(variant.price * bf.pct / 100);
+  }
+
   function updateVariant() {
     const variant = findVariant();
     if (!variant) return;
@@ -467,9 +478,21 @@ document.addEventListener('DOMContentLoaded', function() {
     const badgeEl  = $('cm-discount-badge-' + SID);
     const stickyP  = $('cm-sticky-price-' + SID);
 
+    const bfPrice = bfPriceFor(variant);
+    if (bfPrice !== null) {
+      /* Black Friday: tachado + precio con descuento + etiqueta */
+      if (priceEl) {
+        priceEl.textContent = formatMoney(bfPrice);
+        priceEl.classList.add('cm-pdp__price--sale');
+        priceEl.setAttribute('content', (bfPrice / 100).toFixed(2));
+      }
+      if (cmpEl) { cmpEl.textContent = formatMoney(variant.price); cmpEl.style.display = ''; }
+      if (badgeEl) { badgeEl.textContent = data.bf.label; badgeEl.style.display = ''; }
+    } else {
     if (priceEl) {
       priceEl.textContent = formatMoney(variant.price);
       priceEl.classList.toggle('cm-pdp__price--sale', variant.compare_at_price > variant.price);
+      priceEl.setAttribute('content', (variant.price / 100).toFixed(2));
     }
     if (cmpEl) {
       if (variant.compare_at_price > variant.price) {
@@ -488,7 +511,8 @@ document.addEventListener('DOMContentLoaded', function() {
         badgeEl.style.display = 'none';
       }
     }
-    if (stickyP) stickyP.textContent = formatMoney(variant.price);
+    }
+    if (stickyP) stickyP.textContent = formatMoney(bfPrice !== null ? bfPrice : variant.price);
 
     /* Botón añadir */
     const addBtn  = $('cm-add-' + SID);

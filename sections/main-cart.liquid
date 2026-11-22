@@ -264,7 +264,20 @@
           {%- endif -%}
           <div class="cm-cart__summary-row">
             <span>Envío</span>
-            <span>Calculado en el checkout</span>
+            {%- capture ship_ok -%}{% render 'cm-shipping-eligible' %}{%- endcapture -%}
+            {%- if ship_ok != blank and cart.item_count > 0 -%}
+              {%- capture ship_fee -%}{% render 'cm-promos', key: 'ship_fee' %}{%- endcapture -%}
+              {%- capture ship_free -%}{% render 'cm-promos', key: 'ship_free' %}{%- endcapture -%}
+              {%- assign ship_free_n = ship_free | plus: 0 -%}
+              {%- if cart.total_price >= ship_free_n -%}
+                <span>{{ 'cm.cart.shipping_free' | t }}</span>
+              {%- else -%}
+                {%- assign ship_fee_money = ship_fee | plus: 0 | money -%}
+                <span>{{ 'cm.cart.shipping_fee' | t: amount: ship_fee_money }}</span>
+              {%- endif -%}
+            {%- else -%}
+              <span>Calculado en el checkout</span>
+            {%- endif -%}
           </div>
           <div class="cm-cart__summary-row cm-cart__summary-row--total">
             <span>Total</span>

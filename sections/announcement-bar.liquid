@@ -62,8 +62,21 @@
     {%- assign is_peninsula = true -%}
   {%- endif -%}
 
-  {%- if is_peninsula -%}
-    {%- assign bar_text = section.settings.announcement_text_peninsula -%}
+  {%- comment -%}
+    Calendario (ventanas en snippets/cm-promos.liquid, Europe/Madrid): del 23 al 30/11 el aviso de Black Friday para todos;
+    fuera de esas fechas, en España y Portugal la tarifa de envío vigente (4,99 € hasta el 31/12) y, pasado el 31/12,
+    el texto «después» del editor (no se queda anunciando una tarifa caducada).
+  {%- endcomment -%}
+  {%- capture promo_bf_on -%}{% render 'cm-promos', key: 'bf_on' %}{%- endcapture -%}
+  {%- capture promo_ship_on -%}{% render 'cm-promos', key: 'ship_on' %}{%- endcapture -%}
+  {%- if promo_bf_on != blank and section.settings.announcement_text_bf != blank -%}
+    {%- assign bar_text = section.settings.announcement_text_bf -%}
+  {%- elsif is_peninsula -%}
+    {%- if promo_ship_on != blank -%}
+      {%- assign bar_text = section.settings.announcement_text_peninsula -%}
+    {%- else -%}
+      {%- assign bar_text = section.settings.announcement_text_peninsula_after | default: section.settings.announcement_text_peninsula -%}
+    {%- endif -%}
   {%- else -%}
     {%- assign bar_text = section.settings.announcement_text_exterior -%}
   {%- endif -%}
@@ -93,6 +106,20 @@
       "type": "html",
       "id": "announcement_text_peninsula",
       "label": "Texto — Península (España y Portugal)",
+      "default": "Envío gratis a partir de <em>€99</em> &nbsp;·&nbsp; Entrega en 24–48h &nbsp;·&nbsp; Ibéricos Seleccionados"
+    },
+    {
+      "type": "html",
+      "id": "announcement_text_bf",
+      "label": "Texto — Black Friday (23–30/11, todos los países)",
+      "info": "Solo se muestra del 23/11 00:00 al 30/11 23:59 (Europe/Madrid). Las fechas viven en snippets/cm-promos.liquid.",
+      "default": "Black Friday: 15 % en jamones enteros, hasta el lunes 30"
+    },
+    {
+      "type": "html",
+      "id": "announcement_text_peninsula_after",
+      "label": "Texto — Península a partir del 01/01/2027",
+      "info": "Sustituye al texto de Península cuando termina la tarifa de envío de 4,99 € (31/12/2026).",
       "default": "Envío gratis a partir de <em>€99</em> &nbsp;·&nbsp; Entrega en 24–48h &nbsp;·&nbsp; Ibéricos Seleccionados"
     },
     {

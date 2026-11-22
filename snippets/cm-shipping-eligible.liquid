@@ -1,0 +1,11 @@
+{%- comment -%}
+  cm-shipping-eligible.liquid — '1' si en este momento se puede anunciar la tarifa de envío de 4,99 € (gratis desde 99 €):
+  la tarifa sigue vigente (snippets/cm-promos.liquid, hasta el 31/12/2026) y el cliente compra en España o Portugal
+  (el resto de países y Baleares/Canarias/Ceuta/Melilla tienen otras tarifas: ahí se sigue diciendo «Calculado en el checkout»).
+  Uso: {%- capture ship_ok -%}{% render 'cm-shipping-eligible' %}{%- endcapture -%}
+{%- endcomment -%}
+{%- capture cm_ship_on -%}{% render 'cm-promos', key: 'ship_on' %}{%- endcapture -%}
+{%- if cm_ship_on != blank -%}
+  {%- assign cm_ship_country = localization.country.iso_code -%}
+  {%- if cm_ship_country == 'ES' or cm_ship_country == 'PT' -%}1{%- endif -%}
+{%- endif -%}

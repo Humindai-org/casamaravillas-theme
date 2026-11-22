@@ -192,6 +192,11 @@
     margin-left: 6px;
   }
 
+  /* Black Friday (snippets/cm-promos.liquid): precio anterior tachado encima, precio con descuento debajo */
+  .product-card__price-block { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .product-card__price-block .product-card__price-compare { margin-left: 0; line-height: 1.2; }
+  .product-card__badge--bf { background: var(--cm-gold); color: var(--cm-navy); max-width: calc(100% - 32px); line-height: 1.25; }
+
   .product-card__cta {
     display: inline-flex;
     align-items: center;
@@ -337,6 +342,31 @@
 {%- if card_style == 'light' -%}
   {%- assign card_theme_class = ' product-card--light' -%}
 {%- endif -%}
+{%- comment -%}
+  Black Friday (solo los 3 jamones enteros y solo dentro de la ventana de snippets/cm-promos.liquid): la tarjeta enseña el
+  precio de la variante «Pieza entera» DISPONIBLE más barata (Deshuesado y Corte son bundles: pendientes de Luis Juan), tachado, y ese precio menos el
+  porcentaje. El descuento real es un descuento automático de Shopify; aquí se calcula igual que él para que coincida con
+  el carrito: se resta el descuento truncado al céntimo (divided_by con enteros trunca).
+{%- endcomment -%}
+{%- assign bf_price = 0 -%}
+{%- assign bf_orig = 0 -%}
+{%- if product != blank -%}
+  {%- capture bf_flag -%}{% render 'cm-promos', key: 'bf_product', handle: product.handle %}{%- endcapture -%}
+  {%- if bf_flag != blank -%}
+    {%- capture bf_pct_txt -%}{% render 'cm-promos', key: 'bf_pct' %}{%- endcapture -%}
+    {%- capture bf_incl -%}{% render 'cm-promos', key: 'bf_include' %}{%- endcapture -%}
+    {%- assign bf_pct = bf_pct_txt | plus: 0 -%}
+    {%- for v in product.variants -%}
+      {%- if v.available == false -%}{%- continue -%}{%- endif -%}
+      {%- if bf_incl != blank -%}{%- unless v.title contains bf_incl -%}{%- continue -%}{%- endunless -%}{%- endif -%}
+      {%- if bf_orig == 0 or v.price < bf_orig -%}{%- assign bf_orig = v.price -%}{%- endif -%}
+    {%- endfor -%}
+    {%- if bf_orig > 0 -%}
+      {%- assign bf_disc = bf_orig | times: bf_pct | divided_by: 100 -%}
+      {%- assign bf_price = bf_orig | minus: bf_disc -%}
+    {%- endif -%}
+  {%- endif -%}
+{%- endif -%}
 {%- if product != blank -%}
   <article class="product-card{{ card_theme_class }}">
     <a href="{{ product.url }}" aria-label="{{ product.title | escape }}">
@@ -440,7 +470,9 @@
           {% # theme-check-disable-next-line RemoteAsset %}
           <img src="https://placehold.co/450x600/F4F2EE/A09890?text={{ product.title | url_encode }}" alt="{{ product.title | escape }}" width="450" height="600" loading="lazy" class="product-card__img product-card__img--primary">
         {%- endif -%}
-        {%- if product.compare_at_price > product.price -%}
+        {%- if bf_price > 0 -%}
+          <span class="product-card__badge product-card__badge--bf">{{ 'cm.pdp.badge_black_friday' | t: pct: bf_pct }}</span>
+        {%- elsif product.compare_at_price > product.price -%}
           <span class="product-card__badge">{{ 'cm.pdp.badge_sale' | t }}</span>
         {%- endif -%}
 
@@ -532,12 +564,20 @@
       {%- endif -%}
 
       <div class="product-card__foot">
+        {%- if bf_price > 0 -%}
+          <div class="product-card__price-block">
+            <s class="product-card__price-compare">{{ bf_orig | money }}</s>
+            {%- assign bf_price_money = bf_price | money -%}
+            <span class="product-card__price">{%- if product.variants.size > 1 -%}{{ 'products.product.from_price_html' | t: price: bf_price_money }}{%- else -%}{{ bf_price_money }}{%- endif -%}</span>
+          </div>
+        {%- else -%}
         <div>
           <span class="product-card__price">{{ product.price | money }}</span>
           {%- if product.compare_at_price > product.price -%}
             <span class="product-card__price-compare">{{ product.compare_at_price | money }}</span>
           {%- endif -%}
         </div>
+        {%- endif -%}
         {%- if product.variants.size == 1 or card_quick_add -%}
           <button
             class="product-card__plus"
