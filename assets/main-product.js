@@ -489,28 +489,28 @@ document.addEventListener('DOMContentLoaded', function() {
       if (cmpEl) { cmpEl.textContent = formatMoney(variant.price); cmpEl.style.display = ''; }
       if (badgeEl) { badgeEl.textContent = data.bf.label; badgeEl.style.display = ''; }
     } else {
-    if (priceEl) {
-      priceEl.textContent = formatMoney(variant.price);
-      priceEl.classList.toggle('cm-pdp__price--sale', variant.compare_at_price > variant.price);
-      priceEl.setAttribute('content', (variant.price / 100).toFixed(2));
-    }
-    if (cmpEl) {
-      if (variant.compare_at_price > variant.price) {
-        cmpEl.textContent = formatMoney(variant.compare_at_price);
-        cmpEl.style.display = '';
-      } else {
-        cmpEl.style.display = 'none';
+      if (priceEl) {
+        priceEl.textContent = formatMoney(variant.price);
+        priceEl.classList.toggle('cm-pdp__price--sale', variant.compare_at_price > variant.price);
+        priceEl.setAttribute('content', (variant.price / 100).toFixed(2));
       }
-    }
-    if (badgeEl) {
-      if (variant.compare_at_price > variant.price) {
-        const pct = Math.round((variant.compare_at_price - variant.price) * 100 / variant.compare_at_price);
-        badgeEl.textContent = '-' + pct + '%';
-        badgeEl.style.display = '';
-      } else {
-        badgeEl.style.display = 'none';
+      if (cmpEl) {
+        if (variant.compare_at_price > variant.price) {
+          cmpEl.textContent = formatMoney(variant.compare_at_price);
+          cmpEl.style.display = '';
+        } else {
+          cmpEl.style.display = 'none';
+        }
       }
-    }
+      if (badgeEl) {
+        if (variant.compare_at_price > variant.price) {
+          const pct = Math.round((variant.compare_at_price - variant.price) * 100 / variant.compare_at_price);
+          badgeEl.textContent = '-' + pct + '%';
+          badgeEl.style.display = '';
+        } else {
+          badgeEl.style.display = 'none';
+        }
+      }
     }
     if (stickyP) stickyP.textContent = formatMoney(bfPrice !== null ? bfPrice : variant.price);
 
