@@ -4,13 +4,14 @@
   agrupados por _cesta_id bajo una "Caja de regalo". Catálogo vía /collections/all/products.json.
 {% endcomment %}
 
-{{ 'cesta-builder.css' | asset_url | stylesheet_tag }}
-
 {%- comment -%}
   Titular h1 por defecto (página de colección). Dentro de otra página que ya tiene su h1 (p. ej. /pages/navidad) se elige h2
   en «Nivel del titular» para no repetir h1. «Ancla» permite enlazar con /pages/navidad#crea-tu-pack.
 {%- endcomment -%}
 {%- assign cb_tag = section.settings.heading_tag | default: 'h1' -%}
+
+{{ 'cesta-builder.css' | asset_url | stylesheet_tag }}
+
 <div
   class="cb"
   {% if section.settings.anchor_id != blank %}id="{{ section.settings.anchor_id | handleize }}" style="scroll-margin-top:96px"{% endif %}
