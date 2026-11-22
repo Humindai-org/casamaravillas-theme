@@ -392,7 +392,8 @@
             {%- assign kg_cents = price_kg_value | remove: '€' | remove: ' ' | replace: ',', '.' | times: 100.0 | round -%}
             {%- assign kg_bf_cents = kg_cents | times: bf_pct | divided_by: 100.0 | round -%}
             {%- assign kg_bf_cents = kg_cents | minus: kg_bf_cents -%}
-            {%- assign kg_bf = kg_bf_cents | money -%}
+            {%- assign kg_bf_num = kg_bf_cents | money_without_currency -%}
+            {%- assign kg_bf = kg_bf_num | append: ' €' -%}
           {%- endif -%}
           <span class="cm-pdp__price-kg"{% if kg_bf != blank %} data-kg-orig="{{ price_kg_value | escape }}" data-kg-bf="{{ kg_bf | escape }}"{% endif %}>
             {%- if kg_bf != blank and bf_active -%}<s class="cm-pdp__price-kg-was">{{ price_kg_value }}</s> {{ kg_bf }}/kg{%- else -%}{{ price_kg_value }}/kg{%- endif -%}
