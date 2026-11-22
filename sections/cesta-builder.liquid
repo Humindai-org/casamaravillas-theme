@@ -17,11 +17,12 @@
   {%- endfor -%}
   "_":""
 {%- endcapture -%}
+{%- capture cb_gramajes_json -%}{ {{ cb_gramajes }} }{%- endcapture -%}
 
 <div
   class="cb"
   data-cesta-builder
-  data-gramajes="{{ '{' | append: cb_gramajes | append: '}' | escape }}"
+  data-gramajes="{{ cb_gramajes_json | escape }}"
   data-min="{{ section.settings.min_items }}"
   data-free-shipping="{{ section.settings.free_shipping_euros | times: 100 }}"
   data-gift-handle="{{ section.settings.gift_handle | escape }}"
