@@ -9,32 +9,34 @@
   sección no emite nada, así que puede quedarse en templates/collection.json sin afectar al resto.
 {%- endcomment -%}
 {%- if collection.handle == 'black-friday' -%}
+  {%- capture bf_ended -%}{% render 'cm-promos', key: 'bf_ended' %}{%- endcapture -%}
+{%- if bf_ended != blank -%}
+  {%- comment -%}
+    Pasada la ventana (30/11 23:59) esta página desaparece: no se indexa y lleva a Jamones. Una sección no puede devolver un 404,
+    así que la salida es en el navegador (en el editor de temas no redirige). Limpieza definitiva: despublicar la colección
+    y crear una redirección 301 /collections/black-friday → /collections/jamones (ver la tarea de ClickUp).
+  {%- endcomment -%}
+  <meta name="robots" content="noindex, follow">
+  <noscript><meta http-equiv="refresh" content="0; url=/collections/jamones"></noscript>
+  <script>if (!(window.Shopify && window.Shopify.designMode)) { window.location.replace('/collections/jamones'); }</script>
+  <p style="padding: 64px 24px; text-align: center;"><a href="/collections/jamones">Ver todos los jamones</a></p>
+{%- else -%}
   {%- capture bf_on -%}{% render 'cm-promos', key: 'bf_on' %}{%- endcapture -%}
   {%- capture bf_pct_txt -%}{% render 'cm-promos', key: 'bf_pct' %}{%- endcapture -%}
   {%- capture bf_piece -%}{% render 'cm-promos', key: 'bf_piece' %}{%- endcapture -%}
   {%- assign bf_pct = bf_pct_txt | plus: 0 -%}
-  {%- capture bf_ended -%}{% render 'cm-promos', key: 'bf_ended' %}{%- endcapture -%}
 
 <section id="bf-premium-{{ section.id }}" class="bf-premium">
   <header class="bf-premium__hero">
     <div class="bf-premium__hero-inner">
       <div class="bf-premium__heading-group">
-        {%- comment -%} Pasada la ventana (30/11 23:59) la página pasa sola a «oferta terminada»: sin −15 %, sin pie de oferta y con salida a los jamones {%- endcomment -%}
         {%- if section.settings.eyebrow != blank -%}
           <p class="bf-premium__eyebrow">{{ section.settings.eyebrow | escape }}</p>
         {%- endif -%}
         <div class="bf-premium__orn" aria-hidden="true"><span></span><i></i><span></span></div>
-        {%- if bf_ended != blank -%}
-          <h1 class="bf-premium__title">{{ section.settings.ended_heading | escape }}{%- if section.settings.ended_heading_em != blank -%} <em>{{ section.settings.ended_heading_em | escape }}</em>{%- endif -%}</h1>
-          {%- if section.settings.ended_subheading != blank -%}
-            <p class="bf-premium__subheading">{{ section.settings.ended_subheading | escape }}</p>
-          {%- endif -%}
-          <a class="bf-premium__cta" href="{{ section.settings.ended_cta_url | default: '/collections/jamones' }}">{{ section.settings.ended_cta_label | escape }}</a>
-        {%- else -%}
-          <h1 class="bf-premium__title">{{ section.settings.heading | escape }}{%- if section.settings.heading_em != blank -%} <em>{{ section.settings.heading_em | escape }}</em>{%- endif -%}</h1>
-          {%- if section.settings.subheading != blank -%}
-            <p class="bf-premium__subheading">{{ section.settings.subheading | escape }}</p>
-          {%- endif -%}
+        <h1 class="bf-premium__title">{{ section.settings.heading | escape }}{%- if section.settings.heading_em != blank -%} <em>{{ section.settings.heading_em | escape }}</em>{%- endif -%}</h1>
+        {%- if section.settings.subheading != blank -%}
+          <p class="bf-premium__subheading">{{ section.settings.subheading | escape }}</p>
         {%- endif -%}
       </div>
     </div>
@@ -142,7 +144,7 @@
       {%- endfor -%}
     </div>
 
-    {%- if section.settings.footnote != blank and bf_ended == blank -%}
+    {%- if section.settings.footnote != blank -%}
       <p class="bf-premium__footnote">{{ section.settings.footnote | escape }}</p>
     {%- endif -%}
   </div>
@@ -174,13 +176,6 @@
   #bf-premium-{{ section.id }} .bf-premium__orn i { background: var(--bf-gold); display: block; height: 6px; transform: rotate(45deg); width: 6px; }
   #bf-premium-{{ section.id }} .bf-premium__title { color: var(--bf-ink); font-family: var(--cm-font-serif); font-size: clamp(38px, 5.6vw, 80px); font-weight: 400; letter-spacing: -0.01em; line-height: 1.02; margin: 0; }
   #bf-premium-{{ section.id }} .bf-premium__title em { color: var(--bf-gold); display: block; font-size: 0.86em; font-style: italic; }
-  #bf-premium-{{ section.id }} .bf-premium__cta {
-    background: var(--bf-gold); border-radius: 4px; color: #00294B; font-family: var(--cm-font-sans); font-size: 13px; font-weight: 600; letter-spacing: 0.14em; margin-top: 26px;
-    padding: 16px 28px; text-decoration: none; text-transform: uppercase; transition: background 0.2s ease, transform 0.2s ease;
-  }
-  #bf-premium-{{ section.id }} .bf-premium__cta:hover { background: #d4a647; }
-  #bf-premium-{{ section.id }} .bf-premium__cta:active { transform: scale(0.98); }
-  #bf-premium-{{ section.id }} .bf-premium__cta:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
   #bf-premium-{{ section.id }} .bf-premium__subheading { color: var(--bf-muted); font-family: var(--cm-font-sans); font-size: clamp(13px, 1.2vw, 15px); line-height: 1.6; margin: 20px 0 0; max-width: 460px; }
 
   #bf-premium-{{ section.id }} .bf-premium__wrap { margin: 0 auto; max-width: 1320px; padding: 0 clamp(20px, 5vw, 72px); }
@@ -351,6 +346,7 @@
   })();
 </script>
 {%- endif -%}
+{%- endif -%}
 
 {% schema %}
 {
@@ -363,13 +359,6 @@
     { "type": "text", "id": "heading", "label": "Título", "default": "Black Friday" },
     { "type": "text", "id": "heading_em", "label": "Título (línea en cursiva dorada)", "default": "−15 % en jamones enteros" },
     { "type": "text", "id": "subheading", "label": "Subtítulo", "default": "Piezas enteras con descuento, solo durante la semana de Black Friday." },
-    { "type": "header", "content": "Cuando termina la oferta (30/11 23:59)" },
-    { "type": "text", "id": "ended_heading", "label": "Título", "default": "Black Friday" },
-    { "type": "text", "id": "ended_heading_em", "label": "Título (línea en cursiva dorada)", "default": "ya ha terminado" },
-    { "type": "text", "id": "ended_subheading", "label": "Subtítulo", "default": "La oferta del −15 % finalizó el 30 de noviembre. Estos son nuestros jamones enteros a precio habitual." },
-    { "type": "text", "id": "ended_cta_label", "label": "Texto del botón", "default": "Ver todos los jamones" },
-    { "type": "url", "id": "ended_cta_url", "label": "Enlace del botón", "info": "Si está vacío, lleva a /collections/jamones." },
-    { "type": "header", "content": "Durante la oferta" },
     { "type": "text", "id": "footnote", "label": "Texto inferior", "default": "Oferta por tiempo limitado · No acumulable con otros códigos" },
     { "type": "color", "id": "paper", "label": "Fondo de la página", "default": "#00294B" },
     { "type": "color", "id": "ink", "label": "Texto principal", "default": "#FFFFFF" },

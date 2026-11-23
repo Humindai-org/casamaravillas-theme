@@ -308,7 +308,7 @@
       ],
       "name": "Grid de productos",
       "settings": {
-        "eyebrow": "Tienda",
+        "eyebrow": "Nuestra selección",
         "title": "<p>Nuestros jamones <em>ibéricos</em></p>",
         "description": "",
         "view_all_label": "Ver toda la colección",
