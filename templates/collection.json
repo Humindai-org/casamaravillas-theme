@@ -16,7 +16,16 @@
         "products_per_page": 12,
         "empty_label": "No hay productos en esta colección todavía."
       }
+    },
+    "bf": {
+      "type": "black-friday-premium",
+      "blocks": {
+        "p1": { "type": "product_card", "settings": { "product": "jamon-bellota-100-iberico-pieza-entera", "tier": "Jamón ibérico" } },
+        "p2": { "type": "product_card", "settings": { "product": "jamon-bellota-50-iberico-pieza-entera", "tier": "Jamón ibérico" } },
+        "p3": { "type": "product_card", "settings": { "product": "jamon-cebo-de-campo-50-iberico-pieza-entera", "tier": "Jamón ibérico" } }
+      },
+      "block_order": ["p1", "p2", "p3"]
     }
   },
-  "order": ["main"]
+  "order": ["main", "bf"]
 }

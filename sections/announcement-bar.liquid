@@ -7,12 +7,12 @@
   .announcement-bar__ticker { display: contents; }
 
   .announcement-bar {
-    background: var(--cm-navy);
+    background: var(--cm-gold);
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0 72px;
-    height: 38px;
+    height: 44px;
     position: relative;
   }
 
@@ -20,16 +20,16 @@
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    font-size: 11px;
-    letter-spacing: 0.18em;
-    color: rgba(255,255,255,0.65);
+    font-size: 13px;
+    letter-spacing: 0.16em;
+    color: var(--cm-white);
     white-space: nowrap;
     font-family: var(--cm-font-sans);
-    font-weight: 300;
+    font-weight: 400;
   }
 
   .announcement-bar__message em {
-    color: var(--cm-gold-h);
+    color: var(--cm-white);
     font-style: normal;
     font-weight: 400;
   }
@@ -38,17 +38,17 @@
   .announcement-bar__link {
     color: inherit;
     text-decoration: underline;
-    text-decoration-color: rgba(255,255,255,0.35);
+    text-decoration-color: rgba(255,255,255,0.6);
     text-underline-offset: 3px;
   }
   .announcement-bar__link:hover { text-decoration-color: currentColor; }
-  .announcement-bar__link:focus-visible { outline: 1px solid var(--cm-gold-h); outline-offset: 3px; }
+  .announcement-bar__link:focus-visible { outline: 2px solid var(--cm-white); outline-offset: 3px; }
 
   @media (max-width: 767px) {
     .announcement-bar { padding: 0; justify-content: center; overflow: hidden; }
     .announcement-bar__message {
       position: static; transform: none;
-      font-size: 10px; letter-spacing: 0.12em;
+      font-size: 12px; letter-spacing: 0.1em;
       white-space: nowrap; overflow: hidden; width: 100%;
     }
     .announcement-bar__ticker {
