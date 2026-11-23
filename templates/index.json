@@ -9,6 +9,15 @@
  */
 {
   "sections": {
+    "black_friday": {
+      "type": "black-friday-banner",
+      "settings": {
+        "title": "Black Friday",
+        "offer": "en jamones enteros",
+        "deadline": "Hasta el lunes 30 de noviembre",
+        "cta_label": "Ver ofertas"
+      }
+    },
     "hero": {
       "type": "hero-carousel-split",
       "blocks": {
@@ -476,6 +485,7 @@
     }
   },
   "order": [
+    "black_friday",
     "hero",
     "trust",
     "products",

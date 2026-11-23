@@ -1,0 +1,237 @@
+{%- comment -%}
+  black-friday-banner.liquid — banner de Black Friday para la portada (primera sección de templates/index.json).
+  Solo se pinta dentro de la ventana de la oferta (snippets/cm-promos.liquid, clave bf_on): fuera de fechas el servidor no
+  emite nada, sin depender del navegador. Los 3 jamones, el porcentaje y el destino salen de cm-promos: no se repiten aquí.
+  Las tarjetas son las de siempre (snippets/product-card.liquid): enseñan solo el precio tachado y el rebajado.
+{%- endcomment -%}
+{%- capture bf_on -%}{% render 'cm-promos', key: 'bf_on' %}{%- endcapture -%}
+{%- if bf_on != blank -%}
+  {%- capture bf_pct -%}{% render 'cm-promos', key: 'bf_pct' %}{%- endcapture -%}
+  {%- capture bf_url -%}{% render 'cm-promos', key: 'bf_url' %}{%- endcapture -%}
+  {%- capture bf_handles_txt -%}{% render 'cm-promos', key: 'bf_handles' %}{%- endcapture -%}
+  {%- assign bf_handles = bf_handles_txt | strip | split: ',' -%}
+
+  <style>
+    .bf-banner {
+      background: var(--cm-navy);
+      color: var(--cm-white);
+      padding: 72px 72px 80px;
+    }
+
+    .bf-banner__head {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      margin: 0 auto 48px;
+    }
+
+    .bf-banner__title {
+      font-family: var(--cm-font-serif);
+      font-size: clamp(44px, 6.4vw, 84px);
+      font-weight: 400;
+      line-height: 1.04;
+      color: var(--cm-white);
+      margin: 0;
+    }
+
+    .bf-banner__rule {
+      width: 54px;
+      height: 1px;
+      background: var(--cm-gold);
+      opacity: 0.7;
+      margin: 24px 0 22px;
+    }
+
+    .bf-banner__offer {
+      font-family: var(--cm-font-serif);
+      font-size: clamp(22px, 2.6vw, 34px);
+      font-style: italic;
+      font-weight: 400;
+      line-height: 1.25;
+      color: var(--cm-gold-h);
+      margin: 0;
+    }
+
+    .bf-banner__deadline {
+      font-family: var(--cm-font-sans);
+      font-size: 11px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.8);
+      margin: 16px 0 0;
+    }
+
+    .bf-banner__grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+      max-width: 1180px;
+      margin: 0 auto;
+    }
+
+    .bf-banner__foot {
+      display: flex;
+      justify-content: center;
+      margin-top: 48px;
+    }
+
+    .bf-banner__cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      min-height: 56px;
+      padding: 18px 56px;
+      background: var(--cm-gold);
+      border: 1px solid var(--cm-gold);
+      color: var(--cm-navy);
+      font-family: var(--cm-font-sans);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+    }
+
+    .bf-banner__cta::after { content: '→'; font-size: 14px; }
+    .bf-banner__cta:hover { background: var(--cm-white); border-color: var(--cm-white); }
+    .bf-banner__cta:focus-visible { outline: 2px solid var(--cm-white); outline-offset: 3px; }
+
+    /* Las tarjetas flotan sobre el fondo oscuro, sin sombra de hover (igual que las rejillas de la portada) */
+    .bf-banner .product-card:hover { box-shadow: none; }
+
+    @media (max-width: 1023px) {
+      .bf-banner { padding: 56px 32px 64px; }
+      .bf-banner__head { margin-bottom: 36px; }
+      .bf-banner__grid { gap: 16px; }
+      .bf-banner .product-card__name { font-size: 14px; }
+      .bf-banner .product-card__price { font-size: 16px; }
+    }
+
+    /* Móvil: filas compactas (foto pequeña + nombre + precio) para ver los 3 jamones y el botón sin desplazarse mucho */
+    @media (max-width: 767px) {
+      .bf-banner { padding: 36px 16px 40px; }
+      .bf-banner__head { margin-bottom: 22px; }
+      .bf-banner__rule { margin: 16px 0 14px; }
+      .bf-banner__deadline { font-size: 10px; letter-spacing: 0.2em; margin-top: 12px; }
+      .bf-banner__grid { grid-template-columns: 1fr; gap: 10px; }
+      .bf-banner .product-card { flex-direction: row; align-items: stretch; min-height: 92px; border-radius: 10px; }
+      .bf-banner .product-card > a { flex: 0 0 92px; width: 92px; display: block; }
+      .bf-banner .product-card__img-box { width: 92px; height: 100%; min-height: 92px; aspect-ratio: auto; border-radius: 10px 0 0 10px; }
+      .bf-banner .product-card__add-btn,
+      .bf-banner .product-card__quality,
+      .bf-banner .product-card__badge,
+      .bf-banner .product-card__cat,
+      .bf-banner .product-card__name-sub { display: none; }
+      .bf-banner .product-card__body { padding: 10px 12px; justify-content: center; gap: 6px; }
+      .bf-banner .product-card__name { font-size: 14px; margin: 0; }
+      .bf-banner .product-card__foot { padding-top: 6px; }
+      .bf-banner .product-card__plus { width: 36px; height: 36px; }
+      .bf-banner__foot { margin-top: 20px; }
+      .bf-banner__cta { width: 100%; padding: 16px 24px; }
+    }
+
+    /* Escritorio: el banner cabe en una pantalla (~700 px). Cabecera compacta y las tarjetas en horizontal, como en el móvil
+       pero con la foto más grande. Tablet (768–1023) conserva las tarjetas verticales. */
+    @media (min-width: 1024px) {
+      .bf-banner { padding: 44px 72px 52px; }
+      .bf-banner__title { font-size: clamp(40px, 4.2vw, 58px); }
+      .bf-banner__head { margin-bottom: 30px; }
+      .bf-banner__rule { margin: 16px 0 14px; }
+      .bf-banner__offer { font-size: clamp(22px, 2vw, 28px); }
+      .bf-banner__deadline { margin-top: 10px; }
+      .bf-banner__grid { gap: 20px; }
+      .bf-banner .product-card { flex-direction: row; align-items: stretch; min-height: 150px; border-radius: 12px; }
+      .bf-banner .product-card > a { flex: 0 0 140px; width: 140px; display: block; }
+      .bf-banner .product-card__img-box { width: 140px; height: 100%; min-height: 150px; aspect-ratio: auto; border-radius: 12px 0 0 12px; }
+      .bf-banner .product-card__add-btn,
+      .bf-banner .product-card__quality,
+      .bf-banner .product-card__badge,
+      .bf-banner .product-card__cat,
+      .bf-banner .product-card__name-sub { display: none; }
+      .bf-banner .product-card__body { padding: 14px 16px; justify-content: center; gap: 8px; }
+      .bf-banner .product-card__name { margin: 0; }
+      .bf-banner .product-card__foot { padding-top: 8px; }
+      .bf-banner .product-card__plus { width: 36px; height: 36px; }
+      .bf-banner__foot { margin-top: 30px; }
+      .bf-banner__cta { min-height: 52px; padding: 16px 52px; }
+    }
+
+    /* Escritorio estrecho (1024–1199): foto y textos algo más pequeños para que el precio no se parta en dos líneas */
+    @media (min-width: 1024px) and (max-width: 1199px) {
+      .bf-banner { padding-left: 40px; padding-right: 40px; }
+      .bf-banner__grid { gap: 14px; }
+      .bf-banner .product-card > a { flex-basis: 100px; width: 100px; }
+      .bf-banner .product-card__img-box { width: 100px; }
+      .bf-banner .product-card__body { padding: 12px 12px; }
+      .bf-banner .product-card__name { font-size: 14px; }
+      .bf-banner .product-card__price { font-size: 16px; }
+    }
+  </style>
+
+  <section class="bf-banner" aria-labelledby="bf-banner-title-{{ section.id }}">
+    <div class="bf-banner__head">
+      <h2 class="bf-banner__title" id="bf-banner-title-{{ section.id }}">{{ section.settings.title }}</h2>
+      <div class="bf-banner__rule" aria-hidden="true"></div>
+      <p class="bf-banner__offer">−{{ bf_pct | strip }}&nbsp;% {{ section.settings.offer }}</p>
+      <p class="bf-banner__deadline">{{ section.settings.deadline }}</p>
+    </div>
+
+    <div class="bf-banner__grid">
+      {%- for handle in bf_handles -%}
+        {%- assign bf_product = all_products[handle] -%}
+        {%- if bf_product != blank -%}
+          {% render 'product-card', card_product: bf_product, card_style: 'light' %}
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+    <div class="bf-banner__foot">
+      <a class="bf-banner__cta" href="{{ bf_url | strip }}">{{ section.settings.cta_label }}</a>
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Black Friday (banner)",
+  "tag": "div",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Solo se ve del 23/11 00:00 al 30/11 23:59 (Europe/Madrid). Las fechas, el porcentaje, los 3 jamones y el enlace viven en snippets/cm-promos.liquid."
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Título",
+      "default": "Black Friday"
+    },
+    {
+      "type": "text",
+      "id": "offer",
+      "label": "Oferta (se antepone «−15 %»)",
+      "default": "en jamones enteros"
+    },
+    {
+      "type": "text",
+      "id": "deadline",
+      "label": "Fecha límite",
+      "default": "Hasta el lunes 30 de noviembre"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Botón",
+      "default": "Ver ofertas"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Black Friday (banner)"
+    }
+  ]
+}
+{% endschema %}

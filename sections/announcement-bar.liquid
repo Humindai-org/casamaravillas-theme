@@ -34,6 +34,16 @@
     font-weight: 400;
   }
 
+  /* Aviso de Black Friday: el texto entero es un enlace a la colección */
+  .announcement-bar__link {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-color: rgba(255,255,255,0.35);
+    text-underline-offset: 3px;
+  }
+  .announcement-bar__link:hover { text-decoration-color: currentColor; }
+  .announcement-bar__link:focus-visible { outline: 1px solid var(--cm-gold-h); outline-offset: 3px; }
+
   @media (max-width: 767px) {
     .announcement-bar { padding: 0; justify-content: center; overflow: hidden; }
     .announcement-bar__message {
@@ -67,8 +77,11 @@
     los países; fuera de esas fechas, el texto de siempre (Península / resto).
   {%- endcomment -%}
   {%- capture promo_bf_on -%}{% render 'cm-promos', key: 'bf_on' %}{%- endcapture -%}
+  {%- assign bar_link = '' -%}
   {%- if promo_bf_on != blank and section.settings.announcement_text_bf != blank -%}
     {%- assign bar_text = section.settings.announcement_text_bf -%}
+    {%- capture bar_link -%}{% render 'cm-promos', key: 'bf_url' %}{%- endcapture -%}
+    {%- assign bar_link = bar_link | strip -%}
   {%- elsif is_peninsula -%}
     {%- assign bar_text = section.settings.announcement_text_peninsula -%}
   {%- else -%}
@@ -78,8 +91,13 @@
 <div class="announcement-bar" role="complementary" aria-label="{{ 'general.announcement_bar.label' | t }}">
   <p class="announcement-bar__message">
     <span class="announcement-bar__ticker">
-      <span>{{ bar_text }}</span>
-      <span aria-hidden="true">&nbsp;&nbsp;·&nbsp;&nbsp;{{ bar_text }}</span>
+      {%- if bar_link != blank -%}
+        <a class="announcement-bar__link" href="{{ bar_link }}">{{ bar_text }}</a>
+        <span aria-hidden="true">&nbsp;&nbsp;·&nbsp;&nbsp;<a class="announcement-bar__link" href="{{ bar_link }}" tabindex="-1">{{ bar_text }}</a></span>
+      {%- else -%}
+        <span>{{ bar_text }}</span>
+        <span aria-hidden="true">&nbsp;&nbsp;·&nbsp;&nbsp;{{ bar_text }}</span>
+      {%- endif -%}
     </span>
   </p>
 </div>
