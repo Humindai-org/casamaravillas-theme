@@ -13,7 +13,7 @@ Uso:
   python3 tools/shopify_fix_translations.py --apply            # escribe (backup en _backup/)
   python3 tools/shopify_fix_translations.py --rollback _backup/translations_XXXX.json --apply
 """
-import argparse, json, sys, time
+import argparse, json, re, sys, time
 import shopify_update_ingredients as base
 
 NBSP = " "
@@ -43,10 +43,41 @@ RULES = [
      f"Envío gratis a partir de <em>€80</em> {NBSP}·{NBSP} Entrega en 24–48h {NBSP}·{NBSP} Ibéricos Seleccionados",
      {"en": f"Free shipping from <em>€80</em> {NBSP}·{NBSP} Delivery in 24–48h {NBSP}·{NBSP} Selected Iberian Products",
       "fr": f"Livraison offerte dès <em>€80</em> {NBSP}·{NBSP} Livraison en 24–48h {NBSP}·{NBSP} Ibériques Sélectionnés"}),
+    # --- Auditoría 2026-11-15 (tools/shopify_audit_translations.py) ---
+    ("PRODUCT_OPTION", "name", "Formato", {"fr": "Format"}),
+    ("PRODUCT_OPTION", "name", "Servicio", {"fr": "Service"}),
+    ("PRODUCT_OPTION_VALUE", "name", "Pieza entera", {"fr": "Pièce entière"}),
+    ("PRODUCT_OPTION_VALUE", "name", "Deshuesado", {"fr": "Désossé"}),
+    ("PRODUCT_OPTION_VALUE", "name", "Corte a máquina y envasado", {"fr": "Coupé à la machine et emballé"}),
+    ("PRODUCT_OPTION_VALUE", "name", "Corte a mano y envasado", {"fr": "Coupé à la main et emballé"}),
+    ("DELIVERY_METHOD_DEFINITION", "name", "Envío estándar", {"fr": "Livraison standard"}),
+    ("DELIVERY_METHOD_DEFINITION", "name", "Pickup", {"en": "Pickup", "fr": "Retrait en magasin"}),
+    ("LINK", "title", "Navidad 2026", {"fr": "Noël 2026"}),
+    ("LINK", "title", "Jamones", {"fr": "Jambons"}),
+    ("LINK", "title", "Embutidos", {"fr": "Charcuterie"}),
+    ("LINK", "title", "Loncheados", {"fr": "Produits tranchés"}),
+    ("LINK", "title", "Packs y Regalos", {"fr": "Coffrets & Cadeaux"}),
+    ("COLLECTION", "title", "Jamones Ibéricos | Bellota y Cebo de Campo", {"fr": "Jambons Ibériques | Bellota et Cebo de Campo"}),
+    # Valores nutricionales "NNNN kJ / NNN kcal": no cambian entre idiomas, solo se re-registran para limpiar "outdated".
+    ("METAFIELD", "value", re.compile(r"\d+ kJ / \d+ kcal"), {"en": None, "fr": None}),
+    ("PRODUCT", "meta_title", 'Casa Maravillas Jamón Ibérico de Bellota 100% Pata Negra Pieza Entera 7-9kg', {"fr": 'Casa Maravillas Jambon Ibérique de Bellota 100% Pata Negra Pièce Entière 7-9kg'}),
+    ("PRODUCT", "meta_title", 'Casa Maravillas Jamón Ibérico de Bellota 100% Deshuesado al Vacío Pieza Entera', {"fr": 'Casa Maravillas Jambon Ibérique de Bellota 100% Désossé Sous Vide Pièce Entière'}),
+    ("PRODUCT", "meta_title", 'Casa Maravillas Jamón Ibérico de Bellota 50% Precinto Rojo Pieza Entera 7-9kg', {"fr": 'Casa Maravillas Jambon Ibérique de Bellota 50% Scellé Rouge Pièce Entière 7-9kg'}),
+    ("PRODUCT", "meta_title", 'Casa Maravillas Jamón Ibérico de Bellota 50% Deshuesado al Vacío Pieza Entera', {"fr": 'Casa Maravillas Jambon Ibérique de Bellota 50% Désossé Sous Vide Pièce Entière'}),
+    ("PRODUCT", "meta_title", 'Casa Maravillas Jamón Ibérico Cebo de Campo 50% Precinto Verde Pieza Entera 7-9kg', {"fr": 'Casa Maravillas Jambon Ibérique Cebo de Campo 50% Scellé Vert Pièce Entière 7-9kg'}),
+    ("PRODUCT", "meta_title", 'Casa Maravillas Jamón Ibérico Cebo de Campo 50% Deshuesado al Vacío Pieza Entera', {"fr": 'Casa Maravillas Jambon Ibérique Cebo de Campo 50% Désossé Sous Vide Pièce Entière'}),
+    ("PRODUCT", "meta_title", 'Casa Maravillas Chorizo Ibérico de Bellota 100% Artesanal 0,6kg-0,8kg', {"fr": 'Casa Maravillas Chorizo Ibérique de Bellota 100% Artisanal 0,6kg-0,8kg'}),
+    ("PRODUCT", "meta_title", 'Casa Maravillas Salchichón Ibérico de Bellota 100% Artesanal 0,6kg-0,8kg', {"fr": 'Casa Maravillas Saucisson Ibérique de Bellota 100% Artisanal 0,6kg-0,8kg'}),
+    ("PRODUCT", "meta_title", 'Casa Maravillas Lomo Ibérico Cebo de Campo 50% Curación 6-8 Meses 0,6kg-0,8kg', {"fr": 'Casa Maravillas Longe Ibérique Cebo de Campo 50% Affinage 6-8 Mois 0,6kg-0,8kg'}),
+    ("PRODUCT", "meta_title", 'Casa Maravillas Lomo Ibérico de Bellota 100% Curación 8-10 Meses 0,6kg-0,8kg', {"fr": 'Casa Maravillas Longe Ibérique de Bellota 100% Affinage 8-10 Mois 0,6kg-0,8kg'}),
+    ("PRODUCT", "meta_title", 'Casa Maravillas Lomito de Presa Ibérico de Bellota 100% Curación 6-7 Meses 0,4kg-0,6kg', {"fr": 'Casa Maravillas Longe de Presa Ibérique de Bellota 100% Affinage 6-7 Mois 0,4kg-0,6kg'}),
+    ("PRODUCT", "meta_title", 'Casa Maravillas Cesta Regalo Ibérica Cebo de Campo con Jamón Embutidos y Vino a Elección', {"fr": 'Casa Maravillas Coffret Cadeau Ibérique Cebo de Campo avec Jambon, Charcuteries et Vin au Choix'}),
+    ("PRODUCT", "meta_title", 'Casa Maravillas Cesta Regalo Ibérica Bellota 50% con Jamón Embutidos y Vino a Elección', {"fr": 'Casa Maravillas Coffret Cadeau Ibérique Bellota 50% avec Jambon, Charcuteries et Vin au Choix'}),
+    ("PRODUCT", "meta_title", 'Casa Maravillas Cesta Regalo Ibérica Bellota 100% Pata Negra con Jamón Embutidos y Vino a Elección', {"fr": 'Casa Maravillas Coffret Cadeau Ibérique Bellota 100% Pata Negra avec Jambon, Charcuteries et Vin au Choix'}),
 ]
 
 # Traducciones vigentes pero erróneas que sí hay que sobrescribir: (texto original, locale)
-FORCE = {("Corte", "en"), ("Cata", "en"), ("Cata", "fr")}  # "Court" y "Cata" (sin traducir) estaban mal
+FORCE = {("Corte", "en"), ("Cata", "en"), ("Cata", "fr"), ("Pickup", "en")}  # "Court" y "Cata" (sin traducir) estaban mal
 
 TYPES = sorted({r[0] for r in RULES})
 Q = """query($t:TranslatableResourceType!,$after:String){translatableResources(first:100,resourceType:$t,after:$after){
@@ -90,12 +121,15 @@ def main():
             for n in all_nodes(token, rtype):
                 for c in n["translatableContent"]:
                     for _, kpart, src, tr in rules:
-                        if c["value"] != src or kpart not in c["key"]:
+                        is_re = hasattr(src, "fullmatch")
+                        if kpart not in c["key"] or not (src.fullmatch(c["value"]) if is_re else c["value"] == src):
                             continue
                         for loc, new in tr.items():
+                            if new is None:  # regla regex: se copia el valor original tal cual
+                                new = c["value"]
                             cur = next((t for t in n[loc] if t["key"] == c["key"]), None)
                             # Solo rellena huecos y outdated; no pisa traducciones vigentes salvo las erróneas de FORCE.
-                            if cur and not cur["outdated"] and (src, loc) not in FORCE:
+                            if cur and not cur["outdated"] and (src if not is_re else None, loc) not in FORCE:
                                 continue
                             if cur and cur["value"] == new and not cur["outdated"]:
                                 continue

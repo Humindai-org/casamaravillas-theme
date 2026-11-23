@@ -202,7 +202,7 @@
                 endif
               -%}
               {%- if icon_href != blank -%}
-                <a href="{{ icon_href }}" class="nst__icon-link" aria-label="Ver jamones {{ block.settings.value | escape }}">{{ icon_img }}</a>
+                <a href="{{ icon_href }}" class="nst__icon-link" aria-label="{{ 'cm.nos.view_hams' | t: tier: block.settings.value }}">{{ icon_img }}</a>
               {%- else -%}
                 <span class="nst__icon-link">{{ icon_img }}</span>
               {%- endif -%}

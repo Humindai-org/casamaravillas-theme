@@ -110,7 +110,7 @@
 
     {%- if section.settings.incentive_code != blank -%}
       <p class="newsletter-section__body" style="margin-top: -16px; margin-bottom: 24px; color: var(--cm-gold);">
-        {{ section.settings.incentive_text | default: 'Código de bienvenida' }}: <strong>{{ section.settings.incentive_code }}</strong>
+        {% if section.settings.incentive_text != blank %}{{ section.settings.incentive_text }}{% else %}{{ 'cm.newsletter.incentive_label' | t }}{% endif %}: <strong>{{ section.settings.incentive_code }}</strong>
       </p>
     {%- endif -%}
 

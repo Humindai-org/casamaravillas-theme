@@ -130,83 +130,83 @@
   <h1 class="policy-body-section__title">{{ policy.title }}</h1>
   <div class="policy-body-section__content rte">
     {%- if policy.handle == 'shipping-policy' -%}
-      <h2>Procesamiento de pedidos</h2>
-      <p>Los pedidos se procesan de lunes a viernes en días laborables. Los pedidos realizados antes de las 12:00 h se procesan el mismo día; los realizados después de esa hora o en fin de semana o festivos se procesan el siguiente día laborable.</p>
-      <p>Una vez enviado tu pedido, recibirás un correo de confirmación con el número de seguimiento para que puedas rastrear tu entrega en todo momento.</p>
+      <h2>{{ 'cm.ship.procesamiento_de_pedidos' | t }}</h2>
+      <p>{{ 'cm.ship.los_pedidos_se_procesan' | t }}</p>
+      <p>{{ 'cm.ship.una_vez_enviado_tu' | t }}</p>
 
-      <h2>Envíos a España Peninsular y Portugal</h2>
-      <p><strong>Plazo de entrega:</strong> 24–48 horas laborables desde la confirmación del envío.</p>
-      <p><strong>Gastos de envío (IVA incluido):</strong></p>
+      <h2>{{ 'cm.ship.envios_a_espana_peninsular' | t }}</h2>
+      <p>{{ 'cm.ship.plazo_de_entrega_2448_html' | t }}</p>
+      <p>{{ 'cm.ship.gastos_de_envio_iva_html' | t }}</p>
       <ul>
-        <li>Jamón entero (~10 kg): <strong>11,20 €</strong></li>
-        <li>Jamón deshuesado (~6 kg): <strong>11,20 €</strong></li>
-        <li>Jamón cortado a mano (0,3–5 kg): <strong>8,94 €</strong></li>
-        <li>Embutidos enteros (0,6–0,8 kg): <strong>8,94 €</strong></li>
-        <li>Embutidos loncheados (100 g): <strong>8,94 €</strong></li>
+        <li>{{ 'cm.ship.jamon_entero_10_kg_html' | t }}</li>
+        <li>{{ 'cm.ship.jamon_deshuesado_6_kg_html' | t }}</li>
+        <li>{{ 'cm.ship.jamon_cortado_a_mano_html' | t }}</li>
+        <li>{{ 'cm.ship.embutidos_enteros_0_60_html' | t }}</li>
+        <li>{{ 'cm.ship.embutidos_loncheados_100_g_html' | t }}</li>
       </ul>
-      <p><strong>ENVÍO GRATIS</strong> para pedidos superiores a <strong>99 €</strong> en España peninsular y Portugal.</p>
+      <p>{{ 'cm.ship.envio_gratis_para_pedidos_html' | t }}</p>
 
-      <h2>Islas Baleares, Canarias, Ceuta y Melilla</h2>
+      <h2>{{ 'cm.ship.islas_baleares_canarias_ceuta' | t }}</h2>
       {%- comment -%} Baleares desactivado hasta que el cliente confirme tarifa de transportista. {%- endcomment -%}
-      <p>Por el momento no realizamos envíos a <strong>Islas Baleares, Islas Canarias, Ceuta ni Melilla</strong>.</p>
+      <p>{{ 'cm.ship.por_el_momento_no_2_html' | t }}</p>
 
-      <h2>Envíos Internacionales</h2>
-      <p>Enviamos a toda Europa. Los precios se muestran en el checkout e incluyen IVA.</p>
-      <p><strong>Plazos de entrega:</strong> 3–5 días laborables según destino.</p>
+      <h2>{{ 'cm.ship.envios_internacionales' | t }}</h2>
+      <p>{{ 'cm.ship.enviamos_a_toda_europa' | t }}</p>
+      <p>{{ 'cm.ship.plazos_de_entrega_35_html' | t }}</p>
       <p>
-        <strong>Zona 1</strong> — Alemania · Italia · Mónaco<br>
-        <strong>Zona 2</strong> — Bélgica · Luxemburgo · Países Bajos · Polonia · República Checa<br>
-        <strong>Zona 3</strong> — Austria · Bulgaria · Croacia · Dinamarca · Eslovaquia · Eslovenia · Estonia · Finlandia · Grecia · Hungría · Irlanda · Letonia · Lituania · Rumanía · Suecia<br>
-        <strong>Zona 4</strong> — Reino Unido<br>
-        <strong>Zona 5</strong> — Francia
+        <strong>{{ 'cm.ship.zona_1' | t }}</strong> — Alemania · Italia · Mónaco<br>
+        <strong>{{ 'cm.ship.zona_2' | t }}</strong> — Bélgica · Luxemburgo · Países Bajos · Polonia · República Checa<br>
+        <strong>{{ 'cm.ship.zona_3' | t }}</strong> — Austria · Bulgaria · Croacia · Dinamarca · Eslovaquia · Eslovenia · Estonia · Finlandia · Grecia · Hungría · Irlanda · Letonia · Lituania · Rumanía · Suecia<br>
+        <strong>{{ 'cm.ship.zona_4' | t }}</strong> — Reino Unido<br>
+        <strong>{{ 'cm.ship.zona_5' | t }}</strong> — Francia
       </p>
       <table>
         <thead>
           <tr>
-            <th>Producto</th>
-            <th>Zona 1</th>
-            <th>Zona 2</th>
-            <th>Zona 3</th>
-            <th>Zona 4</th>
-            <th>Zona 5</th>
+            <th>{{ 'cm.ship.producto' | t }}</th>
+            <th>{{ 'cm.ship.zona_1' | t }}</th>
+            <th>{{ 'cm.ship.zona_2' | t }}</th>
+            <th>{{ 'cm.ship.zona_3' | t }}</th>
+            <th>{{ 'cm.ship.zona_4' | t }}</th>
+            <th>{{ 'cm.ship.zona_5' | t }}</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>Jamón entero (~10 kg)</td>
+            <td>{{ 'cm.ship.jamon_entero_10_kg' | t }}</td>
             <td>40,27 €</td><td>45,01 €</td><td>54,44 €</td><td>47,68 €</td><td>40,27 €</td>
           </tr>
           <tr>
-            <td>Jamón deshuesado (~6 kg)</td>
+            <td>{{ 'cm.ship.jamon_deshuesado_6_kg' | t }}</td>
             <td>33,67 €</td><td>39,14 €</td><td>42,64 €</td><td>39,61 €</td><td>33,67 €</td>
           </tr>
           <tr>
-            <td>Jamón cortado a mano (0,3–5 kg)</td>
+            <td>{{ 'cm.ship.jamon_cortado_a_mano' | t }}</td>
             <td>30,95 €</td><td>32,67 €</td><td>39,38 €</td><td>35,53 €</td><td>30,95 €</td>
           </tr>
           <tr>
-            <td>Embutidos / Loncheados</td>
+            <td>{{ 'cm.ship.embutidos_loncheados' | t }}</td>
             <td>26,75 €</td><td>28,32 €</td><td>33,86 €</td><td>33,06 €</td><td>26,75 €</td>
           </tr>
         </tbody>
       </table>
-      <p><em>Para envíos al Reino Unido (Zona 4): los pedidos pueden estar sujetos a aranceles e impuestos de importación a cargo del destinatario según la normativa aduanera vigente tras el Brexit.</em></p>
-      <p><strong>Países bajo consulta:</strong> Bosnia y Herzegovina, Noruega, San Marino, Serbia, Suiza y Turquía. Escríbenos a <a href="mailto:info@casamaravillas.com">info@casamaravillas.com</a> y te facilitamos disponibilidad y precio.</p>
+      <p>{{ 'cm.ship.para_envios_al_reino_2_html' | t }}</p>
+      <p>{{ 'cm.ship.paises_bajo_consulta_bosnia_html' | t }}</p>
 
-      <h2>Embalaje</h2>
-      <p>Cada pedido sale de nuestro almacén embalado con cuidado y con número de seguimiento, para que cada pieza llegue en perfecto estado.</p>
+      <h2>{{ 'cm.ship.embalaje' | t }}</h2>
+      <p>{{ 'cm.ship.cada_pedido_sale_de' | t }}</p>
 
-      <h2>Incidencias en el Envío</h2>
-      <p>Si recibes tu pedido con daños visibles en el embalaje o en el producto, tienes un plazo de <strong>7 días naturales</strong> desde la recepción para notificárnoslo a través de <a href="mailto:info@casamaravillas.com">info@casamaravillas.com</a> o el formulario de contacto de nuestra web, adjuntando fotografías del estado del paquete y el producto.</p>
+      <h2>{{ 'cm.ship.incidencias_en_el_envio' | t }}</h2>
+      <p>{{ 'cm.ship.si_recibes_tu_pedido_2_html' | t }}</p>
 
-      <h2>Periodos de Alta Demanda</h2>
-      <p>En temporadas de alta demanda como Navidad y Semana Santa, los plazos de entrega pueden verse incrementados. Te informaremos con antelación de cualquier variación.</p>
+      <h2>{{ 'cm.ship.periodos_de_alta_demanda' | t }}</h2>
+      <p>{{ 'cm.ship.en_temporadas_de_alta' | t }}</p>
 
-      <h2>¿Tienes dudas?</h2>
+      <h2>{{ 'cm.ship.tienes_dudas' | t }}</h2>
       <p>
         Email: <a href="mailto:info@casamaravillas.com">info@casamaravillas.com</a><br>
-        Teléfono: <a href="tel:966113446">966 11 34 46</a><br>
-        Horario de atención: lunes a viernes, 9:00 – 18:00 h.
+        {{ 'cm.ship.telefono' | t }}: <a href="tel:966113446">966 11 34 46</a><br>
+        {{ 'cm.dev.horario_de_atencion_lunes' | t }}
       </p>
     {%- else -%}
       {{ policy.body }}

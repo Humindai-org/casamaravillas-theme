@@ -24,7 +24,8 @@
   <link rel="canonical" href="{{ canonical_url }}">
 
   {%- if settings.favicon != blank %}
-    <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+    <link rel="icon" type="image/png" sizes="96x96" href="{{ settings.favicon | image_url: width: 96, height: 96 }}">
+    <link rel="apple-touch-icon" href="{{ settings.favicon | image_url: width: 180, height: 180 }}">
   {%- endif %}
 
   {% # theme-check-disable RemoteAsset %}

@@ -56,9 +56,7 @@
     background: linear-gradient(
       90deg,
       rgba(244, 236, 226, 0) 0%,
-      rgba(244, 236, 226, 0) 35%,
-      rgba(244, 236, 226, 0.4) 65%,
-      rgba(244, 236, 226, 1) 100%
+      rgba(244, 236, 226, 0) 100%
     );
     pointer-events: none;
     z-index: 3;
@@ -373,6 +371,33 @@
 
     .cm-hero-split__wordmark { color: var(--cm-cream); }
     .cm-hero-split__header-rule { background: rgba(244, 237, 224, 0.35); }
+  }
+
+  /* Preview: textos y botones en blanco (solo escritorio) */
+  @media (min-width: 641px) {
+    .cm-hero-split__wordmark,
+    .cm-hero-split__content-col,
+    .cm-hero-split__h1,
+    .cm-hero-split__tagline { color: #fff; }
+    .cm-hero-split__header-rule { background: rgba(255, 255, 255, 0.55); }
+    .cm-hero-split__cta,
+    .cm-hero-split__nav-btn {
+      color: #fff;
+      border-color: rgba(255, 255, 255, 0.85);
+    }
+    .cm-hero-split__cta { background: var(--cm-navy); }
+    .cm-hero-split__cta:hover {
+      background: #fff;
+      color: var(--cm-navy);
+      border-color: #fff;
+    }
+    .cm-hero-split__cta:hover .cm-hero-split__cta-arrow path { stroke: var(--cm-navy); }
+    .cm-hero-split__nav-btn:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: #fff;
+    }
+    .cm-hero-split__nav-dot { background: rgba(255, 255, 255, 0.4); }
+    .cm-hero-split__nav-dot.is-active { background: #fff; }
   }
 </style>
 

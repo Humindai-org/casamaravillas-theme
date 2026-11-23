@@ -224,7 +224,7 @@
         href="{{ card_href }}"
         data-filter-tag-btn="{{ cat_tag }}"
         aria-pressed="{{ is_active }}"
-        aria-label="{{ cat_name }}{% if is_active %} — clic para quitar filtro{% endif %}"
+        aria-label="{{ cat_name }}{% if is_active %}{{ 'cm.coll.tier_clear' | t }}{% endif %}"
       >
         {%- if cat_label != blank -%}
           <span class="it__label-{{ section.id }}">{{ cat_label }}</span>
@@ -235,7 +235,7 @@
         {%- if is_active -%}
           <span class="it__active-pill-{{ section.id }}">Filtro activo</span>
         {%- else -%}
-          <span class="it__hint-{{ section.id }}">Ver selección</span>
+          <span class="it__hint-{{ section.id }}">{{ 'cm.guide.ver_seleccion' | t }}</span>
         {%- endif -%}
       </a>
     {%- endfor -%}

@@ -244,7 +244,7 @@
         {%- if section.settings.heading != blank -%}
           {{ section.settings.heading }}
         {%- else -%}
-          <p>Escríbenos</p>
+          <p>{{ 'cm.contact.escribenos' | t }}</p>
         {%- endif -%}
       </div>
       {%- if section.settings.intro != blank -%}
@@ -253,13 +253,13 @@
 
       {%- if section.settings.email != blank -%}
         <div class="contact-section__detail">
-          <strong>Email</strong>
+          <strong>{{ 'cm.contact.email' | t }}</strong>
           <a href="mailto:{{ section.settings.email }}">{{ section.settings.email }}</a>
         </div>
       {%- endif -%}
       {%- if section.settings.phone != blank -%}
         <div class="contact-section__detail">
-          <strong>Teléfono</strong>
+          <strong>{{ 'cm.ship.telefono' | t }}</strong>
           <span>{{ section.settings.phone }}</span>
         </div>
       {%- endif -%}
@@ -368,12 +368,12 @@
               id="ContactForm-reason"
               name="contact[reason]"
             >
-              <option value="">Selecciona un motivo</option>
-              <option value="consulta_general">Consulta general</option>
-              <option value="pedido_personalizado">Pedido personalizado</option>
-              <option value="regalo_corporativo">Regalo corporativo</option>
-              <option value="problema_pedido">Problema con pedido</option>
-              <option value="otros">Otros</option>
+              <option value="">{{ 'cm.contact.selecciona_un_motivo' | t }}</option>
+              <option value="consulta_general">{{ 'cm.contact.consulta_general' | t }}</option>
+              <option value="pedido_personalizado">{{ 'cm.contact.pedido_personalizado' | t }}</option>
+              <option value="regalo_corporativo">{{ 'cm.contact.regalo_corporativo' | t }}</option>
+              <option value="problema_pedido">{{ 'cm.contact.problema_con_pedido' | t }}</option>
+              <option value="otros">{{ 'cm.contact.otros' | t }}</option>
             </select>
           </div>
         </div>
@@ -398,7 +398,8 @@
             name="contact[privacy]"
             required
           >
-          <span>Al enviar este formulario aceptas nuestra <a href="/pages/privacidad">política de privacidad</a>.</span>
+          {%- assign cm_privacy_url = routes.root_url | append: 'pages/privacidad' -%}
+          <span>{{ 'cm.contact.privacy_html' | t: url: cm_privacy_url }}</span>
         </label>
 
         <button type="submit" class="contact-section__submit">{{ section.settings.submit_label | default: 'Enviar' }}</button>

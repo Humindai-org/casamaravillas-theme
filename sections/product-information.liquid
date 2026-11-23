@@ -168,7 +168,7 @@
 
         {%- comment -%} Card 2: Alérgenos e Ingredientes (antes que Conservación, a petición del cliente) {%- endcomment -%}
         <article class="cm-info-card">
-          <h3 class="cm-info-card__title">{{ section.settings.card3_title }}</h3>
+          <h3 class="cm-info-card__title">{%- if section.settings.card3_title != blank -%}{{ section.settings.card3_title }}{%- else -%}{{ 'cm.info.allergens_title' | t }}{%- endif -%}</h3>
           {%- if _has_pack_components -%}
             <p class="cm-info-card__subtitle">{{ _pack_components.size }} referencias incluidas en este pack</p>
           {%- else -%}
@@ -391,7 +391,7 @@
     <button class="cm-modal__close" onclick="closeModal('allergens-modal')" aria-label="{{ 'cm.info.close_modal' | t }}">&times;</button>
 
     <div class="cm-modal__header">
-      {{ section.settings.card3_title }}
+      {%- if section.settings.card3_title != blank -%}{{ section.settings.card3_title }}{%- else -%}{{ 'cm.info.allergens_title' | t }}{%- endif -%}
       {%- if _has_pack_components -%}
         <span class="cm-modal__header-current" data-pack-carousel-current></span>
       {%- endif -%}
@@ -876,7 +876,7 @@
       "type": "text",
       "id": "card3_title",
       "label": "Título — Alérgenos e Ingredientes",
-      "default": "Alérgenos e Ingredientes"
+      "info": "Vacío = texto traducible por idioma (cm.info.allergens_title)"
     }
   ],
   "presets": [

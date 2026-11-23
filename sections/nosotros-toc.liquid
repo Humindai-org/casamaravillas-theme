@@ -164,7 +164,7 @@
 {%- if links_count > 0 -%}
 
   {%- comment %} Desktop band {%- endcomment %}
-  <nav class="ntoc-{{ section.id }}" aria-label="Contenidos de la página">
+  <nav class="ntoc-{{ section.id }}" aria-label="{{ 'cm.nos.contenidos_de_la_pagina' | t }}">
     <div class="ntoc__band-{{ section.id }}">
       <span class="ntoc__label-{{ section.id }}">{{ section.settings.label | default: 'Contenidos' }}</span>
       <div class="ntoc__links-{{ section.id }}">
@@ -182,7 +182,7 @@
   </nav>
 
   {%- comment %} Mobile accordion {%- endcomment %}
-  <details class="ntoc-{{ section.id }} ntoc__mobile-{{ section.id }}" aria-label="Contenidos de la página">
+  <details class="ntoc-{{ section.id }} ntoc__mobile-{{ section.id }}" aria-label="{{ 'cm.nos.contenidos_de_la_pagina' | t }}">
     <summary class="ntoc__toggle-{{ section.id }}">
       {{ section.settings.label | default: 'Contenidos' }}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">

@@ -754,7 +754,7 @@
               endif
             -%}
             {{ total_shown }}
-            {%- if total_shown == 1 -%} producto{%- else -%} productos{%- endif -%}
+            {%- if total_shown == 1 -%} {{ 'cm.ui.product_one' | t }}{%- else -%} {{ 'cm.ui.product_many' | t }}{%- endif -%}
           </p>
         {%- endif -%}
 
@@ -1105,7 +1105,7 @@
     /* Update product count */
     var countEl = section.querySelector('.ic__count-' + sid);
     if (countEl) {
-      countEl.textContent = visibleCount + (visibleCount === 1 ? ' producto' : ' productos');
+      countEl.textContent = visibleCount + (visibleCount === 1 ? ' ' + cmT('product_one', 'producto') : ' ' + cmT('product_many', 'productos'));
     }
 
     /* Update URL hash (embutidos/packs only — jamones uses path-based URLs) */
@@ -1259,7 +1259,7 @@
 
       var countEl = section.querySelector('.ic__count-' + sid);
       if (countEl) {
-        countEl.textContent = visibleCount + (visibleCount === 1 ? ' producto' : ' productos');
+        countEl.textContent = visibleCount + (visibleCount === 1 ? ' ' + cmT('product_one', 'producto') : ' ' + cmT('product_many', 'productos'));
       }
     }
 

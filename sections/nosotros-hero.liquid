@@ -13,7 +13,10 @@
   assign s = section.settings
   assign pos_x = s.image_pos_x | default: 50
   assign pos_y = s.image_pos_y | default: 50
-  assign heading = s.title | default: 'Tres generaciones eligiendo lo mejor del campo ibérico'
+  assign heading = s.title
+  if heading == blank
+    assign heading = 'cm.nos.tres_generaciones_eligiendo_lo' | t
+  endif
 -%}
 
 {% render 'cm-reveal' %}

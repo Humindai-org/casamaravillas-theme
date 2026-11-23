@@ -69,13 +69,13 @@
               <button
                 class="cart-qty-btn"
                 onclick="updateQty('{{ item.key }}', {{ item.quantity | minus: 1 }})"
-                aria-label="Reducir cantidad"
+                aria-label="{{ 'cm.ui.reducir_cantidad' | t }}"
               >−</button>
               <input class="cart-qty-num" type="number" inputmode="numeric" min="0" max="999" value="{{ item.quantity }}" aria-label="Cantidad de {{ item.title | escape }}" onchange="cmSetCartQty('{{ item.key }}', this)" onfocus="this.select()">
               <button
                 class="cart-qty-btn"
                 onclick="updateQty('{{ item.key }}', {{ item.quantity | plus: 1 }})"
-                aria-label="Aumentar cantidad"
+                aria-label="{{ 'cm.ui.aumentar_cantidad' | t }}"
               >+</button>
             </div>
           </div>
@@ -142,7 +142,7 @@
       </div>
       <div class="row">
         <span class="shipping-label">
-          Envío
+          {{ 'cm.ui.envio' | t }}
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:inline;vertical-align:middle;margin-left:2px;">
             <circle cx="6" cy="6" r="5" stroke="#6B6050" stroke-width="1" fill="none"/>
             <line x1="6" y1="5" x2="6" y2="9" stroke="#6B6050" stroke-width="1" stroke-linecap="round"/>
@@ -156,7 +156,7 @@
         <span>{{ 'cm.cart.total' | t }}</span>
         <span id="cart-total">{{ cart.total_price | money }}</span>
       </div>
-      <p class="iva">(IVA incluido)</p>
+      <p class="iva">{{ 'cm.ui.iva_incluido' | t }}</p>
     </div>
 
     <!-- CTA BUTTONS -->
@@ -194,7 +194,7 @@
             <path d="M28.5 10.5V18H21" stroke="#6B6050" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
             <path d="M13 18.5l3.5 3.5 6.5-7" stroke="#6B6050" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
           </svg>
-          <span>Garantía 100% de satisfacción</span>
+          <span>{{ 'cm.ui.garantia_100_de_satisfaccion' | t }}</span>
         </div>
 
         <!-- Calidad garantizada -->

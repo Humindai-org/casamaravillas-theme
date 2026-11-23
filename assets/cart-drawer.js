@@ -154,7 +154,7 @@ function initCartDrawer() {
           '<div>' +
             '<p class="cart-box-eyebrow">' + cmT('pack_box_eyebrow', 'Caja de regalo') + '</p>' +
             '<p class="cart-box-title">' + cmT('pack_box_title', 'Tu pack personalizado') + '</p>' +
-            '<p class="cart-box-meta">' + count + ' producto' + (count === 1 ? '' : 's') + ' · ' + formatMoney(total) + '</p>' +
+            '<p class="cart-box-meta">' + count + ' ' + (count === 1 ? cmT('product_one', 'producto') : cmT('product_many', 'productos')) + ' · ' + formatMoney(total) + '</p>' +
           '</div>' +
           '<button class="cart-box-remove" onclick="removeBox(\'' + keys.join(',') + '\')" aria-label="' + cmT('pack_box_remove_aria', 'Eliminar cesta completa') + '">' + cmT('pack_box_remove', 'Quitar cesta') + '</button>' +
         '</div>' +

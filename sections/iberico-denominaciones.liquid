@@ -425,7 +425,7 @@
             <div>
               <div class="ido__front-sep-{{ section.id }}"></div>
               <p class="ido__front-region-it-{{ section.id }}">{{ community }}</p>
-              <p class="ido__front-hint-{{ section.id }}">Pasar el ratón para saber más</p>
+              <p class="ido__front-hint-{{ section.id }}">{{ 'cm.guide.pasar_el_raton_para' | t }}</p>
             </div>
           </div>
 
@@ -440,7 +440,7 @@
 
             {%- if block.settings.flavor != blank -%}
               <div class="ido__ri-{{ section.id }} ido__ri2-{{ section.id }}">
-                <p class="ido__reveal-flavor-label-{{ section.id }}">Perfil de sabor</p>
+                <p class="ido__reveal-flavor-label-{{ section.id }}">{{ 'cm.guide.perfil_de_sabor' | t }}</p>
                 <p class="ido__reveal-flavor-{{ section.id }}">{{ block.settings.flavor }}</p>
               </div>
             {%- endif -%}

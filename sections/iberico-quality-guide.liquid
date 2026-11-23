@@ -194,7 +194,7 @@
           class="iqg__card-{{ section.id }} iqg__card--{{ color }}-{{ section.id }}"
           {{ block.shopify_attributes }}
         >
-          <div class="iqg__level-{{ section.id }}" aria-label="Nivel de calidad: {{ level }} de 4">
+          <div class="iqg__level-{{ section.id }}" aria-label="{{ 'cm.guide.quality_level' | t: level: level }}">
             {%- for i in (1..4) -%}
               <span class="iqg__dot-{{ section.id }}{% if i <= level %} is-filled{% endif %}" aria-hidden="true"></span>
             {%- endfor -%}

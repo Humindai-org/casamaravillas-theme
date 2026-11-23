@@ -284,7 +284,7 @@
 
 {% assign accordion_blocks = section.blocks | where: 'type', 'accordion' %}
 {% if accordion_blocks.size > 0 and _acc_is_pack == false %}
-<div class="cm-pdp__accordions" id="cm-accordions-{{ section.id }}" aria-label="Información detallada del producto">
+<div class="cm-pdp__accordions" id="cm-accordions-{{ section.id }}" aria-label="{{ 'cm.ui.informacion_detallada_del_producto' | t }}">
 
   {%- comment -%} ── ENCABEZADO DEL ACORDEÓN ── {%- endcomment -%}
   <div class="cm-acc-header">
@@ -355,7 +355,7 @@
                 <img src="{{ 'icon-garantia.svg' | asset_url }}" alt="" width="28" height="28" loading="lazy">
               {%- when 'pasto' -%}
                 <img src="{{ 'icon-pasto.svg' | asset_url }}" alt="" width="80" height="80" loading="lazy">
-              {%- when 'peso' -%}
+              {%- when 'peso', 'weight', 'poids' -%}
                 <img src="{{ 'icon-peso.svg' | asset_url }}" alt="" width="28" height="28" loading="lazy">
               {%- when 'raza' -%}
                 <img src="{{ 'icon-raza.svg' | asset_url }}" alt="" width="28" height="28" loading="lazy">

@@ -183,65 +183,65 @@
 </style>
 
 <section class="envios-section">
-  <h1 class="envios-section__title">Información de Envíos</h1>
+  <h1 class="envios-section__title">{{ 'cm.ship.informacion_de_envios' | t }}</h1>
   <div class="envios-section__content">
 
-    <h2>Procesamiento de pedidos</h2>
-    <p>Los pedidos se procesan de lunes a viernes en días laborables. Los pedidos realizados antes de las <strong>12:00 h</strong> se procesan el mismo día; los realizados después de esa hora o en fin de semana o festivos se procesan el siguiente día laborable.</p>
-    <p>Una vez enviado tu pedido, recibirás un correo de confirmación con el número de seguimiento para que puedas rastrear tu entrega en todo momento.</p>
+    <h2>{{ 'cm.ship.procesamiento_de_pedidos' | t }}</h2>
+    <p>{{ 'cm.ship.los_pedidos_se_procesan_html' | t }}</p>
+    <p>{{ 'cm.ship.una_vez_enviado_tu' | t }}</p>
 
-    <h2>España Peninsular y Portugal</h2>
-    <p><strong>Plazo de entrega:</strong> 24–48 horas laborables desde la confirmación del envío.</p>
-    <span class="envios-badge">Envío gratis desde 99 €</span>
-    <p>Para pedidos inferiores a 99 €, el coste de envío se calculará automáticamente al finalizar el proceso de compra.</p>
+    <h2>{{ 'cm.ship.espana_peninsular_y_portugal' | t }}</h2>
+    <p>{{ 'cm.ship.plazo_de_entrega_2448_html' | t }}</p>
+    <span class="envios-badge">{{ 'cm.ship.envio_gratis_desde_99' | t }}</span>
+    <p>{{ 'cm.ship.para_pedidos_inferiores_a' | t }}</p>
     {%- comment -%} Baleares desactivado hasta que el cliente confirme tarifa de transportista. {%- endcomment -%}
-    <p>Por el momento <strong>no realizamos envíos a Islas Baleares, Islas Canarias, Ceuta ni Melilla</strong>.</p>
+    <p>{{ 'cm.ship.por_el_momento_no_html' | t }}</p>
 
-    <h2>Envíos Internacionales</h2>
-    <p>Enviamos a toda Europa. El coste de envío se calculará automáticamente al finalizar el proceso de compra según tu destino. El plazo de entrega es de <strong>3–5 días laborables</strong>.</p>
+    <h2>{{ 'cm.ship.envios_internacionales' | t }}</h2>
+    <p>{{ 'cm.ship.enviamos_a_toda_europa_html' | t }}</p>
 
     <div class="envios-zones">
       <div class="envios-zone-card">
-        <div class="envios-zone-card__label">Zona 1</div>
-        <div class="envios-zone-card__countries">Alemania · Italia · Mónaco</div>
+        <div class="envios-zone-card__label">{{ 'cm.ship.zona_1' | t }}</div>
+        <div class="envios-zone-card__countries">{{ 'cm.ship.alemania_italia_monaco' | t }}</div>
       </div>
       <div class="envios-zone-card">
-        <div class="envios-zone-card__label">Zona 2</div>
-        <div class="envios-zone-card__countries">Bélgica · Luxemburgo · Países Bajos · Polonia · República Checa</div>
+        <div class="envios-zone-card__label">{{ 'cm.ship.zona_2' | t }}</div>
+        <div class="envios-zone-card__countries">{{ 'cm.ship.belgica_luxemburgo_paises_bajos' | t }}</div>
       </div>
       <div class="envios-zone-card">
-        <div class="envios-zone-card__label">Zona 3</div>
-        <div class="envios-zone-card__countries">Austria · Bulgaria · Croacia · Dinamarca · Eslovaquia · Eslovenia · Estonia · Finlandia · Grecia · Hungría · Irlanda · Letonia · Lituania · Rumanía · Suecia</div>
+        <div class="envios-zone-card__label">{{ 'cm.ship.zona_3' | t }}</div>
+        <div class="envios-zone-card__countries">{{ 'cm.ship.austria_bulgaria_croacia_dinamarca' | t }}</div>
       </div>
       <div class="envios-zone-card">
-        <div class="envios-zone-card__label">Zona 4</div>
-        <div class="envios-zone-card__countries">Reino Unido</div>
+        <div class="envios-zone-card__label">{{ 'cm.ship.zona_4' | t }}</div>
+        <div class="envios-zone-card__countries">{{ 'cm.ship.reino_unido' | t }}</div>
       </div>
       <div class="envios-zone-card">
-        <div class="envios-zone-card__label">Zona 5</div>
-        <div class="envios-zone-card__countries">Francia</div>
+        <div class="envios-zone-card__label">{{ 'cm.ship.zona_5' | t }}</div>
+        <div class="envios-zone-card__countries">{{ 'cm.ship.francia' | t }}</div>
       </div>
     </div>
 
     <div class="envios-notice">
-      <p><em>Para envíos al Reino Unido: los pedidos pueden estar sujetos a aranceles e impuestos de importación a cargo del destinatario según la normativa aduanera vigente tras el Brexit.</em></p>
+      <p>{{ 'cm.ship.para_envios_al_reino_html' | t }}</p>
     </div>
-    <p><strong>Países bajo consulta:</strong> Bosnia y Herzegovina, Noruega, San Marino, Serbia, Suiza y Turquía. Escríbenos a <a href="mailto:info@casamaravillas.com">info@casamaravillas.com</a> y te facilitamos disponibilidad y precio.</p>
+    <p>{{ 'cm.ship.paises_bajo_consulta_bosnia_html' | t }}</p>
 
-    <h2>Embalaje</h2>
-    <p>Cada pedido sale de nuestro almacén embalado con cuidado y con número de seguimiento, para que cada pieza llegue en perfecto estado.</p>
+    <h2>{{ 'cm.ship.embalaje' | t }}</h2>
+    <p>{{ 'cm.ship.cada_pedido_sale_de' | t }}</p>
 
-    <h2>Incidencias en el Envío</h2>
-    <p>Si recibes tu pedido con daños visibles en el embalaje o en el producto, tienes un plazo de <strong>7 días naturales</strong> desde la recepción para notificárnoslo adjuntando fotografías del estado del paquete y el producto.</p>
+    <h2>{{ 'cm.ship.incidencias_en_el_envio' | t }}</h2>
+    <p>{{ 'cm.ship.si_recibes_tu_pedido_html' | t }}</p>
 
-    <h2>Periodos de Alta Demanda</h2>
-    <p>En temporadas de alta demanda como Navidad y Semana Santa, los plazos de entrega pueden verse incrementados. Te informaremos con antelación de cualquier variación.</p>
+    <h2>{{ 'cm.ship.periodos_de_alta_demanda' | t }}</h2>
+    <p>{{ 'cm.ship.en_temporadas_de_alta' | t }}</p>
 
-    <h2>¿Tienes dudas?</h2>
+    <h2>{{ 'cm.ship.tienes_dudas' | t }}</h2>
     <p>
       Email: <a href="mailto:info@casamaravillas.com">info@casamaravillas.com</a><br>
-      Teléfono: <a href="tel:966113446">966 11 34 46</a><br>
-      Horario de atención: lunes a viernes, 9:00 – 18:00 h.
+      {{ 'cm.ship.telefono' | t }}: <a href="tel:966113446">966 11 34 46</a><br>
+      {{ 'cm.dev.horario_de_atencion_lunes' | t }}
     </p>
 
   </div>

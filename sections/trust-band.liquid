@@ -91,11 +91,11 @@
         <p class="trust-band__desc" {%- if icon_name == 'formato.svg' %} id="cm-trust-formato-desc"{% endif %}>
           {%- if icon_name == 'formato.svg' -%}
             {%- if product.tags contains 'loncheado' -%}
-              Loncheado
+              {{ 'cm.ui.fmt_sliced' | t }}
             {%- elsif product.tags contains 'cortado' -%}
-              Loncheado
+              {{ 'cm.ui.fmt_sliced' | t }}
             {%- elsif product.tags contains 'pieza' -%}
-              Pieza entera
+              {{ 'cm.ui.fmt_whole' | t }}
             {%- else -%}
               {{ tb_desc }}
             {%- endif -%}

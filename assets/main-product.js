@@ -126,7 +126,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const wrap = select.closest('.cm-pdp__select-wrap');
     if (!wrap || wrap.classList.contains('has-opts')) return;
     const group = document.createElement('div');
-    const cards = (wrap.dataset.optName || '').toLowerCase() === 'formato';
+    const cards = ['formato', 'format'].indexOf((wrap.dataset.optName || '').toLowerCase()) !== -1;
     group.className = 'cm-pdp__opts' + (cards ? ' cm-pdp__opts--cards' : '');
     group.setAttribute('role', 'radiogroup');
     const label = select.id ? document.querySelector('label[for="' + select.id + '"]') : null;
@@ -350,22 +350,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Detectar formato desde product.tags
     let selectorType = 'entero';
-    let formatLabel = 'Pieza Entera';
+    let formatLabel = cmT('fmt_whole', 'Pieza entera');
     const tags = data.tags || [];
     const tagsLower = tags.map(t => String(t).trim().toLowerCase());
 
     if (tagsLower.some(t => t.includes('loncheado'))) {
       selectorType = 'lonchado';
-      formatLabel = 'Loncheado';
+      formatLabel = cmT('fmt_sliced', 'Loncheado');
     } else if (tagsLower.some(t => t.includes('cortado'))) {
       selectorType = 'cortado';
-      formatLabel = 'Loncheado';
+      formatLabel = cmT('fmt_sliced', 'Loncheado');
     } else if (tagsLower.some(t => t.includes('deshuesado'))) {
       selectorType = 'deshuesado';
-      formatLabel = 'Deshuesado';
+      formatLabel = cmT('fmt_boneless', 'Deshuesado');
     } else if (tagsLower.some(t => t.includes('pieza'))) {
       selectorType = 'entero';
-      formatLabel = 'Pieza Entera';
+      formatLabel = cmT('fmt_whole', 'Pieza entera');
     }
 
     const selectors = sectionEl.querySelectorAll('[data-selector-type]');
@@ -400,8 +400,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
   /* Formato (Pieza entera / Deshuesado / Corte…): el €/kg solo tiene sentido con la pieza entera,
      y cada formato muestra su suplemento sobre la pieza del peso elegido. */
+  /* El valor de la opción llega traducido: Pieza entera / Whole piece / Pièce entière */
+  function isWholePiece(v) {
+    return ['pieza entera', 'whole piece', 'pièce entière'].indexOf(String(v || '').toLowerCase()) !== -1;
+  }
+
   function formatoOptionIndex() {
-    return data && data.options ? data.options.indexOf('Formato') : -1;
+    if (!data || !data.options) return -1;
+    /* El nombre de la opción llega traducido (Formato / Format): se acepta cualquiera */
+    for (let i = 0; i < data.options.length; i++) {
+      if (['formato', 'format'].indexOf(String(data.options[i]).toLowerCase()) !== -1) return i;
+    }
+    return -1;
   }
 
   function updatePriceKg(variant) {
@@ -409,7 +419,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const idx = formatoOptionIndex();
     if (idx < 0 || !variant) return;
     const formato = variant['option' + (idx + 1)];
-    if (el) el.style.display = formato === 'Pieza entera' ? '' : 'none';
+    if (el) el.style.display = isWholePiece(formato) ? '' : 'none';
     /* La banda de confianza muestra el formato elegido */
     const bandDesc = document.querySelector('#cm-trust-formato-desc');
     if (bandDesc && formato) bandDesc.textContent = formato;
@@ -430,7 +440,8 @@ document.addEventListener('DOMContentLoaded', function() {
       });
       return v ? v.price : null;
     }
-    const base = priceFor('Pieza entera');
+    const wholeLabel = (data.variants.map(function(x) { return x['option' + (idx + 1)]; }).filter(isWholePiece))[0];
+    const base = wholeLabel ? priceFor(wholeLabel) : null;
     group.querySelectorAll('.cm-pdp__opt').forEach(function(btn) {
       const old = btn.querySelector('.cm-pdp__opt-extra');
       if (old) old.remove();

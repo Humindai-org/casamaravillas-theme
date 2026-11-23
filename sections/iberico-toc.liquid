@@ -157,7 +157,7 @@
 {%- if links_count > 0 -%}
 
   {%- comment %} Desktop band {%- endcomment %}
-  <nav class="itoc-{{ section.id }}" aria-label="Contenidos de la guía">
+  <nav class="itoc-{{ section.id }}" aria-label="{{ 'cm.guide.contenidos_de_la_guia' | t }}">
     <div class="itoc__band-{{ section.id }}">
       <span class="itoc__label-{{ section.id }}">{{ section.settings.label | default: 'Contenidos' }}</span>
       <div class="itoc__links-{{ section.id }}">
@@ -175,7 +175,7 @@
   </nav>
 
   {%- comment %} Mobile accordion {%- endcomment %}
-  <details class="itoc-{{ section.id }} itoc__mobile-{{ section.id }}" aria-label="Contenidos de la guía">
+  <details class="itoc-{{ section.id }} itoc__mobile-{{ section.id }}" aria-label="{{ 'cm.guide.contenidos_de_la_guia' | t }}">
     <summary class="itoc__toggle-{{ section.id }}">
       {{ section.settings.label | default: 'Contenidos' }}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
