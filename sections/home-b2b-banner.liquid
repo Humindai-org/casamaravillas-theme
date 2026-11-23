@@ -1,0 +1,238 @@
+<style>
+  .b2b-banner {
+    background: var(--cm-navy);
+    border-top: 1px solid rgba(196, 151, 58, 0.25);
+    border-bottom: 1px solid rgba(196, 151, 58, 0.25);
+    overflow: hidden;
+  }
+
+  .b2b-banner__inner {
+    display: grid;
+    grid-template-columns: 1fr;
+    max-width: 1440px;
+    margin: 0 auto;
+  }
+
+  .b2b-banner__content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 16px;
+    padding: 56px 24px;
+    min-height: 340px;
+    overflow: hidden;
+  }
+
+  .b2b-banner__ghost {
+    position: absolute;
+    left: 0;
+    bottom: 12px;
+    font-family: var(--cm-font-serif);
+    font-size: clamp(56px, 17vw, 120px);
+    line-height: 1;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(196, 151, 58, 0.22);
+    white-space: nowrap;
+    user-select: none;
+    pointer-events: none;
+  }
+
+  .b2b-banner__eyebrow,
+  .b2b-banner__title,
+  .b2b-banner__text,
+  .b2b-banner__cta {
+    position: relative;
+    z-index: 1;
+  }
+
+  .b2b-banner__eyebrow {
+    margin: 0;
+    font-family: var(--cm-font-sans);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--cm-gold);
+  }
+
+  .b2b-banner__title {
+    margin: 0;
+    max-width: 560px;
+    font-family: var(--cm-font-serif);
+    font-size: clamp(30px, 7vw, 48px);
+    font-weight: 400;
+    line-height: 1.12;
+    color: var(--cm-white);
+  }
+
+  .b2b-banner__title em {
+    font-style: italic;
+    color: var(--cm-gold);
+  }
+
+  .b2b-banner__text {
+    margin: 0;
+    max-width: 460px;
+    font-family: var(--cm-font-sans);
+    font-size: 15px;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.68);
+  }
+
+  .b2b-banner__cta {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 12px;
+    padding: 16px 28px;
+    min-height: 48px;
+    background: var(--cm-gold);
+    color: var(--cm-navy);
+    font-family: var(--cm-font-sans);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    text-decoration: none;
+    box-shadow: 0 1px 2px rgba(0, 20, 40, 0.3), 0 10px 24px -8px rgba(196, 151, 58, 0.45);
+    transition: transform 0.25s ease, opacity 0.25s ease;
+  }
+
+  .b2b-banner__cta svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    transition: transform 0.25s ease;
+  }
+
+  .b2b-banner__cta:hover { transform: translateY(-2px); }
+  .b2b-banner__cta:hover svg { transform: translateX(4px); }
+  .b2b-banner__cta:active { transform: translateY(0); opacity: 0.9; }
+
+  .b2b-banner__cta:focus-visible {
+    outline: 2px solid var(--cm-white);
+    outline-offset: 3px;
+  }
+
+  .b2b-banner__media {
+    display: none;
+    position: relative;
+  }
+
+  .b2b-banner__media img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  @media (min-width: 768px) {
+    .b2b-banner__content { padding: 72px 48px; min-height: 380px; }
+    .b2b-banner__eyebrow { font-size: 10px; }
+  }
+
+  @media (min-width: 1024px) {
+    .b2b-banner__inner--with-media { grid-template-columns: 1.6fr 1fr; }
+    .b2b-banner__media { display: block; }
+    .b2b-banner__content { padding: 80px 72px; }
+  }
+</style>
+
+<section class="b2b-banner" aria-labelledby="B2BBanner-{{ section.id }}">
+  <div class="b2b-banner__inner{% if section.settings.image != blank %} b2b-banner__inner--with-media{% endif %}">
+    <div class="b2b-banner__content">
+      {%- if section.settings.ghost_word != blank -%}
+        <span class="b2b-banner__ghost" aria-hidden="true">{{ section.settings.ghost_word }}</span>
+      {%- endif -%}
+
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="b2b-banner__eyebrow">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+
+      <h2 class="b2b-banner__title" id="B2BBanner-{{ section.id }}">{{ section.settings.title }}</h2>
+
+      {%- if section.settings.text != blank -%}
+        <p class="b2b-banner__text">{{ section.settings.text }}</p>
+      {%- endif -%}
+
+      {%- if section.settings.cta_label != blank -%}
+        <a href="{{ section.settings.cta_url | default: '/pages/profesionales' }}" class="b2b-banner__cta">
+          {{ section.settings.cta_label }}
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="5" y1="12" x2="19" y2="12"/>
+            <polyline points="12 5 19 12 12 19"/>
+          </svg>
+        </a>
+      {%- endif -%}
+    </div>
+
+    {%- if section.settings.image != blank -%}
+      <div class="b2b-banner__media">
+        {{ section.settings.image | image_url: width: 900, format: 'webp' | image_tag:
+          loading: 'lazy',
+          alt: section.settings.image.alt | default: ''
+        }}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Banner profesionales (B2B)",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Etiqueta superior",
+      "default": "Casa Maravillas"
+    },
+    {
+      "type": "richtext",
+      "id": "title",
+      "label": "Título",
+      "default": "<p>¿Eres <em>tienda, restaurante</em> o supermercado?</p>"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Texto",
+      "default": "Regístrate como profesional y te enviamos nuestras condiciones para empresas."
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Texto del botón",
+      "default": "Quiero ser profesional"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "Enlace del botón",
+      "info": "Si se deja vacío, apunta a /pages/profesionales."
+    },
+    {
+      "type": "text",
+      "id": "ghost_word",
+      "label": "Palabra decorativa de fondo",
+      "default": "Profesionales"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Imagen lateral (solo tablet grande y escritorio)"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Banner profesionales (B2B)"
+    }
+  ]
+}
+{% endschema %}

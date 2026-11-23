@@ -1,0 +1,346 @@
+<style>
+  .b2b-form {
+    padding: 48px 24px 72px;
+    background: var(--cm-off);
+  }
+
+  .b2b-form__inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    align-items: start;
+  }
+
+  .b2b-form__eyebrow {
+    margin: 0 0 14px;
+    font-family: var(--cm-font-sans);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--cm-gold);
+  }
+
+  .b2b-form__title {
+    margin: 0 0 20px;
+    font-family: var(--cm-font-serif);
+    font-size: clamp(28px, 6vw, 40px);
+    font-weight: 400;
+    line-height: 1.15;
+    color: var(--cm-navy);
+  }
+
+  .b2b-form__title em { font-style: italic; }
+
+  .b2b-form__intro {
+    margin: 0 0 24px;
+    font-family: var(--cm-font-sans);
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--cm-text-mid);
+  }
+
+  .b2b-form__points {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 12px;
+  }
+
+  .b2b-form__points li {
+    position: relative;
+    padding-left: 22px;
+    font-family: var(--cm-font-sans);
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--cm-text);
+  }
+
+  .b2b-form__points li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.55em;
+    width: 10px;
+    height: 1px;
+    background: var(--cm-gold);
+  }
+
+  .b2b-form__card {
+    padding: 28px 20px;
+    background: var(--cm-white);
+    border: 1px solid var(--cm-border);
+    box-shadow: 0 1px 2px rgba(0, 41, 75, 0.06), 0 16px 36px -16px rgba(0, 41, 75, 0.18);
+  }
+
+  .b2b-form__form {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .b2b-form__field--full { grid-column: 1 / -1; }
+
+  .b2b-form__label {
+    display: block;
+    margin-bottom: 6px;
+    font-family: var(--cm-font-sans);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--cm-text-mid);
+  }
+
+  .b2b-form__req { color: var(--cm-gold); }
+
+  .b2b-form__input,
+  .b2b-form__select,
+  .b2b-form__textarea {
+    width: 100%;
+    min-height: 48px;
+    padding: 14px 16px;
+    border: 1px solid var(--cm-border2);
+    border-radius: 0;
+    background: var(--cm-white);
+    font-family: var(--cm-font-sans);
+    font-size: 16px; /* evita el zoom automático de iOS al enfocar */
+    color: var(--cm-text);
+  }
+
+  .b2b-form__select {
+    appearance: none;
+    padding-right: 36px;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%2300294B' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+  }
+
+  .b2b-form__textarea { min-height: 110px; resize: vertical; }
+
+  .b2b-form__input:hover,
+  .b2b-form__select:hover,
+  .b2b-form__textarea:hover { border-color: var(--cm-navy); }
+
+  .b2b-form__input:focus-visible,
+  .b2b-form__select:focus-visible,
+  .b2b-form__textarea:focus-visible {
+    outline: 2px solid var(--cm-gold);
+    outline-offset: 1px;
+    border-color: var(--cm-gold);
+  }
+
+  .b2b-form__privacy {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-family: var(--cm-font-sans);
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--cm-text-mid);
+  }
+
+  .b2b-form__privacy input { margin-top: 2px; flex-shrink: 0; cursor: pointer; }
+  .b2b-form__privacy a { color: var(--cm-navy); text-decoration: underline; }
+
+  .b2b-form__submit {
+    min-height: 52px;
+    padding: 16px 28px;
+    border: 0;
+    border-radius: 0;
+    background: var(--cm-navy);
+    color: var(--cm-white);
+    font-family: var(--cm-font-sans);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 1px 2px rgba(0, 41, 75, 0.25), 0 10px 22px -10px rgba(0, 41, 75, 0.5);
+    transition: transform 0.25s ease, opacity 0.25s ease;
+  }
+
+  .b2b-form__submit:hover { transform: translateY(-2px); }
+  .b2b-form__submit:active { transform: translateY(0); opacity: 0.9; }
+  .b2b-form__submit:focus-visible { outline: 2px solid var(--cm-gold); outline-offset: 3px; }
+
+  .b2b-form__success {
+    margin: 0;
+    padding: 16px;
+    background: var(--cm-gold-pale);
+    border: 1px solid var(--cm-gold);
+    font-family: var(--cm-font-sans);
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--cm-navy);
+  }
+
+  .b2b-form__errors {
+    padding: 16px;
+    background: #fdf2f2;
+    border: 1px solid #e8c4c4;
+    font-family: var(--cm-font-sans);
+    font-size: 13px;
+    color: #6b2a2a;
+  }
+
+  @media (min-width: 768px) {
+    .b2b-form { padding: 72px 48px 96px; }
+    .b2b-form__card { padding: 40px 36px; }
+    .b2b-form__form { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (min-width: 1024px) {
+    .b2b-form__inner { grid-template-columns: 5fr 7fr; gap: 64px; }
+  }
+</style>
+
+<section class="b2b-form">
+  <div class="b2b-form__inner">
+    <div class="b2b-form__aside">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="b2b-form__eyebrow">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+      <h1 class="b2b-form__title">{{ section.settings.title }}</h1>
+      {%- if section.settings.intro != blank -%}
+        <p class="b2b-form__intro">{{ section.settings.intro }}</p>
+      {%- endif -%}
+      <ul class="b2b-form__points">
+        {%- for block in section.blocks -%}
+          <li {{ block.shopify_attributes }}>{{ block.settings.text }}</li>
+        {%- endfor -%}
+      </ul>
+    </div>
+
+    <div class="b2b-form__card">
+      {%- form 'contact', id: 'B2BForm', class: 'b2b-form__form' -%}
+        <input type="hidden" name="contact[tipo_de_solicitud]" value="Profesionales (B2B)">
+
+        {%- if form.posted_successfully? -%}
+          <p class="b2b-form__success b2b-form__field--full" role="status">{{ section.settings.success_message }}</p>
+        {%- endif -%}
+
+        {%- if form.errors -%}
+          <div class="b2b-form__errors b2b-form__field--full" role="alert">{{ form.errors | default_errors }}</div>
+        {%- endif -%}
+
+        <div class="b2b-form__field--full">
+          <label class="b2b-form__label" for="B2BForm-company">{{ section.settings.label_company }} <span class="b2b-form__req">*</span></label>
+          <input class="b2b-form__input" type="text" id="B2BForm-company" name="contact[empresa]" value="{{ form.empresa }}" autocomplete="organization" required>
+        </div>
+
+        <div>
+          <label class="b2b-form__label" for="B2BForm-type">{{ section.settings.label_type }} <span class="b2b-form__req">*</span></label>
+          <select class="b2b-form__select" id="B2BForm-type" name="contact[tipo_de_negocio]" required>
+            <option value="">{{ section.settings.placeholder_type }}</option>
+            {%- assign cm_types = section.settings.types | split: ',' -%}
+            {%- for cm_type in cm_types -%}
+              {%- assign cm_type_clean = cm_type | strip -%}
+              <option value="{{ cm_type_clean }}"{% if form.tipo_de_negocio == cm_type_clean %} selected{% endif %}>{{ cm_type_clean }}</option>
+            {%- endfor -%}
+          </select>
+        </div>
+
+        <div>
+          <label class="b2b-form__label" for="B2BForm-cif">{{ section.settings.label_cif }}</label>
+          <input class="b2b-form__input" type="text" id="B2BForm-cif" name="contact[cif]" value="{{ form.cif }}" autocomplete="off">
+        </div>
+
+        <div>
+          <label class="b2b-form__label" for="B2BForm-name">{{ section.settings.label_name }} <span class="b2b-form__req">*</span></label>
+          <input class="b2b-form__input" type="text" id="B2BForm-name" name="contact[name]" value="{{ form.name }}" autocomplete="name" required>
+        </div>
+
+        <div>
+          <label class="b2b-form__label" for="B2BForm-phone">{{ section.settings.label_phone }} <span class="b2b-form__req">*</span></label>
+          <input class="b2b-form__input" type="tel" id="B2BForm-phone" name="contact[phone]" value="{{ form.phone }}" autocomplete="tel" required>
+        </div>
+
+        <div class="b2b-form__field--full">
+          <label class="b2b-form__label" for="B2BForm-email">{{ section.settings.label_email }} <span class="b2b-form__req">*</span></label>
+          <input class="b2b-form__input" type="email" id="B2BForm-email" name="contact[email]" value="{{ form.email }}" autocomplete="email" required>
+        </div>
+
+        <div class="b2b-form__field--full">
+          <label class="b2b-form__label" for="B2BForm-city">{{ section.settings.label_city }}</label>
+          <input class="b2b-form__input" type="text" id="B2BForm-city" name="contact[ciudad]" value="{{ form.ciudad }}" autocomplete="address-level2">
+        </div>
+
+        <div class="b2b-form__field--full">
+          <label class="b2b-form__label" for="B2BForm-body">{{ section.settings.label_message }}</label>
+          <textarea class="b2b-form__textarea" id="B2BForm-body" name="contact[body]">{{ form.body }}</textarea>
+        </div>
+
+        <label class="b2b-form__privacy b2b-form__field--full">
+          <input type="checkbox" name="contact[privacy]" required>
+          {%- assign cm_privacy_url = routes.root_url | append: 'pages/privacidad' -%}
+          <span>{{ 'cm.contact.privacy_html' | t: url: cm_privacy_url }}</span>
+        </label>
+
+        <button type="submit" class="b2b-form__submit b2b-form__field--full">{{ section.settings.submit_label }}</button>
+      {%- endform -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Formulario profesionales (B2B)",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Etiqueta superior", "default": "Casa Maravillas · Profesionales" },
+    { "type": "text", "id": "title", "label": "Título", "default": "¿Eres supermercado, tienda o restaurante?" },
+    {
+      "type": "textarea",
+      "id": "intro",
+      "label": "Introducción",
+      "default": "Cuéntanos quién eres y qué necesitas. Revisamos tu solicitud y te enviamos las condiciones para profesionales."
+    },
+    {
+      "type": "textarea",
+      "id": "success_message",
+      "label": "Mensaje de confirmación",
+      "default": "Gracias. Hemos recibido tu solicitud y nos pondremos en contacto contigo."
+    },
+    { "type": "header", "content": "Textos del formulario" },
+    { "type": "text", "id": "label_company", "label": "Empresa", "default": "Empresa" },
+    { "type": "text", "id": "label_type", "label": "Tipo de negocio", "default": "Tipo de negocio" },
+    { "type": "text", "id": "placeholder_type", "label": "Texto del desplegable vacío", "default": "Selecciona" },
+    {
+      "type": "text",
+      "id": "types",
+      "label": "Opciones de tipo de negocio (separadas por comas)",
+      "default": "Supermercado, Tienda, Restaurante, Hotel / catering, Otro"
+    },
+    { "type": "text", "id": "label_cif", "label": "CIF (opcional)", "default": "CIF (opcional)" },
+    { "type": "text", "id": "label_name", "label": "Persona de contacto", "default": "Persona de contacto" },
+    { "type": "text", "id": "label_phone", "label": "Teléfono", "default": "Teléfono" },
+    { "type": "text", "id": "label_email", "label": "Email", "default": "Correo electrónico" },
+    { "type": "text", "id": "label_city", "label": "Ciudad", "default": "Ciudad (opcional)" },
+    { "type": "text", "id": "label_message", "label": "Mensaje", "default": "¿Qué productos te interesan? (opcional)" },
+    { "type": "text", "id": "submit_label", "label": "Texto del botón", "default": "Enviar solicitud" }
+  ],
+  "blocks": [
+    {
+      "type": "point",
+      "name": "Punto de valor",
+      "settings": [
+        { "type": "text", "id": "text", "label": "Texto", "default": "Condiciones específicas para empresas" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Formulario profesionales (B2B)",
+      "blocks": [
+        { "type": "point", "settings": { "text": "Condiciones específicas para empresas" } },
+        { "type": "point", "settings": { "text": "Factura con CIF" } },
+        { "type": "point", "settings": { "text": "Selección ibérica de las mismas piezas que vendemos online" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

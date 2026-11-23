@@ -389,6 +389,10 @@
         "cta_url": "/pages/nosotros"
       }
     },
+    "b2b_banner": {
+      "type": "home-b2b-banner",
+      "settings": {}
+    },
     "marquee": {
       "type": "marquee-strip",
       "settings": {
@@ -476,6 +480,7 @@
     "product_grid_VxPcmf",
     "iberico_guide",
     "story_teaser",
+    "b2b_banner",
     "marquee",
     "faq_n8WEzd",
     "newsletter"

@@ -1,0 +1,15 @@
+{
+  "sections": {
+    "b2b_form": {
+      "type": "b2b-lead-form",
+      "blocks": {
+        "point-1": { "type": "point", "settings": { "text": "Condiciones específicas para empresas" } },
+        "point-2": { "type": "point", "settings": { "text": "Factura con CIF" } },
+        "point-3": { "type": "point", "settings": { "text": "Selección ibérica de las mismas piezas que vendemos online" } }
+      },
+      "block_order": ["point-1", "point-2", "point-3"],
+      "settings": {}
+    }
+  },
+  "order": ["b2b_form"]
+}
