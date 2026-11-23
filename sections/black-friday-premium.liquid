@@ -9,6 +9,18 @@
   sección no emite nada, así que puede quedarse en templates/collection.json sin afectar al resto.
 {%- endcomment -%}
 {%- if collection.handle == 'black-friday' -%}
+  {%- capture bf_ended -%}{% render 'cm-promos', key: 'bf_ended' %}{%- endcapture -%}
+{%- if bf_ended != blank -%}
+  {%- comment -%}
+    Pasada la ventana (30/11 23:59) esta página desaparece: no se indexa y lleva a Jamones. Una sección no puede devolver un 404,
+    así que la salida es en el navegador (en el editor de temas no redirige). Limpieza definitiva: despublicar la colección
+    y crear una redirección 301 /collections/black-friday → /collections/jamones (ver la tarea de ClickUp).
+  {%- endcomment -%}
+  <meta name="robots" content="noindex, follow">
+  <noscript><meta http-equiv="refresh" content="0; url=/collections/jamones"></noscript>
+  <script>if (!(window.Shopify && window.Shopify.designMode)) { window.location.replace('/collections/jamones'); }</script>
+  <p style="padding: 64px 24px; text-align: center;"><a href="/collections/jamones">Ver todos los jamones</a></p>
+{%- else -%}
   {%- capture bf_on -%}{% render 'cm-promos', key: 'bf_on' %}{%- endcapture -%}
   {%- capture bf_pct_txt -%}{% render 'cm-promos', key: 'bf_pct' %}{%- endcapture -%}
   {%- capture bf_piece -%}{% render 'cm-promos', key: 'bf_piece' %}{%- endcapture -%}
@@ -333,6 +345,7 @@
     });
   })();
 </script>
+{%- endif -%}
 {%- endif -%}
 
 {% schema %}
