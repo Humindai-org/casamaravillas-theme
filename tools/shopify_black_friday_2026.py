@@ -16,7 +16,9 @@ Subcomandos:
         borra los descuentos creados (los ids van en el JSON de la ejecución) y restaura las tarifas del backup
 
 Fechas: 23/11/2026 00:00 -> 30/11/2026 23:59 hora de Madrid (CET, UTC+1) = 2026-11-22T23:00:00Z -> 2026-11-30T22:59:00Z.
-Combinación: solo con envío (productDiscounts/orderDiscounts = false) -> no se suma a BIENVENIDA10 ni a CESTA5-K7Q2.
+Combinación: con envío y con otros descuentos de PRODUCTO (productDiscounts = true; orderDiscounts = false). Es necesario: con false,
+Shopify aplica solo UNO de los 9 descuentos por carrito y las demás líneas pierden el 15 %. No se suma a BIENVENIDA10 ni a
+CESTA5-K7Q2 porque esos códigos tienen productDiscounts = false (Shopify exige que ambos lados lo permitan).
 Auth: la de shopify_update_precios_embutido.py (Keychain, client credentials). Scopes: write_shipping, write_discounts.
 """
 import importlib.util, json, os, sys, time
@@ -154,7 +156,7 @@ def cmd_envio(token, apply):
 # ───────────────────────── Black Friday ─────────────────────────
 def plan_bf(hams, variante):
     """Lista de descuentos a crear: [(título, input GraphQL)]."""
-    comb = {"productDiscounts": False, "orderDiscounts": False, "shippingDiscounts": True}
+    comb = {"productDiscounts": True, "orderDiscounts": False, "shippingDiscounts": True}
     if variante == "A":
         ids = [p["id"] for p in hams.values()]
         return [(TITLE_A, {"title": TITLE_A, "startsAt": STARTS, "endsAt": ENDS, "combinesWith": comb,
