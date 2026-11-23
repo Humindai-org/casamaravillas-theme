@@ -8,6 +8,7 @@
   Claves:
     bf_on        '1' dentro de la ventana de Black Friday, vacío fuera.
     bf_product   '1' si bf_on y el handle pasado (handle: product.handle) es uno de los tres jamones enteros.
+    bf_ended     '1' pasada la ventana (después del 30/11 23:59), vacío antes y durante: la página de la colección «black-friday» enseña entonces el aviso de fin.
     bf_handles   Los 3 handles de los jamones enteros, separados por comas (los usa el banner de la portada).
     bf_url       Destino de la oferta: la colección «black-friday» (barra de anuncios y botón del banner de la portada).
     bf_pct       Porcentaje que se muestra (15). Debe coincidir con el descuento automático de Shopify.
@@ -31,6 +32,8 @@
     {%- if cm_now >= cm_bf_start and cm_now < cm_bf_end -%}1{%- endif -%}
   {%- when 'bf_product' -%}
     {%- if cm_now >= cm_bf_start and cm_now < cm_bf_end and cm_bf_handles contains handle -%}1{%- endif -%}
+  {%- when 'bf_ended' -%}
+    {%- if cm_now >= cm_bf_end -%}1{%- endif -%}
   {%- when 'bf_handles' -%}{{ cm_bf_handles | join: ',' }}
   {%- when 'bf_url' -%}/collections/black-friday
   {%- when 'bf_pct' -%}15
