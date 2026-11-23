@@ -309,10 +309,11 @@
       "name": "Grid de productos",
       "settings": {
         "eyebrow": "Tienda",
-        "title": "<p>Nuestra <em>selección</em></p>",
+        "title": "<p>Nuestros jamones <em>ibéricos</em></p>",
         "description": "",
         "view_all_label": "Ver toda la colección",
         "view_all_url": "shopify://collections/jamones",
+        "gift_mode": true,
         "section_bg": "navy",
         "tier_icons_bellota_100": "shopify://shop_images/CASAMARAVILLAS__1_2.jpg"
       }
@@ -477,11 +478,11 @@
   },
   "order": [
     "hero",
+    "product_grid_VxPcmf",
     "trust",
     "products",
     "nuestras_colecciones",
     "featured",
-    "product_grid_VxPcmf",
     "iberico_guide",
     "story_teaser",
     "marquee",

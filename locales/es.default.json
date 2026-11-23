@@ -154,7 +154,8 @@
       "no_reviews": "Sin reseñas",
       "cart_items_aria": "{{ n }} artículos en la cesta",
       "add_to_my_cart": "Agregar a mi cesta",
-      "badge_sale": "Oferta"
+      "badge_sale": "Oferta",
+      "badge_black_friday": "Black Friday −{{ pct }} %"
     },
     "shipbar": {
       "free_html": "¡Tienes <strong>envío gratis</strong>!",

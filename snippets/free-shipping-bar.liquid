@@ -7,6 +7,11 @@
   según lo que YA hay en el carrito (no suma el producto de la ficha).
   assets/main-product.js > updatePdpShipbar la recalcula cuando el carrito cambia.
 {%- endcomment -%}
+{%- comment -%}
+  «Te faltan X €» es un enlace (Clarity lo grabó pulsado dos veces sin respuesta): lleva a Loncheados, lo más rápido para
+  completar el pedido. En el cajón, cart-drawer.js lo cambia por un desplazamiento a «Podría interesarte» si está visible.
+{%- endcomment -%}
+{%- assign fs_more_url = routes.collections_url | append: '/loncheados' -%}
 {%- assign fs_threshold = 9900 -%}
 {%- assign fs_country = localization.country.iso_code -%}
 {%- assign fs_eligible = false -%}
@@ -25,13 +30,14 @@
     data-threshold="{{ fs_threshold }}"
     data-eligible="{{ fs_eligible }}"
     data-cart-total="{{ cart.total_price }}"
+    data-more-url="{{ fs_more_url }}"
     {% unless fs_eligible %}hidden{% endunless %}
   >
     <p class="cm-shipbar__text" data-cm-shipbar-text>
       {%- if fs_remaining == 0 -%}
         {{ 'cm.shipbar.free_html' | t }}
       {%- else -%}
-        {%- assign _fs_rem = fs_remaining | money -%}{{ 'cm.shipbar.remaining_html' | t: amount: _fs_rem }}
+        {%- assign _fs_rem = fs_remaining | money -%}<a class="cm-shipbar__link" data-cm-shipbar-link href="{{ fs_more_url }}">{{ 'cm.shipbar.remaining_html' | t: amount: _fs_rem }}</a>
       {%- endif -%}
     </p>
     <div class="cm-shipbar__track" role="progressbar" aria-label="{{ 'cm.shipbar.progress' | t }}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ fs_percent }}">
@@ -45,13 +51,14 @@
   data-cm-shipbar
   data-threshold="{{ fs_threshold }}"
   data-eligible="{{ fs_eligible }}"
+  data-more-url="{{ fs_more_url }}"
   {% unless fs_eligible and cart.item_count > 0 %}hidden{% endunless %}
 >
   <p class="cm-shipbar__text" data-cm-shipbar-text>
     {%- if fs_remaining == 0 -%}
       {{ 'cm.shipbar.free_html' | t }}
     {%- else -%}
-      {%- assign _fs_rem = fs_remaining | money -%}{{ 'cm.shipbar.remaining_html' | t: amount: _fs_rem }}
+      {%- assign _fs_rem = fs_remaining | money -%}<a class="cm-shipbar__link" data-cm-shipbar-link href="{{ fs_more_url }}">{{ 'cm.shipbar.remaining_html' | t: amount: _fs_rem }}</a>
     {%- endif -%}
   </p>
   <div class="cm-shipbar__track" role="progressbar" aria-label="{{ 'cm.shipbar.progress' | t }}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ fs_percent }}">

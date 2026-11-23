@@ -7,12 +7,12 @@
   .announcement-bar__ticker { display: contents; }
 
   .announcement-bar {
-    background: var(--cm-navy);
+    background: var(--cm-gold);
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0 72px;
-    height: 38px;
+    height: 44px;
     position: relative;
   }
 
@@ -20,25 +20,35 @@
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    font-size: 11px;
-    letter-spacing: 0.18em;
-    color: rgba(255,255,255,0.65);
+    font-size: 13px;
+    letter-spacing: 0.16em;
+    color: var(--cm-white);
     white-space: nowrap;
     font-family: var(--cm-font-sans);
-    font-weight: 300;
+    font-weight: 400;
   }
 
   .announcement-bar__message em {
-    color: var(--cm-gold-h);
+    color: var(--cm-white);
     font-style: normal;
     font-weight: 400;
   }
+
+  /* Aviso de Black Friday: el texto entero es un enlace a la colección */
+  .announcement-bar__link {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-color: rgba(255,255,255,0.6);
+    text-underline-offset: 3px;
+  }
+  .announcement-bar__link:hover { text-decoration-color: currentColor; }
+  .announcement-bar__link:focus-visible { outline: 2px solid var(--cm-white); outline-offset: 3px; }
 
   @media (max-width: 767px) {
     .announcement-bar { padding: 0; justify-content: center; overflow: hidden; }
     .announcement-bar__message {
       position: static; transform: none;
-      font-size: 10px; letter-spacing: 0.12em;
+      font-size: 12px; letter-spacing: 0.1em;
       white-space: nowrap; overflow: hidden; width: 100%;
     }
     .announcement-bar__ticker {
@@ -62,7 +72,17 @@
     {%- assign is_peninsula = true -%}
   {%- endif -%}
 
-  {%- if is_peninsula -%}
+  {%- comment -%}
+    Del 23/11 00:00 al 30/11 23:59 (Europe/Madrid, ventana en snippets/cm-promos.liquid) el aviso de Black Friday para todos
+    los países; fuera de esas fechas, el texto de siempre (Península / resto).
+  {%- endcomment -%}
+  {%- capture promo_bf_on -%}{% render 'cm-promos', key: 'bf_on' %}{%- endcapture -%}
+  {%- assign bar_link = '' -%}
+  {%- if promo_bf_on != blank and section.settings.announcement_text_bf != blank -%}
+    {%- assign bar_text = section.settings.announcement_text_bf -%}
+    {%- capture bar_link -%}{% render 'cm-promos', key: 'bf_url' %}{%- endcapture -%}
+    {%- assign bar_link = bar_link | strip -%}
+  {%- elsif is_peninsula -%}
     {%- assign bar_text = section.settings.announcement_text_peninsula -%}
   {%- else -%}
     {%- assign bar_text = section.settings.announcement_text_exterior -%}
@@ -71,8 +91,13 @@
 <div class="announcement-bar" role="complementary" aria-label="{{ 'general.announcement_bar.label' | t }}">
   <p class="announcement-bar__message">
     <span class="announcement-bar__ticker">
-      <span>{{ bar_text }}</span>
-      <span aria-hidden="true">&nbsp;&nbsp;·&nbsp;&nbsp;{{ bar_text }}</span>
+      {%- if bar_link != blank -%}
+        <a class="announcement-bar__link" href="{{ bar_link }}">{{ bar_text }}</a>
+        <span aria-hidden="true">&nbsp;&nbsp;·&nbsp;&nbsp;<a class="announcement-bar__link" href="{{ bar_link }}" tabindex="-1">{{ bar_text }}</a></span>
+      {%- else -%}
+        <span>{{ bar_text }}</span>
+        <span aria-hidden="true">&nbsp;&nbsp;·&nbsp;&nbsp;{{ bar_text }}</span>
+      {%- endif -%}
     </span>
   </p>
 </div>
@@ -94,6 +119,13 @@
       "id": "announcement_text_peninsula",
       "label": "Texto — Península (España y Portugal)",
       "default": "Envío gratis a partir de <em>€99</em> &nbsp;·&nbsp; Entrega en 24–48h &nbsp;·&nbsp; Ibéricos Seleccionados"
+    },
+    {
+      "type": "html",
+      "id": "announcement_text_bf",
+      "label": "Texto — Black Friday (23–30/11, todos los países)",
+      "info": "Solo se muestra del 23/11 00:00 al 30/11 23:59 (Europe/Madrid). Las fechas viven en snippets/cm-promos.liquid.",
+      "default": "Black Friday: 15 % en jamones enteros, hasta el lunes 30"
     },
     {
       "type": "html",

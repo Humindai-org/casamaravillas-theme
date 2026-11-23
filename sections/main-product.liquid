@@ -15,6 +15,31 @@
   {%- endif -%}
 {%- endif -%}
 {%- assign featured_image = current_variant.featured_image | default: product.featured_image -%}
+{%- comment -%}
+  Black Friday (snippets/cm-promos.liquid): solo en los 3 jamones enteros y dentro de la ventana. La ficha enseña, en las
+  variantes DISPONIBLES (también las de deshuesado y corte), el precio tachado, el precio con descuento y la etiqueta.
+  Variante B: el 15 % es sobre la PIEZA del mismo peso; el servicio de deshuesado/corte va a precio completo.
+  El descuento real es un descuento automático de Shopify: aquí se calcula igual (descuento truncado al céntimo)
+  para que coincida con el carrito. main-product.js repite el cálculo al cambiar de variante (window.cmPDP_*.bf).
+{%- endcomment -%}
+{%- capture bf_flag -%}{% render 'cm-promos', key: 'bf_product', handle: product.handle %}{%- endcapture -%}
+{%- assign bf_active = false -%}
+{%- if bf_flag != blank -%}
+  {%- capture bf_pct_txt -%}{% render 'cm-promos', key: 'bf_pct' %}{%- endcapture -%}
+  {%- capture bf_piece -%}{% render 'cm-promos', key: 'bf_piece' %}{%- endcapture -%}
+  {%- assign bf_pct = bf_pct_txt | plus: 0 -%}
+  {%- assign bf_label = 'cm.pdp.badge_black_friday' | t: pct: bf_pct -%}
+  {%- assign bf_orig = current_variant.price -%}
+  {%- assign bf_piece_price = 0 -%}
+  {%- for pv in product.variants -%}
+    {%- if pv.option1 == current_variant.option1 and pv.title contains bf_piece -%}{%- assign bf_piece_price = pv.price -%}{%- break -%}{%- endif -%}
+  {%- endfor -%}
+  {%- assign bf_disc = bf_piece_price | times: bf_pct | divided_by: 100 -%}
+  {%- assign bf_price = bf_orig | minus: bf_disc -%}
+  {%- if current_variant.available and bf_disc > 0 -%}
+    {%- assign bf_active = true -%}
+  {%- endif -%}
+{%- endif -%}
 {%- assign product_accent = '#00294B' -%}
 {%- case product.type -%}
   {%- when 'Jamón' -%}           {%- assign product_accent = '#C4973A' -%}
@@ -39,6 +64,7 @@
         options: {{ product.options | json }},
         productId: {{ product.id | json }},
         productHandle: {{ product.handle | json }},
+        bf: {% if bf_flag != blank %}{ pct: {{ bf_pct }}, piece: {{ bf_piece | json }}, label: {{ bf_label | json }} }{% else %}null{% endif %},
         galFit: {{ section.settings.gallery_fit | default: 'contain' | json }},
         galZoomRaw: {{ section.settings.gallery_zoom | default: 100 | json }},
         galPosX: {{ section.settings.gallery_pos_x | default: 50 | json }},
@@ -319,7 +345,17 @@
         <meta itemprop="priceCurrency" content="{{ cart.currency.iso_code }}">
         <meta itemprop="availability" content="{% if current_variant.available %}InStock{% else %}OutOfStock{% endif %}">
 
-        {%- if current_variant.compare_at_price > current_variant.price -%}
+        {%- if bf_active -%}
+          {%- comment -%} Black Friday: tachado, precio con descuento y etiqueta (ver el bloque de arriba) {%- endcomment -%}
+          <span id="cm-compare-price-{{ section.id }}" class="cm-pdp__price--compare cm-pdp__price--bf-was">{{ bf_orig | money }}</span>
+          <span
+            id="cm-price-{{ section.id }}"
+            class="cm-pdp__price cm-pdp__price--sale"
+            itemprop="price"
+            content="{{ bf_price | divided_by: 100.0 }}"
+          >{{ bf_price | money }}</span>
+          <span id="cm-discount-badge-{{ section.id }}" class="cm-pdp__discount-badge cm-pdp__discount-badge--bf">{{ bf_label }}</span>
+        {%- elsif current_variant.compare_at_price > current_variant.price -%}
           {%- assign discount_pct = current_variant.compare_at_price | minus: current_variant.price | times: 100 | divided_by: current_variant.compare_at_price -%}
           <span
             id="cm-price-{{ section.id }}"
@@ -338,10 +374,30 @@
             itemprop="price"
             content="{{ current_variant.price | divided_by: 100.0 }}"
           >{{ current_variant.price | money }}</span>
+          {%- if bf_flag != blank -%}
+            {%- comment -%} Ficha de Black Friday abierta en una variante sin promoción (agotada o bundle): los elementos existen ocultos para que main-product.js los use al cambiar de variante {%- endcomment -%}
+            <span id="cm-compare-price-{{ section.id }}" class="cm-pdp__price--compare cm-pdp__price--bf-was" style="display:none"></span>
+            <span id="cm-discount-badge-{{ section.id }}" class="cm-pdp__discount-badge cm-pdp__discount-badge--bf" style="display:none"></span>
+          {%- endif -%}
         {%- endif -%}
 
         {%- if price_kg_value != blank -%}
-          <span class="cm-pdp__price-kg">{{ price_kg_value }}/kg</span>
+          {%- comment -%}
+            Black Friday: el €/kg de la pieza entera baja el mismo porcentaje (tarifa «62,25 €» → 15 % menos, redondeado al céntimo).
+            Se enseña tachado el de siempre y el rebajado; main-product.js alterna entre ambos al cambiar de variante
+            (rebajado solo en una pieza entera disponible).
+          {%- endcomment -%}
+          {%- assign kg_bf = '' -%}
+          {%- if bf_flag != blank and is_pieza_entera -%}
+            {%- assign kg_cents = price_kg_value | remove: '€' | remove: ' ' | replace: ',', '.' | times: 100.0 | round -%}
+            {%- assign kg_bf_cents = kg_cents | times: bf_pct | divided_by: 100.0 | round -%}
+            {%- assign kg_bf_cents = kg_cents | minus: kg_bf_cents -%}
+            {%- assign kg_bf_num = kg_bf_cents | money_without_currency -%}
+            {%- assign kg_bf = kg_bf_num | append: ' €' -%}
+          {%- endif -%}
+          <span class="cm-pdp__price-kg"{% if kg_bf != blank %} data-kg-orig="{{ price_kg_value | escape }}" data-kg-bf="{{ kg_bf | escape }}"{% endif %}>
+            {%- if kg_bf != blank and bf_active -%}<s class="cm-pdp__price-kg-was">{{ price_kg_value }}</s> {{ kg_bf }}/kg{%- else -%}{{ price_kg_value }}/kg{%- endif -%}
+          </span>
         {%- endif -%}
       </div>
 
@@ -662,7 +718,7 @@
         <div>
           <span class="cm-sticky-atc__name">{{ product.title | truncate: 45 }}</span>
           <span class="cm-sticky-atc__price" id="cm-sticky-price-{{ section.id }}">
-            {{ current_variant.price | money }}
+            {%- if bf_active -%}{{ bf_price | money }}{%- else -%}{{ current_variant.price | money }}{%- endif -%}
           </span>
         </div>
       </div>

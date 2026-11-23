@@ -302,7 +302,8 @@ function initCartDrawer() {
     if (text) {
       text.innerHTML = remaining === 0
         ? cmT('shipbar_free_html', '¡Tienes <strong>envío gratis</strong>!')
-        : cmT('shipbar_remaining_html', 'Te faltan <strong>{amount}</strong> para el envío gratis', { amount: formatMoney(remaining) });
+        : '<a class="cm-shipbar__link" data-cm-shipbar-link href="' + escapeHtml(bar.getAttribute('data-more-url') || '/collections/loncheados') + '">' +
+          cmT('shipbar_remaining_html', 'Te faltan <strong>{amount}</strong> para el envío gratis', { amount: formatMoney(remaining) }) + '</a>';
     }
     if (fill)  fill.style.width = percent + '%';
     if (track) track.setAttribute('aria-valuenow', percent);
@@ -648,6 +649,20 @@ function initCartDrawer() {
     grid.innerHTML = html;
     section.style.display = 'block';
   }
+
+  /* «Te faltan X € para el envío gratis»: en el cajón, si «Podría interesarte» está visible, baja hasta allí (el cliente
+     sigue en el cajón y puede añadir con el «+»); si no, cierra el cajón y sigue el enlace a Loncheados. */
+  document.addEventListener('click', function (e) {
+    var link = e.target.closest && e.target.closest('#cart-drawer [data-cm-shipbar-link]');
+    if (!link) return;
+    var recs = document.getElementById('cart-recommendations');
+    if (recs && recs.style.display !== 'none' && recs.offsetParent !== null) {
+      e.preventDefault();
+      recs.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      return;
+    }
+    closeCart();
+  });
 
   /* ---- EXPOSE GLOBALS (used by inline onclick in .liquid) ---- */
 

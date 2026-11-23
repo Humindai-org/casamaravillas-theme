@@ -245,14 +245,95 @@
     .product-grid-section.is-compact-mobile .product-card__plus { width: 36px; height: 36px; }
     .product-grid-section.is-compact-mobile .product-grid-section__footer { margin-top: 16px; }
   }
+
+  /* ===== Modo caja de regalo: carrusel de 3 en escena =====
+     Las tarjetas comparten la misma celda; la activa va al centro, grande, y las otras dos a los lados, más pequeñas y
+     atenuadas. Al rotar, cada una cambia de sitio con transform/opacity (nada de left/width). Ver el script del final. */
+  .product-grid-section.is-gift { overflow-x: clip; }
+  .product-grid-section.is-gift .pg-br { display: none; }
+  @media (max-width: 767px) { .product-grid-section.is-gift .pg-br { display: block; } }
+  .product-grid-section.is-gift .product-grid-section__grid {
+    display: grid; grid-template-columns: minmax(0, clamp(250px, 30vw, 430px)); justify-content: center;
+    gap: 0; margin: 0 auto; padding: 8px 0 0; overflow: visible; scroll-snap-type: none;
+    touch-action: pan-y;
+  }
+  .product-grid-section.is-gift .product-card {
+    grid-area: 1 / 1; flex: none; max-width: none; width: 100%; scroll-snap-align: none;
+    --pos: 0; --s: 1;
+    transform: translateX(calc(var(--pos) * 98%)) scale(var(--s));
+    opacity: var(--o, 1);
+    transition: transform 0.75s cubic-bezier(0.22, 0.7, 0.2, 1), opacity 0.6s ease;
+    z-index: 1;
+  }
+  .product-grid-section.is-gift .product-card.is-active { --s: 1; --o: 1; z-index: 3; }
+  .product-grid-section.is-gift .product-card.is-side { --s: 0.76; --o: 0.5; z-index: 2; cursor: pointer; }
+  .product-grid-section.is-gift .product-card.is-far { --s: 0.6; --o: 0; pointer-events: none; }
+  .product-grid-section.is-gift .product-card.is-jump { transition: none; }
+  .product-grid-section.is-gift .product-card:hover { transform: translateX(calc(var(--pos) * 98%)) scale(var(--s)); }
+  .product-grid-section.is-gift .product-card.is-side:hover { --o: 0.8; }
+  /* Solo la tarjeta del centro abre la tapa */
+  .product-grid-section.is-gift .product-card:not(.is-active):hover .product-card__img-box--gift.has-secondary .product-card__img--gift,
+  .product-grid-section.is-gift .product-card:not(.is-active):focus-within .product-card__img-box--gift.has-secondary .product-card__img--gift { transform: none; opacity: 1; }
+  .product-grid-section.is-gift .product-card:not(.is-active) .product-card__img-box--gift .product-card__img--secondary { transform: scale(1.06); }
+  /* En pantallas táctiles no hay hover: la tapa se abre sola cuando la caja llega al centro */
+  @media (hover: none) {
+    .product-grid-section.is-gift .product-card.is-active.is-open .product-card__img-box--gift.has-secondary .product-card__img--gift { transform: translateY(-104%) rotate(-3deg); opacity: 0; }
+    .product-grid-section.is-gift .product-card.is-active.is-open .product-card__img-box--gift .product-card__img--secondary { transform: scale(1); }
+  }
+  .product-grid-section.is-gift .pg-stage { position: relative; }
+  /* Flechas en los laterales (escritorio); debajo solo en móvil */
+  .product-grid-section.is-gift .product-grid-section__nav {
+    display: flex; justify-content: space-between; align-items: center; margin: 0; padding: 0 clamp(12px, 3vw, 48px);
+    pointer-events: none; position: absolute; top: 0; bottom: 0; left: -72px; right: -72px; z-index: 5;
+  }
+  @media (max-width: 1023px) { .product-grid-section.is-gift .product-grid-section__nav { left: -32px; right: -32px; } }
+  .product-grid-section.is-gift .product-grid-section__arrow { pointer-events: auto; }
+  .product-grid-section.is-gift .product-grid-section__arrow {
+    width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--cm-gold); background: transparent; color: var(--cm-gold);
+    display: inline-flex; align-items: center; justify-content: center; padding: 0; cursor: pointer;
+    transition: background 0.25s ease, color 0.25s ease, transform 0.2s ease;
+  }
+  .product-grid-section.is-gift .product-grid-section__arrow svg { width: 16px; height: 16px; display: block; }
+  .product-grid-section.is-gift .product-grid-section__arrow:hover { background: var(--cm-gold); color: var(--cm-navy); }
+  .product-grid-section.is-gift .product-grid-section__arrow:active { transform: scale(0.92); }
+  .product-grid-section.is-gift .product-grid-section__arrow:focus-visible { outline: 2px solid var(--cm-gold); outline-offset: 3px; }
+  @media (max-width: 767px) {
+    .product-grid-section.is-gift { padding: 48px 0; }
+    .product-grid-section.is-gift .product-grid-section__header { padding: 0 20px; }
+    .product-grid-section.is-gift .product-grid-section__grid { grid-template-columns: minmax(0, 68vw); padding: 8px 0 0; margin: 0 auto; }
+    .product-grid-section.is-gift .product-card { flex: none; max-width: none; }
+    .product-grid-section.is-gift .product-grid-section__footer { padding: 0 20px; }
+    .product-grid-section.is-gift .product-grid-section__nav { gap: 14px; justify-content: center; margin-top: 28px; padding: 0; position: static; left: auto; right: auto; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .product-grid-section.is-gift .product-card { transition: opacity 0.3s ease; }
+  }
 </style>
 
-<section class="product-grid-section{% if section.settings.section_bg == 'gold_pale' %} bg-gold-pale{% elsif section.settings.section_bg == 'navy' %} bg-navy{% endif %}{% if section.settings.compact_mobile %} is-compact-mobile{% endif %}">
+{%- comment -%}
+  Modo «caja de regalo» (adviento/Navidad/Black Friday): cada jamón es una caja cerrada con lazo; al pasar el ratón (o tocar en móvil)
+  la tapa sube y deja ver la foto del jamón. Las 3 imágenes de las cajas son assets/gift-box-{oro,plata,bronce}.jpg (ver product-card).
+{%- endcomment -%}
+{%- assign gift_mode = section.settings.gift_mode -%}
+{%- assign grid_eyebrow = section.settings.eyebrow -%}
+{%- assign grid_cta_label = section.settings.view_all_label -%}
+{%- assign grid_cta_url = section.settings.view_all_url | default: '/collections/all' -%}
+{%- if gift_mode -%}
+  {%- capture gf_bf_on -%}{% render 'cm-promos', key: 'bf_on' %}{%- endcapture -%}
+  {%- if gf_bf_on != blank -%}
+    {%- capture gf_bf_pct -%}{% render 'cm-promos', key: 'bf_pct' %}{%- endcapture -%}
+    {%- assign grid_cta_label = 'Ver ofertas de Black Friday' -%}
+    {%- capture grid_cta_url -%}{% render 'cm-promos', key: 'bf_url' %}{%- endcapture -%}
+    {%- assign grid_cta_url = grid_cta_url | strip -%}
+    {%- assign grid_eyebrow = 'Black Friday · −' | append: gf_bf_pct | strip | append: ' % <span class="pg-br"></span>hasta el lunes 30' -%}
+  {%- endif -%}
+{%- endif -%}
+<section class="product-grid-section{% if gift_mode %} is-gift{% endif %}{% if section.settings.section_bg == 'gold_pale' %} bg-gold-pale{% elsif section.settings.section_bg == 'navy' %} bg-navy{% endif %}{% if section.settings.compact_mobile %} is-compact-mobile{% endif %}">
 
-  {%- if section.settings.eyebrow != blank or section.settings.title != blank or section.settings.description != blank -%}
+  {%- if grid_eyebrow != blank or section.settings.title != blank or section.settings.description != blank -%}
     <div class="product-grid-section__header">
-      {%- if section.settings.eyebrow != blank -%}
-        <p class="product-grid-section__eyebrow">{{ section.settings.eyebrow }}</p>
+      {%- if grid_eyebrow != blank -%}
+        <p class="product-grid-section__eyebrow">{{ grid_eyebrow }}</p>
         <div class="product-grid-section__rule"></div>
       {%- endif -%}
       {%- if section.settings.title != blank -%}
@@ -272,6 +353,7 @@
   {%- endfor -%}
   {%- assign grid_cols = product_count | at_least: 1 | at_most: 4 -%}
   {%- if product_count == 0 -%}{%- assign grid_cols = 4 -%}{%- endif -%}
+  {%- if gift_mode -%}<div class="pg-stage">{%- endif -%}
   <div class="product-grid-section__grid" style="--grid-cols: {{ grid_cols }};">
     {%- assign product_count = 0 -%}
     {%- for block in section.blocks -%}
@@ -279,7 +361,7 @@
         {%- assign product_handle = block.settings.product -%}
         {%- if product_handle != blank -%}
           {%- assign product = all_products[product_handle] -%}
-          {% render 'product-card', card_product: product, tier_icons: section.settings.tier_icons, card_image: block.settings.image, card_hover_image: block.settings.hover_image, block_zoom: block.settings.image_zoom, block_offset: block.settings.image_offset %}
+          {% render 'product-card', card_product: product, tier_icons: section.settings.tier_icons, card_image: block.settings.image, card_hover_image: block.settings.hover_image, card_gift: gift_mode, block_zoom: block.settings.image_zoom, block_offset: block.settings.image_offset %}
           {%- assign product_count = product_count | plus: 1 -%}
         {%- endif -%}
       {%- endif -%}
@@ -303,11 +385,12 @@
       </svg>
     </button>
   </div>
+  {%- if gift_mode -%}</div>{%- endif -%}
 
-  {%- if section.settings.view_all_label != blank -%}
+  {%- if grid_cta_label != blank -%}
     <div class="product-grid-section__footer">
-      <a href="{{ section.settings.view_all_url | default: '/collections/all' }}" class="product-grid-section__view-all">
-        {{ section.settings.view_all_label }}
+      <a href="{{ grid_cta_url }}" class="product-grid-section__view-all">
+        {{ grid_cta_label }}
       </a>
     </div>
   {%- endif -%}
@@ -321,6 +404,7 @@ if (!window.cmGridCarouselInit) {
     var btn = e.target.closest('.product-grid-section__arrow');
     if (!btn) return;
     var wrap = btn.closest('.product-grid-section');
+    if (wrap && wrap.classList.contains('is-gift')) return; /* el modo caja de regalo rota con su propio script */
     var grid = wrap && wrap.querySelector('.product-grid-section__grid');
     var cards = grid && grid.querySelectorAll('.product-card');
     if (!grid || !cards || !cards.length) return;
@@ -334,6 +418,7 @@ if (!window.cmGridCarouselInit) {
 
   var updateArrows = function(grid) {
     var wrap = grid.closest('.product-grid-section');
+    if (wrap.classList.contains('is-gift')) return;
     var prevBtn = wrap.querySelector('[data-carousel-prev]');
     var nextBtn = wrap.querySelector('[data-carousel-next]');
     if (!prevBtn || !nextBtn) return;
@@ -350,6 +435,79 @@ if (!window.cmGridCarouselInit) {
     document.querySelectorAll('.product-grid-section__grid').forEach(updateArrows);
   });
 }
+</script>
+
+<script>
+/* Carrusel de 3 en escena (modo caja de regalo). La tarjeta activa va al centro y las demás a los lados; rota con las flechas,
+   al tocar/hacer clic en una tarjeta lateral, deslizando, con el teclado (foco) y solo en automático cada 5 s mientras la sección
+   está en pantalla (se detiene al interactuar y con «reducir movimiento»). */
+(function () {
+  document.querySelectorAll('.product-grid-section.is-gift').forEach(function (sec) {
+    if (sec.dataset.stageInit) return; sec.dataset.stageInit = '1';
+    var grid = sec.querySelector('.product-grid-section__grid');
+    var cards = Array.prototype.slice.call(grid.querySelectorAll('.product-card'));
+    var n = cards.length; if (n < 2) return;
+    var half = Math.floor(n / 2), idx = 0, rels = [], timer = null, openT = null, paused = false;
+    var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function layout() {
+      cards.forEach(function (c, i) {
+        var rel = ((i - idx + half) % n + n) % n - half;
+        var wrapped = rels[i] !== undefined && Math.abs(rel - rels[i]) > 1;
+        if (wrapped) c.classList.add('is-jump');
+        c.style.setProperty('--pos', rel);
+        c.classList.toggle('is-active', rel === 0);
+        c.classList.toggle('is-side', Math.abs(rel) === 1);
+        c.classList.toggle('is-far', Math.abs(rel) > 1);
+        c.classList.remove('is-open');
+        c.setAttribute('aria-hidden', rel === 0 ? 'false' : 'true');
+        rels[i] = rel;
+        if (wrapped) { void c.offsetWidth; c.classList.remove('is-jump'); }
+      });
+      clearTimeout(openT);
+      openT = setTimeout(function () { cards[idx].classList.add('is-open'); }, 900);
+    }
+    function go(to) { idx = ((to % n) + n) % n; layout(); }
+    function next() { go(idx + 1); }
+    function prev() { go(idx - 1); }
+    function stop() { clearInterval(timer); timer = null; }
+    function start() { if (reduce || paused || timer) return; timer = setInterval(next, 5000); }
+    function pause(ms) { paused = true; stop(); clearTimeout(pause.t); pause.t = setTimeout(function () { paused = false; if (visible) start(); }, ms || 9000); }
+
+    var pb = sec.querySelector('[data-carousel-prev]'), nb = sec.querySelector('[data-carousel-next]');
+    if (pb) pb.addEventListener('click', function () { prev(); pause(); });
+    if (nb) nb.addEventListener('click', function () { next(); pause(); });
+
+    /* Clic en una tarjeta lateral: la trae al centro en vez de abrir su ficha */
+    grid.addEventListener('click', function (e) {
+      var c = e.target.closest('.product-card'); if (!c) return;
+      var i = cards.indexOf(c);
+      if (i > -1 && i !== idx) { e.preventDefault(); e.stopPropagation(); go(i); pause(); }
+    }, true);
+    grid.addEventListener('focusin', function (e) {
+      var c = e.target.closest('.product-card'); var i = cards.indexOf(c);
+      if (i > -1 && i !== idx) { go(i); pause(); }
+    });
+
+    /* Deslizar con el dedo */
+    var x0 = null, y0 = null;
+    grid.addEventListener('touchstart', function (e) { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; pause(); }, { passive: true });
+    grid.addEventListener('touchend', function (e) {
+      if (x0 === null) return;
+      var dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0; x0 = null;
+      if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) { dx < 0 ? next() : prev(); }
+    }, { passive: true });
+
+    sec.addEventListener('mouseenter', function () { paused = true; stop(); });
+    sec.addEventListener('mouseleave', function () { paused = false; if (visible) start(); });
+
+    var visible = false;
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (en) { visible = en[0].isIntersecting; visible ? start() : stop(); }, { threshold: 0.4 }).observe(sec);
+    }
+    layout();
+  });
+})();
 </script>
 
 {% schema %}
@@ -411,6 +569,13 @@ if (!window.cmGridCarouselInit) {
       "id": "eyebrow",
       "label": "Etiqueta superior",
       "default": "Tienda"
+    },
+    {
+      "type": "checkbox",
+      "id": "gift_mode",
+      "label": "Modo caja de regalo (Navidad / Black Friday)",
+      "info": "Las tarjetas de los 3 jamones enteros se ven como cajas cerradas con lazo; al pasar el ratón sube la tapa y aparece el jamón.",
+      "default": false
     },
     {
       "type": "richtext",

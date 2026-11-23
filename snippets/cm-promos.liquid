@@ -1,0 +1,38 @@
+{%- comment -%}
+  cm-promos.liquid — ventana de la promoción de Black Friday 2026 y su configuración, en UN solo sitio.
+  Se usa pidiendo un dato por «key» y capturando la salida (un snippet no puede devolver variables):
+
+    {%- capture bf_on -%}{% render 'cm-promos', key: 'bf_on' %}{%- endcapture -%}
+    {%- if bf_on != blank -%} … {%- endif -%}
+
+  Claves:
+    bf_on        '1' dentro de la ventana de Black Friday, vacío fuera.
+    bf_product   '1' si bf_on y el handle pasado (handle: product.handle) es uno de los tres jamones enteros.
+    bf_handles   Los 3 handles de los jamones enteros, separados por comas (los usa el banner de la portada).
+    bf_url       Destino de la oferta: la colección «black-friday» (barra de anuncios y botón del banner de la portada).
+    bf_pct       Porcentaje que se muestra (15). Debe coincidir con el descuento automático de Shopify.
+    bf_piece     Texto del título de la variante que es LA PIEZA («Pieza entera»). Variante B del descuento: el 15 % se
+                 calcula SOLO sobre el precio de la pieza del mismo peso; el servicio de deshuesado o corte (Deshuesado,
+                 Corte a máquina/mano) se paga a precio completo. Ej.: pieza 258 € → descuento 38,70 €; corte a máquina del mismo
+                 peso 298 € → 259,30 €. Debe coincidir con el descuento automático de Shopify (tools/shopify_black_friday_2026.py).
+                 Se asume que la primera opción del producto es el peso (las 3 fichas de jamón entero lo cumplen).
+
+  Las fechas son épocas UNIX (UTC) calculadas desde Europe/Madrid: no dependen de la zona horaria de la tienda.
+    Black Friday: 23/11/2026 00:00 → 30/11/2026 23:59:00 (excl.) = 1795388400 → 1796079540
+      (el descuento automático de Shopify termina 2026-11-30T22:59:00Z: la ficha debe dejar de enseñar el precio a la vez)
+  La página se genera en el servidor: fuera de ventana el HTML ya sale sin promoción, sin depender del navegador.
+{%- endcomment -%}
+{%- assign cm_now = 'now' | date: '%s' | plus: 0 -%}
+{%- assign cm_bf_start = 1795388400 -%}
+{%- assign cm_bf_end = 1796079540 -%}
+{%- assign cm_bf_handles = 'jamon-cebo-de-campo-50-iberico-pieza-entera,jamon-bellota-50-iberico-pieza-entera,jamon-bellota-100-iberico-pieza-entera' | split: ',' -%}
+{%- case key -%}
+  {%- when 'bf_on' -%}
+    {%- if cm_now >= cm_bf_start and cm_now < cm_bf_end -%}1{%- endif -%}
+  {%- when 'bf_product' -%}
+    {%- if cm_now >= cm_bf_start and cm_now < cm_bf_end and cm_bf_handles contains handle -%}1{%- endif -%}
+  {%- when 'bf_handles' -%}{{ cm_bf_handles | join: ',' }}
+  {%- when 'bf_url' -%}/collections/black-friday
+  {%- when 'bf_pct' -%}15
+  {%- when 'bf_piece' -%}Pieza entera
+{%- endcase -%}

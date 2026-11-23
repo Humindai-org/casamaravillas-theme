@@ -1,0 +1,372 @@
+{%- comment -%}
+  Black Friday · Jamones enteros (página de la colección «black-friday»).
+  Base: diseño de ChatGPT («black-friday-premium-shopify»), adaptado al tema: colores y tipografías de marca, las cajas de regalo
+  del modo «caja de regalo» de la portada (assets/gift-box-{oro,plata,bronce}.jpg), el jamón = 1ª imagen del producto, y el
+  precio rebajado calculado igual que en snippets/product-card.liquid (ventana y porcentaje de snippets/cm-promos.liquid).
+  Cada tarjeta lleva «Personalizar» (peso, formato, punto de curación) y «Añadir al carrito», como el constructor de cestas.
+
+  Solo se pinta en /collections/black-friday; ahí collection-main se oculta (ver su guarda). En cualquier otra colección esta
+  sección no emite nada, así que puede quedarse en templates/collection.json sin afectar al resto.
+{%- endcomment -%}
+{%- if collection.handle == 'black-friday' -%}
+  {%- capture bf_on -%}{% render 'cm-promos', key: 'bf_on' %}{%- endcapture -%}
+  {%- capture bf_pct_txt -%}{% render 'cm-promos', key: 'bf_pct' %}{%- endcapture -%}
+  {%- capture bf_piece -%}{% render 'cm-promos', key: 'bf_piece' %}{%- endcapture -%}
+  {%- assign bf_pct = bf_pct_txt | plus: 0 -%}
+
+<section id="bf-premium-{{ section.id }}" class="bf-premium">
+  <header class="bf-premium__hero">
+    <div class="bf-premium__hero-inner">
+      <div class="bf-premium__heading-group">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="bf-premium__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+        {%- endif -%}
+        <div class="bf-premium__orn" aria-hidden="true"><span></span><i></i><span></span></div>
+        <h1 class="bf-premium__title">{{ section.settings.heading | escape }}{%- if section.settings.heading_em != blank -%} <em>{{ section.settings.heading_em | escape }}</em>{%- endif -%}</h1>
+        {%- if section.settings.subheading != blank -%}
+          <p class="bf-premium__subheading">{{ section.settings.subheading | escape }}</p>
+        {%- endif -%}
+      </div>
+    </div>
+  </header>
+
+  <div class="bf-premium__wrap">
+    <div class="bf-premium__grid">
+      {%- for block in section.blocks -%}
+        {%- assign product = block.settings.product -%}
+        {%- if product == blank or product.handle == blank -%}{%- continue -%}{%- endif -%}
+        {%- assign gift_asset = '' -%}
+        {%- if product.handle contains 'bellota-100' -%}{%- assign gift_asset = 'gift-box-oro.jpg' -%}
+        {%- elsif product.handle contains 'bellota-50' -%}{%- assign gift_asset = 'gift-box-plata.jpg' -%}
+        {%- elsif product.handle contains 'cebo-de-campo' -%}{%- assign gift_asset = 'gift-box-bronce.jpg' -%}
+        {%- endif -%}
+        {%- assign product_title = block.settings.title | default: product.title -%}
+        {%- assign dv = product.selected_or_first_available_variant -%}
+
+        {%- comment -%} Precio de la variante elegida por defecto (mismo cálculo que product-card; el script lo recalcula al cambiar opciones) {%- endcomment -%}
+        {%- assign bf_price = 0 -%}
+        {%- assign bf_orig = dv.price -%}
+        {%- if bf_on != blank -%}
+          {%- assign bf_piece_price = 0 -%}
+          {%- for pv in product.variants -%}
+            {%- if pv.option1 == dv.option1 and pv.title contains bf_piece -%}{%- assign bf_piece_price = pv.price -%}{%- break -%}{%- endif -%}
+          {%- endfor -%}
+          {%- if bf_piece_price > 0 -%}
+            {%- assign v_disc = bf_piece_price | times: bf_pct | divided_by: 100 -%}
+            {%- assign bf_price = dv.price | minus: v_disc -%}
+          {%- endif -%}
+        {%- endif -%}
+
+        <article class="bf-product" data-bf-card {{ block.shopify_attributes }}>
+          <div class="bf-product__media">
+            {%- if bf_on != blank -%}
+              <span class="bf-product__badge">Black Friday · −{{ bf_pct }} %</span>
+            {%- endif -%}
+            <button class="bf-product__reveal" type="button" aria-pressed="false" aria-label="Descubrir {{ product_title | escape }}">
+              <span class="bf-product__ham">
+                {%- if product.featured_image != blank -%}
+                  {{ product.featured_image | image_url: width: 1000 | image_tag: loading: 'lazy', widths: '400, 600, 800, 1000', sizes: '(max-width: 749px) 90vw, 30vw', alt: product.featured_image.alt | default: product_title }}
+                {%- endif -%}
+              </span>
+              {%- if gift_asset != blank -%}
+                <span class="bf-product__gift">
+                  <img src="{{ gift_asset | asset_url }}" alt="" width="1200" height="1500" loading="lazy">
+                </span>
+              {%- endif -%}
+            </button>
+          </div>
+
+          <div class="bf-product__body">
+            <div class="bf-product__meta">
+              <span class="bf-product__tier">{{ block.settings.tier | escape }}</span>
+              <span class="bf-product__index">0{{ forloop.index }}</span>
+            </div>
+            <h2 class="bf-product__name"><a href="{{ product.url }}">{{ product_title | escape }}</a></h2>
+            {%- if block.settings.description != blank -%}
+              <p class="bf-product__description">{{ block.settings.description | escape }}</p>
+            {%- endif -%}
+
+            <div class="bf-product__prices" aria-live="polite">
+              <s class="bf-product__was" data-bf-was{% unless bf_price > 0 %} hidden{% endunless %}>{{ bf_orig | money }}</s>
+              <span class="bf-product__price{% if bf_price > 0 %} bf-product__price--sale{% endif %}" data-bf-price>{% if bf_price > 0 %}{{ bf_price | money }}{% else %}{{ dv.price | money }}{% endif %}</span>
+            </div>
+
+            <details class="bf-custom">
+              <summary><span>Personalizar</span><small data-bf-sum></small></summary>
+              <div class="bf-custom__rows">
+                {%- for option in product.options_with_values -%}
+                  {%- assign oi = forloop.index0 -%}
+                  {%- if option.values.size > 1 -%}
+                    <div>
+                      <p class="bf-lab">{{ option.name }}</p>
+                      <div class="bf-opts" role="radiogroup" aria-label="{{ option.name | escape }} de {{ product_title | escape }}">
+                        {%- for val in option.values -%}
+                          {%- assign has = false -%}
+                          {%- for v in product.variants -%}{%- if v.available and v.options[oi] == val -%}{%- assign has = true -%}{%- endif -%}{%- endfor -%}
+                          {%- if has -%}
+                            {%- assign pretty = val -%}
+                            {%- if val contains 'kg' -%}{%- assign pretty = val | remove: '.0kg' | remove: 'kg' | replace: ' - ', '–' | append: ' kg' -%}{%- endif -%}
+                            <label><input type="radio" name="bf-{{ section.id }}-{{ product.id }}-{{ oi }}" value="{{ val | escape }}" data-bf-opt="{{ oi }}"{% if dv.options[oi] == val %} checked{% endif %}><span>{{ pretty }}</span></label>
+                          {%- endif -%}
+                        {%- endfor -%}
+                      </div>
+                    </div>
+                  {%- endif -%}
+                {%- endfor -%}
+                <div>
+                  <p class="bf-lab">Punto de curación</p>
+                  <div class="bf-curing" role="radiogroup" aria-label="Punto de curación de {{ product_title | escape }}">
+                    {%- assign bf_curings = 'Más tierno,Equilibrado,Más curado' | split: ',' -%}
+                    {%- for c in bf_curings -%}
+                      <label><input type="radio" name="bf-{{ section.id }}-{{ product.id }}-cur" value="{{ c }}" data-bf-cur{% if c == 'Equilibrado' %} checked{% endif %}><span>{{ c }}</span></label>
+                    {%- endfor -%}
+                  </div>
+                </div>
+              </div>
+            </details>
+
+            <button type="button" class="bf-add" data-bf-add>Añadir al carrito</button>
+            <script type="application/json" data-bf-data>{"bf":{% if bf_on != blank %}true{% else %}false{% endif %},"pct":{{ bf_pct }},"piece":{{ bf_piece | json }},"vid":{{ dv.id }},"v":[{% for v in product.variants %}{"id":{{ v.id }},"o":{{ v.options | json }},"p":{{ v.price }},"a":{{ v.available }}}{% unless forloop.last %},{% endunless %}{% endfor %}]}</script>
+          </div>
+        </article>
+      {%- endfor -%}
+    </div>
+
+    {%- if section.settings.footnote != blank -%}
+      <p class="bf-premium__footnote">{{ section.settings.footnote | escape }}</p>
+    {%- endif -%}
+  </div>
+</section>
+
+<style>
+  #bf-premium-{{ section.id }} {
+    --bf-bg: {{ section.settings.paper }};
+    --bf-ink: {{ section.settings.ink }};
+    --bf-gold: {{ section.settings.gold }};
+    --bf-muted: {{ section.settings.muted }};
+    --bf-line: {{ section.settings.line }};
+    background: var(--bf-bg);
+    color: var(--bf-ink);
+    padding: 0 0 clamp(56px, 7vw, 96px);
+  }
+  /* Cabecera: texto a la izquierda, con doble marco dorado como las cajas */
+  #bf-premium-{{ section.id }} .bf-premium__hero {
+    background: radial-gradient(ellipse 70% 130% at 20% 0%, rgba(196, 151, 58, 0.2) 0%, rgba(196, 151, 58, 0) 60%), linear-gradient(180deg, #001d36 0%, var(--bf-bg) 100%);
+    padding: clamp(44px, 6vw, 84px) clamp(20px, 5vw, 72px) clamp(44px, 6vw, 80px); position: relative; overflow: hidden;
+  }
+  #bf-premium-{{ section.id }} .bf-premium__hero::before { content: ''; position: absolute; inset: clamp(12px, 2vw, 24px); border: 1px solid rgba(196, 151, 58, 0.55); pointer-events: none; }
+  #bf-premium-{{ section.id }} .bf-premium__hero::after { content: ''; position: absolute; inset: clamp(18px, 2.6vw, 31px); border: 1px solid rgba(196, 151, 58, 0.25); pointer-events: none; }
+  #bf-premium-{{ section.id }} .bf-premium__hero-inner { margin: 0 auto; max-width: 1320px; position: relative; z-index: 1; }
+  #bf-premium-{{ section.id }} .bf-premium__heading-group { align-items: flex-start; display: flex; flex-direction: column; max-width: 1000px;  }
+  #bf-premium-{{ section.id }} .bf-premium__eyebrow { color: var(--bf-gold); font-family: var(--cm-font-sans); font-size: 10px; font-weight: 500; letter-spacing: 0.5em; margin: 0; text-transform: uppercase; }
+  #bf-premium-{{ section.id }} .bf-premium__orn { align-items: center; display: flex; gap: 10px; margin: 16px 0 18px; }
+  #bf-premium-{{ section.id }} .bf-premium__orn span { background: var(--bf-gold); display: block; height: 1px; width: 48px; }
+  #bf-premium-{{ section.id }} .bf-premium__orn i { background: var(--bf-gold); display: block; height: 6px; transform: rotate(45deg); width: 6px; }
+  #bf-premium-{{ section.id }} .bf-premium__title { color: var(--bf-ink); font-family: var(--cm-font-serif); font-size: clamp(38px, 5.6vw, 80px); font-weight: 400; letter-spacing: -0.01em; line-height: 1.02; margin: 0; }
+  #bf-premium-{{ section.id }} .bf-premium__title em { color: var(--bf-gold); display: block; font-size: 0.86em; font-style: italic; }
+  #bf-premium-{{ section.id }} .bf-premium__subheading { color: var(--bf-muted); font-family: var(--cm-font-sans); font-size: clamp(13px, 1.2vw, 15px); line-height: 1.6; margin: 20px 0 0; max-width: 460px; }
+
+  #bf-premium-{{ section.id }} .bf-premium__wrap { margin: 0 auto; max-width: 1320px; padding: 0 clamp(20px, 5vw, 72px); }
+  #bf-premium-{{ section.id }} .bf-premium__grid { align-items: stretch; display: grid; gap: clamp(16px, 2vw, 28px); grid-template-columns: repeat(3, minmax(0, 1fr)); width: 100%; }
+
+  /* Tarjetas sobre fondo marino: cuerpo ligeramente más claro, hilo dorado y texto blanco */
+  #bf-premium-{{ section.id }} .bf-product {
+    background: rgba(255, 255, 255, 0.045); border: 1px solid rgba(196, 151, 58, 0.35); border-radius: 4px; display: flex; flex-direction: column; min-width: 0;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+  }
+  #bf-premium-{{ section.id }} .bf-product:hover { box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2), 0 14px 32px rgba(0, 0, 0, 0.28), 0 28px 56px rgba(196, 151, 58, 0.1); transform: translateY(-3px); }
+  #bf-premium-{{ section.id }} .bf-product__media { aspect-ratio: 4 / 5; background: #fff; border-radius: 3px 3px 0 0; overflow: hidden; position: relative; }
+  #bf-premium-{{ section.id }} .bf-product__reveal { appearance: none; background: transparent; border: 0; border-radius: 0; cursor: pointer; display: block; height: 100%; padding: 0; position: relative; width: 100%; }
+  #bf-premium-{{ section.id }} .bf-product__reveal:focus-visible { outline: 2px solid var(--bf-gold); outline-offset: -4px; }
+  #bf-premium-{{ section.id }} .bf-product__gift,
+  #bf-premium-{{ section.id }} .bf-product__ham { inset: 0; position: absolute; }
+  #bf-premium-{{ section.id }} .bf-product__gift { transform-origin: 50% 100%; z-index: 2; will-change: transform; transition: transform 0.8s cubic-bezier(0.55, 0, 0.2, 1), opacity 0.4s ease 0.4s; }
+  #bf-premium-{{ section.id }} .bf-product__ham { align-items: center; background: #fff; display: flex; justify-content: center; transform: scale(1.05); transition: transform 0.9s cubic-bezier(0.22, 0.7, 0.2, 1); }
+  #bf-premium-{{ section.id }} .bf-product__gift img,
+  #bf-premium-{{ section.id }} .bf-product__ham img { display: block; height: 100%; object-fit: cover; object-position: center; width: 100%; }
+  #bf-premium-{{ section.id }} .bf-product__badge {
+    background: var(--bf-gold); color: #00294B; font-family: var(--cm-font-sans); font-size: 12px; font-weight: 600; line-height: 1.2;
+    left: 16px; letter-spacing: 0.15em; padding: 11px 16px; position: absolute; text-transform: uppercase; top: 16px; z-index: 4;
+  }
+  #bf-premium-{{ section.id }} .bf-product__body { display: flex; flex: 1; flex-direction: column; gap: 12px; padding: 18px 19px 20px; }
+  #bf-premium-{{ section.id }} .bf-product__meta { align-items: center; display: flex; justify-content: space-between; }
+  #bf-premium-{{ section.id }} .bf-product__tier { color: var(--bf-gold); font-family: var(--cm-font-sans); font-size: 9px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; }
+  #bf-premium-{{ section.id }} .bf-product__index { color: var(--bf-muted); font-family: var(--cm-font-sans); font-size: 10px; letter-spacing: 0.12em; }
+  #bf-premium-{{ section.id }} .bf-product__name { color: var(--bf-ink); font-family: var(--cm-font-serif); font-size: clamp(18px, 1.6vw, 22px); font-weight: 400; line-height: 1.25; margin: 0; }
+  #bf-premium-{{ section.id }} .bf-product__name a { color: inherit; text-decoration: none; }
+  #bf-premium-{{ section.id }} .bf-product__name a:hover { color: var(--bf-gold); }
+  #bf-premium-{{ section.id }} .bf-product__name a:focus-visible { outline: 2px solid var(--bf-gold); outline-offset: 3px; }
+  #bf-premium-{{ section.id }} .bf-product__description { color: var(--bf-muted); font-family: var(--cm-font-sans); font-size: 12px; line-height: 1.5; margin: 0; }
+  #bf-premium-{{ section.id }} .bf-product__prices { align-items: baseline; border-top: 1px solid var(--bf-line); display: flex; flex-wrap: wrap; gap: 4px 12px; padding-top: 14px; }
+  #bf-premium-{{ section.id }} .bf-product__was { color: var(--bf-muted); font-family: var(--cm-font-sans); font-size: 13px; opacity: 0.85; }
+  #bf-premium-{{ section.id }} .bf-product__was[hidden] { display: none; }
+  #bf-premium-{{ section.id }} .bf-product__price { color: var(--bf-ink); font-family: var(--cm-font-sans); font-size: 22px; font-weight: 600; letter-spacing: -0.02em; }
+  #bf-premium-{{ section.id }} .bf-product__price--sale { color: #E5706B; }
+
+  /* «Personalizar» (peso, formato, punto de curación), como en el constructor de cestas */
+  #bf-premium-{{ section.id }} .bf-custom { border: 1px solid var(--bf-line); border-radius: 6px; margin-top: auto; }
+  #bf-premium-{{ section.id }} .bf-custom > summary {
+    align-items: center; cursor: pointer; display: flex; flex-wrap: wrap; font-family: var(--cm-font-sans); font-size: 14px; font-weight: 600; gap: 2px 8px; justify-content: space-between; list-style: none; padding: 11px 14px;
+  }
+  #bf-premium-{{ section.id }} .bf-custom > summary::-webkit-details-marker { display: none; }
+  #bf-premium-{{ section.id }} .bf-custom > summary::after { color: var(--bf-gold); content: '+'; font-size: 20px; font-weight: 400; line-height: 1; margin-left: auto; transition: transform 0.2s ease; }
+  #bf-premium-{{ section.id }} .bf-custom[open] > summary::after { transform: rotate(45deg); }
+  #bf-premium-{{ section.id }} .bf-custom > summary small { color: var(--bf-muted); flex-basis: 100%; font-size: 12px; font-weight: 400; line-height: 1.3; order: 3; }
+  #bf-premium-{{ section.id }} .bf-custom > summary:focus-visible { outline: 2px solid var(--bf-gold); outline-offset: 2px; }
+  #bf-premium-{{ section.id }} .bf-custom__rows { display: flex; flex-direction: column; gap: 14px; padding: 2px 14px 14px; }
+  #bf-premium-{{ section.id }} .bf-lab { color: var(--bf-muted); font-family: var(--cm-font-sans); font-size: 11px; font-weight: 500; letter-spacing: 0.14em; margin: 0 0 7px; text-transform: uppercase; }
+  #bf-premium-{{ section.id }} .bf-opts,
+  #bf-premium-{{ section.id }} .bf-curing { display: flex; flex-wrap: wrap; gap: 6px; }
+  #bf-premium-{{ section.id }} .bf-opts label,
+  #bf-premium-{{ section.id }} .bf-curing label {
+    background: transparent; border: 1.5px solid rgba(255, 255, 255, 0.25); border-radius: 4px; cursor: pointer; flex: 1 1 auto; font-family: var(--cm-font-sans); font-size: 13px; line-height: 1.2;
+    padding: 9px 10px; position: relative; text-align: center; transition: border-color 0.2s ease, background 0.2s ease;
+  }
+  #bf-premium-{{ section.id }} .bf-opts label:hover,
+  #bf-premium-{{ section.id }} .bf-curing label:hover { border-color: var(--bf-gold); }
+  #bf-premium-{{ section.id }} .bf-opts input,
+  #bf-premium-{{ section.id }} .bf-curing input { opacity: 0; position: absolute; }
+  #bf-premium-{{ section.id }} .bf-opts label:has(input:checked),
+  #bf-premium-{{ section.id }} .bf-curing label:has(input:checked) { background: rgba(196, 151, 58, 0.2); border-color: var(--bf-gold); font-weight: 600; }
+  #bf-premium-{{ section.id }} .bf-opts label:has(input:focus-visible),
+  #bf-premium-{{ section.id }} .bf-curing label:has(input:focus-visible) { outline: 2px solid var(--bf-gold); outline-offset: 2px; }
+  #bf-premium-{{ section.id }} .bf-add {
+    background: var(--bf-gold); border: 0; border-radius: 4px; color: #00294B; cursor: pointer; font-family: var(--cm-font-sans); font-size: 13px; font-weight: 600; letter-spacing: 0.14em;
+    padding: 16px; text-transform: uppercase; transition: background 0.2s ease, transform 0.2s ease; width: 100%;
+  }
+  #bf-premium-{{ section.id }} .bf-add:hover { background: #d4a647; }
+  #bf-premium-{{ section.id }} .bf-add:active { transform: scale(0.98); }
+  #bf-premium-{{ section.id }} .bf-add:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+  #bf-premium-{{ section.id }} .bf-add[disabled] { cursor: default; opacity: 0.7; }
+  #bf-premium-{{ section.id }} .bf-premium__footnote { color: var(--bf-muted); font-family: var(--cm-font-sans); font-size: 10px; letter-spacing: 0.15em; margin: 30px 0 0; text-align: center; text-transform: uppercase; }
+
+  @media (hover: hover) and (pointer: fine) {
+    #bf-premium-{{ section.id }} .bf-product__reveal:hover .bf-product__gift,
+    #bf-premium-{{ section.id }} .bf-product__reveal:focus-visible .bf-product__gift,
+    #bf-premium-{{ section.id }} .bf-product__reveal.is-revealed .bf-product__gift { transform: translateY(-104%) rotate(-3deg); opacity: 0; }
+    #bf-premium-{{ section.id }} .bf-product__reveal:hover .bf-product__ham,
+    #bf-premium-{{ section.id }} .bf-product__reveal:focus-visible .bf-product__ham,
+    #bf-premium-{{ section.id }} .bf-product__reveal.is-revealed .bf-product__ham { transform: scale(1); }
+  }
+  @media (max-width: 749px) {
+    #bf-premium-{{ section.id }} .bf-premium__eyebrow { letter-spacing: 0.34em; }
+            #bf-premium-{{ section.id }} .bf-premium__grid { gap: 22px; grid-template-columns: 1fr; max-width: 520px; margin: 0 auto; }
+    #bf-premium-{{ section.id }} .bf-product__body { padding: 16px; }
+    #bf-premium-{{ section.id }} .bf-product__reveal.is-revealed .bf-product__gift { transform: translateY(-104%) rotate(-3deg); opacity: 0; }
+    #bf-premium-{{ section.id }} .bf-product__reveal.is-revealed .bf-product__ham { transform: scale(1); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+      #bf-premium-{{ section.id }} .bf-product__gift,
+    #bf-premium-{{ section.id }} .bf-product__ham { transition: opacity 0.3s ease; }
+    #bf-premium-{{ section.id }} .bf-product__reveal:hover .bf-product__gift,
+    #bf-premium-{{ section.id }} .bf-product__reveal.is-revealed .bf-product__gift { transform: none; }
+  }
+</style>
+
+<script>
+  (function () {
+    var root = document.getElementById('bf-premium-{{ section.id }}');
+    if (!root || root.dataset.initialized === 'true') return;
+    root.dataset.initialized = 'true';
+
+    root.querySelectorAll('.bf-product__reveal').forEach(function (button) {
+      button.addEventListener('click', function () {
+        var isOpen = button.classList.toggle('is-revealed');
+        button.setAttribute('aria-pressed', isOpen ? 'true' : 'false');
+      });
+    });
+
+    function money(c) { return '€' + (c / 100).toFixed(2).replace('.', ','); }
+    function pretty(val) {
+      var m = String(val).match(/^(\d+(?:\.\d+)?)\s*kg\s*-\s*(\d+(?:\.\d+)?)\s*kg$/i);
+      return m ? parseFloat(m[1]) + '–' + parseFloat(m[2]) + ' kg' : val;
+    }
+
+    root.querySelectorAll('[data-bf-card]').forEach(function (card) {
+      var data = JSON.parse(card.querySelector('[data-bf-data]').textContent);
+      var cur = null;
+      function byId(id) { return data.v.filter(function (v) { return v.id === id; })[0]; }
+      var state = byId(data.vid);
+      function curing() { var r = card.querySelector('[data-bf-cur]:checked'); return r ? r.value : 'Equilibrado'; }
+
+      /* Misma lógica que el constructor de cestas: combinación exacta si existe; si no, la primera con ese valor */
+      function pick(pos, val) {
+        var exact = data.v.filter(function (v) { return v.a && v.o.every(function (ov, k) { return k === pos ? ov === val : ov === state.o[k]; }); })[0];
+        return exact || data.v.filter(function (v) { return v.a && v.o[pos] === val; })[0] || state;
+      }
+      /* 15 % sobre el precio de la PIEZA del mismo peso (el servicio de corte/deshuesado va a precio completo) */
+      function salePrice(v) {
+        if (!data.bf) return 0;
+        var piece = data.v.filter(function (x) { return x.o[0] === v.o[0] && x.o[1] && x.o[1].indexOf(data.piece) !== -1; })[0];
+        if (!piece) return 0;
+        return v.p - Math.floor(piece.p * data.pct / 100);
+      }
+      function refresh() {
+        var s = salePrice(state);
+        var was = card.querySelector('[data-bf-was]'), price = card.querySelector('[data-bf-price]');
+        if (s > 0) { was.hidden = false; was.textContent = money(state.p); price.textContent = money(s); price.classList.add('bf-product__price--sale'); }
+        else { was.hidden = true; price.textContent = money(state.p); price.classList.remove('bf-product__price--sale'); }
+        card.querySelector('[data-bf-sum]').textContent = state.o.filter(Boolean).map(pretty).concat(curing()).join(' · ');
+        card.querySelectorAll('[data-bf-opt]').forEach(function (r) { r.checked = state.o[Number(r.getAttribute('data-bf-opt'))] === r.value; });
+      }
+      card.addEventListener('change', function (e) {
+        var t = e.target;
+        if (t.hasAttribute('data-bf-opt')) { state = pick(Number(t.getAttribute('data-bf-opt')), t.value); }
+        refresh();
+      });
+      card.querySelector('[data-bf-add]').addEventListener('click', function () {
+        var btn = this, label = btn.textContent;
+        btn.disabled = true; btn.textContent = 'Añadiendo…';
+        fetch('/cart/add.js', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: state.id, quantity: 1, properties: { 'Punto de curación': curing() } })
+        }).then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+          .then(function () {
+            btn.textContent = 'Añadido ✓';
+            var open = function () { if (typeof window.openCart === 'function') window.openCart(true); };
+            if (typeof window.fetchAndRenderCart === 'function') { window.fetchAndRenderCart().then(open).catch(open); } else { open(); }
+          })
+          .catch(function () { btn.textContent = 'No se pudo añadir'; })
+          .then(function () { setTimeout(function () { btn.textContent = label; btn.disabled = false; }, 2000); });
+      });
+      refresh();
+    });
+  })();
+</script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Black Friday premium",
+  "tag": "section",
+  "class": "section-black-friday-premium",
+  "max_blocks": 3,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Texto superior", "default": "Edición especial" },
+    { "type": "text", "id": "heading", "label": "Título", "default": "Black Friday" },
+    { "type": "text", "id": "heading_em", "label": "Título (línea en cursiva dorada)", "default": "−15 % en jamones enteros" },
+    { "type": "text", "id": "subheading", "label": "Subtítulo", "default": "Piezas enteras con descuento, solo durante la semana de Black Friday." },
+    { "type": "text", "id": "footnote", "label": "Texto inferior", "default": "Oferta por tiempo limitado · No acumulable con otros códigos" },
+    { "type": "color", "id": "paper", "label": "Fondo de la página", "default": "#00294B" },
+    { "type": "color", "id": "ink", "label": "Texto principal", "default": "#FFFFFF" },
+    { "type": "color", "id": "gold", "label": "Dorado", "default": "#C4973A" },
+    { "type": "color", "id": "muted", "label": "Texto secundario", "default": "#B9C3CF" },
+    { "type": "color", "id": "line", "label": "Líneas", "default": "#2A4E73" }
+  ],
+  "blocks": [
+    {
+      "type": "product_card",
+      "name": "Producto",
+      "settings": [
+        { "type": "product", "id": "product", "label": "Producto Shopify" },
+        { "type": "text", "id": "tier", "label": "Categoría", "default": "Jamón ibérico" },
+        { "type": "text", "id": "title", "label": "Título personalizado", "info": "Opcional. Si está vacío, se usa el título del producto." },
+        { "type": "text", "id": "description", "label": "Descripción breve" }
+      ]
+    }
+  ],
+  "presets": [
+    { "name": "Black Friday premium", "blocks": [ { "type": "product_card" }, { "type": "product_card" }, { "type": "product_card" } ] }
+  ]
+}
+{% endschema %}

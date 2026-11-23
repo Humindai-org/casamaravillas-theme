@@ -227,7 +227,8 @@ document.addEventListener('DOMContentLoaded', function() {
     if (text) {
       text.innerHTML = remaining === 0
         ? cmT('shipbar_free_html', '¡Tienes <strong>envío gratis</strong>!')
-        : cmT('shipbar_remaining_html', 'Te faltan <strong>{amount}</strong> para el envío gratis', { amount: formatMoney(remaining) });
+        : '<a class="cm-shipbar__link" data-cm-shipbar-link href="' + escapeHtml(pdpShipbar.getAttribute('data-more-url') || '/collections/loncheados') + '">' +
+          cmT('shipbar_remaining_html', 'Te faltan <strong>{amount}</strong> para el envío gratis', { amount: formatMoney(remaining) }) + '</a>';
     }
     if (fill) fill.style.width = percent + '%';
     if (track) track.setAttribute('aria-valuenow', percent);
@@ -410,7 +411,19 @@ document.addEventListener('DOMContentLoaded', function() {
     const idx = formatoOptionIndex();
     if (idx < 0 || !variant) return;
     const formato = variant['option' + (idx + 1)];
-    if (el) el.style.display = formato === 'Pieza entera' ? '' : 'none';
+    if (el) {
+      el.style.display = formato === 'Pieza entera' ? '' : 'none';
+      /* Black Friday: €/kg rebajado (con el anterior tachado) solo en una pieza entera disponible */
+      const kgBf = el.getAttribute('data-kg-bf');
+      if (kgBf) {
+        const orig = el.getAttribute('data-kg-orig');
+        if (bfPriceFor(variant) !== null) {
+          el.innerHTML = '<s class="cm-pdp__price-kg-was">' + escapeHtml(orig) + '</s> ' + escapeHtml(kgBf) + '/kg';
+        } else {
+          el.textContent = orig + '/kg';
+        }
+      }
+    }
     /* La banda de confianza muestra el formato elegido */
     const bandDesc = document.querySelector('#cm-trust-formato-desc');
     if (bandDesc && formato) bandDesc.textContent = formato;
@@ -450,6 +463,22 @@ document.addEventListener('DOMContentLoaded', function() {
   updatePriceKg(findVariant());
   refreshFormatoExtras();
 
+  /* Black Friday (data.bf viene de snippets/cm-promos.liquid; null fuera de ventana o en otros productos).
+     Variante B del descuento de Shopify: el 15 % es sobre la PIEZA del mismo peso (la variante cuyo título contiene bf.piece
+     y comparte la primera opción, el peso); el servicio de deshuesado/corte va a precio completo.
+     Devuelve el precio en céntimos con descuento, o null si la variante no lleva la promoción (agotada o sin pieza).
+     Mismo redondeo que el servidor: el descuento se TRUNCA al céntimo. */
+  function bfPriceFor(variant) {
+    const bf = data && data.bf;
+    if (!bf || !variant || !variant.available) return null;
+    const piece = data.variants.find(function(v) {
+      return v.option1 === variant.option1 && String(v.title).indexOf(bf.piece) !== -1;
+    });
+    if (!piece) return null;
+    const disc = Math.floor(piece.price * bf.pct / 100);
+    return disc > 0 ? variant.price - disc : null;
+  }
+
   function updateVariant() {
     const variant = findVariant();
     if (!variant) return;
@@ -467,28 +496,41 @@ document.addEventListener('DOMContentLoaded', function() {
     const badgeEl  = $('cm-discount-badge-' + SID);
     const stickyP  = $('cm-sticky-price-' + SID);
 
-    if (priceEl) {
-      priceEl.textContent = formatMoney(variant.price);
-      priceEl.classList.toggle('cm-pdp__price--sale', variant.compare_at_price > variant.price);
-    }
-    if (cmpEl) {
-      if (variant.compare_at_price > variant.price) {
-        cmpEl.textContent = formatMoney(variant.compare_at_price);
-        cmpEl.style.display = '';
-      } else {
-        cmpEl.style.display = 'none';
+    const bfPrice = bfPriceFor(variant);
+    if (bfPrice !== null) {
+      /* Black Friday: tachado + precio con descuento + etiqueta */
+      if (priceEl) {
+        priceEl.textContent = formatMoney(bfPrice);
+        priceEl.classList.add('cm-pdp__price--sale');
+        priceEl.setAttribute('content', (bfPrice / 100).toFixed(2));
+      }
+      if (cmpEl) { cmpEl.textContent = formatMoney(variant.price); cmpEl.style.display = ''; }
+      if (badgeEl) { badgeEl.textContent = data.bf.label; badgeEl.style.display = ''; }
+    } else {
+      if (priceEl) {
+        priceEl.textContent = formatMoney(variant.price);
+        priceEl.classList.toggle('cm-pdp__price--sale', variant.compare_at_price > variant.price);
+        priceEl.setAttribute('content', (variant.price / 100).toFixed(2));
+      }
+      if (cmpEl) {
+        if (variant.compare_at_price > variant.price) {
+          cmpEl.textContent = formatMoney(variant.compare_at_price);
+          cmpEl.style.display = '';
+        } else {
+          cmpEl.style.display = 'none';
+        }
+      }
+      if (badgeEl) {
+        if (variant.compare_at_price > variant.price) {
+          const pct = Math.round((variant.compare_at_price - variant.price) * 100 / variant.compare_at_price);
+          badgeEl.textContent = '-' + pct + '%';
+          badgeEl.style.display = '';
+        } else {
+          badgeEl.style.display = 'none';
+        }
       }
     }
-    if (badgeEl) {
-      if (variant.compare_at_price > variant.price) {
-        const pct = Math.round((variant.compare_at_price - variant.price) * 100 / variant.compare_at_price);
-        badgeEl.textContent = '-' + pct + '%';
-        badgeEl.style.display = '';
-      } else {
-        badgeEl.style.display = 'none';
-      }
-    }
-    if (stickyP) stickyP.textContent = formatMoney(variant.price);
+    if (stickyP) stickyP.textContent = formatMoney(bfPrice !== null ? bfPrice : variant.price);
 
     /* Botón añadir */
     const addBtn  = $('cm-add-' + SID);

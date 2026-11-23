@@ -75,6 +75,39 @@
     transform: scale(calc(var(--card-zoom-2, 1) * 1.05));
   }
 
+  /* Caja de regalo (Adviento): la caja cubre al jamón; en hover/foco la tapa sube y lo deja ver. Solo transform y opacity. */
+  .product-card__img-box--gift { aspect-ratio: 4 / 5; background: var(--cm-white); }
+  .product-card__img-box--gift .product-card__add-btn { display: none; }
+  .product-card__gift-head { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 8px; padding: 0 8px 18px; }
+  .product-card__gift-kicker { margin: 0; font-family: var(--cm-font-sans); font-size: 9px; letter-spacing: 0.32em; text-transform: uppercase; color: var(--cm-gold); font-weight: 500; }
+  .product-card__gift-name { font-family: var(--cm-font-serif); font-size: clamp(17px, 1.5vw, 22px); line-height: 1.2; color: var(--cm-white); text-decoration: none; }
+  .product-card__gift-name:hover { color: var(--cm-gold); }
+  .product-card__gift-name:focus-visible { outline: 2px solid var(--cm-gold); outline-offset: 3px; }
+  .product-card--gift .product-card__body .product-card__cat,
+  .product-card--gift .product-card__body .product-card__name { display: none; }
+  .product-card--gift .product-card__body { padding-top: 14px; }
+  .product-card__img-box--gift .product-card__img--secondary {
+    opacity: 1; transform: scale(1.06);
+    transition: transform 0.9s cubic-bezier(0.22, 0.7, 0.2, 1);
+  }
+  .product-card__img-box--gift .product-card__img--gift {
+    object-fit: cover; object-position: center; transform: none; transform-origin: 50% 100%;
+    transition: transform 0.8s cubic-bezier(0.55, 0, 0.2, 1), opacity 0.4s ease 0.4s;
+    will-change: transform;
+  }
+  .product-card:hover .product-card__img-box--gift.has-secondary .product-card__img--gift,
+  .product-card:focus-within .product-card__img-box--gift.has-secondary .product-card__img--gift {
+    transform: translateY(-104%) rotate(-3deg); opacity: 0;
+  }
+  .product-card:hover .product-card__img-box--gift .product-card__img--secondary,
+  .product-card:focus-within .product-card__img-box--gift .product-card__img--secondary { transform: scale(1); }
+  @media (prefers-reduced-motion: reduce) {
+    .product-card__img-box--gift .product-card__img--gift,
+    .product-card__img-box--gift .product-card__img--secondary { transition: opacity 0.3s ease; }
+    .product-card:hover .product-card__img-box--gift.has-secondary .product-card__img--gift,
+    .product-card:focus-within .product-card__img-box--gift.has-secondary .product-card__img--gift { transform: none; }
+  }
+
   .product-card__badge {
     position: absolute;
     top: 16px;
@@ -191,6 +224,19 @@
     text-decoration: line-through;
     margin-left: 6px;
   }
+
+  /* Black Friday (snippets/cm-promos.liquid): precio anterior tachado encima, precio con descuento debajo */
+  .product-card__price-block { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .product-card__price-block .product-card__price-compare { margin-left: 0; line-height: 1.2; }
+  .product-card__badge--bf {
+    background: var(--cm-gold); color: var(--cm-navy); max-width: calc(100% - 36px); line-height: 1.25;
+    top: 18px; left: 18px; padding: 10px 15px; font-size: 11px; font-weight: 600; letter-spacing: 0.16em;
+  }
+  /* Precio con descuento en rojo: rojo claro sobre fondo oscuro (tarjeta normal), el rojo de la ficha (#8B1A1A) sobre fondo claro */
+  .product-card__price-block .product-card__price { color: #E5706B; }
+  .product-card--light .product-card__price-block .product-card__price { color: #8B1A1A; }
+  .product-grid-section.bg-navy .product-card__price-block .product-card__price,
+  .product-grid-section.is-gift .product-card__price-block .product-card__price { color: #E5706B; }
 
   .product-card__cta {
     display: inline-flex;
@@ -337,8 +383,49 @@
 {%- if card_style == 'light' -%}
   {%- assign card_theme_class = ' product-card--light' -%}
 {%- endif -%}
+{%- comment -%}
+  Black Friday (solo los 3 jamones enteros y solo dentro de la ventana de snippets/cm-promos.liquid). Variante B del descuento
+  automático de Shopify: el 15 % es sobre la PIEZA del mismo peso (bf_piece); el servicio de deshuesado o corte va a precio
+  completo. La tarjeta enseña la variante DISPONIBLE con el precio rebajado más bajo: su precio normal tachado y ese precio
+  menos el 15 % del precio de la pieza de su peso (descuento truncado al céntimo: divided_by con enteros trunca).
+{%- endcomment -%}
+{%- assign bf_price = 0 -%}
+{%- assign bf_orig = 0 -%}
+{%- if product != blank -%}
+  {%- capture bf_flag -%}{% render 'cm-promos', key: 'bf_product', handle: product.handle %}{%- endcapture -%}
+  {%- if bf_flag != blank -%}
+    {%- capture bf_pct_txt -%}{% render 'cm-promos', key: 'bf_pct' %}{%- endcapture -%}
+    {%- capture bf_piece -%}{% render 'cm-promos', key: 'bf_piece' %}{%- endcapture -%}
+    {%- assign bf_pct = bf_pct_txt | plus: 0 -%}
+    {%- for v in product.variants -%}
+      {%- if v.available == false -%}{%- continue -%}{%- endif -%}
+      {%- assign bf_piece_price = 0 -%}
+      {%- for pv in product.variants -%}
+        {%- if pv.option1 == v.option1 and pv.title contains bf_piece -%}{%- assign bf_piece_price = pv.price -%}{%- break -%}{%- endif -%}
+      {%- endfor -%}
+      {%- if bf_piece_price == 0 -%}{%- continue -%}{%- endif -%}
+      {%- assign v_disc = bf_piece_price | times: bf_pct | divided_by: 100 -%}
+      {%- assign v_sale = v.price | minus: v_disc -%}
+      {%- if bf_price == 0 or v_sale < bf_price -%}{%- assign bf_price = v_sale -%}{%- assign bf_orig = v.price -%}{%- endif -%}
+    {%- endfor -%}
+  {%- endif -%}
+{%- endif -%}
+{%- comment -%}Modo caja de regalo: el nombre (y su etiqueta) van ENCIMA de la caja y el precio debajo{%- endcomment -%}
+{%- assign gift_top = false -%}
+{%- if card_gift and product != blank -%}
+  {%- if product.handle contains 'bellota-100' or product.handle contains 'bellota-50' or product.handle contains 'cebo-de-campo' -%}
+    {%- assign gift_top = true -%}
+    {%- assign card_theme_class = card_theme_class | append: ' product-card--gift' -%}
+  {%- endif -%}
+{%- endif -%}
 {%- if product != blank -%}
   <article class="product-card{{ card_theme_class }}">
+    {%- if gift_top -%}
+      <div class="product-card__gift-head">
+        <p class="product-card__gift-kicker">{{ product.type | default: 'Jamón ibérico' }}</p>
+        <a class="product-card__gift-name" href="{{ product.url }}">{{ product.title }}</a>
+      </div>
+    {%- endif -%}
     <a href="{{ product.url }}" aria-label="{{ product.title | escape }}">
       {%- comment -%}Ajuste fino: 1º el control del editor (bloque, en %), si no el metafield del producto{%- endcomment -%}
       {%- if block_zoom != blank -%}
@@ -391,6 +478,17 @@
       {%- if hover_image != blank -%}
         {%- assign img_box_class = 'product-card__img-box has-secondary' -%}
       {%- endif -%}
+      {%- comment -%}Modo caja de regalo: la imagen principal es la caja del nivel (por handle) y la secundaria, la foto del jamón{%- endcomment -%}
+      {%- assign gift_asset = '' -%}
+      {%- if card_gift and hover_image != blank -%}
+        {%- if product.handle contains 'bellota-100' -%}{%- assign gift_asset = 'gift-box-oro.jpg' -%}
+        {%- elsif product.handle contains 'bellota-50' -%}{%- assign gift_asset = 'gift-box-plata.jpg' -%}
+        {%- elsif product.handle contains 'cebo-de-campo' -%}{%- assign gift_asset = 'gift-box-bronce.jpg' -%}
+        {%- endif -%}
+      {%- endif -%}
+      {%- if gift_asset != blank -%}
+        {%- assign img_box_class = img_box_class | append: ' product-card__img-box--gift' -%}
+      {%- endif -%}
       <div class="{{ img_box_class }}" style="--card-zoom: {{ card_zoom }}; --card-pos-x: {{ card_offset_x }}; --card-pos-y: {{ card_offset_y }}; {{ img2_style }}">
         {%- comment -%}Imagen principal: 1º la del bloque del editor, si no la destacada del producto{%- endcomment -%}
         {%- assign primary_image = card_image | default: product.featured_image -%}
@@ -419,7 +517,16 @@
         {%- assign desktop_vw_2 = 25 | times: boost_2 | round -%}
         {%- assign card_img_sizes_2 = '(max-width: 767px) ' | append: mobile_vw_2 | append: 'vw, (max-width: 1023px) ' | append: tablet_vw_2 | append: 'vw, ' | append: desktop_vw_2 | append: 'vw' -%}
         {%- assign card_img_widths = '600, 900, 1200, 1600, 2000, 2600' -%}
-        {%- if primary_image != blank -%}
+        {%- if gift_asset != blank -%}
+          {{ hover_image | image_url: width: 1200, format: 'webp' | image_tag:
+              loading: 'lazy',
+              class: 'product-card__img product-card__img--secondary',
+              widths: '600, 900, 1200',
+              sizes: '(max-width: 767px) 80vw, (max-width: 1023px) 33vw, 25vw',
+              alt: product.title | escape
+          }}
+          <img src="{{ gift_asset | asset_url }}" alt="" width="1200" height="1200" loading="lazy" class="product-card__img product-card__img--primary product-card__img--gift">
+        {%- elsif primary_image != blank -%}
           {{ primary_image | image_url: width: 2600, format: 'webp' | image_tag:
               loading: 'lazy',
               class: 'product-card__img product-card__img--primary',
@@ -440,7 +547,9 @@
           {% # theme-check-disable-next-line RemoteAsset %}
           <img src="https://placehold.co/450x600/F4F2EE/A09890?text={{ product.title | url_encode }}" alt="{{ product.title | escape }}" width="450" height="600" loading="lazy" class="product-card__img product-card__img--primary">
         {%- endif -%}
-        {%- if product.compare_at_price > product.price -%}
+        {%- if bf_price > 0 -%}
+          <span class="product-card__badge product-card__badge--bf">{{ 'cm.pdp.badge_black_friday' | t: pct: bf_pct }}</span>
+        {%- elsif product.compare_at_price > product.price -%}
           <span class="product-card__badge">{{ 'cm.pdp.badge_sale' | t }}</span>
         {%- endif -%}
 
@@ -532,12 +641,20 @@
       {%- endif -%}
 
       <div class="product-card__foot">
+        {%- if bf_price > 0 -%}
+          <div class="product-card__price-block">
+            <s class="product-card__price-compare">{{ bf_orig | money }}</s>
+            {%- assign bf_price_money = bf_price | money -%}
+            <span class="product-card__price">{%- if product.variants.size > 1 -%}{{ 'products.product.from_price_html' | t: price: bf_price_money }}{%- else -%}{{ bf_price_money }}{%- endif -%}</span>
+          </div>
+        {%- else -%}
         <div>
           <span class="product-card__price">{{ product.price | money }}</span>
           {%- if product.compare_at_price > product.price -%}
             <span class="product-card__price-compare">{{ product.compare_at_price | money }}</span>
           {%- endif -%}
         </div>
+        {%- endif -%}
         {%- if product.variants.size == 1 or card_quick_add -%}
           <button
             class="product-card__plus"
