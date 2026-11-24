@@ -904,14 +904,14 @@
       {%- assign t_layout = block.settings.layout | default: 'auto' -%}
       <section class="nv-text nv-text--{{ block.settings.tone }}{% if t_img != blank or t_asset != blank %} nv-text--split{% if t_layout == 'float' %} nv-text--float{% elsif t_layout == 'half' %} nv-text--half{% elsif block.settings.tone != 'navy' %} nv-text--card{% endif %}{% endif %}" {% if block.settings.anchor_id != blank %}id="{{ block.settings.anchor_id | handleize }}"{% endif %} {{ block.shopify_attributes }}>
         {%- if t_img == blank and t_asset != blank -%}
-          <div class="nv-text__media"><img src="{{ t_asset }}" alt="" loading="lazy" onerror="this.remove()"></div>
+          <div class="nv-text__media"><img src="{{ t_asset }}" alt="{{ block.settings.title | strip_html | strip | escape }}" loading="lazy" onerror="this.remove()"></div>
         {%- elsif t_img != blank -%}
           {%- comment -%} En «float» la foto ocupa todo el ancho: con sizes de 50vw el navegador elegía una versión pequeña y se veía borrosa. {%- endcomment -%}
           <div class="nv-text__media">
             {%- if t_layout == 'float' -%}
-              {{ t_img | image_url: width: 2000 | image_tag: loading: 'lazy', widths: '900, 1200, 1600, 2000', sizes: '100vw', alt: t_img.alt | default: '' }}
+              {{ t_img | image_url: width: 2000 | image_tag: loading: 'lazy', widths: '900, 1200, 1600, 2000', sizes: '100vw', alt: t_img.alt | default: block.settings.title | strip_html | strip }}
             {%- else -%}
-              {{ t_img | image_url: width: 1400 | image_tag: loading: 'lazy', widths: '600, 900, 1200, 1400', sizes: '(max-width: 767px) 100vw, 50vw', alt: t_img.alt | default: '' }}
+              {{ t_img | image_url: width: 1400 | image_tag: loading: 'lazy', widths: '600, 900, 1200, 1400', sizes: '(max-width: 767px) 100vw, 50vw', alt: t_img.alt | default: block.settings.title | strip_html | strip }}
             {%- endif -%}
             {%- if block.settings.badge != blank -%}<span class="nv-text__badge">{{ block.settings.badge }}</span>{%- endif -%}
           </div>
@@ -1127,10 +1127,10 @@
                 {%- if img != blank -%}
                   <picture>
                     {%- if img_m != blank -%}<source media="(max-width: 767px)" srcset="{{ img_m | image_url: width: 800 }} 800w, {{ img_m | image_url: width: 1200 }} 1200w" sizes="100vw">{%- endif -%}
-                    {{ img | image_url: width: 2400 | image_tag: loading: 'lazy', widths: '750, 1100, 1500, 2000, 2400', sizes: '100vw', alt: '' }}
+                    {{ img | image_url: width: 2400 | image_tag: loading: 'lazy', widths: '750, 1100, 1500, 2000, 2400', sizes: '100vw', alt: p.title | default: block.settings.name }}
                   </picture>
                 {%- elsif pack_asset != blank -%}
-                  <img src="{{ pack_asset }}" alt="" loading="lazy" onerror="this.remove()">
+                  <img src="{{ pack_asset }}" alt="{{ p.title | default: block.settings.name | escape }}" loading="lazy" onerror="this.remove()">
                 {%- endif -%}
               </div>
               <div class="nv-pack__spots">{{ spots }}</div>
