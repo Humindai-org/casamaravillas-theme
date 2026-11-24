@@ -1,0 +1,1732 @@
+{%- comment -%}
+  navidad-escalones.liquid — página «Navidad 2026» (/pages/navidad).
+  Orden de lo que pinta (todo editable desde el editor del tema, sin tocar código):
+    1. Portada a sangre (vídeo o foto de fondo sin velo, «Navidad 2026» grande arriba a la derecha, titular, frase y botón ancla). Sin foto: portada dorada.
+    2. «Selección Casa Maravillas»: los packs elegidos a mano (bloques «Pack»), tres banners a sangre, uno por pack (estilo «Añadas especiales» de Joselito): nombre arriba, foto propia del pack,
+       puntos (bloques «Punto de producto») solo en lo que se vende por separado, y abajo precio + «Comprar pack».
+       Tocar un punto muestra su tarjeta (nombre y precio); tocar la tarjeta abre la ficha. Solo lo que está a la venta.
+       Sin aviso «te faltan X €» (eso va en el carrito).
+    3. Selector (chips fijos). Salta a cada franja y se marca solo al hacer scroll. NO filtra: todo está a la vista.
+    4. Franjas («Franja de precio») y textos («Texto»), en el orden de los bloques. Cada franja saca los productos de la colección
+       elegida (por defecto «lotes-navidad») y los reparte POR PRECIO (mínimo/máximo del bloque): no hay que etiquetar nada en el admin.
+  Sin productos, la franja (y su chip) no se pinta. Sin packs publicados, no sale el bloque de selección.
+  Medición: data-cm-tier / data-cm-handle / data-cm-price / data-cm-position en chips, paneles y tarjetas, + dataLayer y Clarity.
+  Envío gratis: insignia y aviso «te faltan X €» salen del precio y del umbral de los ajustes. Sin promesas de plazos.
+  No usa product-card.liquid (lo tocan otras ramas); estilos y JS acotados a .nv-.
+{%- endcomment -%}
+
+{%- liquid
+  assign free_c = section.settings.free_shipping_euros | times: 100
+  assign nv_ship_ok = false
+  if localization.country.iso_code == 'ES' or localization.country.iso_code == 'PT'
+    assign nv_ship_ok = true
+  endif
+  assign src = section.settings.collection
+  if src == blank
+    assign src = collections['lotes-navidad']
+  endif
+  assign preview_fallback = false
+  if section.settings.preview_packs
+    if src.handle == blank
+      assign src = collections['all']
+      assign preview_fallback = true
+    elsif src.products_count == 0
+      assign src = collections['all']
+      assign preview_fallback = true
+    endif
+  endif
+  assign excl = section.settings.exclude_tag | strip
+
+  assign preview_packs = section.settings.preview_packs
+  assign pack_handles = ','
+  assign packs_n = 0
+  for b in section.blocks
+    if b.type == 'pack'
+      if b.settings.product != blank
+        assign pack_handles = pack_handles | append: b.settings.product.handle | append: ','
+      endif
+      assign show_b = false
+      if b.settings.product.available
+        assign show_b = true
+      elsif preview_packs
+        assign show_b = true
+      endif
+      if show_b
+        assign packs_n = packs_n | plus: 1
+      endif
+    endif
+  endfor
+-%}
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap">
+
+<style>
+  .nv {
+    --nv-gold: #C4973A;
+    --nv-gold-l: #d9b06a;
+    --nv-gold-p: #f0e4c8;
+    --nv-navy: #00294B;
+    --nv-navy-d: #001a30;
+    --nv-cream: #FAF6EF;
+    --nv-ink: #4A3F32;
+    --nv-sans: 'Montserrat', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --nv-serif: 'Cormorant Garamond', Georgia, serif;
+    --nv-top: 0px;
+    font-family: var(--nv-sans);
+    color: var(--nv-navy-d);
+    background: #fff;
+  }
+  .nv *, .nv *::before, .nv *::after { box-sizing: border-box; }
+  .nv :where(p, h1, h2, h3, ul) { margin: 0; }
+  .nv :where(a) { color: inherit; }
+  .nv-sr { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+  /* ── Entrada al hacer scroll (solo transform y opacity) ── */
+  .nv.nv-js .nv-reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+    transition-delay: var(--nv-d, 0ms);
+  }
+  .nv.nv-js .nv-reveal.is-in { opacity: 1; transform: none; }
+
+  /* ── Textos comunes de cabecera ── */
+  .nv-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--nv-navy);
+    margin-bottom: 14px;
+  }
+  .nv-title {
+    font-family: var(--nv-serif);
+    font-weight: 500;
+    font-size: clamp(34px, 6vw, 56px);
+    line-height: 1.04;
+    color: var(--nv-navy-d);
+    letter-spacing: -0.005em;
+  }
+  .nv-title em {
+    font-style: italic;
+    font-weight: 400;
+    background: linear-gradient(transparent 62%, var(--nv-gold-l) 62%, var(--nv-gold-l) 90%, transparent 90%);
+    padding: 0 0.06em;
+  }
+  .nv-desc {
+    font-family: var(--nv-serif);
+    font-style: italic;
+    font-size: clamp(19px, 2.6vw, 24px);
+    line-height: 1.4;
+    color: var(--nv-ink);
+    max-width: 560px;
+    margin: 16px auto 0;
+  }
+  .nv-head { max-width: 1160px; margin: 0 auto 36px; text-align: center; }
+
+  /* ── Botones ── */
+  .nv-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 48px;
+    padding: 0 28px;
+    border: 0;
+    border-radius: 999px;
+    background: var(--nv-navy-d);
+    color: #fff;
+    font-family: var(--nv-sans);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    box-shadow: 0 1px 2px rgba(0,26,48,0.18), 0 10px 22px -8px rgba(0,26,48,0.45);
+    transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+  }
+  .nv-btn:hover { background: #fff; color: var(--nv-navy-d); transform: translateY(-2px); }
+  .nv-btn:active { transform: scale(0.97); }
+  .nv-btn:focus-visible { outline: 3px solid var(--nv-navy-d); outline-offset: 3px; }
+  .nv-btn--arrow::after { content: '↓'; font-size: 14px; }
+  .nv-btn--go::after { content: '→'; font-size: 15px; }
+
+  /* El botón de compra rápida: el color que más debe destacar de la página */
+  .nv-buy {
+    width: 100%;
+    min-height: 46px;
+    padding: 0 14px;
+    border: 0;
+    border-radius: 999px;
+    background: var(--nv-navy-d);
+    color: #fff;
+    font-family: var(--nv-sans);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+    box-shadow: 0 1px 2px rgba(0,26,48,0.2), 0 8px 18px -8px rgba(0,26,48,0.5);
+    transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+  }
+  .nv-buy::before { content: '+'; font-size: 17px; font-weight: 500; line-height: 1; color: var(--nv-gold-l); transition: color 0.2s ease; }
+  .nv-buy--link::before { content: none; }
+  .nv-buy:hover { background: var(--nv-gold); color: var(--nv-navy-d); transform: translateY(-2px); }
+  .nv-buy:hover::before { color: var(--nv-navy-d); }
+  .nv-buy:active { transform: scale(0.97); }
+  .nv-buy:focus-visible { outline: 3px solid var(--nv-gold); outline-offset: 3px; }
+  .nv-buy[disabled] { opacity: 0.7; cursor: default; }
+  .nv-buy.is-added { background: var(--nv-gold); color: var(--nv-navy-d); }
+
+  /* ── Portada: foto o vídeo a sangre, capa NEGRA (no blanca) y texto blanco alineado a la derecha.
+     Referencia: hero de la home (línea fina + marca arriba, etiqueta, titular grande, frase en cursiva, botón con borde).
+     La fuerza de la capa se ajusta en el editor (--nv-ov, 0–1). ── */
+  .nv-hero {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    flex-direction: column;
+    min-height: min(100svh, 780px);
+    background: linear-gradient(165deg, var(--nv-gold-l) 0%, var(--nv-gold) 62%);
+    color: #fff;
+    padding: 26px 20px 44px;
+    overflow: hidden;
+    --nv-ov: 0.7;
+  }
+  .nv-hero__bg { position: absolute; inset: 0; z-index: -2; overflow: hidden; background: var(--nv-navy-d); }
+  .nv-hero__video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; background: var(--nv-navy-d); }
+  .nv-hero__bg img { display: block; width: 100%; height: 118%; object-fit: cover; will-change: transform; transform-origin: 50% 100%; animation: nv-hero-zoom 14s ease-out both; }
+  /* Capa negra: velo general suave + degradado más fuerte por donde va el texto (abajo en móvil, derecha en escritorio) */
+  .nv-hero::before {
+    content: '';
+    position: absolute; inset: 0; z-index: -1; pointer-events: none;
+    background:
+      linear-gradient(0deg, rgba(0,0,0,calc(var(--nv-ov) * 1.05)) 0%, rgba(0,0,0,calc(var(--nv-ov) * 0.62)) 45%, rgba(0,0,0,calc(var(--nv-ov) * 0.3)) 100%),
+      rgba(0,0,0,calc(var(--nv-ov) * 0.18));
+  }
+  .nv-hero__inner { position: relative; width: 100%; max-width: 1280px; margin: 0 auto; flex: 1; display: flex; flex-direction: column; justify-content: space-between; gap: 36px; }
+  .nv-hero__top { display: flex; align-items: center; gap: 18px; }
+  .nv-hero__top::before { content: ''; flex: 1; height: 1px; background: var(--nv-gold-l); box-shadow: 0 1px 6px rgba(0,0,0,0.5); }
+  .nv-hero__brand {
+    font-family: var(--nv-sans); font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase; font-weight: 500; color: rgba(255,255,255,0.9);
+    text-shadow: 0 1px 12px rgba(0,0,0,0.7); white-space: nowrap;
+  }
+  .nv-hero__brand b { font-weight: 700; color: #fff; }
+  .nv-hero__body { display: flex; flex-direction: column; align-items: flex-end; text-align: right; gap: 18px; margin-left: auto; max-width: 780px; }
+  .nv-hero__kicker {
+    font-family: var(--nv-sans); font-size: 12px; font-weight: 600; letter-spacing: 0.4em; margin-right: -0.4em; text-transform: uppercase;
+    color: var(--nv-gold-l); text-shadow: 0 1px 14px rgba(0,0,0,0.75);
+  }
+  .nv-hero__title {
+    font-family: var(--nv-serif);
+    font-weight: 500;
+    font-size: clamp(46px, 13vw, 118px);
+    line-height: 0.95;
+    letter-spacing: -0.015em;
+    color: #fff;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.35), 0 6px 40px rgba(0,0,0,0.55);
+  }
+  .nv-hero__title p { margin: 0; }
+  .nv-hero__title em { font-style: italic; font-weight: 400; color: var(--nv-gold-l); }
+  .nv-hero__tag {
+    font-family: var(--nv-serif); font-style: italic; font-weight: 500; font-size: clamp(19px, 4.6vw, 26px); line-height: 1.3; color: #fff; max-width: 30ch;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.4), 0 2px 22px rgba(0,0,0,0.65);
+  }
+  .nv-hero__cta { margin: 6px 0 0; }
+  /* Botón con borde, como en la referencia; al pasar se rellena de dorado */
+  .nv-hero .nv-btn {
+    border-radius: 0; min-height: 54px; padding: 0 34px; letter-spacing: 0.26em; font-weight: 600;
+    background: rgba(0,0,0,0.25); color: #fff; border: 1px solid rgba(255,255,255,0.92);
+    box-shadow: 0 10px 30px -12px rgba(0,0,0,0.7);
+  }
+  .nv-hero .nv-btn:hover { background: var(--nv-gold-l); color: var(--nv-navy-d); border-color: var(--nv-gold-l); }
+  .nv-hero .nv-btn:focus-visible { outline: 3px solid var(--nv-gold-l); outline-offset: 4px; }
+  @keyframes nv-hero-zoom { from { transform: scale(1.06); } to { transform: scale(1); } }
+
+  /* Sin foto ni vídeo: queda la portada dorada con texto navy */
+  .nv-hero.no-img::before { display: none; }
+  .nv-hero.no-img { color: var(--nv-navy-d); }
+  .nv-hero.no-img .nv-hero__brand, .nv-hero.no-img .nv-hero__brand b, .nv-hero.no-img .nv-hero__title, .nv-hero.no-img .nv-hero__tag { color: var(--nv-navy-d); text-shadow: none; }
+  .nv-hero.no-img .nv-hero__kicker { color: var(--nv-navy-d); text-shadow: none; }
+  .nv-hero.no-img .nv-hero__top::before { background: var(--nv-navy-d); box-shadow: none; }
+  .nv-hero.no-img .nv-hero__title em { color: #fff; }
+  .nv-hero.no-img .nv-btn { background: var(--nv-navy-d); color: #fff; border-color: var(--nv-navy-d); }
+
+  @media (min-width: 768px) {
+    .nv-hero { min-height: min(88vh, 840px); padding: 40px 56px 72px; }
+    .nv-hero::before {
+      background:
+        linear-gradient(270deg, rgba(0,0,0,calc(var(--nv-ov) * 1.1)) 0%, rgba(0,0,0,calc(var(--nv-ov) * 0.85)) 38%, rgba(0,0,0,calc(var(--nv-ov) * 0.3)) 72%, rgba(0,0,0,0) 100%),
+        linear-gradient(0deg, rgba(0,0,0,calc(var(--nv-ov) * 0.35)) 0%, rgba(0,0,0,0) 40%);
+    }
+    .nv-hero__brand { font-size: 12px; letter-spacing: 0.34em; }
+    .nv-hero__body { gap: 22px; }
+    .nv-hero__kicker { font-size: 13px; }
+  }
+
+  /* ── Selección: tres banners a sangre, uno por pack (estilo «Añadas especiales» de Joselito) ──
+     Nombre grande arriba, foto propia del pack con puntos sobre los productos que se venden por separado
+     (al tocar un punto sale su tarjeta; al tocar la tarjeta, la ficha) y abajo precio + «Comprar pack». Solo transform y opacity. */
+  .nv-selection { background: var(--nv-cream); padding: 64px 0 0; scroll-margin-top: var(--nv-top); }
+  .nv-selection__head { max-width: 820px; margin: 0 auto 36px; padding: 0 20px; text-align: center; }
+  .nv-selection__head .nv-title { font-size: clamp(32px, 6.4vw, 60px); }
+  .nv-stage { position: relative; isolation: isolate; display: grid; background: var(--nv-navy-d); color: var(--nv-cream); min-height: max(800px, min(100svh, 860px)); overflow: hidden; }
+  .nv-stage > * { grid-area: 1 / 1; }
+  .nv-names { align-self: start; z-index: 4; overflow: hidden; margin-top: 44px; pointer-events: none; }
+  .nv-names__track { display: flex; align-items: baseline; gap: clamp(28px, 6vw, 96px); width: max-content; will-change: transform; transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1); }
+  .nv-name {
+    pointer-events: auto; appearance: none; background: none; border: 0; padding: 4px 0; margin: 0; cursor: pointer;
+    font-family: var(--nv-serif); font-weight: 500; font-size: clamp(60px, 17vw, 156px); line-height: 1; letter-spacing: -0.015em;
+    color: var(--nv-cream); opacity: 0.32; text-shadow: 0 2px 30px rgba(0,26,48,0.45);
+    transition: opacity 0.5s ease, transform 0.3s ease;
+  }
+  .nv-name:hover { opacity: 0.6; }
+  .nv-name:active { transform: scale(0.98); }
+  .nv-name:focus-visible { outline: 2px solid var(--nv-gold-l); outline-offset: 6px; border-radius: 4px; }
+  .nv-name[aria-selected="true"] { opacity: 1; cursor: default; }
+
+  .nv-packs { display: grid; z-index: 1; }
+  .nv-packs > .nv-pack { grid-area: 1 / 1; }
+  .nv-pack {
+    position: relative; isolation: isolate; overflow: hidden;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    color: var(--nv-cream);
+    background: var(--pack-bg, var(--nv-navy-d));
+    opacity: 0; visibility: hidden; pointer-events: none;
+    transition: opacity 0.7s ease, visibility 0s linear 0.7s;
+  }
+  .nv-pack.is-active { opacity: 1; visibility: visible; pointer-events: auto; transition: opacity 0.7s ease, visibility 0s; z-index: 2; }
+  /* Foto de cada pack: ENTERA (sin recortar) entre el techo del banner (--pt) y la barra de abajo (--pb), sobre un color plano
+     (el de los bordes de la foto, ajustable por pack) y con los bordes difuminados hacia ese color. Sin desenfoque. */
+  .nv-pack { --pt: 130px; --pb: 340px; }
+  .nv-pack__media { position: absolute; inset: 0; z-index: -2; overflow: hidden; background: var(--pack-bg, var(--nv-navy-d)); }
+  .nv-pack__media img {
+    position: absolute; left: 50%; display: block; height: auto; object-fit: cover;
+    top: calc(var(--pt) + (100cqh - var(--pt) - var(--pb)) / 2);
+    width: min(100cqw, calc((100cqh - var(--pt) - var(--pb)) * var(--arm, var(--ar, 1.5)))); aspect-ratio: var(--arm, var(--ar, 1.5));
+    transform: translate(-50%, calc(-50% + var(--dy, 0%))) scale(var(--zoom, 1));
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 7%, #000 93%, transparent 100%), linear-gradient(180deg, transparent 0, #000 9%, #000 91%, transparent 100%);
+    -webkit-mask-composite: source-in;
+    mask-image: linear-gradient(90deg, transparent 0, #000 7%, #000 93%, transparent 100%), linear-gradient(180deg, transparent 0, #000 9%, #000 91%, transparent 100%);
+    mask-composite: intersect;
+  }
+  .nv-pack::before {
+    content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+    background: linear-gradient(180deg, var(--pack-bg, #001a30) 0%, transparent 20%, transparent 80%, var(--pack-bg, #001a30) 100%);
+  }
+  /* Los puntos se colocan en % de la FOTO (no de la pantalla): esta capa tiene la proporción de la foto y se coloca igual que ella
+     (móvil: entera; escritorio: recortada como object-fit: cover), así cada punto se queda sobre su producto en cualquier ancho. */
+  .nv-pack { container-type: size; }
+  .nv-pack__spots {
+    position: absolute; left: 50%; z-index: 2; pointer-events: none;
+    top: calc(var(--pt) + (100cqh - var(--pt) - var(--pb)) / 2);
+    width: min(100cqw, calc((100cqh - var(--pt) - var(--pb)) * var(--arm, var(--ar, 1.5)))); aspect-ratio: var(--arm, var(--ar, 1.5));
+    transform: translate(-50%, calc(-50% + var(--dy, 0%))) scale(var(--zoom, 1));
+  }
+  @supports not (width: 1cqw) { .nv-pack__spots { inset: 0; left: 0; top: 0; width: auto; aspect-ratio: auto; transform: none; } }
+  .nv-pack__spots .nv-hot { pointer-events: auto; }
+  .nv-sidetags { display: none; }
+  @media (min-width: 1100px) {
+    /* «Qué lleva» a los lados de la caja: transparentes, borde y texto blancos. En la barra de abajo quedan solo precio y compra. */
+    .nv-sidetags {
+      display: flex; flex-direction: column; gap: 12px; list-style: none; margin: 0; padding: 0; position: absolute; z-index: 3;
+      top: calc(var(--pt) + (100cqh - var(--pt) - var(--pb)) / 2); transform: translateY(-50%); max-width: 27cqw;
+    }
+    .nv-sidetags--l { left: 3cqw; align-items: flex-start; }
+    .nv-sidetags--r { right: 3cqw; align-items: flex-end; }
+    .nv-sidetags li {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; line-height: 1.35; color: #fff;
+      padding: 10px 16px; border: 1px solid rgba(255,255,255,0.7); background: rgba(255,255,255,0.06); text-shadow: 0 1px 10px rgba(0,0,0,0.5);
+    }
+    .nv-sidetags li { width: fit-content; white-space: nowrap; }
+    .nv-sidetags--r li { text-align: right; }
+    .nv-pack .nv-pack__body .nv-tags { display: none; }
+    .nv-pack .nv-pack__body { justify-content: center; gap: 48px; }
+  }
+  .nv-pack__body { position: relative; z-index: 3; padding: 0 20px 44px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 14px; }
+  .nv-pack .nv-tags { justify-content: center; max-width: 760px; gap: 6px; }
+  .nv-pack .nv-tags li { font-size: 9.5px; padding: 6px 9px; }
+  .nv-pack .nv-tags li { border-color: rgba(250,246,239,0.85); color: var(--nv-cream); }
+  .nv-pack__price { font-family: var(--nv-sans); font-weight: 700; font-size: 24px; margin-top: 4px; color: var(--nv-cream); }
+  .nv-pack__actions { display: flex; flex-direction: column; align-items: center; gap: 6px; margin-top: 6px; width: 100%; max-width: 320px; }
+  .nv-pack .nv-buy { background: var(--nv-cream); color: var(--nv-navy-d); box-shadow: 0 1px 2px rgba(0,0,0,0.3), 0 12px 26px -10px rgba(0,0,0,0.6); }
+  .nv-pack .nv-buy::before { color: var(--nv-gold); }
+  .nv-pack .nv-buy:hover { background: var(--nv-gold-l); color: var(--nv-navy-d); }
+  .nv-pack .nv-buy:hover::before { color: var(--nv-navy-d); }
+  .nv-pack .nv-buy:focus-visible { outline-color: var(--nv-gold-l); }
+  .nv-pack__more {
+    display: inline-flex; align-items: center; justify-content: center; min-height: 44px;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; text-decoration: none; color: var(--nv-cream);
+    border-bottom: 1px solid var(--nv-cream); transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+  .nv-pack__soon { font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--nv-cream); padding: 14px 22px; border: 1px solid rgba(250,246,239,0.6); border-radius: 999px; }
+  .nv-pack__more--off { opacity: 0.55; cursor: default; pointer-events: none; }
+  .nv-pack .nv-buy[disabled] { pointer-events: none; }
+  .nv-pack__more:hover { opacity: 0.75; }
+  .nv-pack__more:active { transform: scale(0.97); }
+  .nv-pack__more:focus-visible { outline: 2px solid var(--nv-gold-l); outline-offset: 4px; }
+
+  .nv-hot { position: absolute; left: var(--x); top: var(--y); width: 44px; height: 44px; margin: -22px 0 0 -22px; z-index: 2; }
+  @media (max-width: 767px) { .nv-hot__card { width: min(170px, 46vw); padding: 11px 12px 12px; } .nv-hot__name { font-size: 13px; } .nv-hot__price { font-size: 17px; margin-top: 6px; } }
+  @media (max-width: 767px) { .nv-hot { left: var(--xm, var(--x)); top: var(--ym, var(--y)); } }
+  .nv-hot.is-open { z-index: 6; }
+  .nv-hot__dot {
+    position: relative; display: block; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 50%; cursor: pointer;
+    background: rgba(250,246,239,0.5);
+    box-shadow: 0 0 0 1px rgba(250,246,239,0.55), 0 8px 22px -6px rgba(0,26,48,0.45);
+    transition: transform 0.25s ease;
+  }
+  .nv-hot__dot::before { content: ''; position: absolute; inset: 14px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0,26,48,0.35); }
+  .nv-hot__dot::after {
+    content: ''; position: absolute; inset: 0; border-radius: 50%; border: 1.5px solid rgba(250,246,239,0.9);
+    animation: nv-pulse 2.6s ease-out infinite; pointer-events: none;
+  }
+  .nv-hot.is-open .nv-hot__dot::after { animation: none; opacity: 0; }
+  .nv-hot__dot:hover { transform: scale(1.08); }
+  .nv-hot__dot:active { transform: scale(0.94); }
+  .nv-hot__dot:focus-visible { outline: 3px solid var(--nv-navy-d); outline-offset: 3px; }
+  @keyframes nv-pulse { 0% { transform: scale(1); opacity: 0.9; } 70%, 100% { transform: scale(1.7); opacity: 0; } }
+
+  .nv-hot__card {
+    --nv-tx: -50%;
+    position: absolute; top: calc(100% + 12px); left: 50%;
+    width: min(212px, 62vw); padding: 12px 14px 13px; text-align: left; cursor: pointer;
+    border: 0; border-radius: 14px; background: rgba(250,246,239,0.98); color: var(--nv-navy-d);
+    font-family: var(--nv-sans);
+    box-shadow: 0 1px 2px rgba(0,26,48,0.12), 0 14px 30px -10px rgba(0,26,48,0.35), 0 26px 50px -22px rgba(196,151,58,0.5);
+    opacity: 0; visibility: hidden; transform: translate(var(--nv-tx), 8px);
+    transition: opacity 0.25s ease, transform 0.25s ease, visibility 0s linear 0.25s;
+  }
+  .nv-pack.is-peek .nv-hot__card, .nv-hot.is-peek-one .nv-hot__card, .nv-hot.is-open .nv-hot__card { opacity: 1; visibility: visible; transform: translate(var(--nv-tx), 0); transition: opacity 0.25s ease, transform 0.25s ease, visibility 0s; }
+  .nv-pack.is-peek .nv-hot:nth-child(2) .nv-hot__card { transition-delay: 0.18s, 0.18s, 0s; }
+  .nv-pack.is-peek .nv-hot:nth-child(3) .nv-hot__card { transition-delay: 0.36s, 0.36s, 0s; }
+  .nv-pack.is-peek .nv-hot:nth-child(4) .nv-hot__card { transition-delay: 0.54s, 0.54s, 0s; }
+  .nv-pack.is-peek .nv-hot:nth-child(n+5) .nv-hot__card { transition-delay: 0.72s, 0.72s, 0s; }
+  .nv-hot[data-v="up"] .nv-hot__card { top: auto; bottom: calc(100% + 12px); }
+  .nv-hot[data-h="left"] .nv-hot__card { --nv-tx: 0px; left: -10px; }
+  .nv-hot[data-h="right"] .nv-hot__card { --nv-tx: 0px; left: auto; right: -10px; }
+  .nv-hot__card:hover { box-shadow: 0 1px 2px rgba(0,26,48,0.12), 0 18px 36px -10px rgba(0,26,48,0.4), 0 30px 56px -22px rgba(196,151,58,0.6); }
+  .nv-hot__card:active { transform: translate(var(--nv-tx), 1px) scale(0.985); }
+  .nv-hot__card:focus-visible { outline: 3px solid var(--nv-gold); outline-offset: 3px; }
+  .nv-hot__num { display: block; font-family: var(--nv-serif); font-size: 15px; letter-spacing: 0.3em; color: var(--nv-gold); margin-bottom: 4px; }
+  .nv-hot__name { display: block; font-size: 15px; line-height: 1.35; font-weight: 500; }
+  .nv-hot__price { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-top: 8px; font-size: 20px; font-weight: 600; }
+  .nv-hot__price::after { content: '+'; display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--nv-navy-d); color: var(--nv-gold-l); font-size: 15px; font-weight: 500; line-height: 1; flex: none; }
+
+  /* Ventana con la ficha del pack */
+  .nv-modal { position: fixed; inset: 0; z-index: 9000; display: grid; align-items: end; justify-items: center; visibility: hidden; transition: visibility 0s linear 0.3s; }
+  .nv-modal.is-open { visibility: visible; transition: visibility 0s; }
+  .nv-modal__scrim { position: absolute; inset: 0; background: rgba(0,26,48,0.6); opacity: 0; transition: opacity 0.3s ease; }
+  .nv-modal.is-open .nv-modal__scrim { opacity: 1; }
+  .nv-pop {
+    position: relative; display: none; flex-direction: column;
+    width: 100%; max-height: 90svh; overflow: auto;
+    background: var(--nv-cream); color: var(--nv-navy-d);
+    border-radius: 22px 22px 0 0;
+    box-shadow: 0 -20px 60px -20px rgba(0,26,48,0.5);
+    opacity: 0; transform: translateY(28px); transition: opacity 0.3s ease, transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .nv-pop.is-on { display: flex; }
+  .nv-modal.is-open .nv-pop.is-vis { opacity: 1; transform: none; }
+  .nv-pop__media { position: relative; flex: none; aspect-ratio: 4 / 3; background: var(--nv-gold-p); }
+  .nv-pop__media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+  .nv-pop__body { padding: 22px 22px 28px; display: flex; flex-direction: column; gap: 14px; }
+  .nv-tags { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; margin: 0; padding: 0; }
+  .nv-tags li {
+    font-size: 10.5px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; line-height: 1.3;
+    padding: 8px 12px; border: 1px solid rgba(0,41,75,0.35); color: var(--nv-navy-d);
+  }
+  .nv-pop__brand { font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase; font-weight: 600; color: var(--nv-ink); }
+  .nv-pop__title, .nv-hot__name { text-wrap: balance; }
+  .nv-pop__title a { color: inherit; text-decoration: none; }
+  .nv-pop__title a:hover { text-decoration: underline; text-decoration-color: var(--nv-gold); text-underline-offset: 4px; }
+  .nv-pop__title a:focus-visible { outline: 2px solid var(--nv-gold); outline-offset: 4px; }
+  .nv-pop__imglink { position: absolute; inset: 0; display: block; }
+  .nv-pop__title { font-family: var(--nv-serif); font-weight: 500; font-size: clamp(30px, 6vw, 40px); line-height: 1.05; }
+  .nv-pop__price { font-size: 26px; font-weight: 700; }
+  .nv-pop__label { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 600; color: var(--nv-ink); padding-top: 14px; border-top: 1px solid rgba(0,41,75,0.18); }
+  .nv-pop .nv-tags { justify-content: flex-start; }
+  .nv-pop .nv-tags li { border-color: rgba(0,41,75,0.35); color: var(--nv-navy-d); }
+  .nv-pop__actions { display: flex; flex-direction: column; align-items: stretch; gap: 8px; margin-top: 6px; }
+  .nv-pop__more {
+    display: inline-flex; align-items: center; justify-content: center; min-height: 44px;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; text-decoration: none; color: var(--nv-navy-d);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+  .nv-pop__more span { border-bottom: 1px solid var(--nv-navy-d); padding-bottom: 2px; }
+  .nv-pop__more:hover { opacity: 0.7; }
+  .nv-pop__more:active { transform: scale(0.97); }
+  .nv-pop__more:focus-visible { outline: 2px solid var(--nv-gold); outline-offset: 4px; }
+  .nv-pop__nav { position: absolute; left: 0; bottom: 0; display: flex; align-items: center; gap: 2px; padding: 6px 10px; background: var(--nv-cream); border-radius: 0 14px 0 0; }
+  .nv-pop__arrow, .nv-pop__close {
+    appearance: none; border: 0; background: transparent; cursor: pointer; color: var(--nv-navy-d);
+    width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; font-size: 20px; line-height: 1;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+  }
+  .nv-pop__arrow:hover { background: rgba(0,41,75,0.08); }
+  .nv-pop__arrow:active, .nv-pop__close:active { transform: scale(0.92); }
+  .nv-pop__arrow:focus-visible, .nv-pop__close:focus-visible { outline: 2px solid var(--nv-gold); outline-offset: 2px; }
+  .nv-pop__close { position: absolute; top: 12px; right: 12px; z-index: 3; background: rgba(250,246,239,0.92); box-shadow: 0 6px 16px -6px rgba(0,26,48,0.4); }
+  .nv-pop__close:hover { background: #fff; }
+  .nv-pop .nv-buy { width: 100%; }
+  html.nv-locked { overflow: hidden; }
+
+  @media (min-width: 768px) {
+    .nv-selection { padding-top: 88px; }
+    .nv-selection__head { margin-bottom: 48px; }
+    /* Banner más alto y foto más grande: arranca justo bajo los nombres (--pt) y puede solaparse con la barra de abajo (--pb) porque las fotos llevan aire abajo */
+    .nv-stage { min-height: max(900px, min(112vh, 1040px)); }
+    .nv-pack { --pt: 150px; --pb: 56px; }
+    .nv-names { margin-top: 56px; }
+    .nv-pack .nv-tags { gap: 8px; }
+    .nv-pack .nv-tags li { font-size: 10.5px; padding: 8px 12px; }
+    /* Escritorio: barra baja compacta (qué lleva · precio · compra) para dejar la foto despejada; lo importante de la foto, por encima del último 15 % */
+    .nv-pack__body { flex-direction: row; align-items: center; justify-content: space-between; text-align: left; gap: 36px; padding: 28px 56px 32px; }
+    .nv-pack .nv-tags { justify-content: flex-start; flex: 1 1 auto; max-width: 620px; }
+    .nv-pack__price { margin: 0; white-space: nowrap; }
+    .nv-pack__actions { flex-direction: row; justify-content: flex-end; gap: 24px; max-width: none; width: auto; margin: 0; flex: none; }
+    .nv-pack .nv-buy { width: auto; min-width: 220px; }
+    .nv-hot__name { font-size: 16px; }
+    .nv-modal { align-items: center; padding: 24px; }
+    .nv-pop { width: min(1040px, 100%); max-height: min(82vh, 640px); border-radius: 18px; box-shadow: 0 30px 80px -24px rgba(0,26,48,0.6); }
+    .nv-pop.is-on { display: grid; grid-template-columns: 1fr 1fr; }
+    .nv-pop__media { aspect-ratio: auto; min-height: 100%; }
+    .nv-pop__body { padding: 44px 40px 40px; justify-content: center; }
+    .nv-pop__actions { flex-direction: row; align-items: center; gap: 22px; }
+    .nv-pop .nv-buy { width: auto; min-width: 200px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .nv-hot__dot::after { animation: none; opacity: 0; }
+    .nv-pop, .nv-hot__card, .nv-modal__scrim { transition: none; }
+  }
+
+  /* ── Barra lateral tipo timeline ──
+     Escritorio (≥1024 px): fija a la izquierda mientras se recorre la selección y las franjas. Móvil/tablet: oculta,
+     con una pestaña con flecha que la despliega para elegir qué ver. Solo transform y opacity. */
+  .nv-layout { position: relative; }
+  .nv-flow { position: relative; }
+  .nv-flow__strip { display: none; }
+  .nv-main { min-width: 0; }
+  .nv-side {
+    position: fixed; z-index: 8500; top: 0; bottom: 0; left: 0;
+    width: min(300px, 84vw);
+    display: flex; flex-direction: column;
+    background: linear-gradient(180deg, var(--nv-navy) 0%, var(--nv-navy-d) 100%);
+    color: var(--nv-cream);
+    transform: translateX(-100%);
+    transition: transform 0.4s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .nv-side.is-open { transform: none; box-shadow: 24px 0 60px -30px rgba(0,26,48,0.7); }
+  .nv-side__toggle {
+    position: absolute; left: 100%; top: 42%;
+    width: 28px; height: 60px; padding: 0; cursor: pointer;
+    display: grid; place-items: center;
+    border: 0; border-radius: 0 14px 14px 0;
+    background: var(--nv-navy-d); color: var(--nv-gold-l);
+    box-shadow: 10px 6px 24px -10px rgba(0,26,48,0.6);
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.3s ease, background-color 0.2s ease;
+  }
+  .nv-side.is-live .nv-side__toggle { opacity: 1; pointer-events: auto; }
+  .nv-side__toggle:hover { background: var(--nv-navy); }
+  .nv-side__toggle:focus-visible { outline: 3px solid var(--nv-gold-l); outline-offset: 2px; }
+  .nv-side__toggle svg { width: 18px; height: 18px; transition: transform 0.3s ease; }
+  .nv-side.is-open .nv-side__toggle svg { transform: rotate(180deg); }
+  .nv-side__scrim { position: fixed; inset: 0; z-index: 8400; background: rgba(0,26,48,0.5); opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0s linear 0.3s; }
+  .nv-side__scrim.is-on { opacity: 1; visibility: visible; transition: opacity 0.3s ease, visibility 0s; }
+  .nv-side__inner { display: flex; flex-direction: column; height: 100%; overflow-y: auto; padding: 0 0 28px; }
+  .nv-side__logo { flex: none; width: 100%; margin: 0; }
+  .nv-side__logo img { display: block; width: 100%; height: auto; }
+  .nv-side__nav { position: relative; margin: 32px 18px auto; padding-left: 30px; }
+  .nv-side__line { position: absolute; left: 11px; top: 14px; bottom: 14px; width: 1px; background: rgba(240,228,200,0.28); }
+  .nv-side__fill { position: absolute; inset: 0; background: var(--nv-gold-l); transform: scaleY(0); transform-origin: top; }
+  .nv-side__list { display: flex; flex-direction: column; gap: 6px; }
+  .nv-side__item {
+    position: relative; display: flex; align-items: center; gap: 14px; width: 100%; min-height: 56px;
+    padding: 8px 16px 8px 14px; border: 0; border-radius: 999px; background: transparent; cursor: pointer; text-align: left;
+    font-family: var(--nv-serif); font-size: 18px; font-weight: 500; line-height: 1.15; color: rgba(250,246,239,0.82);
+    transition: transform 0.25s ease, background-color 0.25s ease, color 0.25s ease;
+  }
+  .nv-side__item::before {
+    content: ''; position: absolute; left: -23px; top: 50%; width: 7px; height: 7px; margin-top: -3.5px; border-radius: 50%;
+    background: var(--nv-navy-d); box-shadow: 0 0 0 1.5px rgba(240,228,200,0.55);
+    transition: transform 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease;
+  }
+  .nv-side__icon { flex: none; display: grid; place-items: center; width: 26px; height: 26px; }
+  .nv-side__icon svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+  .nv-side__item:hover { background: rgba(250,246,239,0.08); color: var(--nv-cream); transform: translateX(3px); }
+  .nv-side__item:active { transform: scale(0.97); }
+  .nv-side__item:focus-visible { outline: 2px solid var(--nv-gold-l); outline-offset: 2px; }
+  .nv-side__item.is-active { background: linear-gradient(135deg, var(--nv-gold-l) 0%, var(--nv-gold) 100%); color: var(--nv-navy-d); box-shadow: 0 10px 24px -10px rgba(196,151,58,0.75); }
+  .nv-side__item.is-active::before { background: #fff; transform: scale(1.7); box-shadow: 0 0 0 4px rgba(240,228,200,0.35); }
+
+  @media (min-width: 1024px) {
+    .nv-flow { display: grid; grid-template-columns: 280px minmax(0, 1fr); }
+    .nv-flow--solo { display: block; }
+    .nv-flow__strip { display: block; background: var(--nv-navy-d); }
+    .nv-flow--solo .nv-flow__strip { display: none; }
+    .nv-main { grid-column: 2; }
+    .nv-flow--solo .nv-main { grid-column: auto; }
+    /* Al empezar «Para regalar» la barra ya está entera (pegada al principio de la franja); luego se queda fija en pantalla
+       y al terminar las franjas se queda al final. Las clases las pone el script. */
+    .nv-side { position: absolute; top: 0; bottom: auto; left: 0; height: 100svh; width: 280px; transform: none; box-shadow: none; background: var(--nv-navy-d); }
+    .nv-side.is-fixed { position: fixed; }
+    .nv-side.is-post { top: auto; bottom: 0; }
+    .nv-side__toggle, .nv-side__scrim { display: none; }
+    .nv-side__nav { margin: 36px 22px auto; }
+  }
+  @media (prefers-reduced-motion: reduce) { .nv-side, .nv-side__scrim, .nv-side__toggle svg, .nv-side__item { transition: none; } }
+
+  /* ── Franjas ── */
+  .nv-tier { padding: 56px 20px 60px; scroll-margin-top: var(--nv-top); }
+  .nv-tier--white { background: #fff; }
+  .nv-tier--cream { background: var(--nv-cream); }
+  .nv-tier--gold { background: linear-gradient(180deg, var(--nv-gold-l), var(--nv-gold)); }
+  .nv-tier--gold .nv-title em { background: linear-gradient(transparent 62%, rgba(255,255,255,0.55) 62%, rgba(255,255,255,0.55) 90%, transparent 90%); }
+  .nv-tier--gold .nv-desc, .nv-tier--gold .nv-eyebrow { color: var(--nv-navy-d); }
+  .nv-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    max-width: 1160px;
+    margin: 0 auto;
+  }
+  .nv-grid.is-one { grid-template-columns: minmax(0, 320px); justify-content: center; }
+
+  .nv-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border-radius: 18px;
+    border: 1px solid rgba(196,151,58,0.22);
+    box-shadow: 0 1px 2px rgba(0,26,48,0.06), 0 10px 24px -12px rgba(0,26,48,0.18), 0 22px 40px -24px rgba(196,151,58,0.4);
+    transition: transform 0.3s ease;
+  }
+  .nv-card::after {
+    content: '';
+    position: absolute; inset: 0; z-index: -1;
+    border-radius: inherit;
+    box-shadow: 0 2px 4px rgba(0,26,48,0.08), 0 18px 36px -10px rgba(0,26,48,0.3), 0 34px 56px -20px rgba(196,151,58,0.6);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .nv-card:hover { transform: translateY(-4px); }
+  .nv-card:hover::after { opacity: 1; }
+  .nv-card__img { position: relative; display: block; aspect-ratio: 5 / 4; border-radius: 17px 17px 0 0; overflow: hidden; background: var(--nv-gold-p); }
+  .nv-card__img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1); }
+  .nv-card:hover .nv-card__img img { transform: scale(1.05); }
+  .nv-card--empty { pointer-events: none; }
+  .nv-card--empty:hover { transform: none; }
+  .nv-card--empty .nv-card__img { display: grid; place-items: center; background: repeating-linear-gradient(135deg, var(--nv-gold-p) 0 14px, rgba(255,255,255,0.55) 14px 28px); border-bottom: 1px dashed var(--nv-gold); }
+  .nv-card__ph { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--nv-navy-d); background: rgba(255,255,255,0.85); padding: 9px 14px; border-radius: 999px; }
+  .nv-card__name--ph, .nv-card__price--ph { color: var(--nv-ink); opacity: 0.55; }
+  .nv-card__img:focus-visible { outline: 3px solid var(--nv-navy-d); outline-offset: -3px; }
+  .nv-card__badge {
+    position: absolute; top: 10px; left: 10px; z-index: 1;
+    background: #fff; color: var(--nv-navy-d);
+    font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 6px 10px; border-radius: 999px;
+    box-shadow: 0 1px 2px rgba(0,26,48,0.14), 0 6px 14px -6px rgba(0,26,48,0.5);
+  }
+  .nv-card__body { display: flex; flex-direction: column; gap: 6px; padding: 14px 14px 16px; flex: 1; }
+  .nv-card__name { font-family: var(--nv-serif); font-weight: 600; font-size: 19px; line-height: 1.15; color: var(--nv-navy); }
+  .nv-card__name a { text-decoration: none; }
+  .nv-card__name a:hover { text-decoration: underline; text-decoration-color: var(--nv-gold); text-underline-offset: 3px; }
+  .nv-card__name a:focus-visible { outline: 2px solid var(--nv-navy-d); outline-offset: 3px; }
+  .nv-card__lead { font-size: 12px; line-height: 1.5; color: var(--nv-ink); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .nv-card__price { font-weight: 700; font-size: 18px; color: var(--nv-navy-d); margin-top: 2px; }
+  .nv-card__price small { font-size: 11px; font-weight: 500; color: var(--nv-ink); margin-right: 4px; }
+  .nv-card__ship { font-size: 11px; line-height: 1.45; color: var(--nv-ink); }
+  .nv-card__ship strong { color: var(--nv-navy-d); }
+  .nv-card__row { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: auto; padding-top: 8px; }
+  .nv-card__row .nv-card__price { margin: 0; }
+  .nv-buy--icon {
+    width: 44px; min-height: 44px; height: 44px; padding: 0; flex: none; border-radius: 50%;
+    background: transparent; color: var(--nv-navy-d); border: 1.5px solid var(--nv-gold); box-shadow: none;
+  }
+  .nv-buy--icon::before { content: none; }
+  .nv-buy--icon svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+  .nv-buy--icon .nv-ic-check { display: none; }
+  .nv-buy--icon.is-added .nv-ic-bag { display: none; }
+  .nv-buy--icon.is-added .nv-ic-check { display: block; }
+  .nv-buy--icon:hover { background: var(--nv-gold); color: var(--nv-navy-d); transform: translateY(-2px); }
+  .nv-buy--icon:focus-visible { outline: 3px solid var(--nv-navy-d); outline-offset: 3px; }
+  .nv-card__more {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; text-decoration: none; color: var(--nv-navy-d);
+    border-bottom: 1px solid var(--nv-gold); padding: 12px 0 3px; transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+  .nv-card__more:hover { opacity: 0.7; }
+  .nv-card__more:active { transform: scale(0.97); }
+  .nv-card__more:focus-visible { outline: 2px solid var(--nv-navy-d); outline-offset: 3px; }
+
+  /* Cabecera de franja con líneas a los lados, como la maqueta */
+  .nv-tier .nv-eyebrow { display: flex; align-items: center; justify-content: center; gap: 18px; }
+  .nv-tier .nv-eyebrow::before, .nv-tier .nv-eyebrow::after { content: ''; width: clamp(28px, 9vw, 80px); height: 1px; background: var(--nv-gold); }
+  .nv-tier--gold .nv-eyebrow::before, .nv-tier--gold .nv-eyebrow::after { background: var(--nv-navy-d); }
+
+  @media (min-width: 768px) {
+    .nv-tier { padding: 80px 40px 84px; }
+    .nv-grid { grid-template-columns: repeat(var(--nv-cols-t, 3), minmax(0, 1fr)); gap: 22px; max-width: calc(var(--nv-cols-t, 3) * 300px + (var(--nv-cols-t, 3) - 1) * 22px); }
+    .nv-grid.is-one { grid-template-columns: minmax(0, 320px); }
+    .nv-card__name { font-size: 21px; }
+    .nv-card__lead { font-size: 12.5px; }
+  }
+  @media (min-width: 1100px) {
+    .nv-grid { grid-template-columns: repeat(var(--nv-cols-d, 4), minmax(0, 1fr)); max-width: calc(var(--nv-cols-d, 4) * 300px + (var(--nv-cols-d, 4) - 1) * 22px); }
+    .nv-grid.is-one { grid-template-columns: minmax(0, 320px); }
+  }
+
+  /* ── Bloque de texto (p. ej. caja de 10 sobres) ── */
+  .nv-text { position: relative; padding: 56px 24px; text-align: center; }
+  .nv-text--white { background: #fff; }
+  .nv-text--cream { background: var(--nv-cream); }
+  .nv-text--gold { background: linear-gradient(180deg, var(--nv-gold), var(--nv-gold-l)); padding: 80px 28px; }
+  .nv-text--gold::before { content: ''; position: absolute; inset: 14px; border: 1px solid rgba(255,255,255,0.7); border-radius: 6px; pointer-events: none; }
+  .nv-text--gold::after { content: ''; position: absolute; inset: 20px; border: 1px solid rgba(255,255,255,0.28); border-radius: 3px; pointer-events: none; }
+  .nv-text--gold .nv-title { font-size: clamp(38px, 7vw, 68px); }
+  .nv-text--gold .nv-desc { font-style: normal; font-family: var(--nv-sans); font-size: 16px; font-weight: 500; line-height: 1.6; }
+  .nv-text--navy { background: var(--nv-navy-d); color: var(--nv-cream); }
+  .nv-text--navy .nv-title { color: var(--nv-cream); }
+  .nv-text--navy .nv-title em { background: linear-gradient(transparent 62%, rgba(196,151,58,0.6) 62%, rgba(196,151,58,0.6) 90%, transparent 90%); }
+  .nv-text--navy .nv-eyebrow { color: var(--nv-gold-l); }
+  .nv-text--navy .nv-desc { color: var(--nv-gold-p); }
+  .nv-text--navy .nv-btn { background: var(--nv-cream); color: var(--nv-navy-d); }
+  .nv-text--navy .nv-btn:hover { background: var(--nv-gold-l); color: var(--nv-navy-d); }
+  .nv-text--navy .nv-btn:focus-visible { outline-color: var(--nv-gold-l); }
+  .nv-steps { list-style: none; margin: 26px 0 0; padding: 0; display: grid; gap: 0; text-align: left; }
+  .nv-steps li { display: grid; grid-template-columns: 52px 1fr; align-items: center; gap: 14px; padding: 16px 0; border-top: 1px solid rgba(240,228,200,0.2); }
+  .nv-steps li:last-child { border-bottom: 1px solid rgba(240,228,200,0.2); }
+  .nv-steps__n { font-family: var(--nv-serif); font-size: 44px; line-height: 1; font-weight: 500; color: var(--nv-gold-l); }
+  .nv-steps__t { font-size: 15px; line-height: 1.5; font-weight: 500; }
+  .nv-text--split { padding: 0; display: grid; text-align: left; }
+  .nv-text--split .nv-text__media { position: relative; aspect-ratio: 4 / 3; overflow: hidden; background: var(--nv-navy); }
+  .nv-text--split .nv-text__media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+  .nv-text--split .nv-text__inner { max-width: none; padding: 44px 24px 52px; }
+  .nv-text--split .nv-desc { margin-left: 0; margin-right: 0; }
+  .nv-chiplist { list-style: none; margin: 22px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+  .nv-chiplist li { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 9px 14px; border: 1px solid var(--nv-gold); border-radius: 999px; color: var(--nv-navy-d); background: rgba(255,255,255,0.6); }
+  .nv-text__badge { position: absolute; left: 16px; bottom: 16px; z-index: 1; background: var(--nv-cream); color: var(--nv-navy-d); font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 10px 16px; border-radius: 999px; box-shadow: 0 10px 22px -10px rgba(0,26,48,0.55); }
+  /* Con foto y fondo claro: foto en tarjeta a un lado, texto al otro */
+  .nv-text--card { padding: 56px 20px; gap: 28px; }
+  .nv-text--card .nv-text__media { border-radius: 20px; box-shadow: 0 1px 2px rgba(0,26,48,0.08), 0 18px 36px -16px rgba(0,26,48,0.3), 0 34px 56px -30px rgba(196,151,58,0.55); }
+  .nv-text--card .nv-text__inner { padding: 0 4px; max-width: 520px; }
+  .nv-text--card .nv-eyebrow { justify-content: flex-start; }
+  .nv-text__inner { max-width: 720px; margin: 0 auto; }
+  .nv-text .nv-desc { margin-top: 18px; max-width: 620px; }
+  .nv-text .nv-desc p + p { margin-top: 10px; }
+  .nv-text--gold .nv-desc, .nv-text--gold .nv-eyebrow { color: var(--nv-navy-d); }
+  .nv-text--gold .nv-title em { background: linear-gradient(transparent 62%, rgba(255,255,255,0.55) 62%, rgba(255,255,255,0.55) 90%, transparent 90%); }
+  .nv-text__cta { margin-top: 26px; }
+  .nv-text--white .nv-btn, .nv-text--cream .nv-btn { background: var(--nv-navy-d); }
+  @media (min-width: 768px) {
+    .nv-text { padding: 80px 40px; }
+    .nv-text--gold { padding: 112px 48px; }
+    .nv-text--split { padding: 0; grid-template-columns: 1fr 1fr; align-items: stretch; }
+    .nv-text--split .nv-text__media { aspect-ratio: auto; min-height: 460px; }
+    .nv-text--split .nv-text__inner { padding: 72px 48px; align-self: center; max-width: 560px; }
+    .nv-text--card { grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 56px; align-items: center; padding: 88px max(40px, calc((100% - 1120px) / 2)); }
+    .nv-text--card .nv-text__media { aspect-ratio: 5 / 4; min-height: 0; }
+    .nv-text--card .nv-text__inner { padding: 0; justify-self: start; }
+  }
+
+  /* Foto a pantalla completa con el texto flotando encima */
+  .nv-text--float { position: relative; display: grid; align-items: end; min-height: 600px; padding: 0; text-align: left; overflow: hidden; }
+  .nv-text--float .nv-text__media { position: absolute; inset: 0; aspect-ratio: auto; min-height: 0; border-radius: 0; box-shadow: none; }
+  .nv-text--float .nv-text__inner { position: relative; z-index: 1; margin: 0 16px 16px; padding: 28px 24px 30px; max-width: none; border-radius: 14px; background: rgba(0,26,48,0.88); color: var(--nv-cream); box-shadow: 0 2px 4px rgba(0,26,48,0.18), 0 22px 44px -18px rgba(0,26,48,0.55); }
+  .nv-text--float .nv-title { color: var(--nv-cream); }
+  .nv-text--float .nv-eyebrow { color: var(--nv-gold-l); justify-content: flex-start; }
+  .nv-text--float .nv-desc { color: var(--nv-gold-p); margin-left: 0; margin-right: 0; }
+  .nv-text--float .nv-btn { background: var(--nv-cream); color: var(--nv-navy-d); }
+  .nv-text--float .nv-btn:hover { background: var(--nv-gold-l); }
+  @media (min-width: 768px) {
+    /* Alto = proporción de la foto de la caja (1710 × 920): así no se recorta arriba ni abajo; tope de 920 px en pantallas muy anchas. */
+    .nv-text--float { align-items: center; min-height: clamp(620px, 53.8vw, 920px); padding: 0 max(40px, calc((100% - 1120px) / 2)); }
+    .nv-text--float .nv-text__inner { margin: 0; padding: 44px 44px 48px; width: 100%; max-width: 480px; }
+    .nv-text--float { grid-template-columns: minmax(0, 1fr); }
+  }
+
+  /* Botón «Descripción del pack» (ventana con todo lo que lleva, precio y compra). En escritorio ancho el contenido va a los lados de la caja. */
+  .nv-pack .nv-pack__body .nv-tags { display: none; }
+  .nv-pack__desc {
+    position: absolute; z-index: 4; left: 50%; translate: -50% 0;
+    top: calc(52px + clamp(60px, 17vw, 156px) + 10px);
+    appearance: none; cursor: pointer; background: rgba(0,26,48,0.28); color: var(--nv-cream); white-space: nowrap;
+    border: 1px solid rgba(250,246,239,0.85); border-radius: 999px; min-height: 40px; padding: 9px 20px;
+    font-family: var(--nv-sans); font-size: 10.5px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+  .nv-pack__desc:hover { opacity: 0.8; }
+  .nv-pack__desc:active { transform: scale(0.97); }
+  .nv-pack__desc:focus-visible { outline: 2px solid var(--nv-gold-l); outline-offset: 4px; }
+  @media (min-width: 1100px) { .nv-pack__desc { display: none; } }
+  @media (max-width: 1099px) { .nv-pack { --pt: calc(52px + clamp(60px, 17vw, 156px) + 62px); } }
+  .nv-pop--pack .nv-pop__label { padding-top: 14px; }
+
+  /* ── Móvil (24/11): más aire entre bloques, texto sobre la imagen y packs de la Selección más grandes ── */
+  @media (max-width: 767px) {
+    /* Caja de 10 sobres y «¿Prefieres crearlo tú?»: primero el texto y debajo la foto, sin tapar nada */
+    .nv-text--float, .nv-text--half { display: grid; min-height: 0; }
+    .nv-text--float .nv-text__inner, .nv-text--half .nv-text__inner { order: -1; }
+    .nv-text--float { padding-top: 0; }
+    .nv-text--float .nv-text__media { position: relative; inset: auto; aspect-ratio: 5 / 4; }
+    .nv-text--float .nv-text__media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 100% 50%; }
+    .nv-text--float .nv-text__inner { margin: 28px 16px 20px; }
+    .nv-text--half { padding-top: 0; }
+    .nv-text--half .nv-text__inner { padding: 44px 24px 12px; }
+    .nv-text--half .nv-text__media { margin-bottom: 36px; }
+
+    /* Selección: foto del pack ampliada (--mz) sin ampliar los puntos */
+    .nv-stage { min-height: max(700px, min(92svh, 800px)); }
+    .nv-pack { --pb: 190px; --mz: 1.45; }
+    .nv-pack__media img,
+    .nv-pack__spots { transform: translate(-50%, calc(-50% + var(--dy, 0%))) scale(calc(var(--zoom, 1) * var(--mz, 1))); }
+    /* Cada punto (y su tarjeta) deshace la ampliación de la capa: mantiene su tamaño de siempre y sigue sobre su producto */
+    .nv-pack .nv-hot { scale: calc(1 / (var(--zoom, 1) * var(--mz, 1))); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nv.nv-js .nv-reveal { opacity: 1; transform: none; transition: none; }
+    .nv-card, .nv-card::after, .nv-card__img img, .nv-buy, .nv-btn { transition: none; }
+    .nv-hero__bg img { height: 100%; animation: none; }
+  }
+</style>
+
+{%- comment -%} Pre-pase: franjas con productos (para saber qué chips existen) {%- endcomment -%}
+{%- assign chip_items = '' -%}
+{%- assign tier_pos = 0 -%}
+
+{%- assign tail_html = '' -%}
+{%- capture body_html -%}
+  {%- for block in section.blocks -%}
+    {%- case block.type -%}
+
+    {%- when 'tier' -%}
+      {%- assign min_c = block.settings.min_euros | times: 100 -%}
+      {%- assign max_c = block.settings.max_euros | times: 100 -%}
+      {%- assign tier_key = block.settings.anchor_id | handleize | default: block.id -%}
+      {%- assign tier_excl = block.settings.exclude_tag | strip | default: excl -%}
+      {%- assign shown = 0 -%}
+      {%- capture cards -%}
+        {%- comment -%} «Vista previa de packs»: sin lotes publicados no se pintan productos del catálogo, solo huecos vacíos («Pack por añadir»), tantos como «Huecos en vista previa». Con lotes publicados salen los reales y los que falten hasta ese número quedan como hueco. {%- endcomment -%}
+        {%- assign tier_limit = block.settings.limit -%}
+        {%- unless preview_fallback -%}
+        {%- for p in src.products -%}
+          {%- if shown >= tier_limit -%}{%- break -%}{%- endif -%}
+          {%- if p.gift_card? -%}{%- continue -%}{%- endif -%}
+          {%- assign needle = ',' | append: p.handle | append: ',' -%}
+          {%- if pack_handles contains needle -%}{%- continue -%}{%- endif -%}
+          {%- if tier_excl != blank and p.tags contains tier_excl -%}{%- continue -%}{%- endif -%}
+          {%- if p.price < min_c -%}{%- continue -%}{%- endif -%}
+          {%- if max_c > 0 and p.price >= max_c -%}{%- continue -%}{%- endif -%}
+          {%- assign shown = shown | plus: 1 -%}
+          {%- assign qv = p.variants | where: 'available' | sort: 'price' | first -%}
+          {%- assign can_quick = false -%}
+          {%- if block.settings.quick_add and qv != blank -%}{%- assign can_quick = true -%}{%- endif -%}
+          {%- assign lead = p.metafields.custom.gramaje | default: p.description | strip_html | strip_newlines | truncatewords: 16 -%}
+          <article class="nv-card nv-reveal" style="--nv-d: {{ shown | minus: 1 | times: 70 }}ms"
+            data-cm-tier="{{ tier_key }}" data-cm-handle="{{ p.handle }}" data-cm-price="{{ p.price | divided_by: 100.0 }}" data-cm-position="{{ shown }}">
+            <a class="nv-card__img" href="{{ p.url }}" data-cm-track="card_click" aria-label="{{ p.title | escape }}" tabindex="-1">
+              {%- if nv_ship_ok and p.price >= free_c and free_c > 0 -%}<span class="nv-card__badge">{{ 'cm.navidad.free_shipping' | t }}</span>{%- endif -%}
+              {%- if p.featured_image -%}
+                {{ p.featured_image | image_url: width: 1000 | image_tag: loading: 'lazy', widths: '400, 600, 800, 1000', sizes: '(max-width: 767px) 50vw, (max-width: 1099px) 33vw, 25vw', alt: p.featured_image.alt | default: p.title }}
+              {%- endif -%}
+            </a>
+            <div class="nv-card__body">
+              <h3 class="nv-card__name"><a href="{{ p.url }}" data-cm-track="card_click">{{ p.title }}</a></h3>
+              <div class="nv-card__row">
+                <p class="nv-card__price">{%- if p.price_varies -%}<small>Desde</small>{%- endif -%}{{ p.price | money }}</p>
+                {%- if can_quick -%}
+                  <button type="button" class="nv-buy nv-buy--icon" data-variant-id="{{ qv.id }}" data-cm-track="quick_add" aria-label="{{ 'cm.navidad.quick_buy' | t | escape }}: {{ p.title | escape }}">
+                    <svg class="nv-ic-bag" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8.5h14l-1 11.5H6Z"/><path d="M9 8.5V7a3 3 0 0 1 6 0v1.5"/></svg>
+                    <svg class="nv-ic-check" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>
+                  </button>
+                {%- else -%}
+                  <a class="nv-card__more" href="{{ p.url }}" data-cm-track="card_click">{{ 'cm.navidad.view_pack' | t }}</a>
+                {%- endif -%}
+              </div>
+            </div>
+          </article>
+        {%- endfor -%}
+        {%- endunless -%}
+        {%- if preview_packs and block.settings.preview_slots > shown -%}
+          {%- assign missing = block.settings.preview_slots | minus: shown -%}
+          {%- for i in (1..missing) -%}
+            {%- assign shown = shown | plus: 1 -%}
+            <article class="nv-card nv-card--empty nv-reveal" style="--nv-d: {{ shown | minus: 1 | times: 70 }}ms" data-cm-tier="{{ tier_key }}" data-cm-position="{{ shown }}" aria-label="{{ section.settings.pending_label | escape }}">
+              <div class="nv-card__img" aria-hidden="true"><span class="nv-card__ph">{{ section.settings.pending_label }}</span></div>
+              <div class="nv-card__body">
+                <h3 class="nv-card__name nv-card__name--ph">{{ section.settings.pending_label }}</h3>
+                <div class="nv-card__row"><p class="nv-card__price nv-card__price--ph">—</p></div>
+              </div>
+            </article>
+          {%- endfor -%}
+        {%- endif -%}
+      {%- endcapture -%}
+      {%- if shown > 0 -%}
+        {%- assign chip_label = block.settings.chip_label | default: block.settings.eyebrow -%}
+        {%- assign tier_pos = tier_pos | plus: 1 -%}
+        {%- assign icon_i = tier_pos -%}
+        {%- case icon_i -%}
+          {%- when 1 -%}{%- assign ic = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="9" width="17" height="4" rx="0.5"/><path d="M5 13v7h14v-7"/><path d="M12 9v11"/><path d="M12 9c-1.6-4.4-5.8-4-5.8-1.6S10 9 12 9Zm0 0c1.6-4.4 5.8-4 5.8-1.6S14 9 12 9Z"/></svg>' -%}
+          {%- when 2 -%}{%- assign ic = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 12.2V4.5h7.7l9.3 9.3-7.7 7.7Z"/><circle cx="8" cy="9" r="1.2"/></svg>' -%}
+          {%- when 3 -%}{%- assign ic = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 3h5l-.7 6.2a1.8 1.8 0 0 1-3.6 0Z"/><path d="M8 11.4V19M5.4 20h5.2"/><path d="M14 5.5h4.6l-.6 4.7a1.7 1.7 0 0 1-3.4 0Z"/><path d="M16.3 12V19M13.8 20h5"/></svg>' -%}
+          {%- else -%}{%- assign ic = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3.5 2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.9 6.8 19.7l1-5.9L3.5 9.7l5.9-.8Z"/></svg>' -%}
+        {%- endcase -%}
+        {%- capture chip_add -%}<button type="button" class="nv-side__item" data-nv-target="{{ tier_key }}" data-cm-tier="{{ tier_key }}"><span class="nv-side__icon">{{ ic }}</span><span class="nv-side__label">{{ chip_label | escape }}</span></button>{%- endcapture -%}
+        {%- assign chip_items = chip_items | append: chip_add -%}
+        {%- assign cols_d = shown | at_most: 4 -%}
+        {%- assign cols_t = shown | at_most: 3 -%}
+        {%- if shown == 4 -%}{%- assign cols_t = 2 -%}{%- endif -%}
+        <section class="nv-tier nv-tier--{{ block.settings.tone }}" id="{{ tier_key }}" data-nv-tier="{{ tier_key }}" data-cm-tier="{{ tier_key }}" {{ block.shopify_attributes }}>
+          <header class="nv-head nv-reveal">
+            {%- if block.settings.eyebrow != blank -%}<p class="nv-eyebrow">{{ block.settings.eyebrow }}</p>{%- endif -%}
+            <h2 class="nv-title">{{ block.settings.title }}</h2>
+            {%- if block.settings.description != blank -%}<p class="nv-desc">{{ block.settings.description }}</p>{%- endif -%}
+          </header>
+          <div class="nv-grid{% if shown == 1 %} is-one{% endif %}" style="--nv-cols-d: {{ cols_d }}; --nv-cols-t: {{ cols_t }};">
+            {{ cards }}
+          </div>
+        </section>
+      {%- endif -%}
+
+    {%- when 'texto' -%}
+      {%- capture one_text -%}
+      {%- assign t_img = block.settings.image -%}
+      {%- assign t_asset = '' -%}
+      {%- if t_img == blank and block.settings.asset_image != blank -%}{%- assign t_asset = block.settings.asset_image | asset_url -%}{%- endif -%}
+      {%- assign t_layout = block.settings.layout | default: 'auto' -%}
+      <section class="nv-text nv-text--{{ block.settings.tone }}{% if t_img != blank or t_asset != blank %} nv-text--split{% if t_layout == 'float' %} nv-text--float{% elsif t_layout == 'half' %} nv-text--half{% elsif block.settings.tone != 'navy' %} nv-text--card{% endif %}{% endif %}" {% if block.settings.anchor_id != blank %}id="{{ block.settings.anchor_id | handleize }}"{% endif %} {{ block.shopify_attributes }}>
+        {%- if t_img == blank and t_asset != blank -%}
+          <div class="nv-text__media"><img src="{{ t_asset }}" alt="" loading="lazy" onerror="this.remove()"></div>
+        {%- elsif t_img != blank -%}
+          {%- comment -%} En «float» la foto ocupa todo el ancho: con sizes de 50vw el navegador elegía una versión pequeña y se veía borrosa. {%- endcomment -%}
+          <div class="nv-text__media">
+            {%- if t_layout == 'float' -%}
+              {{ t_img | image_url: width: 2000 | image_tag: loading: 'lazy', widths: '900, 1200, 1600, 2000', sizes: '100vw', alt: t_img.alt | default: '' }}
+            {%- else -%}
+              {{ t_img | image_url: width: 1400 | image_tag: loading: 'lazy', widths: '600, 900, 1200, 1400', sizes: '(max-width: 767px) 100vw, 50vw', alt: t_img.alt | default: '' }}
+            {%- endif -%}
+            {%- if block.settings.badge != blank -%}<span class="nv-text__badge">{{ block.settings.badge }}</span>{%- endif -%}
+          </div>
+        {%- endif -%}
+        <div class="nv-text__inner nv-reveal">
+          {%- if block.settings.eyebrow != blank -%}<p class="nv-eyebrow">{{ block.settings.eyebrow }}</p>{%- endif -%}
+          <h2 class="nv-title">{{ block.settings.title }}</h2>
+          {%- if block.settings.body != blank -%}<div class="nv-desc">{{ block.settings.body }}</div>{%- endif -%}
+          {%- if block.settings.chips != blank -%}
+            <ul class="nv-chiplist">
+              {%- assign chip_list = block.settings.chips | newline_to_br | split: '<br />' -%}
+              {%- for ch in chip_list -%}{%- assign ch_s = ch | strip -%}{%- if ch_s != blank -%}<li>{{ ch_s }}</li>{%- endif -%}{%- endfor -%}
+            </ul>
+          {%- endif -%}
+          {%- if block.settings.steps != blank -%}
+            <ol class="nv-steps">
+              {%- assign step_list = block.settings.steps | newline_to_br | split: '<br />' -%}
+              {%- for st in step_list -%}{%- assign st_s = st | strip -%}{%- if st_s != blank -%}<li><span class="nv-steps__n">{{ forloop.index }}</span><span class="nv-steps__t">{{ st_s }}</span></li>{%- endif -%}{%- endfor -%}
+            </ol>
+          {%- endif -%}
+          {%- if block.settings.cta_label != blank and block.settings.cta_url != blank -%}
+            <p class="nv-text__cta"><a class="nv-btn nv-btn--go" href="{{ block.settings.cta_url }}">{{ block.settings.cta_label }}</a></p>
+          {%- endif -%}
+        </div>
+      </section>
+      {%- endcapture -%}
+      {%- if block.settings.full_width -%}{%- assign tail_html = tail_html | append: one_text -%}{%- else -%}{{ one_text }}{%- endif -%}
+
+    {%- endcase -%}
+  {%- endfor -%}
+{%- endcapture -%}
+
+{%- assign sel_anchor = section.settings.selection_anchor | handleize | default: 'seleccion' -%}
+{%- assign chip_count = chip_items | split: '</button>' | size | minus: 1 -%}
+{%- if packs_n > 0 -%}{%- assign chip_count = chip_count | plus: 1 -%}{%- endif -%}
+
+<div class="nv" id="nv-{{ section.id }}" data-added="{{ 'cm.navidad.added' | t | escape }}">
+
+  {%- if section.settings.show_hero -%}
+    {%- assign hero_img = section.settings.hero_image -%}
+    {%- assign hero_vid = section.settings.hero_video -%}
+    {%- assign use_video = section.settings.use_video -%}
+    <header class="nv-hero{% unless use_video or hero_vid != blank or hero_img != blank %} no-img{% endunless %}" style="--nv-ov: {{ section.settings.hero_overlay | default: 70 | divided_by: 100.0 }};">
+      {%- if hero_vid != blank or use_video -%}
+        <div class="nv-hero__bg">
+          {%- if hero_img != blank -%}{%- assign poster = hero_img | image_url: width: 1600 -%}{%- else -%}{%- assign poster = 'hero-navidad-poster.jpg' | asset_url -%}{%- endif -%}
+          {%- if hero_vid != blank -%}
+            <video class="nv-hero__video" autoplay muted loop playsinline preload="metadata" poster="{{ poster }}" aria-hidden="true" tabindex="-1" data-nv-video>
+              {%- for src in hero_vid.sources -%}{%- if src.format == 'mp4' -%}<source src="{{ src.url }}" type="{{ src.mime_type }}">{%- endif -%}{%- endfor -%}
+            </video>
+          {%- else -%}
+            <video class="nv-hero__video" autoplay muted loop playsinline preload="metadata" poster="{{ poster }}" aria-hidden="true" tabindex="-1" data-nv-video data-src="{{ 'hero-navidad.mp4' | asset_url }}" data-src-m="{{ 'hero-navidad-m.mp4' | asset_url }}"></video>
+          {%- endif -%}
+        </div>
+      {%- elsif hero_img != blank -%}
+        <div class="nv-hero__bg" data-nv-parallax>
+          {{ hero_img | image_url: width: 2000 | image_tag: loading: 'eager', fetchpriority: 'high', widths: '750, 1100, 1500, 2000', sizes: '100vw', alt: hero_img.alt | default: 'Packs de Navidad Casa Maravillas' }}
+        </div>
+      {%- endif -%}
+      <div class="nv-hero__inner">
+        <div class="nv-hero__top"><span class="nv-hero__brand">Casa <b>Maravillas</b>{% if section.settings.eyebrow != blank %} &nbsp;·&nbsp; {{ section.settings.eyebrow }}{% endif %}</span></div>
+        <div class="nv-hero__body">
+          {%- if section.settings.hero_kicker != blank -%}<p class="nv-hero__kicker">{{ section.settings.hero_kicker }}</p>{%- endif -%}
+          <h1 class="nv-hero__title">{{ section.settings.title }}</h1>
+          {%- if section.settings.tagline != blank -%}<p class="nv-hero__tag">{{ section.settings.tagline }}</p>{%- endif -%}
+          {%- if section.settings.cta_label != blank -%}
+            <p class="nv-hero__cta"><a class="nv-btn nv-btn--arrow" href="{{ section.settings.cta_url | default: '#' | append: '' }}" data-nv-target="{{ section.settings.cta_anchor | handleize | default: sel_anchor }}" data-cm-track="hero_cta">{{ section.settings.cta_label }}</a></p>
+          {%- endif -%}
+        </div>
+      </div>
+    </header>
+  {%- endif -%}
+
+  <div class="nv-layout" data-nv-layout-all>
+  {%- if packs_n > 0 -%}
+    {%- assign pops_all = '' -%}
+    <section class="nv-selection" id="{{ sel_anchor }}" data-nv-tier="{{ sel_anchor }}" data-cm-tier="{{ sel_anchor }}" data-nv-stage>
+      <header class="nv-selection__head nv-reveal">
+        {%- if section.settings.selection_eyebrow != blank -%}<p class="nv-eyebrow">{{ section.settings.selection_eyebrow }}</p>{%- endif -%}
+        <h2 class="nv-title">{{ section.settings.selection_title }}</h2>
+        {%- if section.settings.selection_desc != blank -%}<p class="nv-desc">{{ section.settings.selection_desc }}</p>{%- endif -%}
+      </header>
+      <div class="nv-stage">
+      <div class="nv-names" data-nv-names role="tablist" aria-label="{{ section.settings.selection_chip | escape }}">
+        <div class="nv-names__track" data-nv-track>
+          {%- assign ni = 0 -%}
+          {%- assign mid = packs_n | divided_by: 2 -%}
+          {%- for block in section.blocks -%}
+            {%- assign show_b = false -%}
+            {%- if block.type == 'pack' -%}{%- if block.settings.product.available -%}{%- assign show_b = true -%}{%- elsif preview_packs -%}{%- assign show_b = true -%}{%- endif -%}{%- endif -%}
+            {%- if show_b -%}
+              <button type="button" class="nv-name" role="tab" aria-selected="false" data-nv-slide="{{ ni }}"{% if ni == mid %} data-nv-start{% endif %}>{{ block.settings.name | default: block.settings.product.title }}</button>
+              {%- assign ni = ni | plus: 1 -%}
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </div>
+      <div class="nv-packs" data-nv-packs>
+        {%- assign pi = 0 -%}
+        {%- assign si = 0 -%}
+        {%- for block in section.blocks -%}
+          {%- assign show_b = false -%}
+            {%- if block.type == 'pack' -%}{%- if block.settings.product.available -%}{%- assign show_b = true -%}{%- elsif preview_packs -%}{%- assign show_b = true -%}{%- endif -%}{%- endif -%}
+            {%- if show_b -%}
+            {%- assign p = block.settings.product -%}
+            {%- assign pi = pi | plus: 1 -%}
+            {%- assign img = block.settings.image | default: p.featured_image -%}
+            {%- assign img_m = block.settings.image_mobile -%}
+            {%- assign pack_asset = '' -%}
+            {%- if img == blank and preview_packs -%}{%- assign pack_asset = 'pack-' | append: block.settings.name | handleize | append: '.jpg' | asset_url -%}{%- endif -%}
+            {%- assign bp = p -%}
+            {%- comment -%} Pack en borrador (solo vista previa): el tema no puede leer su ficha, así que los botones salen inactivos. Ya no apuntan a un producto de prueba. {%- endcomment -%}
+            {%- assign qv = bp.variants | where: 'available' | sort: 'price' | first -%}
+            {%- assign pt_n = 0 -%}
+            {%- capture spots -%}
+              {%- for pt in section.blocks -%}
+                {%- assign pt_pack = pt.settings.pack | plus: 0 -%}
+                {%- assign show_pt = false -%}
+                {%- if pt.type == 'punto' and pt_pack == pi -%}{%- if pt.settings.product.available -%}{%- assign show_pt = true -%}{%- elsif preview_packs and pt.settings.label != blank -%}{%- assign show_pt = true -%}{%- endif -%}{%- endif -%}
+                {%- if show_pt -%}
+                  {%- assign q = pt.settings.product -%}
+                  {%- assign qt = q.title | default: pt.settings.label -%}
+                  {%- assign qu = q.url | default: '#' -%}
+                  {%- assign hx = pt.settings.x -%}
+                  {%- assign hy = pt.settings.y -%}
+                  {%- assign h_side = 'center' -%}
+                  {%- if hx < 32 -%}{%- assign h_side = 'left' -%}{%- elsif hx > 68 -%}{%- assign h_side = 'right' -%}{%- endif -%}
+                  {%- comment -%} Las tarjetas se reparten en zigzag (1.ª debajo, 2.ª encima, 3.ª debajo…) para que al salir todas a la vez queden ordenadas y no se pisen. {%- endcomment -%}
+                  {%- assign v_side = 'down' -%}
+                  {%- assign pt_odd = pt_n | modulo: 2 -%}
+                  {%- if pt_odd == 1 -%}{%- assign v_side = 'up' -%}{%- endif -%}
+                  {%- assign pt_n = pt_n | plus: 1 -%}
+                  {%- assign mob = '' -%}
+                  {%- if pt.settings.x_mobile > 0 and pt.settings.y_mobile > 0 -%}{%- capture mob -%}--xm: {{ pt.settings.x_mobile }}%; --ym: {{ pt.settings.y_mobile }}%;{%- endcapture -%}{%- endif -%}
+                  <div class="nv-hot" style="--x: {{ hx }}%; --y: {{ hy }}%; {{ mob }}" data-h="{{ h_side }}" data-v="{{ v_side }}" data-nv-hot
+                    data-cm-tier="{{ sel_anchor }}" data-cm-handle="{{ q.handle }}" data-cm-price="{{ q.price | divided_by: 100.0 }}" data-cm-position="{{ pi }}" {{ pt.shopify_attributes }}>
+                    <button type="button" class="nv-hot__dot" aria-expanded="false" aria-label="{{ qt | escape }}" data-cm-track="hotspot_click"></button>
+                    <button type="button" class="nv-hot__card" data-nv-open="{{ si }}" data-cm-track="pack_open" tabindex="-1">
+                      <span class="nv-hot__name">{{ qt | replace: ' %', '&nbsp;%' }}</span>
+                      {%- if q != blank -%}<span class="nv-hot__price">{{ q.price | money }}</span>{%- endif -%}
+                    </button>
+                  </div>
+                  {%- capture one_pop -%}
+                    {%- assign qimg = pt.settings.image | default: q.featured_image -%}
+                    {%- assign qv2 = q.variants | where: 'available' | sort: 'price' | first -%}
+                    <article class="nv-pop" role="dialog" aria-modal="true" aria-label="{{ qt | escape }}" data-nv-pop data-pack="{{ pi }}"
+                      data-cm-tier="{{ sel_anchor }}" data-cm-handle="{{ q.handle }}" data-cm-price="{{ q.price | divided_by: 100.0 }}" data-cm-position="{{ pi }}">
+                      <button type="button" class="nv-pop__close" data-nv-close aria-label="{{ 'cm.navidad.close' | t }}">&#10005;</button>
+                      <div class="nv-pop__media">
+                        {%- if qimg != blank -%}<a class="nv-pop__imglink" href="{{ qu }}" data-cm-track="card_click" tabindex="-1" aria-label="{{ qt | escape }}">{{ qimg | image_url: width: 1000 | image_tag: loading: 'lazy', widths: '500, 800, 1000', sizes: '(max-width: 767px) 100vw, 520px', alt: qt }}</a>{%- elsif pack_asset != blank -%}<img src="{{ pack_asset }}" alt="" loading="lazy" onerror="this.remove()">{%- endif -%}
+                        <div class="nv-pop__nav">
+                          <button type="button" class="nv-pop__arrow" data-nv-step="-1" aria-label="{{ 'cm.navidad.prev' | t }}">&larr;</button>
+                          <button type="button" class="nv-pop__arrow" data-nv-step="1" aria-label="{{ 'cm.navidad.next' | t }}">&rarr;</button>
+                        </div>
+                      </div>
+                      <div class="nv-pop__body">
+                        <p class="nv-pop__brand">Casa Maravillas</p>
+                        <h3 class="nv-pop__title"><a href="{{ qu }}" data-cm-track="card_click">{{ qt | replace: ' %', '&nbsp;%' }}</a></h3>
+                        {%- if q != blank -%}<p class="nv-pop__price">{{ q.price | money }}</p>{%- endif -%}
+                        <div class="nv-pop__actions">
+                          {%- if qv2 != blank -%}<button type="button" class="nv-buy" data-variant-id="{{ qv2.id }}" data-cm-track="quick_add">{{ 'cm.navidad.quick_buy' | t }}</button>{%- endif -%}
+                          <a class="nv-pop__more" href="{{ qu }}" data-cm-track="card_click"><span>{{ 'cm.navidad.full_details' | t }}</span></a>
+                        </div>
+                      </div>
+                    </article>
+                  {%- endcapture -%}
+                  {%- assign pops_all = pops_all | append: one_pop -%}
+                  {%- assign si = si | plus: 1 -%}
+                {%- endif -%}
+              {%- endfor -%}
+            {%- endcapture -%}
+            {%- comment -%} Ventana «Descripción del pack»: todo lo que lleva, precio y compra. Entra en el mismo grupo de ventanas (flechas) que los puntos del pack. {%- endcomment -%}
+            {%- assign pack_pop_i = -1 -%}
+            {%- if block.settings.contents != blank -%}
+              {%- assign pk_title = p.title | default: block.settings.name -%}
+              {%- capture pack_pop -%}
+                <article class="nv-pop nv-pop--pack" role="dialog" aria-modal="true" aria-label="{{ pk_title | escape }}" data-nv-pop data-pack="{{ pi }}"
+                  data-cm-tier="{{ sel_anchor }}" data-cm-handle="{{ p.handle }}" data-cm-price="{{ p.price | divided_by: 100.0 }}" data-cm-position="{{ pi }}">
+                  <button type="button" class="nv-pop__close" data-nv-close aria-label="{{ 'cm.navidad.close' | t }}">&#10005;</button>
+                  <div class="nv-pop__media">
+                    {%- if img != blank -%}<a class="nv-pop__imglink" href="{{ p.url | default: '#' }}" data-cm-track="card_click" tabindex="-1" aria-label="{{ pk_title | escape }}">{{ img | image_url: width: 1000 | image_tag: loading: 'lazy', widths: '500, 800, 1000', sizes: '(max-width: 767px) 100vw, 520px', alt: pk_title }}</a>{%- endif -%}
+                    <div class="nv-pop__nav">
+                      <button type="button" class="nv-pop__arrow" data-nv-step="-1" aria-label="{{ 'cm.navidad.prev' | t }}">&larr;</button>
+                      <button type="button" class="nv-pop__arrow" data-nv-step="1" aria-label="{{ 'cm.navidad.next' | t }}">&rarr;</button>
+                    </div>
+                  </div>
+                  <div class="nv-pop__body">
+                    <p class="nv-pop__brand">Casa Maravillas</p>
+                    <h3 class="nv-pop__title">{%- if p != blank -%}<a href="{{ p.url }}" data-cm-track="card_click">{{ pk_title | replace: ' %', '&nbsp;%' }}</a>{%- else -%}{{ pk_title | replace: ' %', '&nbsp;%' }}{%- endif -%}</h3>
+                    {%- if p != blank -%}<p class="nv-pop__price">{{ p.price | money }}</p>{%- endif -%}
+                    <p class="nv-pop__label">{{ 'cm.navidad.contents' | t }}</p>
+                    <ul class="nv-tags">
+                      {%- assign pk_list = block.settings.contents | split: '·' -%}
+                      {%- for pk in pk_list -%}{%- assign pk_s = pk | strip -%}{%- if pk_s != blank -%}<li>{{ pk_s | replace: ' %', '&nbsp;%' }}</li>{%- endif -%}{%- endfor -%}
+                    </ul>
+                    <div class="nv-pop__actions">
+                      {%- if p == blank and preview_packs -%}
+                        <button type="button" class="nv-buy" disabled aria-disabled="true">{{ 'cm.navidad.buy_pack' | t }}</button>
+                      {%- elsif qv != blank -%}
+                        <button type="button" class="nv-buy" data-variant-id="{{ qv.id }}" data-cm-track="quick_add">{{ 'cm.navidad.buy_pack' | t }}</button>
+                      {%- endif -%}
+                      {%- if p != blank -%}<a class="nv-pop__more" href="{{ p.url }}" data-cm-track="card_click"><span>{{ 'cm.navidad.full_details' | t }}</span></a>{%- endif -%}
+                    </div>
+                  </div>
+                </article>
+              {%- endcapture -%}
+              {%- assign pops_all = pops_all | append: pack_pop -%}
+              {%- assign pack_pop_i = si -%}
+              {%- assign si = si | plus: 1 -%}
+            {%- endif -%}
+            <article class="nv-pack" style="--ar: {{ img.aspect_ratio | default: 1.5 }};{% if img_m != blank %} --arm: {{ img_m.aspect_ratio }};{% endif %}{% if block.settings.zoom != 100 %} --zoom: {{ block.settings.zoom | divided_by: 100.0 }};{% endif %}{% if block.settings.shift_y != 0 %} --dy: {{ block.settings.shift_y }}%;{% endif %}{% if block.settings.bg_color != blank and block.settings.bg_color.alpha > 0.0 %} --pack-bg: {{ block.settings.bg_color }};{% endif %}" data-cm-tier="{{ sel_anchor }}" data-cm-handle="{{ p.handle }}" data-cm-price="{{ p.price | divided_by: 100.0 }}" data-cm-position="{{ pi }}" {{ block.shopify_attributes }}>
+              <div class="nv-pack__media">
+                {%- if img != blank -%}
+                  <picture>
+                    {%- if img_m != blank -%}<source media="(max-width: 767px)" srcset="{{ img_m | image_url: width: 800 }} 800w, {{ img_m | image_url: width: 1200 }} 1200w" sizes="100vw">{%- endif -%}
+                    {{ img | image_url: width: 2400 | image_tag: loading: 'lazy', widths: '750, 1100, 1500, 2000, 2400', sizes: '100vw', alt: '' }}
+                  </picture>
+                {%- elsif pack_asset != blank -%}
+                  <img src="{{ pack_asset }}" alt="" loading="lazy" onerror="this.remove()">
+                {%- endif -%}
+              </div>
+              <div class="nv-pack__spots">{{ spots }}</div>
+              {%- if pack_pop_i >= 0 -%}<button type="button" class="nv-pack__desc" data-nv-open="{{ pack_pop_i }}" data-cm-track="pack_open">{{ 'cm.navidad.pack_description' | t }}</button>{%- endif -%}
+              {%- if block.settings.contents != blank -%}
+                {%- assign tag_list = block.settings.contents | split: '·' -%}
+                {%- assign tag_half = tag_list.size | plus: 1 | divided_by: 2 -%}
+                {%- comment -%} Escritorio ancho: «qué lleva» en dos columnas, a los lados de la caja. {%- endcomment -%}
+                {%- assign li_l = '' -%}
+                {%- assign li_r = '' -%}
+                {%- assign li_n = 0 -%}
+                {%- for t in tag_list -%}
+                  {%- assign t_s = t | strip | replace: ' %', '~%' -%}
+                  {%- if t_s == blank -%}{%- continue -%}{%- endif -%}
+                  {%- assign li_n = li_n | plus: 1 -%}
+                  {%- assign li_txt = t_s -%}
+                  {%- comment -%} Textos largos: se cortan en dos líneas de largo parecido y la caja se ajusta al texto. {%- endcomment -%}
+                  {%- if t_s.size > 27 -%}
+                    {%- assign wds = t_s | split: ' ' -%}
+                    {%- assign half = t_s.size | divided_by: 2.0 -%}
+                    {%- assign cum = 0 -%}
+                    {%- assign best = 999 -%}
+                    {%- assign brk = 1 -%}
+                    {%- for w in wds -%}
+                      {%- assign cum = cum | plus: w.size -%}
+                      {%- unless forloop.last -%}
+                        {%- assign diff = cum | minus: half -%}
+                        {%- if diff < 0 -%}{%- assign diff = diff | times: -1 -%}{%- endif -%}
+                        {%- if diff < best -%}{%- assign best = diff -%}{%- assign brk = forloop.index -%}{%- endif -%}
+                      {%- endunless -%}
+                      {%- assign cum = cum | plus: 1 -%}
+                    {%- endfor -%}
+                    {%- assign l1 = '' -%}
+                    {%- assign l2 = '' -%}
+                    {%- for w in wds -%}
+                      {%- if forloop.index <= brk -%}{%- assign l1 = l1 | append: w | append: ' ' -%}{%- else -%}{%- assign l2 = l2 | append: w | append: ' ' -%}{%- endif -%}
+                    {%- endfor -%}
+                    {%- assign li_txt = l1 | strip | append: '<br>' | append: l2 | strip -%}
+                  {%- endif -%}
+                  {%- assign li_txt = li_txt | replace: '~', '&nbsp;' -%}
+                  {%- if li_n <= tag_half -%}{%- assign li_l = li_l | append: '<li>' | append: li_txt | append: '</li>' -%}{%- else -%}{%- assign li_r = li_r | append: '<li>' | append: li_txt | append: '</li>' -%}{%- endif -%}
+                {%- endfor -%}
+                <ul class="nv-sidetags nv-sidetags--l">{{ li_l }}</ul>
+                <ul class="nv-sidetags nv-sidetags--r">{{ li_r }}</ul>
+              {%- endif -%}
+              <div class="nv-pack__body">
+                {%- if block.settings.contents != blank -%}
+                  <ul class="nv-tags">
+                    {%- assign tag_list = block.settings.contents | split: '·' -%}
+                    {%- for t in tag_list -%}{%- assign t_s = t | strip -%}{%- if t_s != blank -%}<li>{{ t_s | replace: ' %', '&nbsp;%' }}</li>{%- endif -%}{%- endfor -%}
+                  </ul>
+                {%- endif -%}
+                {%- if p != blank -%}<p class="nv-pack__price">{{ p.price | money }}</p>{%- endif -%}
+                <div class="nv-pack__actions">
+                  {%- if p == blank and preview_packs -%}
+                    <button type="button" class="nv-buy" disabled aria-disabled="true">{{ 'cm.navidad.buy_pack' | t }}</button>
+                    <span class="nv-pack__more nv-pack__more--off">{{ 'cm.navidad.view_pack' | t }}</span>
+                  {%- elsif qv != blank -%}
+                    <button type="button" class="nv-buy" data-variant-id="{{ qv.id }}" data-cm-track="quick_add">{{ 'cm.navidad.buy_pack' | t }}</button>
+                    <a class="nv-pack__more" href="{{ p.url }}" data-cm-track="card_click">{{ 'cm.navidad.view_pack' | t }}</a>
+                  {%- elsif p != blank -%}
+                    <a class="nv-buy nv-buy--link" href="{{ p.url }}" data-cm-track="card_click">{{ 'cm.navidad.view_pack' | t }}</a>
+                                    {%- else -%}
+                    <span class="nv-pack__soon">{{ 'cm.navidad.coming_soon' | t }}</span>
+                  {%- endif -%}
+                </div>
+              </div>
+            </article>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+      </div>
+      <div class="nv-modal" data-nv-modal aria-hidden="true">
+        <div class="nv-modal__scrim" data-nv-close></div>
+        {{ pops_all }}
+      </div>
+    </section>
+    {%- endif -%}
+  <div class="nv-flow{% if chip_count <= 1 %} nv-flow--solo{% endif %}" data-nv-layout>
+    <div class="nv-flow__strip" aria-hidden="true"></div>
+  {%- if chip_count > 1 -%}
+    <aside class="nv-side" data-nv-side aria-label="{{ section.settings.chips_label | escape }}">
+      <button type="button" class="nv-side__toggle" data-nv-side-toggle aria-expanded="false" aria-controls="nv-side-nav-{{ section.id }}" aria-label="{{ section.settings.chips_label | escape }}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
+      </button>
+      <div class="nv-side__inner">
+        <div class="nv-side__logo">
+          {%- if section.settings.logo != blank -%}
+            {{ section.settings.logo | image_url: width: 500 | image_tag: loading: 'lazy', widths: '250, 400, 500', sizes: '190px', alt: 'Casa Maravillas' }}
+          {%- else -%}
+            <img src="{{ 'navidad-logo.jpg' | asset_url }}" alt="Casa Maravillas" width="1000" height="558" loading="lazy">
+          {%- endif -%}
+        </div>
+        <nav class="nv-side__nav" id="nv-side-nav-{{ section.id }}" data-nv-chips>
+          <span class="nv-side__line" aria-hidden="true"><span class="nv-side__fill" data-nv-bar></span></span>
+          <div class="nv-side__list">
+            {%- if packs_n > 0 -%}
+              <button type="button" class="nv-side__item is-active" data-nv-target="{{ sel_anchor }}" data-cm-tier="{{ sel_anchor }}"><span class="nv-side__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/><path d="M10 19.5v-5h4v5"/></svg></span><span class="nv-side__label">{{ section.settings.selection_chip | default: 'Selección' | escape }}</span></button>
+            {%- endif -%}
+            {{ chip_items }}
+          </div>
+        </nav>
+      </div>
+    </aside>
+    <div class="nv-side__scrim" data-nv-side-close></div>
+  {%- endif -%}
+  <div class="nv-main">
+  <div data-nv-stack>
+    {{ body_html }}
+  </div>
+  </div>
+  </div>
+</div>
+{{ tail_html }}
+</div>
+
+<script>
+(function () {
+  var root = document.getElementById('nv-{{ section.id }}');
+  if (!root) return;
+  root.classList.add('nv-js');
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var hdr = document.getElementById('site-header');
+  var chipsNav = root.querySelector('[data-nv-chips]');
+  var chips = [].slice.call(root.querySelectorAll('.nv-side__item'));
+  var rail = null;
+  var side = root.querySelector('[data-nv-side]');
+  var layout = root.querySelector('[data-nv-layout]');
+  var layoutAll = root.querySelector('[data-nv-layout-all]') || layout;
+  var bar = root.querySelector('[data-nv-bar]');
+  var stack = root.querySelector('[data-nv-stack]');
+  var sel = root.querySelector('.nv-selection');
+  var parallax = root.querySelector('[data-nv-parallax] img');
+
+  function setTop() { root.style.setProperty('--nv-top', (hdr ? Math.round(hdr.getBoundingClientRect().height) : 0) + 'px'); }
+  setTop();
+  window.addEventListener('resize', setTop, { passive: true });
+  window.addEventListener('load', setTop);
+
+  /* Medición: dataLayer (GTM/GA4/Meta) y Clarity, sin fallar si no existen */
+  function track(name, el) {
+    var host = el.closest('[data-cm-handle]') || el.closest('[data-cm-tier]') || el;
+    var d = {
+      event: 'cm_navidad_' + name,
+      tier: (host.getAttribute('data-cm-tier') || ''),
+      handle: (host.getAttribute('data-cm-handle') || ''),
+      price: parseFloat(host.getAttribute('data-cm-price')) || 0,
+      position: parseInt(host.getAttribute('data-cm-position'), 10) || 0
+    };
+    try {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push(d);
+      if (typeof window.clarity === 'function') {
+        window.clarity('set', 'navidad_tier', d.tier);
+        if (d.handle) window.clarity('set', 'navidad_pack', d.handle);
+        window.clarity('event', 'navidad_' + name);
+      }
+    } catch (e) {}
+  }
+
+  /* Vídeo de la portada: se elige la versión ligera en móvil, se pausa fuera de pantalla y no se reproduce con «reducir movimiento» */
+  var hv = root.querySelector('[data-nv-video]');
+  if (hv) {
+    var small = window.matchMedia && matchMedia('(max-width: 767px)').matches;
+    var vsrc = (small && hv.getAttribute('data-src-m')) || hv.getAttribute('data-src');
+    if (vsrc && !hv.querySelector('source')) { hv.src = vsrc; }
+    if (reduce) { hv.removeAttribute('autoplay'); hv.pause(); }
+    else {
+      var vplay = function () { var pr = hv.play(); if (pr && pr.catch) pr.catch(function () {}); };
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function (es) { es.forEach(function (en) { if (en.isIntersecting) vplay(); else hv.pause(); }); }, { threshold: 0.1 }).observe(hv);
+      } else { vplay(); }
+    }
+  }
+
+  /* Barra lateral: en móvil/tablet se despliega con la flecha; en escritorio está siempre a la vista */
+  var scrim = root.querySelector('[data-nv-side-close]');
+  var toggle = root.querySelector('[data-nv-side-toggle]');
+  function closeSide() {
+    if (!side) return;
+    side.classList.remove('is-open');
+    if (scrim) scrim.classList.remove('is-on');
+    if (toggle) toggle.setAttribute('aria-expanded', 'false');
+  }
+  if (side && toggle) {
+    toggle.addEventListener('click', function () {
+      var open = !side.classList.contains('is-open');
+      side.classList.toggle('is-open', open);
+      if (scrim) scrim.classList.toggle('is-on', open);
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    if (scrim) scrim.addEventListener('click', closeSide);
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeSide(); });
+    /* La pestaña solo se ve mientras se recorre esta zona de la página */
+    if ('IntersectionObserver' in window && layoutAll) {
+      new IntersectionObserver(function (es) {
+        es.forEach(function (en) { side.classList.toggle('is-live', en.isIntersecting); if (!en.isIntersecting) closeSide(); });
+      }, { rootMargin: '0px 0px -99% 0px', threshold: 0 }).observe(layoutAll);
+    } else { side.classList.add('is-live'); }
+  }
+
+  /* Escritorio: la barra empieza completa con la franja, se queda fija y termina al final */
+  function placeSide() {
+    if (!side || !layout) return;
+    if (window.innerWidth < 1024) { side.classList.remove('is-fixed', 'is-post'); return; }
+    var r = layout.getBoundingClientRect();
+    var h = window.innerHeight;
+    side.classList.toggle('is-fixed', r.top <= 0 && r.bottom >= h);
+    side.classList.toggle('is-post', r.top <= 0 && r.bottom < h);
+  }
+  if (side) {
+    var sideTick = false;
+    window.addEventListener('scroll', function () { if (!sideTick) { sideTick = true; requestAnimationFrame(function () { sideTick = false; placeSide(); }); } }, { passive: true });
+    window.addEventListener('resize', placeSide);
+    placeSide();
+  }
+
+  /* Chips y botón de la portada: scroll suave hasta la franja */
+  function goTo(id) {
+    var t = id && document.getElementById(id);
+    if (!t) return false;
+    t.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+    try { history.replaceState(null, '', '#' + id); } catch (e) {}
+    return true;
+  }
+  root.addEventListener('click', function (e) {
+    var c = e.target.closest('[data-nv-target]');
+    if (c) {
+      if (goTo(c.getAttribute('data-nv-target'))) e.preventDefault();
+      track(c.classList.contains('nv-side__item') ? 'chip_click' : 'hero_cta', c);
+      if (side) closeSide();
+      return;
+    }
+    var buy = e.target.closest('.nv-buy[data-variant-id]');
+    if (buy) { e.preventDefault(); quickAdd(buy); return; }
+    var t = e.target.closest('[data-cm-track]');
+    if (t) track(t.getAttribute('data-cm-track'), t);
+  });
+
+  /* Compra rápida (mismo flujo que las tarjetas del tema: /cart/add.js + cajón del carrito) */
+  function quickAdd(btn) {
+    if (btn.disabled) return;
+    var html = btn.innerHTML;
+    var done = root.getAttribute('data-added') || 'OK';
+    btn.disabled = true;
+    fetch('/cart/add.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: parseInt(btn.getAttribute('data-variant-id'), 10), quantity: 1 })
+    }).then(function (r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    }).then(function () {
+      track('quick_add', btn);
+      if (!btn.classList.contains('nv-buy--icon')) btn.textContent = done;
+      btn.classList.add('is-added');
+      var open = function () { if (typeof window.openCart === 'function') window.openCart(true); };
+      if (typeof window.fetchAndRenderCart === 'function') window.fetchAndRenderCart().then(open, open); else open();
+      setTimeout(function () { btn.innerHTML = html; btn.classList.remove('is-added'); btn.disabled = false; }, 2200);
+    }).catch(function () { btn.innerHTML = html; btn.disabled = false; });
+  }
+
+  if (!('IntersectionObserver' in window)) {
+    [].forEach.call(root.querySelectorAll('.nv-reveal'), function (n) { n.classList.add('is-in'); });
+    return;
+  }
+
+  /* Entrada de elementos */
+  var rio = new IntersectionObserver(function (es) {
+    es.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('is-in'); rio.unobserve(en.target); } });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+  [].forEach.call(root.querySelectorAll('.nv-reveal'), function (n) { rio.observe(n); });
+
+  /* Chip activo según el scroll (scroll-spy) + visualización de cada franja (una vez) */
+  var seen = {};
+  var spy = new IntersectionObserver(function (es) {
+    es.forEach(function (en) {
+      if (!en.isIntersecting) return;
+      var id = en.target.getAttribute('data-nv-tier');
+      chips.forEach(function (c) {
+        var on = c.getAttribute('data-nv-target') === id;
+        c.classList.toggle('is-active', on);
+        if (on && rail && rail.scrollWidth > rail.clientWidth) {
+          rail.scrollTo({ left: c.offsetLeft - (rail.clientWidth - c.offsetWidth) / 2, behavior: reduce ? 'auto' : 'smooth' });
+        }
+      });
+      if (!seen[id]) { seen[id] = 1; track('tier_view', en.target); }
+    });
+  }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
+  [].forEach.call(root.querySelectorAll('[data-nv-tier]'), function (n) { spy.observe(n); });
+
+  /* Selección: puntos sobre cada banner de pack. Tocar un punto muestra su tarjeta; tocar la tarjeta abre la ficha del producto. */
+  var stage = root.querySelector('[data-nv-stage]');
+  if (stage) {
+    var hots = [].slice.call(stage.querySelectorAll('[data-nv-hot]'));
+    var modal = stage.querySelector('[data-nv-modal]');
+    var pops = modal ? [].slice.call(modal.querySelectorAll('[data-nv-pop]')) : [];
+    var curPop = -1, lastFocus = null;
+
+    var closeHots = function (except) {
+      hots.forEach(function (h) {
+        if (h === except) return;
+        h.classList.remove('is-open');
+        h.querySelector('.nv-hot__dot').setAttribute('aria-expanded', 'false');
+        h.querySelector('.nv-hot__card').tabIndex = -1;
+      });
+    };
+    hots.forEach(function (h) {
+      var dot = h.querySelector('.nv-hot__dot');
+      dot.addEventListener('click', function () {
+        var open = !h.classList.contains('is-open');
+        closeHots(h);
+        h.classList.toggle('is-open', open);
+        dot.setAttribute('aria-expanded', open ? 'true' : 'false');
+        h.querySelector('.nv-hot__card').tabIndex = open ? 0 : -1;
+      });
+    });
+    document.addEventListener('click', function (e) { if (!e.target.closest('[data-nv-hot]')) closeHots(); });
+
+    /* Selector Bronce · Plata · Oro: nombres arriba, fundido entre packs, clic / flechas / deslizar */
+    var packs = [].slice.call(stage.querySelectorAll('.nv-pack'));
+    var names = [].slice.call(stage.querySelectorAll('[data-nv-slide]'));
+    var trackEl = stage.querySelector('[data-nv-track]');
+    var viewport = stage.querySelector('[data-nv-names]');
+    var cur = 0, peekT = null, seen = false;
+    names.forEach(function (n, i) { if (n.hasAttribute('data-nv-start')) cur = i; });
+    var center = function (instant) {
+      var n = names[cur];
+      if (!n || !trackEl || !viewport) return;
+      var x = viewport.clientWidth / 2 - (n.offsetLeft + n.offsetWidth / 2);
+      if (instant) trackEl.style.transition = 'none';
+      trackEl.style.transform = 'translateX(' + Math.round(x) + 'px)';
+      if (instant) { void trackEl.offsetWidth; trackEl.style.transition = ''; }
+    };
+    var peekTs = [];
+    var stopPeek = function () {
+      clearTimeout(peekT);
+      peekTs.forEach(clearTimeout); peekTs = [];
+      packs.forEach(function (k) { k.classList.remove('is-peek'); });
+      hots.forEach(function (h) { h.classList.remove('is-peek-one'); });
+    };
+    /* Al entrar en un pack, sus tarjetas aparecen y luego se esconden: quedan solo los puntos.
+       Escritorio: todas a la vez (escalonadas). Móvil: una a una, para que no se pisen. */
+    var peek = function () {
+      stopPeek();
+      var k = packs[cur];
+      if (!k) return;
+      var mine = [].slice.call(k.querySelectorAll('[data-nv-hot]'));
+      if (window.matchMedia && matchMedia('(max-width: 767px)').matches) {
+        mine.forEach(function (h, j) {
+          peekTs.push(setTimeout(function () { h.classList.add('is-peek-one'); }, j * 1500));
+          peekTs.push(setTimeout(function () { h.classList.remove('is-peek-one'); }, j * 1500 + 1300));
+        });
+      } else {
+        k.classList.add('is-peek');
+        peekT = setTimeout(function () { k.classList.remove('is-peek'); }, 4200);
+      }
+    };
+    var showPack = function (i, instant) {
+      cur = (i + packs.length) % packs.length;
+      packs.forEach(function (k, j) { k.classList.toggle('is-active', j === cur); });
+      names.forEach(function (n, j) { n.setAttribute('aria-selected', j === cur ? 'true' : 'false'); n.tabIndex = j === cur ? 0 : -1; });
+      closeHots();
+      center(instant);
+      if (seen) peek();
+    };
+    names.forEach(function (n, i) {
+      n.addEventListener('click', function () { if (i !== cur) showPack(i); });
+      n.addEventListener('keydown', function (e) {
+        if (e.key === 'ArrowRight') { e.preventDefault(); showPack(cur + 1); names[cur].focus(); }
+        if (e.key === 'ArrowLeft') { e.preventDefault(); showPack(cur - 1); names[cur].focus(); }
+      });
+    });
+    var stg = stage.querySelector('.nv-stage');
+    if (stg) {
+      var sx = 0, sy = 0;
+      stg.addEventListener('touchstart', function (e) { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
+      stg.addEventListener('touchend', function (e) {
+        var dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
+        if (Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy) * 1.4) showPack(cur + (dx < 0 ? 1 : -1));
+      }, { passive: true });
+      if ('IntersectionObserver' in window) {
+        var pio = new IntersectionObserver(function (es) {
+          es.forEach(function (en) { if (en.isIntersecting && !seen) { seen = true; peek(); pio.disconnect(); } });
+        }, { threshold: 0.5 });
+        pio.observe(stg);
+      } else { seen = true; peek(); }
+    }
+    /* Tocar un punto toma el control: se detiene la aparición automática */
+    stage.addEventListener('click', function (e) { if (e.target.closest('.nv-hot__dot')) stopPeek(); }, true);
+    window.addEventListener('resize', function () { center(true); });
+    showPack(cur, true);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { center(true); });
+
+    var showPop = function (i) {
+      curPop = (i + pops.length) % pops.length;
+      pops.forEach(function (n, k) { n.classList.toggle('is-on', k === curPop); n.classList.remove('is-vis'); });
+      void pops[curPop].offsetWidth;
+      pops[curPop].classList.add('is-vis');
+    };
+    var stepPop = function (d) {
+      var g = pops[curPop].getAttribute('data-pack');
+      var grp = pops.filter(function (n) { return n.getAttribute('data-pack') === g; });
+      var nxt = grp[(grp.indexOf(pops[curPop]) + d + grp.length) % grp.length];
+      showPop(pops.indexOf(nxt));
+    };
+    var openPop = function (i, from) {
+      if (!modal || !pops.length) return;
+      lastFocus = from || document.activeElement;
+      closeHots();
+      modal.classList.add('is-open');
+      modal.setAttribute('aria-hidden', 'false');
+      document.documentElement.classList.add('nv-locked');
+      showPop(i);
+      var c = pops[curPop].querySelector('.nv-pop__close');
+      if (c) c.focus();
+    };
+    var closePop = function () {
+      if (!modal || !modal.classList.contains('is-open')) return;
+      modal.classList.remove('is-open');
+      modal.setAttribute('aria-hidden', 'true');
+      document.documentElement.classList.remove('nv-locked');
+      if (lastFocus && lastFocus.focus) lastFocus.focus();
+    };
+    stage.addEventListener('click', function (e) {
+      var o = e.target.closest('[data-nv-open]');
+      if (o) { var oh = o.closest('[data-nv-hot]'); openPop(parseInt(o.getAttribute('data-nv-open'), 10), oh ? oh.querySelector('.nv-hot__dot') : o); return; }
+      if (e.target.closest('[data-nv-close]')) { closePop(); return; }
+      var st = e.target.closest('[data-nv-step]');
+      if (st) stepPop(parseInt(st.getAttribute('data-nv-step'), 10));
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') { closePop(); closeHots(); return; }
+      if (!modal || !modal.classList.contains('is-open')) return;
+      if (e.key === 'ArrowRight') stepPop(1);
+      if (e.key === 'ArrowLeft') stepPop(-1);
+      if (e.key === 'Tab') {
+        var f = [].slice.call(pops[curPop].querySelectorAll('button, a[href]')).filter(function (n) { return n.offsetParent !== null; });
+        if (!f.length) return;
+        var first = f[0], last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    });
+  }
+
+  /* Progreso del selector y parallax suave de la portada (solo transform) */
+  if (!reduce) {
+    var ticking = false;
+    function frame() {
+      ticking = false;
+      var vh = window.innerHeight;
+      if (bar && stack && layout) {
+        var top = layout.getBoundingClientRect().top + window.scrollY;
+        var end = stack.getBoundingClientRect().bottom + window.scrollY - vh;
+        var p = (window.scrollY - top) / Math.max(1, end - top);
+        bar.style.transform = 'scaleY(' + Math.max(0, Math.min(1, p)).toFixed(3) + ')';
+      }
+      if (parallax) {
+        var r = parallax.parentNode.getBoundingClientRect();
+        if (r.bottom > 0 && r.top < vh) parallax.style.transform = 'translateY(' + (-Math.min(40, Math.max(0, -r.top) * 0.12)).toFixed(1) + 'px)';
+      }
+    }
+    window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }, { passive: true });
+    frame();
+  }
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Navidad · escalones",
+  "tag": "div",
+  "max_blocks": 40,
+  "settings": [
+    { "type": "header", "content": "Envío gratis y productos" },
+    { "type": "number", "id": "free_shipping_euros", "label": "Envío gratis desde (€)", "default": 99, "info": "0 = no mostrar la insignia «Envío gratis». El aviso «te faltan X €» no se muestra en esta página (sale en el carrito)." },
+    { "type": "collection", "id": "collection", "label": "Colección de las franjas", "info": "Vacío: «lotes-navidad». Los productos se reparten por precio según cada franja." },
+    { "type": "text", "id": "exclude_tag", "label": "Excluir productos con la etiqueta", "default": "con-alcohol" },
+
+    { "type": "header", "content": "Portada" },
+    { "type": "checkbox", "id": "show_hero", "label": "Mostrar portada", "default": true },
+    { "type": "image_picker", "id": "logo", "label": "Logo (vacío: logo 4 del tema)" },
+    { "type": "text", "id": "eyebrow", "label": "Línea superior (tras «Casa Maravillas»)", "default": "Navidad 2026" },
+    { "type": "text", "id": "hero_kicker", "label": "Etiqueta dorada sobre el titular", "default": "Regalos de Navidad" },
+    { "type": "range", "id": "hero_overlay", "label": "Fuerza de la capa negra (%)", "min": 20, "max": 90, "step": 5, "default": 70, "info": "Más alto = el texto blanco se lee mejor; más bajo = se ve más la foto." },
+    { "type": "richtext", "id": "title", "label": "Titular (h1)", "default": "<p>El regalo perfecto tiene sabor <em>ibérico</em></p>" },
+    { "type": "textarea", "id": "tagline", "label": "Texto bajo el titular", "default": "Envío gratis desde 99 € a Península y Portugal." },
+    { "type": "text", "id": "cta_label", "label": "Texto del botón", "default": "Ver los packs" },
+    { "type": "text", "id": "cta_anchor", "label": "Ancla del botón (id de la franja)", "default": "seleccion" },
+    { "type": "checkbox", "id": "use_video", "label": "Vídeo de fondo de la portada", "default": true, "info": "Usa el vídeo incluido en el tema (assets/hero-navidad.mp4, sin sonido, en bucle). Desmárcalo para usar solo la foto." },
+    { "type": "video", "id": "hero_video", "label": "Vídeo de fondo (opcional, sustituye al del tema)", "info": "Sube un mp4 en Contenido > Archivos. Sin sonido y de pocos MB." },
+    { "type": "image_picker", "id": "hero_image", "label": "Foto de portada (póster del vídeo o fondo si no hay vídeo)" },
+
+    { "type": "header", "content": "Selección (paneles de los packs)" },
+    { "type": "product", "id": "preview_product", "label": "Producto de prueba para los botones (solo vista previa)", "info": "Con «Vista previa de packs», «Comprar pack» añade este producto y «Ver pack» lleva a su ficha. Sin efecto con los packs reales." },
+    { "type": "text", "id": "pending_label", "label": "Texto del hueco de pack vacío", "default": "Pack por añadir" },
+    { "type": "checkbox", "id": "preview_packs", "label": "Vista previa de packs (solo pruebas)", "default": false, "info": "Muestra los packs y sus puntos aunque el producto esté en borrador o sin elegir. Sin precio ni compra. DESACTIVAR antes de publicar." },
+    { "type": "text", "id": "selection_anchor", "label": "Ancla", "default": "seleccion" },
+    { "type": "text", "id": "selection_chip", "label": "Texto del chip", "default": "Selección Casa Maravillas" },
+    { "type": "text", "id": "selection_eyebrow", "label": "Etiqueta superior", "default": "Packs de Navidad" },
+    { "type": "richtext", "id": "selection_title", "label": "Título", "default": "<p>Selección <em>Casa Maravillas</em></p>" },
+    { "type": "textarea", "id": "selection_desc", "label": "Descripción", "default": "Tres cajas de regalo, listas para regalar. Sin alcohol." },
+
+    { "type": "header", "content": "Selector" },
+    { "type": "text", "id": "chips_label", "label": "Etiqueta accesible del selector", "default": "Elige qué regalo buscas" }
+  ],
+  "blocks": [
+    {
+      "type": "pack",
+      "name": "Pack (banner a sangre)",
+      "settings": [
+        { "type": "product", "id": "product", "label": "Producto (el pack)", "info": "Si está en borrador o agotado, no sale." },
+        { "type": "text", "id": "numeral", "label": "Numeral", "default": "I" },
+        { "type": "text", "id": "name", "label": "Nombre mostrado", "info": "Vacío: el título del producto." },
+        { "type": "textarea", "id": "contents", "label": "Qué lleva (separar con ·)", "info": "Ej.: Jamón · Lomo · Chorizo" },
+        { "type": "image_picker", "id": "image", "label": "Foto del banner (a sangre, apaisada, mejor 2400 px)", "info": "Una foto propia de este pack con sus productos. Vacío: la del producto." },
+        { "type": "range", "id": "zoom", "label": "Zoom de la foto (escritorio)", "min": 80, "max": 130, "step": 1, "unit": "%", "default": 100, "info": "Para igualar el tamaño de la caja entre packs." },
+        { "type": "range", "id": "shift_y", "label": "Desplazar foto en vertical", "min": -20, "max": 20, "step": 0.5, "unit": "%", "default": 0, "info": "Positivo = baja la foto." },
+        { "type": "color", "id": "bg_color", "label": "Color de fondo en móvil (el de los bordes de la foto)", "info": "Rellena los lados cuando la foto se ve entera en móvil. Vacío: azul marino." },
+        { "type": "image_picker", "id": "image_mobile", "label": "Foto del banner en móvil (vertical 4:5, opcional)", "info": "Si la dejas vacía, en móvil se recorta la de escritorio." }
+      ]
+    },
+    {
+      "type": "punto",
+      "name": "Punto de producto",
+      "settings": [
+        { "type": "select", "id": "pack", "label": "Banner donde va", "default": "1", "options": [
+          { "value": "1", "label": "1.º pack de la lista" },
+          { "value": "2", "label": "2.º pack de la lista" },
+          { "value": "3", "label": "3.º pack de la lista" },
+          { "value": "4", "label": "4.º pack de la lista" }
+        ] },
+        { "type": "product", "id": "product", "label": "Producto", "info": "Solo los que se venden por separado. En borrador o agotado: no sale el punto." },
+        { "type": "text", "id": "label", "label": "Nombre (solo vista previa)", "info": "Solo se usa con «Vista previa de packs» activada y sin producto." },
+        { "type": "image_picker", "id": "image", "label": "Foto de la ficha (vacío: la del producto)" },
+        { "type": "range", "id": "x", "label": "Posición horizontal (% de la foto)", "min": 5, "max": 95, "step": 1, "default": 50 },
+        { "type": "range", "id": "y", "label": "Posición vertical (% de la foto)", "min": 25, "max": 88, "step": 1, "default": 50 },
+        { "type": "range", "id": "x_mobile", "label": "Horizontal en móvil (%) · 0 = igual que escritorio", "min": 0, "max": 95, "step": 1, "default": 0 },
+        { "type": "range", "id": "y_mobile", "label": "Vertical en móvil (%) · 0 = igual que escritorio", "min": 0, "max": 88, "step": 1, "default": 0 }
+      ]
+    },
+    {
+      "type": "tier",
+      "name": "Franja de precio",
+      "settings": [
+        { "type": "text", "id": "anchor_id", "label": "Ancla (id sin espacios)", "default": "para-regalar" },
+        { "type": "text", "id": "chip_label", "label": "Texto del chip", "default": "Para regalar" },
+        { "type": "text", "id": "eyebrow", "label": "Etiqueta superior (rango)", "default": "De 45 a 99 €" },
+        { "type": "richtext", "id": "title", "label": "Título", "default": "<p>Para <em>regalar</em></p>" },
+        { "type": "textarea", "id": "description", "label": "Descripción" },
+        { "type": "number", "id": "min_euros", "label": "Precio mínimo (€, incluido)", "default": 45 },
+        { "type": "number", "id": "max_euros", "label": "Precio máximo (€, no incluido)", "default": 99, "info": "0 = sin tope." },
+        { "type": "range", "id": "limit", "label": "Máximo de productos", "min": 1, "max": 12, "step": 1, "default": 8 },
+        { "type": "range", "id": "preview_slots", "label": "Huecos de pack (vista previa)", "min": 0, "max": 8, "step": 1, "default": 0, "info": "Con «Vista previa de packs» activada: cuántos packs tendrá la franja. Los que aún no estén publicados salen como hueco vacío para rellenar después. 0 = sin huecos." },
+        { "type": "checkbox", "id": "quick_add", "label": "Botón «Comprar rápido» (si no, «Ver pack»)", "default": true },
+        { "type": "select", "id": "tone", "label": "Fondo", "default": "white", "options": [
+          { "value": "white", "label": "Blanco" },
+          { "value": "cream", "label": "Crema" },
+          { "value": "gold", "label": "Dorado" }
+        ] },
+        { "type": "text", "id": "exclude_tag", "label": "Excluir etiqueta (vacío: la de los ajustes)" }
+      ]
+    },
+    {
+      "type": "texto",
+      "name": "Texto",
+      "settings": [
+        { "type": "text", "id": "anchor_id", "label": "Ancla (opcional)" },
+        { "type": "text", "id": "eyebrow", "label": "Etiqueta superior" },
+        { "type": "richtext", "id": "title", "label": "Título", "default": "<p>Un titular con <em>énfasis</em></p>" },
+        { "type": "richtext", "id": "body", "label": "Texto" },
+        { "type": "checkbox", "id": "full_width", "label": "Ocupar todo el ancho, sin barra lateral", "info": "Va después de las franjas, a pantalla completa. Déjalo marcado en los bloques del final (caja de 10 sobres, «Prefieres crearlo tú»).", "default": false },
+        { "type": "textarea", "id": "chips", "label": "Etiquetas (una por línea, opcional)", "info": "Pastillas con borde dorado bajo el texto." },
+        { "type": "text", "id": "badge", "label": "Etiqueta sobre la foto (opcional)" },
+        { "type": "textarea", "id": "steps", "label": "Pasos (uno por línea, opcional)", "info": "Salen numerados 1, 2, 3 bajo el texto." },
+        { "type": "select", "id": "layout", "label": "Disposición con foto", "default": "auto", "options": [
+          { "value": "auto", "label": "Automática (tarjeta en claros, mitad en azul)" },
+          { "value": "half", "label": "Foto a sangre en la mitad + texto al lado" },
+          { "value": "float", "label": "Foto a pantalla completa + texto flotante" }
+        ] },
+        { "type": "image_picker", "id": "image", "label": "Foto (opcional)", "info": "Con foto, el bloque se divide en dos columnas: foto y texto." },
+        { "type": "text", "id": "asset_image", "label": "Foto del tema (opcional)", "info": "Nombre de un archivo de assets, p. ej. texto-sobres.jpg. Se usa solo si no hay foto elegida arriba." },
+        { "type": "text", "id": "cta_label", "label": "Texto del botón" },
+        { "type": "url", "id": "cta_url", "label": "Enlace del botón" },
+        { "type": "select", "id": "tone", "label": "Fondo", "default": "gold", "options": [
+          { "value": "white", "label": "Blanco" },
+          { "value": "cream", "label": "Crema" },
+          { "value": "gold", "label": "Dorado" },
+          { "value": "navy", "label": "Azul marino" }
+        ] }
+      ]
+    }
+  ],
+  "presets": [
+    { "name": "Navidad · escalones" }
+  ]
+}
+{% endschema %}

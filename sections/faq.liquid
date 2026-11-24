@@ -98,9 +98,50 @@
     .faq-section__title { margin-bottom: 40px; }
     .faq-section__item summary { font-size: 13.5px; padding: 18px 0; }
   }
+
+  /* ── Variante Navidad (solo cuando el ajuste «Estilo» es «Navidad»): tarjetas crema/blanco con detalles dorados ── */
+  .faq-section--navidad { background: #FAF6EF; border: 0; padding: 104px 24px 112px; }
+  .faq-section--navidad .faq-section__inner { max-width: 820px; }
+  .faq-section--navidad .faq-section__eyebrow {
+    display: flex; align-items: center; justify-content: center; gap: 18px;
+    font-size: 11px; letter-spacing: 0.32em; font-weight: 600; color: #001a30; margin-bottom: 14px;
+  }
+  .faq-section--navidad .faq-section__eyebrow::before, .faq-section--navidad .faq-section__eyebrow::after { content: ''; width: clamp(28px, 9vw, 80px); height: 1px; background: #C4973A; }
+  .faq-section--navidad .faq-section__title {
+    font-family: var(--cm-font-serif, 'Cormorant Garamond', Georgia, serif);
+    font-size: clamp(34px, 6vw, 56px); font-weight: 500; line-height: 1.05; color: #001a30; text-align: center; margin-bottom: 48px;
+  }
+  .faq-section--navidad .faq-section__title em { font-style: italic; font-weight: 400; background: linear-gradient(transparent 62%, #d9b06a 62%, #d9b06a 90%, transparent 90%); padding: 0 0.06em; }
+  .faq-section--navidad .faq-section__list { gap: 12px; }
+  .faq-section--navidad .faq-section__item {
+    background: #fff; border: 1px solid rgba(196,151,58,0.25); border-radius: 16px; overflow: hidden;
+    box-shadow: 0 1px 2px rgba(0,26,48,0.05), 0 10px 24px -14px rgba(0,26,48,0.16), 0 20px 36px -26px rgba(196,151,58,0.4);
+    transition: box-shadow 0.3s ease;
+  }
+  .faq-section--navidad .faq-section__item:last-child { border-bottom: 1px solid rgba(196,151,58,0.25); }
+  .faq-section--navidad .faq-section__item[open] { border-color: #C4973A; box-shadow: 0 1px 2px rgba(0,26,48,0.06), 0 16px 32px -14px rgba(0,26,48,0.2), 0 26px 44px -24px rgba(196,151,58,0.55); }
+  .faq-section--navidad .faq-section__item summary {
+    padding: 20px 22px; font-family: var(--cm-font-serif, 'Cormorant Garamond', Georgia, serif); font-size: 21px; font-weight: 600; line-height: 1.25; color: #001a30;
+  }
+  .faq-section--navidad .faq-section__item summary:hover { color: #00294B; background: rgba(240,228,200,0.28); }
+  .faq-section--navidad .faq-section__item summary:focus-visible { outline: 3px solid #001a30; outline-offset: -3px; border-radius: 16px; }
+  .faq-section--navidad .faq-section__item summary:active { background: rgba(240,228,200,0.5); }
+  .faq-section--navidad .faq-section__chevron {
+    width: 34px; height: 34px; padding: 8px; box-sizing: border-box; border: 1.5px solid #C4973A; border-radius: 50%; color: #001a30;
+    transition: transform 0.3s ease;
+  }
+  .faq-section--navidad .faq-section__item[open] .faq-section__chevron { background: #C4973A; }
+  .faq-section--navidad .faq-section__answer { padding: 0 22px 24px; font-size: 14.5px; line-height: 1.75; color: #4A3F32; max-width: none; }
+  .faq-section--navidad .faq-section__answer a { color: #001a30; text-decoration-color: #C4973A; text-decoration-thickness: 2px; }
+  @media (max-width: 767px) {
+    .faq-section--navidad { padding: 72px 16px 80px; }
+    .faq-section--navidad .faq-section__title { margin-bottom: 36px; }
+    .faq-section--navidad .faq-section__item summary { font-size: 19px; padding: 18px 18px; }
+    .faq-section--navidad .faq-section__answer { padding: 0 18px 22px; }
+  }
 </style>
 
-<section class="faq-section">
+<section class="faq-section{% if section.settings.style == 'navidad' %} faq-section--navidad{% endif %}">
   <div class="faq-section__inner">
     {%- if section.settings.eyebrow != blank -%}
       <p class="faq-section__eyebrow">{{ section.settings.eyebrow }}</p>
@@ -171,6 +212,16 @@
     }
   ],
   "settings": [
+    {
+      "type": "select",
+      "id": "style",
+      "label": "Estilo",
+      "default": "default",
+      "options": [
+        { "value": "default", "label": "Estándar" },
+        { "value": "navidad", "label": "Navidad (tarjetas doradas)" }
+      ]
+    },
     {
       "type": "text",
       "id": "eyebrow",

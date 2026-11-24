@@ -840,6 +840,22 @@
     "cart_count": "{{ count }} items in cart"
   },
   "cm": {
+    "navidad": {
+      "quick_buy": "Buy",
+      "view_pack": "View pack",
+      "coming_soon": "Coming soon",
+      "buy_pack": "Buy pack",
+      "close": "Close",
+      "prev": "Previous pack",
+      "next": "Next pack",
+      "contents": "What's inside",
+      "pack_description": "Pack details",
+      "full_details": "View full details",
+      "free_shipping": "Free shipping",
+      "missing_for_free": "{{ amount }} more for free shipping",
+      "added": "Added ✓",
+      "pack_n_of": "Pack {{ n }} of {{ total }}"
+    },
     "pdp": {
       "add_to_cart": "Add to cart",
       "choose_options": "Select weight and format",
@@ -867,6 +883,7 @@
       "qty_increase": "Increase quantity",
       "add_product_to_cart": "Add {{ title }} to cart",
       "view_options": "View options for {{ title }}",
+      "view_options_short": "View options",
       "quick_buy": "Quick buy",
       "combine_title": "Pair your order with",
       "complement_title": "Complete your order with",

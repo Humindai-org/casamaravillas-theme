@@ -807,8 +807,12 @@
                 {%- if product == blank -%}
                   {%- assign product = block.settings.product -%}
                 {%- endif -%}
-                <div data-product-tags="{{ product.tags | join: ',' }}" data-product-price="{{ product.price | divided_by: 100 }}">
-                  {% render 'product-card', card_product: product, card_collection: collection.handle, card_style: section.settings.card_style %}
+                {%- comment -%}Precio para el filtro: el de la variante DISPONIBLE más barata (como el «Desde» de la tarjeta){%- endcomment -%}
+                {%- assign jc_price = product.price -%}
+                {%- assign jc_avail = product.variants | where: 'available' | sort: 'price' | first -%}
+                {%- if jc_avail -%}{%- assign jc_price = jc_avail.price -%}{%- endif -%}
+                <div data-product-tags="{{ product.tags | join: ',' }}" data-product-price="{{ jc_price | divided_by: 100 }}">
+                  {% render 'product-card', card_product: product, card_collection: collection.handle, card_style: section.settings.card_style, card_variant_stock: true %}
                 </div>
               {%- endif -%}
             {%- endfor -%}
@@ -825,8 +829,12 @@
           <div class="jc__grid-{{ section.id }}">
             {%- if collection.products.size > 0 -%}
               {%- for product in collection.products -%}
-                <div data-product-tags="{{ product.tags | join: ',' }}" data-product-price="{{ product.price | divided_by: 100 }}">
-                  {% render 'product-card', card_product: product, card_collection: collection.handle, card_style: section.settings.card_style %}
+                {%- comment -%}Precio para el filtro: el de la variante DISPONIBLE más barata (como el «Desde» de la tarjeta){%- endcomment -%}
+                {%- assign jc_price = product.price -%}
+                {%- assign jc_avail = product.variants | where: 'available' | sort: 'price' | first -%}
+                {%- if jc_avail -%}{%- assign jc_price = jc_avail.price -%}{%- endif -%}
+                <div data-product-tags="{{ product.tags | join: ',' }}" data-product-price="{{ jc_price | divided_by: 100 }}">
+                  {% render 'product-card', card_product: product, card_collection: collection.handle, card_style: section.settings.card_style, card_variant_stock: true %}
                 </div>
               {%- endfor -%}
             {%- else -%}

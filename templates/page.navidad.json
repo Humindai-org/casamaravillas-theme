@@ -1,0 +1,442 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "escalones": {
+      "type": "navidad-escalones",
+      "blocks": {
+        "pack_bronce": {
+          "type": "pack",
+          "settings": {
+            "product": "seleccion-bronce",
+            "numeral": "I",
+            "name": "Bronce",
+            "contents": "Sobre de jamón Cebo de Campo 50 % · Lomo de Cebo de Campo 50 % · Chorizo de bellota · Salchichón de bellota · 2 cuñas de queso de oveja añejo y vecchio · Turrón La Vila (duro o blando)",
+            "image": "shopify://shop_images/seleccion-bronce-1-caja.png",
+            "zoom": 100,
+            "shift_y": 0,
+            "bg_color": "#4a2e18"
+          }
+        },
+        "pack_plata": {
+          "type": "pack",
+          "settings": {
+            "product": "seleccion-plata",
+            "numeral": "II",
+            "name": "Plata",
+            "contents": "Jamón de bellota ibérico 50 % · Lomo de bellota 100 % ibérico · Chorizo de bellota ibérico · Salchichón de bellota ibérico · Pack 2 cuñas de queso de oveja añejo ibérico · Turrón a la piedra",
+            "image": "shopify://shop_images/seleccion-plata-1-caja.png",
+            "zoom": 100,
+            "shift_y": 0,
+            "bg_color": "#cccbce"
+          }
+        },
+        "pack_oro": {
+          "type": "pack",
+          "settings": {
+            "product": "seleccion-oro",
+            "numeral": "III",
+            "name": "Oro",
+            "contents": "Jamón de bellota 100 % ibérico · Lomito de presa ibérico · Chorizo de bellota ibérico · Salchichón de bellota ibérico · Pack 2 cuñas de queso de oveja añejo ibérico · Turrón a la piedra",
+            "image": "shopify://shop_images/seleccion-oro-1-caja.png",
+            "zoom": 104,
+            "shift_y": 5.5,
+            "bg_color": "#011023"
+          }
+        },
+        "punto_jamon": {
+          "type": "punto",
+          "settings": {
+            "pack": "1",
+            "product": "jamon-cebo-de-campo-50-iberico-loncheado-a-maquina",
+            "label": "Jamón de Cebo de Campo 50 %",
+            "x": 36,
+            "y": 58,
+            "x_mobile": 0,
+            "y_mobile": 0
+          }
+        },
+        "punto_lomo": {
+          "type": "punto",
+          "settings": {
+            "pack": "1",
+            "product": "lomo-cebo-campo-50-iberico-loncheado",
+            "label": "Lomo de Cebo de Campo 50 %",
+            "x": 48,
+            "y": 34,
+            "x_mobile": 0,
+            "y_mobile": 0
+          }
+        },
+        "punto_chorizo": {
+          "type": "punto",
+          "settings": {
+            "pack": "1",
+            "product": "chorizo-bellota-iberico-loncheado",
+            "label": "Chorizo de bellota",
+            "x": 57,
+            "y": 60,
+            "x_mobile": 0,
+            "y_mobile": 0
+          }
+        },
+        "punto_salchichon": {
+          "type": "punto",
+          "settings": {
+            "pack": "1",
+            "product": "salchichon-bellota-iberico-loncheado",
+            "label": "Salchichón de bellota",
+            "x": 66,
+            "y": 37,
+            "x_mobile": 0,
+            "y_mobile": 0
+          }
+        },
+        "p2_jamon": {
+          "type": "punto",
+          "settings": {
+            "pack": "2",
+            "product": "jamon-bellota-50-iberico-loncheado-a-maquina",
+            "label": "Jamón de bellota 50 %",
+            "x": 36,
+            "y": 58,
+            "x_mobile": 0,
+            "y_mobile": 0
+          }
+        },
+        "p2_lomo": {
+          "type": "punto",
+          "settings": {
+            "pack": "2",
+            "product": "lomo-bellota-iberico-loncheado-2",
+            "label": "Lomo de bellota",
+            "x": 48,
+            "y": 34,
+            "x_mobile": 0,
+            "y_mobile": 0
+          }
+        },
+        "p2_chorizo": {
+          "type": "punto",
+          "settings": {
+            "pack": "2",
+            "product": "chorizo-bellota-iberico-loncheado",
+            "label": "Chorizo de bellota",
+            "x": 57,
+            "y": 60,
+            "x_mobile": 0,
+            "y_mobile": 0
+          }
+        },
+        "p2_salchichon": {
+          "type": "punto",
+          "settings": {
+            "pack": "2",
+            "product": "salchichon-bellota-iberico-loncheado",
+            "label": "Salchichón de bellota",
+            "x": 66,
+            "y": 37,
+            "x_mobile": 0,
+            "y_mobile": 0
+          }
+        },
+        "p3_jamon": {
+          "type": "punto",
+          "settings": {
+            "pack": "3",
+            "product": "jamon-bellota-100-iberico-loncheado-a-maquina",
+            "label": "Jamón de bellota 100 %",
+            "x": 36,
+            "y": 58,
+            "x_mobile": 0,
+            "y_mobile": 0
+          }
+        },
+        "p3_lomito": {
+          "type": "punto",
+          "settings": {
+            "pack": "3",
+            "product": "lomo-bellota-iberico-loncheado-1",
+            "label": "Lomito de presa",
+            "x": 48,
+            "y": 34,
+            "x_mobile": 0,
+            "y_mobile": 0
+          }
+        },
+        "p3_chorizo": {
+          "type": "punto",
+          "settings": {
+            "pack": "3",
+            "product": "chorizo-bellota-iberico-loncheado",
+            "label": "Chorizo de bellota",
+            "x": 57,
+            "y": 60,
+            "x_mobile": 0,
+            "y_mobile": 0
+          }
+        },
+        "p3_salchichon": {
+          "type": "punto",
+          "settings": {
+            "pack": "3",
+            "product": "salchichon-bellota-iberico-loncheado",
+            "label": "Salchichón de bellota",
+            "x": 66,
+            "y": 37,
+            "x_mobile": 0,
+            "y_mobile": 0
+          }
+        },
+        "t_regalar": {
+          "type": "tier",
+          "settings": {
+            "anchor_id": "para-regalar",
+            "chip_label": "Para regalar",
+            "eyebrow": "Especial Navidad",
+            "title": "<p>Para <em>regalar</em></p>",
+            "description": "Packs de ibéricos que convierten un detalle en un recuerdo inolvidable.",
+            "min_euros": 45,
+            "max_euros": 99,
+            "limit": 8,
+            "preview_slots": 0,
+            "quick_add": true,
+            "tone": "cream",
+            "exclude_tag": ""
+          }
+        },
+        "t_detalles": {
+          "type": "tier",
+          "settings": {
+            "anchor_id": "pequenos-detalles",
+            "chip_label": "Pequeños detalles",
+            "eyebrow": "Especial Navidad",
+            "title": "<p>Pequeños <em>detalles</em></p>",
+            "description": "Pequeños placeres gourmet que hacen especiales hasta los momentos más sencillos.",
+            "min_euros": 0,
+            "max_euros": 45,
+            "limit": 8,
+            "preview_slots": 0,
+            "quick_add": true,
+            "tone": "white",
+            "exclude_tag": ""
+          }
+        },
+        "t_compartir": {
+          "type": "tier",
+          "settings": {
+            "anchor_id": "para-compartir",
+            "chip_label": "Para compartir",
+            "eyebrow": "Especial Navidad",
+            "title": "<p>Para <em>compartir</em></p>",
+            "description": "Sabores que reúnen alrededor de la mesa y convierten cada encuentro en una ocasión especial.",
+            "min_euros": 99,
+            "max_euros": 150,
+            "limit": 8,
+            "preview_slots": 0,
+            "quick_add": false,
+            "tone": "gold",
+            "exclude_tag": ""
+          }
+        },
+        "t_especial": {
+          "type": "tier",
+          "settings": {
+            "anchor_id": "seleccion-especial",
+            "chip_label": "Selección especial",
+            "eyebrow": "Especial Navidad",
+            "title": "<p>Selección <em>especial</em></p>",
+            "description": "Una selección extraordinaria de ibéricos para quienes saben apreciar lo verdaderamente excepcional.",
+            "min_euros": 150,
+            "max_euros": 0,
+            "limit": 8,
+            "preview_slots": 0,
+            "quick_add": false,
+            "tone": "white",
+            "exclude_tag": ""
+          }
+        },
+        "t_sobres": {
+          "type": "texto",
+          "settings": {
+            "anchor_id": "caja-10-sobres",
+            "eyebrow": "Para compartir",
+            "title": "<p>Caja de <em>10 sobres</em></p>",
+            "body": "",
+            "full_width": true,
+            "chips": "",
+            "badge": "",
+            "steps": "Elige tu jamón loncheado \nPon 10 sobres del mismo jamón en el carrito\nEl 10 % de descuento se aplica solo",
+            "layout": "float",
+            "image": "shopify://shop_images/2_1148d102-1444-47ef-a244-f2fd7543f14d.png",
+            "asset_image": "texto-sobres.jpg",
+            "cta_label": "Ver loncheados",
+            "cta_url": "/collections/loncheados",
+            "tone": "navy"
+          }
+        },
+        "t_medida": {
+          "type": "texto",
+          "settings": {
+            "anchor_id": "",
+            "eyebrow": "A tu medida",
+            "title": "<p>¿Prefieres <em>crearlo tú</em>?</p>",
+            "body": "<p>Elige los productos que quieras y prepara tu propio pack, para regalar o para tu mesa.</p>",
+            "full_width": true,
+            "chips": "",
+            "badge": "",
+            "steps": "",
+            "layout": "half",
+            "image": "shopify://shop_images/1_11813fc6-3367-4e7c-87f5-f9f5037e0977.png",
+            "asset_image": "texto-medida.jpg",
+            "cta_label": "Crear mi pack",
+            "cta_url": "/collections/regalos-ibericos",
+            "tone": "white"
+          }
+        }
+      },
+      "block_order": [
+        "pack_bronce",
+        "pack_plata",
+        "pack_oro",
+        "punto_jamon",
+        "punto_lomo",
+        "punto_chorizo",
+        "punto_salchichon",
+        "p2_jamon",
+        "p2_lomo",
+        "p2_chorizo",
+        "p2_salchichon",
+        "p3_jamon",
+        "p3_lomito",
+        "p3_chorizo",
+        "p3_salchichon",
+        "t_regalar",
+        "t_detalles",
+        "t_compartir",
+        "t_especial",
+        "t_sobres",
+        "t_medida"
+      ],
+      "settings": {
+        "free_shipping_euros": 99,
+        "collection": "",
+        "exclude_tag": "con-alcohol",
+        "show_hero": true,
+        "eyebrow": "Navidad 2026",
+        "hero_kicker": "Regalos de Navidad",
+        "hero_overlay": 70,
+        "title": "<p>El regalo perfecto tiene sabor <em>ibérico</em></p>",
+        "tagline": "Envío gratis desde 99 € a Península y Portugal.",
+        "cta_label": "Ver los packs",
+        "cta_anchor": "seleccion",
+        "use_video": true,
+        "preview_product": "jamon-cebo-de-campo-50-iberico-loncheado-a-maquina",
+        "pending_label": "Pack por añadir",
+        "preview_packs": false,
+        "selection_anchor": "seleccion",
+        "selection_chip": "Selección Casa Maravillas",
+        "selection_eyebrow": "Los mejores momentos empiezan alrededor de una mesa",
+        "selection_title": "<p>Selección <em>Casa Maravillas</em></p>",
+        "selection_desc": "Una cuidada selección de sabores únicos para disfrutar de la esencia de nuestra tradición.",
+        "chips_label": "Elige qué regalo buscas"
+      }
+    },
+    "tarjeta_regalo": {
+      "type": "rejilla-coleccion",
+      "disabled": true,
+      "settings": {
+        "source": "product",
+        "collection": "",
+        "product": "",
+        "products": [],
+        "include_tag": "",
+        "exclude_tag": "",
+        "show_variant_stock": true,
+        "limit": 1,
+        "anchor_id": "tarjeta-regalo",
+        "eyebrow": "Tarjeta regalo",
+        "title": "<p>¿Llegas <em>tarde</em>?</p>",
+        "description": "Llega por correo y elige quien la recibe.",
+        "view_all_label": "",
+        "view_all_url": ""
+      }
+    },
+    "fechas": {
+      "type": "story-teaser",
+      "disabled": true,
+      "settings": {
+        "eyebrow": "Pide a tiempo",
+        "title": "<p>Para recibirlo <em>antes de Nochebuena</em></p>",
+        "body": "Pedidos a la Península: haz tu pedido antes del (FECHA PENDIENTE DEL TRANSPORTISTA).",
+        "cta_label": "Conoce nuestra historia",
+        "cta_url": ""
+      }
+    },
+    "faq": {
+      "type": "faq",
+      "blocks": {
+        "faq_envio": {
+          "type": "faq_item",
+          "settings": {
+            "question": "¿A partir de qué importe son gratuitos los gastos de envío?",
+            "answer": "<p>El envío es gratis desde 99 € a España peninsular y Portugal. Por debajo de ese importe, el coste se calcula al finalizar la compra. Por el momento no realizamos envíos a Islas Baleares, Islas Canarias, Ceuta ni Melilla. Más detalles en <a href=\"/pages/envios\">Envíos</a>.</p>"
+          }
+        },
+        "faq_regalo": {
+          "type": "faq_item",
+          "settings": {
+            "question": "¿Puedo enviar un pedido como regalo directamente a otra persona?",
+            "answer": "<p>Sí. Al finalizar la compra indicas como dirección de envío la de la persona que lo va a recibir. Si necesitas ayuda con un envío de regalo, escríbenos a <a href=\"mailto:info@casamaravillas.com\">info@casamaravillas.com</a>.</p>"
+          }
+        },
+        "faq_medida": {
+          "type": "faq_item",
+          "settings": {
+            "question": "¿Puedo personalizar una cesta eligiendo los productos que quiero incluir?",
+            "answer": "<p>Sí. En <a href=\"/collections/regalos-ibericos\">Packs y Regalos</a> eliges los productos que quieras, con un mínimo de 2.</p>"
+          }
+        },
+        "faq_plazo": {
+          "type": "faq_item",
+          "settings": {
+            "question": "¿Cuánto tarda en llegar mi pedido y con cuánta antelación debo comprar para Navidad?",
+            "answer": "<p>Los pedidos hechos antes de las 12:00 h en día laborable se procesan el mismo día. A España peninsular y Portugal la entrega es de 24–48 horas laborables desde la confirmación del envío. En Navidad los plazos pueden aumentar: te informaremos de cualquier variación, y te recomendamos hacer tu pedido con tiempo. Más detalles en <a href=\"/pages/envios\">Envíos</a>.</p>"
+          }
+        },
+        "faq_tipos": {
+          "type": "faq_item",
+          "settings": {
+            "question": "¿Qué diferencias hay entre los distintos tipos de jamón y cuál debería elegir?",
+            "answer": "<p>Nuestra gama tiene tres niveles: Cebo de Campo Ibérico 50 % raza ibérica, Bellota Ibérico 50 % raza ibérica y Bellota 100 % Ibérico. La diferencia está en la raza del cerdo y en su alimentación: el jamón de bellota 100 % ibérico procede de cerdos 100 % ibéricos criados en libertad en la dehesa y alimentados con bellotas y hierbas naturales. Lo explicamos con detalle en la <a href=\"/pages/guia-del-iberico\">guía del ibérico</a>.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq_envio",
+        "faq_regalo",
+        "faq_medida",
+        "faq_plazo",
+        "faq_tipos"
+      ],
+      "settings": {
+        "style": "navidad",
+        "eyebrow": "Preguntas frecuentes",
+        "title": "<p>Regalar en <em>Navidad</em></p>"
+      }
+    }
+  },
+  "order": [
+    "escalones",
+    "tarjeta_regalo",
+    "fechas",
+    "faq"
+  ]
+}

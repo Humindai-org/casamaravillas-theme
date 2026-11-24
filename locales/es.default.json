@@ -117,6 +117,22 @@
     "cart_count": "{{ count }} artículos en el carrito"
   },
   "cm": {
+    "navidad": {
+      "quick_buy": "Comprar",
+      "view_pack": "Ver pack",
+      "coming_soon": "Próximamente",
+      "buy_pack": "Comprar pack",
+      "close": "Cerrar",
+      "prev": "Pack anterior",
+      "next": "Pack siguiente",
+      "contents": "Qué lleva",
+      "pack_description": "Descripción del pack",
+      "full_details": "Ver detalles completos",
+      "free_shipping": "Envío gratis",
+      "missing_for_free": "Te faltan {{ amount }} para el envío gratis",
+      "added": "Añadido ✓",
+      "pack_n_of": "Pack {{ n }} de {{ total }}"
+    },
     "pdp": {
       "add_to_cart": "Añadir a la cesta",
       "choose_options": "Selecciona peso y formato",
@@ -144,6 +160,7 @@
       "qty_increase": "Aumentar cantidad",
       "add_product_to_cart": "Añadir {{ title }} a la cesta",
       "view_options": "Ver opciones de {{ title }}",
+      "view_options_short": "Ver opciones",
       "quick_buy": "Compra rápida",
       "combine_title": "Combina tu compra con",
       "complement_title": "Complementa tu pedido con",

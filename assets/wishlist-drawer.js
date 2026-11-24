@@ -142,8 +142,15 @@ function initWishlistDrawer() {
       var html = '';
       products.forEach(function(product) {
         if (!product) return;
-        var variant = product.variants && product.variants[0];
+        /* Variante disponible más barata (variants[0] puede ser un peso agotado y daría el producto por agotado) */
+        var variants = product.variants || [];
+        var cheapest = variants.filter(function(v) { return v.available; })
+          .slice().sort(function(a, b) { return a.price - b.price; })[0];
+        var variant = cheapest || variants[0];
         if (!variant) return;
+        var mustChoose = variants.length > 1 && !!cheapest;
+        var priceText = formatMoney(variant.price);
+        if (mustChoose && product.price_varies) priceText = cmT('from_price', 'Desde {amount}', { amount: priceText });
         var imageUrl = product.featured_image
           ? product.featured_image.replace(/(\.(jpg|jpeg|png|webp|gif))(\?|$)/i, '_160x160_crop_center$1$3')
           : '';
@@ -157,10 +164,12 @@ function initWishlistDrawer() {
             '</a>' +
             '<div class="wishlist-item-info">' +
               '<a href="' + product.url + '" class="wishlist-title">' + escapeHtml(product.title) + '</a>' +
-              '<span class="wishlist-price">' + formatMoney(variant.price) + '</span>' +
-              '<button type="button" class="wishlist-add-btn" data-variant-id="' + variant.id + '"' + (!variant.available ? ' disabled' : '') + '>' +
-                (variant.available ? cmT('add_to_cart', 'Añadir a la cesta') : cmT('sold_out', 'Agotado')) +
-              '</button>' +
+              '<span class="wishlist-price">' + priceText + '</span>' +
+              (mustChoose
+                ? '<a class="wishlist-add-btn" href="' + product.url + '">' + cmT('view_options_short', 'Ver opciones') + '</a>'
+                : '<button type="button" class="wishlist-add-btn" data-variant-id="' + variant.id + '"' + (!variant.available ? ' disabled' : '') + '>' +
+                    (variant.available ? cmT('add_to_cart', 'Añadir a la cesta') : cmT('sold_out', 'Agotado')) +
+                  '</button>') +
             '</div>' +
             '<button type="button" class="wishlist-remove" data-handle="' + product.handle + '" aria-label="Quitar ' + escapeHtml(product.title) + '">' +
               '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">' +

@@ -183,6 +183,7 @@
   width: fit-content;
   transition: background 0.2s, color 0.2s;
 }
+a.wishlist-add-btn { display: inline-block; text-decoration: none; }
 
 .wishlist-add-btn:hover:not(:disabled) {
   background: #00294B;
