@@ -340,7 +340,7 @@
         "use_video": true,
         "preview_product": "jamon-cebo-de-campo-50-iberico-loncheado-a-maquina",
         "pending_label": "Pack por añadir",
-        "preview_packs": true,
+        "preview_packs": false,
         "selection_anchor": "seleccion",
         "selection_chip": "Selección Casa Maravillas",
         "selection_eyebrow": "Los mejores momentos empiezan alrededor de una mesa",

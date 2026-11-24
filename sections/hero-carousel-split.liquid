@@ -374,10 +374,54 @@
     .cm-hero-split__wordmark { color: var(--cm-cream); }
     .cm-hero-split__header-rule { background: rgba(244, 237, 224, 0.35); }
   }
+
+  /* Variante «azul marino»: velo navy + textos blancos (ajuste de la sección) */
+  @media (min-width: 641px) {
+    .cm-hero-split--navy .cm-hero-split__img-overlay {
+      background: linear-gradient(
+        90deg,
+        rgba(27, 37, 64, 0) 0%,
+        rgba(27, 37, 64, 0) 35%,
+        rgba(27, 37, 64, 0.55) 65%,
+        rgba(27, 37, 64, 1) 100%
+      );
+    }
+    .cm-hero-split--navy .cm-hero-split__content-col,
+    .cm-hero-split--navy .cm-hero-split__h1,
+    .cm-hero-split--navy .cm-hero-split__wordmark,
+    .cm-hero-split--navy .cm-hero-split__tagline { color: #fff; }
+    .cm-hero-split--navy .cm-hero-split__tagline { color: rgba(255, 255, 255, 0.88); }
+    .cm-hero-split--navy .cm-hero-split__cta {
+      border-color: rgba(255, 255, 255, 0.6);
+      color: #fff;
+    }
+    .cm-hero-split--navy .cm-hero-split__cta:hover {
+      background: #fff;
+      color: var(--cm-navy);
+      border-color: #fff;
+    }
+    .cm-hero-split--navy .cm-hero-split__nav-btn {
+      border-color: rgba(255, 255, 255, 0.45);
+      color: #fff;
+    }
+    .cm-hero-split--navy .cm-hero-split__nav-dot { background: rgba(255, 255, 255, 0.35); }
+    .cm-hero-split--navy .cm-hero-split__nav-dot.is-active { background: rgba(255, 255, 255, 0.9); }
+  }
+  @media (max-width: 640px) {
+    .cm-hero-split--navy .cm-hero-split__img-overlay {
+      background: linear-gradient(
+        180deg,
+        rgba(27, 37, 64, 0) 0%,
+        rgba(27, 37, 64, 0.35) 40%,
+        rgba(27, 37, 64, 0.75) 70%,
+        rgba(27, 37, 64, 0.9) 100%
+      );
+    }
+  }
 </style>
 
 <section
-  class="cm-hero-split"
+  class="cm-hero-split{% if section.settings.overlay_style == 'navy' %} cm-hero-split--navy{% endif %}"
   id="cm-hero-split-{{ section.id }}"
   aria-label="Hero — {{ shop.name }}"
   {% if section.blocks.size > 1 %}aria-roledescription="carousel"{% endif %}
@@ -568,6 +612,18 @@
   "name": "Hero Carousel Split",
   "tag": "section",
   "max_blocks": 3,
+  "settings": [
+    {
+      "type": "select",
+      "id": "overlay_style",
+      "label": "Velo y textos",
+      "options": [
+        { "value": "cream", "label": "Velo crema · textos azul marino" },
+        { "value": "navy", "label": "Velo azul marino · textos blancos" }
+      ],
+      "default": "cream"
+    }
+  ],
   "blocks": [
     {
       "type": "slide",
