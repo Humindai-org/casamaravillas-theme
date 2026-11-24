@@ -171,7 +171,8 @@
       "no_reviews": "Aucun avis",
       "cart_items_aria": "{{ n }} articles dans votre panier",
       "add_to_my_cart": "Ajouter à mon panier",
-      "badge_sale": "Promo"
+      "badge_sale": "Promo",
+      "badge_black_friday": "Black Friday −{{ pct }} %"
     },
     "shipbar": {
       "free_html": "Vous bénéficiez de la <strong>livraison offerte</strong> !",

@@ -20,6 +20,10 @@
   MILESTONES = MILESTONES.filter(function (m) { return m.qty > 0; }).sort(function (a, b) { return a.qty - b.qty; });
   var MAXQ = MILESTONES.length ? MILESTONES[MILESTONES.length - 1].qty : MIN;
 
+  /* Gramaje real por handle (metacampo custom.gramaje, lo pone cesta-builder.liquid) */
+  var GRAMAJES = {};
+  try { GRAMAJES = JSON.parse(d.gramajes || '{}') || {}; } catch (e) { GRAMAJES = {}; }
+
   var STORE_KEY = 'cm-pack-v2';
   var CURINGS = ['Más tierno', 'Equilibrado', 'Más curado'];
   /* Pastillas por tipo de producto: lo más barato y rápido primero (Loncheados) */
@@ -140,6 +144,7 @@
                  o: [v.option1, v.option2, v.option3] };
       }).filter(function (v) { return v.available; })
     };
+    o.gramaje = GRAMAJES[p.handle] || '';
     o.cat = classify(o);
     o.curing = hasCuring(o);
     o.hay = fold([o.title, o.type].concat(o.tags).join(' '));
@@ -248,6 +253,7 @@
           '<div class="cb-ph">' + (p.image ? '<img src="' + esc(img(p.image, 600)) + '" alt="' + esc(p.title) + '" loading="lazy" width="300" height="300">' : '') + '</div>' +
           '<div class="cb-body">' +
             '<h3 class="cb-name">' + nameHtml + '</h3>' +
+            (p.gramaje ? '<p class="cb-gramaje">' + esc(p.gramaje) + '</p>' : '') +
             '<p class="cb-price">' + money(v.price) + '</p>' +
             custom +
             '<button type="button" class="cb-add" data-add="' + ck + '" data-vid="' + v.id + '" data-cur="' + esc(p.curing ? curCuring(p) : '') + '">Añadir al pack</button>' +
@@ -294,6 +300,7 @@
       var meta = [];
       if (h.variant.title && h.variant.title !== 'Default Title') meta.push(esc(h.variant.title));
       if (b.curing) meta.push(esc(b.curing));
+      if (h.product.gramaje) meta.push(esc(h.product.gramaje));
       return '<li><span>' + esc(h.product.title) + '<small>' + b.qty + ' ×' + (meta.length ? ' · ' + meta.join(' · ') : '') + '</small></span><span>' + money(b.qty * h.variant.price) + '</span></li>';
     }).join('');
 

@@ -562,6 +562,10 @@
   border: 1px solid rgba(196, 151, 58, 0.35);
 }
 .cm-shipbar[hidden] { display: none; }
+/* «Te faltan X €…» es un enlace: subrayado y flecha para que se vea que se puede pulsar */
+.cm-shipbar__link { color: inherit; text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; cursor: pointer; }
+.cm-shipbar__link::after { content: ' →'; text-decoration: none; display: inline-block; }
+.cm-shipbar__link:hover, .cm-shipbar__link:focus-visible { text-decoration-thickness: 2px; }
 .cm-shipbar__text {
   margin: 0 0 8px;
   font-size: 13px;

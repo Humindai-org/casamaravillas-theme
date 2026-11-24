@@ -12,10 +12,24 @@
 
 {{ 'cesta-builder.css' | asset_url | stylesheet_tag }}
 
+{%- comment -%}
+  Gramaje real (metacampo custom.gramaje) por handle: el catálogo del constructor sale de /collections/all/products.json,
+  que no trae metacampos. Un bucle de colección devuelve como máximo 50 productos (hoy hay 36): si el catálogo pasa de 50,
+  los de más allá no mostrarán gramaje en el constructor.
+{%- endcomment -%}
+{%- capture cb_gramajes -%}
+  {%- for p in collections.all.products limit: 50 -%}
+    {%- if p.metafields.custom.gramaje != blank -%}{{ p.handle | json }}:{{ p.metafields.custom.gramaje.value | json }},{%- endif -%}
+  {%- endfor -%}
+  "_":""
+{%- endcapture -%}
+{%- capture cb_gramajes_json -%}{ {{ cb_gramajes }} }{%- endcapture -%}
+
 <div
   class="cb"
   {% if section.settings.anchor_id != blank %}id="{{ section.settings.anchor_id | handleize }}" style="scroll-margin-top:96px"{% endif %}
   data-cesta-builder
+  data-gramajes="{{ cb_gramajes_json | escape }}"
   data-min="{{ section.settings.min_items }}"
   data-free-shipping="{{ section.settings.free_shipping_euros | times: 100 }}"
   data-gift-handle="{{ section.settings.gift_handle | escape }}"

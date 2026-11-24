@@ -209,6 +209,11 @@
     text-decoration: line-through;
   }
 
+  /* Black Friday: el precio anterior tachado va delante del nuevo precio (el HTML lo trae detrás por compatibilidad) */
+  .cm-pdp__price--bf-was { order: -1; }
+  .cm-pdp__price-kg-was { color: inherit; opacity: .7; text-decoration: line-through; }
+  .cm-pdp__discount-badge--bf { letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; }
+
   .cm-pdp__discount-badge {
     font-size: 10px;
     letter-spacing: 0.1em;

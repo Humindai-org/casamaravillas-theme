@@ -153,6 +153,8 @@
   }
 </style>
 
+{%- comment -%} En /collections/black-friday la pinta la sección «Black Friday premium» (templates/collection.json). {%- endcomment -%}
+{%- unless collection.handle == 'black-friday' -%}
 <section class="collection-main">
   <div class="collection-main__inner">
     {%- if section.blocks.size > 0 -%}
@@ -257,6 +259,7 @@
     {%- endif -%}
   </div>
 </section>
+{%- endunless -%}
 
 {% schema %}
 {
