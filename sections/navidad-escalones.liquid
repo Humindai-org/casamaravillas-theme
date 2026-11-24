@@ -1046,6 +1046,7 @@
                   {%- assign pt_n = pt_n | plus: 1 -%}
                   {%- assign mob = '' -%}
                   {%- if pt.settings.x_mobile > 0 and pt.settings.y_mobile > 0 -%}{%- capture mob -%}--xm: {{ pt.settings.x_mobile }}%; --ym: {{ pt.settings.y_mobile }}%;{%- endcapture -%}{%- endif -%}
+                  {%- if section.settings.show_hotspots -%}
                   <div class="nv-hot" style="--x: {{ hx }}%; --y: {{ hy }}%; {{ mob }}" data-h="{{ h_side }}" data-v="{{ v_side }}" data-nv-hot
                     data-cm-tier="{{ sel_anchor }}" data-cm-handle="{{ q.handle }}" data-cm-price="{{ q.price | divided_by: 100.0 }}" data-cm-position="{{ pi }}" {{ pt.shopify_attributes }}>
                     <button type="button" class="nv-hot__dot" aria-expanded="false" aria-label="{{ qt | escape }}" data-cm-track="hotspot_click"></button>
@@ -1054,6 +1055,7 @@
                       {%- if q != blank -%}<span class="nv-hot__price">{{ q.price | money }}</span>{%- endif -%}
                     </button>
                   </div>
+                  {%- endif -%}
                   {%- capture one_pop -%}
                     {%- assign qimg = pt.settings.image | default: q.featured_image -%}
                     {%- assign qv2 = q.variants | where: 'available' | sort: 'price' | first -%}
@@ -1636,6 +1638,7 @@
     { "type": "textarea", "id": "selection_desc", "label": "Descripción", "default": "Tres cajas de regalo, listas para regalar. Sin alcohol." },
 
     { "type": "header", "content": "Selector" },
+    { "type": "checkbox", "id": "show_hotspots", "label": "Mostrar los puntos sobre la foto de los packs", "info": "Desactivado: se ve solo el botón «Descripción del pack».", "default": false },
     { "type": "text", "id": "chips_label", "label": "Etiqueta accesible del selector", "default": "Elige qué regalo buscas" }
   ],
   "blocks": [
