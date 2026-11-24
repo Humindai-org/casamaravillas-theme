@@ -1,19 +1,45 @@
 /*
  * «Packs y Regalos» (/collections/regalos-ibericos) — OPCIÓN A: todo en una página.
- * Arriba, los packs ya hechos (desde ESTA colección, sin los que llevan la etiqueta con-alcohol)
+ * Primero un hero («Packs listos para regalar»); luego los packs ya hechos, en carrusel, (desde ESTA colección, sin los que llevan la etiqueta con-alcohol)
  * y la tarjeta regalo (producto suelto, sin elegir todavía); debajo, el constructor «Crea tu pack».
  * Las dos rejillas no se ven mientras no haya productos publicados: hoy la página es solo el constructor.
  */
 {
   "sections": {
+    "hero": {
+      "type": "hero-carousel-split",
+      "blocks": {
+        "slide_packs": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/Simple_Product_Promotion_Ads_Instagram_Post_3000_x_1500_px.jpg",
+            "eyebrow": "PACKS Y REGALOS",
+            "heading": "Packs listos para regalar",
+            "year": "",
+            "tagline": "Envío gratis desde 99 € a la Península",
+            "cta_label": "VER LOS PACKS",
+            "cta_url": "#packs",
+            "image_pos_x": 25,
+            "image_pos_y": 50
+          }
+        }
+      },
+      "block_order": [
+        "slide_packs"
+      ],
+      "settings": {}
+    },
     "packs": {
       "type": "rejilla-coleccion",
       "settings": {
         "exclude_tag": "con-alcohol",
         "limit": 12,
         "anchor_id": "packs",
+        "layout": "carousel",
+        "view_all_label": "Descubre los packs de Navidad",
+        "view_all_url": "/pages/navidad",
         "eyebrow": "Packs y regalos",
-        "title": "<p>Packs listos para <em>regalar</em></p>"
+        "title": "<p>Elige tu <em>pack</em></p>"
       }
     },
     "tarjeta_regalo": {
@@ -44,6 +70,7 @@
     }
   },
   "order": [
+    "hero",
     "packs",
     "tarjeta_regalo",
     "builder"

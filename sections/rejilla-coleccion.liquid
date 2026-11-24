@@ -145,6 +145,61 @@
     .rejilla-col__grid.is-single { display: block; margin: 0 auto; padding: 0; max-width: 320px; }
     .rejilla-col__all { padding: 16px 32px; }
   }
+
+  /* Opción «Carrusel» (escritorio y tableta): 3 tarjetas visibles (2 en tableta) y flechas. En móvil ya es carrusel por deslizamiento. */
+  .rejilla-col__wrap { position: relative; max-width: 1160px; margin: 0 auto; }
+  .rejilla-col__wrap .rejilla-col__grid { max-width: none; }
+  .rejilla-col__arrow { display: none; }
+  @media (min-width: 768px) {
+    .rejilla-col__wrap.is-carousel .rejilla-col__grid,
+    .rejilla-col__wrap.is-carousel .rejilla-col__grid.is-few {
+      display: flex;
+      justify-content: flex-start;
+      gap: 24px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      padding: 4px 0 8px;
+    }
+    .rejilla-col__wrap.is-carousel .rejilla-col__grid::-webkit-scrollbar { display: none; }
+    .rejilla-col__wrap.is-carousel .rejilla-col__grid > * { flex: 0 0 calc((100% - 24px) / 2); min-width: 0; scroll-snap-align: start; }
+    .rejilla-col__wrap.is-carousel .rejilla-col__arrow {
+      display: flex; align-items: center; justify-content: center;
+      position: absolute; top: 34%; z-index: 2;
+      width: 46px; height: 46px; padding: 0; border-radius: 50%;
+      border: 1px solid var(--cm-gold); background: var(--cm-off, #FAF6EF); color: var(--cm-navy);
+      box-shadow: 0 1px 2px rgba(0,26,48,0.10), 0 10px 22px -8px rgba(0,26,48,0.28);
+      cursor: pointer;
+    }
+    .rejilla-col__arrow[hidden] { display: none; }
+    .rejilla-col__arrow--prev { left: -23px; }
+    .rejilla-col__arrow--next { right: -23px; }
+    .rejilla-col__arrow svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+    .rejilla-col__arrow:hover { transform: scale(1.06); }
+    .rejilla-col__arrow:active { transform: scale(0.95); }
+    .rejilla-col__arrow:focus-visible { outline: 3px solid var(--cm-gold); outline-offset: 3px; }
+  }
+  @media (min-width: 1024px) {
+    .rejilla-col__wrap.is-carousel .rejilla-col__grid > * { flex: 0 0 calc((100% - 48px) / 3); }
+  }
+  /* Móvil: flechas más pequeñas sobre la foto, además del deslizamiento con el dedo */
+  @media (max-width: 767px) {
+    .rejilla-col__wrap.is-carousel .rejilla-col__arrow {
+      display: flex; align-items: center; justify-content: center;
+      position: absolute; top: 26%; z-index: 2;
+      width: 40px; height: 40px; padding: 0; border-radius: 50%;
+      border: 1px solid var(--cm-gold); background: var(--cm-white, #fff); color: var(--cm-navy);
+      box-shadow: 0 1px 2px rgba(0,26,48,0.12), 0 8px 18px -8px rgba(0,26,48,0.4);
+      cursor: pointer;
+    }
+    .rejilla-col__arrow[hidden] { display: none; }
+    .rejilla-col__arrow--prev { left: -6px; }
+    .rejilla-col__arrow--next { right: -6px; }
+    .rejilla-col__arrow svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+    .rejilla-col__arrow:active { transform: scale(0.94); }
+    .rejilla-col__arrow:focus-visible { outline: 3px solid var(--cm-gold); outline-offset: 2px; }
+  }
 </style>
 
 {%- assign cols = shown | at_most: 4 -%}
@@ -163,8 +218,16 @@
     {%- endif -%}
   </header>
 
-  <div class="rejilla-col__grid{% if shown < 4 %} is-few{% endif %}{% if shown == 1 %} is-single{% endif %}" style="--rc-cols: {{ cols }};">
-    {{ cards }}
+  {%- assign is_car = false -%}
+  {%- if section.settings.layout == 'carousel' and shown > 1 -%}{%- assign is_car = true -%}{%- endif -%}
+  <div class="rejilla-col__wrap{% if is_car %} is-carousel{% endif %}"{% if is_car %} data-rc-wrap{% endif %}>
+    <div class="rejilla-col__grid{% if shown < 4 %} is-few{% endif %}{% if shown == 1 %} is-single{% endif %}" style="--rc-cols: {{ cols }};"{% if is_car %} data-rc-track{% endif %}>
+      {{ cards }}
+    </div>
+    {%- if is_car -%}
+      <button type="button" class="rejilla-col__arrow rejilla-col__arrow--prev" data-rc-prev aria-label="Packs anteriores" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14.5 5.5-6.5 6.5 6.5 6.5"/></svg></button>
+      <button type="button" class="rejilla-col__arrow rejilla-col__arrow--next" data-rc-next aria-label="Packs siguientes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9.5 5.5 6.5 6.5-6.5 6.5"/></svg></button>
+    {%- endif -%}
   </div>
 
   {%- if section.settings.view_all_label != blank and section.settings.view_all_url != blank -%}
@@ -173,6 +236,39 @@
     </div>
   {%- endif -%}
 </section>
+{%- if is_car -%}
+<script>
+(function () {
+  function init(wrap) {
+    if (wrap.dataset.rcReady) return;
+    wrap.dataset.rcReady = '1';
+    var track = wrap.querySelector('[data-rc-track]');
+    var prev = wrap.querySelector('[data-rc-prev]');
+    var next = wrap.querySelector('[data-rc-next]');
+    if (!track || !prev || !next) return;
+    var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function step() {
+      var c = track.children[0];
+      if (!c) return 0;
+      var gap = parseFloat(getComputedStyle(track).columnGap) || 24;
+      return c.getBoundingClientRect().width + gap;
+    }
+    function update() {
+      var max = track.scrollWidth - track.clientWidth;
+      prev.hidden = track.scrollLeft <= 4;
+      next.hidden = max <= 4 || track.scrollLeft >= max - 4;
+    }
+    prev.addEventListener('click', function () { track.scrollBy({ left: -step(), behavior: reduce ? 'auto' : 'smooth' }); });
+    next.addEventListener('click', function () { track.scrollBy({ left: step(), behavior: reduce ? 'auto' : 'smooth' }); });
+    track.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+  }
+  document.querySelectorAll('[data-rc-wrap]').forEach(init);
+  document.addEventListener('shopify:section:load', function () { document.querySelectorAll('[data-rc-wrap]').forEach(init); });
+})();
+</script>
+{%- endif -%}
 {%- endif -%}
 
 {% schema %}
@@ -195,6 +291,14 @@
     { "type": "text", "id": "include_tag", "label": "Solo productos con la etiqueta", "info": "Ej.: pieza entera. Vacío: todos." },
     { "type": "text", "id": "exclude_tag", "label": "Excluir productos con la etiqueta", "default": "con-alcohol" },
     { "type": "checkbox", "id": "show_variant_stock", "label": "Mostrar pesos y agotados", "default": true, "info": "En productos con varios pesos: marca los agotados y el precio pasa a «Desde» la variante disponible más barata." },
+    {
+      "type": "select", "id": "layout", "label": "Formato", "default": "grid",
+      "options": [
+        { "value": "grid", "label": "Rejilla (todo a la vista)" },
+        { "value": "carousel", "label": "Carrusel con flechas (3 a la vez en escritorio)" }
+      ],
+      "info": "En móvil siempre se desliza con el dedo."
+    },
     { "type": "range", "id": "limit", "label": "Máximo de productos", "min": 1, "max": 24, "step": 1, "default": 12 },
     { "type": "text", "id": "anchor_id", "label": "Ancla (id) para enlazar con #", "info": "Ej.: packs → enlace /pages/navidad#packs" },
     { "type": "text", "id": "eyebrow", "label": "Etiqueta superior" },
