@@ -1,8 +1,11 @@
 /*
- * «Packs y Regalos» (/collections/regalos-ibericos) — OPCIÓN A: todo en una página.
- * Primero un hero («Packs listos para regalar»); luego los packs ya hechos, en carrusel, (desde ESTA colección, sin los que llevan la etiqueta con-alcohol)
- * y la tarjeta regalo (producto suelto, sin elegir todavía); debajo, el constructor «Crea tu pack».
- * Las dos rejillas no se ven mientras no haya productos publicados: hoy la página es solo el constructor.
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
  */
 {
   "sections": {
@@ -12,7 +15,7 @@
         "slide_packs": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/Simple_Product_Promotion_Ads_Instagram_Post_3000_x_1500_px.jpg",
+            "image": "shopify://shop_images/Festive_Spanish_Charcuterie_Table.png",
             "eyebrow": "PACKS Y REGALOS",
             "heading": "Packs listos para regalar",
             "year": "",
@@ -34,25 +37,41 @@
     "packs": {
       "type": "rejilla-coleccion",
       "settings": {
+        "source": "collection",
+        "collection": "",
+        "product": "",
+        "products": [],
+        "include_tag": "",
         "exclude_tag": "con-alcohol",
+        "show_variant_stock": true,
+        "layout": "carousel",
         "limit": 12,
         "anchor_id": "packs",
-        "layout": "carousel",
-        "view_all_label": "Descubre los packs de Navidad",
-        "view_all_url": "/pages/navidad",
         "eyebrow": "Packs y regalos",
-        "title": "<p>Elige tu <em>pack</em></p>"
+        "title": "<p>Elige tu <em>pack</em></p>",
+        "description": "",
+        "view_all_label": "Descubre los packs de Navidad",
+        "view_all_url": "/pages/navidad"
       }
     },
     "tarjeta_regalo": {
       "type": "rejilla-coleccion",
       "settings": {
         "source": "product",
+        "collection": "",
+        "product": "",
+        "products": [],
+        "include_tag": "",
         "exclude_tag": "",
+        "show_variant_stock": true,
+        "layout": "grid",
         "limit": 1,
         "anchor_id": "tarjeta-regalo",
         "eyebrow": "Tarjeta regalo",
-        "title": "<p>Que elija <em>quien la recibe</em></p>"
+        "title": "<p>Que elija <em>quien la recibe</em></p>",
+        "description": "",
+        "view_all_label": "",
+        "view_all_url": ""
       }
     },
     "builder": {
@@ -60,10 +79,13 @@
       "settings": {
         "eyebrow": "Packs de regalo · Casa Maravillas",
         "heading": "Crea tu pack a tu medida de forma sencilla",
+        "heading_tag": "h1",
+        "anchor_id": "",
         "intro": "El arte de regalar empieza por elegir bien. Crea tu pack ibérico.",
         "min_items": 2,
         "free_shipping_euros": 99,
         "gift_handle": "",
+        "exclude_handles": "",
         "gift1_qty": 4,
         "gift1_label": "",
         "gift2_qty": 5,
