@@ -54,7 +54,7 @@
   var basket = {};          /* key "variantId|curing" -> {vid, curing, qty} */
   var selVariant = {};      /* productId -> variantId */
   var selCuring = {};       /* productId -> curing */
-  var activeCat = 'lonchados';
+  var activeCat = 'all';
   var openCust = {}; /* fichas con «Personalizar» abierto: sobrevive a los re-renders */
   var term = '';
 
